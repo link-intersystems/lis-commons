@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+
+	<groupId>com.link-intersystems.commons</groupId>
+	<artifactId>lis-commons</artifactId>
+	<version>1.2.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>Link Intersystems - Commons</name>
+	<inceptionYear>2011</inceptionYear>
+
+	<modules>
+		<module>commons-math</module>
+	</modules>
+
+	<properties>
+		<project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.link-intersystems.commons</groupId>
+				<artifactId>lis-commons-math</artifactId>
+				<version>1.2.0.0-SNAPSHOT</version>
+			</dependency>
+
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.12</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>3.3.2</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<scm>
+		<connection>scm:git:https://github.com/link-intersystems/lis-commons.git</connection>
+		<developerConnection>scm:git:https://github.com/link-intersystems/lis-commons.git</developerConnection>
+		<url>https://github.com/link-intersystems/lis-commons</url>
+	</scm>
+
+	<issueManagement>
+		<system>github</system>
+		<url>https://github.com/link-intersystems/lis-commons/issues</url>
+	</issueManagement>
+
+	<organization>
+		<name>Link Intersystems GmbH</name>
+		<url>http://www.link-intersystems.com</url>
+	</organization>
+
+	<developers>
+		<developer>
+			<id>renelink</id>
+			<name>Ren&#233; Link</name>
+			<organization>Link Intersystems GmbH</organization>
+			<organizationUrl>http://www.link-intersystems.com</organizationUrl>
+			<email>rene.link@link-intersystems.com</email>
+			<timezone>Europe/Berlin</timezone>
+			<url>http://stackoverflow.com/users/974186/ren%C3%A9-link</url>
+			<roles>
+				<role>developer</role>
+			</roles>
+		</developer>
+	</developers>
+
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+			<comments>A business-friendly OSS license</comments>
+		</license>
+	</licenses>
+</project>

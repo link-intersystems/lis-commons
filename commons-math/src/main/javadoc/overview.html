@@ -1,0 +1,276 @@
+<!--
+
+    Copyright 2011 Link Intersystems GmbH <rene.link@link-intersystems.com>
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<html>
+<body>
+	The following conventions apply to this package and all of it's
+	sub-packages.
+
+	<h1>Architecture</h1>
+	<h2>Version Numbering</h2>
+	<p>An API is the important contract between a client and a service.
+		Therefore API changes must be tracked using version numbers. The
+		version numbering must reflect the changes of the service and provide
+		information about breaking API changes that might affect a client. The
+		version numbering must ensure that every breaking API change is
+		tracked.
+	<p>We track API changes via a 4 digit version pattern with a
+		qualifier segment.</p>
+	<pre>
++- facade segment
+| +- major segment
+| | +- minor segment
+| | | +- service segment
+| | | |  +- qualifier segment
+| | | |  |
+V V V V  V
+1.2.3.4-SNAPSHOT
+</pre>
+	<ul>
+		<li><b>facade segment</b><br /> See the <a href="#facades">definition</a>
+			of components that belong to a facade segment for details. If clients
+			only use facades they will only be affected if the first version
+			number (facade segement) changes. Change from version 1.2.4.6 to
+			1.3.2.1 will not affect a client that only uses facades.</li>
+		<li><b>major segment</b><br /> This version number segment is
+			increased whenever a breaking api change occurs in one of the
+			package's classes or interfaces that are <a href="#public_api">public
+				api</a>. See <a href="http://wiki.eclipse.org/Evolving_Java-based_APIs">Evolving
+				Java-based APIs</a> for details on what constitutes a breaking change.</li>
+		<li><b>minor segment</b><br /> This segment is defined equal to
+			the definition of a minor segment in <a
+			href="http://wiki.eclipse.org/index.php/Version_Numbering">Version
+				Numbering</a></li>
+		<li><b>service segment</b><br /> This segment is defined equal
+			to the definition of a service segment in <a
+			href="http://wiki.eclipse.org/index.php/Version_Numbering">Version
+				Numbering</a>. In short: bug fixes that do not affect client code.</li>
+		<li><b>qualifier segment</b><br /> The qualifier segment marks a
+			version as a development version. That means that it is work in
+			progress and the API might change unexpectedly. Therefore you should
+			not implement against SNAPSHOT versions. The version number before
+			the SNAPSHOT segment is the number that will be released when the
+			development of that SNAPSHOT version is finished. Only use libraries
+			with such a version if you want to integrate against the next
+			release. These versions must not be used in production, because they
+			can lead to unpredictable behavior, rebuild of your software might
+			not work and therefore bugs might not be reproducible.</li>
+	</ul>
+
+	<h2 id="public_api">The public api</h2>
+	We use the same definition of a public API as defined by
+	<a
+		href="http://wiki.eclipse.org/index.php/Evolving_Java-based_APIs#API_Java_Elements">&quot;API
+		Java Elements&quot;</a>, Jim des Rivières, IBM.
+	<blockquote>
+		<ul>
+			<li>API package - a package that contains at least one API class
+				or API interface. The names of API packages are advertised in the
+				Component documentation. These names will appear in Client code; the
+				names of non-API packages should never appear in Client code. Note
+				that Clients must be prohibited from declaring their code in
+				Component packages (API or otherwise).</li>
+			<li>API class - a public class in an API package, or a public or
+				protected class member declared in, or inherited by, some other API
+				class or interface. The names of API classes appear in Client code.</li>
+			<li>API interface - a public interface in an API package, or a
+				public or protected interface member declared in, or inherited by,
+				some other API class or interface. The names of API interfaces
+				appear in Client code.</li>
+			<li>API method - a public or protected method either declared
+				in, or inherited by, an API class or interface. The names of API
+				methods appear in Client code.</li>
+			<li>API constructor - a public or protected constructor of an
+				API class. The names of API constructors appear in Client code.</li>
+		</ul>
+		<p>
+			The following elements are <strong>not considered API</strong>:
+		</p>
+		<ul>
+			<li>Any package that is not advertised in the Component
+				documentation as an API package.</li>
+			<li>All classes and interfaces declared in non-API packages.
+				However, when API classes and interface extend or implement non-API
+				classes, the non-API classes and interface may contribute API
+				elements nevertheless.</li>
+			<li>Non-public classes and interfaces in API packages.</li>
+			<li>Default access and private methods, constructors, fields,
+				and type members declared in, or inherited by, API classes and
+				interfaces.</li>
+			<li>protected methods, constructors, fields, and type members
+				declared in, or inherited by, final API classes, including enums
+				(which are implicitly final). With no ability to declare subclasses,
+				these cannot be referenced by Client code.</li>
+		</ul>
+	</blockquote>
+
+	<h2>Packages</h2>
+	<h3>Structure and naming</h3>
+	<p>
+
+		A package defines the boundary of classes and interfaces that belong
+		together to fulfill some special purpose. In contrast to classes and
+		interfaces a package is a coarse-grained perspective. A package can be
+		named and therefore give a set of classes and interfaces a meaning.
+		The name should always be chosen in order to increase the clarity of
+		understanding of a system and should not give any technical or
+		implementation hints. It's bad practice to separate interfaces from
+		their implementation by putting them in sub-packages named
+		<code>impl</code>
+		. For details see
+		<code>://www.link-intersystems.com
+			/bin/view/Blog/Wise+separation+of+api+and+implementation</code>
+		. <br> Packages might contain sub-packages. A sub-package should
+		be seen as a
+		<code>"is part of"</code>
+		relationship. E.g if you have a package called
+		<code>building</code>
+		the
+		<code>floor</code>
+		package should be a sub package with the full qualified name
+		<code>building.floor</code>
+		.
+	</p>
+	<p>
+		Packages are named after the singular form of a substantive that
+		describes the package. So a packages should be named
+		<code>floor</code>
+		instead of
+		<code>floors</code>
+		.
+	</p>
+	<h3 id="facades">Facades</h3>
+	<p>
+		A package might be a complex system that is hard to understand, to
+		configure and to manage. Therefore a package can provide a high level
+		abstraction of the common use cases that hides the complexity of
+		interactions of it's classes from clients. E.g. a http protocol
+		package might contain a get object a http connection manager, a proxy
+		configuration, a content object and or transformer and so on. While
+		these fine-grained components are useful for a good design,
+		maintainability and professional users they are too complex for easy
+		use cases like most clients are interested in. E.g.
+		<code>String content = new
+			URL("http://www.somesite.com").getContent();</code>
+		. For those use cases the package should provide a facade that
+		encapsulates the common use cases in an easy way. This facade should
+		be named after the package and postfixed with
+		<code>Facade</code>
+		. E.g.
+		<code>ReflectionFacade</code>
+		. The facade must be an interface and it's implementation is available
+		through the service provider specification as defined in the jar file
+		specification (META-INF/services). For this purposes clients can use
+		an instance of the
+		<code>com.link_intersystems.lang.services.JarFileSpecificationServiceLocator</code>
+		that implements the
+		<code>com.link_intersystems.lang.services.ClassServiceLocator</code>
+		interface. All facades must be stateless which means that the state of
+		the facade must not be tied to a client's call history. Nevertheless a
+		facade can act as a factory for objects that are stateful.
+	</p>
+
+	<h2>General API contracts</h2>
+	<p>An API is the significant contract between a client and a
+		service. Therefore API changes must be tracked using version numbers.
+		The version numbering must reflect the changes of the service and
+		provide information about breaking API changes that might affect a
+		client. The version numbering must ensure that every breaking API
+		change is tracked. To learn more about API and breaking API changes
+		take a look at http://wiki.eclipse.org/Evolving_Java-based_APIs.</p>
+	<h3>Invocation arguments contract</h3>
+	Every defined parameter of an invokable object (method or constructor)
+	must not be
+	<code>null</code>
+	.
+	<br> If a method allows a parameter to be
+	<code>null</code>
+	it must be explicitly documented in the parameter's javadoc. Every
+	method or constructor should only define parameters that it needs.
+	Parameters that can be
+	<code>null</code>
+	confuse the client and make the implementation code harder to
+	understand, because it must handle a lot more possible pre-conditions.
+	If a parameter is optional the method or constructor should be
+	overloaded to provide a clear API for the client and separate the
+	different pre-condition constraint validations.
+	<br> Here is an example of a clear API.
+
+	<pre> public void doSomething(Range range){
+        if(range == null){
+                throw new IllegalArgumentException("range must not be null");
+        }
+  ...
+ }
+ </pre>
+
+	The Range parameter object does enforces your API constraints.
+
+	<pre> public class Range {
+
+        private final int start;
+        private final int end;
+
+        public Range(int start, int end) {
+                if (start &gt; end) {
+                        throw new IllegalArgumentException(
+                                        "start must be less than end, but was " + start + " &gt;  "
+                                                        + end);
+                }
+                this.end = end;
+                this.start = start;
+        }
+
+        public boolean within(int value) {
+                return start &lt;= value &amp;&amp; value &lt;= end;
+        }
+
+        public int getStart() {
+                return start;
+        }
+
+        public int getEnd() {
+                return end;
+        }
+ }
+ </pre>
+	<h3>Return values</h3>
+	Every method that declares a return type must return an object of that
+	type and never
+	<code>null</code>
+	. Methods that return a
+	<a
+		href="http://download.oracle.com/javase/1.5.0/docs/api/java/util/Collection.html?is-external=true"
+		title="class or interface in java.util"><code>Collection</code></a>
+	type must return an empty
+	<a
+		href="http://download.oracle.com/javase/1.5.0/docs/api/java/util/Collection.html?is-external=true"
+		title="class or interface in java.util"><code>Collection</code></a>
+	instead of
+	<code>null</code>
+	. If a method does not comply to this contract it must be documented in
+	the method's javadoc. In some cases the returned object might be used
+	by the client and in other situations it might not be used. If it is an
+	expensive operation to construct the return object and the method can
+	not know if it will ever by used, consider to return a
+	<code>lazy proxy</code>
+	or
+	<a href="../../com/link_intersystems/lang/ref/Reference.html"
+		title="interface in com.link_intersystems.lang.ref"><code>Reference</code></a>
+	instead.
+</body>
+</html>
