@@ -7,3 +7,10 @@ In 2011 I published the library on www.link-intersystems.com and a few weeks ago
 Some of the components are the result of projects that I worked on and some are rather academic.
 
 All components come with unit tests and the complete library has a very high coverage (> 90%).
+
+Future plans
+------
+I plan to migrate all components that I have until Feb. 2015 to github.
+Afterwards I will update the components to support generics, cut dependencies between libraries
+and make them available through a maven repository.
+
