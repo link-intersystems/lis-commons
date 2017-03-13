@@ -125,4 +125,8 @@ public class Slope {
 	public double getValue() {
 		return slope;
 	}
+
+	public double toAngle() {
+		return Math.atan(getValue());
+	}
 }
