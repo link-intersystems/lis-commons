@@ -12,7 +12,7 @@
 	<inceptionYear>2011</inceptionYear>
 
 	<modules>
-		<module>commons-math</module>
+		<module>lis-commons-math</module>
 		<module>lis-commons-lang</module>
 		<module>lis-commons-beans</module>
 	</modules>
