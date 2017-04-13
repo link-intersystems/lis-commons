@@ -15,8 +15,14 @@
  */
 package com.link_intersystems.beans;
 
+import java.beans.BeanInfo;
+import java.beans.EventSetDescriptor;
 import java.beans.IndexedPropertyDescriptor;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.text.MessageFormat;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,8 +34,8 @@ import com.link_intersystems.lang.Assert;
  * target="_blank">java bean specification</a> to access the bean's properties
  * in a convenience way.
  *
- * @author René Link <a
- *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
+ * @author René Link
+ *         <a href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
  * @param <T>
  *            the type of the bean.
@@ -44,6 +50,8 @@ public class Bean<T> {
 	private Map<String, Property<?>> properties = new HashMap<String, Property<?>>();
 
 	private Map<String, IndexedProperty<?>> indexedProperties = new HashMap<String, IndexedProperty<?>>();
+
+	private transient Map<String, BeanEvent> beanEvents;
 
 	/**
 	 * Constructs a new {@link Bean} for the given bean object.
@@ -95,18 +103,14 @@ public class Bean<T> {
 	}
 
 	@SuppressWarnings("unchecked")
-	private <PT> IndexedProperty<PT> getIndexedPropertyInternal(
-			String propertyName) {
-		IndexedProperty<PT> indexedProperty = (IndexedProperty<PT>) indexedProperties
-				.get(propertyName);
+	private <PT> IndexedProperty<PT> getIndexedPropertyInternal(String propertyName) {
+		IndexedProperty<PT> indexedProperty = (IndexedProperty<PT>) indexedProperties.get(propertyName);
 		if (indexedProperty == null) {
-			PropertyDescriptor propertyDescriptor = beanClass
-					.getPropertyDescriptor(propertyName);
+			PropertyDescriptor propertyDescriptor = beanClass.getPropertyDescriptor(propertyName);
 			if (propertyDescriptor instanceof IndexedPropertyDescriptor) {
 				IndexedPropertyDescriptor indexedPropertyDescriptor = (IndexedPropertyDescriptor) propertyDescriptor;
 				T target = getTarget();
-				indexedProperty = new IndexedProperty<PT>(target,
-						indexedPropertyDescriptor);
+				indexedProperty = new IndexedProperty<PT>(target, indexedPropertyDescriptor);
 				indexedProperties.put(propertyName, indexedProperty);
 				properties.put(propertyName, indexedProperty);
 			}
@@ -166,8 +170,7 @@ public class Bean<T> {
 	private <PT> Property<PT> getPropertyInternal(String propertyName) {
 		Property<PT> property = (Property<PT>) properties.get(propertyName);
 		if (property == null) {
-			PropertyDescriptor propertyDescriptor = beanClass
-					.getPropertyDescriptorInternal(propertyName);
+			PropertyDescriptor propertyDescriptor = beanClass.getPropertyDescriptorInternal(propertyName);
 			if (propertyDescriptor != null) {
 				T target = getTarget();
 				property = new Property<PT>(target, propertyDescriptor);
@@ -185,12 +188,90 @@ public class Bean<T> {
 		return bean;
 	}
 
+	public T getBean() {
+		return getTarget();
+	}
+
 	/**
 	 *
 	 * @return the {@link BeanClass} of this {@link Bean}.
 	 */
 	public BeanClass<T> getBeanClass() {
 		return beanClass;
+	}
+
+	public void removeListener(Object listener) {
+		if (listener == null) {
+			return;
+		}
+
+		BeanEvent applicableBeanEvent = getApplicableBeanEvent(listener);
+
+		if (applicableBeanEvent == null) {
+			String msg = MessageFormat.format("{0} can not handle listener {1}", getBeanClass(), listener.getClass());
+			throw new UnsupportedOperationException(msg);
+		}
+
+		applicableBeanEvent.removeListener(listener);
+	}
+
+	public void addListener(Object listener) {
+		if (listener == null) {
+			return;
+		}
+
+		BeanEvent applicableBeanEvent = getApplicableBeanEvent(listener);
+
+		if (applicableBeanEvent == null) {
+			String msg = MessageFormat.format("{0} can not handle listener {1}", getBeanClass(), listener.getClass());
+			throw new UnsupportedOperationException(msg);
+		}
+
+		applicableBeanEvent.addListener(listener);
+	}
+
+	private BeanEvent getApplicableBeanEvent(Object listener) {
+		Map<String, BeanEvent> beanEvents = getBeanEvents();
+
+		BeanEvent applicableBeanEvent = null;
+		for (BeanEvent beanEvent : beanEvents.values()) {
+			if (beanEvent.isApplicable(listener)) {
+				applicableBeanEvent = beanEvent;
+				break;
+			}
+		}
+		return applicableBeanEvent;
+	}
+
+	public Map<String, BeanEvent> getBeanEvents() {
+		if (beanEvents == null) {
+			beanEvents = Collections.unmodifiableMap(getBeanEvents(null));
+		}
+		return beanEvents;
+	}
+
+	public Map<String, BeanEvent> getBeanEvents(Class<?> stopClass) {
+		Class<T> beanType = beanClass.getType();
+		try {
+			BeanInfo beanInfo = Introspector.getBeanInfo(beanType, stopClass);
+			EventSetDescriptor[] eventSetDescriptors = beanInfo.getEventSetDescriptors();
+			Map<String, BeanEvent> beanEventMap = new HashMap<String, BeanEvent>();
+
+			for (EventSetDescriptor eventSetDescriptor : eventSetDescriptors) {
+				BeanEvent beanEvent = new BeanEvent(this, eventSetDescriptor);
+				String eventName = beanEvent.getName();
+				beanEventMap.put(eventName, beanEvent);
+			}
+
+			return beanEventMap;
+		} catch (IntrospectionException e) {
+			throw new IllegalArgumentException(
+					"Unable to build property map for " + beanType + " with stopClass " + stopClass, e);
+		}
+	}
+
+	public <L> BeanEventSupport<T, L> newBeanEventSupport() {
+		return new BeanEventSupport<T, L>();
 	}
 
 }

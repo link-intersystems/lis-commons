@@ -46,8 +46,8 @@ import com.link_intersystems.util.UtilFacade;
 /**
  * A {@link BeanClass} provides features for handling common bean issues.
  *
- * @author René Link <a
- *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
+ * @author René Link
+ *         <a href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
  * @param <T>
  *            the type of the bean.
@@ -77,8 +77,7 @@ public class BeanClass<T> extends Class2<T> {
 	 * @throws ClassNotFoundException
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> BeanClass<T> get(String className)
-			throws ClassNotFoundException {
+	public static <T> BeanClass<T> get(String className) throws ClassNotFoundException {
 		Class<T> classForName = (Class<T>) Class.forName(className);
 		return get(classForName);
 	}
@@ -102,9 +101,7 @@ public class BeanClass<T> extends Class2<T> {
 		if (class2 == null) {
 			if (!hasBeanConstructor(clazz)) {
 				throw new IllegalArgumentException(
-						"Class "
-								+ clazz.getCanonicalName()
-								+ " does not declare a public default constructor "
+						"Class " + clazz.getCanonicalName() + " does not declare a public default constructor "
 								+ "and therefore does not fulfill the bean specification");
 			}
 			class2 = new BeanClass<T>(clazz);
@@ -143,8 +140,7 @@ public class BeanClass<T> extends Class2<T> {
 	 */
 	public Map<String, PropertyDescriptor> getPropertyDescriptors() {
 		if (propertyDescriptors == null) {
-			propertyDescriptors = Collections
-					.unmodifiableMap(getPropertyDescriptors(null));
+			propertyDescriptors = Collections.unmodifiableMap(getPropertyDescriptors(null));
 		}
 		return propertyDescriptors;
 	}
@@ -169,22 +165,19 @@ public class BeanClass<T> extends Class2<T> {
 	 *             {@link IntrospectionException}.
 	 * @since 1.2.0.0
 	 */
-	public Map<String, PropertyDescriptor> getPropertyDescriptors(
-			Class<?> stopClass) throws IllegalStateException {
+	public Map<String, PropertyDescriptor> getPropertyDescriptors(Class<?> stopClass) throws IllegalStateException {
 		Class<T> beanType = getType();
 		try {
 			BeanInfo beanInfo = Introspector.getBeanInfo(beanType, stopClass);
-			PropertyDescriptor[] propertyDescriptors = beanInfo
-					.getPropertyDescriptors();
-			Map<String, PropertyDescriptor> propertyDescriptorsMap = UtilFacade
-					.keyMap(Arrays.asList(propertyDescriptors),
-							new MethodInvokingParameterizedObjectFactory<PropertyDescriptor, String>(
-									PropertyDescriptor.class, "getName"));
+			PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
+			Map<String, PropertyDescriptor> propertyDescriptorsMap = UtilFacade.keyMap(
+					Arrays.asList(propertyDescriptors),
+					new MethodInvokingParameterizedObjectFactory<PropertyDescriptor, String>(PropertyDescriptor.class,
+							"getName"));
 			return propertyDescriptorsMap;
 		} catch (IntrospectionException e) {
 			throw new IllegalArgumentException(
-					"Unable to build property map for " + beanType
-							+ " with stopClass " + stopClass, e);
+					"Unable to build property map for " + beanType + " with stopClass " + stopClass, e);
 		}
 	}
 
@@ -210,14 +203,11 @@ public class BeanClass<T> extends Class2<T> {
 			return false;
 		}
 		Map<String, PropertyDescriptor> propertyDescriptors = getPropertyDescriptors();
-		Collection<PropertyDescriptor> propertyDescriptorCollection = propertyDescriptors
-				.values();
-		Predicate predicate = new SignaturePredicate(method);
-		Iterator<Method> propertyMethodsIterator = IteratorUtils
-				.objectGraphIterator(propertyDescriptorCollection.iterator(),
-						PropertyDescriptor2AccessorsTransformer.INSTANCE);
-		Iterator<Method> filteredIterator = IteratorUtils.filteredIterator(
-				propertyMethodsIterator, predicate);
+		Collection<PropertyDescriptor> propertyDescriptorCollection = propertyDescriptors.values();
+		Predicate<Object> predicate = new SignaturePredicate(method);
+		Iterator<Method> propertyMethodsIterator = IteratorUtils.objectGraphIterator(
+				propertyDescriptorCollection.iterator(), PropertyDescriptor2AccessorsTransformer.INSTANCE);
+		Iterator<Method> filteredIterator = IteratorUtils.filteredIterator(propertyMethodsIterator, predicate);
 		return filteredIterator.hasNext();
 	}
 
@@ -241,8 +231,7 @@ public class BeanClass<T> extends Class2<T> {
 
 	PropertyDescriptor getPropertyDescriptorInternal(String propertyName) {
 		Map<String, PropertyDescriptor> propertyDescriptors = getPropertyDescriptors();
-		PropertyDescriptor propertyDescriptor = propertyDescriptors
-				.get(propertyName);
+		PropertyDescriptor propertyDescriptor = propertyDescriptors.get(propertyName);
 		return propertyDescriptor;
 	}
 
@@ -257,9 +246,8 @@ public class BeanClass<T> extends Class2<T> {
 			Bean<T> newBean = new Bean<T>(newBeanObj);
 			return newBean;
 		} catch (Exception e) {
-			throw new IllegalStateException("Bean "
-					+ getType().getCanonicalName()
-					+ " throws an exception in default constructor.", e);
+			throw new IllegalStateException(
+					"Bean " + getType().getCanonicalName() + " throws an exception in default constructor.", e);
 		}
 	}
 
@@ -306,17 +294,14 @@ public class BeanClass<T> extends Class2<T> {
 
 		private List<String> simplePropertyNames;
 
-		public PropertyNames(
-				Map<String, PropertyDescriptor> propertyDescriptorMap) {
+		public PropertyNames(Map<String, PropertyDescriptor> propertyDescriptorMap) {
 			List<String> propertyNames = new ArrayList<String>();
 			List<String> simplePropertyNames = new ArrayList<String>();
 			List<String> indexedPropertyNames = new ArrayList<String>();
 
-			Set<Entry<String, PropertyDescriptor>> propertyDescriptorEntries = propertyDescriptorMap
-					.entrySet();
+			Set<Entry<String, PropertyDescriptor>> propertyDescriptorEntries = propertyDescriptorMap.entrySet();
 			for (Entry<String, PropertyDescriptor> propertyDescriptorEntry : propertyDescriptorEntries) {
-				PropertyDescriptor propertyDescriptor = propertyDescriptorEntry
-						.getValue();
+				PropertyDescriptor propertyDescriptor = propertyDescriptorEntry.getValue();
 				String name = propertyDescriptor.getName();
 				propertyNames.add(name);
 				if (propertyDescriptor instanceof IndexedPropertyDescriptor) {
@@ -326,10 +311,8 @@ public class BeanClass<T> extends Class2<T> {
 				}
 			}
 			this.propertyNames = Collections.unmodifiableList(propertyNames);
-			this.simplePropertyNames = Collections
-					.unmodifiableList(simplePropertyNames);
-			this.indexedPropertyNames = Collections
-					.unmodifiableList(indexedPropertyNames);
+			this.simplePropertyNames = Collections.unmodifiableList(simplePropertyNames);
+			this.indexedPropertyNames = Collections.unmodifiableList(indexedPropertyNames);
 		}
 
 		public List<String> getPropertyNames() {
