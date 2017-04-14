@@ -19,7 +19,7 @@ public class BeanEvent {
 		Assert.notNull("eventSetDescriptor", eventSetDescriptor);
 		this.eventSetDescriptor = eventSetDescriptor;
 
-		Method removeListenerMethod = eventSetDescriptor.getAddListenerMethod();
+		Method removeListenerMethod = eventSetDescriptor.getRemoveListenerMethod();
 		if (removeListenerMethod != null) {
 			Method2 removeListenerMethod2 = Method2.forMethod(removeListenerMethod);
 			Object target = bean.getTarget();

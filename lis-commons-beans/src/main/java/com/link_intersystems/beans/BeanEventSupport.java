@@ -8,12 +8,31 @@ public class BeanEventSupport<B, T> {
 
 	private Bean<B> bean;
 
+	private boolean eventDisabled;
+
 	public BeanEventSupport() {
 	}
 
 	public BeanEventSupport(T listener) {
 		Assert.notNull("listener", listener);
-		this.listener = listener;
+		setListener(listener);
+	}
+
+	public boolean isEventDisabled() {
+		return eventDisabled;
+	}
+
+	public void setEventDisabled(boolean eventDisabled) {
+		T actualListener = this.listener;
+		Bean<B> actualBean = this.bean;
+
+		if (eventDisabled) {
+			removeListener(actualBean, actualListener);
+		} else {
+			addListener(actualBean, actualListener);
+		}
+
+		this.eventDisabled = eventDisabled;
 	}
 
 	public void setListener(T listener) {
@@ -28,8 +47,9 @@ public class BeanEventSupport<B, T> {
 
 		actualListener = this.listener;
 
-		if (actualListener != null && actualBean != null)
+		if (!eventDisabled && actualListener != null && actualBean != null) {
 			addListener(actualBean, actualListener);
+		}
 	}
 
 	public T getListener() {
@@ -56,9 +76,7 @@ public class BeanEventSupport<B, T> {
 
 		actualBean = this.bean;
 
-		if (actualBean != null && actualListener != null)
-
-		{
+		if (!eventDisabled && actualBean != null && actualListener != null) {
 			addListener(actualBean, actualListener);
 		}
 	}
