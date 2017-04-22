@@ -89,24 +89,23 @@ import com.link_intersystems.util.SerializableTemplateObjectFactory;
  * Iterator&lt;Member&gt; criteriaIterator = memberIterable.iterator();
  * Member member = criteriaIterator.next();
  * Method firstMatch = (Method) member;
- * Method declaredMethod = AbstractList.class.getDeclaredMethod(&quot;subList&quot;,
- * 		int.class, int.class);
+ * Method declaredMethod = AbstractList.class.getDeclaredMethod(&quot;subList&quot;, int.class, int.class);
  * assertEquals(declaredMethod, firstMatch);
  * assertFalse(criteriaIterator.hasNext());
  * </pre>
  *
  * </p>
  *
- * @author René Link <a
- *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
+ * @author René Link
+ *         <a href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
  * @since 1.0.0.0
  */
 public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
 
 	/**
-     *
-     */
+	 *
+	 */
 	private static final long serialVersionUID = 4870605392298539751L;
 
 	public static final List<Class<?>> DEFAULT_MEMBER_TYPES;
@@ -129,8 +128,7 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
 
 	}
 
-	public static MemberCriteria<? extends Member> forMemberTypes(
-			Class<?>... memberTypes) {
+	public static MemberCriteria<? extends Member> forMemberTypes(Class<?>... memberTypes) {
 		MemberCriteria<Member> memberCriteria = new MemberCriteria<Member>();
 		memberCriteria.membersOfType(memberTypes);
 		return memberCriteria;
@@ -140,20 +138,18 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
 	 * A non empty collection of {@link AccessType}s that this criteria should
 	 * match with.
 	 */
-	private Collection<AccessType> accesses = Arrays
-			.asList(AccessType.values());
+	private Collection<AccessType> accesses = Arrays.asList(AccessType.values());
 
 	private String name;
-	private Comparator<Member> iterateOrderComparator = ReflectFacade
-			.getMemberNameComparator();
+	private Comparator<Member> iterateOrderComparator = ReflectFacade.getMemberNameComparator();
 
 	/**
 	 * The {@link IterateStrategy} determines in which order
 	 * {@link AnnotatedElement}s are iterated when using an {@link Iterable} of
 	 * {@link AnnotatedElement}s.
 	 *
-	 * @author René Link <a
-	 *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
+	 * @author René Link
+	 *         <a href="mailto:rene.link@link-intersystems.com">[rene.link@link-
 	 *         intersystems.com]</a>
 	 * @since 1.0.0.0
 	 */
@@ -170,8 +166,7 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
 		 *
 		 * @since 1.0.0.0
 		 */
-		CLASSES_ONLY(
-				JavaElementTraverseStrategies.CURRENT_CLASS_TRAVERSE_STRATEGY),
+		CLASSES_ONLY(JavaElementTraverseStrategies.CURRENT_CLASS_TRAVERSE_STRATEGY),
 		/**
 		 * Iterate only elements that are {@link Package}s.
 		 *
@@ -185,42 +180,32 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
 		 *
 		 * @since 1.0.0.0
 		 */
-		CLASS_MEMBERS(
-				JavaElementTraverseStrategies.CURRENT_CLASS_TRAVERSE_STRATEGY,
-				JavaElementTraverseStrategies.MEMER_TRAVERSE_STRATEGY),
+		CLASS_MEMBERS(JavaElementTraverseStrategies.CURRENT_CLASS_TRAVERSE_STRATEGY, JavaElementTraverseStrategies.MEMER_TRAVERSE_STRATEGY),
 		/**
 		 * Iterate elements that are {@link Member}s or {@link Class}es in that
 		 * order.
 		 *
 		 * @since 1.0.0.0
 		 */
-		MEMBERS_CLASS(JavaElementTraverseStrategies.MEMER_TRAVERSE_STRATEGY,
-				JavaElementTraverseStrategies.CURRENT_CLASS_TRAVERSE_STRATEGY),
+		MEMBERS_CLASS(JavaElementTraverseStrategies.MEMER_TRAVERSE_STRATEGY, JavaElementTraverseStrategies.CURRENT_CLASS_TRAVERSE_STRATEGY),
 		/**
 		 * Iterate elements that are {@link Package}s, {@link Class}es or
 		 * {@link Member}s in that order.
 		 *
 		 * @since 1.0.0.0
 		 */
-		PACKAGE_CLASS_MEMBERS(
-				JavaElementTraverseStrategies.PACKAGE_TRAVERSE_STRATEGY,
-				JavaElementTraverseStrategies.CURRENT_CLASS_TRAVERSE_STRATEGY,
-				JavaElementTraverseStrategies.MEMER_TRAVERSE_STRATEGY),
+		PACKAGE_CLASS_MEMBERS(JavaElementTraverseStrategies.PACKAGE_TRAVERSE_STRATEGY, JavaElementTraverseStrategies.CURRENT_CLASS_TRAVERSE_STRATEGY, JavaElementTraverseStrategies.MEMER_TRAVERSE_STRATEGY),
 		/**
 		 * Iterate elements that are {@link Member}s, {@link Class}es or
 		 * {@link Package}s in that order.
 		 *
 		 * @since 1.0.0.0
 		 */
-		MEMBERS_CLASS_PACKAGE(
-				JavaElementTraverseStrategies.MEMER_TRAVERSE_STRATEGY,
-				JavaElementTraverseStrategies.CURRENT_CLASS_TRAVERSE_STRATEGY,
-				JavaElementTraverseStrategies.PACKAGE_TRAVERSE_STRATEGY);
+		MEMBERS_CLASS_PACKAGE(JavaElementTraverseStrategies.MEMER_TRAVERSE_STRATEGY, JavaElementTraverseStrategies.CURRENT_CLASS_TRAVERSE_STRATEGY, JavaElementTraverseStrategies.PACKAGE_TRAVERSE_STRATEGY);
 
 		private final JavaElementTraverseStrategy javaElementTraverseStrategy;
 
-		private IterateStrategy(
-				JavaElementTraverseStrategy... javaElementTraverseStrategies) {
+		private IterateStrategy(JavaElementTraverseStrategy... javaElementTraverseStrategies) {
 			if (javaElementTraverseStrategies.length == 1) {
 				this.javaElementTraverseStrategy = javaElementTraverseStrategies[0];
 			} else {
@@ -271,9 +256,9 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
 	 * Add a criterion to only select {@link Member}s of the specified types.
 	 * Allowed types are
 	 * <ul>
-	 * <li> {@link Constructor}</li>
-	 * <li> {@link Method}</li>
-	 * <li> {@link Field}</li>
+	 * <li>{@link Constructor}</li>
+	 * <li>{@link Method}</li>
+	 * <li>{@link Field}</li>
 	 * </ul>
 	 *
 	 * @param memberTypes
@@ -290,11 +275,9 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
 		 * "membersOfType(Field.class, Method.class)".
 		 */
 		for (Class<?> memberType : memberTypes) {
-			if (!(Constructor.class.equals(memberType))
-					&& !(Method.class.equals(memberType))
+			if (!(Constructor.class.equals(memberType)) && !(Method.class.equals(memberType))
 					&& !(Field.class.equals(memberType))) {
-				throw new IllegalArgumentException("Unsupported member type "
-						+ memberType + ". Supported types are "
+				throw new IllegalArgumentException("Unsupported member type " + memberType + ". Supported types are "
 						+ DEFAULT_MEMBER_TYPES + ".");
 			}
 		}
@@ -334,8 +317,7 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
 	public void withAccess(AccessType... accesses) {
 		Assert.notNull("accesses", accesses);
 		if (accesses.length == 0) {
-			throw new IllegalArgumentException(
-					"accesses must contain at least 1 access type");
+			throw new IllegalArgumentException("accesses must contain at least 1 access type");
 		}
 		this.accesses = Arrays.asList(accesses);
 	}
@@ -349,19 +331,16 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
 	 * @since 1.0.0.0
 	 */
 	public void withModifiers(int modifiers) {
-		if (Modifier.isPublic(modifiers) || Modifier.isProtected(modifiers)
-				|| Modifier.isPrivate(modifiers)) {
+		if (Modifier.isPublic(modifiers) || Modifier.isProtected(modifiers) || Modifier.isPrivate(modifiers)) {
 			throw new IllegalArgumentException(
 					"access modifiers are not allowed as argument. Use withAccess() instead.");
 		}
-		int allowedModifiers = Modifier.ABSTRACT | Modifier.STATIC
-				| Modifier.FINAL | Modifier.TRANSIENT | Modifier.VOLATILE
-				| Modifier.SYNCHRONIZED | Modifier.NATIVE | Modifier.STRICT
-				| Modifier.INTERFACE;
+		int allowedModifiers = Modifier.ABSTRACT | Modifier.STATIC | Modifier.FINAL | Modifier.TRANSIENT
+				| Modifier.VOLATILE | Modifier.SYNCHRONIZED | Modifier.NATIVE | Modifier.STRICT | Modifier.INTERFACE;
 
 		if ((modifiers & allowedModifiers) == 0) {
-			throw new IllegalArgumentException("modifiers must be one of ["
-					+ Modifier.toString(allowedModifiers) + "]");
+			throw new IllegalArgumentException(
+					"modifiers must be one of [" + Modifier.toString(allowedModifiers) + "]");
 		}
 
 		this.modifiers = modifiers;
@@ -403,10 +382,9 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
 	 *         ( {@link IterateStrategy#MEMBERS_CLASS_PACKAGE} ).
 	 * @since 1.0.0.0
 	 */
-	public Iterable<? extends AnnotatedElement> getAnnotatedElementIterable(
-			Iterable<Class<?>> classIterable) {
-		Iterable<? extends AnnotatedElement> annotatedElementIterable = getAnnotatedElementIterable(
-				classIterable, IterateStrategy.MEMBERS_CLASS_PACKAGE);
+	public Iterable<? extends AnnotatedElement> getAnnotatedElementIterable(Iterable<Class<?>> classIterable) {
+		Iterable<? extends AnnotatedElement> annotatedElementIterable = getAnnotatedElementIterable(classIterable,
+				IterateStrategy.MEMBERS_CLASS_PACKAGE);
 		return annotatedElementIterable;
 	}
 
@@ -427,10 +405,10 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
 	 *         {@link MemberCriteria} using the given iterate strategy.
 	 * @since 1.0.0.0
 	 */
-	public Iterable<? extends AnnotatedElement> getAnnotatedElementIterable(
-			Iterable<Class<?>> classIterable, IterateStrategy iterateStrategy) {
-		AnnotatedElementIterable annotatedElementIterable = new AnnotatedElementIterable(
-				classIterable, iterateStrategy, getObjectFactory());
+	public Iterable<? extends AnnotatedElement> getAnnotatedElementIterable(Iterable<Class<?>> classIterable,
+			IterateStrategy iterateStrategy) {
+		AnnotatedElementIterable annotatedElementIterable = new AnnotatedElementIterable(classIterable, iterateStrategy,
+				getObjectFactory());
 		return annotatedElementIterable;
 	}
 
@@ -445,8 +423,7 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
 	 * @since 1.0.0.0
 	 */
 	public Iterable<Member> getIterable(Iterable<Class<?>> classIterable) {
-		return new MemberIterableWithClassIterable(classIterable,
-				getObjectFactory());
+		return new MemberIterableWithClassIterable(classIterable, getObjectFactory());
 	}
 
 	@Override
@@ -458,7 +435,7 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
 
 	@SuppressWarnings("unchecked")
 	protected Iterator<T> applyAccessAndNamePredicates(Iterator<T> iterator) {
-		List<Predicate<?>> predicates = new ArrayList<Predicate<?>>();
+		Collection<Predicate<T>> predicates = new ArrayList<Predicate<T>>();
 
 		int accessModifiers = 0;
 		Collection<AccessType> accesses = getAccesses();
@@ -477,24 +454,19 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
 				break;
 			}
 		}
-		Predicate<Member> accessModifierPredicate = new MemberModifierPredicate(
-				accessModifiers, Match.AT_LEAST_ONE);
+		Predicate<Member> accessModifierPredicate = new MemberModifierPredicate(accessModifiers, Match.AT_LEAST_ONE);
 
 		if (accesses.contains(AccessType.DEFAULT)) {
-			accessModifierPredicate = OrPredicate.orPredicate(
-					accessModifierPredicate, NotPredicate
-							.notPredicate(new MemberModifierPredicate(
-									Modifier.PRIVATE | Modifier.PUBLIC
-											| Modifier.PROTECTED,
-									Match.AT_LEAST_ONE)));
+			accessModifierPredicate = OrPredicate.orPredicate(accessModifierPredicate,
+					NotPredicate.notPredicate(new MemberModifierPredicate(
+							Modifier.PRIVATE | Modifier.PUBLIC | Modifier.PROTECTED, Match.AT_LEAST_ONE)));
 		}
 
-		predicates.add(accessModifierPredicate);
+		predicates.add((Predicate<T>) accessModifierPredicate);
 
 		int modifiers = getModifiers();
 		if (modifiers != 0) {
-			predicates.add(new MemberModifierPredicate(modifiers,
-					Match.AT_LEAST_ALL));
+			predicates.add((Predicate<T>) new MemberModifierPredicate(modifiers, Match.AT_LEAST_ALL));
 		}
 
 		String name = getName();
@@ -504,11 +476,10 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
 
 		Pattern pattern = getPattern();
 		if (pattern != null) {
-			predicates
-					.add(ReflectFacade.getMemberNamePatternPredicate(pattern));
+			predicates.add(ReflectFacade.getMemberNamePatternPredicate(pattern));
 		}
-		Predicate<T> allPredicate = AllPredicate
-				.allPredicate((Collection<? extends Predicate<T>>) predicates);
+		Collection<? extends Predicate<T>> allPredicates = (Collection<? extends Predicate<T>>) predicates;
+		Predicate<T> allPredicate = AllPredicate.allPredicate(allPredicates);
 		iterator = IteratorUtils.filteredIterator(iterator, allPredicate);
 		return iterator;
 	}
@@ -537,8 +508,7 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
 		return memberTypes;
 	}
 
-	private abstract static class AbstractCriteriaTransformer implements
-			Transformer<Object, Object> {
+	private abstract static class AbstractCriteriaTransformer implements Transformer<Object, Object> {
 
 		private final MemberCriteria<Member> memberCriteria;
 
@@ -552,8 +522,7 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
 
 	}
 
-	private static class MemberIteratorTransformer extends
-			AbstractCriteriaTransformer {
+	private static class MemberIteratorTransformer extends AbstractCriteriaTransformer {
 
 		public MemberIteratorTransformer(MemberCriteria<Member> memberCriteria) {
 			super(memberCriteria);
@@ -562,8 +531,7 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
 		public Object transform(Object input) {
 			if (input instanceof Class<?>) {
 				final Class<?> currentClass = (Class<?>) input;
-				List<Member> memberList = getMemberCriteria().getSortedMembers(
-						currentClass);
+				List<Member> memberList = getMemberCriteria().getSortedMembers(currentClass);
 				return memberList.iterator();
 			}
 			return input;
@@ -571,14 +539,12 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
 
 	}
 
-	private static class MemberIterableWithClassIterable implements
-			Iterable<Member> {
+	private static class MemberIterableWithClassIterable implements Iterable<Member> {
 
 		private final Iterable<Class<?>> classIterable;
 		private final ObjectFactory<MemberCriteria<Member>> templateObjectFactory;
 
-		public MemberIterableWithClassIterable(
-				Iterable<Class<?>> classIterable,
+		public MemberIterableWithClassIterable(Iterable<Class<?>> classIterable,
 				ObjectFactory<MemberCriteria<Member>> templateObjectFactory) {
 			this.classIterable = classIterable;
 			this.templateObjectFactory = templateObjectFactory;
@@ -588,28 +554,23 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
 		public Iterator<Member> iterator() {
 			Iterator<Class<?>> classIterator = classIterable.iterator();
 			MemberCriteria<Member> memberCriteria = templateObjectFactory.getObject();
-			Transformer memberIteratorTransformer = new MemberIteratorTransformer(
-					memberCriteria);
-			Iterator<Member> memberIterator = IteratorUtils
-					.objectGraphIterator(classIterator,
-							memberIteratorTransformer);
+			Transformer memberIteratorTransformer = new MemberIteratorTransformer(memberCriteria);
+			Iterator<Member> memberIterator = IteratorUtils.objectGraphIterator(classIterator,
+					memberIteratorTransformer);
 			memberIterator = memberCriteria.applyElementFilter(memberIterator);
-			memberIterator = memberCriteria
-					.applySelectionFilter(memberIterator);
+			memberIterator = memberCriteria.applySelectionFilter(memberIterator);
 			return memberIterator;
 		}
 
 	}
 
-	private static class AnnotatedElementIterable implements
-			Iterable<AnnotatedElement> {
+	private static class AnnotatedElementIterable implements Iterable<AnnotatedElement> {
 
 		private final Iterable<Class<?>> classIterable;
 		private final ObjectFactory<MemberCriteria<Member>> templateObjectFactory;
 		private final IterateStrategy traverseStrategy;
 
-		public AnnotatedElementIterable(Iterable<Class<?>> classIterable,
-				IterateStrategy traverseStrategy,
+		public AnnotatedElementIterable(Iterable<Class<?>> classIterable, IterateStrategy traverseStrategy,
 				ObjectFactory<MemberCriteria<Member>> templateObjectFactory) {
 			this.classIterable = classIterable;
 			this.traverseStrategy = traverseStrategy;
@@ -621,25 +582,22 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
 			Iterator<Class<?>> classIterator = classIterable.iterator();
 			MemberCriteria<Member> memberCriteria = templateObjectFactory.getObject();
 
-			Transformer memberIteratorTransformer = new AnnotatedElementIteratorTransformer(
-					traverseStrategy, memberCriteria);
-			Iterator<AnnotatedElement> iterator = IteratorUtils
-					.objectGraphIterator(classIterator,
-							memberIteratorTransformer);
+			Transformer memberIteratorTransformer = new AnnotatedElementIteratorTransformer(traverseStrategy,
+					memberCriteria);
+			Iterator<AnnotatedElement> iterator = IteratorUtils.objectGraphIterator(classIterator,
+					memberIteratorTransformer);
 			return iterator;
 		}
 
 	}
 
-	private static class AnnotatedElementIteratorTransformer extends
-			AbstractCriteriaTransformer {
+	private static class AnnotatedElementIteratorTransformer extends AbstractCriteriaTransformer {
 
 		private final IterateStrategy traverseStrategy;
 
 		private final Collection<Class<?>> transformed = new ArrayList<Class<?>>();
 
-		public AnnotatedElementIteratorTransformer(
-				IterateStrategy traverseStrategy, MemberCriteria memberCriteria) {
+		public AnnotatedElementIteratorTransformer(IterateStrategy traverseStrategy, MemberCriteria memberCriteria) {
 			super(memberCriteria);
 			this.traverseStrategy = traverseStrategy;
 		}
@@ -665,8 +623,7 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
 				JavaElementTraverseStrategy javaElementTraverseStrategy = traverseStrategy
 						.getJavaElementTraverseStrategy();
 
-				Iterator<?> iterator = javaElementTraverseStrategy.getIterator(
-						currentClass, memberCriteria);
+				Iterator<?> iterator = javaElementTraverseStrategy.getIterator(currentClass, memberCriteria);
 
 				return iterator;
 			} else if (input instanceof Package) {

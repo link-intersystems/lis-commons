@@ -19,12 +19,12 @@ import java.math.BigDecimal;
 
 /**
  * A {@link Sum} with a {@link BigDecimal} precision.
- * 
+ *
  * @author René Link <a
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
  * @since 1.2.0.0
- * 
+ *
  */
 public class BigDecimalSum extends AbstractBigDecimalAggregate implements
 		Sum<BigDecimal> {
@@ -32,9 +32,9 @@ public class BigDecimalSum extends AbstractBigDecimalAggregate implements
 	private BigDecimal sum = BigDecimal.ZERO;
 
 	/**
-	 * 
+	 *
 	 * @inherited
-	 * 
+	 *
 	 * @since 1.2.0.0.
 	 */
 	public BigDecimal getValue() {

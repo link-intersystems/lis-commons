@@ -18,9 +18,9 @@ package com.link_intersystems.math;
 /**
  * This interface represents an aggregate function that can be applied to
  * {@link Number}s.
- * 
- * @author René Link <a
- *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
+ *
+ * @author René Link
+ *         <a href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
  * @param <N>
  *            the precision of the average.
@@ -30,7 +30,7 @@ public interface Aggregate<N extends Number> {
 
 	/**
 	 * The current value of this {@link Aggregate}.
-	 * 
+	 *
 	 * @return the result, according to the {@link Aggregate} specification, of
 	 *         all values that have been added until now.
 	 * @since 1.2.0.0
@@ -39,7 +39,7 @@ public interface Aggregate<N extends Number> {
 
 	/**
 	 * Add another value to this {@link Aggregate}.
-	 * 
+	 *
 	 * @param value
 	 *            the value to add.
 	 * @return true if the {@link #addValue(Number)} operation changed the value
@@ -49,4 +49,5 @@ public interface Aggregate<N extends Number> {
 	 * @since 1.2.0.0
 	 */
 	public boolean addValue(Number value);
+
 }
