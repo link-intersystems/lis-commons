@@ -90,6 +90,21 @@
 		</license>
 	</licenses>
 
+	<distributionManagement>
+		<repository>
+			<id>link-intersystems-releases</id>
+			<layout>default</layout>
+			<name>Link Intersystem Releases</name>
+			<url>https://devel.link-intersystems.com/nexus/repository/maven-releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>link-intersystems-snapshots</id>
+			<layout>default</layout>
+			<name>Link Intersystem Snapshots</name>
+			<url>https://devel.link-intersystems.com/nexus/repository/maven-snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+
 	<build>
 		<pluginManagement>
 			<plugins>
