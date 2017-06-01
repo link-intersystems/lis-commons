@@ -137,30 +137,6 @@ public class Bean<T> {
 		return indexedProperty;
 	}
 
-	private List<IndexedProperty<?>> getIndexedPropertiesInternal() {
-		List<IndexedProperty<?>> indexedProperties = new ArrayList<>();
-
-		List<String> indexedPropertyNames = beanClass.getIndexedPropertyNames();
-
-		for (String indexedPropertyName : indexedPropertyNames) {
-			indexedProperties.add(getIndexedProperty(indexedPropertyName));
-		}
-
-		return indexedProperties;
-	}
-
-	private List<Property<?>> getSimplePropertiesInternal() {
-		List<Property<?>> properties = new ArrayList<>();
-
-		List<String> propertyNames = beanClass.getSimplePropertyNames();
-
-		for (String propertyName : propertyNames) {
-			properties.add(getProperty(propertyName));
-		}
-
-		return properties;
-	}
-
 	private List<Property<?>> getPropertiesInternal() {
 		List<Property<?>> properties = new ArrayList<>();
 
@@ -209,7 +185,7 @@ public class Bean<T> {
 	 * @return true if a property with the given name exists.
 	 */
 	public boolean hasProperty(String propertyName) {
-		return getPropertyInternal(propertyName) != null;
+		return beanClass.getPropertyDescriptorInternal(propertyName) != null;
 	}
 
 	/**
@@ -218,7 +194,7 @@ public class Bean<T> {
 	 * @return true if an indexed property with the given name exists.
 	 */
 	public boolean hasIndexedProperty(String propertyName) {
-		return getIndexedPropertyInternal(propertyName) != null;
+		return beanClass.getPropertyDescriptorInternal(propertyName) instanceof IndexedPropertyDescriptor;
 	}
 
 	@SuppressWarnings("unchecked")
