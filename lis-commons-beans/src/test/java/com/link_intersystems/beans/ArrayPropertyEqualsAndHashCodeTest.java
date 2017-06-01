@@ -13,36 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.link_intersystems.lang.reflect;
-
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-
-import org.junit.Before;
+package com.link_intersystems.beans;
 
 import com.link_intersystems.EqualsAndHashCodeTest;
 
-public class SerializableMethodEqualsAndHashCodeTest extends
-		EqualsAndHashCodeTest {
-
-	@Before
-	@Override
-	public void createTestInstances() throws Exception {
-		super.createTestInstances();
-	}
+public class ArrayPropertyEqualsAndHashCodeTest extends EqualsAndHashCodeTest {
 
 	@Override
 	protected Object createInstance() throws Exception {
-		Method declaredMethod = ArrayList.class.getDeclaredMethod("add",
-				Object.class);
-		return new SerializableMethod(declaredMethod);
+		SomeBean someBean = new SomeBean();
+		someBean.setArrayPropertyNoIndexAccess(new String[] { "a", "b" });
+		return new Bean<>(someBean).getProperty("arrayPropertyNoIndexAccess");
 	}
 
 	@Override
 	protected Object createNotEqualInstance() throws Exception {
-		Method declaredMethod = ArrayList.class.getDeclaredMethod("add",
-				int.class, Object.class);
-		return new SerializableMethod(declaredMethod);
+		SomeBean someBean = new SomeBean();
+		someBean.setArrayPropertyNoIndexAccess(new String[] { "a", "b", "c" });
+		return new Bean<>(someBean).getProperty("arrayPropertyNoIndexAccess");
 	}
 
 }

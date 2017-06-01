@@ -32,7 +32,7 @@ public class SomeBean {
 
 	private String[] indexedPropertyWriteOnlyIndexOnlyAccess = new String[0];
 
-	private String[] indexedPropertyReadOnlyIndexOnlyAccess = new String[0];
+	private String[] indexedPropertyReadOnlyIndexOnlyAccess = new String[2];
 
 	private String[] stringArrayProperty = new String[0];
 
@@ -88,17 +88,19 @@ public class SomeBean {
 		return arrayPropertyNoIndexAccess;
 	}
 
-	public void setArrayPropertyNoIndexAccess(
-			String[] arrayPropertyNoIndexAccess) {
+	public void setArrayPropertyNoIndexAccess(String[] arrayPropertyNoIndexAccess) {
 		this.arrayPropertyNoIndexAccess = arrayPropertyNoIndexAccess;
 	}
 
-	public void setIndexedPropertyWriteOnlyIndexOnlyAccess(int index,
-			String value) {
+	public void setIndexedPropertyWriteOnlyIndexOnlyAccess(int index, String value) {
 		this.indexedPropertyWriteOnlyIndexOnlyAccess[index] = value;
 	}
 
 	public String getIndexedPropertyReadOnlyIndexOnlyAccess(int index) {
 		return indexedPropertyReadOnlyIndexOnlyAccess[index];
+	}
+
+	protected void setIndexedPropertyReadOnlyIndexOnlyAccess(int index, String value) {
+		this.indexedPropertyReadOnlyIndexOnlyAccess[index] = value;
 	}
 }

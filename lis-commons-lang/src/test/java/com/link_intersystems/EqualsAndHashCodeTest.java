@@ -15,14 +15,16 @@
  */
 package com.link_intersystems;
 
-import static junit.framework.Assert.assertFalse;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import junit.framework.AssertionFailedError;
 import junitx.framework.Assert;
-
-import org.junit.Test;
 
 public abstract class EqualsAndHashCodeTest {
 
@@ -56,7 +58,8 @@ public abstract class EqualsAndHashCodeTest {
 	 *
 	 * @throws Exception
 	 */
-	protected void setUp() throws Exception {
+	@Before
+	public void createTestInstances() throws Exception {
 		eq1 = createInstance();
 		eq2 = createInstance();
 		eq3 = createInstance();
@@ -76,13 +79,10 @@ public abstract class EqualsAndHashCodeTest {
 			assertNotSame(eq2, neq);
 			assertNotSame(eq3, neq);
 
-			assertEquals("1st and 2nd equal instances of different classes",
-					eq1.getClass(), eq2.getClass());
-			assertEquals("1st and 3rd equal instances of different classes",
-					eq1.getClass(), eq3.getClass());
-			assertEquals(
-					"1st equal instance and not-equal instance of different classes",
-					eq1.getClass(), neq.getClass());
+			assertEquals("1st and 2nd equal instances of different classes", eq1.getClass(), eq2.getClass());
+			assertEquals("1st and 3rd equal instances of different classes", eq1.getClass(), eq3.getClass());
+			assertEquals("1st equal instance and not-equal instance of different classes", eq1.getClass(),
+					neq.getClass());
 		} catch (AssertionFailedError ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
@@ -205,9 +205,7 @@ public abstract class EqualsAndHashCodeTest {
 	@Test
 	public final void equalsWithIncompatibleObjectType() throws Exception {
 		boolean equals = eq1.equals(createIncompatibleObjectType());
-		assertFalse(
-				"equal instance should not be equal to incompatible object type",
-				equals);
+		assertFalse("equal instance should not be equal to incompatible object type", equals);
 	}
 
 	protected Object createIncompatibleObjectType() throws Exception {

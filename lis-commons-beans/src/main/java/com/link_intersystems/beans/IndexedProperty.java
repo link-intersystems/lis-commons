@@ -291,7 +291,7 @@ public class IndexedProperty<T> extends Property<T[]> {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
+		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -323,15 +323,40 @@ public class IndexedProperty<T> extends Property<T[]> {
 	}
 
 	private boolean equalsByIndex(IndexedProperty<T> other) {
+		boolean equal = true;
+
 		for (int i = 0; i < Integer.MAX_VALUE; i++) {
 			try {
 				T value = getValue(i);
-				T otherValue = other.getValue(i);
 
-				if (!Objects.equals(value, otherValue)) {
-					return false;
+				try {
+					T otherValue = other.getValue(i);
+
+					equal = Objects.equals(value, otherValue);
+					if (!equal) {
+						break;
+					}
+				} catch (PropertyAccessException e) {
+					equal = false;
+					Throwable cause = e.getCause();
+					if (cause instanceof IndexOutOfBoundsException) {
+						break;
+					} else {
+						throw new RuntimeException(e);
+					}
 				}
+
 			} catch (PropertyAccessException e) {
+				try {
+					other.getValue(i);
+					equal = false;
+				} catch (PropertyAccessException pe) {
+					Throwable cause = pe.getCause();
+					if (!(cause instanceof IndexOutOfBoundsException)) {
+						throw new RuntimeException(e);
+					}
+				}
+
 				Throwable cause = e.getCause();
 				if (cause instanceof IndexOutOfBoundsException) {
 					break;
@@ -339,9 +364,10 @@ public class IndexedProperty<T> extends Property<T[]> {
 					throw new RuntimeException(e);
 				}
 			}
+
 		}
 
-		return true;
+		return equal;
 	}
 
 }

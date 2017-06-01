@@ -27,7 +27,7 @@ public class SerializableConstructorEqualsAndHashCodeTest extends
 
 	@Before
 	public void setup() throws Exception {
-		super.setUp();
+		super.createTestInstances();
 	}
 
 	@Override

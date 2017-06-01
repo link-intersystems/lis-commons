@@ -19,8 +19,10 @@ import java.beans.PropertyDescriptor;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Formattable;
 import java.util.Formatter;
+import java.util.Objects;
 
 import com.link_intersystems.beans.PropertyAccessException.PropertyAccessType;
 import com.link_intersystems.lang.Assert;
@@ -251,7 +253,17 @@ public class Property<TYPE> implements Serializable, Formattable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + propertyDescriptor.hashCode();
-		result = prime * result + ((getValue() == null) ? 0 : getValue().hashCode());
+		Object value = getValue();
+
+		if (value != null) {
+			Class<? extends Object> valueClass = value.getClass();
+			if (valueClass.isArray()) {
+				result = prime * result + Arrays.deepHashCode((Object[]) value);
+			} else {
+				result = prime * result + value.hashCode();
+			}
+		}
+
 		return result;
 	}
 
@@ -267,12 +279,27 @@ public class Property<TYPE> implements Serializable, Formattable {
 		Property other = (Property) obj;
 		if (!propertyDescriptor.equals(other.propertyDescriptor))
 			return false;
-		if (getValue() == null) {
-			if (other.getValue() != null)
+
+		Object value = getValue();
+		if (value == null) {
+			return other.getValue() == null;
+		} else {
+			Object otherValue = other.getValue();
+
+			if (otherValue == null) {
 				return false;
-		} else if (!getValue().equals(other.getValue()))
-			return false;
-		return true;
+			}
+
+			Class<? extends Object> valueClass = value.getClass();
+			Class<? extends Object> otherValueClass = otherValue.getClass();
+			if (valueClass.isArray() && otherValueClass.isArray()) {
+				return Objects.deepEquals(value, otherValue);
+			} else if (!valueClass.isArray() && !otherValueClass.isArray()) {
+				return value.equals(otherValue);
+			} else {
+				return false;
+			}
+		}
 	}
 
 }

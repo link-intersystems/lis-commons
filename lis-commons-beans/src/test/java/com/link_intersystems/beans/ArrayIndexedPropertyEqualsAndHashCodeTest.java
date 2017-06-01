@@ -13,36 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.link_intersystems.lang.reflect;
-
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-
-import org.junit.Before;
+package com.link_intersystems.beans;
 
 import com.link_intersystems.EqualsAndHashCodeTest;
 
-public class SerializableMethodEqualsAndHashCodeTest extends
-		EqualsAndHashCodeTest {
-
-	@Before
-	@Override
-	public void createTestInstances() throws Exception {
-		super.createTestInstances();
-	}
+public class ArrayIndexedPropertyEqualsAndHashCodeTest extends EqualsAndHashCodeTest {
 
 	@Override
 	protected Object createInstance() throws Exception {
-		Method declaredMethod = ArrayList.class.getDeclaredMethod("add",
-				Object.class);
-		return new SerializableMethod(declaredMethod);
+		SomeBean someBean = new SomeBean() {
+			{
+				setIndexedPropertyReadOnlyIndexOnlyAccess(0, "a");
+			}
+		};
+		return new Bean<>(someBean).getProperty("indexedPropertyReadOnlyIndexOnlyAccess");
 	}
 
 	@Override
 	protected Object createNotEqualInstance() throws Exception {
-		Method declaredMethod = ArrayList.class.getDeclaredMethod("add",
-				int.class, Object.class);
-		return new SerializableMethod(declaredMethod);
+		SomeBean someBean = new SomeBean() {
+			{
+				setIndexedPropertyReadOnlyIndexOnlyAccess(0, "a");
+				setIndexedPropertyReadOnlyIndexOnlyAccess(1, "b");
+			}
+		};
+		return new Bean<>(someBean).getProperty("indexedPropertyReadOnlyIndexOnlyAccess");
 	}
 
 }

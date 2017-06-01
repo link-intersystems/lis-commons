@@ -11,8 +11,8 @@ import com.link_intersystems.EqualsAndHashCodeTest;
 public class Class2EqualsAndHashCodeTest extends EqualsAndHashCodeTest {
 
 	@Before
-	public void setUp() throws Exception {
-		super.setUp();
+	public void createTestInstances() throws Exception {
+		super.createTestInstances();
 	}
 
 	@Override

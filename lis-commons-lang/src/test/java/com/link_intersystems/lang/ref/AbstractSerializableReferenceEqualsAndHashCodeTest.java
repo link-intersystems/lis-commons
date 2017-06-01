@@ -31,8 +31,8 @@ public class AbstractSerializableReferenceEqualsAndHashCodeTest extends
 
 	@Before
 	@Override
-	public void setUp() throws Exception {
-		super.setUp();
+	public void createTestInstances() throws Exception {
+		super.createTestInstances();
 	}
 
 	@Override

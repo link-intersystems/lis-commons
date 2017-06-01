@@ -29,8 +29,8 @@ public class ConstructorSignatureTest extends EqualsAndHashCodeTest {
 
 	@Before
 	@Override
-	public void setUp() throws Exception {
-		super.setUp();
+	public void createTestInstances() throws Exception {
+		super.createTestInstances();
 	}
 
 	@Test

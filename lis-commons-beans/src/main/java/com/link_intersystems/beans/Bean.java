@@ -223,6 +223,11 @@ public class Bean<T> {
 
 	@SuppressWarnings("unchecked")
 	private <PT> Property<PT> getPropertyInternal(String propertyName) {
+		IndexedProperty<PT> indexedProperty = getIndexedPropertyInternal(propertyName);
+		if (indexedProperty != null) {
+			return (Property<PT>) indexedProperty;
+		}
+
 		Property<PT> property = (Property<PT>) properties.get(propertyName);
 		if (property == null) {
 			PropertyDescriptor propertyDescriptor = beanClass.getPropertyDescriptorInternal(propertyName);
