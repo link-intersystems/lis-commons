@@ -94,16 +94,37 @@ public class BeanClass<T> extends Class2<T> {
 	 *             constructor.
 	 * @since 1.2.0.0
 	 */
-	@SuppressWarnings("unchecked")
-	public static <T> BeanClass<T> get(Class<T> clazz) {
+	public static <T> BeanClass<T> getStrict(Class<T> clazz) {
 		Assert.notNull("clazz", clazz);
-		BeanClass<T> class2 = (BeanClass<T>) CLASS_TO_BEANCLASS.get(clazz);
+		BeanClass<T> class2 = get(clazz);
 		if (class2 == null) {
 			if (!hasBeanConstructor(clazz)) {
 				throw new IllegalArgumentException(
 						"Class " + clazz.getCanonicalName() + " does not declare a public default constructor "
 								+ "and therefore does not fulfill the bean specification");
 			}
+		}
+		return class2;
+	}
+
+	/**
+	 * Constructs a new {@link BeanClass} for the specified clazz. The given
+	 * class must not declare a public default constructor.
+	 *
+	 * @param clazz
+	 * @return a {@link Class2} for the given {@link Class}.
+	 * @throws IllegalArgumentException
+	 *             if the clazz argument does not declare a public default
+	 *             constructor.
+	 * @since 1.2.0.0
+	 *
+	 * @see #getStrict(Class)
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> BeanClass<T> get(Class<T> clazz) {
+		Assert.notNull("clazz", clazz);
+		BeanClass<T> class2 = (BeanClass<T>) CLASS_TO_BEANCLASS.get(clazz);
+		if (class2 == null) {
 			class2 = new BeanClass<T>(clazz);
 			CLASS_TO_BEANCLASS.put(clazz, class2);
 		}
@@ -247,7 +268,9 @@ public class BeanClass<T> extends Class2<T> {
 			return newBean;
 		} catch (Exception e) {
 			throw new IllegalStateException(
-					"Bean " + getType().getCanonicalName() + " throws an exception in default constructor.", e);
+					"Bean " + getType().getCanonicalName()
+							+ " throws an exception in default constructor. Does it have a default constructor (a strict BeanClass). See BeanClass.getStrict(Class<T>)",
+					e);
 		}
 	}
 

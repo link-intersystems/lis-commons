@@ -54,8 +54,8 @@ import com.link_intersystems.lang.Assert;
  * </pre>
  *
  *
- * @author René Link <a
- *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
+ * @author René Link
+ *         <a href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
  *
  * @param <TYPE>
@@ -68,12 +68,12 @@ public class Property<TYPE> implements Serializable, Formattable {
 	 *
 	 */
 	private static final long serialVersionUID = -6759158627808430975L;
-	private Object bean;
+	private Bean<?> bean;
 	private PropertyDescriptor propertyDescriptor;
 
 	private Class<TYPE> type;
 
-	Property(Object bean, PropertyDescriptor propertyDescriptor) {
+	Property(Bean<?> bean, PropertyDescriptor propertyDescriptor) {
 		Assert.notNull("bean", bean);
 		Assert.notNull("propertyDescriptor", propertyDescriptor);
 		this.bean = bean;
@@ -85,7 +85,7 @@ public class Property<TYPE> implements Serializable, Formattable {
 	 * @since 1.2.0.0
 	 */
 	protected final Object getBean() {
-		return bean;
+		return bean.getBean();
 	}
 
 	/**
@@ -211,10 +211,9 @@ public class Property<TYPE> implements Serializable, Formattable {
 	 * @inherited
 	 * @since 1.2.0.0
 	 */
-	public void formatTo(Formatter formatter, int flags, int width,
-			int precision) {
-		formatter.format("%s.%s", getBean().getClass().getCanonicalName(),
-				getName());
+	@Override
+	public void formatTo(Formatter formatter, int flags, int width, int precision) {
+		formatter.format("%s.%s", getBean().getClass().getCanonicalName(), getName());
 	}
 
 	protected final PropertyDescriptor getPropertyDescriptor() {
@@ -246,4 +245,34 @@ public class Property<TYPE> implements Serializable, Formattable {
 	public String toString() {
 		return getName();
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + propertyDescriptor.hashCode();
+		result = prime * result + ((getValue() == null) ? 0 : getValue().hashCode());
+		return result;
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Property other = (Property) obj;
+		if (!propertyDescriptor.equals(other.propertyDescriptor))
+			return false;
+		if (getValue() == null) {
+			if (other.getValue() != null)
+				return false;
+		} else if (!getValue().equals(other.getValue()))
+			return false;
+		return true;
+	}
+
 }

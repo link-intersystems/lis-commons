@@ -69,8 +69,8 @@ import com.link_intersystems.lang.reflect.Class2;
  * </pre>
  *
  *
- * @author René Link <a
- *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
+ * @author René Link
+ *         <a href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
  *
  * @param <T>
@@ -90,8 +90,7 @@ public class IndexedProperty<T> extends Property<T[]> {
 
 	private Class<T[]> type;
 
-	IndexedProperty(Object bean,
-			IndexedPropertyDescriptor indexedPropertyDescriptor) {
+	IndexedProperty(Bean<?> bean, IndexedPropertyDescriptor indexedPropertyDescriptor) {
 		super(bean, indexedPropertyDescriptor);
 	}
 
@@ -145,8 +144,7 @@ public class IndexedProperty<T> extends Property<T[]> {
 						elementType = indexedReadMethod.getReturnType();
 					} else {
 						Method indexedWriteMethod = getIndexedWriteMethod();
-						Class<?>[] parameterTypes = indexedWriteMethod
-								.getParameterTypes();
+						Class<?>[] parameterTypes = indexedWriteMethod.getParameterTypes();
 						elementType = parameterTypes[INDEXED_SETTER_TYPE_PARAM_INDEX];
 					}
 					Class2<T> elementType2 = (Class2<T>) Class2.get(elementType);
@@ -220,8 +218,7 @@ public class IndexedProperty<T> extends Property<T[]> {
 	 */
 	protected final Method getIndexedWriteMethod() {
 		IndexedPropertyDescriptor indexedPropertyDescriptor = getIndexedPropertyDescriptor();
-		Method indexedWriteMethod = indexedPropertyDescriptor
-				.getIndexedWriteMethod();
+		Method indexedWriteMethod = indexedPropertyDescriptor.getIndexedWriteMethod();
 		return indexedWriteMethod;
 	}
 
@@ -236,8 +233,7 @@ public class IndexedProperty<T> extends Property<T[]> {
 	 */
 	protected final Method getIndexedReadMethod() {
 		IndexedPropertyDescriptor indexedPropertyDescriptor = getIndexedPropertyDescriptor();
-		Method indexedWriteMethod = indexedPropertyDescriptor
-				.getIndexedReadMethod();
+		Method indexedWriteMethod = indexedPropertyDescriptor.getIndexedReadMethod();
 		return indexedWriteMethod;
 	}
 

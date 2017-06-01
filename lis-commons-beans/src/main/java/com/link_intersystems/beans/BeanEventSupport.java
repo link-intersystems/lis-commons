@@ -58,7 +58,7 @@ public class BeanEventSupport<B, T> {
 
 	public void setBean(B bean) {
 		Bean<B> actualBean = this.bean;
-		if (actualBean != null && actualBean.getTarget() == bean) {
+		if (actualBean != null && actualBean.getBean() == bean) {
 			return;
 		}
 
@@ -93,7 +93,7 @@ public class BeanEventSupport<B, T> {
 		if (this.bean == null) {
 			return null;
 		}
-		return this.bean.getTarget();
+		return this.bean.getBean();
 	}
 
 }

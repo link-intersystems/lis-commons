@@ -22,8 +22,10 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.link_intersystems.lang.Assert;
@@ -54,6 +56,34 @@ public class Bean<T> {
 	private transient Map<String, BeanEvent> beanEvents;
 
 	/**
+	 * Constructs a new {@link Bean} based on the beanClass. The bean class must
+	 * fulfill the java bean specification. The bean that this {@link Bean}
+	 * represents is lazy initialized by instantiating a bean using the default
+	 * constructor of the beanClass.
+	 *
+	 * @param beanClass
+	 *            the type of the bean that this {@link Bean} represents.
+	 * @since 1.2.0.0
+	 */
+	public static <T> Bean<T> strictBean(Class<T> beanClass) {
+		return new Bean<>(BeanClass.getStrict(beanClass));
+	}
+
+	/**
+	 * Constructs a new {@link Bean} based on the beanClass. The bean class must
+	 * fulfill the java bean specification. The bean that this {@link Bean}
+	 * represents is lazy initialized by instantiating a bean using the default
+	 * constructor of the beanClass.
+	 *
+	 * @param beanClass
+	 *            the type of the bean that this {@link Bean} represents.
+	 * @since 1.2.0.0
+	 */
+	public static <T> Bean<T> niceBean(Class<T> beanClass) {
+		return new Bean<>(BeanClass.get(beanClass));
+	}
+
+	/**
 	 * Constructs a new {@link Bean} for the given bean object.
 	 *
 	 * @param bean
@@ -67,19 +97,9 @@ public class Bean<T> {
 		beanClass = (BeanClass<T>) BeanClass.get(bean.getClass());
 	}
 
-	/**
-	 * Constructs a new {@link Bean} based on the beanClass. The bean class must
-	 * fulfill the java bean specification. The bean that this {@link Bean}
-	 * represents is lazy initialized by instantiating a bean using the default
-	 * constructor of the beanClass.
-	 *
-	 * @param beanClass
-	 *            the type of the bean that this {@link Bean} represents.
-	 * @since 1.2.0.0
-	 */
-	public Bean(Class<T> beanClass) {
+	private Bean(BeanClass<T> beanClass) {
 		Assert.notNull("beanClass", beanClass);
-		this.beanClass = (BeanClass<T>) BeanClass.get(beanClass);
+		this.beanClass = beanClass;
 	}
 
 	/**
@@ -109,13 +129,48 @@ public class Bean<T> {
 			PropertyDescriptor propertyDescriptor = beanClass.getPropertyDescriptor(propertyName);
 			if (propertyDescriptor instanceof IndexedPropertyDescriptor) {
 				IndexedPropertyDescriptor indexedPropertyDescriptor = (IndexedPropertyDescriptor) propertyDescriptor;
-				T target = getTarget();
-				indexedProperty = new IndexedProperty<PT>(target, indexedPropertyDescriptor);
+				indexedProperty = new IndexedProperty<PT>(this, indexedPropertyDescriptor);
 				indexedProperties.put(propertyName, indexedProperty);
 				properties.put(propertyName, indexedProperty);
 			}
 		}
 		return indexedProperty;
+	}
+
+	private List<IndexedProperty<?>> getIndexedPropertiesInternal() {
+		List<IndexedProperty<?>> indexedProperties = new ArrayList<>();
+
+		List<String> indexedPropertyNames = beanClass.getIndexedPropertyNames();
+
+		for (String indexedPropertyName : indexedPropertyNames) {
+			indexedProperties.add(getIndexedProperty(indexedPropertyName));
+		}
+
+		return indexedProperties;
+	}
+
+	private List<Property<?>> getSimplePropertiesInternal() {
+		List<Property<?>> properties = new ArrayList<>();
+
+		List<String> propertyNames = beanClass.getSimplePropertyNames();
+
+		for (String propertyName : propertyNames) {
+			properties.add(getProperty(propertyName));
+		}
+
+		return properties;
+	}
+
+	private List<Property<?>> getPropertiesInternal() {
+		List<Property<?>> properties = new ArrayList<>();
+
+		List<String> propertyNames = beanClass.getPropertyNames();
+
+		for (String propertyName : propertyNames) {
+			properties.add(getProperty(propertyName));
+		}
+
+		return properties;
 	}
 
 	/**
@@ -172,18 +227,22 @@ public class Bean<T> {
 		if (property == null) {
 			PropertyDescriptor propertyDescriptor = beanClass.getPropertyDescriptorInternal(propertyName);
 			if (propertyDescriptor != null) {
-				T target = getTarget();
-				property = new Property<PT>(target, propertyDescriptor);
+				property = new Property<PT>(this, propertyDescriptor);
 				properties.put(propertyName, property);
 			}
 		}
 		return property;
 	}
 
-	T getTarget() {
+	private T getTarget() {
 		if (bean == null) {
-			Bean<T> newBeanInstance = beanClass.newBeanInstance();
-			bean = newBeanInstance.getTarget();
+			try {
+				Bean<T> newBeanInstance = beanClass.newBeanInstance();
+				bean = newBeanInstance.getTarget();
+			} catch (Exception e) {
+				throw new IllegalStateException("Bean " + getBeanClass()
+						+ " can not be instantiated. Is it a nice Bean. See Bean.niceBean(Class<T>)", e);
+			}
 		}
 		return bean;
 	}
@@ -272,6 +331,12 @@ public class Bean<T> {
 
 	public <L> BeanEventSupport<T, L> newBeanEventSupport() {
 		return new BeanEventSupport<T, L>();
+	}
+
+	public boolean propertiesEqual(Bean<T> otherBean) {
+		List<Property<?>> properties = getPropertiesInternal();
+		List<Property<?>> otherProperties = otherBean.getPropertiesInternal();
+		return properties.equals(otherProperties);
 	}
 
 }
