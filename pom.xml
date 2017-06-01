@@ -133,6 +133,12 @@
 							<configuration>
 								<!-- Sets the VM argument line used when unit tests are run. -->
 								<argLine>${surefireArgLine}</argLine>
+								<properties>
+									<property>
+										<name>listener</name>
+										<value>org.sonar.java.jacoco.JUnitListener</value>
+									</property>
+								</properties>
 							</configuration>
 						</plugin>
 					</plugins>
@@ -177,6 +183,14 @@
 					</plugin>
 				</plugins>
 			</build>
+			<dependencies>
+				<dependency>
+					<groupId>org.sonarsource.java</groupId>
+					<artifactId>sonar-jacoco-listeners</artifactId>
+					<version>3.8</version>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
 		</profile>
 	</profiles>
 </project>
