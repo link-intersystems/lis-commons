@@ -312,8 +312,13 @@ public class IndexedProperty<T> extends Property<T[]> {
 	}
 
 	private boolean equalsByArray(IndexedProperty<T> other) {
+		if (!other.isReadable()) {
+			return false;
+		}
+
 		T[] value = getValue();
 		T[] otherValue = other.getValue();
+
 		return Arrays.equals(value, otherValue);
 	}
 
