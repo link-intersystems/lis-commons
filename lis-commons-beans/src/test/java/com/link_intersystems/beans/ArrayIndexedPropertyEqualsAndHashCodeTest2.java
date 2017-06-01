@@ -17,13 +17,13 @@ package com.link_intersystems.beans;
 
 import com.link_intersystems.EqualsAndHashCodeTest;
 
-public class ArrayIndexedPropertyEqualsAndHashCodeTest extends EqualsAndHashCodeTest {
+public class ArrayIndexedPropertyEqualsAndHashCodeTest2 extends EqualsAndHashCodeTest {
 
 	@Override
 	protected Object createInstance() throws Exception {
 		SomeBean someBean = new SomeBean() {
 			{
-				setIndexedPropertyReadOnlyIndexOnlyAccess(new String[] { "a", "" });
+				setIndexedPropertyReadOnlyIndexOnlyAccess(new String[] { "a", "b", "c" });
 			}
 		};
 		return new Bean<>(someBean).getProperty("indexedPropertyReadOnlyIndexOnlyAccess");

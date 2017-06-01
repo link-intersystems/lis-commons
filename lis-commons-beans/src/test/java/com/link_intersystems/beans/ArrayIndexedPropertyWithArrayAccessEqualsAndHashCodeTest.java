@@ -17,26 +17,20 @@ package com.link_intersystems.beans;
 
 import com.link_intersystems.EqualsAndHashCodeTest;
 
-public class ArrayIndexedPropertyEqualsAndHashCodeTest extends EqualsAndHashCodeTest {
+public class ArrayIndexedPropertyWithArrayAccessEqualsAndHashCodeTest extends EqualsAndHashCodeTest {
 
 	@Override
 	protected Object createInstance() throws Exception {
-		SomeBean someBean = new SomeBean() {
-			{
-				setIndexedPropertyReadOnlyIndexOnlyAccess(new String[] { "a", "" });
-			}
-		};
-		return new Bean<>(someBean).getProperty("indexedPropertyReadOnlyIndexOnlyAccess");
+		SomeBean someBean = new SomeBean();
+		someBean.setStringArrayProperty(new String[] { "a", "c" });
+		return new Bean<>(someBean).getProperty("stringArrayProperty");
 	}
 
 	@Override
 	protected Object createNotEqualInstance() throws Exception {
-		SomeBean someBean = new SomeBean() {
-			{
-				setIndexedPropertyReadOnlyIndexOnlyAccess(new String[] { "a", "b" });
-			}
-		};
-		return new Bean<>(someBean).getProperty("indexedPropertyReadOnlyIndexOnlyAccess");
+		SomeBean someBean = new SomeBean();
+		someBean.setStringArrayProperty(new String[] { "a", "b" });
+		return new Bean<>(someBean).getProperty("stringArrayProperty");
 	}
 
 }

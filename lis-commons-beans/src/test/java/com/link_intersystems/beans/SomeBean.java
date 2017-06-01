@@ -100,7 +100,7 @@ public class SomeBean {
 		return indexedPropertyReadOnlyIndexOnlyAccess[index];
 	}
 
-	protected void setIndexedPropertyReadOnlyIndexOnlyAccess(int index, String value) {
-		this.indexedPropertyReadOnlyIndexOnlyAccess[index] = value;
+	protected void setIndexedPropertyReadOnlyIndexOnlyAccess(String[] indexedPropertyReadOnlyIndexOnlyAccess) {
+		this.indexedPropertyReadOnlyIndexOnlyAccess = indexedPropertyReadOnlyIndexOnlyAccess;
 	}
 }

@@ -15,6 +15,9 @@
  */
 package com.link_intersystems.beans;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -38,6 +41,21 @@ public abstract class AbstractPropertyTest<T> {
 	protected final Class<?> getExpectedType() {
 		Class2<?> thisClass = Class2.get(getClass());
 		return thisClass.getBoundClass("T");
+	}
+
+	@Test
+	public void isReadable() {
+		assertTrue(getProperty().isReadable());
+		assertTrue(getReadOnlyProperty().isReadable());
+		assertFalse(getWriteOnlyProperty().isReadable());
+
+	}
+
+	@Test
+	public void isWriteable() {
+		assertTrue(getProperty().isWritable());
+		assertTrue(getWriteOnlyProperty().isWritable());
+		assertFalse(getReadOnlyProperty().isWritable());
 	}
 
 	@Test
@@ -72,8 +90,7 @@ public abstract class AbstractPropertyTest<T> {
 
 		boolean array = expected.getClass().isArray();
 		if (array) {
-			Assert.assertArrayEquals((Object[]) expected,
-					(Object[]) propertyValue);
+			Assert.assertArrayEquals((Object[]) expected, (Object[]) propertyValue);
 		} else {
 			Assert.assertEquals(expected, propertyValue);
 		}
@@ -90,8 +107,7 @@ public abstract class AbstractPropertyTest<T> {
 
 		boolean array = propertySetValue.getClass().isArray();
 		if (array) {
-			Assert.assertArrayEquals((Object[]) propertySetValue,
-					(Object[]) value);
+			Assert.assertArrayEquals((Object[]) propertySetValue, (Object[]) value);
 		} else {
 			Assert.assertEquals(propertySetValue, value);
 		}
@@ -110,8 +126,8 @@ public abstract class AbstractPropertyTest<T> {
 		property.setValue(propertySetValue);
 	}
 
-	protected void assertPropertyAccessException(PropertyAccessException e,
-			PropertyAccessType accessType, Class<? extends Throwable> causeType) {
+	protected void assertPropertyAccessException(PropertyAccessException e, PropertyAccessType accessType,
+			Class<? extends Throwable> causeType) {
 		PropertyAccessType propertyAccessType = e.getPropertyAccessType();
 		Assert.assertEquals(accessType, propertyAccessType);
 
