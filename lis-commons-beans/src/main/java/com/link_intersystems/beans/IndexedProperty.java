@@ -16,8 +16,11 @@
 package com.link_intersystems.beans;
 
 import java.beans.IndexedPropertyDescriptor;
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Objects;
 
 import com.link_intersystems.beans.PropertyAccessException.PropertyAccessType;
 import com.link_intersystems.lang.reflect.Class2;
@@ -176,7 +179,8 @@ public class IndexedProperty<T> extends Property<T[]> {
 			Object elementValue = invoke(indexedReadMethod, target, index);
 			return (T) elementValue;
 		} catch (InvocationTargetException e) {
-			throw new PropertyAccessException(this, PropertyAccessType.READ, e);
+			Throwable targetException = e.getTargetException();
+			throw new PropertyAccessException(this, PropertyAccessType.READ, targetException);
 		} catch (IllegalAccessException e) {
 			throw new PropertyAccessException(this, PropertyAccessType.READ, e);
 		}
@@ -201,7 +205,8 @@ public class IndexedProperty<T> extends Property<T[]> {
 		try {
 			invoke(indexedWriteMethod, target, index, elementValue);
 		} catch (InvocationTargetException e) {
-			throw new PropertyAccessException(this, PropertyAccessType.WRITE, e);
+			Throwable targetException = e.getTargetException();
+			throw new PropertyAccessException(this, PropertyAccessType.WRITE, targetException);
 		} catch (IllegalAccessException e) {
 			throw new PropertyAccessException(this, PropertyAccessType.WRITE, e);
 		}
@@ -245,4 +250,93 @@ public class IndexedProperty<T> extends Property<T[]> {
 	public String toString() {
 		return super.getName() + "[]";
 	}
+
+	@Override
+	public int hashCode() {
+		if (isReadable()) {
+			return hashCodeByArray();
+		} else {
+			return hashCodeByIndex();
+		}
+	}
+
+	private int hashCodeByArray() {
+		T[] value = getValue();
+		return Arrays.hashCode(value);
+	}
+
+	private int hashCodeByIndex() {
+		final int prime = 31;
+		int result = 1;
+
+		for (int i = 0; i < Integer.MAX_VALUE; i++) {
+			try {
+				T value = getValue(i);
+				result = prime * result + (value == null ? 0 : value.hashCode());
+			} catch (PropertyAccessException e) {
+				Throwable cause = e.getCause();
+				if (cause instanceof IndexOutOfBoundsException) {
+					break;
+				} else {
+					throw new RuntimeException(e);
+				}
+			}
+		}
+
+		return result;
+	}
+
+	@SuppressWarnings({ "unchecked" })
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		IndexedProperty<T> other = (IndexedProperty<T>) obj;
+
+		PropertyDescriptor propertyDescriptor = getPropertyDescriptor();
+		PropertyDescriptor otherPropertyDescriptor = other.getPropertyDescriptor();
+
+		if (!propertyDescriptor.equals(otherPropertyDescriptor)) {
+			return false;
+		}
+
+		if (isReadable()) {
+			return equalsByArray(other);
+		} else {
+			return equalsByIndex(other);
+		}
+	}
+
+	private boolean equalsByArray(IndexedProperty<T> other) {
+		T[] value = getValue();
+		T[] otherValue = other.getValue();
+		return Arrays.equals(value, otherValue);
+	}
+
+	private boolean equalsByIndex(IndexedProperty<T> other) {
+		for (int i = 0; i < Integer.MAX_VALUE; i++) {
+			try {
+				T value = getValue(i);
+				T otherValue = other.getValue(i);
+
+				if (!Objects.equals(value, otherValue)) {
+					return false;
+				}
+			} catch (PropertyAccessException e) {
+				Throwable cause = e.getCause();
+				if (cause instanceof IndexOutOfBoundsException) {
+					break;
+				} else {
+					throw new RuntimeException(e);
+				}
+			}
+		}
+
+		return true;
+	}
+
 }
