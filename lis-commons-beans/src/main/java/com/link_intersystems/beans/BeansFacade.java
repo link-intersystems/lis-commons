@@ -17,7 +17,7 @@ public abstract class BeansFacade {
 	 *         according to the java bean specification.
 	 * @since 1.0.0.0
 	 */
-	public static Predicate getPropertyAccessorPredicate() {
+	public static Predicate<Method> getPropertyAccessorPredicate() {
 		return PropertyAccessorPredicate.INSTANCE;
 	}
 
@@ -28,28 +28,26 @@ public abstract class BeansFacade {
  * {@link Method} and the method is a property accessor according to the java
  * bean specification.
  *
- * @author René Link <a
- *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
+ * @author René Link
+ *         <a href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
  * @since 1.0.0.0
  */
-class PropertyAccessorPredicate implements Predicate, Serializable {
+class PropertyAccessorPredicate implements Predicate<Method>, Serializable {
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = -5631775222210839752L;
 
-	public static final Predicate INSTANCE = new PropertyAccessorPredicate();
+	public static final Predicate<Method> INSTANCE = new PropertyAccessorPredicate();
 
-	public boolean evaluate(Object object) {
+	@Override
+	public boolean evaluate(Method method) {
 		boolean isPropertyAccessor = false;
-		if (object instanceof Method) {
-			Method method = Method.class.cast(object);
-			Class<?> declaringClass = method.getDeclaringClass();
-			BeanClass<?> beanClass = BeanClass.get(declaringClass);
-			isPropertyAccessor = beanClass.isPropertyAccessor(method);
-		}
+		Class<?> declaringClass = method.getDeclaringClass();
+		BeanClass<?> beanClass = BeanClass.get(declaringClass);
+		isPropertyAccessor = beanClass.isPropertyAccessor(method);
 		return isPropertyAccessor;
 	}
 }
