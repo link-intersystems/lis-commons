@@ -19,6 +19,7 @@ import java.beans.PropertyDescriptor;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Formattable;
 import java.util.Formatter;
@@ -140,6 +141,16 @@ public class Property<TYPE> implements Serializable, Formattable {
 	}
 
 	/**
+	 * The name of this {@link Property}.
+	 *
+	 * @return name of this {@link Property}.
+	 * @since 1.2.0.0
+	 */
+	public String getDisplayName() {
+		return getPropertyDescriptor().getDisplayName();
+	}
+
+	/**
 	 * Gets the value of this {@link Property}.
 	 *
 	 * @return the value of this property.
@@ -218,7 +229,13 @@ public class Property<TYPE> implements Serializable, Formattable {
 		formatter.format("%s.%s", getBean().getClass().getCanonicalName(), getName());
 	}
 
-	protected final PropertyDescriptor getPropertyDescriptor() {
+	/**
+	 * Returns the {@link PropertyDescriptor} of this {@link Property}.
+	 *
+	 * @return
+	 * @since 1.2.0.0
+	 */
+	public final PropertyDescriptor getPropertyDescriptor() {
 		return propertyDescriptor;
 	}
 
@@ -300,6 +317,42 @@ public class Property<TYPE> implements Serializable, Formattable {
 				return false;
 			}
 		}
+	}
+
+	/**
+	 * The declaring class of a {@link Property} is the class that first
+	 * mentions the property. So it can be either the read or write method's
+	 * declaring class. If the read and write methods are defined in different
+	 * classes the uppermost class in the hierarchy is returned.
+	 *
+	 * @return
+	 */
+	public Class<?> getDeclaringClass() {
+		PropertyDescriptor propertyDescriptor = getPropertyDescriptor();
+
+		Method readMethod = propertyDescriptor.getReadMethod();
+		Method writeMethod = propertyDescriptor.getWriteMethod();
+
+		if (readMethod != null && writeMethod == null) {
+			return readMethod.getDeclaringClass();
+		} else if (readMethod == null && writeMethod != null) {
+			return writeMethod.getDeclaringClass();
+		} else if (readMethod != null && writeMethod != null) {
+			Class<?> readDeclaringClass = readMethod.getDeclaringClass();
+			Class<?> writeDeclaringClass = writeMethod.getDeclaringClass();
+
+			if (readDeclaringClass.equals(writeDeclaringClass)
+					|| readDeclaringClass.isAssignableFrom(writeDeclaringClass)) {
+				return readDeclaringClass;
+			} else {
+				return writeDeclaringClass;
+			}
+		} else {
+			String msg = MessageFormat.format("Can not determine declaring class of property {0}. " + //
+					"Read and write method is null.", this);
+			throw new IllegalStateException(msg);
+		}
+
 	}
 
 }

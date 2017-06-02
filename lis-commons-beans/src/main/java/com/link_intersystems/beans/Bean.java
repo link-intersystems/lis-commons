@@ -150,6 +150,29 @@ public class Bean<T> {
 	}
 
 	/**
+	 * Retuns all properties of this bean .
+	 *
+	 * @return
+	 *
+	 * @return all properties or an empty list.
+	 *
+	 * @since 1.2.0.0
+	 */
+	public List<Property<Object>> getProperties() {
+		List<Property<Object>> properties = new ArrayList<>();
+
+		BeanClass<T> beanClass = getBeanClass();
+		List<String> propertyNames = beanClass.getPropertyNames();
+
+		for (String propertyName : propertyNames) {
+			Property<Object> property = getProperty(propertyName);
+			properties.add(property);
+		}
+
+		return properties;
+	}
+
+	/**
 	 * Get the {@link Property} of this bean with the property name.
 	 *
 	 * @param propertyName
