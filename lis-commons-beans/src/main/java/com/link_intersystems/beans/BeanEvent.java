@@ -22,14 +22,14 @@ public class BeanEvent {
 		Method removeListenerMethod = eventSetDescriptor.getRemoveListenerMethod();
 		if (removeListenerMethod != null) {
 			Method2 removeListenerMethod2 = Method2.forMethod(removeListenerMethod);
-			Object target = bean.getBean();
+			Object target = bean.getObject();
 			removeListenerMethodInvokable = removeListenerMethod2.getInvokable(target);
 		}
 
 		Method addListenerMethod = eventSetDescriptor.getAddListenerMethod();
 		if (addListenerMethod != null) {
 			Method2 addListenerMethod2 = Method2.forMethod(addListenerMethod);
-			Object target = bean.getBean();
+			Object target = bean.getObject();
 			addListenerInvokable = addListenerMethod2.getInvokable(target);
 		}
 	}

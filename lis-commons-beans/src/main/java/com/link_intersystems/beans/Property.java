@@ -88,7 +88,7 @@ public class Property<TYPE> implements Serializable, Formattable {
 	 * @since 1.2.0.0
 	 */
 	protected final Object getBean() {
-		return bean.getBean();
+		return bean.getObject();
 	}
 
 	/**

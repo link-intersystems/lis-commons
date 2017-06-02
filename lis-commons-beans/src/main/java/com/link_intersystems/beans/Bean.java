@@ -251,7 +251,7 @@ public class Bean<T> {
 		return bean;
 	}
 
-	public T getBean() {
+	public T getObject() {
 		return getTarget();
 	}
 
