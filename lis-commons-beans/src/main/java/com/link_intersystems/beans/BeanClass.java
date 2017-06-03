@@ -24,11 +24,11 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -39,9 +39,7 @@ import org.apache.commons.collections4.Predicate;
 
 import com.link_intersystems.lang.Assert;
 import com.link_intersystems.lang.reflect.Class2;
-import com.link_intersystems.lang.reflect.MethodInvokingParameterizedObjectFactory;
 import com.link_intersystems.lang.reflect.SignaturePredicate;
-import com.link_intersystems.util.UtilFacade;
 
 /**
  * A {@link BeanClass} provides features for handling common bean issues.
@@ -191,10 +189,11 @@ public class BeanClass<T> extends Class2<T> {
 		try {
 			BeanInfo beanInfo = Introspector.getBeanInfo(beanType, stopClass);
 			PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
-			Map<String, PropertyDescriptor> propertyDescriptorsMap = UtilFacade.keyMap(
-					Arrays.asList(propertyDescriptors),
-					new MethodInvokingParameterizedObjectFactory<PropertyDescriptor, String>(PropertyDescriptor.class,
-							"getName"));
+			Map<String, PropertyDescriptor> propertyDescriptorsMap = new LinkedHashMap<>();
+
+			for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
+				propertyDescriptorsMap.put(propertyDescriptor.getName(), propertyDescriptor);
+			}
 			return propertyDescriptorsMap;
 		} catch (IntrospectionException e) {
 			throw new IllegalArgumentException(
