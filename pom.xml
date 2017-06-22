@@ -117,13 +117,13 @@
 			<id>link-intersystems-releases</id>
 			<layout>default</layout>
 			<name>Link Intersystem Releases</name>
-			<url>https://nexus.link-intersystems.com/repository/maven-releases/</url>
+			<url>https://nexus.link-intersystems.com/repository/open-source-releases/</url>
 		</repository>
 		<snapshotRepository>
 			<id>link-intersystems-snapshots</id>
 			<layout>default</layout>
 			<name>Link Intersystem Snapshots</name>
-			<url>https://nexus.link-intersystems.com/repository/maven-snapshots/</url>
+			<url>https://nexus.link-intersystems.com/repository/open-source-snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
 
