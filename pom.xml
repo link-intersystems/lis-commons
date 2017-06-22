@@ -16,8 +16,10 @@
 		<module>lis-commons-lang</module>
 		<module>lis-commons-beans</module>
 	</modules>
-
+	
 	<properties>
+		<project.scm.id>github.lis-commons</project.scm.id>
+		
 		<project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
 	</properties>
 
