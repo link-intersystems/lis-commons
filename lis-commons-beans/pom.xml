@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.link-intersystems.commons</groupId>
 		<artifactId>lis-commons</artifactId>
-		<version>1.2.0.3-SNAPSHOT</version>
+		<version>1.2.0.3</version>
 	</parent>
 	<artifactId>lis-commons-beans</artifactId>
 
@@ -12,12 +12,12 @@
 		<dependency>
 			<groupId>com.link-intersystems.commons</groupId>
 			<artifactId>lis-commons-lang</artifactId>
-			<version>1.2.0.3-SNAPSHOT</version>
+			<version>1.2.0.3</version>
 		</dependency>
 		<dependency>
 			<groupId>com.link-intersystems.commons</groupId>
 			<artifactId>lis-commons-lang</artifactId>
-			<version>1.2.0.3-SNAPSHOT</version>
+			<version>1.2.0.3</version>
 			<type>test-jar</type>
 			<scope>test</scope>
 		</dependency>
