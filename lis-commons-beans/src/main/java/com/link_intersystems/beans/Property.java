@@ -16,6 +16,8 @@
 package com.link_intersystems.beans;
 
 import java.beans.PropertyDescriptor;
+import java.beans.PropertyEditor;
+import java.beans.PropertyEditorManager;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -151,13 +153,38 @@ public class Property<TYPE> implements Serializable, Formattable {
 	}
 
 	/**
+	 * Creates a {@link PropertyEditor} for this {@link Property}.
+	 *
+	 * @return the property editor for this property.
+	 * @throws PropertyEditorNotAvailableException
+	 * @since 1.2.0.4
+	 */
+	public PropertyEditor createPropertiyEditor() throws PropertyEditorNotAvailableException {
+		Object bean = getBean();
+
+		PropertyEditor propertyEditor = propertyDescriptor.createPropertyEditor(bean);
+
+		if (propertyEditor == null) {
+			Class<TYPE> propertyType = getType();
+			propertyEditor = PropertyEditorManager.findEditor(propertyType);
+		}
+
+		if (propertyEditor == null) {
+			String msg = MessageFormat.format("No property editor available for {0}", this);
+			throw new PropertyEditorNotAvailableException(msg);
+		}
+
+		return propertyEditor;
+	}
+
+	/**
 	 * Gets the value of this {@link Property}.
 	 *
 	 * @return the value of this property.
 	 * @throws PropertyAccessException
 	 *             if the property could not be accessed for any reason. If the
-	 *             thrown {@link PropertyAccessException} has no cause this
-	 *             property is not readable (has no property getter method).
+	 *             thrown {@link PropertyAccessException} has no cause this property
+	 *             is not readable (has no property getter method).
 	 * @since 1.2.0.0
 	 */
 	@SuppressWarnings("unchecked")
@@ -200,9 +227,9 @@ public class Property<TYPE> implements Serializable, Formattable {
 	 *            the value to set.
 	 *
 	 * @throws PropertyAccessException
-	 *             if this {@link Property}'s value could not be set. If the
-	 *             thrown {@link PropertyAccessException} has no cause this
-	 *             property is not writable (has no property setter method).
+	 *             if this {@link Property}'s value could not be set. If the thrown
+	 *             {@link PropertyAccessException} has no cause this property is not
+	 *             writable (has no property setter method).
 	 * @since 1.2.0.0
 	 */
 	public void setValue(TYPE propertyValue) {
@@ -320,10 +347,10 @@ public class Property<TYPE> implements Serializable, Formattable {
 	}
 
 	/**
-	 * The declaring class of a {@link Property} is the class that first
-	 * mentions the property. So it can be either the read or write method's
-	 * declaring class. If the read and write methods are defined in different
-	 * classes the uppermost class in the hierarchy is returned.
+	 * The declaring class of a {@link Property} is the class that first mentions
+	 * the property. So it can be either the read or write method's declaring class.
+	 * If the read and write methods are defined in different classes the uppermost
+	 * class in the hierarchy is returned.
 	 *
 	 * @return
 	 */
