@@ -178,6 +178,39 @@ public class Property<TYPE> implements Serializable, Formattable {
 	}
 
 	/**
+	 * Set this {@link Property}'s value by the {@link PropertyEditor}'s text
+	 * representation.
+	 *
+	 * @param text
+	 * @throws PropertyEditorNotAvailableException
+	 * @since 1.2.0.5
+	 */
+	@SuppressWarnings("unchecked")
+	public void setValueAsText(String text) throws PropertyEditorNotAvailableException {
+		PropertyEditor propertiyEditor = createPropertiyEditor();
+		propertiyEditor.setAsText(text);
+		Object value = propertiyEditor.getValue();
+		setValue((TYPE) value);
+	}
+
+	/**
+	 * Get this {@link Property}'s value as text, according to the associated
+	 * {@link PropertyEditor}'s return value.
+	 *
+	 * @param text
+	 * @throws PropertyEditorNotAvailableException
+	 * @since 1.2.0.5
+	 */
+	public String getValueAsText() throws PropertyEditorNotAvailableException {
+		try {
+			PropertyEditor propertiyEditor = createPropertiyEditor();
+			return propertiyEditor.getAsText();
+		} catch (PropertyEditorNotAvailableException e) {
+			return null;
+		}
+	}
+
+	/**
 	 * Gets the value of this {@link Property}.
 	 *
 	 * @return the value of this property.
