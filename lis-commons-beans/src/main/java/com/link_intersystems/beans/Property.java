@@ -204,6 +204,7 @@ public class Property<TYPE> implements Serializable, Formattable {
 	public String getValueAsText() throws PropertyEditorNotAvailableException {
 		try {
 			PropertyEditor propertiyEditor = createPropertiyEditor();
+			propertiyEditor.setValue(getValue());
 			return propertiyEditor.getAsText();
 		} catch (PropertyEditorNotAvailableException e) {
 			return null;
