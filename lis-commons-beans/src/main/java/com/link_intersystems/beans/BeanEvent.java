@@ -43,6 +43,11 @@ public class BeanEvent {
 		return listenerType.isInstance(listener);
 	}
 
+	boolean isApplicable(Class<?> listenerClass) {
+		Class<?> listenerType = eventSetDescriptor.getListenerType();
+		return listenerType.isAssignableFrom(listenerClass);
+	}
+
 	public void addListener(Object listener) {
 		if (addListenerInvokable == null) {
 			String msg = MessageFormat.format("BeanEvent {0} has no add method for event {1}",

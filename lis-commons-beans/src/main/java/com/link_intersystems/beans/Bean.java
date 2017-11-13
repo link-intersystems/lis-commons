@@ -343,4 +343,14 @@ public class Bean<T> {
 		return properties.equals(otherProperties);
 	}
 
+	public boolean isListenerSupported(Class<?> listenerClass) {
+		Map<String, BeanEvent> beanEvents = getBeanEvents();
+		for (BeanEvent beanEvent: beanEvents.values()) {
+			if(beanEvent.isApplicable(listenerClass)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }
