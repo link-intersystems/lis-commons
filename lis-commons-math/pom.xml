@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.link-intersystems.commons</groupId>
 		<artifactId>lis-commons</artifactId>
-		<version>1.2.0.5</version>
+		<version>1.2.0.6-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>lis-commons-math</artifactId>
@@ -20,7 +20,7 @@
 		<dependency>
 			<groupId>com.link-intersystems.commons</groupId>
 			<artifactId>lis-commons-lang</artifactId>
-			<version>1.2.0.5</version>
+			<version>1.2.0.6-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
