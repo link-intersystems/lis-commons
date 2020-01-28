@@ -32,6 +32,7 @@ import org.apache.commons.collections4.Transformer;
  *         intersystems.com]</a>
  * @since 1.2.0.0
  */
+@SuppressWarnings("rawtypes")
 class PropertyDescriptor2AccessorsTransformer implements Transformer {
 
 	public static final Transformer INSTANCE = new PropertyDescriptor2AccessorsTransformer();

@@ -159,6 +159,7 @@ public abstract class UtilFacade {
 	 *
 	 * @since 1.0.0.0
 	 */
+	@SuppressWarnings("rawtypes")
 	public static Predicate getFirstPredicate() {
 		return new FirstPredicate();
 	}
@@ -172,6 +173,7 @@ public abstract class UtilFacade {
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
  */
+@SuppressWarnings("rawtypes")
 class FirstPredicate implements Predicate {
 
 	private boolean first = true;

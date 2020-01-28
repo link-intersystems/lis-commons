@@ -79,6 +79,12 @@ public class Bean<T> {
 	 *            the type of the bean that this {@link Bean} represents.
 	 * @since 1.2.0.0
 	 */
+	public static <T, B extends T> Bean<T> niceBean(Class<T> beanClass, B beanObject) {
+		Bean<T> bean = new Bean<>(BeanClass.get(beanClass));
+		bean.bean = beanObject;
+		return bean;
+	}
+
 	public static <T> Bean<T> niceBean(Class<T> beanClass) {
 		return new Bean<>(BeanClass.get(beanClass));
 	}
