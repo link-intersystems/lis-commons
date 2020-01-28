@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 
@@ -14,14 +16,14 @@
 		<module>lis-commons-math</module>
 		<module>lis-commons-lang</module>
 		<module>lis-commons-beans</module>
-		
-		
+
+
 	</modules>
 
 	<properties>
 		<project.scm.id>github.lis-commons</project.scm.id>
-
 		<project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
+		<maven.javadoc.skip>true</maven.javadoc.skip>
 	</properties>
 
 	<dependencies>
@@ -77,8 +79,8 @@
 		<connection>scm:git:https://github.com/link-intersystems/lis-commons.git</connection>
 		<developerConnection>scm:git:https://github.com/link-intersystems/lis-commons.git</developerConnection>
 		<url>https://github.com/link-intersystems/lis-commons</url>
-	  <tag>HEAD</tag>
-  </scm>
+		<tag>HEAD</tag>
+	</scm>
 
 	<issueManagement>
 		<system>github</system>
