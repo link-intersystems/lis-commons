@@ -34,7 +34,7 @@ class FuncListenerFactory {
 			public void accept(E t, Void u) {
 				eventConsumer.accept(t);
 			}
-		}, () -> null);
+		}, (Void) null);
 	}
 
 	public static <L, E extends EventObject> L create(Class<L> eventListenerType, EventMethod<L, E> eventMethod,
