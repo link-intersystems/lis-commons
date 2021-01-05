@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+	<servers>
+		<server>
+			<id>scm</id>
+			<username>${env.SCM_USER}</username>
+			<password>${env.SCM_PASS}</password>
+		</server>
+		<server>
+			<id>mirror</id>
+			<username>${env.MVN_USER}</username>
+			<password>${env.MVN_PASS}</password>
+		</server>
+		<server>
+			<id>releases</id>
+			<username>${env.MVN_USER}</username>
+			<password>${env.MVN_PASS}</password>
+		</server>
+		<server>
+			<id>snapshots</id>
+			<username>${env.MVN_USER}</username>
+			<password>${env.MVN_PASS}</password>
+		</server>
+		<server>
+			<id>plugin-releases</id>
+			<username>${env.MVN_USER}</username>
+			<password>${env.MVN_PASS}</password>
+		</server>
+		<server>
+			<id>plugin-snapshots</id>
+			<username>${env.MVN_USER}</username>
+			<password>${env.MVN_PASS}</password>
+		</server>
+	</servers>
+
+	<mirrors>
+		<mirror>
+			<id>mirror</id>
+			<mirrorOf>central</mirrorOf>
+			<name>Mirror Repository</name>
+			<url>${env.MVN_MIRROR_REPO_URL}</url>
+		</mirror>
+	</mirrors>
+
+
+	<profiles>
+		<profile>
+			<id>ci</id>
+
+			<repositories>
+				<repository>
+					<id>releases</id>
+					<name>Releases</name>
+					<url>${env.MVN_RELEASES_REPO_URL}</url>
+					<layout>default</layout>
+					<releases>
+						<enabled>true</enabled>
+						<updatePolicy>never</updatePolicy>
+						<checksumPolicy>warn</checksumPolicy>
+					</releases>
+					<snapshots>
+						<enabled>false</enabled>
+						<updatePolicy>always</updatePolicy>
+						<checksumPolicy>fail</checksumPolicy>
+					</snapshots>
+				</repository>
+				<repository>
+					<id>snapshots</id>
+					<name>Snapshots</name>
+					<url>${env.MVN_SNAPSHOTS_REPO_URL}</url>
+					<layout>default</layout>
+					<releases>
+						<enabled>false</enabled>
+						<updatePolicy>never</updatePolicy>
+						<checksumPolicy>warn</checksumPolicy>
+					</releases>
+					<snapshots>
+						<enabled>true</enabled>
+						<updatePolicy>always</updatePolicy>
+						<checksumPolicy>fail</checksumPolicy>
+					</snapshots>
+				</repository>
+			</repositories>
+			<pluginRepositories>
+				<pluginRepository>
+					<id>plugin-releases</id>
+					<name>Plugin Releases</name>
+					<url>${env.MVN_PLUGIN_RELEASES_REPO_URL}</url>
+					<layout>default</layout>
+					<releases>
+						<enabled>true</enabled>
+						<updatePolicy>never</updatePolicy>
+						<checksumPolicy>warn</checksumPolicy>
+					</releases>
+					<snapshots>
+						<enabled>false</enabled>
+						<updatePolicy>always</updatePolicy>
+						<checksumPolicy>fail</checksumPolicy>
+					</snapshots>
+				</pluginRepository>
+				<pluginRepository>
+					<id>plugin-snapshots</id>
+					<name> Plugin Snapshots</name>
+					<url>${env.MVN_PLUGIN_SNAPSHOTS_REPO_URL}</url>
+					<layout>default</layout>
+					<releases>
+						<enabled>false</enabled>
+						<updatePolicy>never</updatePolicy>
+						<checksumPolicy>warn</checksumPolicy>
+					</releases>
+					<snapshots>
+						<enabled>true</enabled>
+						<updatePolicy>always</updatePolicy>
+						<checksumPolicy>fail</checksumPolicy>
+					</snapshots>
+				</pluginRepository>
+			</pluginRepositories>
+		</profile>
+	</profiles>
+
+	<activeProfiles>
+		<activeProfile>ci</activeProfile>
+	</activeProfiles>
+</settings>
+
