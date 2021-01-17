@@ -47,8 +47,7 @@ import com.link_intersystems.lang.reflect.SignaturePredicate;
  * @author René Link
  *         <a href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
- * @param <T>
- *            the type of the bean.
+ * @param <T> the type of the bean.
  * @since 1.2.0.0
  */
 public class BeanClass<T> extends Class2<T> {
@@ -60,18 +59,19 @@ public class BeanClass<T> extends Class2<T> {
 
 	private static final Map<Class<?>, BeanClass<?>> CLASS_TO_BEANCLASS = new HashMap<Class<?>, BeanClass<?>>();
 
+	private transient Map<Method, PropertyDescriptor> propertyDescriptorsByMethod;
 	private transient Map<String, PropertyDescriptor> propertyDescriptors;
 
 	private transient PropertyNames propertyNames;
 
 	/**
-	 * Constructs a new {@link BeanClass} for the specified type. The type
-	 * described by the className string must fulfill the java bean
-	 * specification and declare a public default constructor.
+	 * Constructs a new {@link BeanClass} for the specified type. The type described
+	 * by the className string must fulfill the java bean specification and declare
+	 * a public default constructor.
 	 *
 	 * @param className
-	 * @return a {@link Class2} object that represents the {@link Class} defined
-	 *         by the full qualified class name.
+	 * @return a {@link Class2} object that represents the {@link Class} defined by
+	 *         the full qualified class name.
 	 * @throws ClassNotFoundException
 	 */
 	@SuppressWarnings("unchecked")
@@ -81,15 +81,14 @@ public class BeanClass<T> extends Class2<T> {
 	}
 
 	/**
-	 * Constructs a new {@link BeanClass} for the specified clazz. The given
-	 * class must fulfill the java bean specification and declare a public
-	 * default constructor.
+	 * Constructs a new {@link BeanClass} for the specified clazz. The given class
+	 * must fulfill the java bean specification and declare a public default
+	 * constructor.
 	 *
 	 * @param clazz
 	 * @return a {@link Class2} for the given {@link Class}.
-	 * @throws IllegalArgumentException
-	 *             if the clazz argument does not declare a public default
-	 *             constructor.
+	 * @throws IllegalArgumentException if the clazz argument does not declare a
+	 *                                  public default constructor.
 	 * @since 1.2.0.0
 	 */
 	public static <T> BeanClass<T> getStrict(Class<T> clazz) {
@@ -106,14 +105,13 @@ public class BeanClass<T> extends Class2<T> {
 	}
 
 	/**
-	 * Constructs a new {@link BeanClass} for the specified clazz. The given
-	 * class must not declare a public default constructor.
+	 * Constructs a new {@link BeanClass} for the specified clazz. The given class
+	 * must not declare a public default constructor.
 	 *
 	 * @param clazz
 	 * @return a {@link Class2} for the given {@link Class}.
-	 * @throws IllegalArgumentException
-	 *             if the clazz argument does not declare a public default
-	 *             constructor.
+	 * @throws IllegalArgumentException if the clazz argument does not declare a
+	 *                                  public default constructor.
 	 * @since 1.2.0.0
 	 *
 	 * @see #getStrict(Class)
@@ -151,10 +149,10 @@ public class BeanClass<T> extends Class2<T> {
 
 	/**
 	 *
-	 * @return a map whose keys are the property names of the properties that
-	 *         this class defines according to the java bean specification. The
-	 *         values are the corresponding {@link PropertyDescriptor}s. The
-	 *         returned Map is unmodifiable.
+	 * @return a map whose keys are the property names of the properties that this
+	 *         class defines according to the java bean specification. The values
+	 *         are the corresponding {@link PropertyDescriptor}s. The returned Map
+	 *         is unmodifiable.
 	 * @since 1.2.0.0
 	 */
 	public Map<String, PropertyDescriptor> getPropertyDescriptors() {
@@ -165,23 +163,23 @@ public class BeanClass<T> extends Class2<T> {
 	}
 
 	/**
-	 * @param stopClass
-	 *            the class to stop {@link PropertyDescriptor} resolution. Must
-	 *            be a superclass of this class. If the stop class is not null
-	 *            then all {@link PropertyDescriptor}s are contained in the
-	 *            result map that this class and every class along the hierarchy
-	 *            until the stop class has. The {@link PropertyDescriptor} of
-	 *            the stop class are not included.
-	 * @return a map whose keys are the property names of the properties that
-	 *         this class defines according to the java bean specification. The
-	 *         values are the corresponding {@link PropertyDescriptor}s. The
-	 *         returned {@link Map} can be modified by clients without
-	 *         interfering this object's state.
-	 * @throws IllegalArgumentException
-	 *             if the stop class is not a super class of this class or
-	 *             another Exception occurs while resolving the
-	 *             {@link PropertyDescriptor}s. The cause might be an
-	 *             {@link IntrospectionException}.
+	 * @param stopClass the class to stop {@link PropertyDescriptor} resolution.
+	 *                  Must be a superclass of this class. If the stop class is not
+	 *                  null then all {@link PropertyDescriptor}s are contained in
+	 *                  the result map that this class and every class along the
+	 *                  hierarchy until the stop class has. The
+	 *                  {@link PropertyDescriptor} of the stop class are not
+	 *                  included.
+	 * @return a map whose keys are the property names of the properties that this
+	 *         class defines according to the java bean specification. The values
+	 *         are the corresponding {@link PropertyDescriptor}s. The returned
+	 *         {@link Map} can be modified by clients without interfering this
+	 *         object's state.
+	 * @throws IllegalArgumentException if the stop class is not a super class of
+	 *                                  this class or another Exception occurs while
+	 *                                  resolving the {@link PropertyDescriptor}s.
+	 *                                  The cause might be an
+	 *                                  {@link IntrospectionException}.
 	 * @since 1.2.0.0
 	 */
 	public Map<String, PropertyDescriptor> getPropertyDescriptors(Class<?> stopClass) throws IllegalStateException {
@@ -202,16 +200,14 @@ public class BeanClass<T> extends Class2<T> {
 	}
 
 	/**
-	 * Returns true if the method is a method to access a property (either get,
-	 * is, set). The equality is based on the method's signature. This means
-	 * that even property accessor methods in super classes will be recognized
-	 * as property accessor methods of this {@link BeanClass}.
+	 * Returns true if the method is a method to access a property (either get, is,
+	 * set). The equality is based on the method's signature. This means that even
+	 * property accessor methods in super classes will be recognized as property
+	 * accessor methods of this {@link BeanClass}.
 	 *
-	 * @param method
-	 *            the method to test if it is a property accessor method of this
-	 *            class.
-	 * @return true if the given method is a property accessor method of this
-	 *         class.
+	 * @param method the method to test if it is a property accessor method of this
+	 *               class.
+	 * @return true if the given method is a property accessor method of this class.
 	 * @since 1.2.0.0
 	 */
 	@SuppressWarnings("unchecked")
@@ -234,8 +230,7 @@ public class BeanClass<T> extends Class2<T> {
 	/**
 	 * Returns the {@link PropertyDescriptor} for the property name.
 	 *
-	 * @param propertyName
-	 *            the name of the property.
+	 * @param propertyName the name of the property.
 	 * @return the {@link PropertyDescriptor} for the property name or
 	 *         <code>null</code> if none exists.
 	 * @since 1.2.0.0
@@ -247,6 +242,41 @@ public class BeanClass<T> extends Class2<T> {
 			throw new NoSuchPropertyException(beanType, propertyName);
 		}
 		return propertyDescriptor;
+	}
+
+	/**
+	 *
+	 * @param method
+	 * @return a {@link PropertyDescriptor} for the given method if the method is a
+	 *         getter or setter of a property of this {@link BeanClass}.
+	 * @since 1.2.0.9
+	 */
+	public PropertyDescriptor getPropertyDescriptor(Method method) {
+		Map<Method, PropertyDescriptor> propertyDescriptorsByMethod = getPropertyDescriptorsByMethod();
+
+		if (propertyDescriptorsByMethod.containsKey(method)) {
+			return propertyDescriptorsByMethod.get(method);
+		} else {
+			return null;
+		}
+	}
+
+	private Map<Method, PropertyDescriptor> getPropertyDescriptorsByMethod() {
+		if (propertyDescriptorsByMethod == null) {
+			Map<Method, PropertyDescriptor> mapToBuild = new HashMap<>();
+
+			Collection<PropertyDescriptor> propertyDescriptors = getPropertyDescriptors().values();
+			for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
+				Method readMethod = propertyDescriptor.getReadMethod();
+				mapToBuild.put(readMethod, propertyDescriptor);
+
+				Method writeMethod = propertyDescriptor.getWriteMethod();
+				mapToBuild.put(writeMethod, propertyDescriptor);
+			}
+
+			this.propertyDescriptorsByMethod = mapToBuild;
+		}
+		return propertyDescriptorsByMethod;
 	}
 
 	PropertyDescriptor getPropertyDescriptorInternal(String propertyName) {
@@ -266,9 +296,8 @@ public class BeanClass<T> extends Class2<T> {
 			Bean<T> newBean = new Bean<T>(newBeanObj);
 			return newBean;
 		} catch (Exception e) {
-			throw new IllegalStateException(
-					"Bean " + getType().getCanonicalName()
-							+ " throws an exception in default constructor. Does it have a default constructor (a strict BeanClass). See BeanClass.getStrict(Class<T>)",
+			throw new IllegalStateException("Bean " + getType().getCanonicalName()
+					+ " throws an exception in default constructor. Does it have a default constructor (a strict BeanClass). See BeanClass.getStrict(Class<T>)",
 					e);
 		}
 	}
@@ -299,8 +328,7 @@ public class BeanClass<T> extends Class2<T> {
 
 	/**
 	 *
-	 * @return this {@link BeanClass}'s property names of indexed properties
-	 *         only.
+	 * @return this {@link BeanClass}'s property names of indexed properties only.
 	 */
 	public List<String> getIndexedPropertyNames() {
 		if (this.propertyNames == null) {
