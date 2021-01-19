@@ -1,14 +1,19 @@
 package com.link_intersystems.lang.reflect;
 
+import static java.util.Objects.requireNonNull;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public abstract class AbstractInvocationHandler<T> implements InvocationHandler {
 
 	private Class<T> proxyType;
 
 	public AbstractInvocationHandler(Class<T> proxyType) {
-		this.proxyType = proxyType;
+		this.proxyType = requireNonNull(proxyType);
 	}
 
 	public T createProxy() {
@@ -17,7 +22,13 @@ public abstract class AbstractInvocationHandler<T> implements InvocationHandler 
 
 	@SuppressWarnings("unchecked")
 	public T createProxy(ClassLoader classLoader) {
-		return (T) Proxy.newProxyInstance(classLoader, new Class<?>[] { proxyType }, this);
+		List<Class<?>> interfaces = getProxyInterfaces();
+		Class<?>[] interfacesArray = interfaces.toArray(new Class<?>[interfaces.size()]);
+		return (T) Proxy.newProxyInstance(classLoader, interfacesArray, this);
+	}
+
+	protected List<Class<?>> getProxyInterfaces() {
+		return new ArrayList<>(Collections.singleton(proxyType));
 	}
 
 }
