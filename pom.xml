@@ -5,7 +5,7 @@
 
 	<groupId>com.link-intersystems.commons</groupId>
 	<artifactId>lis-commons</artifactId>
-	<version>1.2.0.10-SNAPSHOT</version>
+	<version>1.2.0.10</version>
 	<packaging>pom</packaging>
 	<name>Link Intersystems - Commons</name>
 	<inceptionYear>2011</inceptionYear>
@@ -43,7 +43,7 @@
 			<dependency>
 				<groupId>com.link-intersystems.commons</groupId>
 				<artifactId>lis-commons-math</artifactId>
-				<version>1.2.0.10-SNAPSHOT</version>
+				<version>1.2.0.10</version>
 			</dependency>
 
 			<dependency>
@@ -76,7 +76,7 @@
 		<connection>scm:git:${env.GIT_REPO_URL}</connection>
 		<developerConnection>scm:git:${env.GIT_REPO_URL}</developerConnection>
 		<url>https://github.com/link-intersystems/lis-commons</url>
-		<tag>HEAD</tag>
+		<tag>lis-commons-1.2.0.10</tag>
 	</scm>
 
 	<issueManagement>
