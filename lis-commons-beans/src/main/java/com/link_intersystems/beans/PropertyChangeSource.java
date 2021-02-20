@@ -6,6 +6,49 @@ import java.util.function.Consumer;
 
 public interface PropertyChangeSource {
 
+	public static class PropertyObservation {
+
+		private boolean activated;
+
+		private PropertyChangeSource propertyChangeSource;
+		private PropertyChangeListener listener;
+		private String propertyName;
+
+		public PropertyObservation(PropertyChangeSource propertyChangeSource, PropertyChangeListener listener) {
+			this(propertyChangeSource, listener, null);
+		}
+
+		public PropertyObservation(PropertyChangeSource propertyChangeSource, PropertyChangeListener listener,
+				String propertyName) {
+			this.propertyChangeSource = propertyChangeSource;
+			this.propertyName = propertyName;
+			this.listener = listener;
+		}
+
+		public void activate() {
+			if (!activated) {
+				if (propertyName == null) {
+					propertyChangeSource.addPropertyChangeListener(listener);
+				} else {
+					propertyChangeSource.addPropertyChangeListener(propertyName, listener);
+				}
+				activated = true;
+			}
+		}
+
+		public void deactivate() {
+			if (activated) {
+				if (propertyName == null) {
+					propertyChangeSource.removePropertyChangeListener(listener);
+				} else {
+					propertyChangeSource.removePropertyChangeListener(propertyName, listener);
+				}
+				activated = false;
+			}
+		}
+
+	}
+
 	public void addPropertyChangeListener(PropertyChangeListener propertyChangeListener);
 
 	public void addPropertyChangeListener(String propertyName, PropertyChangeListener propertyChangeListener);
@@ -22,8 +65,7 @@ public interface PropertyChangeSource {
 	default public <T> PropertyObservation onPropertyChange(String propertyName, Consumer<T> newValueConsumer) {
 		PropertyChangeListener listener = PropertyChangeMethods.CHANGED
 				.listener(pce -> newValueConsumer.accept((T) pce.getNewValue()));
-		PropertyChangeSourcePropertyObservation propertyObservation = new PropertyChangeSourcePropertyObservation(this,
-				listener, propertyName);
+		PropertyObservation propertyObservation = new PropertyObservation(this, listener, propertyName);
 		propertyObservation.activate();
 		return propertyObservation;
 	}
@@ -31,8 +73,7 @@ public interface PropertyChangeSource {
 	default public <T> PropertyObservation onPropertyChangeEvent(String propertyName,
 			Consumer<PropertyChangeEvent> eventConsumer) {
 		PropertyChangeListener listener = PropertyChangeMethods.CHANGED.listener(eventConsumer);
-		PropertyChangeSourcePropertyObservation propertyObservation = new PropertyChangeSourcePropertyObservation(this,
-				listener, propertyName);
+		PropertyObservation propertyObservation = new PropertyObservation(this, listener, propertyName);
 		propertyObservation.activate();
 		return propertyObservation;
 	}
