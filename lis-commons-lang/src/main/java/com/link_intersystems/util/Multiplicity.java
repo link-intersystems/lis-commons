@@ -38,32 +38,8 @@ public class Multiplicity implements Serializable {
 	}
 
 	Multiplicity(int min, int max) {
-		if (min < 0 || max <= 0 || max < min) {
-			throw new IllegalArgumentException();
-		}
 		this.min = min;
 		this.max = max;
-	}
-
-	/**
-	 * true if {@linkplain #getMin() min} > 0
-	 */
-	public boolean isRequired() {
-		return this.min > 0;
-	}
-
-	/**
-	 * true if {@linkplain #getMax() max} &gt; 1
-	 */
-	public boolean isMultivalued() {
-		return this.max > 1;
-	}
-
-	/**
-	 * true if {@linkplain #getMin() min} != {@linkplain #getMax() max}
-	 */
-	public boolean isRange() {
-		return this.max != this.min;
 	}
 
 	/**
@@ -72,8 +48,8 @@ public class Multiplicity implements Serializable {
 	 *
 	 * @return
 	 */
-	public boolean isWithinBound(int num) {
-		return min <= num && num <= max;
+	public boolean isWithinBounds(int num) {
+		return getMin() <= num && num <= getMax();
 	}
 
 	public int getMax() {
@@ -90,17 +66,17 @@ public class Multiplicity implements Serializable {
 		Multiplicity multiplizitaet = MOSTLY_USED_MULTIPLICITIES.get(str);
 
 		if (multiplizitaet == null) {
-			multiplizitaet = parseMultiplizitaet(str);
+			multiplizitaet = parseMultiplicity(str);
 		}
 
 		if (multiplizitaet == null) {
-			throw new IllegalArgumentException("Unssupported multiplicity " + str);
+			throw new IllegalArgumentException("Unsupported multiplicity " + str);
 		}
 
 		return multiplizitaet;
 	}
 
-	private static Multiplicity parseMultiplizitaet(String str) {
+	private static Multiplicity parseMultiplicity(String str) {
 		Multiplicity multiplicity = null;
 		Matcher matcher = MULTIPLICITY_PATTERN.matcher(str);
 		if (matcher.matches()) {
