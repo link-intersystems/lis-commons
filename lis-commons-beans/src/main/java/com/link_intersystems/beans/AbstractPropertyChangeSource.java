@@ -57,4 +57,5 @@ public abstract class AbstractPropertyChangeSource implements PropertyChangeSour
 			propertyChangeSupport.removePropertyChangeListener(propertyChangeListener);
 		}
 	}
+
 }
