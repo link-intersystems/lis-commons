@@ -15,14 +15,13 @@
  */
 package com.link_intersystems.lang;
 
-import org.apache.commons.lang3.ClassUtils;
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 
+import org.apache.commons.lang3.ClassUtils;
 
 /**
- * Encapsulates the conversion logic as defined by the
- * <em>java language specification - CHAPTER 5
- * Conversions and Promotions</em>.
+ * Encapsulates the conversion logic as defined by the <em>java language
+ * specification - CHAPTER 5 Conversions and Promotions</em>.
  *
  * Conversions implemented.
  * <ul>
@@ -37,8 +36,8 @@ import org.apache.commons.lang3.ObjectUtils;
  *
  * <strong>note</strong> Generics are not supported at the moment.
  *
- * @author René Link <a
- *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
+ * @author René Link
+ *         <a href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
  *
  * @since 1.0.0.0
@@ -49,8 +48,8 @@ public abstract class Conversions {
 
 	/**
 	 * <em>java language specification - 5.1.1 Identity Conversions</em>.
-	 * <blockquote> A conversion from a type to that same type is permitted for
-	 * any type. </blockquote>
+	 * <blockquote> A conversion from a type to that same type is permitted for any
+	 * type. </blockquote>
 	 *
 	 * @param from
 	 * @param to
@@ -62,8 +61,7 @@ public abstract class Conversions {
 	}
 
 	/**
-	 * <em>java language specification - 5.1.2 Widening Primitive Conversion</em>
-	 * .
+	 * <em>java language specification - 5.1.2 Widening Primitive Conversion</em> .
 	 *
 	 * <code>
 	 * <blockquote>The following 19 specific conversions on primitive types
@@ -78,18 +76,14 @@ public abstract class Conversions {
 	 * </blockquote>
 	 * </code>
 	 *
-	 * @param from
-	 *            the base type
-	 * @param to
-	 *            the widening type
+	 * @param from the base type
+	 * @param to   the widening type
 	 * @return true if from to to is a primitive widening.
 	 * @since 1.0.0.0
 	 */
 	public static boolean isPrimitiveWidening(Class<?> from, Class<?> to) {
-		Assert.isTrue(Primitives.isPrimitive(from),
-				PARAMETER_MUST_BE_A_PRIMITIVE, "form");
-		Assert.isTrue(Primitives.isPrimitive(to),
-				PARAMETER_MUST_BE_A_PRIMITIVE, "to");
+		Assert.isTrue(Primitives.isPrimitive(from), PARAMETER_MUST_BE_A_PRIMITIVE, "form");
+		Assert.isTrue(Primitives.isPrimitive(to), PARAMETER_MUST_BE_A_PRIMITIVE, "to");
 
 		boolean isPrimitiveWidening = false;
 
@@ -193,10 +187,8 @@ public abstract class Conversions {
 	 * </blockquote>
 	 * </code>
 	 *
-	 * @param from
-	 *            the base type
-	 * @param to
-	 *            the widening type
+	 * @param from the base type
+	 * @param to   the widening type
 	 * @return true if from to to is a primitive widening.
 	 * @since 1.0.0.0
 	 */
@@ -310,24 +302,22 @@ public abstract class Conversions {
 	}
 
 	/**
-	 * The following conversions are called the narrowing reference conversions
-	 * :
+	 * The following conversions are called the narrowing reference conversions :
 	 * <ul>
-	 * <li>From any reference type S to any reference type T, provided that S is
-	 * a proper supertype (§4.10) of T. (An important special case is that there
-	 * is a narrowing conversion from the class type Object to any other
-	 * reference type.)</li>
-	 * <li>From any class type C to any non-parameterized interface type K,
-	 * provided that C is not final and does not implement K.</li>
-	 * <li>From any interface type J to any non-parameterized class type C that
-	 * is not final.</li>
-	 * <li>From the interface types Cloneable and java.io.Serializable to any
-	 * array type T[].</li>
+	 * <li>From any reference type S to any reference type T, provided that S is a
+	 * proper supertype (§4.10) of T. (An important special case is that there is a
+	 * narrowing conversion from the class type Object to any other reference
+	 * type.)</li>
+	 * <li>From any class type C to any non-parameterized interface type K, provided
+	 * that C is not final and does not implement K.</li>
+	 * <li>From any interface type J to any non-parameterized class type C that is
+	 * not final.</li>
+	 * <li>From the interface types Cloneable and java.io.Serializable to any array
+	 * type T[].</li>
 	 * <li>From any interface type J to any non-parameterized interface type K,
 	 * provided that J is not a subinterface of K.</li>
-	 * <li>From any array type SC[] to any array type TC[], provided that SC and
-	 * TC are reference types and there is a narrowing conversion from SC to TC.
-	 * </li>
+	 * <li>From any array type SC[] to any array type TC[], provided that SC and TC
+	 * are reference types and there is a narrowing conversion from SC to TC.</li>
 	 * </ul>
 	 *
 	 * @param from
@@ -347,14 +337,13 @@ public abstract class Conversions {
 	 * @since 1.0.0.0
 	 */
 	public static boolean isBoxingType(Class<?> clazz) {
-		return getBoxingConversion(clazz) != null
-				|| getUnboxingConversion(clazz) != null;
+		return getBoxingConversion(clazz) != null || getUnboxingConversion(clazz) != null;
 	}
 
 	/**
-	 * Boxing conversion converts values of primitive type to corresponding
-	 * values of reference type. Specifically, the following 8 conversion are
-	 * called the boxing conversions:
+	 * Boxing conversion converts values of primitive type to corresponding values
+	 * of reference type. Specifically, the following 8 conversion are called the
+	 * boxing conversions:
 	 * <ul>
 	 * <li>From type boolean to type Boolean</li>
 	 * <li>From type byte to type Byte</li>
@@ -373,7 +362,7 @@ public abstract class Conversions {
 	 */
 	public static Class<?> getBoxingConversion(Class<?> primitive) {
 		Class<?> wrapper = ClassUtils.primitiveToWrapper(primitive);
-		boolean wrapperEqualsPrimitive = ObjectUtils.equals(wrapper, primitive);
+		boolean wrapperEqualsPrimitive = Objects.equals(wrapper, primitive);
 
 		Class<?> autoBoxedClass = null;
 
@@ -421,9 +410,9 @@ public abstract class Conversions {
 	}
 
 	/**
-	 * Unboxing conversion converts values of reference type to corresponding
-	 * values of primitive type. Specifically, the following 8 conversion are
-	 * called the unboxing conversions:
+	 * Unboxing conversion converts values of reference type to corresponding values
+	 * of primitive type. Specifically, the following 8 conversion are called the
+	 * unboxing conversions:
 	 * <ul>
 	 * <li>From type Boolean to type boolean</li>
 	 * <li>From type Byte to type byte</li>
@@ -455,8 +444,7 @@ public abstract class Conversions {
 	 * @see PrimitiveArrayCallback
 	 * @since 1.0.0.0
 	 */
-	public static void unbox(Object primitiveWrapper,
-			PrimitiveCallback primitiveCallback) {
+	public static void unbox(Object primitiveWrapper, PrimitiveCallback primitiveCallback) {
 		if (primitiveWrapper instanceof Boolean) {
 			Boolean value = (Boolean) primitiveWrapper;
 			primitiveCallback.primitive(value.booleanValue());
@@ -482,8 +470,7 @@ public abstract class Conversions {
 			Double value = (Double) primitiveWrapper;
 			primitiveCallback.primitive(value.doubleValue());
 		} else {
-			throw new IllegalArgumentException(
-					"primitiveWrapper is not a primitiveWrapper type");
+			throw new IllegalArgumentException("primitiveWrapper is not a primitiveWrapper type");
 		}
 	}
 }

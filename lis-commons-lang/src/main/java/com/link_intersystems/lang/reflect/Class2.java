@@ -728,11 +728,10 @@ public class Class2<T> implements Serializable {
 		return typeVariable;
 	}
 
-	@SuppressWarnings("unchecked")
 	private Map<String, TypeVariable<?>> getTypeVariableCache() {
 		synchronized (TYPE_VARIABLE_CACHE_SYNCHRONIZATION) {
 			if (typeVariableCache == null) {
-				typeVariableCache = new Flat3Map();
+				typeVariableCache = new Flat3Map<>();
 			}
 			return typeVariableCache;
 		}

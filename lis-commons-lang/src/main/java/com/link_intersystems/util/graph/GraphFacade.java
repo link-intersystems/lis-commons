@@ -25,51 +25,46 @@ import org.apache.commons.collections4.functors.NOPClosure;
 /**
  * Facade to ease the use of components within the graph package.
  *
- * @author René Link <a
- *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
+ * @author René Link
+ *         <a href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
  * @since 1.2.0.0
  */
 public abstract class GraphFacade {
 
 	/**
-	 * Traverses the graph using the breadth first traversal strategy. Starting
-	 * at the given {@link Node} and applies the given {@link Closure} on every
+	 * Traverses the graph using the breadth first traversal strategy. Starting at
+	 * the given {@link Node} and applies the given {@link Closure} on every
 	 * {@link Node} .
 	 *
-	 * @param start
-	 *            the {@link Node} to start the traversal from.
-	 * @param nodeProcessor
-	 *            the closure that should be applied to every node.
+	 * @param start         the {@link Node} to start the traversal from.
+	 * @param nodeProcessor the closure that should be applied to every node.
 	 * @see NOPClosure
 	 * @since 1.2.0.0
 	 */
-	public static void traverseBreadthFirst(Node start, Closure nodeProcessor) {
+	public static void traverseBreadthFirst(Node start, Closure<Node> nodeProcessor) {
 		Iterator<Node> objectGraphIterator = new BreadthFirstNodeIterator(start);
 		forAllDo(objectGraphIterator, nodeProcessor);
 	}
 
 	/**
-	 * Traverses the graph using the depth first traversal strategy. Starting at
-	 * the given {@link Node} and applies the given {@link Closure} on every
+	 * Traverses the graph using the depth first traversal strategy. Starting at the
+	 * given {@link Node} and applies the given {@link Closure} on every
 	 * {@link Node} .
 	 *
-	 * @param start
-	 *            the {@link Node} to start the traversal from.
-	 * @param nodeProcessor
-	 *            the closure that should be applied to every node.
+	 * @param start         the {@link Node} to start the traversal from.
+	 * @param nodeProcessor the closure that should be applied to every node.
 	 * @see NOPClosure
 	 * @since 1.0.0.0
 	 */
-	public static void traverseDepthFirst(Node start, Closure nodeProcessor) {
-		DepthFirstNodeIterator objectGraphTransformer = new DepthFirstNodeIterator(
-				start);
+	public static void traverseDepthFirst(Node start, Closure<Node> nodeProcessor) {
+		DepthFirstNodeIterator objectGraphTransformer = new DepthFirstNodeIterator(start);
 		forAllDo(objectGraphTransformer, nodeProcessor);
 	}
 
-	static void forAllDo(Iterator<?> iterator, Closure closure) {
+	static <T> void forAllDo(Iterator<T> iterator, Closure<T> closure) {
 		while (iterator.hasNext()) {
-			Object next = iterator.next();
+			T next = iterator.next();
 			closure.execute(next);
 		}
 	}
@@ -79,8 +74,8 @@ public abstract class GraphFacade {
 	}
 
 	/**
-	 * Creates a predicated {@link Node} iterator that iterates the {@link Node}
-	 * s per Predicate that is specified using the {@link NodeIterateStrategy}.
+	 * Creates a predicated {@link Node} iterator that iterates the {@link Node} s
+	 * per Predicate that is specified using the {@link NodeIterateStrategy}.
 	 * <p>
 	 * Take the following node structure for example
 	 *
@@ -106,8 +101,8 @@ public abstract class GraphFacade {
 	 * {@link GraphFacade#perPredicateNodeIterator(NodeIterateStrategy, Node, Predicate...) GraphFacade.perPredicatedNodeIterator(BREADTH_FIRST, startNodeA, pred1, pred2, pred3)};
 	 * </pre>
 	 *
-	 * The resulting iterator will iterate the node structure using a breadth
-	 * first strategy for every {@link Predicate} starting at startNodeA. <br/>
+	 * The resulting iterator will iterate the node structure using a breadth first
+	 * strategy for every {@link Predicate} starting at startNodeA. <br/>
 	 * The result will be:
 	 *
 	 * <pre>
@@ -128,12 +123,11 @@ public abstract class GraphFacade {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static Iterator<Node> perPredicateNodeIterator(
-			NodeIterateStrategy nodeIterateStrategy, Node startNode,
-			Predicate... nodeIterateOrderPredicates) {
+	public static Iterator<Node> perPredicateNodeIterator(NodeIterateStrategy nodeIterateStrategy, Node startNode,
+			Predicate<Node>... nodeIterateOrderPredicates) {
 		Iterator<Node> iterator = IteratorUtils.EMPTY_ITERATOR;
 		for (int i = 0; i < nodeIterateOrderPredicates.length; i++) {
-			Predicate predicate = nodeIterateOrderPredicates[i];
+			Predicate<Node> predicate = nodeIterateOrderPredicates[i];
 			Iterator<Node> nodeStrategyIterator = null;
 			switch (nodeIterateStrategy) {
 			case BREADTH_FIRST:
@@ -143,10 +137,8 @@ public abstract class GraphFacade {
 				nodeStrategyIterator = new DepthFirstNodeIterator(startNode);
 				break;
 			}
-			Iterator<Node> predicateFilterIterator = IteratorUtils
-					.filteredIterator(nodeStrategyIterator, predicate);
-			iterator = IteratorUtils.chainedIterator(iterator,
-					predicateFilterIterator);
+			Iterator<Node> predicateFilterIterator = IteratorUtils.filteredIterator(nodeStrategyIterator, predicate);
+			iterator = IteratorUtils.chainedIterator(iterator, predicateFilterIterator);
 		}
 		return iterator;
 	}

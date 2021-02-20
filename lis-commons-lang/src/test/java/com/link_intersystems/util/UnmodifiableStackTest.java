@@ -15,7 +15,8 @@
  */
 package com.link_intersystems.util;
 
-import static junit.framework.Assert.assertEquals;
+
+import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 import java.util.Collection;

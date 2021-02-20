@@ -15,7 +15,8 @@
  */
 package com.link_intersystems;
 
-import static junit.framework.Assert.assertNotNull;
+
+import static org.junit.Assert.assertNotNull;
 
 import java.util.concurrent.Callable;
 

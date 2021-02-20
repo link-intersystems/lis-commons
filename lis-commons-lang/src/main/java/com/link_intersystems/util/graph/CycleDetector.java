@@ -32,7 +32,7 @@ import org.apache.commons.collections4.Closure;
  *         intersystems.com]</a>
  * @since 1.0.0.0
  */
-public class CycleDetector implements Closure {
+public class CycleDetector implements Closure<Node> {
 
 	private Collection<Node> nodesProcessing = new HashSet<Node>();
 
@@ -43,8 +43,7 @@ public class CycleDetector implements Closure {
 	 *            must be a {@link Node}.
 	 * @since 1.0.0.0
 	 */
-	public void execute(Object input) {
-		Node node = (Node) input;
+	public void execute(Node node) {
 		if (nodesProcessing.contains(node)) {
 			throw new CyclicGraphException(node);
 		}
