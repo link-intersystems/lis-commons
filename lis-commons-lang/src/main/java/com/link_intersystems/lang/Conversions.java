@@ -17,8 +17,6 @@ package com.link_intersystems.lang;
 
 import java.util.Objects;
 
-import org.apache.commons.lang3.ClassUtils;
-
 /**
  * Encapsulates the conversion logic as defined by the <em>java language
  * specification - CHAPTER 5 Conversions and Promotions</em>.
@@ -361,7 +359,7 @@ public abstract class Conversions {
 	 * @since 1.0.0.0
 	 */
 	public static Class<?> getBoxingConversion(Class<?> primitive) {
-		Class<?> wrapper = ClassUtils.primitiveToWrapper(primitive);
+		Class<?> wrapper = Primitives.getWrapperType(primitive);
 		boolean wrapperEqualsPrimitive = Objects.equals(wrapper, primitive);
 
 		Class<?> autoBoxedClass = null;
@@ -430,7 +428,7 @@ public abstract class Conversions {
 	 * @since 1.0.0.0
 	 */
 	public static Class<?> getUnboxingConversion(Class<?> primitiveWrapper) {
-		Class<?> primitive = ClassUtils.wrapperToPrimitive(primitiveWrapper);
+		Class<?> primitive = Primitives.getPrimitiveType(primitiveWrapper);
 		return primitive;
 	}
 

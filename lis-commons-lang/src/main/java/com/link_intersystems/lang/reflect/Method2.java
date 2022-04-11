@@ -19,8 +19,7 @@ import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.Iterator;
-
-import org.apache.commons.collections4.Predicate;
+import java.util.function.Predicate;
 
 import com.link_intersystems.lang.Assert;
 import com.link_intersystems.lang.Signature;
@@ -114,7 +113,7 @@ public class Method2 extends Member2<Method> {
 		MemberCriteria methodCriteria = MemberCriteria
 				.forMemberTypes(Method.class);
 		methodCriteria.named(getName());
-		Predicate predicate = new SignaturePredicate(this);
+		Predicate<Object> predicate = new SignaturePredicate(this);
 		methodCriteria.add(predicate);
 		methodCriteria.setResult(Result.FIRST);
 

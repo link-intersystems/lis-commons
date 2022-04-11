@@ -29,8 +29,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 import com.link_intersystems.lang.Assert;
 import com.link_intersystems.lang.Conversions;
 import com.link_intersystems.lang.PrimitiveArrayCallback;
@@ -394,7 +392,7 @@ public abstract class Member2<MEMBER_TYPE extends Member> implements Member,
 			List<Parameter> parameters = getParameters();
 
 			if (parameters.isEmpty()) {
-				return ArrayUtils.EMPTY_OBJECT_ARRAY;
+				return new Object[0];
 			}
 
 			Object[] invokeParams = new Object[parameters.size()];

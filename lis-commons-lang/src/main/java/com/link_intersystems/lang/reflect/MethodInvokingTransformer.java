@@ -17,8 +17,7 @@ package com.link_intersystems.lang.reflect;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-
-import org.apache.commons.collections4.Transformer;
+import java.util.function.Function;
 
 import com.link_intersystems.lang.Assert;
 
@@ -31,7 +30,7 @@ import com.link_intersystems.lang.Assert;
  *         intersystems.com</a>]
  * @version 1.0.0.0
  */
-public class MethodInvokingTransformer implements Transformer<Object, Object> {
+public class MethodInvokingTransformer implements Function<Object, Object> {
 
 	private Method2 methodToInvokeForTransformation;
 	private final InvocationArgumentsResolver invocationArgumentsResolver;
@@ -47,7 +46,7 @@ public class MethodInvokingTransformer implements Transformer<Object, Object> {
 
 	/**
 	 *
-	 * @param method2
+	 * @param methodToUse
 	 * @since 1.0.0.0
 	 */
 	public MethodInvokingTransformer(Method2 methodToUse) {
@@ -101,7 +100,7 @@ public class MethodInvokingTransformer implements Transformer<Object, Object> {
 	 * @since 1.0.0.0
 	 * @version 1.2.0.0
 	 */
-	public Object transform(Object targetObject) {
+	public Object apply(Object targetObject) {
 		Object result = null;
 
 		try {

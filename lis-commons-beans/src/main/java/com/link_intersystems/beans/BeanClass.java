@@ -33,13 +33,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
-import org.apache.commons.collections4.IteratorUtils;
-import org.apache.commons.collections4.Predicate;
+import java.util.function.Predicate;
 
 import com.link_intersystems.lang.Assert;
 import com.link_intersystems.lang.reflect.Class2;
 import com.link_intersystems.lang.reflect.SignaturePredicate;
+import com.link_intersystems.util.FilteredIterator;
+import com.link_intersystems.util.ObjectGraphIterator;
 
 /**
  * A {@link BeanClass} provides features for handling common bean issues.
@@ -220,10 +220,10 @@ public class BeanClass<T> extends Class2<T> {
 		}
 		Map<String, PropertyDescriptor> propertyDescriptors = getPropertyDescriptors();
 		Collection<PropertyDescriptor> propertyDescriptorCollection = propertyDescriptors.values();
-		Predicate<Object> predicate = new SignaturePredicate(method);
-		Iterator<Method> propertyMethodsIterator = IteratorUtils.objectGraphIterator(
+		Predicate predicate = new SignaturePredicate(method);
+		Iterator<Method> propertyMethodsIterator = new ObjectGraphIterator(
 				propertyDescriptorCollection.iterator(), PropertyDescriptor2AccessorsTransformer.INSTANCE);
-		Iterator<Method> filteredIterator = IteratorUtils.filteredIterator(propertyMethodsIterator, predicate);
+		Iterator<Method> filteredIterator = new FilteredIterator<>(propertyMethodsIterator, predicate);
 		return filteredIterator.hasNext();
 	}
 

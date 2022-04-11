@@ -17,14 +17,13 @@ package com.link_intersystems.lang.reflect;
 
 import java.io.Serializable;
 import java.lang.reflect.Member;
-
-import org.apache.commons.collections4.Predicate;
+import java.util.function.Predicate;
 
 import com.link_intersystems.lang.Assert;
 
 /**
  * A {@link Predicate} that evaluates {@link Member}'s modifiers. See
- * {@link #evaluate(Object)} for details.
+ * {@link #test(Object)} for details.
  *
  * @author René Link <a
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
@@ -116,7 +115,7 @@ public class MemberModifierPredicate implements Predicate<Member>, Serializable 
 	 *             if the object this {@link Predicate} is evaluated against is
 	 *             not a {@link Member}.
 	 */
-	public boolean evaluate(Member object) {
+	public boolean test(Member object) {
 		Member member = (Member) object;
 		int modifiers = member.getModifiers();
 		if (match.equals(Match.EXACT)) {

@@ -19,8 +19,7 @@ import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
-
-import org.apache.commons.collections4.Predicate;
+import java.util.function.Predicate;
 
 import com.link_intersystems.lang.Assert;
 import com.link_intersystems.lang.Signature;
@@ -106,7 +105,7 @@ public class SignaturePredicate implements Predicate<Object>, Serializable {
 	 * @since 1.0.0.0
 	 * @version 1.2.0.0
 	 */
-	public boolean evaluate(Object object) {
+	public boolean test(Object object) {
 		Member2<?> otherInvokable = null;
 		Signature otherSignature = null;
 		if (object instanceof Member2) {

@@ -37,14 +37,9 @@ public class MethodTypeTransformerTest {
 		MethodTypeTransformer methodTypeTransformer = new MethodTypeTransformer();
 		Method method = MethodTypeTransformerTest.class
 				.getDeclaredMethod("someMethod");
-		Object transform = methodTypeTransformer.transform(method);
+		Object transform = methodTypeTransformer.apply(method);
 		assertNotNull(transform);
 		assertEquals(MethodTypeTransformerTest.class, transform);
 	}
 
-	@Test(expected = ClassCastException.class)
-	public void onlyFieldsAllowd() {
-		MethodTypeTransformer methodTypeTransformer = new MethodTypeTransformer();
-		methodTypeTransformer.transform(new Object());
-	}
 }

@@ -16,11 +16,8 @@
 package com.link_intersystems.lang.reflect;
 
 import java.util.List;
-
-import org.apache.commons.collections4.Closure;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.Predicate;
-import org.apache.commons.collections4.functors.NotPredicate;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 /**
  * Implementation of the "Choosing the Most Specific Method" algorithm as
@@ -39,7 +36,7 @@ class ChooseMostSpecificMemberStrategy<CANDIDATE_TYPE extends Member2<?>> {
 
 		public static final Predicate INSTANCE = new VarargInvokablePredicate();
 
-		public boolean evaluate(Object object) {
+		public boolean test(Object object) {
 			Member2<?> invokable = (Member2<?>) object;
 			return invokable.isVarArgs();
 		}
@@ -74,27 +71,25 @@ class ChooseMostSpecificMemberStrategy<CANDIDATE_TYPE extends Member2<?>> {
 
 	protected Member2<?> chooseMostSpecificImpl(
 			List<? extends Member2<?>> potentiallyApplicable) {
-		boolean containsVarargsInvokable = CollectionUtils.exists(
-				potentiallyApplicable, VarargInvokablePredicate.INSTANCE);
+		boolean containsVarargsInvokable = potentiallyApplicable.stream().filter(VarargInvokablePredicate.INSTANCE).findFirst().isPresent();
+
 		Member2<?> mostSpecific = null;
 		if (containsVarargsInvokable) {
-			Member2<?> noVarargsMethod = (Member2<?>) CollectionUtils
-					.find(potentiallyApplicable, NotPredicate.notPredicate(VarargInvokablePredicate.INSTANCE));
+			Member2<?> noVarargsMethod = potentiallyApplicable.stream().filter(m -> !VarargInvokablePredicate.INSTANCE.test(m)).findFirst().orElse(null);
 			mostSpecific = noVarargsMethod;
 		} else {
 			MostSpecificInvokableClosure mostSpecificInvokableClosure = new MostSpecificInvokableClosure();
-			CollectionUtils.forAllDo(potentiallyApplicable,
-					mostSpecificInvokableClosure);
+			potentiallyApplicable.forEach(mostSpecificInvokableClosure);
 			mostSpecific = mostSpecificInvokableClosure.getMostSpecific();
 		}
 		return mostSpecific;
 	}
 
-	private static class MostSpecificInvokableClosure implements Closure {
+	private static class MostSpecificInvokableClosure implements Consumer<Object> {
 
 		private Member2<?> mostSpecific;
 
-		public void execute(Object input) {
+		public void accept(Object input) {
 			Member2<?> invokable2 = (Member2<?>) input;
 			if (mostSpecific == null) {
 				mostSpecific = invokable2;

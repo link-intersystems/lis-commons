@@ -16,6 +16,7 @@
 package com.link_intersystems.lang;
 
 import java.lang.reflect.Array;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,18 +32,48 @@ import java.util.Map;
  */
 public abstract class Primitives {
 
-	private static final Map<Class<?>, Object> DEFAULT_VALUES = new HashMap<Class<?>, Object>();
+	private static final Map<Class<?>, Object> DEFAULT_VALUES ;
 
 	static {
-		DEFAULT_VALUES.put(Integer.TYPE, 0);
-		DEFAULT_VALUES.put(Boolean.TYPE, false);
-		DEFAULT_VALUES.put(Long.TYPE, 0L);
-		DEFAULT_VALUES.put(Short.TYPE, (short) 0);
-		DEFAULT_VALUES.put(Float.TYPE, 0f);
-		DEFAULT_VALUES.put(Character.TYPE, '\u0000');
-		DEFAULT_VALUES.put(Byte.TYPE, (byte) 0);
-		DEFAULT_VALUES.put(Double.TYPE, 0d);
+		HashMap<Class<?>, Object> defaultValues = new HashMap<>();
+		defaultValues.put(Integer.TYPE, 0);
+		defaultValues.put(Boolean.TYPE, false);
+		defaultValues.put(Long.TYPE, 0L);
+		defaultValues.put(Short.TYPE, (short) 0);
+		defaultValues.put(Float.TYPE, 0f);
+		defaultValues.put(Character.TYPE, '\u0000');
+		defaultValues.put(Byte.TYPE, (byte) 0);
+		defaultValues.put(Double.TYPE, 0d);
+		DEFAULT_VALUES = Collections.unmodifiableMap(defaultValues);
 	}
+
+	public static final Map<Class<?>, Class<?>> primitiveToWrapper = new HashMap<>();
+
+	static {
+		primitiveToWrapper.put(boolean.class, Boolean.class);
+		primitiveToWrapper.put(byte.class, Byte.class);
+		primitiveToWrapper.put(short.class, Short.class);
+		primitiveToWrapper.put(char.class, Character.class);
+		primitiveToWrapper.put(int.class, Integer.class);
+		primitiveToWrapper.put(long.class, Long.class);
+		primitiveToWrapper.put(float.class, Float.class);
+		primitiveToWrapper.put(double.class, Double.class);
+	}
+
+	public static Class<?> getWrapperType(Class<?> primitiveType) {
+		return primitiveToWrapper.get(primitiveType);
+	}
+
+
+	public static Class<?> getPrimitiveType(Class<?> primitiveWrapper) {
+		for (Map.Entry<Class<?>, Class<?>> primitiveToWrapper : primitiveToWrapper.entrySet()) {
+			if(primitiveToWrapper.getValue().equals(primitiveWrapper)){
+				return primitiveToWrapper.getKey();
+			}
+		}
+		return null;
+	}
+
 
 	public static boolean isAutoboxingType(Class<?> type) {
 		return getAutoboxingType(type) != null;
@@ -179,7 +210,7 @@ public abstract class Primitives {
 	 *
 	 * @param primitiveWrapper
 	 *            a primitive wrapper object like {@link Byte}, {@link Integer}
-	 *            and so on. See {@link Conversions#PRIMITIVE_WRAPPER_TYPES}
+	 *            and so on.
 	 * @param primitiveCallback
 	 *            the callback to call for the primitive wrapper type.
 	 * @since 1.2.0.0
@@ -311,4 +342,5 @@ public abstract class Primitives {
 		return (T[]) wrapperArray;
 
 	}
+
 }

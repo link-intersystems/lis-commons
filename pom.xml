@@ -1,246 +1,214 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.link-intersystems</groupId>
+        <artifactId>lis-central-jar</artifactId>
+        <version>8.0</version>
+    </parent>
 
 
-	<groupId>com.link-intersystems.commons</groupId>
-	<artifactId>lis-commons</artifactId>
-	<version>1.2.0.12-SNAPSHOT</version>
-	<packaging>pom</packaging>
-	<name>Link Intersystems - Commons</name>
-	<inceptionYear>2011</inceptionYear>
+    <groupId>com.link-intersystems.commons</groupId>
+    <artifactId>lis-commons</artifactId>
+    <version>1.2.0.12-SNAPSHOT</version>
 
-	<modules>
-		<module>lis-commons-math</module>
-		<module>lis-commons-lang</module>
-		<module>lis-commons-beans</module>
-	</modules>
+    <packaging>pom</packaging>
 
-	<properties>
-		<project.scm.id>github.lis-commons</project.scm.id>
-		<project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
-		<maven.javadoc.skip>true</maven.javadoc.skip>
-		<project.scm.id>scm</project.scm.id>
-	</properties>
+    <name>Link Intersystems - Commons</name>
+    <inceptionYear>2011</inceptionYear>
 
-	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>junit-addons</groupId>
-			<artifactId>junit-addons</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-		</dependency>
-	</dependencies>
+    <modules>
+        <module>lis-commons-math</module>
+        <module>lis-commons-lang</module>
+        <module>lis-commons-beans</module>
+    </modules>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>com.link-intersystems.commons</groupId>
-				<artifactId>lis-commons-math</artifactId>
-				<version>1.2.0.12-SNAPSHOT</version>
-			</dependency>
+    <properties>
+        <project.scm.id>github.lis-commons</project.scm.id>
+        <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
+        <maven.javadoc.skip>true</maven.javadoc.skip>
+        <project.scm.id>scm</project.scm.id>
+    </properties>
 
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>4.13.1</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.mockito</groupId>
-				<artifactId>mockito-all</artifactId>
-				<version>1.10.19</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>junit-addons</groupId>
-				<artifactId>junit-addons</artifactId>
-				<version>1.4</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-lang3</artifactId>
-				<version>3.3.2</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit-addons</groupId>
+            <artifactId>junit-addons</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+        </dependency>
+    </dependencies>
 
-	<scm>
-		<connection>scm:git:${env.GIT_REPO_URL}</connection>
-		<developerConnection>scm:git:${env.GIT_REPO_URL}</developerConnection>
-		<url>https://github.com/link-intersystems/lis-commons</url>
-		<tag>HEAD</tag>
-	</scm>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.link-intersystems.commons</groupId>
+                <artifactId>lis-commons-lang</artifactId>
+                <version>1.2.0.12-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.link-intersystems.commons</groupId>
+                <artifactId>lis-commons-lang</artifactId>
+                <version>1.2.0.12-SNAPSHOT</version>
+                <type>test-jar</type>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.link-intersystems.commons</groupId>
+                <artifactId>lis-commons-math</artifactId>
+                <version>1.2.0.12-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>5.8.2</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.13.1</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>1.10.19</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>junit-addons</groupId>
+                <artifactId>junit-addons</artifactId>
+                <version>1.4</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
-	<issueManagement>
-		<system>github</system>
-		<url>https://github.com/link-intersystems/lis-commons/issues</url>
-	</issueManagement>
+    <scm>
+        <connection>scm:git:https://github.com/link-intersystems/lis-commons.git</connection>
+        <developerConnection>scm:git:https://github.com/link-intersystems/lis-commons.git</developerConnection>
+        <url>https://github.com/link-intersystems/lis-commons</url>
+        <tag>HEAD</tag>
+    </scm>
 
-	<organization>
-		<name>Link Intersystems GmbH</name>
-		<url>http://www.link-intersystems.com</url>
-	</organization>
+    <issueManagement>
+        <system>github</system>
+        <url>https://github.com/link-intersystems/lis-commons/issues</url>
+    </issueManagement>
 
-	<developers>
-		<developer>
-			<id>renelink</id>
-			<name>René Link</name>
-			<organization>Link Intersystems GmbH</organization>
-			<organizationUrl>http://www.link-intersystems.com</organizationUrl>
-			<email>rene.link@link-intersystems.com</email>
-			<timezone>Europe/Berlin</timezone>
-			<url>http://stackoverflow.com/users/974186/ren%C3%A9-link</url>
-			<roles>
-				<role>developer</role>
-			</roles>
-		</developer>
-	</developers>
+    <organization>
+        <name>Link Intersystems GmbH</name>
+        <url>http://www.link-intersystems.com</url>
+    </organization>
 
-	<licenses>
-		<license>
-			<name>Apache License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-			<distribution>repo</distribution>
-			<comments>A business-friendly OSS license</comments>
-		</license>
-	</licenses>
+    <developers>
+        <developer>
+            <id>renelink</id>
+            <name>René Link</name>
+            <organization>Link Intersystems GmbH</organization>
+            <organizationUrl>http://www.link-intersystems.com</organizationUrl>
+            <email>rene.link@link-intersystems.com</email>
+            <timezone>Europe/Berlin</timezone>
+            <url>http://stackoverflow.com/users/974186/ren%C3%A9-link</url>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
 
-	<distributionManagement>
-		<repository>
-			<id>releases</id>
-			<layout>default</layout>
-			<name>Open Source Releases</name>
-			<url>https://nexus.link-intersystems.com/repository/open-source-releases/</url>
-		</repository>
-		<snapshotRepository>
-			<id>snapshots</id>
-			<layout>default</layout>
-			<name>Open Source Snapshots</name>
-			<url>https://nexus.link-intersystems.com/repository/open-source-snapshots/</url>
-		</snapshotRepository>
-	</distributionManagement>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
 
-	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.1</version>
-					<configuration>
-						<source>1.8</source>
-						<target>1.8</target>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-release-plugin</artifactId>
-					<version>2.5.3</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.6</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>test-jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
-	<profiles>
-		<profile>
-			<id>sonar</id>
+    <distributionManagement>
+        <repository>
+            <id>releases</id>
+            <layout>default</layout>
+            <name>Open Source Releases</name>
+            <url>https://nexus.link-intersystems.com/repository/open-source-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <layout>default</layout>
+            <name>Open Source Snapshots</name>
+            <url>https://nexus.link-intersystems.com/repository/open-source-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 
-			<properties>
-				<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-				<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-				<sonar.jacoco.reportPath>${project.build.directory}/coverage-reports/jacoco-ut.exec</sonar.jacoco.reportPath>
-				<sonar.language>java</sonar.language>
-			</properties>
-
-			<build>
-				<pluginManagement>
-					<plugins>
-						<plugin>
-							<groupId>org.apache.maven.plugins</groupId>
-							<artifactId>maven-surefire-plugin</artifactId>
-							<version>2.20</version>
-							<configuration>
-								<!-- Sets the VM argument line used when unit tests are run. -->
-								<argLine>${surefireArgLine}</argLine>
-								<properties>
-									<property>
-										<name>listener</name>
-										<value>org.sonar.java.jacoco.JUnitListener</value>
-									</property>
-								</properties>
-							</configuration>
-						</plugin>
-					</plugins>
-				</pluginManagement>
-				<plugins>
-					<plugin>
-						<groupId>org.jacoco</groupId>
-						<artifactId>jacoco-maven-plugin</artifactId>
-						<version>0.7.5.201505241946</version>
-						<executions>
-							<!-- Prepares the property pointing to the JaCoCo runtime agent which
-								is passed as VM argument when Maven the Surefire plugin is executed. -->
-							<execution>
-								<id>pre-unit-test</id>
-								<goals>
-									<goal>prepare-agent</goal>
-								</goals>
-								<configuration>
-									<!-- Sets the path to the file which contains the execution data. -->
-									<destFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</destFile>
-									<!-- Sets the name of the property containing the settings for JaCoCo
-										runtime agent. -->
-									<propertyName>surefireArgLine</propertyName>
-								</configuration>
-							</execution>
-							<!-- Ensures that the code coverage report for unit tests is created
-								after unit tests have been run. -->
-							<execution>
-								<id>post-unit-test</id>
-								<phase>test</phase>
-								<goals>
-									<goal>report</goal>
-								</goals>
-								<configuration>
-									<!-- Sets the path to the file which contains the execution data. -->
-									<dataFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</dataFile>
-									<!-- Sets the output directory for the code coverage report. -->
-									<outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-			<dependencies>
-				<dependency>
-					<groupId>org.sonarsource.java</groupId>
-					<artifactId>sonar-jacoco-listeners</artifactId>
-					<version>3.8</version>
-					<scope>test</scope>
-				</dependency>
-			</dependencies>
-		</profile>
-	</profiles>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.1</version>
+                    <configuration>
+                        <source>1.8</source>
+                        <target>1.8</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.5.3</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.0.0-M6</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.junit.vintage</groupId>
+                            <artifactId>junit-vintage-engine</artifactId>
+                            <version>5.4.0</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.6</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

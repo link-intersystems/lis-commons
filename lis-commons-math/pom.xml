@@ -14,13 +14,8 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>com.link-intersystems.commons</groupId>
 			<artifactId>lis-commons-lang</artifactId>
-			<version>1.2.0.12-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 

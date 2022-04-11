@@ -81,7 +81,7 @@ public class MethodInvokingParameterizedObjectFactory<OBJECT_TYPE, METHOD_RETURN
 		if (parameter == null) {
 			return null;
 		}
-		Object returnObject = methodInvokingTransformer.transform(parameter);
+		Object returnObject = methodInvokingTransformer.apply(parameter);
 		return (METHOD_RETURN_TYPE) returnObject;
 	}
 }

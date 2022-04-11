@@ -2,8 +2,7 @@ package com.link_intersystems.beans;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
-
-import org.apache.commons.collections4.Predicate;
+import java.util.function.Predicate;
 
 public abstract class BeansFacade {
 
@@ -43,7 +42,7 @@ class PropertyAccessorPredicate implements Predicate<Method>, Serializable {
 	public static final Predicate<Method> INSTANCE = new PropertyAccessorPredicate();
 
 	@Override
-	public boolean evaluate(Method method) {
+	public boolean test(Method method) {
 		boolean isPropertyAccessor = false;
 		Class<?> declaringClass = method.getDeclaringClass();
 		BeanClass<?> beanClass = BeanClass.get(declaringClass);

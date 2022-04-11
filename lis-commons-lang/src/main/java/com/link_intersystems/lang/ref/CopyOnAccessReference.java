@@ -15,9 +15,10 @@
  */
 package com.link_intersystems.lang.ref;
 
+import com.link_intersystems.lang.Serialization;
+
 import java.io.Serializable;
 
-import org.apache.commons.lang3.SerializationUtils;
 
 /**
  * A {@link Reference} that copies the referent on every {@link #get()} call by
@@ -56,7 +57,7 @@ public class CopyOnAccessReference<T extends Serializable> implements
 		if (referentToCopyOnAccess == null) {
 			return null;
 		}
-		T clone = SerializationUtils.clone(referentToCopyOnAccess);
+		T clone = Serialization.clone(referentToCopyOnAccess);
 		return clone;
 	}
 }

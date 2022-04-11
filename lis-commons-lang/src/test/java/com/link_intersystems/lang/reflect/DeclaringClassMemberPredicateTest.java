@@ -1,12 +1,12 @@
 /**
  * Copyright 2011 Link Intersystems GmbH <rene.link@link-intersystems.com>
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,61 +15,59 @@
  */
 package com.link_intersystems.lang.reflect;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+import org.junit.Test;
 
-import java.awt.Container;
+import javax.swing.*;
+import java.awt.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.function.Predicate;
 
-import javax.swing.JComponent;
-
-import org.apache.commons.collections4.Predicate;
-import org.junit.Test;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 
 public class DeclaringClassMemberPredicateTest {
 
-	@Test
-	public void evaluateTrue() throws SecurityException, NoSuchMethodException,
-			NoSuchFieldException {
-		Predicate declaringClassMemberPredicate = ReflectFacade
-				.getDeclaringClassPredicate(JComponent.class);
-		Method declaredMethod = JComponent.class
-				.getDeclaredMethod("getPreferredSize");
-		boolean evaluate = declaringClassMemberPredicate
-				.evaluate(declaredMethod);
-		assertTrue(evaluate);
+    @Test
+    public void evaluateTrue() throws SecurityException, NoSuchMethodException,
+            NoSuchFieldException {
+        Predicate declaringClassMemberPredicate = ReflectFacade
+                .getDeclaringClassPredicate(JComponent.class);
+        Method declaredMethod = JComponent.class
+                .getDeclaredMethod("getPreferredSize");
+        boolean evaluate = declaringClassMemberPredicate.test(declaredMethod);
+        assertTrue(evaluate);
 
-		Constructor<JComponent> declaredConstructor = JComponent.class
-				.getDeclaredConstructor();
-		evaluate = declaringClassMemberPredicate.evaluate(declaredConstructor);
-		assertTrue(evaluate);
+        Constructor<JComponent> declaredConstructor = JComponent.class
+                .getDeclaredConstructor();
+        evaluate = declaringClassMemberPredicate.test(declaredConstructor);
+        assertTrue(evaluate);
 
-		Field declaredField = JComponent.class.getDeclaredField("WHEN_FOCUSED");
-		evaluate = declaringClassMemberPredicate.evaluate(declaredField);
-		assertTrue(evaluate);
-	}
+        Field declaredField = JComponent.class.getDeclaredField("WHEN_FOCUSED");
+        evaluate = declaringClassMemberPredicate.test(declaredField);
+        assertTrue(evaluate);
+    }
 
-	@Test
-	public void evaluateFalse() throws SecurityException,
-			NoSuchMethodException, NoSuchFieldException {
-		Predicate declaringClassMemberPredicate = ReflectFacade
-				.getDeclaringClassPredicate(JComponent.class);
-		Method declaredMethod = Container.class
-				.getDeclaredMethod("getPreferredSize");
-		boolean evaluate = declaringClassMemberPredicate
-				.evaluate(declaredMethod);
-		assertFalse(evaluate);
+    @Test
+    public void evaluateFalse() throws SecurityException,
+            NoSuchMethodException, NoSuchFieldException {
+        Predicate declaringClassMemberPredicate = ReflectFacade
+                .getDeclaringClassPredicate(JComponent.class);
+        Method declaredMethod = Container.class
+                .getDeclaredMethod("getPreferredSize");
+        boolean evaluate = declaringClassMemberPredicate
+                .test(declaredMethod);
+        assertFalse(evaluate);
 
-		Constructor<Container> declaredConstructor = Container.class
-				.getDeclaredConstructor();
-		evaluate = declaringClassMemberPredicate.evaluate(declaredConstructor);
-		assertFalse(evaluate);
+        Constructor<Container> declaredConstructor = Container.class
+                .getDeclaredConstructor();
+        evaluate = declaringClassMemberPredicate.test(declaredConstructor);
+        assertFalse(evaluate);
 
-		Field declaredField = Container.class.getDeclaredField("INCLUDE_SELF");
-		evaluate = declaringClassMemberPredicate.evaluate(declaredField);
-		assertFalse(evaluate);
-	}
+        Field declaredField = Container.class.getDeclaredField("INCLUDE_SELF");
+        evaluate = declaringClassMemberPredicate.test(declaredField);
+        assertFalse(evaluate);
+    }
 
 }

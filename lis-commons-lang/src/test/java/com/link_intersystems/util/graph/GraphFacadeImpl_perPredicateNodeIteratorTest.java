@@ -19,8 +19,8 @@ import static java.util.Arrays.asList;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Predicate;
 
-import org.apache.commons.collections4.Predicate;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -81,7 +81,7 @@ public class GraphFacadeImpl_perPredicateNodeIteratorTest {
 
 		pred1 = new Predicate() {
 
-			public boolean evaluate(Object object) {
+			public boolean test(Object object) {
 				Node node = Node.class.cast(object);
 				List<String> matchingNodes = asList("A", "C", "H", "D", "K");
 				Object userObject = node.getUserObject();
@@ -91,7 +91,7 @@ public class GraphFacadeImpl_perPredicateNodeIteratorTest {
 		};
 		pred2 = new Predicate() {
 
-			public boolean evaluate(Object object) {
+			public boolean test(Object object) {
 				Node node = Node.class.cast(object);
 				List<String> matchingNodes = asList("A", "B", "E", "F");
 				Object userObject = node.getUserObject();
@@ -101,7 +101,7 @@ public class GraphFacadeImpl_perPredicateNodeIteratorTest {
 		};
 		pred3 = new Predicate() {
 
-			public boolean evaluate(Object object) {
+			public boolean test(Object object) {
 				Node node = Node.class.cast(object);
 				List<String> matchingNodes = asList("D", "J", "M", "N");
 				Object userObject = node.getUserObject();

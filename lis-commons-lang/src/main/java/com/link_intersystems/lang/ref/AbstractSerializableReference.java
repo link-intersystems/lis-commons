@@ -15,12 +15,12 @@
  */
 package com.link_intersystems.lang.ref;
 
+import com.link_intersystems.lang.SerializationException;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-
-import org.apache.commons.lang3.SerializationException;
 
 /**
  * A reference to an object that is not serializable but can be restored out of

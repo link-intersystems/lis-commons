@@ -23,8 +23,8 @@ import static junit.framework.Assert.assertTrue;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.function.Consumer;
 
-import org.apache.commons.collections4.Closure;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -86,13 +86,13 @@ public abstract class AbstractNodeIteratorTest {
 	public void traversal() {
 		TraverseAssertion traverseAssertion = getTraverseAssertion(start);
 		while (nodeIterator.hasNext()) {
-			Node node = (Node) nodeIterator.next();
-			traverseAssertion.execute(node);
+			Node node = nodeIterator.next();
+			traverseAssertion.accept(node);
 		}
 		traverseAssertion.assertAllUserObjectsTraversed();
 	}
 
-	protected static class TraverseAssertion implements Closure {
+	protected static class TraverseAssertion implements Consumer<Node> {
 
 		private final Iterator<String> userObjects;
 
@@ -100,11 +100,9 @@ public abstract class AbstractNodeIteratorTest {
 			this.userObjects = list.iterator();
 		}
 
-		public void execute(Object input) {
-			assertTrue(input instanceof Node);
-			Node node = (Node) input;
+		public void accept(Node input) {
 			Object next = userObjects.next();
-			assertEquals(next, node.getUserObject());
+			assertEquals(next, input.getUserObject());
 		}
 
 		public void assertAllUserObjectsTraversed() {

@@ -12,14 +12,11 @@
 		<dependency>
 			<groupId>com.link-intersystems.commons</groupId>
 			<artifactId>lis-commons-lang</artifactId>
-			<version>1.2.0.12-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.link-intersystems.commons</groupId>
 			<artifactId>lis-commons-lang</artifactId>
-			<version>1.2.0.12-SNAPSHOT</version>
 			<type>test-jar</type>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>

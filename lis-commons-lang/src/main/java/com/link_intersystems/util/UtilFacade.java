@@ -22,8 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 import java.util.Vector;
-
-import org.apache.commons.collections4.Predicate;
+import java.util.function.Predicate;
 
 /**
  * The {@link UtilFacade} class provides high level access to the collection
@@ -114,9 +113,9 @@ public abstract class UtilFacade {
 	 * instances that have the same key (in order to the key calculation
 	 * algorithm) a {@link KeyCollisionException} is thrown.
 	 *
-	 * @param <K>
+	 * @param <KEY>
 	 *            the key's type
-	 * @param <V>
+	 * @param <VALUE>
 	 *            the value's type
 	 * @param objects
 	 *            the {@link Collection} of objects the key map should be
@@ -152,16 +151,16 @@ public abstract class UtilFacade {
 
 	/**
 	 * A {@link Predicate} that only evaluates to true for the first time the
-	 * {@link Predicate#evaluate(Object)} method is called.
+	 * {@link Predicate#test(Object)} method is called.
 	 *
 	 * @return a {@link Predicate} that only evaluates to true for the first
-	 *         time the {@link Predicate#evaluate(Object)} method is called.
+	 *         time the {@link Predicate#test(Object)} method is called.
 	 *
 	 * @since 1.0.0.0
 	 */
 	@SuppressWarnings("rawtypes")
-	public static Predicate getFirstPredicate() {
-		return new FirstPredicate();
+	public static <T> Predicate<T> getFirstPredicate() {
+		return new FirstPredicate<>();
 	}
 
 }
@@ -174,11 +173,11 @@ public abstract class UtilFacade {
  *         intersystems.com]</a>
  */
 @SuppressWarnings("rawtypes")
-class FirstPredicate implements Predicate {
+class FirstPredicate<T> implements Predicate<T> {
 
 	private boolean first = true;
 
-	public boolean evaluate(Object object) {
+	public boolean test(T object) {
 		if (first) {
 			first = false;
 			return true;

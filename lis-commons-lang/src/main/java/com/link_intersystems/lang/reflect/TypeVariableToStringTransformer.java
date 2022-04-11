@@ -18,10 +18,9 @@ package com.link_intersystems.lang.reflect;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
+import java.util.Arrays;
 import java.util.Iterator;
-
-import org.apache.commons.collections4.IteratorUtils;
-import org.apache.commons.collections4.Transformer;
+import java.util.function.Function;
 
 /**
  * Transforms a type variable to it's string representation.
@@ -31,19 +30,18 @@ import org.apache.commons.collections4.Transformer;
  *         intersystems.com]</a>
  * @since 1.2.0.0
  */
-class TypeVariableToStringTransformer implements Transformer<TypeVariable<?>, String> {
+class TypeVariableToStringTransformer implements Function<TypeVariable<?>, String> {
 
-	public static final Transformer<TypeVariable<?>, String> INSTANCE = new TypeVariableToStringTransformer();
+	public static final Function<TypeVariable<?>, String> INSTANCE = new TypeVariableToStringTransformer();
 
-	public String transform(TypeVariable<?> typeVariable) {
+	public String apply(TypeVariable<?> typeVariable) {
 		String genericTypeName = typeVariable.getName();
 		StringBuilder toStringBuilder = new StringBuilder(genericTypeName);
 		Type[] boundsArr = typeVariable.getBounds();
 
 		if (boundsArr.length != 1 || !Object.class.equals(boundsArr[0])) {
 			toStringBuilder.append(" extends ");
-			Iterator<Type> boundsIterator = IteratorUtils
-					.arrayIterator(boundsArr);
+			Iterator<Type> boundsIterator = Arrays.asList(boundsArr).iterator();
 
 			while (boundsIterator.hasNext()) {
 				Type boundsType = boundsIterator.next();

@@ -17,7 +17,6 @@ package com.link_intersystems.lang;
 
 import static junit.framework.Assert.assertEquals;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.junit.Test;
 
 public class PrimitiveArrayCallbackTest {
@@ -34,7 +33,7 @@ public class PrimitiveArrayCallbackTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void notAnPrimitiveArrayConstructorArg() {
-		new PrimitiveArrayCallback(ArrayUtils.EMPTY_OBJECT_ARRAY);
+		new PrimitiveArrayCallback(new Object[0]);
 	}
 
 	@Test(expected = IndexOutOfBoundsException.class)

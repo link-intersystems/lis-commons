@@ -23,8 +23,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Stack;
 
-import org.apache.commons.collections4.Unmodifiable;
-
 /**
  * A {@link Stack} implementation that can not be modified. Every attempt to
  * modify it will result in an {@link UnsupportedOperationException}.
@@ -37,7 +35,7 @@ import org.apache.commons.collections4.Unmodifiable;
  *            the stack's element type
  * @since 1.0.0.0
  */
-class UnmodifiableStack<T> extends Stack<T> implements Cloneable, Unmodifiable {
+class UnmodifiableStack<T> extends Stack<T> implements Cloneable {
 
 	private static final String UNMODIFIABLE = "unmodifiable";
 

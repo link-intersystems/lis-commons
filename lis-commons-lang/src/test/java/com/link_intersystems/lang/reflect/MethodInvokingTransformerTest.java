@@ -24,9 +24,8 @@ import static org.easymock.EasyMock.replay;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.function.Function;
 
-import org.apache.commons.collections4.Transformer;
-import org.apache.commons.lang3.reflect.MethodUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -36,7 +35,7 @@ public class MethodInvokingTransformerTest {
 	private Method charAtMethod;
 
 	@Before
-	public void setup() {
+	public void setup() throws NoSuchMethodException {
 		argumentResolver = new InvocationArgumentsResolver() {
 
 			public Object[] getArguments(Object invokedObject,
@@ -44,28 +43,27 @@ public class MethodInvokingTransformerTest {
 				return new Object[] { 1 };
 			}
 		};
-		charAtMethod = MethodUtils.getAccessibleMethod(String.class, "charAt",
-				Integer.TYPE);
+		charAtMethod = String.class.getDeclaredMethod("charAt", Integer.TYPE);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void transformWrongType() {
-		Transformer transformer = new MethodInvokingTransformer(charAtMethod,
+		Function<Object, Object> transformer = new MethodInvokingTransformer(charAtMethod,
 				argumentResolver);
 		Character valueOf = Character.valueOf('c');
-		transformer.transform(valueOf);
+		transformer.apply(valueOf);
 	}
 
 	@Test(expected = NullPointerException.class)
 	public void transformNullValue() {
-		Transformer transformer = new MethodInvokingTransformer(charAtMethod,
+		Function<Object, Object> transformer = new MethodInvokingTransformer(charAtMethod,
 				argumentResolver);
-		transformer.transform(null);
+		transformer.apply(null);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void wrongArguments() {
-		Transformer transformer = new MethodInvokingTransformer(charAtMethod,
+		Function<Object, Object> transformer = new MethodInvokingTransformer(charAtMethod,
 				new InvocationArgumentsResolver() {
 
 					public Object[] getArguments(Object invokedObject,
@@ -73,7 +71,7 @@ public class MethodInvokingTransformerTest {
 						return new Object[] { "A" };
 					}
 				});
-		transformer.transform("Test");
+		transformer.apply("Test");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -90,9 +88,9 @@ public class MethodInvokingTransformerTest {
 	public void invokeMethod() {
 		String testString = "HelloWorld";
 
-		Transformer transformer = new MethodInvokingTransformer(charAtMethod,
+		Function<Object, Object> transformer = new MethodInvokingTransformer(charAtMethod,
 				argumentResolver);
-		Object transform = transformer.transform(testString);
+		Object transform = transformer.apply(testString);
 		assertNotNull(transform);
 		assertTrue(transform instanceof Character);
 		Character charAt1 = (Character) transform;
@@ -101,18 +99,17 @@ public class MethodInvokingTransformerTest {
 
 	@Test(expected = NullPointerException.class)
 	public void invokeInstanceMethodOnNull() {
-		Transformer transformer = new MethodInvokingTransformer(charAtMethod,
+		Function<Object, Object> transformer = new MethodInvokingTransformer(charAtMethod,
 				argumentResolver);
-		transformer.transform(null);
+		transformer.apply(null);
 	}
 
 	@Test
-	public void invokeMethodWithNoArguments() {
+	public void invokeMethodWithNoArguments() throws NoSuchMethodException {
 		String testString = "HelloWorld";
-		Method toStringMethod = MethodUtils.getAccessibleMethod(String.class,
-				"toString", new Class<?>[0]);
-		Transformer transformer = new MethodInvokingTransformer(toStringMethod);
-		Object transform = transformer.transform(testString);
+		Method toStringMethod = Object.class.getDeclaredMethod("toString");
+		Function<Object, Object> transformer = new MethodInvokingTransformer(toStringMethod);
+		Object transform = transformer.apply(testString);
 		assertNotNull(transform);
 		assertTrue(transform instanceof String);
 		String string = (String) transform;
@@ -120,11 +117,10 @@ public class MethodInvokingTransformerTest {
 	}
 
 	@Test(expected = IllegalStateException.class)
-	public void invokeInstanceMethodThrowsUnknownException() {
+	public void invokeInstanceMethodThrowsUnknownException() throws NoSuchMethodException {
 		String testString = "HelloWorld";
-		Method toStringMethod = MethodUtils.getAccessibleMethod(String.class,
-				"toString", new Class<?>[0]);
-		Transformer transformer = new MethodInvokingTransformer(toStringMethod) {
+		Method toStringMethod = Object.class.getDeclaredMethod("toString");
+		Function<Object, Object> transformer = new MethodInvokingTransformer(toStringMethod) {
 
 			@Override
 			protected Object invokeInstanceMethod(Object targetObject)
@@ -133,7 +129,7 @@ public class MethodInvokingTransformerTest {
 			}
 
 		};
-		transformer.transform(testString);
+		transformer.apply(testString);
 	}
 
 	@Test
@@ -148,9 +144,9 @@ public class MethodInvokingTransformerTest {
 				new Object[] { "Hello %s", "World" });
 		replay(invocationArgumentsResolver);
 
-		Transformer transformer = new MethodInvokingTransformer(formatMethod,
+		Function<Object, Object> transformer = new MethodInvokingTransformer(formatMethod,
 				invocationArgumentsResolver);
-		Object transform = transformer.transform(null);
+		Object transform = transformer.apply(null);
 		assertNotNull(transform);
 		assertEquals("Hello World", transform);
 	}
@@ -167,9 +163,9 @@ public class MethodInvokingTransformerTest {
 				new Object[] { "Hello %s", "World" });
 		replay(invocationArgumentsResolver);
 
-		Transformer transformer = new MethodInvokingTransformer(formatMethod,
+		Function<Object, Object> transformer = new MethodInvokingTransformer(formatMethod,
 				invocationArgumentsResolver);
-		Object transform = transformer.transform(String.class);
+		Object transform = transformer.apply(String.class);
 		assertNotNull(transform);
 		assertEquals("Hello World", transform);
 	}

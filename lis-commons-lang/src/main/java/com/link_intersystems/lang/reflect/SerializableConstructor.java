@@ -19,9 +19,8 @@ import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
 
-import org.apache.commons.lang3.SerializationException;
-
 import com.link_intersystems.lang.Assert;
+import com.link_intersystems.lang.SerializationException;
 import com.link_intersystems.lang.ref.AbstractSerializableReference;
 import com.link_intersystems.lang.ref.Reference;
 
@@ -67,7 +66,7 @@ class SerializableConstructor extends
 	/**
 	 * Constructs a serializable wrapper for the given constructor.
 	 *
-	 * @param method
+	 * @param constructor
 	 *            that should be wrapped in a serializable way.
 	 *
 	 * @since 1.0.0.0
