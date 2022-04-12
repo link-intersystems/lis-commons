@@ -5,8 +5,8 @@
 		<artifactId>lis-commons</artifactId>
 		<version>1.2.0.12-SNAPSHOT</version>
 	</parent>
-	<artifactId>lis-commons-beans</artifactId>
 
+	<artifactId>lis-commons-beans</artifactId>
 
 	<dependencies>
 		<dependency>

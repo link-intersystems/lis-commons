@@ -15,10 +15,9 @@
  */
 package com.link_intersystems;
 
-import junit.framework.AssertionFailedError;
-import junitx.framework.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,7 +34,6 @@ public abstract class EqualsAndHashCodeTest {
      *
      * @return a new instance of the class under test; each object returned from
      * this method should compare equal to each other.
-     * @throws Exception
      */
     protected abstract Object createInstance() throws Exception;
 
@@ -45,14 +43,11 @@ public abstract class EqualsAndHashCodeTest {
      * @return a new instance of the class under test; each object returned from
      * this method should compare equal to each other, but not to the
      * objects returned from {@link #createInstance() createInstance}.
-     * @throws Exception
      */
     protected abstract Object createNotEqualInstance() throws Exception;
 
     /**
      * Sets up the test fixture.
-     *
-     * @throws Exception
      */
     @BeforeEach
     public void createTestInstances() throws Exception {
@@ -91,10 +86,10 @@ public abstract class EqualsAndHashCodeTest {
     public final void equalsAgainstNewObject() {
         Object o = new Object();
 
-        Assert.assertNotEquals(eq1, o);
-        Assert.assertNotEquals(eq2, o);
-        Assert.assertNotEquals(eq3, o);
-        Assert.assertNotEquals(neq, o);
+        assertNotEquals(eq1, o);
+        assertNotEquals(eq2, o);
+        assertNotEquals(eq3, o);
+        assertNotEquals(neq, o);
     }
 
     /**
@@ -102,10 +97,10 @@ public abstract class EqualsAndHashCodeTest {
      */
     @Test
     public final void equalsAgainstNull() {
-        Assert.assertNotEquals("1st vs. null", eq1, null);
-        Assert.assertNotEquals("2nd vs. null", eq2, null);
-        Assert.assertNotEquals("3rd vs. null", eq3, null);
-        Assert.assertNotEquals("not-equal vs. null", neq, null);
+        assertNotEquals(eq1, null, "1st vs. null");
+        assertNotEquals(eq2, null, "2nd vs. null");
+        assertNotEquals(eq3, null, "3rd vs. null");
+        assertNotEquals(neq, null, "not-equal vs. null");
     }
 
     /**
@@ -114,13 +109,13 @@ public abstract class EqualsAndHashCodeTest {
      */
     @Test
     public final void equalsAgainstUnequalObjects() {
-        Assert.assertNotEquals("1st vs. not-equal", eq1, neq);
-        Assert.assertNotEquals("2nd vs. not-equal", eq2, neq);
-        Assert.assertNotEquals("3rd vs. not-equal", eq3, neq);
+        assertNotEquals(eq1, neq, "1st vs. not-equal");
+        assertNotEquals(eq2, neq, "2nd vs. not-equal");
+        assertNotEquals(eq3, neq, "3rd vs. not-equal");
 
-        Assert.assertNotEquals("not-equal vs. 1st", neq, eq1);
-        Assert.assertNotEquals("not-equal vs. 2nd", neq, eq2);
-        Assert.assertNotEquals("not-equal vs. 3rd", neq, eq3);
+        assertNotEquals(neq, eq1, "not-equal vs. 1st");
+        assertNotEquals(neq, eq2, "not-equal vs. 2nd");
+        assertNotEquals(neq, eq3, "not-equal vs. 3rd");
     }
 
     /**
@@ -194,16 +189,14 @@ public abstract class EqualsAndHashCodeTest {
 
     /**
      * Tests the consistency of <code>hashCode</code>.
-     *
-     * @throws Exception
      */
     @Test
-    public final void equalsWithIncompatibleObjectType() throws Exception {
+    public final void equalsWithIncompatibleObjectType() {
         boolean equals = eq1.equals(createIncompatibleObjectType());
         assertFalse(equals, "equal instance should not be equal to incompatible object type");
     }
 
-    protected Object createIncompatibleObjectType() throws Exception {
+    protected Object createIncompatibleObjectType() {
         return this;
     }
 

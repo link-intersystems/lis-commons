@@ -33,7 +33,6 @@ import java.security.PrivilegedExceptionAction;
 import java.util.Arrays;
 import java.util.concurrent.Callable;
 
-import static junit.framework.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(PowerMockRunner.class)
@@ -47,7 +46,7 @@ public abstract class AbstractInvokableTest {
     private IOException ioException;
 
     @BeforeEach
-    public void setupAbstractInvokableInstance() throws Exception {
+    public void setupAbstractInvokableInstance() {
         ioException = new IOException();
         invokableToTest = new TestAbstractInvocable();
         invokableToTest.setThrowException(ioException, EXCEPTION_PARAM_CONST);
@@ -62,7 +61,7 @@ public abstract class AbstractInvokableTest {
     }
 
     @Test
-    public void runnableAdapter() throws Exception {
+    public void runnableAdapter() {
         invokableToTest.setReturn("param", "param");
         Runnable runnable = invokableToTest.asRunnable("param");
         runnable.run();
@@ -87,48 +86,48 @@ public abstract class AbstractInvokableTest {
     }
 
     @Test
-    public void doInvokeThrowsInvocationTargetExceptionWithError() throws Exception {
+    public void doInvokeThrowsInvocationTargetExceptionWithError() {
         invokableToTest.setThrowException(new InvocationTargetException(new Error()), EXCEPTION_PARAM_CONST);
         invokableToTest.setDeclared(false);
         assertThrows(UndeclaredThrowableException.class, () -> invokableToTest.invoke(EXCEPTION_PARAM_CONST));
     }
 
     @Test
-    public void doInvokeThrowsInvocationTargetExceptionWithUndeclaredTarget() throws Exception {
+    public void doInvokeThrowsInvocationTargetExceptionWithUndeclaredTarget() {
         invokableToTest.setThrowException(new InvocationTargetException(ioException), EXCEPTION_PARAM_CONST);
         invokableToTest.setDeclared(false);
         assertThrows(UndeclaredThrowableException.class, () -> invokableToTest.invoke(EXCEPTION_PARAM_CONST));
     }
 
     @Test
-    public void doInvokeThrowsInvocationTargetExceptionWithDeclaredTarget() throws Exception {
+    public void doInvokeThrowsInvocationTargetExceptionWithDeclaredTarget() {
         invokableToTest.setThrowException(new InvocationTargetException(ioException), EXCEPTION_PARAM_CONST);
         invokableToTest.setDeclared(true);
         assertThrows(IOException.class, () -> invokableToTest.invoke(EXCEPTION_PARAM_CONST));
     }
 
     @Test
-    public void checkedUndeclaredException() throws Exception {
+    public void checkedUndeclaredException() {
         invokableToTest.setThrowException(ioException, EXCEPTION_PARAM_CONST);
         assertThrows(UndeclaredThrowableException.class, () -> invokableToTest.invoke(EXCEPTION_PARAM_CONST));
     }
 
     @Test
-    public void checkedDeclaredException() throws Exception {
+    public void checkedDeclaredException() {
         invokableToTest.setThrowException(ioException, EXCEPTION_PARAM_CONST);
         invokableToTest.setDeclared(true);
         assertThrows(IOException.class, () -> invokableToTest.invoke(EXCEPTION_PARAM_CONST));
     }
 
     @Test
-    public void invokeThrowsCheckedDeclaredException() throws Exception {
+    public void invokeThrowsCheckedDeclaredException() {
         invokableToTest.setThrowException(ioException, EXCEPTION_PARAM_CONST);
         invokableToTest.setDeclared(true);
         assertThrows(IOException.class, () -> invokableToTest.invoke(EXCEPTION_PARAM_CONST));
     }
 
     @Test
-    public void invokeThrowsUndeclaredException() throws Exception {
+    public void invokeThrowsUndeclaredException() {
         invokableToTest.setThrowException(ioException, EXCEPTION_PARAM_CONST);
         invokableToTest.setDeclared(false);
         assertThrows(UndeclaredThrowableException.class, () -> invokableToTest.invoke(EXCEPTION_PARAM_CONST));
@@ -141,7 +140,7 @@ public abstract class AbstractInvokableTest {
         invokableToTest.invokeWithContextClassLoader(classLoader);
         ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
         ClassLoader invocationContextClassLoader = invokableToTest.getInvocationContextClassLoader();
-        assertFalse(invocationContextClassLoader.equals(contextClassLoader));
+        assertNotEquals(invocationContextClassLoader, contextClassLoader);
     }
 
     @SuppressWarnings("unchecked")
@@ -173,27 +172,27 @@ public abstract class AbstractInvokableTest {
     }
 
     @Test
-    public void asRunnableThrowsException() throws Exception {
+    public void asRunnableThrowsException() {
         invokableToTest.setDeclared(true);
         Runnable asRunnable = invokableToTest.asRunnable(EXCEPTION_PARAM_CONST);
-        assertThrows(RuntimeException.class, () -> asRunnable.run());
+        assertThrows(RuntimeException.class, asRunnable::run);
     }
 
     @Test
-    public void asRunnableThrowsRuntimeException() throws Exception {
+    public void asRunnableThrowsRuntimeException() {
         IndexOutOfBoundsException ofBoundsException = new IndexOutOfBoundsException();
         invokableToTest.setThrowException(ofBoundsException, EXCEPTION_PARAM_CONST);
         invokableToTest.setDeclared(true);
         Runnable asRunnable = invokableToTest.asRunnable(EXCEPTION_PARAM_CONST);
-        assertThrows(IndexOutOfBoundsException.class, () -> asRunnable.run());
+        assertThrows(IndexOutOfBoundsException.class, asRunnable::run);
     }
 
     @Test
-    public void defaultIsDeclaredExceptionReturnValue() throws Exception {
+    public void defaultIsDeclaredExceptionReturnValue() {
         AbstractInvokable abstractInvokable = new AbstractInvokable() {
 
             @Override
-            protected <T> T doInvoke(Object... params) throws Exception {
+            protected <T> T doInvoke(Object... params) {
                 return null;
             }
         };

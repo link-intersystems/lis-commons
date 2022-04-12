@@ -1,12 +1,12 @@
 /**
  * Copyright 2011 Link Intersystems GmbH <rene.link@link-intersystems.com>
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,92 +15,88 @@
  */
 package com.link_intersystems.math;
 
-import static junit.framework.Assert.assertEquals;
-
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public abstract class AbstractLinearEquationTest {
 
-	public AbstractLinearEquationTest() {
-		super();
-	}
+    public AbstractLinearEquationTest() {
+        super();
+    }
 
-	/**
-	 * Tests that the {@link LinearEquation} created by subclasses
-	 * implementation of {@link #createBlueLinearEquation()} works.
-	 */
-	@Test
-	public void blueLinearEquation() {
-		LinearEquation linearEquation = createBlueLinearEquation();
-		assertBlueLinearEquation(linearEquation);
-	}
+    /**
+     * Tests that the {@link LinearEquation} created by subclasses
+     * implementation of {@link #createBlueLinearEquation()} works.
+     */
+    @Test
+    public void blueLinearEquation() {
+        LinearEquation linearEquation = createBlueLinearEquation();
+        assertBlueLinearEquation(linearEquation);
+    }
 
-	protected final void assertBlueLinearEquation(LinearEquation linearEquation) {
-		double y = linearEquation.fX(0);
-		assertEquals(2.5, y, 0.00001);
+    protected final void assertBlueLinearEquation(LinearEquation linearEquation) {
+        double y = linearEquation.fX(0);
+        assertEquals(2.5, y, 0.00001);
 
-		y = linearEquation.fX(2.5);
-		assertEquals(0.0, y, 0.00001);
+        y = linearEquation.fX(2.5);
+        assertEquals(0.0, y, 0.00001);
 
-		y = linearEquation.fX(-2);
-		assertEquals(4.5, y, 0.00001);
+        y = linearEquation.fX(-2);
+        assertEquals(4.5, y, 0.00001);
 
-		double x = linearEquation.fY(2.5);
-		assertEquals(0.0, x, 0.00001);
+        double x = linearEquation.fY(2.5);
+        assertEquals(0.0, x, 0.00001);
 
-		x = linearEquation.fY(1);
-		assertEquals(1.5, x, 0.00001);
+        x = linearEquation.fY(1);
+        assertEquals(1.5, x, 0.00001);
 
-		x = linearEquation.fY(3);
-		assertEquals(-0.5, x, 0.00001);
-	}
+        x = linearEquation.fY(3);
+        assertEquals(-0.5, x, 0.00001);
+    }
 
-	/**
-	 * Tests that the {@link LinearEquation} created by subclasses
-	 * implementation of {@link #createRedLinearEquation()} works.
-	 */
-	@Test
-	public void readLinearEquation() {
-		LinearEquation linearEquation = createRedLinearEquation();
-		assertReadLinearEquation(linearEquation);
-	}
+    /**
+     * Tests that the {@link LinearEquation} created by subclasses
+     * implementation of {@link #createRedLinearEquation()} works.
+     */
+    @Test
+    public void readLinearEquation() {
+        LinearEquation linearEquation = createRedLinearEquation();
+        assertReadLinearEquation(linearEquation);
+    }
 
-	protected final void assertReadLinearEquation(LinearEquation linearEquation) {
-		double y = linearEquation.fX(0);
-		assertEquals(1.0, y, 0.00001);
+    protected final void assertReadLinearEquation(LinearEquation linearEquation) {
+        double y = linearEquation.fX(0);
+        assertEquals(1.0, y, 0.00001);
 
-		y = linearEquation.fX(2);
-		assertEquals(2.0, y, 0.00001);
+        y = linearEquation.fX(2);
+        assertEquals(2.0, y, 0.00001);
 
-		y = linearEquation.fX(-2);
-		assertEquals(0.0, y, 0.00001);
+        y = linearEquation.fX(-2);
+        assertEquals(0.0, y, 0.00001);
 
-		double x = linearEquation.fY(1);
-		assertEquals(0.0, x, 0.00001);
+        double x = linearEquation.fY(1);
+        assertEquals(0.0, x, 0.00001);
 
-		x = linearEquation.fY(2);
-		assertEquals(2.0, x, 0.00001);
+        x = linearEquation.fY(2);
+        assertEquals(2.0, x, 0.00001);
 
-		x = linearEquation.fY(0);
-		assertEquals(-2.0, x, 0.00001);
-	}
+        x = linearEquation.fY(0);
+        assertEquals(-2.0, x, 0.00001);
+    }
 
-	/**
-	 * Subclass must instantiate a {@link LinearEquation} based on the blue one
-	 * in <img src="doc-files/linearEquation.png"
-	 * alt="com/link_intersystems/lang/math/doc-files/linearEquation.png"/>.
-	 *
-	 * @return
-	 */
-	protected abstract LinearEquation createBlueLinearEquation();
+    /**
+     * Subclass must instantiate a {@link LinearEquation} based on the blue one
+     * in <img src="doc-files/linearEquation.png"
+     * alt="com/link_intersystems/lang/math/doc-files/linearEquation.png"/>.
+     */
+    protected abstract LinearEquation createBlueLinearEquation();
 
-	/**
-	 * Subclass must instantiate a {@link LinearEquation} based on the red one
-	 * in <img src="doc-files/linearEquation.png"
-	 * alt="com/link_intersystems/lang/math/doc-files/linearEquation.png"/>.
-	 *
-	 * @return
-	 */
-	protected abstract LinearEquation createRedLinearEquation();
+    /**
+     * Subclass must instantiate a {@link LinearEquation} based on the red one
+     * in <img src="doc-files/linearEquation.png"
+     * alt="com/link_intersystems/lang/math/doc-files/linearEquation.png"/>.
+     */
+    protected abstract LinearEquation createRedLinearEquation();
 
 }

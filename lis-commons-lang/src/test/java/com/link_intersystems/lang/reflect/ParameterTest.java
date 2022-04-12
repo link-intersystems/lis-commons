@@ -24,10 +24,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 
-import static junit.framework.Assert.*;
 import static org.easymock.EasyMock.createNiceControl;
 import static org.easymock.EasyMock.expect;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ParameterTest {
 
