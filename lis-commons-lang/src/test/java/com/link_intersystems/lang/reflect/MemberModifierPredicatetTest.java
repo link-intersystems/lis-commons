@@ -16,18 +16,25 @@
 package com.link_intersystems.lang.reflect;
 
 import com.link_intersystems.lang.reflect.MemberModifierPredicate.Match;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 public class MemberModifierPredicatetTest {
+
+    public static class TestClass {
+        private TestClass(int testConstructor){
+        }
+    }
 
     @SuppressWarnings("unused")
     private String privateTest;
@@ -48,9 +55,9 @@ public class MemberModifierPredicatetTest {
     @SuppressWarnings("unused")
     private static String TEST_CONSTANT_2 = "TEST_CONSTANT_2";
 
-    private Constructor<? extends MemberModifierPredicatetTest> privateConstructor;
+    private Constructor<?> privateConstructor;
 
-    private Constructor<? extends MemberModifierPredicatetTest> publicConstructor;
+    private Constructor<?> publicConstructor;
 
     private Field privateStaticFinalConstField;
 
@@ -59,14 +66,11 @@ public class MemberModifierPredicatetTest {
     public MemberModifierPredicatetTest() {
     }
 
-    MemberModifierPredicatetTest(int testConstructor) {
-    }
-
     @SuppressWarnings("unused")
     private void privateMethod() {
     }
 
-    @Before
+    @BeforeEach
     public void setup() throws SecurityException, NoSuchFieldException, NoSuchMethodException {
         privateStaticFinalConstField = getClass().getDeclaredField("TEST_CONSTANT");
         privateStaticConstField = getClass().getDeclaredField("TEST_CONSTANT_2");
@@ -74,13 +78,13 @@ public class MemberModifierPredicatetTest {
         publicTestField = getClass().getDeclaredField("publicTest");
         privateMethod = getClass().getDeclaredMethod("privateMethod");
         publicMethod = getClass().getDeclaredMethod("setup");
-        privateConstructor = getClass().getDeclaredConstructor(int.class);
+        privateConstructor = TestClass.class.getDeclaredConstructor(int.class);
         publicConstructor = getClass().getDeclaredConstructor();
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void newWithNullMatch() {
-        new MemberModifierPredicate(Modifier.PUBLIC, null);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new MemberModifierPredicate(Modifier.PUBLIC, null));
     }
 
     @Test
