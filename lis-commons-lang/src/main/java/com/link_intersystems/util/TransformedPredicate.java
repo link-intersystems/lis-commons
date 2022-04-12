@@ -1,24 +1,23 @@
 package com.link_intersystems.util;
 
-import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class TransformedPredicate<T, R> implements Predicate<T> {
+public class TransformedPredicate<S, T> implements Predicate<S> {
 
-    private Function<T, R> transformer;
-    private Predicate<R> resultPredicate;
+    private Transformer<S, T> transformer;
+    private Predicate<T> resultPredicate;
 
-    public TransformedPredicate(Function<T, R> transformer, Predicate<R> resultPredicate) {
+    public TransformedPredicate(Transformer<S, T> transformer, Predicate<T> resultPredicate) {
         this.transformer = transformer;
         this.resultPredicate = resultPredicate;
     }
 
     @Override
-    public boolean test(T t) {
-        R transformed = transformer.apply(t);
+    public boolean test(S t) {
+        T transformed = transformer.transform(t);
         return resultPredicate.test(transformed);
     }
 }

@@ -333,9 +333,9 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
                 rootNode.setInterfacesOrder(interfacesComparator);
                 rootNode.setInnerClassesOrder(innerClassesComparator);
 
-                class Node2ClassTransformer implements Function<Node, Class<?>> {
+                class Node2ClassTransformer implements Transformer<Node, Class<?>> {
 
-                    public Class<?> apply(Node input) {
+                    public Class<?> transform(Node input) {
                         Object userObject = input.getUserObject();
                         Class<?> clazz = Class.class.cast(userObject);
                         return clazz;

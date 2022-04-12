@@ -17,50 +17,36 @@
 package com.link_intersystems.util;
 
 import java.util.Iterator;
-import java.util.function.Function;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * Decorates an iterator such that each element returned is transformed.
  *
  * @since 1.0
  */
-public class TransformIterator<I, O> implements Iterator<O> {
-
-    /** The iterator being used */
-    private Iterator<? extends I> iterator;
-    /** The transformer being used */
-    private Function<? super I, ? extends O> transformer;
+public class TransformIterator<S, T> implements Iterator<T> {
 
     /**
-     * Constructs a new {@code TransformIterator} that will not function
-     * until the {@link #setIterator(Iterator) setIterator} and
-     * {@link #setTransformer(Function)} methods are invoked.
+     * The iterator being used
      */
-    public TransformIterator() {
-    }
-
+    private Iterator<? extends S> iterator;
     /**
-     * Constructs a new {@code TransformIterator} that won't transform
-     * elements from the given iterator.
-     *
-     * @param iterator  the iterator to use
+     * The transformer being used
      */
-    public TransformIterator(final Iterator<? extends I> iterator) {
-        this.iterator = iterator;
-    }
+    private Transformer<? super S, ? extends T> transformer;
 
     /**
      * Constructs a new {@code TransformIterator} that will use the
      * given iterator and transformer.  If the given transformer is null,
      * then objects will not be transformed.
      *
-     * @param iterator  the iterator to use
-     * @param transformer  the transformer to use
+     * @param iterator    the iterator to use
+     * @param transformer the transformer to use
      */
-    public TransformIterator(final Iterator<? extends I> iterator,
-                             final Function<? super I, ? extends O> transformer) {
-        this.iterator = iterator;
-        this.transformer = transformer;
+    public TransformIterator(Iterator<? extends S> iterator, Transformer<? super S, ? extends T> transformer) {
+        this.iterator = requireNonNull(iterator);
+        this.transformer = requireNonNull(transformer);
     }
 
     @Override
@@ -77,7 +63,7 @@ public class TransformIterator<I, O> implements Iterator<O> {
      * @throws java.util.NoSuchElementException if there are no more elements
      */
     @Override
-    public O next() {
+    public T next() {
         return transform(iterator.next());
     }
 
@@ -87,51 +73,13 @@ public class TransformIterator<I, O> implements Iterator<O> {
     }
 
     /**
-     * Gets the iterator this iterator is using.
-     *
-     * @return the iterator.
-     */
-    public Iterator<? extends I> getIterator() {
-        return iterator;
-    }
-
-    /**
-     * Sets the iterator for this iterator to use.
-     * If iteration has started, this effectively resets the iterator.
-     *
-     * @param iterator  the iterator to use
-     */
-    public void setIterator(final Iterator<? extends I> iterator) {
-        this.iterator = iterator;
-    }
-
-    /**
-     * Gets the transformer this iterator is using.
-     *
-     * @return the transformer.
-     */
-    public Function<? super I, ? extends O> getTransformer() {
-        return transformer;
-    }
-
-    /**
-     * Sets the transformer this the iterator to use.
-     * A null transformer is a no-op transformer.
-     *
-     * @param transformer  the transformer to use
-     */
-    public void setTransformer(final Function<? super I, ? extends O> transformer) {
-        this.transformer = transformer;
-    }
-
-    /**
      * Transforms the given object using the transformer.
      * If the transformer is null, the original object is returned as-is.
      *
-     * @param source  the object to transform
+     * @param source the object to transform
      * @return the transformed object
      */
-    protected O transform(final I source) {
-        return transformer.apply(source);
+    protected T transform(final S source) {
+        return transformer.transform(source);
     }
 }

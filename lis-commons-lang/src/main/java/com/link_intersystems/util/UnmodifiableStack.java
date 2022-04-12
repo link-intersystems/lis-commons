@@ -39,9 +39,6 @@ class UnmodifiableStack<T> extends Stack<T> implements Cloneable {
 
 	private static final String UNMODIFIABLE = "unmodifiable";
 
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = -503112464230409463L;
 
 	private Stack<T> stack;

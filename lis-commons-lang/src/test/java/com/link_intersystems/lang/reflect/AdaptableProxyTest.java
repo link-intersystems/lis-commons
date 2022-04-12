@@ -108,10 +108,8 @@ public class AdaptableProxyTest {
 
 		URLClassLoader classLoader = (URLClassLoader) InterfaceE.class
 				.getClassLoader();
-		URLClassLoader parentLastClassLoader = new ParentLastURLClassLoader(
-				classLoader.getURLs());
 
-		Class<?> loadClass = parentLastClassLoader
+		Class<?> loadClass = classLoader
 				.loadClass("com.link_intersystems.lang.reflect.AdaptableProxyTest$InterfaceE");
 
 		AdaptableProxy.create(interfaceB, List.class, loadClass);
