@@ -16,30 +16,32 @@
 package com.link_intersystems.lang.reflect.criteria;
 
 import com.link_intersystems.lang.Serialization;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.function.Predicate;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public abstract class ElementCriteriaTest {
 
     protected abstract ElementCriteria getElementCriteria();
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void nullResultSelection() {
         ElementCriteria criteria = getElementCriteria();
-        criteria.setResult(null);
+        assertThrows(IllegalArgumentException.class, () -> criteria.setResult(null));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void nullAddPredicate() {
         ElementCriteria criteria = getElementCriteria();
-        criteria.add(null);
+        assertThrows(IllegalArgumentException.class, () -> criteria.add(null));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void addNonSerializablePredicate() {
         ElementCriteria criteria = getElementCriteria();
-        criteria.add(new SomePredicateNotSerializable());
+        assertThrows(IllegalArgumentException.class, () -> criteria.add(new SomePredicateNotSerializable()));
     }
 
     @Test

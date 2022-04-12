@@ -1,28 +1,28 @@
 package com.link_intersystems.util;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class ChainedIteratorTest {
+class ChainedIteratorTest {
 
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
 
     }
 
     @Test
-    public void iterate() {
+    void iterate() {
         Iterator<String> iterator1 = asList("A", "B").iterator();
         Iterator<String> iterator2 = asList("C", "D").iterator();
 
@@ -40,7 +40,7 @@ public class ChainedIteratorTest {
     }
 
     @Test
-    public void firstIteratorHasNoElements() {
+    void firstIteratorHasNoElements() {
         Iterator<String> iterator1 = Collections.emptyIterator();
         Iterator<String> iterator2 = asList("C", "D").iterator();
 

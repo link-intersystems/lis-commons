@@ -15,9 +15,9 @@
  */
 package com.link_intersystems.beans;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.beans.BeanInfo;
 import java.beans.IndexedPropertyDescriptor;
@@ -25,8 +25,8 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class IndexedPropertyTest extends AbstractPropertyTest<String[]> {
 
@@ -36,7 +36,7 @@ public class IndexedPropertyTest extends AbstractPropertyTest<String[]> {
 	private IndexedProperty<String> writeOnlyProperty;
 	private IndexedProperty<String> stringProperty;
 
-	@Before
+	@BeforeEach
 	public void setup() throws IntrospectionException {
 		SomeBean someBean = new SomeBean() {
 			{

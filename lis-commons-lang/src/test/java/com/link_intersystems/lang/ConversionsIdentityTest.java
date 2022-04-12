@@ -18,7 +18,7 @@ package com.link_intersystems.lang;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link Conversions} identity conversion as defined by the java

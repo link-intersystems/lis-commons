@@ -21,8 +21,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Predicate;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.link_intersystems.util.graph.AbstractNodeIteratorTest.TraverseAssertion;
 import com.link_intersystems.util.graph.GraphFacade.NodeIterateStrategy;
@@ -47,7 +47,7 @@ public class GraphFacadeImpl_perPredicateNodeIteratorTest {
 	private Predicate pred2;
 	private Predicate pred3;
 
-	@Before
+	@BeforeEach
 	public void createFacade() {
 		/**
 		 * <pre>

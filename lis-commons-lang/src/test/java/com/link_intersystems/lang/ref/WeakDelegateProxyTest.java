@@ -1,13 +1,13 @@
 package com.link_intersystems.lang.ref;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 
 import java.io.IOException;
 import java.util.function.Consumer;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 public class WeakDelegateProxyTest {
@@ -18,7 +18,7 @@ public class WeakDelegateProxyTest {
 	private WeakDelegateProxy<Appendable> weakDelegateProxy;
 
 	@SuppressWarnings("unchecked")
-	@Before
+	@BeforeEach
 	public void setup() {
 		delegate = new StringBuilder();
 		onDelegateRemovedCallback = Mockito.mock(Consumer.class);

@@ -1,18 +1,20 @@
 package com.link_intersystems.beans;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.awt.*;
 import java.lang.reflect.Method;
 import java.util.function.Predicate;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class BeansFacadeTest {
 
     private Predicate<Method> propertyAccessorPredicate;
 
-    @Before
+    @BeforeEach
     public void setup() {
         propertyAccessorPredicate = BeansFacade.getPropertyAccessorPredicate();
     }
@@ -20,13 +22,13 @@ public class BeansFacadeTest {
     @Test
     public void isPropertyAccessorGetMethod() throws NoSuchMethodException, SecurityException {
         boolean isPropertyAccessor = propertyAccessorPredicate.test(Component.class.getDeclaredMethod("getBackground"));
-        Assert.assertTrue(isPropertyAccessor);
+        assertTrue(isPropertyAccessor);
     }
 
     @Test
     public void isPropertyAccessorSetMethod() throws NoSuchMethodException, SecurityException {
         boolean isPropertyAccessor = propertyAccessorPredicate.test(Component.class.getDeclaredMethod("setBackground", Color.class));
-        Assert.assertTrue(isPropertyAccessor);
+        assertTrue(isPropertyAccessor);
     }
 
 }

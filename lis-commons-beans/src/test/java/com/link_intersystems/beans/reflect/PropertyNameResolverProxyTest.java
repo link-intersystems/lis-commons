@@ -1,13 +1,13 @@
 package com.link_intersystems.beans.reflect;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.beans.PropertyDescriptor;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class PropertyNameResolverProxyTest {
 
@@ -26,7 +26,7 @@ public class PropertyNameResolverProxyTest {
 	private PropertyNameResolverProxy<SomeBeanInterface> propertyNameResolverProxy;
 	private SomeBeanInterface someBeanInterface;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		propertyNameResolverProxy = new PropertyNameResolverProxy<>(SomeBeanInterface.class);
 		someBeanInterface = propertyNameResolverProxy.createProxy();
@@ -34,7 +34,7 @@ public class PropertyNameResolverProxyTest {
 
 	private void assertLatestProperty(String propertyName) {
 		PropertyDescriptor latestCallPropertyDescriptor = propertyNameResolverProxy.getLatestCallPropertyDescriptor();
-		assertNotNull("latestCallPropertyDescriptor", latestCallPropertyDescriptor);
+		assertNotNull(latestCallPropertyDescriptor, "latestCallPropertyDescriptor");
 
 		String name = latestCallPropertyDescriptor.getName();
 		assertEquals(propertyName, name);
@@ -43,7 +43,7 @@ public class PropertyNameResolverProxyTest {
 	@Test
 	public void noProperyAccessed() {
 		PropertyDescriptor latestCallPropertyDescriptor = propertyNameResolverProxy.getLatestCallPropertyDescriptor();
-		assertNull("latestCallPropertyDescriptor", latestCallPropertyDescriptor);
+		assertNull(latestCallPropertyDescriptor, "latestCallPropertyDescriptor");
 	}
 
 	@Test

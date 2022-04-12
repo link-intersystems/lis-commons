@@ -16,7 +16,7 @@
 package com.link_intersystems.math;
 
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class TwoPointLinearEquationTest extends AbstractLinearEquationTest {
 

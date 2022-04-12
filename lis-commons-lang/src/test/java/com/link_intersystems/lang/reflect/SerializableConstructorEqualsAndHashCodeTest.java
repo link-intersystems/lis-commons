@@ -18,14 +18,14 @@ package com.link_intersystems.lang.reflect;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 import com.link_intersystems.EqualsAndHashCodeTest;
 
 public class SerializableConstructorEqualsAndHashCodeTest extends
 		EqualsAndHashCodeTest {
 
-	@Before
+	@BeforeEach
 	public void setup() throws Exception {
 		super.createTestInstances();
 	}

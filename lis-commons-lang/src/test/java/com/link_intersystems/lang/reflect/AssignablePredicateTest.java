@@ -15,53 +15,54 @@
  */
 package com.link_intersystems.lang.reflect;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public class AssignablePredicateTest {
 
     private AssignablePredicate listAssignable;
 
-    @Before
+    @BeforeEach
     public void setup() {
         listAssignable = new AssignablePredicate(List.class);
 
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void newWithNullConstructor() {
-        new AssignablePredicate(null);
+        assertThrows(IllegalArgumentException.class, () -> new AssignablePredicate(null));
     }
 
     @Test
     public void evaluateAgainstObject() {
-        Assert.assertTrue(listAssignable.test(new ArrayList<Object>()));
+        assertTrue(listAssignable.test(new ArrayList<Object>()));
     }
 
     @Test
     public void evaluateAgainstClass() {
-        Assert.assertTrue(listAssignable.test(ArrayList.class));
+        assertTrue(listAssignable.test(ArrayList.class));
     }
 
     @Test
     public void evaluateAgainstNull() {
-        Assert.assertFalse(listAssignable.test(null));
+        assertFalse(listAssignable.test(null));
     }
 
     @Test
     public void evaluateAgainstUnassignableClass() {
-        Assert.assertFalse(listAssignable.test(Collection.class));
+        assertFalse(listAssignable.test(Collection.class));
     }
 
     @SuppressWarnings("rawtypes")
     @Test
     public void evaluateAgainstUnassignableObject() {
-        Assert.assertFalse(listAssignable.test(new HashMap()));
+        assertFalse(listAssignable.test(new HashMap()));
     }
 }

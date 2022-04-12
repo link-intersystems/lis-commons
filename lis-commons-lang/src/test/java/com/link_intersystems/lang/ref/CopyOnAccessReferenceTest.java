@@ -21,7 +21,7 @@ import static junit.framework.Assert.assertNull;
 
 import java.io.Serializable;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class CopyOnAccessReferenceTest {
 

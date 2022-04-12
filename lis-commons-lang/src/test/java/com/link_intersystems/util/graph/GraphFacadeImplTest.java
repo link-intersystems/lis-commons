@@ -15,8 +15,8 @@
  */
 package com.link_intersystems.util.graph;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -25,6 +25,7 @@ import java.util.function.Consumer;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class GraphFacadeImplTest {
 
@@ -33,7 +34,7 @@ public class GraphFacadeImplTest {
     private Node dRef;
     private Node eRef;
 
-    @Before
+    @BeforeEach
     public void createFacade() {
         /**
          * <pre>
@@ -79,10 +80,10 @@ public class GraphFacadeImplTest {
         traverseAssertion.assertAllUserObjectsTraversed();
     }
 
-    @Test(expected = CyclicGraphException.class)
+    @Test
     public void cycleDetection() {
         eRef.addReference(cRef);
-        GraphFacade.traverseDepthFirst(start, new CycleDetector());
+        assertThrows(CyclicGraphException.class, () -> GraphFacade.traverseDepthFirst(start, new CycleDetector()));
     }
 
     private static class TraverseAssertion implements Consumer<Node> {

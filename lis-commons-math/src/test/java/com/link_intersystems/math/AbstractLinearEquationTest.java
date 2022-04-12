@@ -17,7 +17,7 @@ package com.link_intersystems.math;
 
 import static junit.framework.Assert.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public abstract class AbstractLinearEquationTest {
 

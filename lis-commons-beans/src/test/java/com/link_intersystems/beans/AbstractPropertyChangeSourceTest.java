@@ -1,6 +1,6 @@
 package com.link_intersystems.beans;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
@@ -8,7 +8,7 @@ import static org.mockito.Mockito.verify;
 import java.beans.PropertyChangeEvent;
 import java.util.function.Consumer;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 

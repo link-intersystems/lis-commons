@@ -17,19 +17,20 @@ package com.link_intersystems.lang.reflect;
 
 import com.link_intersystems.util.ObjectFactory;
 import com.link_intersystems.util.SerializableTemplateObjectFactory;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 import static junit.framework.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class MemberNamePatternPredicateTest {
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void nullConstructor() {
-        new MemberNamePatternPredicate(null);
+        assertThrows(IllegalArgumentException.class, () -> new MemberNamePatternPredicate(null));
     }
 
     @Test
@@ -50,9 +51,9 @@ public class MemberNamePatternPredicateTest {
         assertTrue(evaluated);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void notAMember() throws SecurityException, NoSuchMethodException {
         MemberNamePatternPredicate memberNamePatternPredicate = new MemberNamePatternPredicate(Pattern.compile("add.*"));
-        memberNamePatternPredicate.test(ArrayList.class);
+        assertThrows(IllegalArgumentException.class, () -> memberNamePatternPredicate.test(ArrayList.class));
     }
 }

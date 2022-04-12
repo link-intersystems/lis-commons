@@ -21,8 +21,8 @@ import com.link_intersystems.lang.reflect.SignaturePredicate;
 import com.link_intersystems.lang.reflect.criteria.ClassCriteria.ClassType;
 import com.link_intersystems.lang.reflect.criteria.ClassCriteria.TraverseStrategy;
 import com.link_intersystems.lang.reflect.criteria.MemberCriteria.IterateStrategy;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
 import java.lang.reflect.*;
@@ -32,27 +32,25 @@ import java.util.regex.Pattern;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MemberCriteriaTest {
 
     private MemberCriteria memberCriteria;
 
-    @Before
+    @BeforeEach
     public void setup() {
         memberCriteria = new MemberCriteria();
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void nullMemberIterateOrderComparator() {
-        memberCriteria.setMemberIterateOrder(null);
+        assertThrows(IllegalArgumentException.class, () -> memberCriteria.setMemberIterateOrder(null));
     }
 
     @Test
     public void defaultMemberIterator() {
-        Iterable<Class<?>> classIterable = new ClassCriteria()
-                .getIterable(Object.class);
+        Iterable<Class<?>> classIterable = new ClassCriteria().getIterable(Object.class);
         Iterable<Member> iterable = memberCriteria.getIterable(classIterable);
         assertNotNull(iterable);
         Iterator<Member> iterator = iterable.iterator();
@@ -65,10 +63,8 @@ public class MemberCriteriaTest {
 
     @Test
     public void annotatedElementIterator() {
-        Iterable<Class<?>> classIterable = new ClassCriteria()
-                .getIterable(Object.class);
-        Iterable<? extends AnnotatedElement> iterable = memberCriteria
-                .getAnnotatedElementIterable(classIterable);
+        Iterable<Class<?>> classIterable = new ClassCriteria().getIterable(Object.class);
+        Iterable<? extends AnnotatedElement> iterable = memberCriteria.getAnnotatedElementIterable(classIterable);
         assertNotNull(iterable);
         Iterator<? extends AnnotatedElement> iterator = iterable.iterator();
         assertNotNull(iterator);
@@ -84,13 +80,10 @@ public class MemberCriteriaTest {
         int maxModifierValue = 0;
         for (Field field : declaredFields) {
             int modifiers = field.getModifiers();
-            if (Modifier.isPublic(modifiers) && Modifier.isStatic(modifiers)
-                    && Modifier.isFinal(modifiers)
-                    && field.getType().equals(Integer.TYPE)) {
+            if (Modifier.isPublic(modifiers) && Modifier.isStatic(modifiers) && Modifier.isFinal(modifiers) && field.getType().equals(Integer.TYPE)) {
                 try {
                     Integer value = (Integer) field.get(Modifier.class);
-                    maxModifierValue = Math.max(maxModifierValue,
-                            value.intValue());
+                    maxModifierValue = Math.max(maxModifierValue, value.intValue());
                 } catch (IllegalArgumentException e) {
                     throw new AssertionError(e);
                 }
@@ -112,31 +105,25 @@ public class MemberCriteriaTest {
         memberCriteria.membersOfType(Method.class);
         memberCriteria.withModifiers(Modifier.ABSTRACT);
         memberCriteria.named(Pattern.compile("add.*"));
-        memberCriteria.setMemberIterateOrder(ReflectFacade
-                .getMemberNameComparator());
-        Collection<Class<?>> iteratedTypes = new ArrayList<Class<?>>(
-                Arrays.asList(List.class, Collection.class));
+        memberCriteria.setMemberIterateOrder(ReflectFacade.getMemberNameComparator());
+        Collection<Class<?>> iteratedTypes = new ArrayList<Class<?>>(Arrays.asList(List.class, Collection.class));
         ClassCriteria classCriteria = new ClassCriteria();
-        Iterable<Class<?>> classIterable = classCriteria
-                .getIterable(ArrayList.class);
-        Iterable<Member> memberIterable = memberCriteria
-                .getIterable(classIterable);
+        Iterable<Class<?>> classIterable = classCriteria.getIterable(ArrayList.class);
+        Iterable<Member> memberIterable = memberCriteria.getIterable(classIterable);
         assertTrue(memberIterable.iterator().hasNext());
         for (Member member : memberIterable) {
-            assertTrue("member must be a method", member instanceof Method);
+            assertTrue(member instanceof Method, "member must be a method");
             iteratedTypes.remove(member.getDeclaringClass());
             String name = member.getName();
             assertTrue(name.startsWith("add"));
             int modifiers = member.getModifiers();
             assertTrue(Modifier.isAbstract(modifiers));
         }
-        assertTrue("Some types have not been iterated. " + iteratedTypes,
-                iteratedTypes.isEmpty());
+        assertTrue(iteratedTypes.isEmpty(), "Some types have not been iterated. " + iteratedTypes);
     }
 
     @Test
-    public void getFirstMethodWithSameSignatureAsCollectionAddObject()
-            throws SecurityException, NoSuchMethodException {
+    public void getFirstMethodWithSameSignatureAsCollectionAddObject() throws SecurityException, NoSuchMethodException {
         memberCriteria.setResult(Result.FIRST);
         memberCriteria.membersOfType(Method.class);
 
@@ -147,10 +134,8 @@ public class MemberCriteriaTest {
         ClassCriteria classCriteria = new ClassCriteria();
         classCriteria.setTraverseStrategy(TraverseStrategy.DEPTH_FIRST);
         classCriteria.setSelection(ClassType.CLASSES);
-        Iterable<Class<?>> classIterable = classCriteria
-                .getIterable(ArrayList.class);
-        Iterable<Member> memberIterable = memberCriteria
-                .getIterable(classIterable);
+        Iterable<Class<?>> classIterable = classCriteria.getIterable(ArrayList.class);
+        Iterable<Member> memberIterable = memberCriteria.getIterable(classIterable);
 
         Iterator<Member> criteriaIterator = memberIterable.iterator();
         Member member = criteriaIterator.next();
@@ -167,19 +152,14 @@ public class MemberCriteriaTest {
         memberCriteria.named(Pattern.compile("add.*"));
         Class<?> currentHierarchyClass = ArrayList.class;
         ClassCriteria classCriteria = new ClassCriteria();
-        Iterable<Class<?>> classIterable = classCriteria
-                .getIterable(ArrayList.class);
-        Iterable<Member> memberIterable = memberCriteria
-                .getIterable(classIterable);
+        Iterable<Class<?>> classIterable = classCriteria.getIterable(ArrayList.class);
+        Iterable<Member> memberIterable = memberCriteria.getIterable(classIterable);
         assertTrue(memberIterable.iterator().hasNext());
         for (Member member : memberIterable) {
-            assertTrue("member must be a method", member instanceof Method);
+            assertTrue(member instanceof Method, "member must be a method");
             if (!currentHierarchyClass.equals(member.getDeclaringClass())) {
                 if (!member.getDeclaringClass().isInterface()) {
-                    assertTrue("members must be iterated "
-                                    + "from subclass to superclass",
-                            ((Class<?>) member.getDeclaringClass())
-                                    .isAssignableFrom(currentHierarchyClass));
+                    assertTrue(((Class<?>) member.getDeclaringClass()).isAssignableFrom(currentHierarchyClass), "members must be iterated " + "from subclass to superclass");
                     // so the current declaring class is not the members
                     // declaring
                     // class which means we went up the hierarchy
@@ -194,13 +174,11 @@ public class MemberCriteriaTest {
         memberCriteria.membersOfType(Method.class);
         memberCriteria.withAccess(AccessType.PUBLIC);
         ClassCriteria classCriteria = new ClassCriteria();
-        Iterable<Class<?>> classIterable = classCriteria
-                .getIterable(ArrayList.class);
-        Iterable<Member> memberIterable = memberCriteria
-                .getIterable(classIterable);
+        Iterable<Class<?>> classIterable = classCriteria.getIterable(ArrayList.class);
+        Iterable<Member> memberIterable = memberCriteria.getIterable(classIterable);
         assertTrue(memberIterable.iterator().hasNext());
         for (Member member : memberIterable) {
-            assertTrue("member must be a method", member instanceof Method);
+            assertTrue(member instanceof Method, "member must be a method");
             int modifiers = member.getModifiers();
             assertTrue(Modifier.isPublic(modifiers));
             assertFalse(Modifier.isProtected(modifiers));
@@ -213,13 +191,11 @@ public class MemberCriteriaTest {
         memberCriteria.membersOfType(Method.class);
         memberCriteria.withAccess(AccessType.DEFAULT);
         ClassCriteria classCriteria = new ClassCriteria();
-        Iterable<Class<?>> classIterable = classCriteria
-                .getIterable(Class.class);
-        Iterable<Member> memberIterable = memberCriteria
-                .getIterable(classIterable);
+        Iterable<Class<?>> classIterable = classCriteria.getIterable(Class.class);
+        Iterable<Member> memberIterable = memberCriteria.getIterable(classIterable);
         assertTrue(memberIterable.iterator().hasNext());
         for (Member member : memberIterable) {
-            assertTrue("member must be a method", member instanceof Method);
+            assertTrue(member instanceof Method, "member must be a method");
             int modifiers = member.getModifiers();
             assertFalse(Modifier.isPublic(modifiers));
             assertFalse(Modifier.isProtected(modifiers));
@@ -233,13 +209,11 @@ public class MemberCriteriaTest {
         memberCriteria.withAccess(AccessType.DEFAULT);
         memberCriteria.withModifiers(Modifier.STATIC | Modifier.NATIVE);
         ClassCriteria classCriteria = new ClassCriteria();
-        Iterable<Class<?>> classIterable = classCriteria
-                .getIterable(Class.class);
-        Iterable<Member> memberIterable = memberCriteria
-                .getIterable(classIterable);
+        Iterable<Class<?>> classIterable = classCriteria.getIterable(Class.class);
+        Iterable<Member> memberIterable = memberCriteria.getIterable(classIterable);
         assertTrue(memberIterable.iterator().hasNext());
         for (Member member : memberIterable) {
-            assertTrue("member must be a method", member instanceof Method);
+            assertTrue(member instanceof Method, "member must be a method");
             int modifiers = member.getModifiers();
             assertFalse(Modifier.isPublic(modifiers));
             assertFalse(Modifier.isProtected(modifiers));
@@ -254,10 +228,8 @@ public class MemberCriteriaTest {
         memberCriteria.membersOfType(Method.class);
         memberCriteria.add(new ToStringPredicate());
         ClassCriteria classCriteria = new ClassCriteria();
-        Iterable<Class<?>> classIterable = classCriteria
-                .getIterable(Object.class);
-        Iterable<Member> memberIterable = memberCriteria
-                .getIterable(classIterable);
+        Iterable<Class<?>> classIterable = classCriteria.getIterable(Object.class);
+        Iterable<Member> memberIterable = memberCriteria.getIterable(classIterable);
         Iterator<Member> iterator = memberIterable.iterator();
         assertTrue(iterator.hasNext());
         Member member = iterator.next();
@@ -272,13 +244,11 @@ public class MemberCriteriaTest {
         memberCriteria.withAccess(AccessType.PRIVATE);
         memberCriteria.withModifiers(Modifier.STATIC);
         ClassCriteria classCriteria = new ClassCriteria();
-        Iterable<Class<?>> classIterable = classCriteria
-                .getIterable(Class.class);
-        Iterable<Member> memberIterable = memberCriteria
-                .getIterable(classIterable);
+        Iterable<Class<?>> classIterable = classCriteria.getIterable(Class.class);
+        Iterable<Member> memberIterable = memberCriteria.getIterable(classIterable);
         assertTrue(memberIterable.iterator().hasNext());
         for (Member member : memberIterable) {
-            assertTrue("member must be a field", member instanceof Field);
+            assertTrue(member instanceof Field, "member must be a field");
             int modifiers = member.getModifiers();
             assertFalse(Modifier.isPublic(modifiers));
             assertFalse(Modifier.isProtected(modifiers));
@@ -292,14 +262,11 @@ public class MemberCriteriaTest {
         memberCriteria.membersOfType(Constructor.class);
         memberCriteria.withAccess(AccessType.PROTECTED);
         ClassCriteria classCriteria = new ClassCriteria();
-        Iterable<Class<?>> classIterable = classCriteria
-                .getIterable(ArrayList.class);
-        Iterable<Member> memberIterable = memberCriteria
-                .getIterable(classIterable);
+        Iterable<Class<?>> classIterable = classCriteria.getIterable(ArrayList.class);
+        Iterable<Member> memberIterable = memberCriteria.getIterable(classIterable);
         assertTrue(memberIterable.iterator().hasNext());
         for (Member member : memberIterable) {
-            assertTrue("member must be a constructor",
-                    member instanceof Constructor<?>);
+            assertTrue(member instanceof Constructor<?>, "member must be a constructor");
             int modifiers = member.getModifiers();
             assertFalse(Modifier.isPublic(modifiers));
             assertTrue(Modifier.isProtected(modifiers));
@@ -307,66 +274,59 @@ public class MemberCriteriaTest {
         }
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void illegalMemeberTypes() {
-        memberCriteria.membersOfType(String.class);
+        assertThrows(IllegalArgumentException.class, () -> memberCriteria.membersOfType(String.class));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void illegalModifierPrivate() {
-        memberCriteria.withModifiers(Modifier.PRIVATE);
+        assertThrows(IllegalArgumentException.class, () -> memberCriteria.withModifiers(Modifier.PRIVATE));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void illegalModifierPublic() {
-        memberCriteria.withModifiers(Modifier.PUBLIC);
+        assertThrows(IllegalArgumentException.class, () -> memberCriteria.withModifiers(Modifier.PUBLIC));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void illegalModifierProtected() {
-        memberCriteria.withModifiers(Modifier.PROTECTED);
+        assertThrows(IllegalArgumentException.class, () -> memberCriteria.withModifiers(Modifier.PROTECTED));
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void iteratorRemove() {
         memberCriteria.membersOfType(Field.class);
         memberCriteria.withAccess(AccessType.PRIVATE);
         memberCriteria.withModifiers(Modifier.STATIC);
         ClassCriteria classCriteria = new ClassCriteria();
-        Iterable<Class<?>> classIterable = classCriteria
-                .getIterable(Class.class);
-        Iterable<Member> memberIterable = memberCriteria
-                .getIterable(classIterable);
+        Iterable<Class<?>> classIterable = classCriteria.getIterable(Class.class);
+        Iterable<Member> memberIterable = memberCriteria.getIterable(classIterable);
         Iterator<Member> iterator = memberIterable.iterator();
         assertTrue(iterator.hasNext());
-        iterator.remove();
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    @SuppressWarnings("all")
-    public void withNullAccesses() {
-        memberCriteria.withAccess(null);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void withEmptyAccesses() {
-        memberCriteria.withAccess(new AccessType[0]);
+        assertThrows(UnsupportedOperationException.class, () -> iterator.remove());
     }
 
     @Test
-    public void annotatedElementsPackage2Class2Member()
-            throws SecurityException, NoSuchMethodException {
+    @SuppressWarnings("all")
+    public void withNullAccesses() {
+        assertThrows(IllegalArgumentException.class, () -> memberCriteria.withAccess(null));
+    }
+
+    @Test
+    public void withEmptyAccesses() {
+        assertThrows(IllegalArgumentException.class, () -> memberCriteria.withAccess(new AccessType[0]));
+    }
+
+    @Test
+    public void annotatedElementsPackage2Class2Member() throws SecurityException, NoSuchMethodException {
         ClassCriteria classCriteria = new ClassCriteria();
         classCriteria.setSelection(ClassType.CLASSES);
         memberCriteria.membersOfType(Method.class);
         memberCriteria.named("size");
-        Iterable<Class<?>> classIterable = classCriteria
-                .getIterable(ArrayList.class);
-        Iterable<? extends AnnotatedElement> annotatedElementIterable = memberCriteria
-                .getAnnotatedElementIterable(classIterable,
-                        IterateStrategy.PACKAGE_CLASS_MEMBERS);
-        Iterator<? extends AnnotatedElement> iterator = annotatedElementIterable
-                .iterator();
+        Iterable<Class<?>> classIterable = classCriteria.getIterable(ArrayList.class);
+        Iterable<? extends AnnotatedElement> annotatedElementIterable = memberCriteria.getAnnotatedElementIterable(classIterable, IterateStrategy.PACKAGE_CLASS_MEMBERS);
+        Iterator<? extends AnnotatedElement> iterator = annotatedElementIterable.iterator();
         assertTrue(iterator.hasNext());
         AnnotatedElement next = iterator.next();
         assertEquals(ArrayList.class.getPackage(), next);
@@ -392,27 +352,22 @@ public class MemberCriteriaTest {
     }
 
     @Test
-    public void annotatedElementsMembers2Classes() throws SecurityException,
-            NoSuchMethodException {
+    public void annotatedElementsMembers2Classes() throws SecurityException, NoSuchMethodException {
         ClassCriteria classCriteria = new ClassCriteria();
         classCriteria.setSelection(ClassType.CLASSES);
 
         memberCriteria.membersOfType(Method.class);
         memberCriteria.named("size");
-        Iterable<Class<?>> classIterable = classCriteria
-                .getIterable(ArrayList.class);
-        Iterable<? extends AnnotatedElement> annotatedElementIterable = memberCriteria
-                .getAnnotatedElementIterable(classIterable,
-                        IterateStrategy.MEMBERS_CLASS);
+        Iterable<Class<?>> classIterable = classCriteria.getIterable(ArrayList.class);
+        Iterable<? extends AnnotatedElement> annotatedElementIterable = memberCriteria.getAnnotatedElementIterable(classIterable, IterateStrategy.MEMBERS_CLASS);
 
         Iterator<? extends AnnotatedElement> iterator1 = annotatedElementIterable.iterator();
-        while (iterator1.hasNext()){
+        while (iterator1.hasNext()) {
             AnnotatedElement next = iterator1.next();
             System.out.println(next);
         }
 
-        Iterator<? extends AnnotatedElement> iterator = annotatedElementIterable
-                .iterator();
+        Iterator<? extends AnnotatedElement> iterator = annotatedElementIterable.iterator();
         assertTrue(iterator.hasNext());
         AnnotatedElement next = iterator.next();
         assertEquals(ArrayList.class.getDeclaredMethod("size"), next);
@@ -430,19 +385,14 @@ public class MemberCriteriaTest {
     }
 
     @Test
-    public void annotatedElementsPackagesOnly() throws SecurityException,
-            NoSuchMethodException {
+    public void annotatedElementsPackagesOnly() throws SecurityException, NoSuchMethodException {
         ClassCriteria classCriteria = new ClassCriteria();
         classCriteria.setSelection(ClassType.CLASSES);
         memberCriteria.membersOfType(Method.class);
         memberCriteria.named("size");
-        Iterable<Class<?>> classIterable = classCriteria
-                .getIterable(ArrayList.class);
-        Iterable<? extends AnnotatedElement> annotatedElementIterable = memberCriteria
-                .getAnnotatedElementIterable(classIterable,
-                        IterateStrategy.PACKAGES_ONLY);
-        Iterator<? extends AnnotatedElement> iterator = annotatedElementIterable
-                .iterator();
+        Iterable<Class<?>> classIterable = classCriteria.getIterable(ArrayList.class);
+        Iterable<? extends AnnotatedElement> annotatedElementIterable = memberCriteria.getAnnotatedElementIterable(classIterable, IterateStrategy.PACKAGES_ONLY);
+        Iterator<? extends AnnotatedElement> iterator = annotatedElementIterable.iterator();
         assertTrue(iterator.hasNext());
         AnnotatedElement next = iterator.next();
         assertEquals(ArrayList.class.getPackage(), next);

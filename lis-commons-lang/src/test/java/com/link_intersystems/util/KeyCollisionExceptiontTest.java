@@ -15,8 +15,11 @@
  */
 package com.link_intersystems.util;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class KeyCollisionExceptiontTest {
 
@@ -24,15 +27,15 @@ public class KeyCollisionExceptiontTest {
 	public void withoutMessage() {
 		KeyCollisionException keyCollisionException = new KeyCollisionException(
 				"key");
-		Assert.assertEquals("key", keyCollisionException.getKey());
+		assertEquals("key", keyCollisionException.getKey());
 	}
 
 	@Test
 	public void withMessage() {
 		KeyCollisionException keyCollisionException = new KeyCollisionException(
 				"Message", "key");
-		Assert.assertTrue(keyCollisionException.getMessage()
+		assertTrue(keyCollisionException.getMessage()
 				.contains("Message"));
-		Assert.assertEquals("key", keyCollisionException.getKey());
+		assertEquals("key", keyCollisionException.getKey());
 	}
 }

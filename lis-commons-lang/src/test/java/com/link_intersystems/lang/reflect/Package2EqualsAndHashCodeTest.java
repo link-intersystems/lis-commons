@@ -17,11 +17,11 @@ package com.link_intersystems.lang.reflect;
 
 import com.link_intersystems.EqualsAndHashCodeTest;
 import com.link_intersystems.lang.Serialization;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 public class Package2EqualsAndHashCodeTest extends EqualsAndHashCodeTest {
 
-    @Before
+    @BeforeEach
     public void createTestInstances() throws Exception {
         super.createTestInstances();
     }

@@ -20,9 +20,9 @@ import com.link_intersystems.lang.ContextAware.RunInContext;
 import com.link_intersystems.lang.reflect.Method2;
 import org.easymock.EasyMock;
 import org.easymock.IAnswer;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -31,6 +31,7 @@ import java.util.concurrent.Callable;
 
 import static junit.framework.Assert.*;
 import static org.easymock.EasyMock.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ContextAwareTest {
 
@@ -39,7 +40,7 @@ public class ContextAwareTest {
     private Callable<String> callableMock;
 
     @SuppressWarnings("unchecked")
-    @Before
+    @BeforeEach
     public void setup() throws Exception {
         runnableMock = EasyMock.createStrictMock(Runnable.class);
         runnableMock.run();
@@ -94,7 +95,7 @@ public class ContextAwareTest {
         assertFalse(contextAware.isActivated());
     }
 
-    @Test(expected = UndeclaredThrowableException.class)
+    @Test
     public void runnableWithUndeclaredException() throws Exception {
         final ContextProvider contextProvider = EasyMock.createStrictMock(ContextProvider.class);
         contextProvider.provideContext(EasyMock.anyObject(RunInContext.class));
@@ -113,23 +114,19 @@ public class ContextAwareTest {
         };
 
         // callable called?
-        contextAware.runInContext(runnableMock);
+        assertThrows(UndeclaredThrowableException.class, () -> contextAware.runInContext(runnableMock));
     }
 
-    @Test(expected = IOException.class)
-    public void callable() throws Exception {
+    @Test
+    public void callable() {
         final TestContextAware contextAware = new TestContextAware();
-        try {
-            contextAware.runInContext(new Callable<String>() {
+        assertThrows(IOException.class, () -> contextAware.runInContext(new Callable<String>() {
 
-                public String call() throws Exception {
-                    assertTrue(contextAware.isActivated());
-                    throw new IOException();
-                }
-            });
-        } catch (Exception e) {
-            throw e;
-        }
+            public String call() throws Exception {
+                assertTrue(contextAware.isActivated());
+                throw new IOException();
+            }
+        }));
 
         assertFalse(contextAware.isActivated());
     }
@@ -139,7 +136,7 @@ public class ContextAwareTest {
         final TestContextAware contextAware = new TestContextAware();
         String runInContext = contextAware.runInContext(new Callable<String>() {
 
-            public String call() throws Exception {
+            public String call() {
                 assertTrue(contextAware.isActivated());
                 return "TEST2";
             }
@@ -189,9 +186,9 @@ public class ContextAwareTest {
             public String answer() throws Throwable {
                 assertTrue(contextAware.isActivated());
                 Method2 method = contextAware.getInvocationMethod();
-                Assert.assertNotNull(method);
+                Assertions.assertNotNull(method);
                 Method declaredMethod = TargetInterface.class.getDeclaredMethod("concat", String.class, String.class);
-                Assert.assertEquals(declaredMethod, method.getMember());
+                Assertions.assertEquals(declaredMethod, method.getMember());
                 return "Hello World";
             }
         });
@@ -199,10 +196,10 @@ public class ContextAwareTest {
         replay(targetInterface);
         TargetInterface targetInterfaceContextAware = contextAware.createContextProxy(targetInterface);
         Method2 method = contextAware.getInvocationMethod();
-        Assert.assertNull(method);
+        Assertions.assertNull(method);
         String concat = targetInterfaceContextAware.concat("HELLO ", "WORLD");
         method = contextAware.getInvocationMethod();
-        Assert.assertNull(method);
+        Assertions.assertNull(method);
         assertEquals("Hello World", concat);
         assertFalse(contextAware.isActivated());
     }
@@ -217,9 +214,9 @@ public class ContextAwareTest {
             public String answer() throws Throwable {
                 assertTrue(contextAware.isActivated());
                 Method2 method = contextAware.getInvocationMethod();
-                Assert.assertNotNull(method);
+                Assertions.assertNotNull(method);
                 Method declaredMethod = TargetInterface.class.getDeclaredMethod("concat", String.class, String.class);
-                Assert.assertEquals(declaredMethod, method.getMember());
+                Assertions.assertEquals(declaredMethod, method.getMember());
                 throw new ClassCastException();
             }
         });
@@ -227,12 +224,12 @@ public class ContextAwareTest {
         replay(targetInterface);
         TargetInterface targetInterfaceContextAware = contextAware.createContextProxy(targetInterface);
         Method2 method = contextAware.getInvocationMethod();
-        Assert.assertNull(method);
+        Assertions.assertNull(method);
         try {
             targetInterfaceContextAware.concat("HELLO ", "WORLD");
         } catch (ClassCastException illegalAccessException) {
             method = contextAware.getInvocationMethod();
-            Assert.assertNull(method);
+            Assertions.assertNull(method);
         }
         assertFalse(contextAware.isActivated());
     }
@@ -295,16 +292,16 @@ public class ContextAwareTest {
         assertFalse(contextAware.isActivated());
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void invokeUndeclaredStaticMethod() throws Exception {
+    @Test
+    public void invokeUndeclaredStaticMethod() {
         final TestContextAware contextAware = new TestContextAware();
-        contextAware.invokeStaticInContext(String.class, "toString");
+        assertThrows(IllegalArgumentException.class, () -> contextAware.invokeStaticInContext(String.class, "toString"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void invokeUndeclaredStaticMethod2() throws Exception {
         final TestContextAware contextAware = new TestContextAware();
-        contextAware.invokeStaticInContext(String.class, "toString", "");
+        assertThrows(IllegalArgumentException.class, () -> contextAware.invokeStaticInContext(String.class, "toString", ""));
     }
 
     @Test
@@ -369,22 +366,22 @@ public class ContextAwareTest {
         EasyMock.verify(targetInterface, contextListener);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void invokeMethodNullTarget() throws Exception {
+    @Test
+    public void invokeMethodNullTarget() {
         TestContextAware contextAware = new TestContextAware();
-        contextAware.invokeInContext((Object) null, "getString");
+        assertThrows(IllegalArgumentException.class, () -> contextAware.invokeInContext((Object) null, "getString"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void proxyNoInterfaces() throws Exception {
+    @Test
+    public void proxyNoInterfaces() {
         final TestContextAware contextAware = new TestContextAware();
-        contextAware.createContextProxy(new Object());
+        assertThrows(IllegalArgumentException.class, () -> contextAware.createContextProxy(new Object()));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void proxyForNullTarget() throws Exception {
+    @Test
+    public void proxyForNullTarget() {
         final TestContextAware contextAware = new TestContextAware();
-        contextAware.createContextProxy(null);
+        assertThrows(IllegalArgumentException.class, () -> contextAware.createContextProxy(null));
     }
 
     private static interface TargetInterface {

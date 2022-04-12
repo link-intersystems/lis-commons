@@ -15,7 +15,7 @@
  */
 package com.link_intersystems.lang.reflect;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
 import java.awt.*;

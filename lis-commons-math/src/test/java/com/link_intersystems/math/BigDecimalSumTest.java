@@ -18,7 +18,7 @@ package com.link_intersystems.math;
 import java.math.BigDecimal;
 
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class BigDecimalSumTest {
 

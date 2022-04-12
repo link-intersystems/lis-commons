@@ -17,16 +17,17 @@ package com.link_intersystems.lang.reflect;
 
 import com.link_intersystems.lang.Serialization;
 import com.link_intersystems.lang.SerializationException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.powermock.reflect.Whitebox;
 
 import static junit.framework.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class SerializablePackageTest {
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void nullConstructor() {
-        new SerializablePackage(null);
+        assertThrows(IllegalArgumentException.class, () -> new SerializablePackage(null));
     }
 
     @Test
@@ -41,17 +42,19 @@ public class SerializablePackageTest {
         assertEquals(packageObject, deserializedPackageObject);
     }
 
-    @Test(expected = SerializationException.class)
+    @Test
     public void classNotFound() throws Exception {
-        Package packageObject = SerializablePackageTest.class.getPackage();
-        String name = packageObject.getName();
-        Whitebox.setInternalState(packageObject, String.class, "packagepath.that.does.not.exists", Package.class);
-        try {
-            SerializablePackage serializablePackage = new SerializablePackage(packageObject);
-            SerializablePackage deserialized = Serialization.clone(serializablePackage);
-            deserialized.get();
-        } finally {
-            Whitebox.setInternalState(packageObject, String.class, name, Package.class);
-        }
+        assertThrows(SerializationException.class, () -> {
+            Package packageObject = SerializablePackageTest.class.getPackage();
+            String name = packageObject.getName();
+            Whitebox.setInternalState(packageObject, String.class, "packagepath.that.does.not.exists", Package.class);
+            try {
+                SerializablePackage serializablePackage = new SerializablePackage(packageObject);
+                SerializablePackage deserialized = Serialization.clone(serializablePackage);
+                deserialized.get();
+            } finally {
+                Whitebox.setInternalState(packageObject, String.class, name, Package.class);
+            }
+        });
     }
 }

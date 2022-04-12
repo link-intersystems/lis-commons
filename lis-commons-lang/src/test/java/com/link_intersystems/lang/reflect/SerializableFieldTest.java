@@ -17,21 +17,22 @@ package com.link_intersystems.lang.reflect;
 
 import com.link_intersystems.lang.Serialization;
 import com.link_intersystems.lang.SerializationException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.powermock.reflect.Whitebox;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
 
 import static junit.framework.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class SerializableFieldTest {
 
     protected String testField;
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void nullConstructor() {
-        new SerializableField(null);
+        assertThrows(IllegalArgumentException.class, () -> new SerializableField(null));
     }
 
     @Test
@@ -46,31 +47,34 @@ public class SerializableFieldTest {
         assertEquals(field, deserializedField);
     }
 
-    @Test(expected = SerializationException.class)
+    @Test
     public void classNotFound() throws Exception {
-        Field field = SerializableFieldTest.class.getDeclaredField("testField");
-        String name = field.getName();
-        Whitebox.setInternalState(field, "name", "noSuchField");
-        try {
+        assertThrows(SerializationException.class, () -> {
 
-            SerializableField serializableField = new SerializableField(field);
+            Field field = SerializableFieldTest.class.getDeclaredField("testField");
+            String name = field.getName();
+            Whitebox.setInternalState(field, "name", "noSuchField");
+            try {
 
-            SerializableField deserialized = Serialization.clone(serializableField);
+                SerializableField serializableField = new SerializableField(field);
 
-            deserialized.get();
-        } finally {
-            /*
-             * Restore original state
-             */
-            Whitebox.setInternalState(field, "name", name);
-        }
+                SerializableField deserialized = Serialization.clone(serializableField);
+
+                deserialized.get();
+            } finally {
+                /*
+                 * Restore original state
+                 */
+                Whitebox.setInternalState(field, "name", name);
+            }
+        });
     }
 
-    @Test(expected = SerializationException.class)
+    @Test
     public void modifierChanged() throws SecurityException, NoSuchFieldException {
         Field field = SerializableFieldTest.class.getDeclaredField("testField");
         SerializableField serializableField = new SerializationExceptionSerializableField(field);
-        Serialization.clone(serializableField);
+        assertThrows(SerializationException.class, () -> Serialization.clone(serializableField));
     }
 
     private static class SerializationExceptionSerializableField extends SerializableField {

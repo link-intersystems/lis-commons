@@ -15,8 +15,7 @@
  */
 package com.link_intersystems.lang;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -24,6 +23,8 @@ import java.net.URL;
 import java.net.URLClassLoader;
 
 import static java.util.Arrays.stream;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ParentLastURLClassLoaderTest {
 
@@ -33,7 +34,7 @@ public class ParentLastURLClassLoaderTest {
         Class<?> loadClass = parentLastURLClassLoader.loadClass(ParentLastURLClassLoaderTest.class.getCanonicalName());
         ClassLoader classLoader = loadClass.getClassLoader();
 
-        Assert.assertSame(parentLastURLClassLoader, classLoader);
+        assertSame(parentLastURLClassLoader, classLoader);
     }
 
     @Test
@@ -41,7 +42,7 @@ public class ParentLastURLClassLoaderTest {
         ParentLastURLClassLoader parentLastURLClassLoader = getParentLastURLClassLoader();
         Class<?> loadClass = parentLastURLClassLoader.loadClass(ParentLastURLClassLoaderTest.class.getCanonicalName());
         Class<?> loadClass2 = parentLastURLClassLoader.loadClass(ParentLastURLClassLoaderTest.class.getCanonicalName());
-        Assert.assertSame(loadClass, loadClass2);
+        assertSame(loadClass, loadClass2);
     }
 
     private ParentLastURLClassLoader getParentLastURLClassLoader() {
@@ -60,21 +61,24 @@ public class ParentLastURLClassLoaderTest {
         return parentLastURLClassLoader;
     }
 
-    @Test(expected = ClassNotFoundException.class)
-    public void parentLastClassNotFound() throws ClassNotFoundException {
+    @Test
+    public void parentLastClassNotFound() {
         URLClassLoader urlClassLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
         URL[] urLs = urlClassLoader.getURLs();
 
+
         ParentLastURLClassLoader parentLastURLClassLoader = new ParentLastURLClassLoader(urLs);
-        parentLastURLClassLoader.loadClass(ParentLastURLClassLoaderTest.class.getCanonicalName() + "2");
+
+        assertThrows(ClassNotFoundException.class, () -> parentLastURLClassLoader.loadClass(ParentLastURLClassLoaderTest.class.getCanonicalName() + "2"));
     }
 
-    @Test(expected = ClassNotFoundException.class)
-    public void nullParent() throws ClassNotFoundException {
+    @Test
+    public void nullParent() {
         URLClassLoader urlClassLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
         URL[] urLs = urlClassLoader.getURLs();
         ParentLastURLClassLoader parentLastURLClassLoader = new ParentLastURLClassLoader(urLs, null);
-        parentLastURLClassLoader.loadClass(ParentLastURLClassLoaderTest.class.getCanonicalName() + "2");
+
+        assertThrows(ClassNotFoundException.class, () -> parentLastURLClassLoader.loadClass(ParentLastURLClassLoaderTest.class.getCanonicalName() + "2"));
     }
 
     @Test
@@ -82,6 +86,6 @@ public class ParentLastURLClassLoaderTest {
         ParentLastURLClassLoader parentLastURLClassLoader = getParentLastURLClassLoader();
         Class<?> loadClass = parentLastURLClassLoader.loadClass(ParentLastURLClassLoaderTest.class.getCanonicalName(), true);
         ClassLoader classLoader = loadClass.getClassLoader();
-        Assert.assertSame(parentLastURLClassLoader, classLoader);
+        assertSame(parentLastURLClassLoader, classLoader);
     }
 }

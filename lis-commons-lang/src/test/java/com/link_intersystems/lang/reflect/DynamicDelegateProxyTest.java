@@ -20,11 +20,13 @@ import java.util.List;
 import org.easymock.EasyMock;
 import org.easymock.IMocksControl;
 import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.link_intersystems.lang.ref.Reference;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DynamicDelegateProxyTest {
 
@@ -35,7 +37,7 @@ public class DynamicDelegateProxyTest {
 	private Reference<List<String>> listRefMock;
 
 	@SuppressWarnings("unchecked")
-	@Before
+	@BeforeEach
 	public void setupMocks() {
 		strictControl = EasyMock.createStrictControl();
 		niceControl = EasyMock.createNiceControl();
@@ -53,7 +55,7 @@ public class DynamicDelegateProxyTest {
 		List<String> stringListDelegate = DynamicDelegateProxy.create(
 				List.class, listRefMock);
 		int size = stringListDelegate.size();
-		Assert.assertEquals(5, size);
+		assertEquals(5, size);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -67,9 +69,9 @@ public class DynamicDelegateProxyTest {
 		List<String> stringListDelegate = DynamicDelegateProxy.create(
 				List.class, listRefMock);
 		int size = stringListDelegate.size();
-		Assert.assertEquals(5, size);
+		assertEquals(5, size);
 		size = stringListDelegate.size();
-		Assert.assertEquals(2, size);
+		assertEquals(2, size);
 	}
 
 	@After

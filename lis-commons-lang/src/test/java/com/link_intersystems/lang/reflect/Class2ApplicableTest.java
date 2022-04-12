@@ -26,7 +26,7 @@ import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.SortedMap;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Class2ApplicableTest {
 

@@ -1,62 +1,63 @@
 package com.link_intersystems.beans;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.beans.BeanInfo;
 import java.beans.EventSetDescriptor;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 
-import javax.swing.DefaultButtonModel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mockito;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.*;
 
 public class BeanEventTest {
 
-	private ChangeListener changeListener;
-	private DefaultButtonModel defaultButtonModel;
-	private BeanEvent beanEvent;
+    private ChangeListener changeListener;
+    private DefaultButtonModel defaultButtonModel;
+    private BeanEvent beanEvent;
 
-	@Before
-	public void setup() throws IntrospectionException {
-		changeListener = Mockito.mock(ChangeListener.class);
-		defaultButtonModel = new DefaultButtonModel();
-		Bean<DefaultButtonModel> bean = new Bean<>(defaultButtonModel);
+    @BeforeEach
+    public void setup() throws IntrospectionException {
+        changeListener = mock(ChangeListener.class);
+        defaultButtonModel = new DefaultButtonModel();
+        Bean<DefaultButtonModel> bean = new Bean<>(defaultButtonModel);
 
-		BeanInfo beanInfo = Introspector.getBeanInfo(DefaultButtonModel.class);
-		EventSetDescriptor[] eventSetDescriptors = beanInfo.getEventSetDescriptors();
-		for (EventSetDescriptor eventSetDescriptor : eventSetDescriptors) {
-			if ("change".equals(eventSetDescriptor.getName())) {
-				beanEvent = new BeanEvent(bean, eventSetDescriptor);
-			}
-		}
+        BeanInfo beanInfo = Introspector.getBeanInfo(DefaultButtonModel.class);
+        EventSetDescriptor[] eventSetDescriptors = beanInfo.getEventSetDescriptors();
+        for (EventSetDescriptor eventSetDescriptor : eventSetDescriptors) {
+            if ("change".equals(eventSetDescriptor.getName())) {
+                beanEvent = new BeanEvent(bean, eventSetDescriptor);
+            }
+        }
 
-		Assert.assertNotNull(beanEvent);
-	}
+        assertNotNull(beanEvent);
+    }
 
-	@Test
-	public void addListener() {
-		beanEvent.addListener(changeListener);
+    @Test
+    public void addListener() {
+        beanEvent.addListener(changeListener);
 
-		defaultButtonModel.setEnabled(!defaultButtonModel.isEnabled());
+        defaultButtonModel.setEnabled(!defaultButtonModel.isEnabled());
 
-		Mockito.verify(changeListener, Mockito.times(1)).stateChanged(Mockito.any(ChangeEvent.class));
-	}
+        verify(changeListener, times(1)).stateChanged(Mockito.any(ChangeEvent.class));
+    }
 
-	@Test
-	public void removeListener() {
-		beanEvent.addListener(changeListener);
-		defaultButtonModel.setEnabled(!defaultButtonModel.isEnabled());
-		Mockito.verify(changeListener, Mockito.times(1)).stateChanged(Mockito.any(ChangeEvent.class));
+    @Test
+    public void removeListener() {
+        beanEvent.addListener(changeListener);
+        defaultButtonModel.setEnabled(!defaultButtonModel.isEnabled());
+        verify(changeListener, times(1)).stateChanged(Mockito.any(ChangeEvent.class));
 
-		Mockito.reset(changeListener);
+        reset(changeListener);
 
-		beanEvent.removeListener(changeListener);
-		defaultButtonModel.setEnabled(!defaultButtonModel.isEnabled());
-		Mockito.verify(changeListener, Mockito.never()).stateChanged(Mockito.any(ChangeEvent.class));
-	}
+        beanEvent.removeListener(changeListener);
+        defaultButtonModel.setEnabled(!defaultButtonModel.isEnabled());
+        verify(changeListener, Mockito.never()).stateChanged(Mockito.any(ChangeEvent.class));
+    }
 
 }

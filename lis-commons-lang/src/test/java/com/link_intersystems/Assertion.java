@@ -16,7 +16,7 @@
 package com.link_intersystems;
 
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.concurrent.Callable;
 
@@ -24,14 +24,14 @@ public class Assertion {
 
 	public static void assertCause(Class<? extends Throwable> expectedCause,
 			Callable<?> callable) throws Throwable {
-		assertNotNull("callable must not be null", callable);
+		assertNotNull(callable, "callable must not be null");
 		try {
 			callable.call();
 			throw new AssertionError("Expected exception " + expectedCause
 					+ " was not thrown");
 		} catch (Exception e) {
 			Throwable cause = e.getCause();
-			assertNotNull("cause must not be null", cause);
+			assertNotNull(cause, "cause must not be null");
 			if (!expectedCause.isInstance(cause)) {
 				throw cause;
 			}

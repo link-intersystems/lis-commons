@@ -20,18 +20,20 @@ import com.link_intersystems.lang.reflect.testclasses.Class2ToStringGeneric;
 import com.link_intersystems.lang.reflect.testclasses.Class2ToStringGenericNoBounds;
 import com.link_intersystems.lang.reflect.testclasses.Class2ToStringParameterizedTypeBoundType;
 import org.easymock.EasyMock;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TypeVariableToStringTransformerTest {
 
     private TypeVariableToStringTransformer transformer;
 
-    @Before
+    @BeforeEach
     public void setup() {
         transformer = new TypeVariableToStringTransformer();
 
@@ -44,16 +46,16 @@ public class TypeVariableToStringTransformerTest {
         TypeVariable<?>[] typeVariables = class2ToStringGeneric.getTypeVariables();
 
         Object transformed = transformer.apply(typeVariables[0]);
-        Assert.assertEquals("A extends java.lang.annotation.Annotation", transformed);
+        assertEquals("A extends java.lang.annotation.Annotation", transformed);
 
         transformed = transformer.apply(typeVariables[1]);
-        Assert.assertEquals("C extends java.lang.annotation.Annotation & java.io.Serializable", transformed);
+        assertEquals("C extends java.lang.annotation.Annotation & java.io.Serializable", transformed);
 
         transformed = transformer.apply(typeVariables[2]);
-        Assert.assertEquals("B extends java.io.Serializable", transformed);
+        assertEquals("B extends java.io.Serializable", transformed);
 
         transformed = transformer.apply(typeVariables[3]);
-        Assert.assertEquals("D", transformed);
+        assertEquals("D", transformed);
     }
 
     @SuppressWarnings("rawtypes")
@@ -63,7 +65,7 @@ public class TypeVariableToStringTransformerTest {
         TypeVariable<?>[] typeVariables = forClass.getTypeVariables();
 
         Object transformed = transformer.apply(typeVariables[0]);
-        Assert.assertEquals("A", transformed);
+        assertEquals("A", transformed);
     }
 
     @SuppressWarnings("rawtypes")
@@ -73,10 +75,10 @@ public class TypeVariableToStringTransformerTest {
         TypeVariable<?>[] typeVariables = forClass.getTypeVariables();
 
         Object transformed = transformer.apply(typeVariables[0]);
-        Assert.assertEquals("B extends java.io.Serializable", transformed);
+        assertEquals("B extends java.io.Serializable", transformed);
 
         transformed = transformer.apply(typeVariables[1]);
-        Assert.assertEquals("A extends B", transformed);
+        assertEquals("A extends B", transformed);
     }
 
     @SuppressWarnings("rawtypes")
@@ -86,10 +88,10 @@ public class TypeVariableToStringTransformerTest {
         TypeVariable<?>[] typeVariables = forClass.getTypeVariables();
 
         Object transformed = transformer.apply(typeVariables[0]);
-        Assert.assertEquals("B extends java.io.Serializable", transformed);
+        assertEquals("B extends java.io.Serializable", transformed);
 
         transformed = transformer.apply(typeVariables[1]);
-        Assert.assertEquals("A extends java.util.List<B>", transformed);
+        assertEquals("A extends java.util.List<B>", transformed);
     }
 
     @SuppressWarnings("rawtypes")
@@ -102,6 +104,6 @@ public class TypeVariableToStringTransformerTest {
         EasyMock.expect(unknownTypeVar.getBounds()).andReturn(types);
         EasyMock.replay(unknownTypeVar, unknownType);
         Object transformed = transformer.apply(unknownTypeVar);
-        Assert.assertEquals("A extends ???", transformed);
+        assertEquals("A extends ???", transformed);
     }
 }

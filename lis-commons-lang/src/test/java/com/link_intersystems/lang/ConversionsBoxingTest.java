@@ -21,7 +21,7 @@ import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link Conversions} boxing conversion as defined by the java

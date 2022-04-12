@@ -16,15 +16,16 @@
 package com.link_intersystems.lang.reflect;
 
 import com.link_intersystems.lang.Serialization;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static junit.framework.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class Package2Test {
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void getNullPackageName() {
-        Package2.get((String) null);
+        assertThrows(IllegalArgumentException.class, () -> Package2.get((String) null));
     }
 
     @Test
@@ -42,8 +43,7 @@ public class Package2Test {
 
     @Test
     public void packageByName() {
-        Package2 package2 = Package2.get(Package2Test.class.getPackage()
-                .getName());
+        Package2 package2 = Package2.get(Package2Test.class.getPackage().getName());
         assertEquals("com.link_intersystems.lang.reflect", package2.getName());
     }
 

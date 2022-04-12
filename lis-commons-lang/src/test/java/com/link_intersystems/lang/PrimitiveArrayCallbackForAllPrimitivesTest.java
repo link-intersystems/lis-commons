@@ -17,7 +17,7 @@ package com.link_intersystems.lang;
 
 import static junit.framework.Assert.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class PrimitiveArrayCallbackForAllPrimitivesTest {
 

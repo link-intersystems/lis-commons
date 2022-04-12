@@ -16,7 +16,7 @@
 package com.link_intersystems.lang.reflect;
 
 import com.link_intersystems.util.SerializableTemplateObjectFactory;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
 import java.lang.reflect.Constructor;
@@ -27,22 +27,23 @@ import java.util.Collection;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class SignaturePredicateTest {
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void constructorSignatureWithNull() {
-        new SignaturePredicate((Constructor<?>) null);
+        assertThrows(IllegalArgumentException.class, () -> new SignaturePredicate((Constructor<?>) null));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void methodSignatureWithNull() {
-        new SignaturePredicate((Method) null);
+        assertThrows(IllegalArgumentException.class, () -> new SignaturePredicate((Method) null));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void invokableSignatureWithNull() {
-        new SignaturePredicate((Member2<?>) null);
+        assertThrows(IllegalArgumentException.class, () -> new SignaturePredicate((Member2<?>) null));
     }
 
     @Test
@@ -93,13 +94,15 @@ public class SignaturePredicateTest {
         assertFalse(evaluate);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void evaluateAgainstAField() throws SecurityException, NoSuchMethodException, NoSuchFieldException {
-        Method declaredMethod = ArrayList.class.getDeclaredMethod("add", Object.class);
-        Field field = JComponent.class.getDeclaredField("WHEN_FOCUSED");
-        SignaturePredicate signaturePredicate = new SignaturePredicate(declaredMethod);
-        boolean evaluate = signaturePredicate.test(field);
-        assertFalse(evaluate);
+        assertThrows(IllegalArgumentException.class, () -> {
+            Method declaredMethod = ArrayList.class.getDeclaredMethod("add", Object.class);
+            Field field = JComponent.class.getDeclaredField("WHEN_FOCUSED");
+            SignaturePredicate signaturePredicate = new SignaturePredicate(declaredMethod);
+            boolean evaluate = signaturePredicate.test(field);
+            assertFalse(evaluate);
+        });
     }
 
     @SuppressWarnings("rawtypes")

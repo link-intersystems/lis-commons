@@ -15,12 +15,12 @@
  */
 package com.link_intersystems.util;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Comparator;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class IdentityComparatorTest {
 
@@ -28,7 +28,7 @@ public class IdentityComparatorTest {
 	private Object less;
 	private Object greater;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		Object o1 = new Object();
 		Object o2 = new Object();

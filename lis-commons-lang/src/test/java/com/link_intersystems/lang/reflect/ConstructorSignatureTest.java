@@ -19,15 +19,15 @@ import static junit.framework.Assert.assertEquals;
 
 import java.lang.reflect.Constructor;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.link_intersystems.EqualsAndHashCodeTest;
 import com.link_intersystems.lang.Signature;
 
 public class ConstructorSignatureTest extends EqualsAndHashCodeTest {
 
-	@Before
+	@BeforeEach
 	@Override
 	public void createTestInstances() throws Exception {
 		super.createTestInstances();

@@ -17,18 +17,19 @@ package com.link_intersystems.lang.reflect;
 
 import com.link_intersystems.Assertion;
 import com.link_intersystems.lang.Serialization;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Constructor;
 import java.util.concurrent.Callable;
 
 import static junit.framework.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class SerializableConstructorTest {
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void nullConstructor() {
-        new SerializableConstructor(null);
+        assertThrows(IllegalArgumentException.class, () -> new SerializableConstructor(null));
     }
 
     @Test

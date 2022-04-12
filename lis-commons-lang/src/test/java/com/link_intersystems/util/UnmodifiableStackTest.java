@@ -16,15 +16,15 @@
 package com.link_intersystems.util;
 
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Stack;
 import java.util.Vector;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class UnmodifiableStackTest extends UnmodifiableVectorTest {
 
@@ -81,72 +81,72 @@ public class UnmodifiableStackTest extends UnmodifiableVectorTest {
 		getUnmodifiableStack().peek();
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void pop() {
-		getUnmodifiableStack().pop();
+		assertThrows(UnsupportedOperationException.class, () ->getUnmodifiableStack().pop());
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void retainAll() {
-		getUnmodifiableStack().retainAll(Arrays.asList("A"));
+		assertThrows(UnsupportedOperationException.class, () ->getUnmodifiableStack().retainAll(Arrays.asList("A")));
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void push() {
-		getUnmodifiableStack().push(createComponentObject());
+		assertThrows(UnsupportedOperationException.class, () ->	getUnmodifiableStack().push(createComponentObject()));
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void removeAll() {
-		getUnmodifiableStack().removeAll(Arrays.asList("A"));
+		assertThrows(UnsupportedOperationException.class, () ->getUnmodifiableStack().removeAll(Arrays.asList("A")));
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void remove() {
-		getUnmodifiableStack().remove("A");
+		assertThrows(UnsupportedOperationException.class, () ->getUnmodifiableStack().remove("A"));
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void sublistRemove() {
-		getUnmodifiableStack().subList(0, 1).clear();
+		assertThrows(UnsupportedOperationException.class, () ->getUnmodifiableStack().subList(0, 1).clear());
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void clear() {
-		getUnmodifiableStack().clear();
+		assertThrows(UnsupportedOperationException.class, () ->getUnmodifiableStack().clear());
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void addAll() {
-		getUnmodifiableStack().addAll(Arrays.asList("A"));
+		assertThrows(UnsupportedOperationException.class, () ->getUnmodifiableStack().addAll(Arrays.asList("A")));
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void add() {
-		getUnmodifiableStack().add("A");
+		assertThrows(UnsupportedOperationException.class, () ->getUnmodifiableStack().add("A"));
 	}
 
 	@Test
 	public void toStringTest() {
 		String unmodifiableToString = getUnmodifiableStack().toString();
 		String string = stack.toString();
-		Assert.assertEquals(string, unmodifiableToString);
+		assertEquals(string, unmodifiableToString);
 	}
 
 	@Test
 	public void search() {
 		int position = getUnmodifiableStack().search("B");
-		Assert.assertEquals(2, position);
+		assertEquals(2, position);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Test
 	public void cloneStack() {
 		Stack<Object> clone = (Stack<Object>) getUnmodifiableStack().clone();
-		Assert.assertNotNull(clone);
+		Assertions.assertNotNull(clone);
 		clone.equals(getUnmodifiableStack());
 
-		Assert.assertTrue(clone instanceof UnmodifiableStack<?>);
+		assertTrue(clone instanceof UnmodifiableStack<?>);
 
 	}
 

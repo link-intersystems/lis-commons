@@ -1,31 +1,32 @@
 package com.link_intersystems.lang.ref;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class DefaultMutableReferenceTest {
 
-	@Test
-	public void setAndGet() {
-		DefaultMutableReference<String> defaultMutableReference = new DefaultMutableReference<String>();
+    @Test
+    public void setAndGet() {
+        DefaultMutableReference<String> defaultMutableReference = new DefaultMutableReference<String>();
 
-		Assert.assertNull(defaultMutableReference.get());
+        assertNull(defaultMutableReference.get());
 
-		String newReferent = new String("someString");
+        String newReferent = new String("someString");
 
-		defaultMutableReference.set(newReferent);
-		Assert.assertEquals(newReferent, defaultMutableReference.get());
+        defaultMutableReference.set(newReferent);
+        assertEquals(newReferent, defaultMutableReference.get());
 
-		Assert.assertSame(newReferent, defaultMutableReference.get());
-	}
+        assertSame(newReferent, defaultMutableReference.get());
+    }
 
-	@Test
-	public void setViaConstructor() {
-		String newReferent = new String("someString");
-		
-		DefaultMutableReference<String> defaultMutableReference = new DefaultMutableReference<String>(newReferent);
+    @Test
+    public void setViaConstructor() {
+        String newReferent = new String("someString");
 
-		Assert.assertEquals(newReferent, defaultMutableReference.get());
-		Assert.assertSame(newReferent, defaultMutableReference.get());
-	}
+        DefaultMutableReference<String> defaultMutableReference = new DefaultMutableReference<String>(newReferent);
+
+        assertEquals(newReferent, defaultMutableReference.get());
+        assertSame(newReferent, defaultMutableReference.get());
+    }
 }

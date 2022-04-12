@@ -19,7 +19,7 @@ import static junit.framework.Assert.assertEquals;
 
 import java.lang.reflect.Method;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class NullInvocationArgumentsResolverTest {
 

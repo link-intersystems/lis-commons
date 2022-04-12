@@ -4,13 +4,13 @@ import java.awt.Container;
 
 import javax.swing.JComponent;
 
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 import com.link_intersystems.EqualsAndHashCodeTest;
 
 public class Class2EqualsAndHashCodeTest extends EqualsAndHashCodeTest {
 
-	@Before
+	@BeforeEach
 	public void createTestInstances() throws Exception {
 		super.createTestInstances();
 	}

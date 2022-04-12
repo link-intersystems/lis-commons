@@ -17,8 +17,8 @@ package com.link_intersystems.lang.ref;
 
 import java.io.Serializable;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.link_intersystems.EqualsAndHashCodeTest;
 
@@ -29,7 +29,7 @@ public class AbstractSerializableReferenceEqualsAndHashCodeTest extends
 
 	public static final String TEST2 = "Test2";
 
-	@Before
+	@BeforeEach
 	@Override
 	public void createTestInstances() throws Exception {
 		super.createTestInstances();

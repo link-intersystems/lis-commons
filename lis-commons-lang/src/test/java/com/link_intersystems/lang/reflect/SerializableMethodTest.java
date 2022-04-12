@@ -17,19 +17,20 @@ package com.link_intersystems.lang.reflect;
 
 import com.link_intersystems.Assertion;
 import com.link_intersystems.lang.Serialization;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.concurrent.Callable;
 
 import static junit.framework.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class SerializableMethodTest {
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void nullConstructor() {
-        new SerializableMethod(null);
+        assertThrows(IllegalArgumentException.class, () ->new SerializableMethod(null));
     }
 
     @Test
@@ -77,7 +78,7 @@ public class SerializableMethodTest {
 
     /**
      * Helper method until commons-lang3 fixed the class loader problem. See
-     * {@link https://issues.apache.org/jira/browse/LANG-788}.
+     * {@link <a href="https://issues.apache.org/jira/browse/LANG-788">...</a>}.
      */
     @SuppressWarnings("unchecked")
     private static <T extends Serializable> T cloneSerializable(T serializable) {

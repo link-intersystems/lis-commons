@@ -1,12 +1,12 @@
 /**
  * Copyright 2011 Link Intersystems GmbH <rene.link@link-intersystems.com>
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,71 +15,72 @@
  */
 package com.link_intersystems.util;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.ListIterator;
 
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class UnmodifiableListIteratorTest {
 
-	private UnmodifiableListIterator<String> unmodifiableListIterator;
+    private UnmodifiableListIterator<String> unmodifiableListIterator;
 
-	@Before
-	public void setup() {
-		ArrayList<String> arrayList = new ArrayList<String>();
-		arrayList.add("A");
-		arrayList.add("B");
-		arrayList.add("C");
-		ListIterator<String> listIterator = arrayList.listIterator();
-		unmodifiableListIterator = new UnmodifiableListIterator<String>(
-				listIterator);
-	}
+    @BeforeEach
+    public void setup() {
+        ArrayList<String> arrayList = new ArrayList<String>();
+        arrayList.add("A");
+        arrayList.add("B");
+        arrayList.add("C");
+        ListIterator<String> listIterator = arrayList.listIterator();
+        unmodifiableListIterator = new UnmodifiableListIterator<String>(listIterator);
+    }
 
-	@Test(expected = UnsupportedOperationException.class)
-	public void add() {
-		unmodifiableListIterator.add("A");
-	}
+    @Test
+    public void add() {
+        assertThrows(UnsupportedOperationException.class, () -> unmodifiableListIterator.add("A"));
+    }
 
-	@Test
-	public void hasNext() {
-		unmodifiableListIterator.hasNext();
-	}
+    @Test
+    public void hasNext() {
+        unmodifiableListIterator.hasNext();
+    }
 
-	@Test
-	public void hasPrevious() {
-		unmodifiableListIterator.hasPrevious();
-	}
+    @Test
+    public void hasPrevious() {
+        unmodifiableListIterator.hasPrevious();
+    }
 
-	@Test
-	public void next() {
-		unmodifiableListIterator.next();
-	}
+    @Test
+    public void next() {
+        unmodifiableListIterator.next();
+    }
 
-	@Test
-	public void nextIndex() {
-		unmodifiableListIterator.nextIndex();
-	}
+    @Test
+    public void nextIndex() {
+        unmodifiableListIterator.nextIndex();
+    }
 
-	@Test
-	public void previous() {
-		unmodifiableListIterator.next();
-		unmodifiableListIterator.previous();
-	}
+    @Test
+    public void previous() {
+        unmodifiableListIterator.next();
+        unmodifiableListIterator.previous();
+    }
 
-	@Test
-	public void previousIndex() {
-		unmodifiableListIterator.previousIndex();
-	}
+    @Test
+    public void previousIndex() {
+        unmodifiableListIterator.previousIndex();
+    }
 
-	@Test(expected = UnsupportedOperationException.class)
-	public void remove() {
-		unmodifiableListIterator.remove();
-	}
+    @Test
+    public void remove() {
+        assertThrows(UnsupportedOperationException.class, () -> unmodifiableListIterator.remove());
+    }
 
-	@Test(expected = UnsupportedOperationException.class)
-	public void set() {
-		unmodifiableListIterator.set("A");
-	}
+    @Test
+    public void set() {
+        assertThrows(UnsupportedOperationException.class, () -> unmodifiableListIterator.set("A"));
+    }
 
 }
