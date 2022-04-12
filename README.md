@@ -1,6 +1,8 @@
 lis-commons
 =============
 
+[![Java CI with Maven](https://github.com/link-intersystems/lis-commons/actions/workflows/maven.yml/badge.svg)](https://github.com/link-intersystems/lis-commons/actions/workflows/maven.yml)
+
 A collection of reusable Java components.
 
 Some time ago (in 2007) I started to aggregate reusable Java components that were not included in J2SE or that provide an easier api for common programming tasks in one library.
