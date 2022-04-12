@@ -54,8 +54,23 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
         return StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList());
     }
 
-    public enum ClassType {
-        CLASSES, INTERFACES, INNER_CLASSES
+    public enum ClassType implements Predicate<Class<?>> {
+        CLASSES() {
+            @Override
+            public boolean test(Class<?> clazz) {
+                return !clazz.isInterface() && clazz.getEnclosingClass() == null;
+            }
+        }, INTERFACES() {
+            @Override
+            public boolean test(Class<?> clazz) {
+                return clazz.isInterface();
+            }
+        }, INNER_CLASSES() {
+            @Override
+            public boolean test(Class<?> clazz) {
+                return clazz.getEnclosingClass() != null;
+            }
+        };
     }
 
     private ClassType[] classTypes = new ClassType[]{ClassType.CLASSES, ClassType.INTERFACES};
@@ -335,7 +350,7 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
                     Node2ClassTransformer node2ClassTransformer = new Node2ClassTransformer();
                     for (int i = 0; i < classTypes.length; i++) {
                         ClassType classType = classTypes[i];
-                        ClassTypePredicate classTypePredicate = new ClassTypePredicate(classType);
+                        Predicate<Class<?>> classTypePredicate = new OrAbstractPredicate<>(classType);
                         Predicate transformedPredicate = new TransformedPredicate(node2ClassTransformer, classTypePredicate);
                         nodeIteratePredicates[i] = transformedPredicate;
                     }
@@ -353,7 +368,7 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
                     classesIterator = new TransformIterator(classNodeIterator, new Node2ClassTransformer());
                 }
 
-                ClassTypePredicate classTypePredicate = new ClassTypePredicate(classTypes);
+                Predicate<Class<?>> classTypePredicate = new OrAbstractPredicate<>(classTypes);
                 classesIterator = new FilteredIterator<>(classesIterator, classTypePredicate);
 
                 classesIterator = classCriteriaCopy.applyTraverseClassesUniquely(classesIterator);
@@ -395,36 +410,6 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
 
     public ObjectFactory<ClassCriteria> getObjectFactory() {
         return new SerializableTemplateObjectFactory<>(this);
-    }
-
-    private static class ClassTypePredicate implements Predicate<Class<?>> {
-
-        private ClassType[] classTypes;
-
-        public ClassTypePredicate(ClassType... classTypes) {
-            this.classTypes = classTypes;
-        }
-
-        public boolean test(Class<?> clazz) {
-            boolean filterMatch = false;
-
-            for (ClassType classType : classTypes) {
-                switch (classType) {
-                    case INNER_CLASSES:
-                        filterMatch = clazz.getEnclosingClass() != null;
-                        break;
-                    case CLASSES:
-                        filterMatch = !clazz.isInterface() && clazz.getEnclosingClass() == null;
-                        break;
-                    case INTERFACES:
-                        filterMatch = clazz.isInterface();
-                }
-                if (filterMatch) {
-                    break;
-                }
-            }
-            return filterMatch;
-        }
     }
 
 }

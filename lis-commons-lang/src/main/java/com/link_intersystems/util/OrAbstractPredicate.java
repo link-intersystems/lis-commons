@@ -8,20 +8,19 @@ import static java.util.Arrays.asList;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class AndPredicate<T> extends AbstractPredicateCollection<T> {
+public class OrAbstractPredicate<T> extends AbstractPredicateCollection<T> {
 
     @SafeVarargs
-    public AndPredicate(Predicate<T>... predicates) {
+    public OrAbstractPredicate(Predicate<T>... predicates) {
         this(asList(predicates));
     }
 
-    public AndPredicate(Collection<Predicate<T>> predicates) {
-        super(false, predicates);
+    public OrAbstractPredicate(Collection<Predicate<T>> predicates) {
+        super(true, predicates);
     }
 
     @Override
     protected boolean shouldBreak(boolean latestPredicateResult) {
-        return !latestPredicateResult;
+        return latestPredicateResult;
     }
-
 }
