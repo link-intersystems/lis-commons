@@ -27,7 +27,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class GraphFacadeImplTest {
+class GraphFacadeImplTest  {
 
     private Node start;
     private Node cRef;
@@ -61,27 +61,27 @@ public class GraphFacadeImplTest {
     }
 
     @Test
-    public void abstractClass() {
+    void abstractClass() {
         new GraphFacade() {
         };
     }
 
     @Test
-    public void traverseBreathFirst() {
+    void traverseBreathFirst() {
         TraverseAssertion traverseAssertion = new TraverseAssertion(Arrays.asList("A", "B", "C", "D", "E", "F"));
         GraphFacade.traverseBreadthFirst(start, traverseAssertion);
         traverseAssertion.assertAllUserObjectsTraversed();
     }
 
     @Test
-    public void traverseDepthFirst() {
+    void traverseDepthFirst() {
         TraverseAssertion traverseAssertion = new TraverseAssertion(Arrays.asList("A", "B", "C", "E", "F", "D"));
         GraphFacade.traverseDepthFirst(start, traverseAssertion);
         traverseAssertion.assertAllUserObjectsTraversed();
     }
 
     @Test
-    public void cycleDetection() {
+    void cycleDetection() {
         eRef.addReference(cRef);
         assertThrows(CyclicGraphException.class, () -> GraphFacade.traverseDepthFirst(start, new CycleDetector()));
     }

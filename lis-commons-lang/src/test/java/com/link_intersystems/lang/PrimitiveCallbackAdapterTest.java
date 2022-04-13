@@ -17,10 +17,10 @@ package com.link_intersystems.lang;
 
 import org.junit.jupiter.api.Test;
 
-public class PrimitiveCallbackAdapterTest {
+class PrimitiveCallbackAdapterTest  {
 
 	@Test
-	public void simpleTest() {
+	void simpleTest() {
 		PrimitiveCallbackAdapter primitiveCallbackAdapter = new PrimitiveCallbackAdapter();
 		primitiveCallbackAdapter.primitive(true);
 		primitiveCallbackAdapter.primitive(1);

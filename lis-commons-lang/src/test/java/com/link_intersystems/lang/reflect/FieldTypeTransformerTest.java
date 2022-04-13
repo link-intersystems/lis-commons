@@ -22,7 +22,7 @@ import java.lang.reflect.Field;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 
-public class FieldTypeTransformerTest {
+class FieldTypeTransformerTest  {
 
     /*
      * only for test
@@ -30,7 +30,7 @@ public class FieldTypeTransformerTest {
     protected FieldTypeTransformerTest fieldTypeTransformerTest;
 
     @Test
-    public void transformField() throws SecurityException, NoSuchFieldException {
+    void transformField() throws SecurityException, NoSuchFieldException {
         FieldTypeTransformer field2TypeTransformer = new FieldTypeTransformer();
         Field declaredField = FieldTypeTransformerTest.class
                 .getDeclaredField("fieldTypeTransformerTest");

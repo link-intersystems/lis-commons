@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 
 import com.link_intersystems.EqualsAndHashCodeTest;
 
-public class AbstractSerializableReferenceEqualsAndHashCodeTest extends
+class AbstractSerializableReferenceEqualsAndHashCodeTest  extends
 		EqualsAndHashCodeTest {
 
 	public static final String TEST1 = "Test1";
@@ -49,14 +49,14 @@ public class AbstractSerializableReferenceEqualsAndHashCodeTest extends
 	}
 
 	@Test
-	public void toStringTest() {
+	void toStringTest() {
 		AbstractSerializableReference<String> abstractSerializableReference = new TestSerializableReference(
 				"Test");
 		abstractSerializableReference.toString();
 	}
 
 	@Test
-	public void toStringForNullTest() {
+	void toStringForNullTest() {
 		AbstractSerializableReference<String> abstractSerializableReference = new TestSerializableReference(
 				null);
 		abstractSerializableReference.toString();

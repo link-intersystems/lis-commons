@@ -28,7 +28,7 @@ import com.link_intersystems.lang.ref.Reference;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class DynamicDelegateProxyTest {
+class DynamicDelegateProxyTest  {
 
 	private IMocksControl strictControl;
 	private IMocksControl niceControl;
@@ -48,7 +48,7 @@ public class DynamicDelegateProxyTest {
 
 	@SuppressWarnings("unchecked")
 	@Test
-	public void passthroughDelegate() {
+	void passthroughDelegate() {
 		EasyMock.expect(listRefMock.get()).andReturn(listMock).anyTimes();
 		EasyMock.expect(listMock.size()).andReturn(5);
 		replayMocks();
@@ -60,7 +60,7 @@ public class DynamicDelegateProxyTest {
 
 	@SuppressWarnings("unchecked")
 	@Test
-	public void changingTarget() {
+	void changingTarget() {
 		EasyMock.expect(listRefMock.get()).andReturn(listMock);
 		EasyMock.expect(listRefMock.get()).andReturn(anotherListMock);
 		EasyMock.expect(listMock.size()).andReturn(5);

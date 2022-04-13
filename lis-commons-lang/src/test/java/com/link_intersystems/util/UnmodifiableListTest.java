@@ -32,94 +32,94 @@ public abstract class UnmodifiableListTest extends UnmodifiableCollectionTest {
     protected abstract List<Object> getUnmodifiableList();
 
     @Test
-    public void getAt() {
+    void getAt() {
         getUnmodifiableList().get(0);
     }
 
     @Test
-    public void indexOf() {
+    void indexOf() {
         getUnmodifiableList().indexOf(getCollectionObject());
     }
 
     @Test
-    public void lastIndexOf() {
+    void lastIndexOf() {
         getUnmodifiableList().lastIndexOf(getCollectionObject());
     }
 
     @Test
-    public void listIterator() {
+    void listIterator() {
         getUnmodifiableList().listIterator();
     }
 
     @Test
-    public void listIteratorAt() {
+    void listIteratorAt() {
         getUnmodifiableList().listIterator(0);
     }
 
     @Test
-    public void subList() {
+    void subList() {
         getUnmodifiableList().subList(0, 1);
     }
 
     @Test
-    public void addAt() {
+    void addAt() {
         assertThrows(UnsupportedOperationException.class, () -> getUnmodifiableList().add(0, createComponentObject()));
     }
 
     @Test
-    public void addAllAt() {
+    void addAllAt() {
         assertThrows(UnsupportedOperationException.class, () -> getUnmodifiableList().addAll(0, createComponentObjects()));
     }
 
     @Test
-    public void listIteratorAdd() {
+    void listIteratorAdd() {
         ListIterator<Object> listIterator = getUnmodifiableList().listIterator();
         listIterator.next();
         assertThrows(UnsupportedOperationException.class, () -> listIterator.add(createComponentObject()));
     }
 
     @Test
-    public void listIteratorSet() {
+    void listIteratorSet() {
         ListIterator<Object> listIterator = getUnmodifiableList().listIterator();
         listIterator.next();
         assertThrows(UnsupportedOperationException.class, () -> listIterator.set(createComponentObject()));
     }
 
     @Test
-    public void listIteratorRemove() {
+    void listIteratorRemove() {
         ListIterator<Object> listIterator = getUnmodifiableList().listIterator();
         listIterator.next();
         assertThrows(UnsupportedOperationException.class, () -> listIterator.remove());
     }
 
     @Test
-    public void listIteratorAtAdd() {
+    void listIteratorAtAdd() {
         ListIterator<Object> listIterator = getUnmodifiableList().listIterator(0);
         listIterator.next();
         assertThrows(UnsupportedOperationException.class, () -> listIterator.add(createComponentObject()));
     }
 
     @Test
-    public void listIteratorAtSet() {
+    void listIteratorAtSet() {
         ListIterator<Object> listIterator = getUnmodifiableList().listIterator(0);
         listIterator.next();
         assertThrows(UnsupportedOperationException.class, () -> listIterator.set(createComponentObject()));
     }
 
     @Test
-    public void listIteratorAtRemove() {
+    void listIteratorAtRemove() {
         ListIterator<Object> listIterator = getUnmodifiableList().listIterator(0);
         listIterator.next();
         assertThrows(UnsupportedOperationException.class, () -> listIterator.remove());
     }
 
     @Test
-    public void removeAt() {
+    void removeAt() {
         assertThrows(UnsupportedOperationException.class, () -> getUnmodifiableList().remove(0));
     }
 
     @Test
-    public void setAt() {
+    void setAt() {
         assertThrows(UnsupportedOperationException.class, () -> getUnmodifiableList().set(0, createComponentObject()));
     }
 

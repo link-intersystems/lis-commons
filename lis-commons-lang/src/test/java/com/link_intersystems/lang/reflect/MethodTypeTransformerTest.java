@@ -22,7 +22,7 @@ import java.lang.reflect.Method;
 
 import org.junit.jupiter.api.Test;
 
-public class MethodTypeTransformerTest {
+class MethodTypeTransformerTest  {
 
 	/*
 	 * only for test
@@ -32,7 +32,7 @@ public class MethodTypeTransformerTest {
 	}
 
 	@Test
-	public void transformField() throws SecurityException,
+	void transformField() throws SecurityException,
 			NoSuchMethodException {
 		MethodTypeTransformer methodTypeTransformer = new MethodTypeTransformer();
 		Method method = MethodTypeTransformerTest.class

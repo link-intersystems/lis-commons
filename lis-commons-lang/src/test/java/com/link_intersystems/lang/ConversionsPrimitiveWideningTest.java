@@ -29,15 +29,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  * intersystems.com]</a>
  */
-public class ConversionsPrimitiveWideningTest {
+class ConversionsPrimitiveWideningTest  {
 
     @Test
-    public void nonPrimitiveFrom() {
+    void nonPrimitiveFrom() {
         assertThrows(IllegalArgumentException.class, () -> Conversions.isPrimitiveWidening(Byte.class, Double.TYPE));
     }
 
     @Test
-    public void nonPrimitiveTo() {
+    void nonPrimitiveTo() {
         assertThrows(IllegalArgumentException.class, () -> Conversions.isPrimitiveWidening(Byte.TYPE, Double.class));
     }
 
@@ -45,7 +45,7 @@ public class ConversionsPrimitiveWideningTest {
      * byte to short, int, long, float, or double
      */
     @Test
-    public void byteWidening() {
+    void byteWidening() {
         Class<?> from = Byte.TYPE;
         assertFalse(Conversions.isPrimitiveWidening(from, Byte.TYPE));
         assertTrue(Conversions.isPrimitiveWidening(from, Short.TYPE));
@@ -60,7 +60,7 @@ public class ConversionsPrimitiveWideningTest {
      * short to int, long, float, or double
      */
     @Test
-    public void shortWidening() {
+    void shortWidening() {
         Class<?> from = Short.TYPE;
         assertFalse(Conversions.isPrimitiveWidening(from, Byte.TYPE));
         assertFalse(Conversions.isPrimitiveWidening(from, Short.TYPE));
@@ -75,7 +75,7 @@ public class ConversionsPrimitiveWideningTest {
      * char to int, long, float, or double
      */
     @Test
-    public void characterWidening() {
+    void characterWidening() {
         Class<?> from = Character.TYPE;
         assertFalse(Conversions.isPrimitiveWidening(from, Byte.TYPE));
         assertFalse(Conversions.isPrimitiveWidening(from, Short.TYPE));
@@ -90,7 +90,7 @@ public class ConversionsPrimitiveWideningTest {
      * int to long, float, or double
      */
     @Test
-    public void integerWidening() {
+    void integerWidening() {
         Class<?> from = Integer.TYPE;
         assertFalse(Conversions.isPrimitiveWidening(from, Byte.TYPE));
         assertFalse(Conversions.isPrimitiveWidening(from, Short.TYPE));
@@ -105,7 +105,7 @@ public class ConversionsPrimitiveWideningTest {
      * long to float or double
      */
     @Test
-    public void longWidening() {
+    void longWidening() {
         Class<?> from = Long.TYPE;
         assertFalse(Conversions.isPrimitiveWidening(from, Byte.TYPE));
         assertFalse(Conversions.isPrimitiveWidening(from, Short.TYPE));
@@ -120,7 +120,7 @@ public class ConversionsPrimitiveWideningTest {
      * float to double
      */
     @Test
-    public void floatWidening() {
+    void floatWidening() {
         Class<?> from = Float.TYPE;
         assertFalse(Conversions.isPrimitiveWidening(from, Byte.TYPE));
         assertFalse(Conversions.isPrimitiveWidening(from, Short.TYPE));
@@ -136,7 +136,7 @@ public class ConversionsPrimitiveWideningTest {
      * type.
      */
     @Test
-    public void doubleWidening() {
+    void doubleWidening() {
         Class<?> from = Double.TYPE;
         assertFalse(Conversions.isPrimitiveWidening(from, Byte.TYPE));
         assertFalse(Conversions.isPrimitiveWidening(from, Short.TYPE));

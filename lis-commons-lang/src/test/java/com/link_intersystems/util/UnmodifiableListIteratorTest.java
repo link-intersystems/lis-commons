@@ -23,7 +23,7 @@ import java.util.ListIterator;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class UnmodifiableListIteratorTest {
+class UnmodifiableListIteratorTest  {
 
     private UnmodifiableListIterator<String> unmodifiableListIterator;
 
@@ -38,48 +38,48 @@ public class UnmodifiableListIteratorTest {
     }
 
     @Test
-    public void add() {
+    void add() {
         assertThrows(UnsupportedOperationException.class, () -> unmodifiableListIterator.add("A"));
     }
 
     @Test
-    public void hasNext() {
+    void hasNext() {
         unmodifiableListIterator.hasNext();
     }
 
     @Test
-    public void hasPrevious() {
+    void hasPrevious() {
         unmodifiableListIterator.hasPrevious();
     }
 
     @Test
-    public void next() {
+    void next() {
         unmodifiableListIterator.next();
     }
 
     @Test
-    public void nextIndex() {
+    void nextIndex() {
         unmodifiableListIterator.nextIndex();
     }
 
     @Test
-    public void previous() {
+    void previous() {
         unmodifiableListIterator.next();
         unmodifiableListIterator.previous();
     }
 
     @Test
-    public void previousIndex() {
+    void previousIndex() {
         unmodifiableListIterator.previousIndex();
     }
 
     @Test
-    public void remove() {
+    void remove() {
         assertThrows(UnsupportedOperationException.class, () -> unmodifiableListIterator.remove());
     }
 
     @Test
-    public void set() {
+    void set() {
         assertThrows(UnsupportedOperationException.class, () -> unmodifiableListIterator.set("A"));
     }
 

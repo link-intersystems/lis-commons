@@ -19,15 +19,15 @@ import static junit.framework.Assert.assertSame;
 
 import org.junit.jupiter.api.Test;
 
-public class HardReferenceTest {
+class HardReferenceTest  {
 
 	@Test
-	public void nullValue() {
+	void nullValue() {
 		new HardReference<Object>(null);
 	}
 
 	@Test
-	public void stringValue() {
+	void stringValue() {
 		String test = "TEST";
 		Reference<String> reference = new HardReference<String>(test);
 		String actual = reference.get();

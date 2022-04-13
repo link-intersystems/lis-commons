@@ -21,17 +21,17 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class IntModeTest {
+class IntModeTest  {
 
     @Test
-    public void modeNoValues() {
+    void modeNoValues() {
         Mode<Integer> mode = new IntMode();
         Integer value = mode.getValue();
         assertNull(value);
     }
 
     @Test
-    public void mode() {
+    void mode() {
         Mode<Integer> mode = new IntMode();
         mode.addValue(1);
         mode.addValue(2);
@@ -47,7 +47,7 @@ public class IntModeTest {
     }
 
     @Test
-    public void modes() {
+    void modes() {
         Mode<Integer> mode = new IntMode();
         mode.addValue(1);
         mode.addValue(1);
@@ -68,7 +68,7 @@ public class IntModeTest {
     }
 
     @Test
-    public void modeChanged() {
+    void modeChanged() {
         Mode<Integer> mode = new IntMode();
         boolean changed = mode.addValue(1);
         assertTrue(changed);

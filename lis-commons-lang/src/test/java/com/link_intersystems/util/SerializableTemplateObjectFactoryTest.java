@@ -20,15 +20,15 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class SerializableTemplateObjectFactoryTest {
+class SerializableTemplateObjectFactoryTest  {
 
     @Test
-    public void nullTemplate() {
+    void nullTemplate() {
         assertThrows(IllegalArgumentException.class, () -> new SerializableTemplateObjectFactory<Integer>(null));
     }
 
     @Test
-    public void factory() {
+    void factory() {
         Integer valueOf = Integer.valueOf(13);
 
         SerializableTemplateObjectFactory<Integer> serializableTemplateObjectFactory = new SerializableTemplateObjectFactory<Integer>(valueOf);

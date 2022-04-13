@@ -23,10 +23,10 @@ import java.io.Serializable;
 
 import org.junit.jupiter.api.Test;
 
-public class CopyOnAccessReferenceTest {
+class CopyOnAccessReferenceTest  {
 
 	@Test
-	public void copyOnAccess() {
+	void copyOnAccess() {
 		StringTestHolder stringTestHolder = new StringTestHolder();
 		stringTestHolder.string = "Test";
 
@@ -47,7 +47,7 @@ public class CopyOnAccessReferenceTest {
 	}
 
 	@Test
-	public void copyOnAccessForNullRef() {
+	void copyOnAccessForNullRef() {
 		Reference<StringTestHolder> copyOnAccessReference = new CopyOnAccessReference<StringTestHolder>(
 				null);
 		StringTestHolder copy = copyOnAccessReference.get();

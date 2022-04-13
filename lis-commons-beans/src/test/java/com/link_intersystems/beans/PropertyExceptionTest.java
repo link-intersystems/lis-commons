@@ -19,10 +19,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class PropertyExceptionTest {
+class PropertyExceptionTest  {
 
     @Test
-    public void getName() {
+    void getName() {
         PropertyException propertyException = new PropertyException(PropertyException.class, "test") {
             private static final long serialVersionUID = 3670832465414046515L;
         };

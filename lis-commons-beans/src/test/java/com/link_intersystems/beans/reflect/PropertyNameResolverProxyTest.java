@@ -9,7 +9,7 @@ import java.beans.PropertyDescriptor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class PropertyNameResolverProxyTest {
+class PropertyNameResolverProxyTest  {
 
 	public static interface SomeBeanInterface {
 
@@ -41,41 +41,41 @@ public class PropertyNameResolverProxyTest {
 	}
 
 	@Test
-	public void noProperyAccessed() {
+	void noProperyAccessed() {
 		PropertyDescriptor latestCallPropertyDescriptor = propertyNameResolverProxy.getLatestCallPropertyDescriptor();
 		assertNull(latestCallPropertyDescriptor, "latestCallPropertyDescriptor");
 	}
 
 	@Test
-	public void booleanGetter() {
+	void booleanGetter() {
 		someBeanInterface.isEnabled();
 
 		assertLatestProperty("enabled");
 	}
 
 	@Test
-	public void booleanSetter() {
+	void booleanSetter() {
 		someBeanInterface.setEnabled(false);
 
 		assertLatestProperty("enabled");
 	}
 
 	@Test
-	public void objectGetter() {
+	void objectGetter() {
 		someBeanInterface.getTitle();
 
 		assertLatestProperty("title");
 	}
 
 	@Test
-	public void objectSetter() {
+	void objectSetter() {
 		someBeanInterface.setTitle("");
 
 		assertLatestProperty("title");
 	}
 
 	@Test
-	public void latestPropertyDescriptorReturned() {
+	void latestPropertyDescriptorReturned() {
 		someBeanInterface.setTitle("");
 		someBeanInterface.setEnabled(true);
 

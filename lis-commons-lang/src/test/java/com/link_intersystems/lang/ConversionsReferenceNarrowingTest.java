@@ -36,17 +36,17 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  * intersystems.com]</a>
  */
-public class ConversionsReferenceNarrowingTest {
+class ConversionsReferenceNarrowingTest  {
 
     @Test
-    public void nullFrom() {
+    void nullFrom() {
         Class<?> s = null;
         Class<?> t = Collection.class;
         assertThrows(IllegalArgumentException.class, () -> Conversions.isNarrowingReference(s, t));
     }
 
     @Test
-    public void nullTo() {
+    void nullTo() {
         Class<?> s = List.class;
         Class<?> t = null;
         assertThrows(IllegalArgumentException.class, () -> Conversions.isNarrowingReference(s, t));
@@ -59,7 +59,7 @@ public class ConversionsReferenceNarrowingTest {
      * reference type.)
      */
     @Test
-    public void supertype() {
+    void supertype() {
         Class<?> s = Collection.class;
         Class<?> t = List.class;
         boolean narrowingReference = false;
@@ -74,7 +74,7 @@ public class ConversionsReferenceNarrowingTest {
      * that C is not final and does not implement K.
      */
     @Test
-    public void notFinalClassDoesntImplementInterface() {
+    void notFinalClassDoesntImplementInterface() {
         Class<?> c = Thread.class;
         Class<?> k = Appendable.class;
 
@@ -92,7 +92,7 @@ public class ConversionsReferenceNarrowingTest {
      * not final.
      */
     @Test
-    public void interfaceToNonFinalClass() {
+    void interfaceToNonFinalClass() {
         Class<?> j = Appendable.class;
         Class<?> c = Thread.class;
 
@@ -111,7 +111,7 @@ public class ConversionsReferenceNarrowingTest {
      * type T[].
      */
     @Test
-    public void interfaceClonableAndSerializableToAnyArray() {
+    void interfaceClonableAndSerializableToAnyArray() {
         Class<?> c = Cloneable.class;
         Class<?> s = Serializable.class;
         Class<?> a = Thread[].class;
@@ -130,7 +130,7 @@ public class ConversionsReferenceNarrowingTest {
      * provided that J is not a subinterface of K.
      */
     @Test
-    public void interfaceToNonParameterizedInterface() {
+    void interfaceToNonParameterizedInterface() {
         Class<?> j = Appendable.class;
         Class<?> k = CharSequence.class;
 
@@ -150,7 +150,7 @@ public class ConversionsReferenceNarrowingTest {
      * are reference types and there is a narrowing conversion from SC to TC.
      */
     @Test
-    public void arrayNarrowing() {
+    void arrayNarrowing() {
         Class<?> sc = Appendable[].class;
         Class<?> tc = CharSequence[].class;
 

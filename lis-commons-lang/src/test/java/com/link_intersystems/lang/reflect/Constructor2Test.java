@@ -28,11 +28,11 @@ import java.util.TreeMap;
 
 import org.junit.jupiter.api.Test;
 
-public class Constructor2Test {
+class Constructor2Test  {
 
 	@SuppressWarnings("rawtypes")
 	@Test
-	public void bestFitConstructor() throws SecurityException,
+	void bestFitConstructor() throws SecurityException,
 			NoSuchMethodException {
 		Class2<TreeMap> classInfoImpl = Class2.get(TreeMap.class);
 		Constructor2<TreeMap> constructorInfo = classInfoImpl
@@ -46,7 +46,7 @@ public class Constructor2Test {
 
 	@SuppressWarnings("rawtypes")
 	@Test
-	public void bestFitConstructorByInvocationParamObjects()
+	void bestFitConstructorByInvocationParamObjects()
 			throws SecurityException, NoSuchMethodException {
 		Class2<TreeMap> classInfoImpl = Class2.get(TreeMap.class);
 		TreeMap<String, String> treeMap = new TreeMap<String, String>();
@@ -61,7 +61,7 @@ public class Constructor2Test {
 
 	@SuppressWarnings("rawtypes")
 	@Test
-	public void constructorSelected() throws SecurityException,
+	void constructorSelected() throws SecurityException,
 			NoSuchMethodException {
 		Class2<TreeMap> classInfoImpl = Class2.get(TreeMap.class);
 		Constructor2<TreeMap> constructorInfo = classInfoImpl
@@ -76,7 +76,7 @@ public class Constructor2Test {
 
 	@SuppressWarnings("rawtypes")
 	@Test
-	public void invoke() throws Exception {
+	void invoke() throws Exception {
 		Class2<TreeMap> classInfoImpl = Class2.get(TreeMap.class);
 		Constructor2<TreeMap> constructor2 = classInfoImpl
 				.getApplicableConstructor();
@@ -87,7 +87,7 @@ public class Constructor2Test {
 	}
 
 	@Test
-	public void declaredExceptions() throws Exception {
+	void declaredExceptions() throws Exception {
 		Class2<URL> classInfoImpl = Class2.get(URL.class);
 		Constructor2<URL> constructor2 = classInfoImpl
 				.getApplicableConstructor(String.class);

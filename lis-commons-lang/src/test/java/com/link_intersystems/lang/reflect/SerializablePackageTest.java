@@ -23,15 +23,15 @@ import org.powermock.reflect.Whitebox;
 import static junit.framework.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class SerializablePackageTest {
+class SerializablePackageTest  {
 
     @Test
-    public void nullConstructor() {
+    void nullConstructor() {
         assertThrows(IllegalArgumentException.class, () -> new SerializablePackage(null));
     }
 
     @Test
-    public void serialize() {
+    void serialize() {
         Package packageObject = SerializablePackageTest.class.getPackage();
         SerializablePackage serializablePackage = new SerializablePackage(packageObject);
 
@@ -43,7 +43,7 @@ public class SerializablePackageTest {
     }
 
     @Test
-    public void classNotFound() throws Exception {
+    void classNotFound() throws Exception {
         assertThrows(SerializationException.class, () -> {
             Package packageObject = SerializablePackageTest.class.getPackage();
             String name = packageObject.getName();

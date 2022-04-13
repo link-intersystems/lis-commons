@@ -12,7 +12,7 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ObservableReferenceAdapterTest {
+class ObservableReferenceAdapterTest  {
 
     private ObservableReference<String> observableReference;
     private PropertyChangeListener propertyChangeListenerMock;
@@ -25,7 +25,7 @@ public class ObservableReferenceAdapterTest {
     }
 
     @Test
-    public void propertyChangeEvent() {
+    void propertyChangeEvent() {
         propertyChangeListenerMock.propertyChange(EasyMock.anyObject(PropertyChangeEvent.class));
         EasyMock.expectLastCall().andAnswer(new IAnswer<Void>() {
 
@@ -58,14 +58,14 @@ public class ObservableReferenceAdapterTest {
     }
 
     @Test
-    public void setAndGet() {
+    void setAndGet() {
         assertEquals("hello", observableReference.get());
         observableReference.set("hello world");
         assertEquals("hello world", observableReference.get());
     }
 
     @Test
-    public void propertyChangeEventAfterRemove() {
+    void propertyChangeEventAfterRemove() {
         replay(propertyChangeListenerMock);
         observableReference.addPropertyChangeListener(propertyChangeListenerMock);
         observableReference.removePropertyChangeListener(propertyChangeListenerMock);

@@ -22,7 +22,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 import com.link_intersystems.EqualsAndHashCodeTest;
 
-public class Method2EqualsAndHashCodeTest extends EqualsAndHashCodeTest {
+class Method2EqualsAndHashCodeTest extends EqualsAndHashCodeTest  {
 
 	@BeforeEach
 	@Override

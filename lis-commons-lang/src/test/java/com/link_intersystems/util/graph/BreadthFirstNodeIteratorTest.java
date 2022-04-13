@@ -22,7 +22,7 @@ import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class BreadthFirstNodeIteratorTest extends AbstractNodeIteratorTest {
+class BreadthFirstNodeIteratorTest extends AbstractNodeIteratorTest  {
 
     @Override
     protected Iterator<Node> createIterator(Node start) {
@@ -36,7 +36,7 @@ public class BreadthFirstNodeIteratorTest extends AbstractNodeIteratorTest {
     }
 
     @Test
-    public void nullArgumentConstructor() {
+    void nullArgumentConstructor() {
         assertThrows(IllegalArgumentException.class, () -> new BreadthFirstNodeIterator(null));
     }
 }

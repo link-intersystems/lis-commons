@@ -32,17 +32,17 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  * intersystems.com]</a>
  */
-public class ConversionsReferenceWideningTest {
+class ConversionsReferenceWideningTest  {
 
     @Test
-    public void nullFrom() {
+    void nullFrom() {
         Class<?> s = null;
         Class<?> t = Collection.class;
         assertThrows(IllegalArgumentException.class, () -> Conversions.isWideningReference(s, t));
     }
 
     @Test
-    public void nullTo() {
+    void nullTo() {
         Class<?> s = List.class;
         Class<?> t = null;
         assertThrows(IllegalArgumentException.class, () -> Conversions.isWideningReference(s, t));
@@ -53,7 +53,7 @@ public class ConversionsReferenceWideningTest {
      * provided S is a subtype (§4.10) of T.
      */
     @Test
-    public void subtypeWidening() {
+    void subtypeWidening() {
         Class<?> s = List.class;
         Class<?> t = Collection.class;
         boolean wideningReference = false;
@@ -64,7 +64,7 @@ public class ConversionsReferenceWideningTest {
     }
 
     @Test
-    public void arrayWidening() {
+    void arrayWidening() {
         Class<?> s = List[].class;
         Class<?> t = Collection[].class;
         boolean wideningReference = false;

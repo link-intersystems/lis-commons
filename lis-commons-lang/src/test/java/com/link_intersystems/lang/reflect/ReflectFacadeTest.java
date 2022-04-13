@@ -17,10 +17,10 @@ package com.link_intersystems.lang.reflect;
 
 import org.junit.jupiter.api.Test;
 
-public class ReflectFacadeTest {
+class ReflectFacadeTest  {
 
 	@Test
-	public void instatiation() {
+	void instatiation() {
 		new ReflectFacade() {
 		};
 	}

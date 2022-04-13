@@ -26,10 +26,10 @@ import static java.util.Arrays.stream;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class ParentLastURLClassLoaderTest {
+class ParentLastURLClassLoaderTest  {
 
     @Test
-    public void parentLast() throws ClassNotFoundException {
+    void parentLast() throws ClassNotFoundException {
         ParentLastURLClassLoader parentLastURLClassLoader = getParentLastURLClassLoader();
         Class<?> loadClass = parentLastURLClassLoader.loadClass(ParentLastURLClassLoaderTest.class.getCanonicalName());
         ClassLoader classLoader = loadClass.getClassLoader();
@@ -38,7 +38,7 @@ public class ParentLastURLClassLoaderTest {
     }
 
     @Test
-    public void alreadyLoaded() throws ClassNotFoundException {
+    void alreadyLoaded() throws ClassNotFoundException {
         ParentLastURLClassLoader parentLastURLClassLoader = getParentLastURLClassLoader();
         Class<?> loadClass = parentLastURLClassLoader.loadClass(ParentLastURLClassLoaderTest.class.getCanonicalName());
         Class<?> loadClass2 = parentLastURLClassLoader.loadClass(ParentLastURLClassLoaderTest.class.getCanonicalName());
@@ -62,7 +62,7 @@ public class ParentLastURLClassLoaderTest {
     }
 
     @Test
-    public void parentLastClassNotFound() {
+    void parentLastClassNotFound() {
         URLClassLoader urlClassLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
         URL[] urLs = urlClassLoader.getURLs();
 
@@ -73,7 +73,7 @@ public class ParentLastURLClassLoaderTest {
     }
 
     @Test
-    public void nullParent() {
+    void nullParent() {
         URLClassLoader urlClassLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
         URL[] urLs = urlClassLoader.getURLs();
         ParentLastURLClassLoader parentLastURLClassLoader = new ParentLastURLClassLoader(urLs, null);
@@ -82,7 +82,7 @@ public class ParentLastURLClassLoaderTest {
     }
 
     @Test
-    public void resolveClass() throws ClassNotFoundException {
+    void resolveClass() throws ClassNotFoundException {
         ParentLastURLClassLoader parentLastURLClassLoader = getParentLastURLClassLoader();
         Class<?> loadClass = parentLastURLClassLoader.loadClass(ParentLastURLClassLoaderTest.class.getCanonicalName(), true);
         ClassLoader classLoader = loadClass.getClassLoader();

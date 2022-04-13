@@ -17,7 +17,7 @@ package com.link_intersystems.beans;
 
 import com.link_intersystems.EqualsAndHashCodeTest;
 
-public class ArrayIndexedPropertyWithArrayAccessEqualsAndHashCodeTest extends EqualsAndHashCodeTest {
+class ArrayIndexedPropertyWithArrayAccessEqualsAndHashCodeTest extends EqualsAndHashCodeTest  {
 
 	@Override
 	protected Object createInstance() throws Exception {

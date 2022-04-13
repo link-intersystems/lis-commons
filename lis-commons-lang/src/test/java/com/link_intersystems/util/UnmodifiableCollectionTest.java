@@ -41,67 +41,67 @@ public abstract class UnmodifiableCollectionTest {
     protected abstract Object getCollectionObject();
 
     @Test
-    public void contains() {
+    void contains() {
         getUnmodifiableCollection().contains(createComponentObject());
     }
 
     @Test
-    public void containsAll() {
+    void containsAll() {
         getUnmodifiableCollection().containsAll(createComponentObjects());
     }
 
     @Test
-    public void isEmpty() {
+    void isEmpty() {
         getUnmodifiableCollection().isEmpty();
     }
 
     @Test
-    public void iterator() {
+    void iterator() {
         getUnmodifiableCollection().iterator();
     }
 
     @Test
-    public void size() {
+    void size() {
         getUnmodifiableCollection().size();
     }
 
     @Test
-    public void toArray() {
+    void toArray() {
         getUnmodifiableCollection().toArray();
     }
 
     @Test
-    public void toTypedArray() {
+    void toTypedArray() {
         getUnmodifiableCollection().toArray(new Object[getUnmodifiableCollection().size()]);
     }
 
     @Test
-    public void add() {
+    void add() {
         assertThrows(UnsupportedOperationException.class, () -> getUnmodifiableCollection().add(createComponentObject()));
     }
 
     @Test
-    public void addAll() {
+    void addAll() {
         assertThrows(UnsupportedOperationException.class, () -> getUnmodifiableCollection().addAll(createComponentObjects()));
     }
 
     @Test
-    public void clear() {
+    void clear() {
         assertThrows(UnsupportedOperationException.class, () -> getUnmodifiableCollection().clear());
     }
 
     @Test
-    public void remove() {
+    void remove() {
         assertThrows(UnsupportedOperationException.class, () -> getUnmodifiableCollection().remove(getCollectionObject()));
     }
 
     @Test
-    public void removeAll() {
+    void removeAll() {
         assertThrows(UnsupportedOperationException.class, () -> getUnmodifiableCollection().removeAll(getCollectionObjects()));
     }
 
     @Test
-    public void retainAll() {
+    void retainAll() {
         assertThrows(UnsupportedOperationException.class, () -> getUnmodifiableCollection().retainAll(getCollectionObjects()));
     }
 

@@ -10,7 +10,7 @@ import java.util.function.Predicate;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class BeansFacadeTest {
+class BeansFacadeTest  {
 
     private Predicate<Method> propertyAccessorPredicate;
 
@@ -20,13 +20,13 @@ public class BeansFacadeTest {
     }
 
     @Test
-    public void isPropertyAccessorGetMethod() throws NoSuchMethodException, SecurityException {
+    void isPropertyAccessorGetMethod() throws NoSuchMethodException, SecurityException {
         boolean isPropertyAccessor = propertyAccessorPredicate.test(Component.class.getDeclaredMethod("getBackground"));
         assertTrue(isPropertyAccessor);
     }
 
     @Test
-    public void isPropertyAccessorSetMethod() throws NoSuchMethodException, SecurityException {
+    void isPropertyAccessorSetMethod() throws NoSuchMethodException, SecurityException {
         boolean isPropertyAccessor = propertyAccessorPredicate.test(Component.class.getDeclaredMethod("setBackground", Color.class));
         assertTrue(isPropertyAccessor);
     }

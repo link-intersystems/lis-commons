@@ -33,7 +33,7 @@ import static junit.framework.Assert.*;
 import static org.easymock.EasyMock.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class ContextAwareTest {
+class ContextAwareTest  {
 
     private static final String CALLED = "CALLED";
     private Runnable runnableMock;
@@ -54,7 +54,7 @@ public class ContextAwareTest {
     }
 
     @Test
-    public void runnable() {
+    void runnable() {
         final TestContextAware contextAware = new TestContextAware();
 
         // runnable called?
@@ -73,7 +73,7 @@ public class ContextAwareTest {
     }
 
     @Test
-    public void runnableWithException() throws Exception {
+    void runnableWithException() throws Exception {
         final TestContextAware contextAware = new TestContextAware();
 
         // callable called?
@@ -96,7 +96,7 @@ public class ContextAwareTest {
     }
 
     @Test
-    public void runnableWithUndeclaredException() throws Exception {
+    void runnableWithUndeclaredException() throws Exception {
         final ContextProvider contextProvider = EasyMock.createStrictMock(ContextProvider.class);
         contextProvider.provideContext(EasyMock.anyObject(RunInContext.class));
         EasyMock.expectLastCall().andThrow(new IOException());
@@ -118,7 +118,7 @@ public class ContextAwareTest {
     }
 
     @Test
-    public void callable() {
+    void callable() {
         final TestContextAware contextAware = new TestContextAware();
         assertThrows(IOException.class, () -> contextAware.runInContext(new Callable<String>() {
 
@@ -132,7 +132,7 @@ public class ContextAwareTest {
     }
 
     @Test
-    public void callableWithException() throws Exception {
+    void callableWithException() throws Exception {
         final TestContextAware contextAware = new TestContextAware();
         String runInContext = contextAware.runInContext(new Callable<String>() {
 
@@ -146,7 +146,7 @@ public class ContextAwareTest {
     }
 
     @Test
-    public void callableWithContextProvider() throws Exception {
+    void callableWithContextProvider() throws Exception {
         final ContextProvider contextProvider = EasyMock.createStrictMock(ContextProvider.class);
         contextProvider.provideContext(EasyMock.anyObject(RunInContext.class));
         EasyMock.expectLastCall().andAnswer(new IAnswer<Void>() {
@@ -177,7 +177,7 @@ public class ContextAwareTest {
     }
 
     @Test
-    public void proxy() throws Exception {
+    void proxy() throws Exception {
         final TestContextAware contextAware = new TestContextAware();
         TargetInterface targetInterface = createStrictMock(TargetInterface.class);
 
@@ -205,7 +205,7 @@ public class ContextAwareTest {
     }
 
     @Test
-    public void proxyThrowsException() throws Exception {
+    void proxyThrowsException() throws Exception {
         final TestContextAware contextAware = new TestContextAware();
         TargetInterface targetInterface = createStrictMock(TargetInterface.class);
 
@@ -235,7 +235,7 @@ public class ContextAwareTest {
     }
 
     @Test
-    public void proxyNullArgsMethod() throws Exception {
+    void proxyNullArgsMethod() throws Exception {
         final TestContextAware contextAware = new TestContextAware();
         TargetInterface targetInterface = createStrictMock(TargetInterface.class);
 
@@ -256,7 +256,7 @@ public class ContextAwareTest {
     }
 
     @Test
-    public void contextJoinPoint() throws Exception {
+    void contextJoinPoint() throws Exception {
         class TestContextJoinPoint implements ContextProvider {
 
             public void provideContext(RunInContext contextJoinPoint) throws Exception {
@@ -285,7 +285,7 @@ public class ContextAwareTest {
     }
 
     @Test
-    public void invokeStaticMethod() throws Exception {
+    void invokeStaticMethod() throws Exception {
         final TestContextAware contextAware = new TestContextAware();
         String runInContext = contextAware.invokeStaticInContext(String.class, "valueOf", Boolean.TRUE);
         assertEquals("true", runInContext);
@@ -293,19 +293,19 @@ public class ContextAwareTest {
     }
 
     @Test
-    public void invokeUndeclaredStaticMethod() {
+    void invokeUndeclaredStaticMethod() {
         final TestContextAware contextAware = new TestContextAware();
         assertThrows(IllegalArgumentException.class, () -> contextAware.invokeStaticInContext(String.class, "toString"));
     }
 
     @Test
-    public void invokeUndeclaredStaticMethod2() throws Exception {
+    void invokeUndeclaredStaticMethod2() throws Exception {
         final TestContextAware contextAware = new TestContextAware();
         assertThrows(IllegalArgumentException.class, () -> contextAware.invokeStaticInContext(String.class, "toString", ""));
     }
 
     @Test
-    public void invokeMethod() throws Exception {
+    void invokeMethod() throws Exception {
         final TestContextAware contextAware = new TestContextAware();
         TargetInterface targetInterface = createStrictMock(TargetInterface.class);
 
@@ -325,7 +325,7 @@ public class ContextAwareTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void contextListenerTest() throws Exception {
+    void contextListenerTest() throws Exception {
         final TestContextAware contextAware = new TestContextAware();
         TargetInterface targetInterface = createStrictMock(TargetInterface.class);
         ContextListener<Object> contextListener = createStrictMock(ContextListener.class);
@@ -367,19 +367,19 @@ public class ContextAwareTest {
     }
 
     @Test
-    public void invokeMethodNullTarget() {
+    void invokeMethodNullTarget() {
         TestContextAware contextAware = new TestContextAware();
         assertThrows(IllegalArgumentException.class, () -> contextAware.invokeInContext((Object) null, "getString"));
     }
 
     @Test
-    public void proxyNoInterfaces() {
+    void proxyNoInterfaces() {
         final TestContextAware contextAware = new TestContextAware();
         assertThrows(IllegalArgumentException.class, () -> contextAware.createContextProxy(new Object()));
     }
 
     @Test
-    public void proxyForNullTarget() {
+    void proxyForNullTarget() {
         final TestContextAware contextAware = new TestContextAware();
         assertThrows(IllegalArgumentException.class, () -> contextAware.createContextProxy(null));
     }

@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 import com.link_intersystems.util.graph.AbstractNodeIteratorTest.TraverseAssertion;
 import com.link_intersystems.util.graph.GraphFacade.NodeIterateStrategy;
 
-public class GraphFacadeImpl_perPredicateNodeIteratorTest {
+class GraphFacadeImpl_perPredicateNodeIteratorTest  {
 
 	NodeImpl A = new NodeImpl("A");
 	NodeImpl B = new NodeImpl("B");
@@ -112,7 +112,7 @@ public class GraphFacadeImpl_perPredicateNodeIteratorTest {
 	}
 
 	@Test
-	public void breadth_first() {
+	void breadth_first() {
 		List<String> expectedOrder = asList("A", "C", "D", "H", "K", "A", "B",
 				"E", "F", "D", "J", "M", "N");
 		TraverseAssertion traverseAssertion = new TraverseAssertion(
@@ -124,7 +124,7 @@ public class GraphFacadeImpl_perPredicateNodeIteratorTest {
 	}
 
 	@Test
-	public void depth_first() {
+	void depth_first() {
 		List<String> expectedOrder = asList("A", "C", "H", "D", "K", "A", "B",
 				"E", "F", "D", "J", "M", "N");
 		TraverseAssertion traverseAssertion = new TraverseAssertion(

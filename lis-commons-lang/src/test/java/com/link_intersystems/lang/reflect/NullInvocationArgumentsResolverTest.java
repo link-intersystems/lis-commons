@@ -21,10 +21,10 @@ import java.lang.reflect.Method;
 
 import org.junit.jupiter.api.Test;
 
-public class NullInvocationArgumentsResolverTest {
+class NullInvocationArgumentsResolverTest  {
 
 	@Test
-	public void defaults() throws SecurityException, NoSuchMethodException {
+	void defaults() throws SecurityException, NoSuchMethodException {
 		Method primitiveTestMethod = NullInvocationArgumentsResolverTest.class
 				.getDeclaredMethod("primitiveTestMethod", byte.class,
 						short.class, char.class, int.class, long.class,

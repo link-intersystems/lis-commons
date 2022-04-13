@@ -26,7 +26,7 @@ import static junit.framework.Assert.*;
 import static org.easymock.EasyMock.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class MethodInvokingTransformerTest {
+class MethodInvokingTransformerTest  {
 
     private InvocationArgumentsResolver argumentResolver;
     private Method charAtMethod;
@@ -43,20 +43,20 @@ public class MethodInvokingTransformerTest {
     }
 
     @Test
-    public void transformWrongType() {
+    void transformWrongType() {
         Function<Object, Object> transformer = new MethodInvokingTransformer(charAtMethod, argumentResolver);
         Character valueOf = Character.valueOf('c');
         assertThrows(IllegalArgumentException.class, () -> transformer.apply(valueOf));
     }
 
     @Test
-    public void transformNullValue() {
+    void transformNullValue() {
         Function<Object, Object> transformer = new MethodInvokingTransformer(charAtMethod, argumentResolver);
         assertThrows(NullPointerException.class, () -> transformer.apply(null));
     }
 
     @Test
-    public void wrongArguments() {
+    void wrongArguments() {
         Function<Object, Object> transformer = new MethodInvokingTransformer(charAtMethod, new InvocationArgumentsResolver() {
 
             public Object[] getArguments(Object invokedObject, Method invokedMethod) {
@@ -67,17 +67,17 @@ public class MethodInvokingTransformerTest {
     }
 
     @Test
-    public void nullTypeConstructor() {
+    void nullTypeConstructor() {
         assertThrows(IllegalArgumentException.class, () -> new MethodInvokingTransformer((Method2) null, argumentResolver));
     }
 
     @Test
-    public void nullArgumentResolverConstructor() {
+    void nullArgumentResolverConstructor() {
         assertThrows(IllegalArgumentException.class, () -> new MethodInvokingTransformer(charAtMethod, null));
     }
 
     @Test
-    public void invokeMethod() {
+    void invokeMethod() {
         String testString = "HelloWorld";
 
         Function<Object, Object> transformer = new MethodInvokingTransformer(charAtMethod, argumentResolver);
@@ -89,13 +89,13 @@ public class MethodInvokingTransformerTest {
     }
 
     @Test
-    public void invokeInstanceMethodOnNull() {
+    void invokeInstanceMethodOnNull() {
         Function<Object, Object> transformer = new MethodInvokingTransformer(charAtMethod, argumentResolver);
         assertThrows(NullPointerException.class, () -> transformer.apply(null));
     }
 
     @Test
-    public void invokeMethodWithNoArguments() throws NoSuchMethodException {
+    void invokeMethodWithNoArguments() throws NoSuchMethodException {
         String testString = "HelloWorld";
         Method toStringMethod = Object.class.getDeclaredMethod("toString");
         Function<Object, Object> transformer = new MethodInvokingTransformer(toStringMethod);
@@ -107,7 +107,7 @@ public class MethodInvokingTransformerTest {
     }
 
     @Test
-    public void invokeInstanceMethodThrowsUnknownException() throws NoSuchMethodException {
+    void invokeInstanceMethodThrowsUnknownException() throws NoSuchMethodException {
         String testString = "HelloWorld";
         Method toStringMethod = Object.class.getDeclaredMethod("toString");
         Function<Object, Object> transformer = new MethodInvokingTransformer(toStringMethod) {
@@ -122,7 +122,7 @@ public class MethodInvokingTransformerTest {
     }
 
     @Test
-    public void invokeStaticMethodWithNullTarget() throws SecurityException, NoSuchMethodException {
+    void invokeStaticMethodWithNullTarget() throws SecurityException, NoSuchMethodException {
         InvocationArgumentsResolver invocationArgumentsResolver = createNiceMock(InvocationArgumentsResolver.class);
         Method formatMethod = String.class.getDeclaredMethod("format", String.class, Object[].class);
         expect(invocationArgumentsResolver.getArguments(String.class, formatMethod)).andReturn(new Object[]{"Hello %s", "World"});
@@ -135,7 +135,7 @@ public class MethodInvokingTransformerTest {
     }
 
     @Test
-    public void invokeStaticMethodWithClassTarget() throws SecurityException, NoSuchMethodException {
+    void invokeStaticMethodWithClassTarget() throws SecurityException, NoSuchMethodException {
         InvocationArgumentsResolver invocationArgumentsResolver = createNiceMock(InvocationArgumentsResolver.class);
         Method formatMethod = String.class.getDeclaredMethod("format", String.class, Object[].class);
         expect(invocationArgumentsResolver.getArguments(String.class, formatMethod)).andReturn(new Object[]{"Hello %s", "World"});

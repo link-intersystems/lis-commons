@@ -31,87 +31,87 @@ public abstract class UnmodifiableVectorTest extends UnmodifiableListTest {
     protected abstract Vector<Object> getUnmodifiableVector();
 
     @Test
-    public void addElement() {
+    void addElement() {
         assertThrows(UnsupportedOperationException.class, () -> getUnmodifiableVector().addElement(createComponentObject()));
     }
 
     @Test
-    public void capacity() {
+    void capacity() {
         getUnmodifiableVector().capacity();
     }
 
     @Test
-    public void elementAt() {
+    void elementAt() {
         getUnmodifiableVector().elementAt(0);
     }
 
     @Test
-    public void elements() {
+    void elements() {
         getUnmodifiableVector().elements();
     }
 
     @Test
-    public void ensureCapacity() {
+    void ensureCapacity() {
         assertThrows(UnsupportedOperationException.class, () -> getUnmodifiableVector().ensureCapacity(1024));
     }
 
     @Test
-    public void firstElement() {
+    void firstElement() {
         getUnmodifiableVector().firstElement();
     }
 
     @Test
-    public void insertElementAt() {
+    void insertElementAt() {
         assertThrows(UnsupportedOperationException.class, () -> getUnmodifiableVector().insertElementAt(createComponentObject(), 0));
     }
 
     @Test
-    public void copyInto() {
+    void copyInto() {
         getUnmodifiableVector().copyInto(new Object[getUnmodifiableVector().size()]);
     }
 
     @Test
-    public void lastElement() {
+    void lastElement() {
         getUnmodifiableVector().lastElement();
     }
 
     @Test
-    public void lastIndexOfOffset() {
+    void lastIndexOfOffset() {
         getUnmodifiableVector().lastIndexOf(getCollectionObject(), 0);
     }
 
     @Test
-    public void indexOfOffset() {
+    void indexOfOffset() {
         getUnmodifiableVector().indexOf(getCollectionObject(), 0);
     }
 
     @Test
-    public void removeAllElements() {
+    void removeAllElements() {
         assertThrows(UnsupportedOperationException.class, () -> getUnmodifiableVector().removeAllElements());
     }
 
     @Test
-    public void removeElement() {
+    void removeElement() {
         assertThrows(UnsupportedOperationException.class, () -> getUnmodifiableVector().removeElement(getCollectionObject()));
     }
 
     @Test
-    public void removeElementAt() {
+    void removeElementAt() {
         assertThrows(UnsupportedOperationException.class, () -> getUnmodifiableVector().removeElementAt(0));
     }
 
     @Test
-    public void setElementAt() {
+    void setElementAt() {
         assertThrows(UnsupportedOperationException.class, () -> getUnmodifiableVector().setElementAt(createComponentObject(), 0));
     }
 
     @Test
-    public void trimToSize() {
+    void trimToSize() {
         assertThrows(UnsupportedOperationException.class, () -> getUnmodifiableVector().trimToSize());
     }
 
     @Test
-    public void setSize() {
+    void setSize() {
         assertThrows(UnsupportedOperationException.class, () -> getUnmodifiableVector().setSize(getUnmodifiableVector().size() + 1));
     }
 

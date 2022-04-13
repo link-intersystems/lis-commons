@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-public class MemberModifierPredicatetTest {
+class MemberModifierPredicatetTest  {
 
     public static class TestClass {
         private TestClass(int testConstructor){
@@ -83,12 +83,12 @@ public class MemberModifierPredicatetTest {
     }
 
     @Test
-    public void newWithNullMatch() {
+    void newWithNullMatch() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> new MemberModifierPredicate(Modifier.PUBLIC, null));
     }
 
     @Test
-    public void evaluateAgainstMethod() {
+    void evaluateAgainstMethod() {
         MemberModifierPredicate memberModifierPredicate = new MemberModifierPredicate(Modifier.PUBLIC);
         boolean evaluate = memberModifierPredicate.test(privateMethod);
         assertFalse(evaluate);
@@ -97,7 +97,7 @@ public class MemberModifierPredicatetTest {
     }
 
     @Test
-    public void evaluateAgainstConstructor() {
+    void evaluateAgainstConstructor() {
         MemberModifierPredicate memberModifierPredicate = new MemberModifierPredicate(Modifier.PUBLIC);
         boolean evaluate = memberModifierPredicate.test(privateConstructor);
         assertFalse(evaluate);
@@ -106,7 +106,7 @@ public class MemberModifierPredicatetTest {
     }
 
     @Test
-    public void evaluateAgainstField() {
+    void evaluateAgainstField() {
         MemberModifierPredicate memberModifierPredicate = new MemberModifierPredicate(Modifier.PUBLIC);
         boolean evaluate = memberModifierPredicate.test(privateTestField);
         assertFalse(evaluate);
@@ -115,7 +115,7 @@ public class MemberModifierPredicatetTest {
     }
 
     @Test
-    public void matchExace() {
+    void matchExace() {
         MemberModifierPredicate memberModifierPredicate = new MemberModifierPredicate(Modifier.PRIVATE | Modifier.STATIC | Modifier.FINAL, Match.EXACT);
         boolean evaluate = memberModifierPredicate.test(privateStaticConstField);
         assertFalse(evaluate);
@@ -124,7 +124,7 @@ public class MemberModifierPredicatetTest {
     }
 
     @Test
-    public void matchAtLeastOne() {
+    void matchAtLeastOne() {
         MemberModifierPredicate memberModifierPredicate = new MemberModifierPredicate(Modifier.PROTECTED | Modifier.STATIC, Match.AT_LEAST_ONE);
         boolean evaluate = memberModifierPredicate.test(privateStaticConstField);
         assertTrue(evaluate);

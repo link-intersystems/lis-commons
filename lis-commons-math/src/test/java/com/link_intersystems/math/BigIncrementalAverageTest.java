@@ -23,7 +23,7 @@ import java.math.BigInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BigIncrementalAverageTest extends AbstractAverageTest {
+class BigIncrementalAverageTest extends AbstractAverageTest  {
 
     @SuppressWarnings("unchecked")
     @Override
@@ -32,7 +32,7 @@ public class BigIncrementalAverageTest extends AbstractAverageTest {
     }
 
     @Test
-    public void bigDecimalValues() {
+    void bigDecimalValues() {
         BigDecimal value1 = new BigDecimal("1436896656.3447867874526");
         BigDecimal value2 = new BigDecimal("78974343443.56795632589876543");
         BigDecimal value3 = new BigDecimal("5543765892147894.434365743");
@@ -48,7 +48,7 @@ public class BigIncrementalAverageTest extends AbstractAverageTest {
     }
 
     @Test
-    public void bigIntegerValues() {
+    void bigIntegerValues() {
         BigInteger value1 = new BigInteger("14368966563447867874526");
         BigInteger value2 = new BigInteger("7897434344356795632589876543");
         BigInteger value3 = new BigInteger("5543765892147894434365743");
@@ -64,7 +64,7 @@ public class BigIncrementalAverageTest extends AbstractAverageTest {
     }
 
     @Test
-    public void valueChanged() {
+    void valueChanged() {
         BigInteger value1 = new BigInteger("1");
         BigInteger value2 = new BigInteger("5");
         BigInteger value3 = new BigInteger("3");

@@ -27,25 +27,25 @@ public abstract class ElementCriteriaTest {
     protected abstract ElementCriteria getElementCriteria();
 
     @Test
-    public void nullResultSelection() {
+    void nullResultSelection() {
         ElementCriteria criteria = getElementCriteria();
         assertThrows(IllegalArgumentException.class, () -> criteria.setResult(null));
     }
 
     @Test
-    public void nullAddPredicate() {
+    void nullAddPredicate() {
         ElementCriteria criteria = getElementCriteria();
         assertThrows(IllegalArgumentException.class, () -> criteria.add(null));
     }
 
     @Test
-    public void addNonSerializablePredicate() {
+    void addNonSerializablePredicate() {
         ElementCriteria criteria = getElementCriteria();
         assertThrows(IllegalArgumentException.class, () -> criteria.add(new SomePredicateNotSerializable()));
     }
 
     @Test
-    public void elementCriteriaDefaultConstructor() {
+    void elementCriteriaDefaultConstructor() {
         /*
          * Should not throw any exception
          */
@@ -59,7 +59,7 @@ public abstract class ElementCriteriaTest {
     }
 
     @Test
-    public void elementCriteriaSerializable() {
+    void elementCriteriaSerializable() {
         Serialization.clone(getElementCriteria());
     }
 

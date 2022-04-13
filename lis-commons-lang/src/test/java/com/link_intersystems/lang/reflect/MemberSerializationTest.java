@@ -19,10 +19,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class MemberSerializationTest {
+class MemberSerializationTest  {
 
     @Test
-    public void newWithNullMember() {
+    void newWithNullMember() {
         assertThrows(IllegalArgumentException.class, () -> new MemberSerialization<>(null));
     }
 }

@@ -19,10 +19,10 @@ import static junit.framework.Assert.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-public class PrimitiveArrayCallbackForAllPrimitivesTest {
+class PrimitiveArrayCallbackForAllPrimitivesTest  {
 
 	@Test
-	public void intCallback() {
+	void intCallback() {
 		int[] array = new int[10];
 		PrimitiveArrayCallback callback = new PrimitiveArrayCallback(array);
 		callback.setAutoincrementEnabled(true);
@@ -37,7 +37,7 @@ public class PrimitiveArrayCallbackForAllPrimitivesTest {
 	}
 
 	@Test
-	public void byteCallback() {
+	void byteCallback() {
 		byte[] array = new byte[10];
 		PrimitiveArrayCallback callback = new PrimitiveArrayCallback(array);
 		callback.setAutoincrementEnabled(true);
@@ -52,7 +52,7 @@ public class PrimitiveArrayCallbackForAllPrimitivesTest {
 	}
 
 	@Test
-	public void charCallback() {
+	void charCallback() {
 		char[] array = new char[10];
 		PrimitiveArrayCallback callback = new PrimitiveArrayCallback(array);
 		callback.setAutoincrementEnabled(true);
@@ -67,7 +67,7 @@ public class PrimitiveArrayCallbackForAllPrimitivesTest {
 	}
 
 	@Test
-	public void shortCallback() {
+	void shortCallback() {
 		short[] array = new short[10];
 		PrimitiveArrayCallback callback = new PrimitiveArrayCallback(array);
 		callback.setAutoincrementEnabled(true);
@@ -82,7 +82,7 @@ public class PrimitiveArrayCallbackForAllPrimitivesTest {
 	}
 
 	@Test
-	public void longCallback() {
+	void longCallback() {
 		long[] array = new long[10];
 		PrimitiveArrayCallback callback = new PrimitiveArrayCallback(array);
 		callback.setAutoincrementEnabled(true);
@@ -97,7 +97,7 @@ public class PrimitiveArrayCallbackForAllPrimitivesTest {
 	}
 
 	@Test
-	public void floatCallback() {
+	void floatCallback() {
 		float[] array = new float[10];
 		PrimitiveArrayCallback callback = new PrimitiveArrayCallback(array);
 		callback.setAutoincrementEnabled(true);
@@ -112,7 +112,7 @@ public class PrimitiveArrayCallbackForAllPrimitivesTest {
 	}
 
 	@Test
-	public void doubleCallback() {
+	void doubleCallback() {
 		double[] array = new double[10];
 		PrimitiveArrayCallback callback = new PrimitiveArrayCallback(array);
 		callback.setAutoincrementEnabled(true);
@@ -127,7 +127,7 @@ public class PrimitiveArrayCallbackForAllPrimitivesTest {
 	}
 
 	@Test
-	public void booleanCallback() {
+	void booleanCallback() {
 		boolean[] array = new boolean[10];
 		PrimitiveArrayCallback callback = new PrimitiveArrayCallback(array);
 		callback.setAutoincrementEnabled(true);

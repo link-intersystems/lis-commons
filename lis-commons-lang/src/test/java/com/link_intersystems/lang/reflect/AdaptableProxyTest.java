@@ -25,10 +25,10 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class AdaptableProxyTest {
+class AdaptableProxyTest  {
 
     @Test
-    public void create() {
+    void create() {
         InterfaceB interfaceB = new AdaptableProxyTest.InterfaceB() {
 
             public String concat(String string) {
@@ -42,7 +42,7 @@ public class AdaptableProxyTest {
     }
 
     @Test
-    public void createMultipleInterfacesAdapter() {
+    void createMultipleInterfacesAdapter() {
         InterfaceB interfaceB = new AdaptableProxyTest.InterfaceB() {
 
             public String concat(String string) {
@@ -60,7 +60,7 @@ public class AdaptableProxyTest {
     }
 
     @Test
-    public void createMultipleInterfacesSameClassLoaderHierarchy() throws ClassNotFoundException {
+    void createMultipleInterfacesSameClassLoaderHierarchy() throws ClassNotFoundException {
         InterfaceB interfaceB = new AdaptableProxyTest.InterfaceB() {
 
             public String concat(String string) {
@@ -72,7 +72,7 @@ public class AdaptableProxyTest {
     }
 
     @Test
-    public void createMultipleInterfacesNotTheSameClassLoaderHierarchy() throws ClassNotFoundException {
+    void createMultipleInterfacesNotTheSameClassLoaderHierarchy() throws ClassNotFoundException {
         InterfaceB interfaceB = new AdaptableProxyTest.InterfaceB() {
 
             public String concat(String string) {
@@ -88,7 +88,7 @@ public class AdaptableProxyTest {
     }
 
     @Test
-    public void createMultipleInterfacesSameClassLoaderHierarchy2() throws ClassNotFoundException {
+    void createMultipleInterfacesSameClassLoaderHierarchy2() throws ClassNotFoundException {
         InterfaceB interfaceB = new AdaptableProxyTest.InterfaceB() {
 
             public String concat(String string) {
@@ -104,7 +104,7 @@ public class AdaptableProxyTest {
     }
 
     @Test
-    public void compatibleMethods() {
+    void compatibleMethods() {
         InterfaceB interfaceB = new AdaptableProxyTest.InterfaceB() {
 
             public String concat(String string) {
@@ -121,7 +121,7 @@ public class AdaptableProxyTest {
     }
 
     @Test
-    public void incombatibleMethods() {
+    void incombatibleMethods() {
         InterfaceD adaptable = new AdaptableProxyTest.InterfaceD() {
 
             public String concat() {
@@ -137,7 +137,7 @@ public class AdaptableProxyTest {
     }
 
     @Test
-    public void incombatibleReturnTypes() {
+    void incombatibleReturnTypes() {
         InterfaceC adaptable = new AdaptableProxyTest.InterfaceC() {
 
             public StringBuilder concat(String string) {
@@ -153,7 +153,7 @@ public class AdaptableProxyTest {
     }
 
     @Test
-    public void nullAdaptable() {
+    void nullAdaptable() {
         assertThrows(IllegalArgumentException.class, () -> new AdaptableProxy(null));
     }
 

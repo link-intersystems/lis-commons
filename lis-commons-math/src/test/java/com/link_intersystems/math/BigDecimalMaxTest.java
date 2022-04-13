@@ -21,17 +21,17 @@ import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BigDecimalMaxTest {
+class BigDecimalMaxTest  {
 
     @Test
-    public void maxNoValues() {
+    void maxNoValues() {
         Max<BigDecimal> max = new BigDecimalMax();
         BigDecimal value = max.getValue();
         assertNull(value);
     }
 
     @Test
-    public void max() {
+    void max() {
         Max<BigDecimal> max = new BigDecimalMax();
         boolean valueChanged = max.addValue(5);
         assertTrue(valueChanged);

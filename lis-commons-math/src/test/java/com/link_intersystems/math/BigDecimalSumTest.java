@@ -21,17 +21,17 @@ import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BigDecimalSumTest {
+class BigDecimalSumTest  {
 
     @Test
-    public void sumNoValues() {
+    void sumNoValues() {
         Sum<BigDecimal> sum = new BigDecimalSum();
         BigDecimal value = sum.getValue();
         assertEquals(0, value.doubleValue(), 0.000001);
     }
 
     @Test
-    public void sum() {
+    void sum() {
         Sum<BigDecimal> sum = new BigDecimalSum();
         boolean changed = sum.addValue(5);
         assertTrue(changed);
@@ -46,7 +46,7 @@ public class BigDecimalSumTest {
     }
 
     @Test
-    public void add0() {
+    void add0() {
         Sum<BigDecimal> sum = new BigDecimalSum();
         assertFalse(sum.addValue(BigDecimal.ZERO));
     }

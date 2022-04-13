@@ -15,7 +15,7 @@ import org.mockito.Mockito;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
-public class BeanEventSupportTest {
+class BeanEventSupportTest  {
 
 	private ChangeListener changeListener;
 	private DefaultButtonModel defaultButtonModel;
@@ -30,14 +30,14 @@ public class BeanEventSupportTest {
 	}
 
 	@Test
-	public void setListener() {
+	void setListener() {
 		beanEventSupport.setListener(changeListener);
 		defaultButtonModel.setEnabled(!defaultButtonModel.isEnabled());
 		Mockito.verify(changeListener, Mockito.times(1)).stateChanged(Mockito.any(ChangeEvent.class));
 	}
 
 	@Test
-	public void setListenerNull() {
+	void setListenerNull() {
 		beanEventSupport.setListener(changeListener);
 		defaultButtonModel.setEnabled(!defaultButtonModel.isEnabled());
 		Mockito.verify(changeListener, Mockito.times(1)).stateChanged(Mockito.any(ChangeEvent.class));
@@ -50,7 +50,7 @@ public class BeanEventSupportTest {
 	}
 
 	@Test
-	public void setBeanNull() {
+	void setBeanNull() {
 		beanEventSupport.setListener(changeListener);
 		beanEventSupport.setBean(null);
 		defaultButtonModel.setEnabled(!defaultButtonModel.isEnabled());
@@ -58,7 +58,7 @@ public class BeanEventSupportTest {
 	}
 
 	@Test
-	public void disableEvents() {
+	void disableEvents() {
 		beanEventSupport.setListener(changeListener);
 		beanEventSupport.setEventDisabled(true);
 
@@ -67,13 +67,13 @@ public class BeanEventSupportTest {
 	}
 
 	@Test
-	public void getBean() {
+	void getBean() {
 		ButtonModel buttonModel = beanEventSupport.getBean();
 		assertSame(defaultButtonModel, buttonModel);
 	}
 
 	@Test
-	public void getBeanNull() {
+	void getBeanNull() {
 		beanEventSupport.setBean(null);
 		ButtonModel buttonModel = beanEventSupport.getBean();
 		assertNull(buttonModel);

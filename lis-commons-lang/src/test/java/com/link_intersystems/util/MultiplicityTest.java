@@ -6,59 +6,59 @@ import static com.link_intersystems.util.MultiplicityAssert.assertParseToStringE
 import static com.link_intersystems.util.MultiplicityAssert.assertRange;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class MultiplicityTest {
+class MultiplicityTest  {
 
     @Test
-    public void any() {
+    void any() {
         Multiplicity multiplicity = Multiplicity.valueOf("*");
 
         assertRange(multiplicity, 0, Integer.MAX_VALUE);
     }
 
     @Test
-    public void one() {
+    void one() {
         Multiplicity multiplicity = Multiplicity.valueOf("1");
 
         assertRange(multiplicity, 1, 1);
     }
 
     @Test
-    public void zero() {
+    void zero() {
         Multiplicity multiplicity = Multiplicity.valueOf("0");
 
         assertRange(multiplicity, 0, 0);
     }
 
     @Test
-    public void zeroOrOne() {
+    void zeroOrOne() {
         Multiplicity multiplicity = Multiplicity.valueOf("?");
 
         assertRange(multiplicity, 0, 1);
     }
 
     @Test
-    public void threeToFive() {
+    void threeToFive() {
         Multiplicity multiplicity = Multiplicity.valueOf("3..5");
 
         assertRange(multiplicity, 3, 5);
     }
 
     @Test
-    public void thirteenToTwentyTwo() {
+    void thirteenToTwentyTwo() {
         Multiplicity multiplicity = Multiplicity.valueOf("13..22");
 
         assertRange(multiplicity, 13, 22);
     }
 
     @Test
-    public void thirteenToUpperEnd() {
+    void thirteenToUpperEnd() {
         Multiplicity multiplicity = Multiplicity.valueOf("13..*");
 
         assertRange(multiplicity, 13, Integer.MAX_VALUE);
     }
 
     @Test
-    public void parseFromString() {
+    void parseFromString() {
         assertParseToStringEqual("11..323");
         assertParseToStringEqual(Multiplicity._0_OR_1.toString());
         assertParseToStringEqual(Multiplicity._0_OR_MORE.toString());
@@ -67,7 +67,7 @@ public class MultiplicityTest {
     }
 
     @Test
-    public void unsupportedMultiplicity() {
+    void unsupportedMultiplicity() {
         assertThrows(IllegalArgumentException.class, () -> Multiplicity.valueOf("?..22"));
     }
 

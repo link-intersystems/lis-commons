@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 import com.link_intersystems.EqualsAndHashCodeTest;
 
-public class Class2EqualsAndHashCodeTest extends EqualsAndHashCodeTest {
+class Class2EqualsAndHashCodeTest extends EqualsAndHashCodeTest  {
 
 	@BeforeEach
 	public void createTestInstances() throws Exception {

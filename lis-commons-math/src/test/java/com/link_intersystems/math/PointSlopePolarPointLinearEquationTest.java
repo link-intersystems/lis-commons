@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class PointSlopePolarPointLinearEquationTest extends AbstractLinearEquationTest {
+class PointSlopePolarPointLinearEquationTest extends AbstractLinearEquationTest  {
 
     @Override
     protected LinearEquation createBlueLinearEquation() {
@@ -32,7 +32,7 @@ public class PointSlopePolarPointLinearEquationTest extends AbstractLinearEquati
     }
 
     @Test
-    public void doubleSlopeOnly() {
+    void doubleSlopeOnly() {
         LinearEquation linearEquation = new PointSlopeLinearEquation(1.5);
         double fX = linearEquation.fX(1);
         assertEquals(1.5, fX, 0.001);
@@ -42,7 +42,7 @@ public class PointSlopePolarPointLinearEquationTest extends AbstractLinearEquati
     }
 
     @Test
-    public void slopeOnly() {
+    void slopeOnly() {
         Slope slope = new Slope(1.5);
         LinearEquation linearEquation = new PointSlopeLinearEquation(slope);
         double fX = linearEquation.fX(1);
@@ -53,7 +53,7 @@ public class PointSlopePolarPointLinearEquationTest extends AbstractLinearEquati
     }
 
     @Test
-    public void slopeWithB() {
+    void slopeWithB() {
         Slope slope = new Slope(1.5);
         LinearEquation linearEquation = new PointSlopeLinearEquation(slope, 1);
         double fX = linearEquation.fX(1);
@@ -64,7 +64,7 @@ public class PointSlopePolarPointLinearEquationTest extends AbstractLinearEquati
     }
 
     @Test
-    public void slopeWithXandY() {
+    void slopeWithXandY() {
         LinearEquation linearEquation = new PointSlopeLinearEquation(1.5, 1, 1.5);
         double fX = linearEquation.fX(1);
         assertEquals(1.5, fX, 0.001);
@@ -74,7 +74,7 @@ public class PointSlopePolarPointLinearEquationTest extends AbstractLinearEquati
     }
 
     @Test
-    public void dobleSlopeWithB() {
+    void dobleSlopeWithB() {
         LinearEquation linearEquation = new PointSlopeLinearEquation(1.5, 1.0);
         double fX = linearEquation.fX(1);
         assertEquals(2.5, fX, 0.001);
@@ -84,7 +84,7 @@ public class PointSlopePolarPointLinearEquationTest extends AbstractLinearEquati
     }
 
     @Test
-    public void doubleSlopeWithCartesianPoint() {
+    void doubleSlopeWithCartesianPoint() {
         LinearEquation linearEquation = new PointSlopeLinearEquation(1.5, new CartesianPoint(0, 1.0));
         double fX = linearEquation.fX(1);
         assertEquals(2.5, fX, 0.001);

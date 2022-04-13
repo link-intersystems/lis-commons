@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 import com.link_intersystems.EqualsAndHashCodeTest;
 import com.link_intersystems.lang.Signature;
 
-public class ConstructorSignatureTest extends EqualsAndHashCodeTest {
+class ConstructorSignatureTest extends EqualsAndHashCodeTest  {
 
 	@BeforeEach
 	@Override
@@ -34,7 +34,7 @@ public class ConstructorSignatureTest extends EqualsAndHashCodeTest {
 	}
 
 	@Test
-	public void toStringTest() throws Exception {
+	void toStringTest() throws Exception {
 		Signature signature = (Signature) createNotEqualInstance();
 		String string = signature.toString();
 		assertEquals(

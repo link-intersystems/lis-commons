@@ -23,7 +23,7 @@ import java.util.Collection;
 
 import static junit.framework.Assert.assertEquals;
 
-public class SelectionEnumTest {
+class SelectionEnumTest  {
 
     public static Collection<Object[]> parameters() {
         return Arrays.asList(new Object[][]{{Result.FIRST}, {Result.ALL}, {Result.LAST}

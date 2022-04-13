@@ -10,7 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public class WeakDelegateProxyTest {
+class WeakDelegateProxyTest  {
 
 	private Consumer<Appendable> onDelegateRemovedCallback;
 	private StringBuilder delegate;
@@ -27,13 +27,13 @@ public class WeakDelegateProxyTest {
 	}
 
 	@Test
-	public void proxyShouldDelegateToTarget() throws IOException {
+	void proxyShouldDelegateToTarget() throws IOException {
 		appendableProxy.append("test");
 		assertEquals("test", delegate.toString());
 	}
 
 	@Test
-	public void proxyShouldNotDelegateToTarget() throws IOException, InterruptedException {
+	void proxyShouldNotDelegateToTarget() throws IOException, InterruptedException {
 		deleteDelegate();
 		appendableProxy.append("test");
 		verify(onDelegateRemovedCallback).accept(appendableProxy);
@@ -50,7 +50,7 @@ public class WeakDelegateProxyTest {
 	}
 
 	@Test
-	public void runnableEnabled() throws IOException, InterruptedException {
+	void runnableEnabled() throws IOException, InterruptedException {
 		weakDelegateProxy.setRunnableProxyEnabled(true);
 		appendableProxy = weakDelegateProxy.createProxy();
 

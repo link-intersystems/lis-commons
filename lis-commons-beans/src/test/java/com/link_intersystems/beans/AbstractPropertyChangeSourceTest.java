@@ -12,11 +12,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
-public class AbstractPropertyChangeSourceTest extends AbstractPropertyChangeSource {
+class AbstractPropertyChangeSourceTest  extends AbstractPropertyChangeSource {
 
 	@SuppressWarnings("unchecked")
 	@Test
-	public void onPropertyChanged() {
+	void onPropertyChanged() {
 		Consumer<String> consumer = Mockito.mock(Consumer.class);
 
 		PropertyObservation propertyObservation = onPropertyChange("testProperty", consumer);
@@ -37,7 +37,7 @@ public class AbstractPropertyChangeSourceTest extends AbstractPropertyChangeSour
 
 	@SuppressWarnings("unchecked")
 	@Test
-	public void onPropertyChangedEvent() {
+	void onPropertyChangedEvent() {
 		Consumer<PropertyChangeEvent> consumer = Mockito.mock(Consumer.class);
 
 		PropertyObservation propertyObservation = onPropertyChangeEvent("testProperty", consumer);
@@ -58,7 +58,7 @@ public class AbstractPropertyChangeSourceTest extends AbstractPropertyChangeSour
 	}
 
 	@Test
-	public void onPropertyChangedRunnable() {
+	void onPropertyChangedRunnable() {
 		Runnable runnable = Mockito.mock(Runnable.class);
 
 		PropertyObservation propertyObservation = onPropertyChange("testProperty", runnable);

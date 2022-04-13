@@ -22,17 +22,17 @@ import java.io.Serializable;
 
 import static junit.framework.Assert.assertNull;
 
-public class NullReferenceTest {
+class NullReferenceTest  {
 
     @Test
-    public void isNull() {
+    void isNull() {
         SerializableReference<Object> instance = NullReference.getInstance();
         Object object = instance.get();
         assertNull(object);
     }
 
     @Test
-    public void serialization() {
+    void serialization() {
         SerializableReference<Object> instance = NullReference.getInstance();
         SerializableReference<Object> clone = Serialization
                 .clone(instance);
@@ -41,7 +41,7 @@ public class NullReferenceTest {
     }
 
     @Test
-    public void serializationMethods() {
+    void serializationMethods() {
         NullReference<Object> nullReference = new NullReference<Object>();
         Serializable serialize = nullReference.serialize(null);
         assertNull(serialize);

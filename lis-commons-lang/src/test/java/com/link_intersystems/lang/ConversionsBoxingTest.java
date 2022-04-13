@@ -32,10 +32,10 @@ import org.junit.jupiter.api.Test;
  *         intersystems.com]</a>
  * 
  */
-public class ConversionsBoxingTest {
+class ConversionsBoxingTest  {
 
 	@Test
-	public void nonPrimitiveType() {
+	void nonPrimitiveType() {
 		Class<?> boxingConversion = Conversions
 				.getBoxingConversion(Boolean.class);
 		assertNull(boxingConversion);
@@ -45,7 +45,7 @@ public class ConversionsBoxingTest {
 	 * From type boolean to type Boolean
 	 */
 	@Test
-	public void booleanBoxing() {
+	void booleanBoxing() {
 		Class<?> primitive = boolean.class;
 		Class<?> expectedWrapper = Boolean.class;
 		boolean isBoxingConversion = Conversions.isBoxingConversion(primitive,
@@ -62,7 +62,7 @@ public class ConversionsBoxingTest {
 	 * From type byte to type Byte
 	 */
 	@Test
-	public void byteBoxing() {
+	void byteBoxing() {
 		Class<?> primitive = byte.class;
 		Class<?> expectedWrapper = Byte.class;
 		boolean isBoxingConversion = Conversions.isBoxingConversion(primitive,
@@ -79,7 +79,7 @@ public class ConversionsBoxingTest {
 	 * From type char to type Character
 	 */
 	@Test
-	public void charBoxing() {
+	void charBoxing() {
 		Class<?> primitive = char.class;
 		Class<?> expectedWrapper = Character.class;
 		boolean isBoxingConversion = Conversions.isBoxingConversion(primitive,
@@ -96,7 +96,7 @@ public class ConversionsBoxingTest {
 	 * From type short to type Short
 	 */
 	@Test
-	public void shortBoxing() {
+	void shortBoxing() {
 		Class<?> primitive = short.class;
 		Class<?> expectedWrapper = Short.class;
 		boolean isBoxingConversion = Conversions.isBoxingConversion(primitive,
@@ -113,7 +113,7 @@ public class ConversionsBoxingTest {
 	 * From type int to type Integer
 	 */
 	@Test
-	public void intBoxing() {
+	void intBoxing() {
 		Class<?> primitive = int.class;
 		Class<?> expectedWrapper = Integer.class;
 		boolean isBoxingConversion = Conversions.isBoxingConversion(primitive,
@@ -130,7 +130,7 @@ public class ConversionsBoxingTest {
 	 * From type long to type Long
 	 */
 	@Test
-	public void longBoxing() {
+	void longBoxing() {
 		Class<?> primitive = long.class;
 		Class<?> expectedWrapper = Long.class;
 		boolean isBoxingConversion = Conversions.isBoxingConversion(primitive,
@@ -147,7 +147,7 @@ public class ConversionsBoxingTest {
 	 * From type float to type Float
 	 */
 	@Test
-	public void floatBoxing() {
+	void floatBoxing() {
 		Class<?> primitive = float.class;
 		Class<?> expectedWrapper = Float.class;
 		boolean isBoxingConversion = Conversions.isBoxingConversion(primitive,
@@ -164,7 +164,7 @@ public class ConversionsBoxingTest {
 	 * From type double to type Double
 	 */
 	@Test
-	public void doubleBoxing() {
+	void doubleBoxing() {
 		Class<?> primitive = double.class;
 		Class<?> expectedWrapper = Double.class;
 		boolean isBoxingConversion = Conversions.isBoxingConversion(primitive,
@@ -178,7 +178,7 @@ public class ConversionsBoxingTest {
 	}
 
 	@Test
-	public void isBoxingToNull() {
+	void isBoxingToNull() {
 		boolean boxingConversion = Conversions.isBoxingConversion(
 				Integer.class, null);
 		assertFalse(boxingConversion);

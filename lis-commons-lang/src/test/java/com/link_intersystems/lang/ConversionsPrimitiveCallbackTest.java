@@ -24,59 +24,59 @@ import org.junit.jupiter.api.Test;
  *         intersystems.com]</a>
  * 
  */
-public class ConversionsPrimitiveCallbackTest {
+class ConversionsPrimitiveCallbackTest  {
 
 	@Test
-	public void booleanCallback() {
+	void booleanCallback() {
 		Class<?> type = Boolean.TYPE;
 		PrimitiveCallback assertion = new PrimitiveCallbackAssertion(type);
 		Conversions.unbox(Boolean.valueOf(true), assertion);
 	}
 
 	@Test
-	public void byteCallback() {
+	void byteCallback() {
 		Class<?> type = Byte.TYPE;
 		PrimitiveCallback assertion = new PrimitiveCallbackAssertion(type);
 		Conversions.unbox(Byte.valueOf((byte) 13), assertion);
 	}
 
 	@Test
-	public void shortCallback() {
+	void shortCallback() {
 		Class<?> type = Short.TYPE;
 		PrimitiveCallback assertion = new PrimitiveCallbackAssertion(type);
 		Conversions.unbox(Short.valueOf((short) 13), assertion);
 	}
 
 	@Test
-	public void characterCallback() {
+	void characterCallback() {
 		Class<?> type = Character.TYPE;
 		PrimitiveCallback assertion = new PrimitiveCallbackAssertion(type);
 		Conversions.unbox(Character.valueOf('A'), assertion);
 	}
 
 	@Test
-	public void integerCallback() {
+	void integerCallback() {
 		Class<?> type = Integer.TYPE;
 		PrimitiveCallback assertion = new PrimitiveCallbackAssertion(type);
 		Conversions.unbox(Integer.valueOf(13), assertion);
 	}
 
 	@Test
-	public void longCallback() {
+	void longCallback() {
 		Class<?> type = Long.TYPE;
 		PrimitiveCallback assertion = new PrimitiveCallbackAssertion(type);
 		Conversions.unbox(Long.valueOf(13), assertion);
 	}
 
 	@Test
-	public void floatCallback() {
+	void floatCallback() {
 		Class<?> type = Float.TYPE;
 		PrimitiveCallback assertion = new PrimitiveCallbackAssertion(type);
 		Conversions.unbox(Float.valueOf(13.13f), assertion);
 	}
 
 	@Test
-	public void doubleCallback() {
+	void doubleCallback() {
 		Class<?> type = Double.TYPE;
 		PrimitiveCallback assertion = new PrimitiveCallbackAssertion(type);
 		Conversions.unbox(Double.valueOf(13.13), assertion);

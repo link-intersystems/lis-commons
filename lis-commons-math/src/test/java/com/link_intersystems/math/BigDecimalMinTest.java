@@ -22,17 +22,17 @@ import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BigDecimalMinTest {
+class BigDecimalMinTest  {
 
     @Test
-    public void minNoValues() {
+    void minNoValues() {
         Min<BigDecimal> min = new BigDecimalMin();
         BigDecimal value = min.getValue();
         assertNull(value);
     }
 
     @Test
-    public void min() {
+    void min() {
         Min<BigDecimal> min = new BigDecimalMin();
         boolean valueChanged = min.addValue(5);
         Assertions.assertTrue(valueChanged);

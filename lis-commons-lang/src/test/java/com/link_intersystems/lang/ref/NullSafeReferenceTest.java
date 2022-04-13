@@ -19,17 +19,17 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class NullSafeReferenceTest {
+class NullSafeReferenceTest  {
 
     @Test
-    public void nullObjectReferent() {
+    void nullObjectReferent() {
         NullSafeReference<String> nullSafeReference = new NullSafeReference<String>("");
         String referent = nullSafeReference.get();
         assertEquals("", referent);
     }
 
     @Test
-    public void referent() {
+    void referent() {
         NullSafeReference<String> nullSafeReference = new NullSafeReference<String>("");
         nullSafeReference.setReferent("hello world");
         String referent = nullSafeReference.get();
@@ -41,7 +41,7 @@ public class NullSafeReferenceTest {
     }
 
     @Test
-    public void referentByReference() {
+    void referentByReference() {
         NullSafeReference<String> nullSafeReference = new NullSafeReference<String>("");
         nullSafeReference.setReferent(new HardReference<String>("hello world"));
         String referent = nullSafeReference.get();

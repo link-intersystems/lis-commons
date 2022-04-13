@@ -11,10 +11,10 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
-public class BeanClassTest {
+class BeanClassTest  {
 
 	@Test
-	public void getPropertyDescriptorWrongClassProperty() throws NoSuchMethodException, SecurityException {
+	void getPropertyDescriptorWrongClassProperty() throws NoSuchMethodException, SecurityException {
 		BeanClass<SomeBean> someBeanClass = BeanClass.get(SomeBean.class);
 		PropertyDescriptor propertyDescriptor = someBeanClass.getPropertyDescriptor(
 				BeanClassTest.class.getDeclaredMethod("getPropertyDescriptorWrongClassProperty"));
@@ -22,7 +22,7 @@ public class BeanClassTest {
 	}
 
 	@Test
-	public void getPropertyDescriptorByGetter() throws NoSuchMethodException, SecurityException {
+	void getPropertyDescriptorByGetter() throws NoSuchMethodException, SecurityException {
 		BeanClass<SomeBean> someBeanClass = BeanClass.get(SomeBean.class);
 		PropertyDescriptor propertyDescriptor = someBeanClass
 				.getPropertyDescriptor(SomeBean.class.getDeclaredMethod("getStringProperty"));
@@ -31,7 +31,7 @@ public class BeanClassTest {
 	}
 
 	@Test
-	public void getPropertyDescriptorBySetter() throws NoSuchMethodException, SecurityException {
+	void getPropertyDescriptorBySetter() throws NoSuchMethodException, SecurityException {
 		BeanClass<SomeBean> someBeanClass = BeanClass.get(SomeBean.class);
 		PropertyDescriptor propertyDescriptor = someBeanClass
 				.getPropertyDescriptor(SomeBean.class.getDeclaredMethod("setStringProperty", String.class));
@@ -40,7 +40,7 @@ public class BeanClassTest {
 	}
 
 	@Test
-	public void consistency() throws NoSuchMethodException, SecurityException {
+	void consistency() throws NoSuchMethodException, SecurityException {
 		BeanClass<SomeBean> someBeanClass = BeanClass.get(SomeBean.class);
 		Map<String, PropertyDescriptor> propertyDescriptors = someBeanClass.getPropertyDescriptors();
 		for (PropertyDescriptor propertyDescriptor : propertyDescriptors.values()) {

@@ -21,17 +21,17 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class KeyCollisionExceptiontTest {
+class KeyCollisionExceptiontTest  {
 
 	@Test
-	public void withoutMessage() {
+	void withoutMessage() {
 		KeyCollisionException keyCollisionException = new KeyCollisionException(
 				"key");
 		assertEquals("key", keyCollisionException.getKey());
 	}
 
 	@Test
-	public void withMessage() {
+	void withMessage() {
 		KeyCollisionException keyCollisionException = new KeyCollisionException(
 				"Message", "key");
 		assertTrue(keyCollisionException.getMessage()

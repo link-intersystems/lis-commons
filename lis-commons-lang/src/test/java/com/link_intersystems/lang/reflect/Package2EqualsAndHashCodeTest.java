@@ -19,7 +19,7 @@ import com.link_intersystems.EqualsAndHashCodeTest;
 import com.link_intersystems.lang.Serialization;
 import org.junit.jupiter.api.BeforeEach;
 
-public class Package2EqualsAndHashCodeTest extends EqualsAndHashCodeTest {
+class Package2EqualsAndHashCodeTest extends EqualsAndHashCodeTest  {
 
     @BeforeEach
     public void createTestInstances() throws Exception {

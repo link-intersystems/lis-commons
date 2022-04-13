@@ -5,10 +5,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class ClassNodeTest {
+class ClassNodeTest  {
 
     @Test
-    public void nonUniqueClassTypes() {
+    void nonUniqueClassTypes() {
         assertThrows(IllegalArgumentException.class, () -> new ClassNode(ClassNode.class, ClassType.CLASSES, ClassType.INTERFACES, ClassType.INNER_CLASSES, ClassType.INTERFACES));
     }
 }

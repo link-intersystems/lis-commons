@@ -17,10 +17,10 @@ package com.link_intersystems.lang;
 
 import org.junit.jupiter.api.Test;
 
-public class ConversionsTest {
+class ConversionsTest  {
 
 	@Test
-	public void subclassing() {
+	void subclassing() {
 		new Conversions() {
 		};
 	}

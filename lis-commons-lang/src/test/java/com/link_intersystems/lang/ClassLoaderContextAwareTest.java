@@ -29,7 +29,7 @@ import java.util.concurrent.Callable;
 import static org.easymock.EasyMock.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ClassLoaderContextAwareTest {
+class ClassLoaderContextAwareTest  {
 
     private ClassLoader classLoader;
     private URL testResourceUrl;
@@ -43,13 +43,13 @@ public class ClassLoaderContextAwareTest {
     }
 
     @Test
-    public void getSystemClassLoaderContext() {
+    void getSystemClassLoaderContext() {
         ClassLoaderContextAware systemClassLoaderContext = ClassLoaderContextAware.forClassLoader(null);
         assertSame(ClassLoaderContextAware.SYSTEM_CLASS_LOADER_CONTEXT, systemClassLoaderContext);
     }
 
     @Test
-    public void getCachedClassLoaderContext() {
+    void getCachedClassLoaderContext() {
         ClassLoaderContextAware classLoaderContext = ClassLoaderContextAware.forClassLoader(classLoader);
         assertSame(mockClassLoaderContext, classLoaderContext);
     }
@@ -96,7 +96,7 @@ public class ClassLoaderContextAwareTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void callableResetThreadContextLoaderOnException() throws Exception {
+    void callableResetThreadContextLoaderOnException() throws Exception {
         Callable<URL> callable = createStrictMock(Callable.class);
         expect(callable.call()).andThrow(new RuntimeException());
         replay(callable);
@@ -120,7 +120,7 @@ public class ClassLoaderContextAwareTest {
     }
 
     @Test
-    public void runRunnable() throws Exception {
+    void runRunnable() throws Exception {
         Runnable runnable = createStrictMock(Runnable.class);
         runnable.run();
         expectLastCall();
@@ -132,7 +132,7 @@ public class ClassLoaderContextAwareTest {
     }
 
     @Test
-    public void runnableResetThreadContextLoader() throws Exception {
+    void runnableResetThreadContextLoader() throws Exception {
         Runnable runnable = createStrictMock(Runnable.class);
         runnable.run();
         expectLastCall();
@@ -153,7 +153,7 @@ public class ClassLoaderContextAwareTest {
     }
 
     @Test
-    public void runnableResetThreadContextLoaderOnException() throws Exception {
+    void runnableResetThreadContextLoaderOnException() throws Exception {
         Runnable runnable = createStrictMock(Runnable.class);
         runnable.run();
         expectLastCall().andThrow(new RuntimeException());
@@ -179,7 +179,7 @@ public class ClassLoaderContextAwareTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void classLoaderContextProxy() {
+    void classLoaderContextProxy() {
         List<String> targetMock = createStrictMock(List.class);
         expect(targetMock.size()).andAnswer(new IAnswer<Integer>() {
 
@@ -198,18 +198,18 @@ public class ClassLoaderContextAwareTest {
     }
 
     @Test
-    public void classLoaderContextProxyWithNull() {
+    void classLoaderContextProxyWithNull() {
         assertThrows(IllegalArgumentException.class, () -> mockClassLoaderContext.createContextProxy(null));
     }
 
     @Test
-    public void classLoaderContextProxyOnObjectWithNoInterfaces() {
+    void classLoaderContextProxyOnObjectWithNoInterfaces() {
         assertThrows(IllegalArgumentException.class, () -> mockClassLoaderContext.createContextProxy(new Object()));
     }
 
     @SuppressWarnings("unchecked")
     @Test
-    public void invokeMethodUsingReflection() throws Exception {
+    void invokeMethodUsingReflection() throws Exception {
         List<String> targetMock = createStrictMock(List.class);
         expect(targetMock.size()).andAnswer(new IAnswer<Integer>() {
 

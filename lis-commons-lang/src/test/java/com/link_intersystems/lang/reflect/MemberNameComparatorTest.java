@@ -23,17 +23,17 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
-public class MemberNameComparatorTest {
+class MemberNameComparatorTest  {
 
 	@Test
-	public void compareNullValues() {
+	void compareNullValues() {
 		int compare = ReflectFacade.getMemberNameComparator().compare(null,
 				null);
 		assertEquals(0, compare);
 	}
 
 	@Test
-	public void compareNullWithMember() throws SecurityException,
+	void compareNullWithMember() throws SecurityException,
 			NoSuchMethodException {
 		Method declaredMethod = ArrayList.class.getDeclaredMethod("add",
 				Object.class);
@@ -43,7 +43,7 @@ public class MemberNameComparatorTest {
 	}
 
 	@Test
-	public void compareMemberWithNull() throws SecurityException,
+	void compareMemberWithNull() throws SecurityException,
 			NoSuchMethodException {
 		Method declaredMethod = ArrayList.class.getDeclaredMethod("add",
 				Object.class);
@@ -53,7 +53,7 @@ public class MemberNameComparatorTest {
 	}
 
 	@Test
-	public void compareMembers() throws SecurityException,
+	void compareMembers() throws SecurityException,
 			NoSuchMethodException {
 		Method addMethod = ArrayList.class.getDeclaredMethod("add",
 				Object.class);

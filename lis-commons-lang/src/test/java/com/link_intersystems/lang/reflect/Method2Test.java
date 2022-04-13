@@ -33,15 +33,15 @@ import java.util.List;
 import static org.easymock.EasyMock.expect;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class Method2Test {
+class Method2Test  {
 
     @Test
-    public void nullConstructorArg() {
+    void nullConstructorArg() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> new Method2(null));
     }
 
     @Test
-    public void privateMethod() throws SecurityException, NoSuchMethodException {
+    void privateMethod() throws SecurityException, NoSuchMethodException {
         Method2 higher = Class2.get(HigherVisibility.class).getApplicableMethod("privateMethod");
         Method2 lower = Class2.get(LowerVisibility.class).getApplicableMethod("privateMethod");
         boolean overridden = lower.overrides(higher);
@@ -49,7 +49,7 @@ public class Method2Test {
     }
 
     @Test
-    public void packageMethod() throws SecurityException, NoSuchMethodException {
+    void packageMethod() throws SecurityException, NoSuchMethodException {
         Method2 higher = Class2.get(HigherVisibility.class).getApplicableMethod("packageMethod");
         Method2 lower = Class2.get(LowerVisibility.class).getApplicableMethod("packageMethod");
         boolean overridden = lower.overrides(higher);
@@ -57,7 +57,7 @@ public class Method2Test {
     }
 
     @Test
-    public void protectedMethod() throws SecurityException, NoSuchMethodException {
+    void protectedMethod() throws SecurityException, NoSuchMethodException {
         Method2 higher = Class2.get(HigherVisibility.class).getApplicableMethod("protectedMethod");
         Method2 lower = Class2.get(LowerVisibility.class).getApplicableMethod("protectedMethod");
         boolean overridden = lower.overrides(higher);
@@ -65,7 +65,7 @@ public class Method2Test {
     }
 
     @Test
-    public void publicMethod() throws SecurityException, NoSuchMethodException {
+    void publicMethod() throws SecurityException, NoSuchMethodException {
         Method2 higher = Class2.get(HigherVisibility.class).getApplicableMethod("publicMethod");
         Method2 lower = Class2.get(LowerVisibility.class).getApplicableMethod("publicMethod");
         boolean overridden = lower.overrides(higher);
@@ -73,7 +73,7 @@ public class Method2Test {
     }
 
     @Test
-    public void packageToPublic() throws SecurityException, NoSuchMethodException {
+    void packageToPublic() throws SecurityException, NoSuchMethodException {
         Method2 higher = Class2.get(HigherVisibility.class).getApplicableMethod("packageToPublic");
         Method2 lower = Class2.get(LowerVisibility.class).getApplicableMethod("packageToPublic");
         boolean overridden = lower.overrides(higher);
@@ -81,7 +81,7 @@ public class Method2Test {
     }
 
     @Test
-    public void returnType() throws SecurityException, NoSuchMethodException {
+    void returnType() throws SecurityException, NoSuchMethodException {
         Method2 higher = Class2.get(HigherReturn.class).getApplicableMethod("get");
         Method2 lower = Class2.get(LowerReturn.class).getApplicableMethod("get");
         boolean overridden = lower.overrides(higher);
@@ -89,7 +89,7 @@ public class Method2Test {
     }
 
     @Test
-    public void interfaceMethodsDoNotOverride() throws SecurityException, NoSuchMethodException {
+    void interfaceMethodsDoNotOverride() throws SecurityException, NoSuchMethodException {
         Method2 higher = Class2.get(HigherInterface.class).getApplicableMethod("get");
         Method2 lower = Class2.get(LowerWithInterface.class).getApplicableMethod("get");
         boolean overridden = lower.overrides(higher);
@@ -97,7 +97,7 @@ public class Method2Test {
     }
 
     @Test
-    public void overloadsWithAssignableReturnTypes() throws SecurityException, NoSuchMethodException {
+    void overloadsWithAssignableReturnTypes() throws SecurityException, NoSuchMethodException {
         Method2 higher = Class2.get(HigherOverload.class).getApplicableMethod("get");
         Method2 lower = Class2.get(LowerOverload.class).getApplicableMethod("get", Integer.TYPE);
         boolean overloaded = lower.overloads(higher);
@@ -107,7 +107,7 @@ public class Method2Test {
     }
 
     @Test
-    public void getDefinition() throws SecurityException, NoSuchMethodException {
+    void getDefinition() throws SecurityException, NoSuchMethodException {
         Method2 arrayListGet = Class2.get(ArrayList.class).getApplicableMethod("get", Integer.TYPE);
         Method definition = arrayListGet.getDefinition();
         assertNotNull(definition);
@@ -116,7 +116,7 @@ public class Method2Test {
     }
 
     @Test
-    public void getDefinitionIsTheActualMethod() throws SecurityException, NoSuchMethodException {
+    void getDefinitionIsTheActualMethod() throws SecurityException, NoSuchMethodException {
         Method2 isEmptyImpl = Class2.get(Collection.class).getApplicableMethod("isEmpty");
         Method definition = isEmptyImpl.getDefinition();
         assertNotNull(definition);
@@ -125,7 +125,7 @@ public class Method2Test {
     }
 
     @Test
-    public void overloads() throws SecurityException, NoSuchMethodException {
+    void overloads() throws SecurityException, NoSuchMethodException {
         Method2 higher = Class2.get(HigherOverload.class).getApplicableMethod("getObj");
         Method2 lower = Class2.get(LowerOverload.class).getApplicableMethod("getObj", Integer.TYPE);
         boolean overloaded = lower.overloads(higher);
@@ -135,7 +135,7 @@ public class Method2Test {
     }
 
     @Test
-    public void invokeApplicable() throws Exception {
+    void invokeApplicable() throws Exception {
         Method2 arrayListAdd = Class2.get(ArrayList.class).getApplicableMethod("add", Object.class);
         ArrayList<String> arrayList = new ArrayList<String>();
         arrayListAdd.getInvokable(arrayList).invoke("Test");
@@ -144,7 +144,7 @@ public class Method2Test {
 
     @SuppressWarnings("all")
     @Test
-    public void invokeParamsMustNotBeNull() throws Exception {
+    void invokeParamsMustNotBeNull() throws Exception {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
 
             Method2 arrayListAdd = Class2.get(ArrayList.class).getApplicableMethod("add", Object.class);
@@ -155,7 +155,7 @@ public class Method2Test {
     }
 
     @Test
-    public void invokeParamsContainsNull() throws Exception {
+    void invokeParamsContainsNull() throws Exception {
         Method2 arrayListAdd = Class2.get(ArrayList.class).getApplicableMethod("add", Object.class);
         ArrayList<String> arrayList = new ArrayList<String>();
         arrayListAdd.getInvokable(arrayList).invoke(new Object[]{null});
@@ -163,14 +163,14 @@ public class Method2Test {
     }
 
     @Test
-    public void invokeNotApplicable() throws Exception {
+    void invokeNotApplicable() throws Exception {
         Method2 arrayListAdd = Class2.get(ArrayList.class).getApplicableMethod("add", Object.class);
         ArrayList<String> arrayList = new ArrayList<String>();
         Assertions.assertThrows(IllegalArgumentException.class, () -> arrayListAdd.getInvokable(arrayList).invoke(1, "Test"));
     }
 
     @Test
-    public void declaredExceptions() throws Exception {
+    void declaredExceptions() throws Exception {
         Method2 readMethod = Class2.get(InputStream.class).getApplicableMethod("read");
         Class<?>[] declaredExceptionTypes = readMethod.getDeclaredExceptionTypes();
         assertNotNull(declaredExceptionTypes);
@@ -179,7 +179,7 @@ public class Method2Test {
     }
 
     @Test
-    public void overriddenBy() throws Exception {
+    void overriddenBy() throws Exception {
         Method2 readMethod = Class2.get(InputStream.class).getApplicableMethod("read");
         Method2 overriddenReadMethod = Class2.get(FilterInputStream.class).getApplicableMethod("read");
         assertTrue(readMethod.isOverriddenBy(overriddenReadMethod));
@@ -187,7 +187,7 @@ public class Method2Test {
     }
 
     @Test
-    public void overriddenByWithJavaMethod() throws Exception {
+    void overriddenByWithJavaMethod() throws Exception {
         Method2 readMethod = Class2.get(InputStream.class).getApplicableMethod("read");
         Method2 overriddenReadMethod = Class2.get(FilterInputStream.class).getApplicableMethod("read");
         assertTrue(readMethod.isOverriddenBy(overriddenReadMethod.getMember()));
@@ -195,7 +195,7 @@ public class Method2Test {
     }
 
     @Test
-    public void forMethodNull() throws Exception {
+    void forMethodNull() throws Exception {
         Assertions.assertThrows(IllegalArgumentException.class, () -> Method2.forMethod(null));
     }
 

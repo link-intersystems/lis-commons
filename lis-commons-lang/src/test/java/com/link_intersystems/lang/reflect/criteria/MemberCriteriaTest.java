@@ -34,7 +34,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class MemberCriteriaTest {
+class MemberCriteriaTest  {
 
     private MemberCriteria memberCriteria;
 
@@ -44,12 +44,12 @@ public class MemberCriteriaTest {
     }
 
     @Test
-    public void nullMemberIterateOrderComparator() {
+    void nullMemberIterateOrderComparator() {
         assertThrows(IllegalArgumentException.class, () -> memberCriteria.setMemberIterateOrder(null));
     }
 
     @Test
-    public void defaultMemberIterator() {
+    void defaultMemberIterator() {
         Iterable<Class<?>> classIterable = new ClassCriteria().getIterable(Object.class);
         Iterable<Member> iterable = memberCriteria.getIterable(classIterable);
         assertNotNull(iterable);
@@ -62,7 +62,7 @@ public class MemberCriteriaTest {
     }
 
     @Test
-    public void annotatedElementIterator() {
+    void annotatedElementIterator() {
         Iterable<Class<?>> classIterable = new ClassCriteria().getIterable(Object.class);
         Iterable<? extends AnnotatedElement> iterable = memberCriteria.getAnnotatedElementIterable(classIterable);
         assertNotNull(iterable);
@@ -75,7 +75,7 @@ public class MemberCriteriaTest {
     }
 
     @Test
-    public void notAllowdModifiers() throws IllegalAccessException {
+    void notAllowdModifiers() throws IllegalAccessException {
         Field[] declaredFields = Modifier.class.getDeclaredFields();
         int maxModifierValue = 0;
         for (Field field : declaredFields) {
@@ -101,7 +101,7 @@ public class MemberCriteriaTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void publicAbstractMethodStartingWithAdd() {
+    void publicAbstractMethodStartingWithAdd() {
         memberCriteria.membersOfType(Method.class);
         memberCriteria.withModifiers(Modifier.ABSTRACT);
         memberCriteria.named(Pattern.compile("add.*"));
@@ -123,7 +123,7 @@ public class MemberCriteriaTest {
     }
 
     @Test
-    public void getFirstMethodWithSameSignatureAsCollectionAddObject() throws SecurityException, NoSuchMethodException {
+    void getFirstMethodWithSameSignatureAsCollectionAddObject() throws SecurityException, NoSuchMethodException {
         memberCriteria.setResult(Result.FIRST);
         memberCriteria.membersOfType(Method.class);
 
@@ -146,7 +146,7 @@ public class MemberCriteriaTest {
     }
 
     @Test
-    public void hierarchyTraveral() {
+    void hierarchyTraveral() {
         memberCriteria.membersOfType(Method.class);
         memberCriteria.withModifiers(Modifier.ABSTRACT);
         memberCriteria.named(Pattern.compile("add.*"));
@@ -170,7 +170,7 @@ public class MemberCriteriaTest {
     }
 
     @Test
-    public void publicMethods() {
+    void publicMethods() {
         memberCriteria.membersOfType(Method.class);
         memberCriteria.withAccess(AccessType.PUBLIC);
         ClassCriteria classCriteria = new ClassCriteria();
@@ -187,7 +187,7 @@ public class MemberCriteriaTest {
     }
 
     @Test
-    public void defaultAccessMethods() {
+    void defaultAccessMethods() {
         memberCriteria.membersOfType(Method.class);
         memberCriteria.withAccess(AccessType.DEFAULT);
         ClassCriteria classCriteria = new ClassCriteria();
@@ -204,7 +204,7 @@ public class MemberCriteriaTest {
     }
 
     @Test
-    public void defaultAccessMethodsWithStaticNativeOnly() {
+    void defaultAccessMethodsWithStaticNativeOnly() {
         memberCriteria.membersOfType(Method.class);
         memberCriteria.withAccess(AccessType.DEFAULT);
         memberCriteria.withModifiers(Modifier.STATIC | Modifier.NATIVE);
@@ -224,7 +224,7 @@ public class MemberCriteriaTest {
     }
 
     @Test
-    public void usingFilterTest() {
+    void usingFilterTest() {
         memberCriteria.membersOfType(Method.class);
         memberCriteria.add(new ToStringPredicate());
         ClassCriteria classCriteria = new ClassCriteria();
@@ -239,7 +239,7 @@ public class MemberCriteriaTest {
     }
 
     @Test
-    public void privateStaticFields() {
+    void privateStaticFields() {
         memberCriteria.membersOfType(Field.class);
         memberCriteria.withAccess(AccessType.PRIVATE);
         memberCriteria.withModifiers(Modifier.STATIC);
@@ -258,7 +258,7 @@ public class MemberCriteriaTest {
     }
 
     @Test
-    public void protecedConstructors() {
+    void protecedConstructors() {
         memberCriteria.membersOfType(Constructor.class);
         memberCriteria.withAccess(AccessType.PROTECTED);
         ClassCriteria classCriteria = new ClassCriteria();
@@ -275,27 +275,27 @@ public class MemberCriteriaTest {
     }
 
     @Test
-    public void illegalMemeberTypes() {
+    void illegalMemeberTypes() {
         assertThrows(IllegalArgumentException.class, () -> memberCriteria.membersOfType(String.class));
     }
 
     @Test
-    public void illegalModifierPrivate() {
+    void illegalModifierPrivate() {
         assertThrows(IllegalArgumentException.class, () -> memberCriteria.withModifiers(Modifier.PRIVATE));
     }
 
     @Test
-    public void illegalModifierPublic() {
+    void illegalModifierPublic() {
         assertThrows(IllegalArgumentException.class, () -> memberCriteria.withModifiers(Modifier.PUBLIC));
     }
 
     @Test
-    public void illegalModifierProtected() {
+    void illegalModifierProtected() {
         assertThrows(IllegalArgumentException.class, () -> memberCriteria.withModifiers(Modifier.PROTECTED));
     }
 
     @Test
-    public void iteratorRemove() {
+    void iteratorRemove() {
         memberCriteria.membersOfType(Field.class);
         memberCriteria.withAccess(AccessType.PRIVATE);
         memberCriteria.withModifiers(Modifier.STATIC);
@@ -314,12 +314,12 @@ public class MemberCriteriaTest {
     }
 
     @Test
-    public void withEmptyAccesses() {
+    void withEmptyAccesses() {
         assertThrows(IllegalArgumentException.class, () -> memberCriteria.withAccess(new AccessType[0]));
     }
 
     @Test
-    public void annotatedElementsPackage2Class2Member() throws SecurityException, NoSuchMethodException {
+    void annotatedElementsPackage2Class2Member() throws SecurityException, NoSuchMethodException {
         ClassCriteria classCriteria = new ClassCriteria();
         classCriteria.setSelection(ClassType.CLASSES);
         memberCriteria.membersOfType(Method.class);
@@ -352,7 +352,7 @@ public class MemberCriteriaTest {
     }
 
     @Test
-    public void annotatedElementsMembers2Classes() throws SecurityException, NoSuchMethodException {
+    void annotatedElementsMembers2Classes() throws SecurityException, NoSuchMethodException {
         ClassCriteria classCriteria = new ClassCriteria();
         classCriteria.setSelection(ClassType.CLASSES);
 
@@ -385,7 +385,7 @@ public class MemberCriteriaTest {
     }
 
     @Test
-    public void annotatedElementsPackagesOnly() throws SecurityException, NoSuchMethodException {
+    void annotatedElementsPackagesOnly() throws SecurityException, NoSuchMethodException {
         ClassCriteria classCriteria = new ClassCriteria();
         classCriteria.setSelection(ClassType.CLASSES);
         memberCriteria.membersOfType(Method.class);

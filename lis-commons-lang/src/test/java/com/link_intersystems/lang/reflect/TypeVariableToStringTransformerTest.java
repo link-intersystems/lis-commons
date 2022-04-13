@@ -29,7 +29,7 @@ import java.lang.reflect.TypeVariable;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TypeVariableToStringTransformerTest {
+class TypeVariableToStringTransformerTest  {
 
     private TypeVariableToStringTransformer transformer;
 
@@ -41,7 +41,7 @@ public class TypeVariableToStringTransformerTest {
 
     @SuppressWarnings("rawtypes")
     @Test
-    public void toStringForBoundTypes() {
+    void toStringForBoundTypes() {
         Class2<Class2ToStringGeneric> class2ToStringGeneric = Class2.get(Class2ToStringGeneric.class);
         TypeVariable<?>[] typeVariables = class2ToStringGeneric.getTypeVariables();
 
@@ -60,7 +60,7 @@ public class TypeVariableToStringTransformerTest {
 
     @SuppressWarnings("rawtypes")
     @Test
-    public void toStringForUnboundTypes() {
+    void toStringForUnboundTypes() {
         Class2<Class2ToStringGenericNoBounds> forClass = Class2.get(Class2ToStringGenericNoBounds.class);
         TypeVariable<?>[] typeVariables = forClass.getTypeVariables();
 
@@ -70,7 +70,7 @@ public class TypeVariableToStringTransformerTest {
 
     @SuppressWarnings("rawtypes")
     @Test
-    public void toStringForNoClassBoundTypes() {
+    void toStringForNoClassBoundTypes() {
         Class2<Class2ToStringBoundTypeNotClass> forClass = Class2.get(Class2ToStringBoundTypeNotClass.class);
         TypeVariable<?>[] typeVariables = forClass.getTypeVariables();
 
@@ -83,7 +83,7 @@ public class TypeVariableToStringTransformerTest {
 
     @SuppressWarnings("rawtypes")
     @Test
-    public void toStringForParameterizedTypeBoundTypes() {
+    void toStringForParameterizedTypeBoundTypes() {
         Class2<Class2ToStringParameterizedTypeBoundType> forClass = Class2.get(Class2ToStringParameterizedTypeBoundType.class);
         TypeVariable<?>[] typeVariables = forClass.getTypeVariables();
 
@@ -96,7 +96,7 @@ public class TypeVariableToStringTransformerTest {
 
     @SuppressWarnings("rawtypes")
     @Test
-    public void transformUnknownType() {
+    void transformUnknownType() {
         TypeVariable unknownTypeVar = EasyMock.createNiceMock(TypeVariable.class);
         EasyMock.expect(unknownTypeVar.getName()).andReturn("A");
         Type unknownType = EasyMock.createNiceMock(Type.class);

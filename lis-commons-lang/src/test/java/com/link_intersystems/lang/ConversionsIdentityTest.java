@@ -29,13 +29,13 @@ import org.junit.jupiter.api.Test;
  *         intersystems.com]</a>
  * 
  */
-public class ConversionsIdentityTest {
+class ConversionsIdentityTest  {
 
 	/**
 	 * A conversion from a type to that same type is permitted for any type.
 	 */
 	@Test
-	public void nonPrimitiveTo() {
+	void nonPrimitiveTo() {
 		assertTrue(Conversions.isIdentity(Byte.TYPE, Byte.TYPE));
 		assertFalse(Conversions.isIdentity(Byte.TYPE, Double.TYPE));
 	}

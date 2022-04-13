@@ -28,10 +28,10 @@ import java.util.SortedMap;
 
 import org.junit.jupiter.api.Test;
 
-public class Class2ApplicableTest {
+class Class2ApplicableTest  {
 
 	@Test
-	public void applicableVarargsMethod() throws Exception {
+	void applicableVarargsMethod() throws Exception {
 		Class2<?> classInfo = Class2.get(Class2ApplicableTestClass.class);
 		Method2 applicableMethod = classInfo.getApplicableMethod("method",
 				Object.class, String.class, int.class, int.class);
@@ -57,7 +57,7 @@ public class Class2ApplicableTest {
 	}
 
 	@Test
-	public void applicableVarargsMethodWithAccessType()
+	void applicableVarargsMethodWithAccessType()
 			throws SecurityException, NoSuchMethodException,
 			IllegalAccessException, InvocationTargetException {
 		Class2<?> classInfo = Class2
@@ -74,7 +74,7 @@ public class Class2ApplicableTest {
 	}
 
 	@Test
-	public void selectMostSpecific() throws SecurityException,
+	void selectMostSpecific() throws SecurityException,
 			NoSuchMethodException {
 		Class2<?> class2Impl = Class2
 				.get(ClassWithSeveralSpecificMethods.class);

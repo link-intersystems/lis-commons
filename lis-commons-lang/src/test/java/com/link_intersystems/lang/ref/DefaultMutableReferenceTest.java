@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class DefaultMutableReferenceTest {
+class DefaultMutableReferenceTest  {
 
     @Test
-    public void setAndGet() {
+    void setAndGet() {
         DefaultMutableReference<String> defaultMutableReference = new DefaultMutableReference<String>();
 
         assertNull(defaultMutableReference.get());
@@ -21,7 +21,7 @@ public class DefaultMutableReferenceTest {
     }
 
     @Test
-    public void setViaConstructor() {
+    void setViaConstructor() {
         String newReferent = new String("someString");
 
         DefaultMutableReference<String> defaultMutableReference = new DefaultMutableReference<String>(newReferent);

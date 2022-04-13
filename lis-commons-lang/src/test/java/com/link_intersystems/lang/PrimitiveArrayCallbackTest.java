@@ -20,39 +20,39 @@ import org.junit.jupiter.api.Test;
 import static junit.framework.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class PrimitiveArrayCallbackTest {
+class PrimitiveArrayCallbackTest  {
 
     @Test
-    public void nullConstructorArg() {
+    void nullConstructorArg() {
         assertThrows(IllegalArgumentException.class, () -> new PrimitiveArrayCallback(null));
     }
 
     @Test
-    public void notAnArrayConstructorArg() {
+    void notAnArrayConstructorArg() {
         assertThrows(IllegalArgumentException.class, () -> new PrimitiveArrayCallback(new Object()));
     }
 
     @Test
-    public void notAnPrimitiveArrayConstructorArg() {
+    void notAnPrimitiveArrayConstructorArg() {
         assertThrows(IllegalArgumentException.class, () -> new PrimitiveArrayCallback(new Object[0]));
     }
 
     @Test
-    public void setIndexIsOutOfUpperBounds() {
+    void setIndexIsOutOfUpperBounds() {
         int[] arr = new int[10];
         PrimitiveArrayCallback callback = new PrimitiveArrayCallback(arr);
         assertThrows(IndexOutOfBoundsException.class, () -> callback.setIndex(10));
     }
 
     @Test
-    public void setIndexIsOutOfLowerBounds() {
+    void setIndexIsOutOfLowerBounds() {
         int[] arr = new int[10];
         PrimitiveArrayCallback callback = new PrimitiveArrayCallback(arr);
         assertThrows(IndexOutOfBoundsException.class, () -> callback.setIndex(-1));
     }
 
     @Test
-    public void getIndex() {
+    void getIndex() {
         int[] arr = new int[10];
         PrimitiveArrayCallback callback = new PrimitiveArrayCallback(arr);
         callback.setIndex(6);
@@ -62,7 +62,7 @@ public class PrimitiveArrayCallbackTest {
     }
 
     @Test
-    public void autoincrement() {
+    void autoincrement() {
         int[] arr = new int[10];
         PrimitiveArrayCallback callback = new PrimitiveArrayCallback(arr);
         callback.setIndex(8);

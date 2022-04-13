@@ -32,7 +32,7 @@ import static junit.framework.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class ClassCriteriaTest extends ElementCriteriaTest {
+class ClassCriteriaTest extends ElementCriteriaTest  {
 
     private ClassCriteria classCriteria;
 
@@ -47,23 +47,23 @@ public class ClassCriteriaTest extends ElementCriteriaTest {
     }
 
     @Test
-    public void nullIterator() {
+    void nullIterator() {
         assertThrows(IllegalArgumentException.class, () -> classCriteria.getIterable(null));
     }
 
     @Test
-    public void nullTraverseStrategy() {
+    void nullTraverseStrategy() {
         assertThrows(IllegalArgumentException.class, () -> classCriteria.setTraverseStrategy(null));
     }
 
     @Test
-    public void iteratorWithStartAt() {
+    void iteratorWithStartAt() {
         Iterator<Class<?>> iterator = classCriteria.getIterable(ArrayList.class).iterator();
         assertNotNull(iterator);
     }
 
     @Test
-    public void innerClassesTraversal() {
+    void innerClassesTraversal() {
         ClassCriteria criteria = new ClassCriteria();
         criteria.setTraverseStrategy(TraverseStrategy.DEPTH_FIRST);
         criteria.setSelection(ClassType.INNER_CLASSES);
@@ -78,7 +78,7 @@ public class ClassCriteriaTest extends ElementCriteriaTest {
     }
 
     @Test
-    public void innerClassesAndClassesTraversal() {
+    void innerClassesAndClassesTraversal() {
         ClassCriteria criteria = new ClassCriteria();
         criteria.setTraverseStrategy(TraverseStrategy.DEPTH_FIRST);
         criteria.setSelection(ClassType.INNER_CLASSES, ClassType.CLASSES);
@@ -97,7 +97,7 @@ public class ClassCriteriaTest extends ElementCriteriaTest {
     }
 
     @Test
-    public void changeClassCriteriaShouldNotAffectIterable() {
+    void changeClassCriteriaShouldNotAffectIterable() {
         ClassCriteria criteria = new ClassCriteria();
         criteria.setTraverseStrategy(TraverseStrategy.DEPTH_FIRST);
         criteria.setSelection(ClassType.CLASSES);
@@ -119,7 +119,7 @@ public class ClassCriteriaTest extends ElementCriteriaTest {
     }
 
     @Test
-    public void reportFirst() {
+    void reportFirst() {
         ClassCriteria classCriteria = new ClassCriteria();
         classCriteria.setResult(Result.FIRST);
         Iterator<Class<?>> classIterator = classCriteria.getIterable(ArrayList.class).iterator();
@@ -130,7 +130,7 @@ public class ClassCriteriaTest extends ElementCriteriaTest {
     }
 
     @Test
-    public void non_separated_class_traversal_breadth_first() {
+    void non_separated_class_traversal_breadth_first() {
         ClassCriteria criteria = new ClassCriteria();
         criteria.setTraverseStrategy(TraverseStrategy.BREADTH_FIRST);
         criteria.setSelection(ClassType.INTERFACES, ClassType.CLASSES);
@@ -156,7 +156,7 @@ public class ClassCriteriaTest extends ElementCriteriaTest {
     }
 
     @Test
-    public void non_separated_class_traversal_depth_first() {
+    void non_separated_class_traversal_depth_first() {
         ClassCriteria criteria = new ClassCriteria();
         criteria.setTraverseStrategy(TraverseStrategy.DEPTH_FIRST);
         criteria.setSelection(ClassType.INTERFACES, ClassType.CLASSES);
@@ -186,7 +186,7 @@ public class ClassCriteriaTest extends ElementCriteriaTest {
     }
 
     @Test
-    public void depthFirst_classes_interfaces_selected() {
+    void depthFirst_classes_interfaces_selected() {
         ClassCriteria criteria = new ClassCriteria();
         criteria.setTraverseStrategy(TraverseStrategy.DEPTH_FIRST);
         criteria.setSelection(ClassType.CLASSES, ClassType.INTERFACES);
@@ -211,7 +211,7 @@ public class ClassCriteriaTest extends ElementCriteriaTest {
     }
 
     @Test
-    public void depthFirst_interfaces_classes() {
+    void depthFirst_interfaces_classes() {
         ClassCriteria criteria = new ClassCriteria();
         criteria.setTraverseStrategy(TraverseStrategy.BREADTH_FIRST);
         criteria.setSelection(ClassType.INTERFACES, ClassType.CLASSES);
@@ -235,7 +235,7 @@ public class ClassCriteriaTest extends ElementCriteriaTest {
     }
 
     @Test
-    public void breadth_first_classes_interfaces() {
+    void breadth_first_classes_interfaces() {
         ClassCriteria criteria = new ClassCriteria();
         criteria.setTraverseStrategy(TraverseStrategy.BREADTH_FIRST);
         criteria.setSeparatedClassTypeTraversal(true);
@@ -265,7 +265,7 @@ public class ClassCriteriaTest extends ElementCriteriaTest {
     }
 
     @Test
-    public void traverseSuperclassesOnly() {
+    void traverseSuperclassesOnly() {
         ClassCriteria criteria = new ClassCriteria();
         criteria.setTraverseStrategy(TraverseStrategy.DEPTH_FIRST);
         criteria.setSelection(ClassType.CLASSES);
@@ -279,7 +279,7 @@ public class ClassCriteriaTest extends ElementCriteriaTest {
     }
 
     @Test
-    public void traverseSuperclassesOnlyStopAt() {
+    void traverseSuperclassesOnlyStopAt() {
         ClassCriteria criteria = new ClassCriteria();
         criteria.setTraverseStrategy(TraverseStrategy.DEPTH_FIRST);
         criteria.setSelection(ClassType.CLASSES);
@@ -297,7 +297,7 @@ public class ClassCriteriaTest extends ElementCriteriaTest {
     }
 
     @Test
-    public void traverseInterfacesOnly() {
+    void traverseInterfacesOnly() {
         ClassCriteria criteria = new ClassCriteria();
         criteria.setTraverseStrategy(TraverseStrategy.DEPTH_FIRST);
         criteria.setSelection(ClassType.INTERFACES);
@@ -315,7 +315,7 @@ public class ClassCriteriaTest extends ElementCriteriaTest {
     }
 
     @Test
-    public void traverseAllInterfacesOnly() {
+    void traverseAllInterfacesOnly() {
         ClassCriteria criteria = new ClassCriteria();
         criteria.setTraverseStrategy(TraverseStrategy.DEPTH_FIRST);
         criteria.setSelection(ClassType.INTERFACES);
@@ -339,7 +339,7 @@ public class ClassCriteriaTest extends ElementCriteriaTest {
     }
 
     @Test
-    public void reportLast() {
+    void reportLast() {
         ClassCriteria classCriteria = new ClassCriteria();
         classCriteria.setResult(Result.LAST);
         classCriteria.setTraverseStrategy(TraverseStrategy.DEPTH_FIRST);
@@ -353,7 +353,7 @@ public class ClassCriteriaTest extends ElementCriteriaTest {
     }
 
     @Test
-    public void reportAll() {
+    void reportAll() {
         ClassCriteria classCriteria = new ClassCriteria();
         classCriteria.setResult(Result.ALL);
         classCriteria.setTraverseStrategy(TraverseStrategy.DEPTH_FIRST);
@@ -371,7 +371,7 @@ public class ClassCriteriaTest extends ElementCriteriaTest {
     }
 
     @Test
-    public void nextOnHasNextFalse() {
+    void nextOnHasNextFalse() {
         ClassCriteria classCriteria = new ClassCriteria();
         classCriteria.setResult(Result.FIRST);
 
@@ -383,7 +383,7 @@ public class ClassCriteriaTest extends ElementCriteriaTest {
     }
 
     @Test
-    public void removeClass() {
+    void removeClass() {
         ClassCriteria classCriteria = new ClassCriteria();
         classCriteria.setResult(Result.FIRST);
         Iterator<Class<?>> classIterator = classCriteria.getIterable(ArrayList.class).iterator();
@@ -393,7 +393,7 @@ public class ClassCriteriaTest extends ElementCriteriaTest {
     }
 
     @Test
-    public void localScopeOnly() {
+    void localScopeOnly() {
         classCriteria.stopAt(ArrayList.class);
         Iterator<Class<?>> iterator = classCriteria.getIterable(ArrayList.class).iterator();
         assertNotNull(iterator);
@@ -404,7 +404,7 @@ public class ClassCriteriaTest extends ElementCriteriaTest {
     }
 
     @Test
-    public void classesOnly() {
+    void classesOnly() {
         classCriteria.setTraverseStrategy(TraverseStrategy.DEPTH_FIRST);
         classCriteria.setSelection(ClassType.CLASSES);
         classCriteria.add(new NotPredicate<>(ReflectFacade.getIsInterfacePredicate()));
@@ -426,7 +426,7 @@ public class ClassCriteriaTest extends ElementCriteriaTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void allInterfaces() {
+    void allInterfaces() {
         classCriteria.setTraverseStrategy(TraverseStrategy.DEPTH_FIRST);
         classCriteria.setSelection(ClassType.CLASSES);
         classCriteria.setTraverseClassesUniquely(false);
@@ -445,7 +445,7 @@ public class ClassCriteriaTest extends ElementCriteriaTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void interfacesComparator() {
+    void interfacesComparator() {
         classCriteria.setTraverseStrategy(TraverseStrategy.DEPTH_FIRST);
         classCriteria.setSelection(ClassType.INTERFACES);
         classCriteria.setTraverseClassesUniquely(false);
@@ -466,7 +466,7 @@ public class ClassCriteriaTest extends ElementCriteriaTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void visitOnceFilter() {
+    void visitOnceFilter() {
         classCriteria.setTraverseStrategy(TraverseStrategy.DEPTH_FIRST);
         classCriteria.setSelection(ClassType.INTERFACES);
         classCriteria.add(ReflectFacade.getIsInterfacePredicate());
@@ -487,7 +487,7 @@ public class ClassCriteriaTest extends ElementCriteriaTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void visitAllFilter() {
+    void visitAllFilter() {
         classCriteria.setTraverseStrategy(TraverseStrategy.DEPTH_FIRST);
         classCriteria.setSelection(ClassType.INTERFACES);
         classCriteria.add(ReflectFacade.getIsInterfacePredicate());
@@ -504,7 +504,7 @@ public class ClassCriteriaTest extends ElementCriteriaTest {
     }
 
     @Test
-    public void superclassesRemove() {
+    void superclassesRemove() {
         classCriteria.setTraverseStrategy(TraverseStrategy.DEPTH_FIRST);
         classCriteria.setSelection(ClassType.CLASSES);
         Iterator<Class<?>> iterator = classCriteria.getIterable(GenericSubSubClass.class).iterator();
@@ -515,7 +515,7 @@ public class ClassCriteriaTest extends ElementCriteriaTest {
     }
 
     @Test
-    public void interfacesRemove() {
+    void interfacesRemove() {
         classCriteria.setTraverseStrategy(TraverseStrategy.DEPTH_FIRST);
         classCriteria.setSelection(ClassType.INTERFACES);
         classCriteria.add(ReflectFacade.getIsInterfacePredicate());
@@ -527,7 +527,7 @@ public class ClassCriteriaTest extends ElementCriteriaTest {
     }
 
     @Test
-    public void localScopeNoMoreElements() {
+    void localScopeNoMoreElements() {
         classCriteria.stopAt(GenericSubSubClass.class);
         Iterator<Class<?>> iterator = classCriteria.getIterable(GenericSubSubClass.class).iterator();
         while (iterator.hasNext()) {
@@ -537,7 +537,7 @@ public class ClassCriteriaTest extends ElementCriteriaTest {
     }
 
     @Test
-    public void superclassesNoMoreElements() {
+    void superclassesNoMoreElements() {
         classCriteria.setTraverseStrategy(TraverseStrategy.DEPTH_FIRST);
         classCriteria.setSelection(ClassType.CLASSES);
         Iterator<Class<?>> iterator = classCriteria.getIterable(GenericSubSubClass.class).iterator();
@@ -549,7 +549,7 @@ public class ClassCriteriaTest extends ElementCriteriaTest {
     }
 
     @Test
-    public void interfacesNoMoreElements() {
+    void interfacesNoMoreElements() {
         classCriteria.setTraverseStrategy(TraverseStrategy.DEPTH_FIRST);
         classCriteria.setSelection(ClassType.INTERFACES);
         Iterator<Class<?>> iterator = classCriteria.getIterable(GenericSubWithInterface.class).iterator();
@@ -560,13 +560,13 @@ public class ClassCriteriaTest extends ElementCriteriaTest {
     }
 
     @Test
-    public void stopAtClassIsNotASuperclass() {
+    void stopAtClassIsNotASuperclass() {
         classCriteria.stopAt(List.class);
         assertThrows(IllegalArgumentException.class, () -> classCriteria.getIterable(GenericSubWithInterface.class).iterator());
     }
 
     @Test
-    public void superClassIteratorNoSuchElements() {
+    void superClassIteratorNoSuchElements() {
         SuperclassIterator superclassIterator = new SuperclassIterator(ArrayList.class);
         while (superclassIterator.hasNext()) {
             superclassIterator.next();
@@ -575,7 +575,7 @@ public class ClassCriteriaTest extends ElementCriteriaTest {
     }
 
     @Test
-    public void interfacesIteratorNoSuchElements() {
+    void interfacesIteratorNoSuchElements() {
         InterfacesIterator interfacesIterator = new InterfacesIterator(ArrayList.class, ReflectFacade.getCanonicalClassNameComparator());
         while (interfacesIterator.hasNext()) {
             interfacesIterator.next();
@@ -584,7 +584,7 @@ public class ClassCriteriaTest extends ElementCriteriaTest {
     }
 
     @Test
-    public void classTypeEnums() {
+    void classTypeEnums() {
         /*
          * Code coverage for synthetic methods
          */

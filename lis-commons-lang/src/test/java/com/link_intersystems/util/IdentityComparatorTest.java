@@ -22,7 +22,7 @@ import java.util.Comparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class IdentityComparatorTest {
+class IdentityComparatorTest  {
 
 	private Comparator<Object> comparator;
 	private Object less;
@@ -40,23 +40,23 @@ public class IdentityComparatorTest {
 	}
 
 	@Test
-	public void getThroughUtilFacade() {
+	void getThroughUtilFacade() {
 		Comparator<Object> identityComparator = UtilFacade.identityComparator();
 		assertEquals(IdentityComparator.class, identityComparator.getClass());
 	}
 
 	@Test
-	public void lessThan() {
+	void lessThan() {
 		assertEquals(-1, comparator.compare(less, greater));
 	}
 
 	@Test
-	public void greaterThan() {
+	void greaterThan() {
 		assertEquals(1, comparator.compare(greater, less));
 	}
 
 	@Test
-	public void equal() {
+	void equal() {
 		assertEquals(0, comparator.compare(less, less));
 	}
 }

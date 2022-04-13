@@ -22,7 +22,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 import com.link_intersystems.EqualsAndHashCodeTest;
 
-public class SerializableMethodEqualsAndHashCodeTest extends
+class SerializableMethodEqualsAndHashCodeTest  extends
 		EqualsAndHashCodeTest {
 
 	@BeforeEach

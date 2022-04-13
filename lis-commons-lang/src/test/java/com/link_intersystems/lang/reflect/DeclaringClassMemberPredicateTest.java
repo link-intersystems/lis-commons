@@ -27,10 +27,10 @@ import java.util.function.Predicate;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
-public class DeclaringClassMemberPredicateTest {
+class DeclaringClassMemberPredicateTest  {
 
     @Test
-    public void evaluateTrue() throws SecurityException, NoSuchMethodException,
+    void evaluateTrue() throws SecurityException, NoSuchMethodException,
             NoSuchFieldException {
         Predicate declaringClassMemberPredicate = ReflectFacade
                 .getDeclaringClassPredicate(JComponent.class);
@@ -50,7 +50,7 @@ public class DeclaringClassMemberPredicateTest {
     }
 
     @Test
-    public void evaluateFalse() throws SecurityException,
+    void evaluateFalse() throws SecurityException,
             NoSuchMethodException, NoSuchFieldException {
         Predicate declaringClassMemberPredicate = ReflectFacade
                 .getDeclaringClassPredicate(JComponent.class);

@@ -28,7 +28,7 @@ import java.util.*;
 import static junit.framework.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class Class2Test {
+class Class2Test  {
 
     private List<String> allContainerProperties;
 
@@ -46,7 +46,7 @@ public class Class2Test {
     }
 
     @Test
-    public void getClassLoaderForSystemClass() throws ClassNotFoundException {
+    void getClassLoaderForSystemClass() throws ClassNotFoundException {
         Class2<String> class2 = Class2.get(String.class);
         ClassLoader classLoader = class2.getType().getClassLoader();
         assertNull(classLoader);
@@ -59,26 +59,26 @@ public class Class2Test {
     }
 
     @Test
-    public void nullTypeVariableName() {
+    void nullTypeVariableName() {
         Class2<?> genericSubClass = Class2.get(GenericClass_Types_D_C_Extends_GenericClass.class);
         assertThrows(IllegalArgumentException.class, () -> genericSubClass.getTypeVariable(null));
     }
 
     @Test
-    public void getNonExistentTypeVariable() {
+    void getNonExistentTypeVariable() {
         Class2<?> genericSubClass = Class2.get(GenericClass_Types_D_C_Extends_GenericClass.class);
         TypeVariable<?> typeVariable = genericSubClass.getTypeVariable("ABC");
         assertNull(typeVariable, "Type variable should not exist");
     }
 
     @Test
-    public void nullTypeVariable() {
+    void nullTypeVariable() {
         Class2<?> genericSubWithInterface = Class2.get(GenericSubWithInterface.class);
         assertThrows(IllegalArgumentException.class, () -> genericSubWithInterface.getBoundType(null));
     }
 
     @Test
-    public void simpleGenerics() {
+    void simpleGenerics() {
         Class2<?> genericSubClass = Class2.get(GenericClass_Types_D_C_Extends_GenericClass.class);
         Class2<?> genericSubWithInterface = Class2.get(GenericSubWithInterface.class);
         TypeVariable<?> typeVariable = genericSubClass.getTypeVariable("C");
@@ -87,7 +87,7 @@ public class Class2Test {
     }
 
     @Test
-    public void genericInterfaceSimpleHierarchy() {
+    void genericInterfaceSimpleHierarchy() {
         Class2<?> genericSubWithInterface = Class2.get(GenericSubWithInterface.class);
         Class2<?> genericInterface = Class2.get(GenericSubInterface.class);
         TypeVariable<?> typeVariable = genericInterface.getTypeVariable("B");
@@ -96,7 +96,7 @@ public class Class2Test {
     }
 
     @Test
-    public void genericInterfaceKomplexHierarchy() {
+    void genericInterfaceKomplexHierarchy() {
         Class2<?> genericSubWithInterface = Class2.get(GenericSubWithInterface.class);
         Class2<?> genericInterface = Class2.get(GenericInterface_Types_A_B_C.class);
         TypeVariable<?> typeVariable = genericInterface.getTypeVariable("B");
@@ -105,27 +105,27 @@ public class Class2Test {
     }
 
     @Test
-    public void convenienceMethodForBoundClass() {
+    void convenienceMethodForBoundClass() {
         Class2<?> genericSubWithInterface = Class2.get(GenericClass_Types_D_C_Extends_GenericClass.class);
         Type boundType = genericSubWithInterface.getBoundClass("B");
         assertEquals(Integer.class, boundType);
     }
 
     @Test
-    public void convenienceMethodForBoundInterfaceTypeVar() {
+    void convenienceMethodForBoundInterfaceTypeVar() {
         Class2<?> genericSubWithInterface = Class2.get(OnlyGenericInterface.class);
         Type boundType = genericSubWithInterface.getBoundClass("C");
         assertEquals(Integer.class, boundType);
     }
 
     @Test
-    public void convenienceMethodForBoundClassNoSuchTypeVariable() {
+    void convenienceMethodForBoundClassNoSuchTypeVariable() {
         Class2<?> genericSubWithInterface = Class2.get(GenericClass_Types_D_C_Extends_GenericClass.class);
         assertThrows(IllegalArgumentException.class, () -> genericSubWithInterface.getBoundClass("X"));
     }
 
     @Test
-    public void genericClassKomplexHierarchy() {
+    void genericClassKomplexHierarchy() {
         Class2<?> genericClass = Class2.get(GenericClass_Types_A_B_C_D.class);
         Class2<?> genericSubWithInterface = Class2.get(GenericSubWithInterface.class);
         TypeVariable<?> typeVariable = genericClass.getTypeVariable("C");
@@ -134,7 +134,7 @@ public class Class2Test {
     }
 
     @Test
-    public void unboundTypeVariable() {
+    void unboundTypeVariable() {
         Class2<?> genericClass = Class2.get(GenericClass_Types_A_B_C_D.class);
         Class2<?> genericSubClass = Class2.get(GenericClass_Types_D_C_Extends_GenericClass.class);
         TypeVariable<?> typeVariable = genericClass.getTypeVariable("C");
@@ -143,7 +143,7 @@ public class Class2Test {
     }
 
     @Test
-    public void boundTypeClass() {
+    void boundTypeClass() {
         Class2<?> genericDefinition = Class2.get(GenericClassWithBeanType.class);
         Class2<?> concrteGeneric = Class2.get(ConreteGenericClassWithBeanType.class);
         TypeVariable<?> typeVariable = genericDefinition.getTypeVariable("BEAN_TYPE");
@@ -152,7 +152,7 @@ public class Class2Test {
     }
 
     @Test
-    public void boundTypeClassForNonExistingTypeVariable() {
+    void boundTypeClassForNonExistingTypeVariable() {
         Class2<?> genericDefinition = Class2.get(GenericClassWithBeanType.class);
         TypeVariable<?> typeVariable = genericDefinition.getTypeVariable("BEAN_TYPE");
         Class<Object> boundClass = genericDefinition.getBoundClass(typeVariable);
@@ -160,7 +160,7 @@ public class Class2Test {
     }
 
     @Test
-    public void instantiateTypeVariable() {
+    void instantiateTypeVariable() {
         Class2<?> genericDefinition = Class2.get(GenericClassWithBeanType.class);
         Class2<?> concrteGeneric = Class2.get(ConreteGenericClassWithBeanType.class);
         TypeVariable<?> typeVariable = genericDefinition.getTypeVariable("BEAN_TYPE");
@@ -170,7 +170,7 @@ public class Class2Test {
     }
 
     @Test
-    public void instantiateTypeVariableWrongConstructorArgs() {
+    void instantiateTypeVariableWrongConstructorArgs() {
         Class2<?> genericDefinition = Class2.get(GenericClassWithBeanType.class);
         Class2<?> concreteGeneric = Class2.get(ConreteGenericClassWithBeanType.class);
         TypeVariable<?> typeVariable = genericDefinition.getTypeVariable("BEAN_TYPE");
@@ -178,7 +178,7 @@ public class Class2Test {
     }
 
     @Test
-    public void instantiateTypeVariableWithGenericBoundType() {
+    void instantiateTypeVariableWithGenericBoundType() {
         Class2<?> genericDefinition = Class2.get(GenericClassWithBeanType.class);
         Class2<?> concrteGeneric = Class2.get(GenericClassWithGenericBeanType.class);
         TypeVariable<?> typeVariable = genericDefinition.getTypeVariable("BEAN_TYPE");
@@ -188,7 +188,7 @@ public class Class2Test {
     }
 
     @Test
-    public void instantiateTypeVariableisAnInterface() {
+    void instantiateTypeVariableisAnInterface() {
         Class2<?> genericDefinition = Class2.get(GenericClassWithBeanType.class);
         Class2<?> concrteGeneric = Class2.get(CrazyParameterizedBoundType.class);
         TypeVariable<?> typeVariable = genericDefinition.getTypeVariable("BEAN_TYPE");
@@ -196,7 +196,7 @@ public class Class2Test {
     }
 
     @Test
-    public void parameterizedBoundType() {
+    void parameterizedBoundType() {
         Class2<?> genericDefinition = Class2.get(GenericClassWithBeanType.class);
         Class2<?> concrteGeneric = Class2.get(CrazyParameterizedBoundType.class);
         TypeVariable<?> typeVariable = genericDefinition.getTypeVariable("BEAN_TYPE");
@@ -206,14 +206,14 @@ public class Class2Test {
     }
 
     @Test
-    public void arrayBoundType() {
+    void arrayBoundType() {
         Class2<?> arrayBoundType = Class2.get(ArrayBoundType.class);
         Class<?> boundClass = arrayBoundType.getBoundClass("BEAN_TYPE");
         assertEquals(String[].class, boundClass);
     }
 
     @Test
-    public void genericBoundType() {
+    void genericBoundType() {
         Class2<?> arrayBoundType = Class2.get(GenericBoundType.class);
         Class<?> boundClass = arrayBoundType.getBoundClass("BEAN_TYPE");
         assertEquals(List.class, boundClass);
@@ -221,7 +221,7 @@ public class Class2Test {
 
     @SuppressWarnings("rawtypes")
     @Test
-    public void toStringForMultipleParameterizedType() {
+    void toStringForMultipleParameterizedType() {
         Class2<Map> forClass = Class2.get(Map.class);
         String string = forClass.toString();
         assertEquals("java.util.Map<K,V>", string);
@@ -229,14 +229,14 @@ public class Class2Test {
 
     @SuppressWarnings("rawtypes")
     @Test
-    public void toStringForSimpleParameterizedType() {
+    void toStringForSimpleParameterizedType() {
         Class2<Class2> forClass = Class2.get(Class2.class);
         String string = forClass.toString();
         assertEquals("com.link_intersystems.lang.reflect.Class2<T>", string);
     }
 
     @Test
-    public void applicableVarargsMethod() throws Exception {
+    void applicableVarargsMethod() throws Exception {
         Class2<String> forClass = Class2.get(String.class);
         Method2 applicableMethod = forClass.getApplicableMethod("format", Locale.GERMAN, "Hello %s", "World");
         Invokable invokable = applicableMethod.getInvokable(String.class);
@@ -246,7 +246,7 @@ public class Class2Test {
 
     @SuppressWarnings("rawtypes")
     @Test
-    public void toStringForBoundTypes() {
+    void toStringForBoundTypes() {
         Class2<Class2ToStringGeneric> forClass = Class2.get(Class2ToStringGeneric.class);
         String string = forClass.toString();
         assertEquals("com.link_intersystems.lang.reflect.testclasses.Class2ToStringGeneric<A extends java.lang.annotation.Annotation,C extends java.lang.annotation.Annotation & java.io.Serializable,B extends java.io.Serializable,D>", string);
@@ -254,7 +254,7 @@ public class Class2Test {
 
     @SuppressWarnings("rawtypes")
     @Test
-    public void toStringForUnboundTypes() {
+    void toStringForUnboundTypes() {
         Class2<Class2ToStringGenericNoBounds> forClass = Class2.get(Class2ToStringGenericNoBounds.class);
         String string = forClass.toString();
         assertEquals("com.link_intersystems.lang.reflect.testclasses.Class2ToStringGenericNoBounds<A>", string);
@@ -262,7 +262,7 @@ public class Class2Test {
 
     @SuppressWarnings("rawtypes")
     @Test
-    public void toStringForNoClassBoundTypes() {
+    void toStringForNoClassBoundTypes() {
         Class2<Class2ToStringBoundTypeNotClass> forClass = Class2.get(Class2ToStringBoundTypeNotClass.class);
         String string = forClass.toString();
         assertEquals("com.link_intersystems.lang.reflect.testclasses.Class2ToStringBoundTypeNotClass<B extends java.io.Serializable,A extends B>", string);
@@ -270,7 +270,7 @@ public class Class2Test {
 
     @SuppressWarnings("rawtypes")
     @Test
-    public void toStringForParameterizedTypeBoundTypes() {
+    void toStringForParameterizedTypeBoundTypes() {
         Class2<Class2ToStringParameterizedTypeBoundType> forClass = Class2.get(Class2ToStringParameterizedTypeBoundType.class);
         String string = forClass.toString();
         assertEquals("com.link_intersystems.lang.reflect.testclasses.Class2ToStringParameterizedTypeBoundType<B extends java.io.Serializable,A extends java.util.List<B>>", string);
@@ -278,7 +278,7 @@ public class Class2Test {
 
     @SuppressWarnings("rawtypes")
     @Test
-    public void contextClassLoaderAware() {
+    void contextClassLoaderAware() {
         ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
         try {
             Thread.currentThread().setContextClassLoader(null);
@@ -298,7 +298,7 @@ public class Class2Test {
     }
 
     @Test
-    public void getPackage2() {
+    void getPackage2() {
         Class2<?> genericDefinition = Class2.get(GenericClassWithBeanType.class);
         Package package1 = GenericClassWithBeanType.class.getPackage();
         Package2 package2 = genericDefinition.getPackage();
@@ -306,7 +306,7 @@ public class Class2Test {
     }
 
     @Test
-    public void serializable() {
+    void serializable() {
         Class2<?> genericDefinition = Class2.get(GenericClassWithBeanType.class);
         Class2<?> clone = Serialization.clone(genericDefinition);
         TypeVariable<?> typeVariable = clone.getTypeVariable("BEAN_TYPE");
@@ -314,21 +314,21 @@ public class Class2Test {
     }
 
     @Test
-    public void getArrayType() {
+    void getArrayType() {
         Class2<?> objectType = Class2.get(Object.class);
         Class<?> asArrayType = objectType.getArrayType();
         assertEquals(Object[].class, asArrayType);
     }
 
     @Test
-    public void getArrayTypeOfArrayType() {
+    void getArrayTypeOfArrayType() {
         Class2<?> objectArrayType = Class2.get(Object[].class);
         Class<?> asArrayType = objectArrayType.getArrayType();
         assertEquals(Object[][].class, asArrayType);
     }
 
     @Test
-    public void getArrayType2Cached() {
+    void getArrayType2Cached() {
         Class2<?> genericDefinition = Class2.get(GenericClassWithBeanType.class);
         Class2<?> asArrayType1 = genericDefinition.getArrayType2();
         Class2<?> asArrayType2 = genericDefinition.getArrayType2();
@@ -336,7 +336,7 @@ public class Class2Test {
     }
 
     @Test
-    public void getMultiDimensionArrayType() {
+    void getMultiDimensionArrayType() {
         Class2<Object> objectArrayType = Class2.get(Object.class);
         Class<Object[][][]> asArrayType = objectArrayType.getArrayType2().getArrayType2().getArrayType();
         assertEquals(Object[][][].class, asArrayType);

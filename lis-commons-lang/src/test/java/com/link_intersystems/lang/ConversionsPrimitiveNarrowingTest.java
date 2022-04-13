@@ -29,15 +29,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  * intersystems.com]</a>
  */
-public class ConversionsPrimitiveNarrowingTest {
+class ConversionsPrimitiveNarrowingTest  {
 
     @Test
-    public void nonPrimitiveFrom() {
+    void nonPrimitiveFrom() {
         assertThrows(IllegalArgumentException.class, () -> Conversions.isPrimitiveNarrowing(Byte.class, Double.TYPE));
     }
 
     @Test
-    public void nonPrimitiveTo() {
+    void nonPrimitiveTo() {
         assertThrows(IllegalArgumentException.class, () -> Conversions.isPrimitiveNarrowing(Byte.TYPE, Double.class));
     }
 
@@ -45,7 +45,7 @@ public class ConversionsPrimitiveNarrowingTest {
      * byte narrowing not defined - smallest primitive type
      */
     @Test
-    public void byteNarrowing() {
+    void byteNarrowing() {
         Class<?> from = Byte.TYPE;
         assertFalse(Conversions.isPrimitiveNarrowing(from, Byte.TYPE));
         assertFalse(Conversions.isPrimitiveNarrowing(from, Short.TYPE));
@@ -60,7 +60,7 @@ public class ConversionsPrimitiveNarrowingTest {
      * short to byte or char
      */
     @Test
-    public void shortNarrowing() {
+    void shortNarrowing() {
         Class<?> from = Short.TYPE;
         assertTrue(Conversions.isPrimitiveNarrowing(from, Byte.TYPE));
         assertFalse(Conversions.isPrimitiveNarrowing(from, Short.TYPE));
@@ -75,7 +75,7 @@ public class ConversionsPrimitiveNarrowingTest {
      * char to byte or short
      */
     @Test
-    public void characterNarrowing() {
+    void characterNarrowing() {
         Class<?> from = Character.TYPE;
         assertTrue(Conversions.isPrimitiveNarrowing(from, Byte.TYPE));
         assertTrue(Conversions.isPrimitiveNarrowing(from, Short.TYPE));
@@ -90,7 +90,7 @@ public class ConversionsPrimitiveNarrowingTest {
      * int to byte, short, or char
      */
     @Test
-    public void integerNarrowing() {
+    void integerNarrowing() {
         Class<?> from = Integer.TYPE;
         assertTrue(Conversions.isPrimitiveNarrowing(from, Byte.TYPE));
         assertTrue(Conversions.isPrimitiveNarrowing(from, Short.TYPE));
@@ -105,7 +105,7 @@ public class ConversionsPrimitiveNarrowingTest {
      * long to byte, short, char, or int
      */
     @Test
-    public void longNarrowing() {
+    void longNarrowing() {
         Class<?> from = Long.TYPE;
         assertTrue(Conversions.isPrimitiveNarrowing(from, Byte.TYPE));
         assertTrue(Conversions.isPrimitiveNarrowing(from, Short.TYPE));
@@ -120,7 +120,7 @@ public class ConversionsPrimitiveNarrowingTest {
      * float to byte, short, char, int, or long
      */
     @Test
-    public void floatNarrowing() {
+    void floatNarrowing() {
         Class<?> from = Float.TYPE;
         assertTrue(Conversions.isPrimitiveNarrowing(from, Byte.TYPE));
         assertTrue(Conversions.isPrimitiveNarrowing(from, Short.TYPE));
@@ -135,7 +135,7 @@ public class ConversionsPrimitiveNarrowingTest {
      * double to byte, short, char, int, long, or float
      */
     @Test
-    public void doubleNarrowing() {
+    void doubleNarrowing() {
         Class<?> from = Double.TYPE;
         assertTrue(Conversions.isPrimitiveNarrowing(from, Byte.TYPE));
         assertTrue(Conversions.isPrimitiveNarrowing(from, Short.TYPE));

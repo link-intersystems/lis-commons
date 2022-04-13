@@ -42,7 +42,7 @@ public abstract class AbstractPropertyTest<T> {
     }
 
     @Test
-    public void isReadable() {
+    void isReadable() {
         assertTrue(getProperty().isReadable());
         assertTrue(getReadOnlyProperty().isReadable());
         assertFalse(getWriteOnlyProperty().isReadable());
@@ -50,14 +50,14 @@ public abstract class AbstractPropertyTest<T> {
     }
 
     @Test
-    public void isWriteable() {
+    void isWriteable() {
         assertTrue(getProperty().isWritable());
         assertTrue(getWriteOnlyProperty().isWritable());
         assertFalse(getReadOnlyProperty().isWritable());
     }
 
     @Test
-    public void typeForReadOnlyProperty() {
+    void typeForReadOnlyProperty() {
         Property<T> property = getReadOnlyProperty();
         Class<?> type = property.getType();
         Class<?> expectedType = getExpectedType();
@@ -65,7 +65,7 @@ public abstract class AbstractPropertyTest<T> {
     }
 
     @Test
-    public void typeForWriteOnlyProperty() {
+    void typeForWriteOnlyProperty() {
         Property<T> property = getWriteOnlyProperty();
         Class<?> type = property.getType();
         Class<?> expectedType = getExpectedType();
@@ -73,7 +73,7 @@ public abstract class AbstractPropertyTest<T> {
     }
 
     @Test
-    public void name() {
+    void name() {
         Property<T> property = getProperty();
         String name = property.getName();
         String propertyName = getPropertyName();
@@ -81,7 +81,7 @@ public abstract class AbstractPropertyTest<T> {
     }
 
     @Test
-    public void getValue() {
+    void getValue() {
         Property<T> property = getProperty();
         Object propertyValue = property.getValue();
         T expected = getExpectedPropertyValue();
@@ -95,7 +95,7 @@ public abstract class AbstractPropertyTest<T> {
     }
 
     @Test
-    public void setValue() {
+    void setValue() {
         Property<T> property = getProperty();
         T propertySetValue = getPropertySetValue();
         T value = property.getValue();
@@ -112,13 +112,13 @@ public abstract class AbstractPropertyTest<T> {
     }
 
     @Test
-    public void getWriteOnlyPropertyValue() {
+    void getWriteOnlyPropertyValue() {
         Property<T> property = getWriteOnlyProperty();
         assertThrows(PropertyAccessException.class, () -> property.getValue());
     }
 
     @Test
-    public void setReadOnlyPropertyValue() {
+    void setReadOnlyPropertyValue() {
         Property<T> property = getReadOnlyProperty();
         T propertySetValue = getPropertySetValue();
         assertThrows(PropertyAccessException.class, () -> property.setValue(propertySetValue));

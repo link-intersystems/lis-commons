@@ -22,7 +22,7 @@ import java.math.BigInteger;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class IncrementalAverageTest extends AbstractAverageTest {
+class IncrementalAverageTest extends AbstractAverageTest  {
 
     @SuppressWarnings("unchecked")
     @Override
@@ -32,7 +32,7 @@ public class IncrementalAverageTest extends AbstractAverageTest {
     }
 
     @Test
-    public void tooManyValues() {
+    void tooManyValues() {
         Average<Double> average = new IncrementalAverage() {
             @Override
             protected long getAverageValueCount() {
@@ -43,13 +43,13 @@ public class IncrementalAverageTest extends AbstractAverageTest {
     }
 
     @Test
-    public void bigDecimalNotAllowed() {
+    void bigDecimalNotAllowed() {
         Average<Double> average = createAverage();
         assertThrows(IllegalArgumentException.class, () -> average.addValue(new BigDecimal("0")));
     }
 
     @Test
-    public void bigIntegerNotAllowed() {
+    void bigIntegerNotAllowed() {
         Average<Double> average = createAverage();
         assertThrows(IllegalArgumentException.class, () -> average.addValue(new BigInteger("0")));
     }

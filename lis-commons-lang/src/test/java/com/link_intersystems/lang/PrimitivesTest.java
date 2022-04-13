@@ -24,23 +24,23 @@ import java.util.Collection;
 import static org.easymock.EasyMock.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PrimitivesTest {
+class PrimitivesTest  {
 
     @Test
-    public void subclassPrimitives() {
+    void subclassPrimitives() {
         new Primitives() {
         };
 
     }
 
     @Test
-    public void isPriitiveForNull() {
+    void isPriitiveForNull() {
         boolean isPrimitive = Primitives.isPrimitive(null);
         assertFalse(isPrimitive);
     }
 
     @Test
-    public void autoboxingTypes() {
+    void autoboxingTypes() {
         Collection<Class<?>> primitiveTypes = Arrays.asList(new Class<?>[]{Integer.class, Integer.TYPE, Short.class, Short.TYPE, Byte.class, Byte.TYPE, Float.class, Float.TYPE, Double.class, Double.TYPE, Long.class, Long.TYPE, Character.class, Character.TYPE});
         for (Class<?> primitiveType : primitiveTypes) {
             assertTrue(Primitives.isAutoboxingType(primitiveType), "Type " + primitiveType.getName() + " must be recognized as autoboxing type");
@@ -48,7 +48,7 @@ public class PrimitivesTest {
     }
 
     @Test
-    public void byteWideningConversionAllowed() {
+    void byteWideningConversionAllowed() {
         Collection<Class<?>> fromClasses = Arrays.asList(new Class<?>[]{Byte.class, Byte.TYPE});
         Collection<Class<?>> allowedConversionTypes = Arrays.asList(new Class<?>[]{Short.class, Short.TYPE, Integer.class, Integer.TYPE, Long.class, Long.TYPE, Float.class, Float.TYPE, Double.class, Double.TYPE});
         Collection<Class<?>> notAllowedConversionTypes = Arrays.asList(new Class<?>[]{});
@@ -56,7 +56,7 @@ public class PrimitivesTest {
     }
 
     @Test
-    public void shortWideningConversionAllowed() {
+    void shortWideningConversionAllowed() {
         Collection<Class<?>> fromClasses = Arrays.asList(new Class<?>[]{Short.class, Short.TYPE});
         Collection<Class<?>> allowedConversionTypes = Arrays.asList(new Class<?>[]{Integer.class, Integer.TYPE, Long.class, Long.TYPE, Float.class, Float.TYPE, Double.class, Double.TYPE});
         Collection<Class<?>> notAllowedConversionTypes = Arrays.asList(new Class<?>[]{Byte.class, Byte.TYPE});
@@ -64,7 +64,7 @@ public class PrimitivesTest {
     }
 
     @Test
-    public void charWideningConversionAllowed() {
+    void charWideningConversionAllowed() {
         Collection<Class<?>> fromClasses = Arrays.asList(new Class<?>[]{Character.class, Character.TYPE});
         Collection<Class<?>> allowedConversionTypes = Arrays.asList(new Class<?>[]{Integer.class, Integer.TYPE, Long.class, Long.TYPE, Float.class, Float.TYPE, Double.class, Double.TYPE});
         Collection<Class<?>> notAllowedConversionTypes = Arrays.asList(new Class<?>[]{Byte.class, Byte.TYPE, Short.class, Short.TYPE});
@@ -72,7 +72,7 @@ public class PrimitivesTest {
     }
 
     @Test
-    public void intWideningConversionAllowed() {
+    void intWideningConversionAllowed() {
         Collection<Class<?>> fromClasses = Arrays.asList(new Class<?>[]{Integer.class, Integer.TYPE});
         Collection<Class<?>> allowedConversionTypes = Arrays.asList(new Class<?>[]{Long.class, Long.TYPE, Float.class, Float.TYPE, Double.class, Double.TYPE});
         Collection<Class<?>> notAllowedConversionTypes = Arrays.asList(new Class<?>[]{Byte.class, Byte.TYPE, Short.class, Short.TYPE, Character.class, Character.TYPE});
@@ -80,7 +80,7 @@ public class PrimitivesTest {
     }
 
     @Test
-    public void longWideningConversionAllowed() {
+    void longWideningConversionAllowed() {
         Collection<Class<?>> fromClasses = Arrays.asList(new Class<?>[]{Long.class, Long.TYPE});
         Collection<Class<?>> allowedConversionTypes = Arrays.asList(new Class<?>[]{Float.class, Float.TYPE, Double.class, Double.TYPE});
         Collection<Class<?>> notAllowedConversionTypes = Arrays.asList(new Class<?>[]{Byte.class, Byte.TYPE, Short.class, Short.TYPE, Character.class, Character.TYPE, Integer.class, Integer.TYPE});
@@ -88,7 +88,7 @@ public class PrimitivesTest {
     }
 
     @Test
-    public void floatWideningConversionAllowed() {
+    void floatWideningConversionAllowed() {
         Collection<Class<?>> fromClasses = Arrays.asList(new Class<?>[]{Float.class, Float.TYPE});
         Collection<Class<?>> allowedConversionTypes = Arrays.asList(new Class<?>[]{Double.class, Double.TYPE});
         Collection<Class<?>> notAllowedConversionTypes = Arrays.asList(new Class<?>[]{Byte.class, Byte.TYPE, Short.class, Short.TYPE, Character.class, Character.TYPE, Integer.class, Integer.TYPE, Long.class, Long.TYPE});
@@ -96,14 +96,14 @@ public class PrimitivesTest {
     }
 
     @Test
-    public void noPrimitiveTypeConversion() {
+    void noPrimitiveTypeConversion() {
         assertFalse(Primitives.isWideningConversionAllowed(String.class, Integer.class));
 
         assertFalse(Primitives.isWideningConversionAllowed(Integer.class, String.class));
     }
 
     @Test
-    public void getAutoboxingType() {
+    void getAutoboxingType() {
         Class<?> autoboxingType = null;
         /*
          * for object types
@@ -142,7 +142,7 @@ public class PrimitivesTest {
     }
 
     @Test
-    public void getDefaultValues() {
+    void getDefaultValues() {
         Object defaultValue = Primitives.getDefaultValue(boolean.class);
         assertEquals(false, defaultValue);
         defaultValue = Primitives.getDefaultValue(byte.class);
@@ -162,30 +162,30 @@ public class PrimitivesTest {
     }
 
     @Test
-    public void getDefaultValueForNonPrimitiveType() {
+    void getDefaultValueForNonPrimitiveType() {
 
         assertThrows(IllegalArgumentException.class, () -> Primitives.getDefaultValue(Object.class));
     }
 
     @Test
-    public void primitiveCallbackWithNonPrimitiveWrapper() {
+    void primitiveCallbackWithNonPrimitiveWrapper() {
         PrimitiveCallback primitiveCallback = createStrictMock(PrimitiveCallback.class);
         assertThrows(IllegalArgumentException.class, () -> Primitives.primitiveCallback("", primitiveCallback));
     }
 
     @Test
-    public void primitiveCallbackWithNullPrimitiveCallback() {
+    void primitiveCallbackWithNullPrimitiveCallback() {
         assertThrows(IllegalArgumentException.class, () -> Primitives.primitiveCallback(Integer.valueOf(1), null));
     }
 
     @Test
-    public void primitiveCallbackWithNullPrimitiveWrapper() {
+    void primitiveCallbackWithNullPrimitiveWrapper() {
         PrimitiveCallback primitiveCallback = createStrictMock(PrimitiveCallback.class);
         assertThrows(IllegalArgumentException.class, () -> Primitives.primitiveCallback(null, primitiveCallback));
     }
 
     @Test
-    public void primitiveCallback() {
+    void primitiveCallback() {
         PrimitiveCallback primitiveCallback = createStrictMock(PrimitiveCallback.class);
 
         Object primitiveObject = Byte.valueOf((byte) 1);
@@ -254,40 +254,40 @@ public class PrimitivesTest {
     }
 
     @Test
-    public void wrapperToPrimitiveArrayWithNullWrapperArray() {
+    void wrapperToPrimitiveArrayWithNullWrapperArray() {
         assertThrows(IllegalArgumentException.class, () -> Primitives.wrapperToPrimitiveArray(null));
     }
 
     @Test
-    public void wrapperToPrimitiveArrayWithNonWrapperArray() {
+    void wrapperToPrimitiveArrayWithNonWrapperArray() {
         assertThrows(IllegalArgumentException.class, () -> Primitives.wrapperToPrimitiveArray(new String[]{""}));
     }
 
     @Test
-    public void wrapperToPrimitiveArray() {
+    void wrapperToPrimitiveArray() {
         int[] primitiveArray = Primitives.wrapperToPrimitiveArray(new Integer[]{1, 2, 3, 4, 5});
 
         assertArrayEquals(new int[]{1, 2, 3, 4, 5}, primitiveArray);
     }
 
     @Test
-    public void primitiveArrayWithNonPrimitiveArray() {
+    void primitiveArrayWithNonPrimitiveArray() {
 
         assertThrows(IllegalArgumentException.class, () -> Primitives.primitiveToWrapperArray(new String[0]));
     }
 
     @Test
-    public void primitiveArrayWithNullPrimitiveArray() {
+    void primitiveArrayWithNullPrimitiveArray() {
         assertThrows(IllegalArgumentException.class, () -> Primitives.primitiveToWrapperArray(null));
     }
 
     @Test
-    public void primitiveArrayWithNonArrayArg() {
+    void primitiveArrayWithNonArrayArg() {
         assertThrows(IllegalArgumentException.class, () -> Primitives.primitiveToWrapperArray(""));
     }
 
     @Test
-    public void primitiveArray() {
+    void primitiveArray() {
         Integer[] wrapperArray = Primitives.primitiveToWrapperArray(new int[]{1, 2, 3, 4, 5});
 
         assertArrayEquals(new Integer[]{1, 2, 3, 4, 5}, wrapperArray);

@@ -19,17 +19,17 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class IntMaxTest {
+class IntMaxTest  {
 
     @Test
-    public void maxNoValues() {
+    void maxNoValues() {
         Max<Integer> max = new IntMax();
         Integer value = max.getValue();
         assertNull(value);
     }
 
     @Test
-    public void max() {
+    void max() {
         Max<Integer> max = new IntMax();
         boolean valueChanged = max.addValue(5);
         assertTrue(valueChanged);

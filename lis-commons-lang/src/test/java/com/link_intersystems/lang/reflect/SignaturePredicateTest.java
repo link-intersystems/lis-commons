@@ -29,25 +29,25 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class SignaturePredicateTest {
+class SignaturePredicateTest  {
 
     @Test
-    public void constructorSignatureWithNull() {
+    void constructorSignatureWithNull() {
         assertThrows(IllegalArgumentException.class, () -> new SignaturePredicate((Constructor<?>) null));
     }
 
     @Test
-    public void methodSignatureWithNull() {
+    void methodSignatureWithNull() {
         assertThrows(IllegalArgumentException.class, () -> new SignaturePredicate((Method) null));
     }
 
     @Test
-    public void invokableSignatureWithNull() {
+    void invokableSignatureWithNull() {
         assertThrows(IllegalArgumentException.class, () -> new SignaturePredicate((Member2<?>) null));
     }
 
     @Test
-    public void methodEqual() throws SecurityException, NoSuchMethodException {
+    void methodEqual() throws SecurityException, NoSuchMethodException {
         Method declaredMethod = Collection.class.getDeclaredMethod("add", Object.class);
         Method declaredMethod2 = ArrayList.class.getDeclaredMethod("add", Object.class);
         SignaturePredicate signaturePredicate = new SignaturePredicate(declaredMethod);
@@ -56,7 +56,7 @@ public class SignaturePredicateTest {
     }
 
     @Test
-    public void methodEqualWithInvokable() throws SecurityException, NoSuchMethodException {
+    void methodEqualWithInvokable() throws SecurityException, NoSuchMethodException {
         Method declaredMethod = Collection.class.getDeclaredMethod("add", Object.class);
         Method declaredMethod2 = ArrayList.class.getDeclaredMethod("add", Object.class);
         SignaturePredicate signaturePredicate = new SignaturePredicate(declaredMethod);
@@ -65,7 +65,7 @@ public class SignaturePredicateTest {
     }
 
     @Test
-    public void methodEqualAfterDeserialization() throws SecurityException, NoSuchMethodException {
+    void methodEqualAfterDeserialization() throws SecurityException, NoSuchMethodException {
         Method declaredMethod = Collection.class.getDeclaredMethod("add", Object.class);
         Method declaredMethod2 = ArrayList.class.getDeclaredMethod("add", Object.class);
         SignaturePredicate signaturePredicate = new SignaturePredicate(declaredMethod);
@@ -76,7 +76,7 @@ public class SignaturePredicateTest {
     }
 
     @Test
-    public void methodNotEqual() throws SecurityException, NoSuchMethodException {
+    void methodNotEqual() throws SecurityException, NoSuchMethodException {
         Method declaredMethod = JMenu.class.getDeclaredMethod("add", String.class);
         Method declaredMethod2 = ArrayList.class.getDeclaredMethod("add", Object.class);
         SignaturePredicate signaturePredicate = new SignaturePredicate(declaredMethod);
@@ -86,7 +86,7 @@ public class SignaturePredicateTest {
 
     @SuppressWarnings("rawtypes")
     @Test
-    public void methodComparedWithConstructor() throws SecurityException, NoSuchMethodException {
+    void methodComparedWithConstructor() throws SecurityException, NoSuchMethodException {
         Method declaredMethod = ArrayList.class.getDeclaredMethod("add", Object.class);
         Constructor<ArrayList> declaredConstructor = ArrayList.class.getDeclaredConstructor();
         SignaturePredicate signaturePredicate = new SignaturePredicate(declaredMethod);
@@ -95,7 +95,7 @@ public class SignaturePredicateTest {
     }
 
     @Test
-    public void evaluateAgainstAField() throws SecurityException, NoSuchMethodException, NoSuchFieldException {
+    void evaluateAgainstAField() throws SecurityException, NoSuchMethodException, NoSuchFieldException {
         assertThrows(IllegalArgumentException.class, () -> {
             Method declaredMethod = ArrayList.class.getDeclaredMethod("add", Object.class);
             Field field = JComponent.class.getDeclaredField("WHEN_FOCUSED");
@@ -107,7 +107,7 @@ public class SignaturePredicateTest {
 
     @SuppressWarnings("rawtypes")
     @Test
-    public void evaluateWithAnotherSignature() throws SecurityException, NoSuchMethodException {
+    void evaluateWithAnotherSignature() throws SecurityException, NoSuchMethodException {
         Constructor<ArrayList> declaredConstructor = ArrayList.class.getDeclaredConstructor(int.class);
         Class2<ArrayList> class2 = Class2.get(ArrayList.class);
         Constructor2<ArrayList> applicableConstructor = class2.getApplicableConstructor(int.class);
@@ -118,7 +118,7 @@ public class SignaturePredicateTest {
 
     @SuppressWarnings("rawtypes")
     @Test
-    public void evaluateWithUnsupportedObject() throws SecurityException, NoSuchMethodException {
+    void evaluateWithUnsupportedObject() throws SecurityException, NoSuchMethodException {
         Constructor<ArrayList> declaredConstructor = ArrayList.class.getDeclaredConstructor(int.class);
         SignaturePredicate signaturePredicate = new SignaturePredicate(declaredConstructor);
         boolean evaluate = signaturePredicate.test(Integer.valueOf(1));

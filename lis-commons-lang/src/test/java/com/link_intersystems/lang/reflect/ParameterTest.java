@@ -28,7 +28,7 @@ import static org.easymock.EasyMock.createNiceControl;
 import static org.easymock.EasyMock.expect;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ParameterTest {
+class ParameterTest  {
 
     private IMocksControl mocksControl;
     private Member2<?> member2Mock;
@@ -40,26 +40,26 @@ public class ParameterTest {
     }
 
     @Test
-    public void newWithoutMember2() {
+    void newWithoutMember2() {
         assertThrows(IllegalArgumentException.class, () -> new Parameter(null, 1));
     }
 
     @Test
-    public void indexParameterOutOfBounds() {
+    void indexParameterOutOfBounds() {
         expect(member2Mock.getParameterTypes()).andReturn(new Class<?>[2]).anyTimes();
         mocksControl.replay();
         assertThrows(IndexOutOfBoundsException.class, () -> new Parameter(member2Mock, -1));
     }
 
     @Test
-    public void indexParameterOutOfBounds2() {
+    void indexParameterOutOfBounds2() {
         expect(member2Mock.getParameterTypes()).andReturn(new Class<?>[2]).anyTimes();
         mocksControl.replay();
         assertThrows(IndexOutOfBoundsException.class, () -> new Parameter(member2Mock, 3));
     }
 
     @Test
-    public void parameterClass() {
+    void parameterClass() {
         expect(member2Mock.getParameterTypes()).andReturn(new Class<?>[]{String.class}).anyTimes();
         mocksControl.replay();
         Parameter parameter = new Parameter(member2Mock, 0);
@@ -69,7 +69,7 @@ public class ParameterTest {
     }
 
     @Test
-    public void applicableSubtype() {
+    void applicableSubtype() {
         expect(member2Mock.getParameterTypes()).andReturn(new Class<?>[]{InputStream.class}).anyTimes();
         mocksControl.replay();
         Parameter parameter = new Parameter(member2Mock, 0);
@@ -88,7 +88,7 @@ public class ParameterTest {
      * never null.
      */
     @Test
-    public void toStringTest() {
+    void toStringTest() {
         expect(member2Mock.getParameterTypes()).andReturn(new Class<?>[]{InputStream.class}).anyTimes();
         mocksControl.replay();
         Parameter parameter = new Parameter(member2Mock, 0);
@@ -97,7 +97,7 @@ public class ParameterTest {
     }
 
     @Test
-    public void isVarargs() {
+    void isVarargs() {
         expect(member2Mock.getParameterTypes()).andReturn(new Class<?>[]{String.class}).anyTimes();
         expect(member2Mock.isVarArgs()).andReturn(true).anyTimes();
         mocksControl.replay();
@@ -123,7 +123,7 @@ public class ParameterTest {
     }
 
     @Test
-    public void getName() throws SecurityException, NoSuchMethodException {
+    void getName() throws SecurityException, NoSuchMethodException {
         Method2 method2 = Method2.forMethod(ParameterTest.class.getDeclaredMethod("testMethod", String.class));
         List<Parameter> parameters = method2.getParameters();
         Parameter parameter = parameters.get(0);

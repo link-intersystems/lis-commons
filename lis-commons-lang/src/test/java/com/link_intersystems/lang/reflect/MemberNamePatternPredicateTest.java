@@ -26,15 +26,15 @@ import java.util.regex.Pattern;
 import static junit.framework.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class MemberNamePatternPredicateTest {
+class MemberNamePatternPredicateTest  {
 
     @Test
-    public void nullConstructor() {
+    void nullConstructor() {
         assertThrows(IllegalArgumentException.class, () -> new MemberNamePatternPredicate(null));
     }
 
     @Test
-    public void aferDesrialization() throws SecurityException, NoSuchMethodException {
+    void aferDesrialization() throws SecurityException, NoSuchMethodException {
         Method declaredMethod = ArrayList.class.getDeclaredMethod("add", int.class, Object.class);
         MemberNamePatternPredicate memberNamePatternPredicate = new MemberNamePatternPredicate(Pattern.compile("add.*"));
         ObjectFactory<MemberNamePatternPredicate> objectFactory = new SerializableTemplateObjectFactory<MemberNamePatternPredicate>(memberNamePatternPredicate);
@@ -44,7 +44,7 @@ public class MemberNamePatternPredicateTest {
     }
 
     @Test
-    public void match() throws SecurityException, NoSuchMethodException {
+    void match() throws SecurityException, NoSuchMethodException {
         Method declaredMethod = ArrayList.class.getDeclaredMethod("add", int.class, Object.class);
         MemberNamePatternPredicate memberNamePatternPredicate = new MemberNamePatternPredicate(Pattern.compile("add.*"));
         boolean evaluated = memberNamePatternPredicate.test(declaredMethod);
@@ -52,7 +52,7 @@ public class MemberNamePatternPredicateTest {
     }
 
     @Test
-    public void notAMember() throws SecurityException, NoSuchMethodException {
+    void notAMember() throws SecurityException, NoSuchMethodException {
         MemberNamePatternPredicate memberNamePatternPredicate = new MemberNamePatternPredicate(Pattern.compile("add.*"));
         assertThrows(IllegalArgumentException.class, () -> memberNamePatternPredicate.test(ArrayList.class));
     }

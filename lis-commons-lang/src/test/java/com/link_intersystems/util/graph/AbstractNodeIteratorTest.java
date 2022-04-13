@@ -66,7 +66,7 @@ public abstract class AbstractNodeIteratorTest {
     protected abstract TraverseAssertion getTraverseAssertion(Node start);
 
     @Test
-    public void noSuchElementException() {
+    void noSuchElementException() {
         while (nodeIterator.hasNext()) {
             nodeIterator.next();
         }
@@ -74,14 +74,14 @@ public abstract class AbstractNodeIteratorTest {
     }
 
     @Test
-    public void removeUnsupported() {
+    void removeUnsupported() {
         assertTrue(nodeIterator.hasNext());
         assertNotNull(nodeIterator.next());
         assertThrows(UnsupportedOperationException.class, () -> nodeIterator.remove());
     }
 
     @Test
-    public void traversal() {
+    void traversal() {
         TraverseAssertion traverseAssertion = getTraverseAssertion(start);
         while (nodeIterator.hasNext()) {
             Node node = nodeIterator.next();

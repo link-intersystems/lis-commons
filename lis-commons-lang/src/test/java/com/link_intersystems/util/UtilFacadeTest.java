@@ -17,10 +17,10 @@ package com.link_intersystems.util;
 
 import org.junit.jupiter.api.Test;
 
-public class UtilFacadeTest {
+class UtilFacadeTest  {
 
 	@Test
-	public void instantiate(){
+	void instantiate(){
 		new UtilFacade() {
 		};
 	}

@@ -21,12 +21,12 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class ThreadLocalReferenceTest {
+class ThreadLocalReferenceTest  {
 
     private static final ThreadLocal<String> THREAD_LOCAL = new ThreadLocal<String>();
 
     @Test
-    public void getReferent() {
+    void getReferent() {
         ThreadLocalReference<String> threadLocalReference = new ThreadLocalReference<String>(THREAD_LOCAL);
         String referent = threadLocalReference.get();
         assertNull(referent);
@@ -36,7 +36,7 @@ public class ThreadLocalReferenceTest {
     }
 
     @Test
-    public void newWithNullThreadLocal() {
+    void newWithNullThreadLocal() {
         assertThrows(IllegalArgumentException.class, () -> new ThreadLocalReference<String>(null));
     }
 }

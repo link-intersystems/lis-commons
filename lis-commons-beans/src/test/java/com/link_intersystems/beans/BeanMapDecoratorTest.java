@@ -10,7 +10,7 @@ import java.awt.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BeanMapDecoratorTest {
+class BeanMapDecoratorTest  {
 
     private BeanMapDecorator beanMapDecorator;
     private Container container;
@@ -27,37 +27,37 @@ public class BeanMapDecoratorTest {
     }
 
     @Test
-    public void containsKey() {
+    void containsKey() {
         assertFalse(beanMapDecorator.containsKey(null));
         assertFalse(beanMapDecorator.containsKey("unknownProperty"));
         assertTrue(beanMapDecorator.containsKey("background"));
     }
 
     @Test
-    public void isEmpty() {
+    void isEmpty() {
         assertFalse(beanMapDecorator.isEmpty());
     }
 
     @Test
-    public void size() {
+    void size() {
         int size = beanMapDecorator.size();
         assertEquals(24, size);
     }
 
     @Test
-    public void getNull() {
+    void getNull() {
         Object value = beanMapDecorator.get(null);
         Assertions.assertNull(value);
     }
 
     @Test
-    public void get() {
+    void get() {
         Object background = beanMapDecorator.get("background");
         assertEquals(Color.BLUE, background);
     }
 
     @Test
-    public void getIndexValue() {
+    void getIndexValue() {
         IndexedValue indexedValue = (IndexedValue) beanMapDecorator.get("component");
         assertNotNull(indexedValue);
 
@@ -66,7 +66,7 @@ public class BeanMapDecoratorTest {
     }
 
     @Test
-    public void put() {
+    void put() {
         beanMapDecorator.put("background", Color.RED);
         assertEquals(Color.RED, container.getBackground());
     }

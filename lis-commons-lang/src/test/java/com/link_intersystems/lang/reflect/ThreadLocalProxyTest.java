@@ -22,14 +22,14 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class ThreadLocalProxyTest {
+class ThreadLocalProxyTest  {
 
     private String string1 = "string1";
     private String string2 = "string2";
     private static final ThreadLocal<Reference<String>> THREAD_LOCAL = new ThreadLocal<Reference<String>>();
 
     @Test
-    public void proxyTest() {
+    void proxyTest() {
         Reference<String> referenceProxy = ThreadLocalProxy.createProxy(THREAD_LOCAL, new HardReference<String>(null), Reference.class);
 
         String string = referenceProxy.get();

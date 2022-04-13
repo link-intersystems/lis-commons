@@ -19,10 +19,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SlopeTest {
+class SlopeTest  {
 
     @Test
-    public void slopeForCartesianPoint() {
+    void slopeForCartesianPoint() {
         CartesianPoint p1 = new CartesianPoint(0, 2.5);
         CartesianPoint p2 = new CartesianPoint(2.5, 0);
         Slope slope = new Slope(p1, p2);
@@ -31,14 +31,14 @@ public class SlopeTest {
     }
 
     @Test
-    public void slopeForCartesianPoints() {
+    void slopeForCartesianPoints() {
         Slope slope = new Slope(0, 2.5, 2.5, 0);
         double value = slope.getValue();
         assertEquals(-1.0, value, 0.001);
     }
 
     @Test
-    public void slopeForPolarPoints() {
+    void slopeForPolarPoints() {
         PolarPoint p1 = new PolarPoint(2.5, 90.0);
         PolarPoint p2 = new PolarPoint(2.5, 0);
         Slope slope = new Slope(p1, p2);

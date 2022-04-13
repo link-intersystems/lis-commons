@@ -15,7 +15,7 @@ import java.beans.Introspector;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
-public class BeanEventTest {
+class BeanEventTest  {
 
     private ChangeListener changeListener;
     private DefaultButtonModel defaultButtonModel;
@@ -39,7 +39,7 @@ public class BeanEventTest {
     }
 
     @Test
-    public void addListener() {
+    void addListener() {
         beanEvent.addListener(changeListener);
 
         defaultButtonModel.setEnabled(!defaultButtonModel.isEnabled());
@@ -48,7 +48,7 @@ public class BeanEventTest {
     }
 
     @Test
-    public void removeListener() {
+    void removeListener() {
         beanEvent.addListener(changeListener);
         defaultButtonModel.setEnabled(!defaultButtonModel.isEnabled());
         verify(changeListener, times(1)).stateChanged(Mockito.any(ChangeEvent.class));

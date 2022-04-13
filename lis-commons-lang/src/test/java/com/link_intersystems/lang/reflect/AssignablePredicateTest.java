@@ -25,7 +25,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class AssignablePredicateTest {
+class AssignablePredicateTest  {
 
     private AssignablePredicate listAssignable;
 
@@ -36,33 +36,33 @@ public class AssignablePredicateTest {
     }
 
     @Test
-    public void newWithNullConstructor() {
+    void newWithNullConstructor() {
         assertThrows(IllegalArgumentException.class, () -> new AssignablePredicate(null));
     }
 
     @Test
-    public void evaluateAgainstObject() {
+    void evaluateAgainstObject() {
         assertTrue(listAssignable.test(new ArrayList<Object>()));
     }
 
     @Test
-    public void evaluateAgainstClass() {
+    void evaluateAgainstClass() {
         assertTrue(listAssignable.test(ArrayList.class));
     }
 
     @Test
-    public void evaluateAgainstNull() {
+    void evaluateAgainstNull() {
         assertFalse(listAssignable.test(null));
     }
 
     @Test
-    public void evaluateAgainstUnassignableClass() {
+    void evaluateAgainstUnassignableClass() {
         assertFalse(listAssignable.test(Collection.class));
     }
 
     @SuppressWarnings("rawtypes")
     @Test
-    public void evaluateAgainstUnassignableObject() {
+    void evaluateAgainstUnassignableObject() {
         assertFalse(listAssignable.test(new HashMap()));
     }
 }

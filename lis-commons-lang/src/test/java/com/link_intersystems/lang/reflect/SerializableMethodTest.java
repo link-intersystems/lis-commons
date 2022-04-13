@@ -26,15 +26,15 @@ import java.util.concurrent.Callable;
 import static junit.framework.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class SerializableMethodTest {
+class SerializableMethodTest  {
 
     @Test
-    public void nullConstructor() {
+    void nullConstructor() {
         assertThrows(IllegalArgumentException.class, () ->new SerializableMethod(null));
     }
 
     @Test
-    public void serialize() throws SecurityException, NoSuchMethodException {
+    void serialize() throws SecurityException, NoSuchMethodException {
         Method method = SerializableMethodTest.class.getDeclaredMethod("someTestMethod", int.class, int[].class, String.class);
         SerializableMethod serializableMethod = new SerializableMethod(method);
 
@@ -50,7 +50,7 @@ public class SerializableMethodTest {
     }
 
     @Test
-    public void securityException() throws Throwable {
+    void securityException() throws Throwable {
         Method method = SerializableMethodTest.class.getDeclaredMethod("someTestMethod", int.class, int[].class, String.class);
         final SecurityExceptionSerializableMethod serializableMethod = new SecurityExceptionSerializableMethod(method);
 
@@ -64,7 +64,7 @@ public class SerializableMethodTest {
     }
 
     @Test
-    public void noSuchMethod() throws Throwable {
+    void noSuchMethod() throws Throwable {
         Method method = SerializableMethodTest.class.getDeclaredMethod("someTestMethod", int.class, int[].class, String.class);
         final SerializableMethod serializableMethod = new NoSuchMethodSerializableMethod(method);
         Assertion.assertCause(NoSuchMethodException.class, new Callable<Object>() {

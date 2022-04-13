@@ -53,7 +53,7 @@ public abstract class AbstractInvokableTest {
     }
 
     @Test
-    public void callableAdapter() throws Exception {
+    void callableAdapter() throws Exception {
         invokableToTest.setReturn("result: param", "param");
         Callable<Object> asCallable = invokableToTest.asCallable("param");
         Object result = asCallable.call();
@@ -61,7 +61,7 @@ public abstract class AbstractInvokableTest {
     }
 
     @Test
-    public void runnableAdapter() {
+    void runnableAdapter() {
         invokableToTest.setReturn("param", "param");
         Runnable runnable = invokableToTest.asRunnable("param");
         runnable.run();
@@ -70,7 +70,7 @@ public abstract class AbstractInvokableTest {
     }
 
     @Test
-    public void privilegedExceptionActionAdapter() throws Exception {
+    void privilegedExceptionActionAdapter() throws Exception {
         invokableToTest.setReturn("result: param", "param");
         PrivilegedExceptionAction<String> privilegedExceptionAction = invokableToTest.asPrivilegedExceptionAction("param");
         String result = privilegedExceptionAction.run();
@@ -86,55 +86,55 @@ public abstract class AbstractInvokableTest {
     }
 
     @Test
-    public void doInvokeThrowsInvocationTargetExceptionWithError() {
+    void doInvokeThrowsInvocationTargetExceptionWithError() {
         invokableToTest.setThrowException(new InvocationTargetException(new Error()), EXCEPTION_PARAM_CONST);
         invokableToTest.setDeclared(false);
         assertThrows(UndeclaredThrowableException.class, () -> invokableToTest.invoke(EXCEPTION_PARAM_CONST));
     }
 
     @Test
-    public void doInvokeThrowsInvocationTargetExceptionWithUndeclaredTarget() {
+    void doInvokeThrowsInvocationTargetExceptionWithUndeclaredTarget() {
         invokableToTest.setThrowException(new InvocationTargetException(ioException), EXCEPTION_PARAM_CONST);
         invokableToTest.setDeclared(false);
         assertThrows(UndeclaredThrowableException.class, () -> invokableToTest.invoke(EXCEPTION_PARAM_CONST));
     }
 
     @Test
-    public void doInvokeThrowsInvocationTargetExceptionWithDeclaredTarget() {
+    void doInvokeThrowsInvocationTargetExceptionWithDeclaredTarget() {
         invokableToTest.setThrowException(new InvocationTargetException(ioException), EXCEPTION_PARAM_CONST);
         invokableToTest.setDeclared(true);
         assertThrows(IOException.class, () -> invokableToTest.invoke(EXCEPTION_PARAM_CONST));
     }
 
     @Test
-    public void checkedUndeclaredException() {
+    void checkedUndeclaredException() {
         invokableToTest.setThrowException(ioException, EXCEPTION_PARAM_CONST);
         assertThrows(UndeclaredThrowableException.class, () -> invokableToTest.invoke(EXCEPTION_PARAM_CONST));
     }
 
     @Test
-    public void checkedDeclaredException() {
+    void checkedDeclaredException() {
         invokableToTest.setThrowException(ioException, EXCEPTION_PARAM_CONST);
         invokableToTest.setDeclared(true);
         assertThrows(IOException.class, () -> invokableToTest.invoke(EXCEPTION_PARAM_CONST));
     }
 
     @Test
-    public void invokeThrowsCheckedDeclaredException() {
+    void invokeThrowsCheckedDeclaredException() {
         invokableToTest.setThrowException(ioException, EXCEPTION_PARAM_CONST);
         invokableToTest.setDeclared(true);
         assertThrows(IOException.class, () -> invokableToTest.invoke(EXCEPTION_PARAM_CONST));
     }
 
     @Test
-    public void invokeThrowsUndeclaredException() {
+    void invokeThrowsUndeclaredException() {
         invokableToTest.setThrowException(ioException, EXCEPTION_PARAM_CONST);
         invokableToTest.setDeclared(false);
         assertThrows(UndeclaredThrowableException.class, () -> invokableToTest.invoke(EXCEPTION_PARAM_CONST));
     }
 
     @Test
-    public void invokeWithContextClassLoader() throws Exception {
+    void invokeWithContextClassLoader() throws Exception {
         final ClassLoader classLoader = new URLClassLoader(new URL[0]);
         invokableToTest.doInvoke();
         invokableToTest.invokeWithContextClassLoader(classLoader);
@@ -145,7 +145,7 @@ public abstract class AbstractInvokableTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void invokeWithContextClassLoaderCausingUndeclaredException() throws Exception {
+    void invokeWithContextClassLoaderCausingUndeclaredException() throws Exception {
         PowerMock.mockStatic(ClassLoaderContextAware.class);
         ClassLoaderContextAware loaderContextAware = PowerMock.createNiceMock(ClassLoaderContextAware.class);
         ClassLoaderContextAware.forClassLoader(getClass().getClassLoader());
@@ -159,7 +159,7 @@ public abstract class AbstractInvokableTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void invokeWithContextClassLoaderCausingDeclaredException() throws Exception {
+    void invokeWithContextClassLoaderCausingDeclaredException() throws Exception {
         PowerMock.mockStatic(ClassLoaderContextAware.class);
         ClassLoaderContextAware loaderContextAware = PowerMock.createNiceMock(ClassLoaderContextAware.class);
         ClassLoaderContextAware.forClassLoader(getClass().getClassLoader());
@@ -172,14 +172,14 @@ public abstract class AbstractInvokableTest {
     }
 
     @Test
-    public void asRunnableThrowsException() {
+    void asRunnableThrowsException() {
         invokableToTest.setDeclared(true);
         Runnable asRunnable = invokableToTest.asRunnable(EXCEPTION_PARAM_CONST);
         assertThrows(RuntimeException.class, asRunnable::run);
     }
 
     @Test
-    public void asRunnableThrowsRuntimeException() {
+    void asRunnableThrowsRuntimeException() {
         IndexOutOfBoundsException ofBoundsException = new IndexOutOfBoundsException();
         invokableToTest.setThrowException(ofBoundsException, EXCEPTION_PARAM_CONST);
         invokableToTest.setDeclared(true);
@@ -188,7 +188,7 @@ public abstract class AbstractInvokableTest {
     }
 
     @Test
-    public void defaultIsDeclaredExceptionReturnValue() {
+    void defaultIsDeclaredExceptionReturnValue() {
         AbstractInvokable abstractInvokable = new AbstractInvokable() {
 
             @Override

@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class PointSlopeLinearEquationTest extends AbstractLinearEquationTest {
+class PointSlopeLinearEquationTest extends AbstractLinearEquationTest  {
 
     @Override
     protected LinearEquation createBlueLinearEquation() {
@@ -33,13 +33,13 @@ public class PointSlopeLinearEquationTest extends AbstractLinearEquationTest {
     }
 
     @Test
-    public void withB() {
+    void withB() {
         LinearEquation linearEquation = new PointSlopeLinearEquation(0.5, 1);
         assertReadLinearEquation(linearEquation);
     }
 
     @Test
-    public void mOnly() {
+    void mOnly() {
         LinearEquation linearEquation = new PointSlopeLinearEquation(0.5);
         double y = linearEquation.fX(0);
         assertEquals(0.0, y);

@@ -19,10 +19,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class PolarPointTest {
+class PolarPointTest  {
 
     @Test
-    public void toCartesianPoint() {
+    void toCartesianPoint() {
         PolarPoint polarPoint = new PolarPoint(13, 22.619);
         CartesianPoint cartesianPoint = polarPoint.toCartesianPoint();
 

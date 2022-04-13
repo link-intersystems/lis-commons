@@ -21,17 +21,17 @@ import java.io.Serializable;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class AssertTest {
+class AssertTest  {
 
     @Test
-    public void instantiable() {
+    void instantiable() {
         new Assert() {
 
         };
     }
 
     @Test
-    public void defaultIfNull() {
+    void defaultIfNull() {
         String defaultIfNull = Assert.defaultIfNull("notNull", "null");
         assertEquals("notNull", defaultIfNull);
 
@@ -40,17 +40,17 @@ public class AssertTest {
     }
 
     @Test
-    public void defaultIfNullWithNullDefault() {
+    void defaultIfNullWithNullDefault() {
         assertThrows(IllegalArgumentException.class, () -> Assert.defaultIfNull("notNull", null));
     }
 
     @Test
-    public void defaultIfNullWithFactoryIsNull() {
+    void defaultIfNullWithFactoryIsNull() {
         assertThrows(IllegalArgumentException.class, () -> Assert.defaultIfNull("notNull", null));
     }
 
     @Test
-    public void notNull() {
+    void notNull() {
         try {
             Assert.notNull("test", null);
             throw new AssertionError("expected IllegalArgumentException");
@@ -63,7 +63,7 @@ public class AssertTest {
     }
 
     @Test
-    public void notBlank() {
+    void notBlank() {
         try {
             Assert.notBlank("test", null);
             throw new AssertionError("expected IllegalArgumentException");
@@ -92,7 +92,7 @@ public class AssertTest {
     }
 
     @Test
-    public void greater() {
+    void greater() {
         try {
             Assert.greater("test", 1, 0);
             throw new AssertionError("expected IllegalArgumentException");
@@ -105,7 +105,7 @@ public class AssertTest {
     }
 
     @Test
-    public void greaterOrEqualInt() {
+    void greaterOrEqualInt() {
         try {
             Assert.greaterOrEqual("test", 1, 0);
             throw new AssertionError("expected IllegalArgumentException");
@@ -118,7 +118,7 @@ public class AssertTest {
     }
 
     @Test
-    public void greaterOrEqualDouble() {
+    void greaterOrEqualDouble() {
         try {
             Assert.greaterOrEqual("test", 1.0001, 1.0);
             throw new AssertionError("expected IllegalArgumentException");
@@ -131,7 +131,7 @@ public class AssertTest {
     }
 
     @Test
-    public void lower() {
+    void lower() {
         try {
             Assert.lower("test", 0, 1);
             throw new AssertionError("expected IllegalArgumentException");
@@ -143,7 +143,7 @@ public class AssertTest {
     }
 
     @Test
-    public void lowerOrEqual() {
+    void lowerOrEqual() {
         try {
             Assert.lowerOrEqual("test", 1, 2);
             throw new AssertionError("expected IllegalArgumentException");
@@ -156,7 +156,7 @@ public class AssertTest {
     }
 
     @Test
-    public void condition() {
+    void condition() {
         try {
             Assert.isTrue(false, "%s must be true", "condition");
             throw new AssertionError("expected IllegalArgumentException");
@@ -168,7 +168,7 @@ public class AssertTest {
     }
 
     @Test
-    public void instanceOf() {
+    void instanceOf() {
         try {
             Assert.instanceOf("test", new Object(), Serializable.class, String.class);
             throw new AssertionError("expected IllegalArgumentException");
@@ -187,7 +187,7 @@ public class AssertTest {
     }
 
     @Test
-    public void sameClass() {
+    void sameClass() {
         try {
             Assert.sameClass("test", Object.class, Serializable.class);
             throw new AssertionError("expected IllegalArgumentException");
@@ -199,7 +199,7 @@ public class AssertTest {
     }
 
     @Test
-    public void notEqualInt() {
+    void notEqualInt() {
         try {
             Assert.notEqual("test", 1, 1);
             throw new AssertionError("expected IllegalArgumentException");
@@ -212,7 +212,7 @@ public class AssertTest {
     }
 
     @Test
-    public void equalInt() {
+    void equalInt() {
         try {
             Assert.equal("test", 1, 0);
             throw new AssertionError("expected IllegalArgumentException");
@@ -225,7 +225,7 @@ public class AssertTest {
     }
 
     @Test
-    public void equalObject() {
+    void equalObject() {
         try {
             Assert.equal("test", "test", "test2");
             throw new AssertionError("expected IllegalArgumentException");
@@ -238,7 +238,7 @@ public class AssertTest {
     }
 
     @Test
-    public void equalObjectNullExpected() {
+    void equalObjectNullExpected() {
         try {
             Assert.equal("test", null, "");
             throw new AssertionError("expected IllegalArgumentException");
@@ -251,7 +251,7 @@ public class AssertTest {
     }
 
     @Test
-    public void equalObjectNullValue() {
+    void equalObjectNullValue() {
         try {
             Assert.equal("test", "test", null);
             throw new AssertionError("expected IllegalArgumentException");

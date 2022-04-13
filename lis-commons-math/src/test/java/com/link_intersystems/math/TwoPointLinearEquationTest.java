@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TwoPointLinearEquationTest extends AbstractLinearEquationTest {
+class TwoPointLinearEquationTest extends AbstractLinearEquationTest  {
 
     @Override
     protected LinearEquation createBlueLinearEquation() {
@@ -32,7 +32,7 @@ public class TwoPointLinearEquationTest extends AbstractLinearEquationTest {
     }
 
     @Test
-    public void onePoint() {
+    void onePoint() {
         LinearEquation linearEquation = new TwoPointLinearEquation(1, 1);
         double fX = linearEquation.fX(0.5);
         assertEquals(0.5, fX, 0.00001);

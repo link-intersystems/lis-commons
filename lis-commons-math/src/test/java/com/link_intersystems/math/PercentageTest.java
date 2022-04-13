@@ -21,15 +21,15 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class PercentageTest {
+class PercentageTest  {
 
     @Test
-    public void wrongMax() {
+    void wrongMax() {
         assertThrows(IllegalArgumentException.class, () -> new Percentage(0));
     }
 
     @Test
-    public void percent() {
+    void percent() {
         Percentage percentage = new Percentage(50);
         double expected = 0.0;
         for (int i = 0; i <= 100; i++) {
@@ -40,7 +40,7 @@ public class PercentageTest {
     }
 
     @Test
-    public void resetMaxUnits() {
+    void resetMaxUnits() {
         Percentage percentage = new Percentage(50);
         double result = percentage.ratio(10);
         assertEquals(0.2, result, 0.00001);

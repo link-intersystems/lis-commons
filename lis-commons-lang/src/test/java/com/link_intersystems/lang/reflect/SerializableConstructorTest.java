@@ -25,15 +25,15 @@ import java.util.concurrent.Callable;
 import static junit.framework.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class SerializableConstructorTest {
+class SerializableConstructorTest  {
 
     @Test
-    public void nullConstructor() {
+    void nullConstructor() {
         assertThrows(IllegalArgumentException.class, () -> new SerializableConstructor(null));
     }
 
     @Test
-    public void serialize() throws SecurityException, NoSuchMethodException {
+    void serialize() throws SecurityException, NoSuchMethodException {
         Constructor<ConstructorSerializationTestClass> constructor = ConstructorSerializationTestClass.class.getDeclaredConstructor(String.class);
         SerializableConstructor serializableConstructor = new SerializableConstructor(constructor);
 
@@ -45,7 +45,7 @@ public class SerializableConstructorTest {
     }
 
     @Test
-    public void securityException() throws Throwable {
+    void securityException() throws Throwable {
         Constructor<ConstructorSerializationTestClass> constructor = ConstructorSerializationTestClass.class.getDeclaredConstructor(String.class);
         final SerializableConstructor serializableConstructor = new SecurityExceptionSerializableConstructor(constructor);
         Assertion.assertCause(SecurityException.class, new Callable<Object>() {
@@ -57,7 +57,7 @@ public class SerializableConstructorTest {
     }
 
     @Test
-    public void noSuchMethodOnSerialization() throws Throwable {
+    void noSuchMethodOnSerialization() throws Throwable {
         Constructor<ConstructorSerializationTestClass> constructor = ConstructorSerializationTestClass.class.getDeclaredConstructor(String.class);
         final SerializableConstructor serializableConstructor = new NoSuchMethodSerializableConstructor(constructor);
         Assertion.assertCause(NoSuchMethodException.class, new Callable<Object>() {

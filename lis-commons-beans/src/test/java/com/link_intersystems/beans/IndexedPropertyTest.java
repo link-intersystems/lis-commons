@@ -28,7 +28,7 @@ import java.beans.PropertyDescriptor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class IndexedPropertyTest extends AbstractPropertyTest<String[]> {
+class IndexedPropertyTest extends AbstractPropertyTest <String[]> {
 
 	private static final String[] STRING_ARRAY = new String[] { "Hello", "World" };
 	private Bean<SomeBean> bean;
@@ -63,20 +63,20 @@ public class IndexedPropertyTest extends AbstractPropertyTest<String[]> {
 	}
 
 	@Test
-	public void getValueByIndex() {
+	void getValueByIndex() {
 		Object propertyValue = stringProperty.getValue(0);
 		assertEquals(STRING_ARRAY[0], propertyValue);
 	}
 
 	@Test
-	public void setValueByIndex() {
+	void setValueByIndex() {
 		stringProperty.setValue(0, "test");
 		Object propertyValue = stringProperty.getValue(0);
 		assertEquals("test", propertyValue);
 	}
 
 	@Test
-	public void isIndexedReadable() {
+	void isIndexedReadable() {
 		assertTrue(stringProperty.isIndexedReadable());
 		assertTrue(readOnlyProperty.isIndexedReadable());
 		assertFalse(writeOnlyProperty.isIndexedReadable());
@@ -84,7 +84,7 @@ public class IndexedPropertyTest extends AbstractPropertyTest<String[]> {
 	}
 
 	@Test
-	public void isIndexedWriteable() {
+	void isIndexedWriteable() {
 		assertTrue(stringProperty.isIndexedWritable());
 		assertTrue(writeOnlyProperty.isIndexedWritable());
 		assertFalse(readOnlyProperty.isIndexedWritable());

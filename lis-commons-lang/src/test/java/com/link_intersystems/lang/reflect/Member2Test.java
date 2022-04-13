@@ -31,7 +31,7 @@ import static junit.framework.Assert.*;
 import static org.easymock.EasyMock.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class Member2Test {
+class Member2Test  {
 
     private Member2<?> overriding;
     private Member2<?> overridden;
@@ -43,7 +43,7 @@ public class Member2Test {
     }
 
     @Test
-    public void overriddenPublic() {
+    void overriddenPublic() {
         expect(overriding.getModifiers()).andReturn(Modifier.PUBLIC);
         expect(overridden.getModifiers()).andReturn(Modifier.PUBLIC);
         replay(overriding, overridden);
@@ -67,7 +67,7 @@ public class Member2Test {
     }
 
     @Test
-    public void overriddenProtected() {
+    void overriddenProtected() {
         expect(overridden.getModifiers()).andReturn(Modifier.PROTECTED);
 
         expect(overriding.getModifiers()).andReturn(Modifier.PROTECTED);
@@ -92,7 +92,7 @@ public class Member2Test {
     }
 
     @Test
-    public void overriddenDefault() {
+    void overriddenDefault() {
         expect(overridden.getModifiers()).andReturn(0);
         expect(overriding.getModifiers()).andReturn(Modifier.PUBLIC);
         replay(overriding, overridden);
@@ -116,7 +116,7 @@ public class Member2Test {
     }
 
     @Test
-    public void privateMethods() {
+    void privateMethods() {
         expect(overridden.getModifiers()).andReturn(Modifier.PRIVATE);
         expect(overriding.getModifiers()).andReturn(Modifier.PUBLIC);
         replay(overriding, overridden);
@@ -132,7 +132,7 @@ public class Member2Test {
     }
 
     @Test
-    public void getSerializableRefForMember2() throws NoSuchMethodException {
+    void getSerializableRefForMember2() throws NoSuchMethodException {
         Class2<Member2Test> class2 = Class2.get(Member2Test.class);
         Method2 declaringMethod2 = class2.getDeclaringMethod2("getSerializableRefForMember2");
         SerializableReference<Method2> serializableReference = Member2.getSerializableReference(declaringMethod2);
@@ -141,7 +141,7 @@ public class Member2Test {
     }
 
     @Test
-    public void isDeclaredException() {
+    void isDeclaredException() {
         Method[] declaredMethods = TestInvokableMember.class.getDeclaredMethods();
         TestInvokableMember testInvokableMember = new TestInvokableMember(declaredMethods[0]);
         assertTrue(testInvokableMember.isDeclaredException(IOException.class));
@@ -151,14 +151,14 @@ public class Member2Test {
     }
 
     @Test
-    public void isDeclaredExceptionForNullClass() {
+    void isDeclaredExceptionForNullClass() {
         Method[] declaredMethods = TestInvokableMember.class.getDeclaredMethods();
         TestInvokableMember testInvokableMember = new TestInvokableMember(declaredMethods[0]);
         assertThrows(IllegalArgumentException.class, () -> testInvokableMember.isDeclaredException((Class<? extends Exception>) null));
     }
 
     @Test
-    public void isDeclaredExceptionForNullException() {
+    void isDeclaredExceptionForNullException() {
         Method[] declaredMethods = TestInvokableMember.class.getDeclaredMethods();
         TestInvokableMember testInvokableMember = new TestInvokableMember(declaredMethods[0]);
         assertThrows(IllegalArgumentException.class, () -> testInvokableMember.isDeclaredException((Exception) null));

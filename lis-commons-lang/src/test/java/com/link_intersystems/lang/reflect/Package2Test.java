@@ -21,59 +21,59 @@ import org.junit.jupiter.api.Test;
 import static junit.framework.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class Package2Test {
+class Package2Test  {
 
     @Test
-    public void getNullPackageName() {
+    void getNullPackageName() {
         assertThrows(IllegalArgumentException.class, () -> Package2.get((String) null));
     }
 
     @Test
-    public void getNullPackage() {
+    void getNullPackage() {
         Package2 package2 = Package2.get((Package) null);
         assertNull(package2);
     }
 
     @Test
-    public void packageCache() {
+    void packageCache() {
         Package2 expected = Package2.get(Package2Test.class.getPackage());
         Package2 package2 = Package2.get(Package2Test.class.getPackage());
         assertSame(expected, package2);
     }
 
     @Test
-    public void packageByName() {
+    void packageByName() {
         Package2 package2 = Package2.get(Package2Test.class.getPackage().getName());
         assertEquals("com.link_intersystems.lang.reflect", package2.getName());
     }
 
     @Test
-    public void getName() {
+    void getName() {
         Package2 package2 = Package2.get(Package2Test.class.getPackage());
         assertEquals("com.link_intersystems.lang.reflect", package2.getName());
     }
 
     @Test
-    public void getSimpleName() {
+    void getSimpleName() {
         Package2 package2 = Package2.get(Package2Test.class.getPackage());
         assertEquals("reflect", package2.getSimpleName());
     }
 
     @Test
-    public void getSimpleNameForDefaultPackage() {
+    void getSimpleNameForDefaultPackage() {
         Package2 package2 = Package2.get("");
         assertNull(package2);
     }
 
     @Test
-    public void getPackage() {
+    void getPackage() {
         Package package1 = Package2Test.class.getPackage();
         Package2 package2 = Package2.get(package1);
         assertEquals(package1, package2.getPackage());
     }
 
     @Test
-    public void toStringTest() {
+    void toStringTest() {
         Package package1 = Package2Test.class.getPackage();
         Package2 package2 = Package2.get(package1);
         String string = package2.toString();
@@ -81,7 +81,7 @@ public class Package2Test {
     }
 
     @Test
-    public void getParent() {
+    void getParent() {
         Package package1 = Package2Test.class.getPackage();
         Package2 package2 = Package2.get(package1);
         Package2 parent = package2.getParent();
@@ -89,7 +89,7 @@ public class Package2Test {
     }
 
     @Test
-    public void serializable() {
+    void serializable() {
         Package2 package2 = Package2.get(Package2Test.class.getPackage());
         Package2 clone = Serialization.clone(package2);
         assertEquals(package2, clone);

@@ -26,17 +26,17 @@ import java.lang.reflect.Field;
 import static junit.framework.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class SerializableFieldTest {
+class SerializableFieldTest  {
 
     protected String testField;
 
     @Test
-    public void nullConstructor() {
+    void nullConstructor() {
         assertThrows(IllegalArgumentException.class, () -> new SerializableField(null));
     }
 
     @Test
-    public void serialize() throws SecurityException, NoSuchFieldException {
+    void serialize() throws SecurityException, NoSuchFieldException {
         Field field = SerializableFieldTest.class.getDeclaredField("testField");
         SerializableField serializableField = new SerializableField(field);
 
@@ -48,7 +48,7 @@ public class SerializableFieldTest {
     }
 
     @Test
-    public void classNotFound() throws Exception {
+    void classNotFound() throws Exception {
         assertThrows(SerializationException.class, () -> {
 
             Field field = SerializableFieldTest.class.getDeclaredField("testField");
@@ -71,7 +71,7 @@ public class SerializableFieldTest {
     }
 
     @Test
-    public void modifierChanged() throws SecurityException, NoSuchFieldException {
+    void modifierChanged() throws SecurityException, NoSuchFieldException {
         Field field = SerializableFieldTest.class.getDeclaredField("testField");
         SerializableField serializableField = new SerializationExceptionSerializableField(field);
         assertThrows(SerializationException.class, () -> Serialization.clone(serializableField));

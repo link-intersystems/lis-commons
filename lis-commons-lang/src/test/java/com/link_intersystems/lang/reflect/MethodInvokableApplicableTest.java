@@ -26,14 +26,14 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class MethodInvokableApplicableTest {
+class MethodInvokableApplicableTest  {
 
 	@BeforeEach
 	public void setup() {
 	}
 
 	@Test
-	public void applicableVarargs() throws SecurityException,
+	void applicableVarargs() throws SecurityException,
 			NoSuchMethodException {
 		Method declaredMethod = MethodInfoApplicableTestClass.class
 				.getDeclaredMethod("intVarargs", new Class<?>[] { Object.class,
@@ -63,7 +63,7 @@ public class MethodInvokableApplicableTest {
 	}
 
 	@Test
-	public void fixedParameterLength() throws SecurityException,
+	void fixedParameterLength() throws SecurityException,
 			NoSuchMethodException {
 		Method declaredMethod = MethodInfoApplicableTestClass.class
 				.getDeclaredMethod("fixed", new Class<?>[] { Object.class,
@@ -80,7 +80,7 @@ public class MethodInvokableApplicableTest {
 	}
 
 	@Test
-	public void genericMethodParams() throws SecurityException,
+	void genericMethodParams() throws SecurityException,
 			NoSuchMethodException {
 		Method declaredMethod = MethodInfoApplicableTestClass.class
 				.getDeclaredMethod("generic", new Class<?>[] {
@@ -102,7 +102,7 @@ public class MethodInvokableApplicableTest {
 	}
 
 	@Test
-	public void autoboxingParams() throws SecurityException,
+	void autoboxingParams() throws SecurityException,
 			NoSuchMethodException {
 		Method declaredMethod = MethodInfoApplicableTestClass.class
 				.getDeclaredMethod("fixed", new Class<?>[] { Object.class,

@@ -30,7 +30,7 @@ public abstract class AbstractLinearEquationTest {
      * implementation of {@link #createBlueLinearEquation()} works.
      */
     @Test
-    public void blueLinearEquation() {
+    void blueLinearEquation() {
         LinearEquation linearEquation = createBlueLinearEquation();
         assertBlueLinearEquation(linearEquation);
     }
@@ -60,7 +60,7 @@ public abstract class AbstractLinearEquationTest {
      * implementation of {@link #createRedLinearEquation()} works.
      */
     @Test
-    public void readLinearEquation() {
+    void readLinearEquation() {
         LinearEquation linearEquation = createRedLinearEquation();
         assertReadLinearEquation(linearEquation);
     }

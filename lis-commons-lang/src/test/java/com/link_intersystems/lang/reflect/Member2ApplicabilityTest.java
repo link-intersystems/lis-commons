@@ -28,7 +28,7 @@ import java.lang.reflect.Method;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class Member2ApplicabilityTest {
+class Member2ApplicabilityTest  {
 
     private Method genericMethod;
     private Method2 genericMethod2;
@@ -70,7 +70,7 @@ public class Member2ApplicabilityTest {
     }
 
     @Test
-    public void genericTypeArguments() {
+    void genericTypeArguments() {
         /*
          * This call is to ensure that the test is consistent. E.g. if the
          * StringArray or the genericMethod definition changes this call must
@@ -92,7 +92,7 @@ public class Member2ApplicabilityTest {
     }
 
     @Test
-    public void anotherGenericMethod() {
+    void anotherGenericMethod() {
         /*
          * This call is to ensure that the test is consistent. E.g. if the
          * StringArray or the genericMethod definition changes this call must
@@ -109,7 +109,7 @@ public class Member2ApplicabilityTest {
     }
 
     @Test
-    public void varargsMethod() {
+    void varargsMethod() {
         /*
          * This call is to ensure that the test is consistent.
          */
@@ -132,7 +132,7 @@ public class Member2ApplicabilityTest {
     }
 
     @Test
-    public void varargsMethodWithEmptyVarArgs() {
+    void varargsMethodWithEmptyVarArgs() {
         VarargsMethod varargsMethod = new VarargsMethod();
         varargsMethod.string("");
 
@@ -147,7 +147,7 @@ public class Member2ApplicabilityTest {
     }
 
     @Test
-    public void noVarargsMethod() {
+    void noVarargsMethod() {
         /*
          * This call is to ensure that the test is consistent.
          */
@@ -165,7 +165,7 @@ public class Member2ApplicabilityTest {
     }
 
     @Test
-    public void autoboxing() {
+    void autoboxing() {
         /*
          * This call is to ensure that the test is consistent.
          */

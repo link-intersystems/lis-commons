@@ -33,13 +33,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public abstract class AbstractAverageTest {
 
     @Test
-    public void addNullValue() {
+    void addNullValue() {
         Average<Number> average = createAverage();
         Assertions.assertThrows(IllegalArgumentException.class, () -> average.addValue(null));
     }
 
     @Test
-    public void average() {
+    void average() {
         Integer value1 = 3;
         Double value2 = 5.6;
         Integer value3 = 4;
@@ -71,7 +71,7 @@ public abstract class AbstractAverageTest {
     }
 
     @Test
-    public void averageDoesNotChange() {
+    void averageDoesNotChange() {
         Average<Number> average = createAverage();
         assertNotNull(average, "createAverage must return an implementation.");
         average.addValue(10);
@@ -87,7 +87,7 @@ public abstract class AbstractAverageTest {
      * approach that first adds all values and then divides them by their count.
      */
     @Test
-    public void averageAlgorithmComparison() {
+    void averageAlgorithmComparison() {
         double[] doubles = new double[]{543.232, 367.32, 2358.23, 32782.257, 23.43567, 232.235666, 23.43567, 232.2356662343567, 232.235666};
         double averageDouble = 0.0;
         for (int i = 0; i < doubles.length; i++) {
