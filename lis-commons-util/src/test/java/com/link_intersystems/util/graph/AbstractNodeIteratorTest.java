@@ -34,19 +34,19 @@ public abstract class AbstractNodeIteratorTest {
     protected Node eRef;
     protected Iterator<Node> nodeIterator;
 
+    /**
+     * <pre>
+     *   +-> B
+     *   |
+     *   |     +-> E
+     *   |     |
+     * A +-> C +-> F
+     *   |
+     *   +-> D
+     * </pre>
+     */
     @BeforeEach
     public void before() {
-        /**
-         * <pre>
-         *   +-> B
-         *   |
-         *   |     +-> E
-         *   |     |
-         * A +-> C +-> F
-         *   |
-         *   +-> D
-         * </pre>
-         */
         start = new NodeImpl("A");
         start.addReference(new NodeImpl("B"));
         cRef = new NodeImpl("C");

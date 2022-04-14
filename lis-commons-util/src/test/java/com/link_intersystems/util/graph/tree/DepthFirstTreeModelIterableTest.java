@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.link_intersystems.util.graph;
+package com.link_intersystems.util.graph.tree;
 
-import com.link_intersystems.util.graph.tree.DepthFirstTreeModelIterable;
+import com.link_intersystems.util.graph.AbstractNodeIteratorTest;
+import com.link_intersystems.util.graph.DepthFirstNodeIterator;
+import com.link_intersystems.util.graph.Node;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -23,11 +25,11 @@ import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class DepthFirstNodeIteratorTest extends AbstractNodeIteratorTest  {
+class DepthFirstTreeModelIterableTest extends AbstractNodeIteratorTest {
 
     @Override
     protected Iterator<Node> createIterator(Node start) {
-        return new DepthFirstNodeIterator(start);
+        return new DepthFirstTreeModelIterable<>(new NodeTreeModel(), start).iterator();
     }
 
     @Override

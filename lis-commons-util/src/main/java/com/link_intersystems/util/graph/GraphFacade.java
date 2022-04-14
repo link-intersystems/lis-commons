@@ -28,8 +28,8 @@ import java.util.function.Predicate;
  * Facade to ease the use of components within the graph package.
  *
  * @author René Link
- *         <a href="mailto:rene.link@link-intersystems.com">[rene.link@link-
- *         intersystems.com]</a>
+ * <a href="mailto:rene.link@link-intersystems.com">[rene.link@link-
+ * intersystems.com]</a>
  * @since 1.2.0.0
  */
 public abstract class GraphFacade {
@@ -70,7 +70,19 @@ public abstract class GraphFacade {
     }
 
     public enum NodeIterateStrategy {
-        DEPTH_FIRST, BREADTH_FIRST;
+        DEPTH_FIRST {
+            @Override
+            public Iterator<Node> iterator(Node startNode) {
+                return new DepthFirstNodeIterator(startNode);
+            }
+        }, BREADTH_FIRST {
+            @Override
+            public Iterator<Node> iterator(Node startNode) {
+                return new BreadthFirstNodeIterator(startNode);
+            }
+        };
+
+        public abstract Iterator<Node> iterator(Node startNode);
     }
 
     /**
@@ -88,7 +100,7 @@ public abstract class GraphFacade {
      *                                      +------+------+
      *                                      L      M      N
      * </pre>
-     *
+     * <p>
      * If we assume that we have 3 {@link Predicate}s
      * <ul>
      * <li>The 1. {@link Predicate} matches {@link Node}s A,C,H,D,K</li>
@@ -100,7 +112,7 @@ public abstract class GraphFacade {
      * <pre>
      * {@link GraphFacade#perPredicateNodeIterator(NodeIterateStrategy, Node, Predicate...) GraphFacade.perPredicatedNodeIterator(BREADTH_FIRST, startNodeA, pred1, pred2, pred3)};
      * </pre>
-     *
+     * <p>
      * The resulting iterator will iterate the node structure using a breadth first
      * strategy for every {@link Predicate} starting at startNodeA. <br/>
      * The result will be:
@@ -123,20 +135,11 @@ public abstract class GraphFacade {
      * @return
      */
     @SuppressWarnings("unchecked")
-    public static Iterator<Node> perPredicateNodeIterator(NodeIterateStrategy nodeIterateStrategy, Node startNode,
-                                                          Predicate<Node>... nodeIterateOrderPredicates) {
+    public static Iterator<Node> perPredicateNodeIterator(NodeIterateStrategy nodeIterateStrategy, Node startNode, Predicate<Node>... nodeIterateOrderPredicates) {
         List<Iterator<Node>> iterators = new ArrayList<>();
         for (int i = 0; i < nodeIterateOrderPredicates.length; i++) {
             Predicate<Node> predicate = nodeIterateOrderPredicates[i];
-            Iterator<Node> nodeStrategyIterator = null;
-            switch (nodeIterateStrategy) {
-                case BREADTH_FIRST:
-                    nodeStrategyIterator = new BreadthFirstNodeIterator(startNode);
-                    break;
-                case DEPTH_FIRST:
-                    nodeStrategyIterator = new DepthFirstNodeIterator(startNode);
-                    break;
-            }
+            Iterator<Node> nodeStrategyIterator = nodeIterateStrategy.iterator(startNode);
             Iterator<Node> predicateFilterIterator = new FilteredIterator<>(nodeStrategyIterator, predicate);
             iterators.add(predicateFilterIterator);
         }
