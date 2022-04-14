@@ -20,7 +20,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 import com.link_intersystems.lang.Assert;
-import com.link_intersystems.lang.SerializationException;
+import com.link_intersystems.util.SerializationException;
 import com.link_intersystems.lang.ref.AbstractSerializableReference;
 import com.link_intersystems.lang.ref.Reference;
 

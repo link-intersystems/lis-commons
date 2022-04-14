@@ -15,7 +15,7 @@
  */
 package com.link_intersystems.lang.reflect.criteria;
 
-import com.link_intersystems.lang.Serialization;
+import com.link_intersystems.util.Serialization;
 import org.junit.jupiter.api.Test;
 
 import java.util.function.Predicate;

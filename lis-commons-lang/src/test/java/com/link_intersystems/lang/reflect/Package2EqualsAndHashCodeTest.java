@@ -16,7 +16,7 @@
 package com.link_intersystems.lang.reflect;
 
 import com.link_intersystems.EqualsAndHashCodeTest;
-import com.link_intersystems.lang.Serialization;
+import com.link_intersystems.util.Serialization;
 import org.junit.jupiter.api.BeforeEach;
 
 class Package2EqualsAndHashCodeTest extends EqualsAndHashCodeTest  {

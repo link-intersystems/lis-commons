@@ -17,11 +17,21 @@ package com.link_intersystems.util;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Comparator;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 class UtilFacadeTest  {
 
 	@Test
 	void instantiate(){
 		new UtilFacade() {
 		};
+	}
+
+	@Test
+	void identityComparator() {
+		Comparator<Object> identityComparator = UtilFacade.identityComparator();
+		assertEquals(IdentityComparator.class, identityComparator.getClass());
 	}
 }

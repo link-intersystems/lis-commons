@@ -15,8 +15,8 @@
  */
 package com.link_intersystems.lang.reflect;
 
-import com.link_intersystems.lang.Serialization;
-import com.link_intersystems.lang.SerializationException;
+import com.link_intersystems.util.Serialization;
+import com.link_intersystems.util.SerializationException;
 import org.junit.jupiter.api.Test;
 import org.powermock.reflect.Whitebox;
 

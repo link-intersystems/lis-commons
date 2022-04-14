@@ -15,7 +15,7 @@
  */
 package com.link_intersystems.lang.ref;
 
-import com.link_intersystems.lang.Serialization;
+import com.link_intersystems.util.Serialization;
 
 import java.io.Serializable;
 

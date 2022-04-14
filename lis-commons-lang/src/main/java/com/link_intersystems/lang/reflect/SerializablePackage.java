@@ -18,7 +18,7 @@ package com.link_intersystems.lang.reflect;
 import java.io.Serializable;
 
 import com.link_intersystems.lang.Assert;
-import com.link_intersystems.lang.SerializationException;
+import com.link_intersystems.util.SerializationException;
 import com.link_intersystems.lang.ref.AbstractSerializableReference;
 
 class SerializablePackage extends AbstractSerializableReference<Package> {

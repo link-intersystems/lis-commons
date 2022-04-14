@@ -16,7 +16,7 @@
 package com.link_intersystems.lang.reflect;
 
 import com.link_intersystems.Assertion;
-import com.link_intersystems.lang.Serialization;
+import com.link_intersystems.util.Serialization;
 import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;

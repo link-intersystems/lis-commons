@@ -15,7 +15,7 @@
  */
 package com.link_intersystems.lang.ref;
 
-import com.link_intersystems.lang.SerializationException;
+import com.link_intersystems.util.SerializationException;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

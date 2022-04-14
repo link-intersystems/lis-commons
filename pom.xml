@@ -23,6 +23,7 @@
         <module>lis-commons-math</module>
         <module>lis-commons-lang</module>
         <module>lis-commons-beans</module>
+        <module>lis-commons-util</module>
     </modules>
 
     <dependencyManagement>
