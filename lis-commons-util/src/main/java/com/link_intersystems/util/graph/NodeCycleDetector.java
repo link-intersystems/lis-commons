@@ -13,36 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/**
+ *
+ */
 package com.link_intersystems.util.graph;
 
+import java.util.function.Consumer;
+
 /**
- * This exception signals a cycle condition in a {@link Node} graph.
+ * A {@link Consumer} that detects cycles when iterating a {@link Node} structure
+ * and throws a {@link CyclicGraphException} if a cycle is detected.
  *
  * @author René Link <a
- * href="mailto:rene.link@link-intersystems.com">[rene.link@link-
- * intersystems.com]</a>
+ *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
+ *         intersystems.com]</a>
  * @since 1.0.0.0
  */
-public class CyclicGraphException extends CycleException {
+public class NodeCycleDetector extends CycleDetector<Node> {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 3855192734786019116L;
-
-    /**
-     * @param node the node that introduces the cycle.
-     * @since 1.0.0.0
-     */
-    public CyclicGraphException(Node node) {
-        super(node);
+    @Override
+    protected Object getIdentityObject(Node element) {
+        return element.getUserObject();
     }
 
-    /**
-     * @return the node that introduces the cycle.
-     * @since 1.0.0.0
-     */
-    public Node getCycleCause() {
-        return (Node) super.getCycleCause();
+    @Override
+    protected CycleException createCycleException(Node cycleCause) {
+        return new CyclicGraphException(cycleCause);
     }
 }

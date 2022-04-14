@@ -83,7 +83,7 @@ class GraphFacadeImplTest  {
     @Test
     void cycleDetection() {
         eRef.addReference(cRef);
-        assertThrows(CyclicGraphException.class, () -> GraphFacade.traverseDepthFirst(start, new CycleDetector()));
+        assertThrows(CyclicGraphException.class, () -> GraphFacade.traverseDepthFirst(start, new NodeCycleDetector()));
     }
 
     private static class TraverseAssertion implements Consumer<Node> {
