@@ -32,27 +32,24 @@ import java.util.function.Function;
  * @since 1.2.0.0
  */
 @SuppressWarnings("rawtypes")
-class PropertyDescriptor2AccessorsTransformer implements Function<Object, Object> {
+class PropertyDescriptor2AccessorsTransformer implements Function<PropertyDescriptor, List<Method>> {
 
-    public static final Function<Object, Object> INSTANCE = new PropertyDescriptor2AccessorsTransformer();
+    public static final Function<PropertyDescriptor, List<Method>> INSTANCE = new PropertyDescriptor2AccessorsTransformer();
 
-    public Object apply(Object input) {
-        Object transformed = input;
-        if (input instanceof PropertyDescriptor) {
-            PropertyDescriptor descriptor = PropertyDescriptor.class.cast(input);
-            Method readMethod = descriptor.getReadMethod();
-            Method writeMethod = descriptor.getWriteMethod();
-            List<Method> methods = new ArrayList<Method>();
-            if (readMethod != null) {
-                methods.add(readMethod);
-            }
+    public List<Method> apply(PropertyDescriptor descriptor) {
+        List<Method> methods = new ArrayList<Method>();
 
-            if (writeMethod != null) {
-                methods.add(writeMethod);
-            }
-            transformed = methods.iterator();
+        Method readMethod = descriptor.getReadMethod();
+        if (readMethod != null) {
+            methods.add(readMethod);
         }
-        return transformed;
+
+        Method writeMethod = descriptor.getWriteMethod();
+        if (writeMethod != null) {
+            methods.add(writeMethod);
+        }
+
+        return methods;
     }
 
 }
