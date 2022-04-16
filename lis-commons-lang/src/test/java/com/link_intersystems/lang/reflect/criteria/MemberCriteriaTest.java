@@ -360,12 +360,7 @@ class MemberCriteriaTest  {
         memberCriteria.named("size");
         Iterable<Class<?>> classIterable = classCriteria.getIterable(ArrayList.class);
         Iterable<? extends AnnotatedElement> annotatedElementIterable = memberCriteria.getAnnotatedElementIterable(classIterable, IterateStrategy.MEMBERS_CLASS);
-
-        Iterator<? extends AnnotatedElement> iterator1 = annotatedElementIterable.iterator();
-        while (iterator1.hasNext()) {
-            AnnotatedElement next = iterator1.next();
-            System.out.println(next);
-        }
+        annotatedElementIterable.forEach(System.out::println);
 
         Iterator<? extends AnnotatedElement> iterator = annotatedElementIterable.iterator();
         assertTrue(iterator.hasNext());

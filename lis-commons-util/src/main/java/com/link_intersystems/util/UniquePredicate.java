@@ -1,4 +1,4 @@
-package com.link_intersystems.lang.reflect.criteria;
+package com.link_intersystems.util;
 
 import java.util.HashSet;
 import java.util.Set;

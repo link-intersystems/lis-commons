@@ -10,12 +10,12 @@ import java.util.stream.Stream;
  */
 public class DepthFirstTreeModelIterable<T> extends AbstractTreeModelIterable<T> {
 
-    public DepthFirstTreeModelIterable(TreeModel treeModel, T rootElement) {
+    public DepthFirstTreeModelIterable(TreeModel<T> treeModel, T rootElement) {
         super(treeModel, rootElement);
     }
 
     @Override
-    protected Iterator<T> createIterator(TreeModel treeModel, T rootElement) {
+    protected Iterator<T> createIterator(TreeModel<T> treeModel, T rootElement) {
         Stack<T> stack = new Stack<>();
         stack.push(rootElement);
 
@@ -35,9 +35,9 @@ public class DepthFirstTreeModelIterable<T> extends AbstractTreeModelIterable<T>
 
                 current = stack.pop();
 
-                Stream<?> children = treeModel.getChildren(current);
+                Stream<? extends T> children = treeModel.getChildren(current);
                 int headIndex = stack.size();
-                children.forEach(c -> stack.add(headIndex, (T) c));
+                children.forEach(c -> stack.add(headIndex, c));
 
                 return current;
             }

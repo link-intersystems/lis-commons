@@ -25,11 +25,7 @@ import com.link_intersystems.util.graph.GraphFacade.NodeIterateStrategy;
 import com.link_intersystems.util.graph.Node;
 
 import java.lang.reflect.AnnotatedElement;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.function.Function;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -355,7 +351,7 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
                         nodeIteratePredicates[i] = transformedPredicate;
                     }
                     classNodeIterator = GraphFacade.perPredicateNodeIterator(nodeIterateStrategy, rootNode, nodeIteratePredicates);
-                    classesIterator = new TransformIterator(classNodeIterator, new Node2ClassTransformer());
+                    classesIterator = new TransformedIterator(classNodeIterator, new Node2ClassTransformer());
                 } else {
                     switch (classCriteriaCopy.traverseStrategy) {
                         case BREADTH_FIRST:
@@ -365,7 +361,7 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
                             classNodeIterator = new DepthFirstNodeIterator(rootNode);
                             break;
                     }
-                    classesIterator = new TransformIterator(classNodeIterator, new Node2ClassTransformer());
+                    classesIterator = new TransformedIterator(classNodeIterator, new Node2ClassTransformer());
                 }
 
                 Predicate<Class<?>> classTypePredicate = new OrAbstractPredicate<>(classTypes);
@@ -390,7 +386,8 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
     @SuppressWarnings("unchecked")
     protected Iterator<Class<?>> applyTraverseClassesUniquely(Iterator<Class<?>> iterator) {
         if (isTraverseClassesUniquelyEnabled()) {
-            iterator = new FilteredIterator<>(iterator, new UniquePredicate<Class<?>>());
+            Set<Class<?>> uniqueClasses = new HashSet<>();
+            iterator = new FilteredIterator<>(iterator, uniqueClasses::add);
         }
         return iterator;
     }

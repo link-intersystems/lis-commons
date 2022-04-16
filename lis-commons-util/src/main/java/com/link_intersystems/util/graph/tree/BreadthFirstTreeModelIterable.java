@@ -10,12 +10,12 @@ import java.util.Queue;
  */
 public class BreadthFirstTreeModelIterable<T> extends AbstractTreeModelIterable<T> {
 
-    public BreadthFirstTreeModelIterable(TreeModel treeModel, T rootElement) {
+    public BreadthFirstTreeModelIterable(TreeModel<T> treeModel, T rootElement) {
         super(treeModel, rootElement);
     }
 
     @Override
-    protected Iterator<T> createIterator(TreeModel treeModel, T rootElement) {
+    protected Iterator<T> createIterator(TreeModel<T> treeModel, T rootElement) {
         Queue<T> queue = new LinkedList<>();
         queue.offer(rootElement);
 
@@ -29,7 +29,7 @@ public class BreadthFirstTreeModelIterable<T> extends AbstractTreeModelIterable<
             public T next() {
                 if (hasNext()) {
                     T next = queue.poll();
-                    treeModel.getChildren(next).forEach(c -> queue.add((T) c));
+                    treeModel.getChildren(next).forEach(queue::add);
                     return next;
                 } else {
                     throw new NoSuchElementException();

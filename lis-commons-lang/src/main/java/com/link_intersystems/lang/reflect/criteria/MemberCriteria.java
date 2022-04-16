@@ -21,6 +21,8 @@ import com.link_intersystems.lang.reflect.MemberModifierPredicate;
 import com.link_intersystems.lang.reflect.MemberModifierPredicate.Match;
 import com.link_intersystems.lang.reflect.ReflectFacade;
 import com.link_intersystems.util.*;
+import com.link_intersystems.util.graph.tree.DepthFirstBottomUpTreeModelIterable;
+import com.link_intersystems.util.graph.tree.TransformedIterableTreeModel;
 
 import java.lang.reflect.*;
 import java.util.*;
@@ -515,7 +517,12 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
             Iterator<Class<?>> classIterator = classIterable.iterator();
             MemberCriteria<Member> memberCriteria = templateObjectFactory.getObject();
             Function<Object, Object> memberIteratorTransformer = new MemberIteratorTransformer(memberCriteria);
-            Iterator<Member> memberIterator = new ObjectGraphIterator(classIterator, memberIteratorTransformer);
+
+            TransformedIterableTreeModel<Object> transformedIterableTreeModel = new TransformedIterableTreeModel<>(memberIteratorTransformer::apply);
+            DepthFirstBottomUpTreeModelIterable<Object> objects = new DepthFirstBottomUpTreeModelIterable<>(transformedIterableTreeModel, classIterator);
+            objects.setLeavesOnly(true);
+
+            Iterator<Member> memberIterator = Iterators.toStream(objects.iterator()).filter(Member.class::isInstance).map(Member.class::cast).iterator();
             memberIterator = memberCriteria.applyElementFilter(memberIterator);
             memberIterator = memberCriteria.applySelectionFilter(memberIterator);
             return memberIterator;
@@ -540,9 +547,12 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
             Iterator<Class<?>> classIterator = classIterable.iterator();
             MemberCriteria<Member> memberCriteria = templateObjectFactory.getObject();
 
-            Function memberIteratorTransformer = new AnnotatedElementIteratorTransformer(traverseStrategy, memberCriteria);
-            Iterator<AnnotatedElement> iterator = new ObjectGraphIterator<>(classIterator, memberIteratorTransformer);
-            return iterator;
+            Function<Object, Object> memberIteratorTransformer = new AnnotatedElementIteratorTransformer(traverseStrategy, memberCriteria);
+
+            TransformedIterableTreeModel<Object> transformedIterableTreeModel = new TransformedIterableTreeModel<>(memberIteratorTransformer::apply);
+            DepthFirstBottomUpTreeModelIterable<Object> objects = new DepthFirstBottomUpTreeModelIterable<>(transformedIterableTreeModel, classIterator);
+            objects.setLeavesOnly(true);
+            return Iterators.toStream(objects.iterator()).filter(AnnotatedElement.class::isInstance).map(AnnotatedElement.class::cast).iterator();
         }
 
     }
@@ -551,7 +561,7 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
 
         private final IterateStrategy traverseStrategy;
 
-        private final Collection<Class<?>> transformed = new ArrayList<Class<?>>();
+        private final Collection<Class<?>> transformed = new ArrayList<>();
 
         public AnnotatedElementIteratorTransformer(IterateStrategy traverseStrategy, MemberCriteria memberCriteria) {
             super(memberCriteria);
@@ -581,8 +591,6 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
                 Iterator<?> iterator = javaElementTraverseStrategy.getIterator(currentClass, memberCriteria);
 
                 return iterator;
-            } else if (input instanceof Package) {
-                return input;
             } else {
                 return input;
             }

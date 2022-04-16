@@ -21,5 +21,5 @@ public abstract class AbstractTreeModelIterable<T> implements Iterable<T> {
         return createIterator(treeModel, rootElement);
     }
 
-    protected abstract Iterator<T> createIterator(TreeModel treeModel, T rootElement);
+    protected abstract Iterator<T> createIterator(TreeModel<T> treeModel, T rootElement);
 }

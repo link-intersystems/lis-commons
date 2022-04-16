@@ -21,6 +21,11 @@ public class Iterators {
         return StreamSupport.stream(iterable.spliterator(), false);
     }
 
+
+    public static <E> List<E> toList(Iterable<E> iterable) {
+        return toList(iterable.iterator());
+    }
+
     public static <E> List<E> toList(Iterator<E> iterator) {
         return toStream(iterator).collect(Collectors.toList());
     }
