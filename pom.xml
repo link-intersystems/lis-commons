@@ -59,6 +59,14 @@
         <url>https://github.com/link-intersystems/lis-commons/issues</url>
     </issueManagement>
 
+    <distributionManagement>
+        <site>
+            <id>gh-pages</id>
+            <name>Link Intersystems - Commons</name>
+            <url>scm:git:https://github.com/link-intersystems/lis-commons.git</url>
+        </site>
+    </distributionManagement>
+
     <build>
         <plugins>
             <plugin>
@@ -74,5 +82,27 @@
                 </executions>
             </plugin>
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>3.7.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>3.0.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-scm-publish-plugin</artifactId>
+                    <version>3.0.0</version>
+                    <configuration>
+                        <scmBranch>gh-pages</scmBranch>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 </project>
