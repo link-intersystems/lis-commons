@@ -9,7 +9,10 @@
 	</parent>
 
 	<artifactId>lis-commons-math</artifactId>
-	<name>Link Intersystems - Commons Math</name>
+	<description>Link Intersystems Commons Math (lis-commons-math) is a reusable software library that provides
+	support for simple common mathematical related tasks.</description>
+
+	<name>Math</name>
 	<inceptionYear>2011</inceptionYear>
 
 	<dependencies>

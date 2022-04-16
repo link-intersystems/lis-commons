@@ -9,12 +9,12 @@
         <version>8.0</version>
     </parent>
 
-
     <groupId>com.link-intersystems.commons</groupId>
     <artifactId>lis-commons</artifactId>
     <version>1.2.0.12-SNAPSHOT</version>
-
     <packaging>pom</packaging>
+
+    <description>Link Intersystems commons (lis) is a collection of reusable software components based on pure Java.</description>
 
     <name>Link Intersystems - Commons</name>
     <inceptionYear>2011</inceptionYear>

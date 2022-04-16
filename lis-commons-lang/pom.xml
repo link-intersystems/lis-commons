@@ -1,37 +1,43 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.link-intersystems.commons</groupId>
-		<artifactId>lis-commons</artifactId>
-		<version>1.2.0.12-SNAPSHOT</version>
-	</parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.link-intersystems.commons</groupId>
+        <artifactId>lis-commons</artifactId>
+        <version>1.2.0.12-SNAPSHOT</version>
+    </parent>
 
-	<artifactId>lis-commons-lang</artifactId>
+    <artifactId>lis-commons-lang</artifactId>
+    <name>Lang</name>
+    <description>Link Intersystems Commons Lang (lis-commons-lang) is a library that
+        provides reusable software components based on Java core features under the
+        java.lang package and sub-packages.
+    </description>
 
-	<dependencies>
-		<dependency>
-			<groupId>com.link-intersystems.commons</groupId>
-			<artifactId>lis-commons-util</artifactId>
-			<version>1.2.0.12-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-module-junit4</artifactId>
-			<version>2.0.9</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-api-easymock</artifactId>
-			<version>2.0.9</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.easymock</groupId>
-			<artifactId>easymock</artifactId>
-			<version>4.3</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>com.link-intersystems.commons</groupId>
+            <artifactId>lis-commons-util</artifactId>
+            <version>1.2.0.12-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>2.0.9</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-easymock</artifactId>
+            <version>2.0.9</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymock</artifactId>
+            <version>4.3</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
 </project>

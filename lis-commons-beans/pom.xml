@@ -1,27 +1,32 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.link-intersystems.commons</groupId>
-		<artifactId>lis-commons</artifactId>
-		<version>1.2.0.12-SNAPSHOT</version>
-	</parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.link-intersystems.commons</groupId>
+        <artifactId>lis-commons</artifactId>
+        <version>1.2.0.12-SNAPSHOT</version>
+    </parent>
 
-	<artifactId>lis-commons-beans</artifactId>
+    <artifactId>lis-commons-beans</artifactId>
+    <name>Beans</name>
+    <description>Link Intersystems Commons Beans (lis-commons-beans) is a collection of reusable software components
+        that provide a simpler programming api for the Java beans api.
+    </description>
 
-	<dependencies>
-		<dependency>
-			<groupId>com.link-intersystems.commons</groupId>
-			<artifactId>lis-commons-lang</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.link-intersystems.commons</groupId>
-			<artifactId>lis-commons-lang</artifactId>
-			<type>test-jar</type>
-		</dependency>
-		<dependency>
-			<groupId>com.link-intersystems.commons</groupId>
-			<artifactId>lis-commons-util</artifactId>
-			<version>1.2.0.12-SNAPSHOT</version>
-		</dependency>
-	</dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>com.link-intersystems.commons</groupId>
+            <artifactId>lis-commons-lang</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.link-intersystems.commons</groupId>
+            <artifactId>lis-commons-lang</artifactId>
+            <type>test-jar</type>
+        </dependency>
+        <dependency>
+            <groupId>com.link-intersystems.commons</groupId>
+            <artifactId>lis-commons-util</artifactId>
+            <version>1.2.0.12-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>

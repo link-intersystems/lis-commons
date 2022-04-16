@@ -10,6 +10,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>lis-commons-util</artifactId>
+    <name>Util</name>
+    <description>Link Intersystems Commons Util (lis-commons-util) is collection of reusable software components
+    that extend the standard java.util components.</description>
 
     <dependencies>
         <dependency>
