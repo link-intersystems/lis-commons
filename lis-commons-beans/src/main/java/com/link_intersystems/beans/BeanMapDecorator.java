@@ -1,340 +1,336 @@
 package com.link_intersystems.beans;
 
-import java.beans.IndexedPropertyDescriptor;
-import java.beans.PropertyDescriptor;
-import java.util.AbstractCollection;
-import java.util.AbstractSet;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.io.Serializable;
+import java.util.*;
 
-public class BeanMapDecorator extends HashMap<String, Object> {
+import static java.util.Objects.requireNonNull;
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -6218854323681382593L;
+/**
+ * Decorates a bean as a Map.
+ */
+public class BeanMapDecorator extends AbstractMap<String, Object> implements Serializable {
 
-	public static final class IndexedValue {
+    private static final long serialVersionUID = -6218854323681382593L;
+    private Bean<?> bean;
 
-		private final IndexedProperty<Object> indexedProperty;
+    public BeanMapDecorator(Bean<?> bean) {
+        this.bean = requireNonNull(bean);
+    }
 
-		private IndexedValue(IndexedProperty<Object> indexedProperty) {
-			this.indexedProperty = indexedProperty;
-		}
+    public static Object indexedValueSetter(int index, Object value) {
+        return new IndexedElementSetter(index, value);
+    }
 
-		public Object getElement(int index) {
-			return indexedProperty.getValue(index);
-		}
+    public int size() {
+        BeanClass<?> beanClass = bean.getBeanClass();
+        return beanClass.getProperties().size();
+    }
 
-	}
+    public boolean isEmpty() {
+        /*
+         * Since all objects extend Object they have at least one property
+         * 'class'. Thus a bean map decorator can never be empty.
+         */
+        return false;
+    }
 
-	public static final class IndexedElementSetter {
+    public boolean containsKey(Object key) {
+        if (key == null) {
+            return false;
+        }
+        String propertyName = key.toString();
+        BeanClass<?> beanClass = bean.getBeanClass();
+        return beanClass.hasAnyProperty(propertyName);
+    }
 
-		private final int index;
-		private final Object element;
+    @SuppressWarnings("unchecked")
+    public Object get(Object key) {
+        if (key == null) {
+            return null;
+        }
+        String propertyName = key.toString();
+        BeanClass<?> beanClass = bean.getBeanClass();
 
-		private IndexedElementSetter(int index, Object element) {
-			this.index = index;
-			this.element = element;
-		}
+        PropertyDescs<? extends PropertyDesc<?>> properties = beanClass.getProperties();
+        PropertyDesc<?> propertyDesc = properties.getByName(propertyName);
 
-		public int getIndex() {
-			return index;
-		}
+        if (propertyDesc == null) {
+            return null;
+        }
 
-		public Object getElement() {
-			return element;
-		}
+        boolean isIndexedProperty = beanClass.hasIndexedProperty(propertyName);
 
-	}
+        if (isIndexedProperty) {
+            IndexedProperty<Object> property = (IndexedProperty<Object>) bean.getProperty(propertyDesc);
+            checkReadAccess(property);
+            return new IndexedValue(property);
+        } else {
+            Property<Object> property = (Property<Object>) bean.getProperty(propertyDesc);
+            checkReadAccess(property);
+            return property.getValue();
+        }
+    }
 
-	public static Object indexedValueSetter(int index, Object value) {
-		return new IndexedElementSetter(index, value);
-	}
+    @SuppressWarnings("unchecked")
+    public Object put(String key, Object value) {
+        if (key == null) {
+            throw new IllegalArgumentException(
+                    "BeanMapDecorator does not support putting 'null' keys, because a bean can never have a 'null' property.");
+        }
+        String propertyName = key;
+        BeanClass<?> beanClass = bean.getBeanClass();
+        PropertyDescs<? extends PropertyDesc<?>> properties = beanClass.getProperties();
+        PropertyDesc<?> propertyDesc = properties.getByName(propertyName);
 
-	private Bean<?> bean;
+        if (propertyDesc == null) {
+            throw new NoSuchPropertyException(bean.getBeanClass().getType(),
+                    key);
+        }
+        Object previousValue = null;
 
-	public BeanMapDecorator(Object bean) {
-		this.bean = new Bean<Object>(bean);
-	}
+        if (propertyDesc.isIndexed()) {
+            if (!(value instanceof IndexedElementSetter)) {
+                throw new IllegalArgumentException(
+                        "Property named "
+                                + key
+                                + " is an indexed property. To set an indexed property's value you must use "
+                                + IndexedElementSetter.class.getSimpleName());
+            }
+            IndexedElementSetter indexedValueSet = IndexedElementSetter.class
+                    .cast(value);
+            IndexedProperty<Object> indexedProperty = (IndexedProperty<Object>) bean.getProperty(propertyDesc);
+            checkWriteAccess(indexedProperty);
+            indexedProperty.setValue(indexedValueSet.getIndex(),
+                    indexedValueSet.getElement());
+        } else {
+            Property<Object> property = (Property<Object>) bean.getProperty(propertyDesc);
+            checkWriteAccess(property);
+            previousValue = getValueIfReadable(key);
+            property.setValue(value);
 
-	public int size() {
-		BeanClass<?> beanClass = bean.getBeanClass();
-		return beanClass.getPropertyDescriptors().size();
-	}
+        }
 
-	public boolean isEmpty() {
-		/*
-		 * Since all objects extend Object they have at least one property
-		 * 'class'. Thus a bean map decorator can never be empty.
-		 */
-		return false;
-	}
+        return previousValue;
+    }
 
-	public boolean containsKey(Object key) {
-		if (key == null) {
-			return false;
-		}
-		String propertyName = key.toString();
-		return bean.hasAnyProperty(propertyName);
-	}
+    private Object getValueIfReadable(String propertyName) {
+        Property<Object> property = bean.getProperty(propertyName);
+        if (property.getDescriptor().isReadable()) {
+            return property.getValue();
+        }
+        return null;
+    }
 
-	public Object get(Object key) {
-		if (key == null) {
-			return null;
-		}
-		String propertyName = key.toString();
-		boolean hasAnyProperty = bean.hasAnyProperty(propertyName);
-		if (!hasAnyProperty) {
-			return null;
-		}
+    private void checkWriteAccess(IndexedProperty<?> property) {
+        if (!property.isIndexedWritable()) {
+            throw new UnsupportedOperationException(
+                    "BeanMapDecorator can not put property "
+                            + property
+                            + ", because the indexed property has no indexed "
+                            + "setter method, e.g. void setter(int index, PropertyType value); ");
+        }
+    }
 
-		boolean isIndexedProperty = bean.hasIndexedProperty(propertyName);
+    private void checkWriteAccess(Property<?> property) {
+        if (!property.getDescriptor().isWritable()) {
+            throw new UnsupportedOperationException(
+                    "BeanMapDecorator can not put property " + property
+                            + ", because the property is not writable");
+        }
+    }
 
-		if (isIndexedProperty) {
-			IndexedProperty<Object> indexedProperty = bean
-					.getIndexedProperty(propertyName);
-			checkReadAccess(indexedProperty);
-			return new IndexedValue(indexedProperty);
-		} else {
-			Property<Object> property = bean.getProperty(propertyName);
-			checkReadAccess(property);
-			return property.getValue();
-		}
-	}
+    private void checkReadAccess(IndexedProperty<?> property) {
+        if (!property.isIndexedReadable()) {
+            throw new UnsupportedOperationException(
+                    "BeanMapDecorator can not get property "
+                            + property
+                            + ", because the indexed property has no indexed "
+                            + "getter method, e.g. PropertyType getter(int index);");
+        }
+    }
 
-	public Object put(String key, Object value) {
-		if (key == null) {
-			throw new IllegalArgumentException(
-					"BeanMapDecorator does not support putting 'null' keys, because a bean can never have a 'null' property.");
-		}
-		boolean hasAnyProperty = bean.hasAnyProperty(key);
-		if (!hasAnyProperty) {
-			throw new NoSuchPropertyException(bean.getBeanClass().getType(),
-					key);
-		}
-		Object previousValue = null;
+    private void checkReadAccess(Property<?> property) {
+        if (!property.getDescriptor().isReadable()) {
+            throw new UnsupportedOperationException(
+                    "BeanMapDecorator can not get property " + property
+                            + ", because the property is not readable");
+        }
+    }
 
-		boolean isIndexedProperty = bean.hasIndexedProperty(key);
-		if (isIndexedProperty) {
-			if (!(value instanceof IndexedElementSetter)) {
-				throw new IllegalArgumentException(
-						"Property named "
-								+ key
-								+ " is an indexed property. To set an indexed property's value you must use "
-								+ IndexedElementSetter.class.getSimpleName());
-			}
-			IndexedElementSetter indexedValueSet = IndexedElementSetter.class
-					.cast(value);
-			IndexedProperty<Object> indexedProperty = bean
-					.getIndexedProperty(key);
-			checkWriteAccess(indexedProperty);
-			indexedProperty.setValue(indexedValueSet.getIndex(),
-					indexedValueSet.getElement());
-		} else {
-			Property<Object> property = bean.getProperty(key);
-			checkWriteAccess(property);
-			previousValue = getValueIfReadable(key);
-			property.setValue(value);
+    public Object remove(Object key) {
+        throw new UnsupportedOperationException(
+                "BeanMapDecorator does not support remove");
+    }
 
-		}
+    /**
+     * {@inheritDoc}
+     *
+     * <p>
+     * This implementation iterates over the specified map's <tt>entrySet()</tt>
+     * collection, and calls this map's <tt>put</tt> operation once for each
+     * entry returned by the iteration.
+     *
+     * <p>
+     * Note that this implementation throws an
+     * <tt>UnsupportedOperationException</tt> if this map does not support the
+     * <tt>put</tt> operation and the specified map is nonempty.
+     *
+     * @throws UnsupportedOperationException {@inheritDoc}
+     * @throws ClassCastException            {@inheritDoc}
+     * @throws NullPointerException          {@inheritDoc}
+     * @throws IllegalArgumentException      {@inheritDoc}
+     */
+    public void putAll(Map<? extends String, ? extends Object> m) {
+        for (Map.Entry<? extends String, ? extends Object> e : m.entrySet())
+            put(e.getKey(), e.getValue());
+    }
 
-		return previousValue;
-	}
+    public void clear() {
+        throw new UnsupportedOperationException(
+                "A BeanMapDecorator can not be cleared, because"
+                        + " properties of a bean belong to the bean's"
+                        + " class and therefore can not be removed at runtime.");
+    }
 
-	private Object getValueIfReadable(String propertyName) {
-		Property<Object> property = bean.getProperty(propertyName);
-		if (property.isReadable()) {
-			return property.getValue();
-		}
-		return null;
-	}
+    public Set<String> keySet() {
+        Set<String> keySet = new AbstractSet<String>() {
 
-	private void checkWriteAccess(IndexedProperty<?> property) {
-		if (!property.isIndexedWritable()) {
-			throw new UnsupportedOperationException(
-					"BeanMapDecorator can not put property "
-							+ property
-							+ ", because the indexed property has no indexed "
-							+ "setter method, e.g. void setter(int index, PropertyType value); ");
-		}
-	}
+            @Override
+            public Iterator<String> iterator() {
+                return bean.getBeanClass().getProperties().getAllPropertyNames().iterator();
+            }
 
-	private void checkWriteAccess(Property<?> property) {
-		if (!property.isWritable()) {
-			throw new UnsupportedOperationException(
-					"BeanMapDecorator can not put property " + property
-							+ ", because the property is not writable");
-		}
-	}
+            @Override
+            public int size() {
+                return bean.getBeanClass().getProperties().getAllPropertyNames().size();
+            }
+        };
+        return keySet;
+    }
 
-	private void checkReadAccess(IndexedProperty<?> property) {
-		if (!property.isIndexedReadable()) {
-			throw new UnsupportedOperationException(
-					"BeanMapDecorator can not get property "
-							+ property
-							+ ", because the indexed property has no indexed "
-							+ "getter method, e.g. PropertyType getter(int index);");
-		}
-	}
+    @SuppressWarnings("unchecked")
+    public Collection<Object> values() {
+        Collection<Object> values = new AbstractCollection<Object>() {
 
-	private void checkReadAccess(Property<?> property) {
-		if (!property.isReadable()) {
-			throw new UnsupportedOperationException(
-					"BeanMapDecorator can not get property " + property
-							+ ", because the property is not readable");
-		}
-	}
+            @Override
+            public Iterator<Object> iterator() {
+                return new Iterator<Object>() {
+                    private Iterator<String> propertsNameIterator = bean
+                            .getBeanClass().getProperties().getAllPropertyNames().iterator();
 
-	public Object remove(Object key) {
-		throw new UnsupportedOperationException(
-				"BeanMapDecorator does not support remove");
-	}
+                    public boolean hasNext() {
+                        return propertsNameIterator.hasNext();
+                    }
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>
-	 * This implementation iterates over the specified map's <tt>entrySet()</tt>
-	 * collection, and calls this map's <tt>put</tt> operation once for each
-	 * entry returned by the iteration.
-	 *
-	 * <p>
-	 * Note that this implementation throws an
-	 * <tt>UnsupportedOperationException</tt> if this map does not support the
-	 * <tt>put</tt> operation and the specified map is nonempty.
-	 *
-	 * @throws UnsupportedOperationException
-	 *             {@inheritDoc}
-	 * @throws ClassCastException
-	 *             {@inheritDoc}
-	 * @throws NullPointerException
-	 *             {@inheritDoc}
-	 * @throws IllegalArgumentException
-	 *             {@inheritDoc}
-	 */
-	public void putAll(Map<? extends String, ? extends Object> m) {
-		for (Map.Entry<? extends String, ? extends Object> e : m.entrySet())
-			put(e.getKey(), e.getValue());
-	}
+                    public Object next() {
+                        String propertyName = propertsNameIterator.next();
+                        PropertyDesc<?> propertyDesc = bean.getBeanClass().getProperties().getByName(propertyName);
+                        if (propertyDesc.isIndexed()) {
+                            IndexedProperty<Object> indexedProperty = (IndexedProperty<Object>) bean.getProperty(propertyDesc);
+                            return new IndexedValue(indexedProperty);
+                        } else {
+                            return bean.getProperty(propertyName).getValue();
+                        }
+                    }
 
-	public void clear() {
-		throw new UnsupportedOperationException(
-				"A BeanMapDecorator can not be cleared, because"
-						+ " properties of a bean belong to the bean's"
-						+ " class and therefore can not be removed at runtime.");
-	}
+                    public void remove() {
+                        throw new UnsupportedOperationException();
+                    }
+                };
+            }
 
-	public Set<String> keySet() {
-		Set<String> keySet = new AbstractSet<String>() {
+            @Override
+            public int size() {
+                return bean.getBeanClass().getProperties().getAllPropertyNames().size();
+            }
+        };
+        return values;
+    }
 
-			@Override
-			public Iterator<String> iterator() {
-				return bean.getBeanClass().getPropertyNames().iterator();
-			}
+    public Set<java.util.Map.Entry<String, Object>> entrySet() {
+        Set<java.util.Map.Entry<String, Object>> entries = new AbstractSet<Map.Entry<String, Object>>() {
 
-			@Override
-			public int size() {
-				return bean.getBeanClass().getPropertyNames().size();
-			}
-		};
-		return keySet;
-	}
+            @Override
+            public Iterator<java.util.Map.Entry<String, Object>> iterator() {
 
-	public Collection<Object> values() {
-		Collection<Object> values = new AbstractCollection<Object>() {
+                return new Iterator<Map.Entry<String, Object>>() {
+                    private Iterator<String> propertyNamesIterator = bean
+                            .getBeanClass().getProperties().getAllPropertyNames().iterator();
 
-			@Override
-			public Iterator<Object> iterator() {
-				return new Iterator<Object>() {
-					private Iterator<String> propertsNameIterator = bean
-							.getBeanClass().getPropertyNames().iterator();
+                    public boolean hasNext() {
+                        return propertyNamesIterator.hasNext();
+                    }
 
-					public boolean hasNext() {
-						return propertsNameIterator.hasNext();
-					}
+                    public java.util.Map.Entry<String, Object> next() {
+                        final String propertyName = propertyNamesIterator
+                                .next();
 
-					public Object next() {
-						String propertyName = propertsNameIterator.next();
-						PropertyDescriptor propertyDescriptor = bean
-								.getBeanClass().getPropertyDescriptors()
-								.get(propertyName);
-						if (propertyDescriptor instanceof IndexedPropertyDescriptor) {
-							IndexedProperty<Object> indexedProperty = bean
-									.getIndexedProperty(propertyName);
-							return new IndexedValue(indexedProperty);
-						} else {
-							return bean.getProperty(propertyName).getValue();
-						}
-					}
+                        return new Map.Entry<String, Object>() {
 
-					public void remove() {
-						throw new UnsupportedOperationException();
-					}
-				};
-			}
+                            public Object setValue(Object value) {
+                                return put(propertyName, value);
+                            }
 
-			@Override
-			public int size() {
-				return bean.getBeanClass().getPropertyNames().size();
-			}
-		};
-		return values;
-	}
+                            public Object getValue() {
+                                return get(propertyName);
+                            }
 
-	public Set<java.util.Map.Entry<String, Object>> entrySet() {
-		Set<java.util.Map.Entry<String, Object>> entries = new AbstractSet<Map.Entry<String, Object>>() {
+                            public String getKey() {
+                                return propertyName;
+                            }
+                        };
+                    }
 
-			@Override
-			public Iterator<java.util.Map.Entry<String, Object>> iterator() {
+                    public void remove() {
+                        throw new UnsupportedOperationException();
+                    }
+                };
+            }
 
-				return new Iterator<Map.Entry<String, Object>>() {
-					private Iterator<String> propertyNamesIterator = bean
-							.getBeanClass().getPropertyNames().iterator();
+            @Override
+            public int size() {
+                return BeanMapDecorator.this.size();
+            }
+        };
+        return entries;
+    }
 
-					public boolean hasNext() {
-						return propertyNamesIterator.hasNext();
-					}
+    public boolean containsValue(Object value) {
+        return values().contains(value);
+    }
 
-					public java.util.Map.Entry<String, Object> next() {
-						final String propertyName = propertyNamesIterator
-								.next();
+    public static final class IndexedValue {
 
-						return new Map.Entry<String, Object>() {
+        private final IndexedProperty<Object> indexedProperty;
 
-							public Object setValue(Object value) {
-								return put(propertyName, value);
-							}
+        private IndexedValue(IndexedProperty<Object> indexedProperty) {
+            this.indexedProperty = indexedProperty;
+        }
 
-							public Object getValue() {
-								return get(propertyName);
-							}
+        public Object getElement(int index) {
+            return indexedProperty.getValue(index);
+        }
 
-							public String getKey() {
-								return propertyName;
-							}
-						};
-					}
+    }
 
-					public void remove() {
-						throw new UnsupportedOperationException();
-					}
-				};
-			}
+    public static final class IndexedElementSetter {
 
-			@Override
-			public int size() {
-				return BeanMapDecorator.this.size();
-			}
-		};
-		return entries;
-	}
+        private final int index;
+        private final Object element;
 
-	public boolean containsValue(Object value) {
-		return values().contains(value);
-	}
+        private IndexedElementSetter(int index, Object element) {
+            this.index = index;
+            this.element = element;
+        }
+
+        public int getIndex() {
+            return index;
+        }
+
+        public Object getElement() {
+            return element;
+        }
+
+    }
 
 }

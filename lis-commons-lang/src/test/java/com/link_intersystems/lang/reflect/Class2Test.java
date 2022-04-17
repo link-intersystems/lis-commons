@@ -25,7 +25,6 @@ import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.*;
 
-import static junit.framework.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 
 class Class2Test  {
@@ -316,29 +315,23 @@ class Class2Test  {
     @Test
     void getArrayType() {
         Class2<?> objectType = Class2.get(Object.class);
-        Class<?> asArrayType = objectType.getArrayType();
-        assertEquals(Object[].class, asArrayType);
+        ArrayType<?> asArrayType = objectType.getArrayType();
+        assertEquals(Object[].class, asArrayType.getType());
     }
 
     @Test
     void getArrayTypeOfArrayType() {
         Class2<?> objectArrayType = Class2.get(Object[].class);
-        Class<?> asArrayType = objectArrayType.getArrayType();
-        assertEquals(Object[][].class, asArrayType);
+        ArrayType<?> asArrayType = objectArrayType.getArrayType();
+        assertEquals(Object[][].class, asArrayType.getType());
     }
 
     @Test
     void getArrayType2Cached() {
         Class2<?> genericDefinition = Class2.get(GenericClassWithBeanType.class);
-        Class2<?> asArrayType1 = genericDefinition.getArrayType2();
-        Class2<?> asArrayType2 = genericDefinition.getArrayType2();
+        ArrayType<?> asArrayType1 = genericDefinition.getArrayType();
+        ArrayType<?> asArrayType2 = genericDefinition.getArrayType();
         assertSame(asArrayType1, asArrayType2);
     }
 
-    @Test
-    void getMultiDimensionArrayType() {
-        Class2<Object> objectArrayType = Class2.get(Object.class);
-        Class<Object[][][]> asArrayType = objectArrayType.getArrayType2().getArrayType2().getArrayType();
-        assertEquals(Object[][][].class, asArrayType);
-    }
 }

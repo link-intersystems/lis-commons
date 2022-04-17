@@ -1,99 +1,68 @@
 package com.link_intersystems.beans;
 
-import com.link_intersystems.lang.Assert;
+import java.util.Optional;
 
 public class BeanEventSupport<B, T> {
 
-	private T listener;
+    private Optional<T> listener = Optional.empty();
 
-	private Bean<B> bean;
+    private Optional<Bean<B>> bean = Optional.empty();
 
-	private boolean eventDisabled;
+    private boolean eventDisabled;
 
-	public BeanEventSupport() {
-	}
+    public boolean isEventDisabled() {
+        return eventDisabled;
+    }
 
-	public BeanEventSupport(T listener) {
-		Assert.notNull("listener", listener);
-		setListener(listener);
-	}
+    public void setEventDisabled(boolean eventDisabled) {
+        if (eventDisabled) {
+            bean.ifPresent(b -> listener.ifPresent(l -> removeListener(b, l)));
+        } else {
+            bean.ifPresent(b -> listener.ifPresent(l -> addListener(b, l)));
+        }
 
-	public boolean isEventDisabled() {
-		return eventDisabled;
-	}
+        this.eventDisabled = eventDisabled;
+    }
 
-	public void setEventDisabled(boolean eventDisabled) {
-		T actualListener = this.listener;
-		Bean<B> actualBean = this.bean;
+    public T getListener() {
+        return listener.orElse(null);
+    }
 
-		if (eventDisabled) {
-			removeListener(actualBean, actualListener);
-		} else {
-			addListener(actualBean, actualListener);
-		}
+    public void setListener(T newListener) {
+        bean.ifPresent(b -> listener.ifPresent(l -> removeListener(b, l)));
 
-		this.eventDisabled = eventDisabled;
-	}
+        listener = Optional.ofNullable(newListener);
 
-	public void setListener(T listener) {
-		T actualListener = this.listener;
-		Bean<B> actualBean = this.bean;
+        if (!eventDisabled) {
+            bean.ifPresent(b -> listener.ifPresent(l -> addListener(b, l)));
+        }
+    }
 
-		if (actualListener != null && actualBean != null) {
-			removeListener(actualBean, actualListener);
-		}
+    private void addListener(Bean<B> actualBean, T actualListener) {
+        actualBean.addListener(actualListener);
+    }
 
-		this.listener = listener;
+    private void removeListener(Bean<B> actualBean, T actualListener) {
+        actualBean.removeListener(actualListener);
+    }
 
-		actualListener = this.listener;
+    public B getBean() {
+        return bean.map(Bean::getObject).orElse(null);
+    }
 
-		if (!eventDisabled && actualListener != null && actualBean != null) {
-			addListener(actualBean, actualListener);
-		}
-	}
+    public void setBean(Bean<B> newBean) {
+        if (bean.orElse(null) == newBean) {
+            return;
+        }
 
-	public T getListener() {
-		return listener;
-	}
 
-	public void setBean(B bean) {
-		Bean<B> actualBean = this.bean;
-		if (actualBean != null && actualBean.getObject() == bean) {
-			return;
-		}
+        bean.ifPresent(b -> listener.ifPresent(l -> removeListener(b, l)));
 
-		T actualListener = this.listener;
+        bean = Optional.ofNullable(newBean);
 
-		if (actualBean != null && actualListener != null) {
-			removeListener(actualBean, actualListener);
-		}
-
-		if (bean == null) {
-			this.bean = null;
-		} else {
-			this.bean = new Bean<B>(bean);
-		}
-
-		actualBean = this.bean;
-
-		if (!eventDisabled && actualBean != null && actualListener != null) {
-			addListener(actualBean, actualListener);
-		}
-	}
-
-	private void addListener(Bean<B> actualBean, T actualListener) {
-		actualBean.addListener(actualListener);
-	}
-
-	private void removeListener(Bean<B> actualBean, T actualListener) {
-		actualBean.removeListener(actualListener);
-	}
-
-	public B getBean() {
-		if (this.bean == null) {
-			return null;
-		}
-		return this.bean.getObject();
-	}
+        if (!eventDisabled) {
+            bean.ifPresent(b -> listener.ifPresent(l -> addListener(b, l)));
+        }
+    }
 
 }

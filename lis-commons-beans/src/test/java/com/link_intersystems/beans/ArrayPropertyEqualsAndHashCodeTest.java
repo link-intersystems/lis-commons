@@ -16,6 +16,7 @@
 package com.link_intersystems.beans;
 
 import com.link_intersystems.EqualsAndHashCodeTest;
+import com.link_intersystems.beans.java.JavaBean;
 
 class ArrayPropertyEqualsAndHashCodeTest extends EqualsAndHashCodeTest  {
 
@@ -23,14 +24,14 @@ class ArrayPropertyEqualsAndHashCodeTest extends EqualsAndHashCodeTest  {
 	protected Object createInstance() throws Exception {
 		SomeBean someBean = new SomeBean();
 		someBean.setArrayPropertyNoIndexAccess(new String[] { "a", "b" });
-		return new Bean<>(someBean).getProperty("arrayPropertyNoIndexAccess");
+		return new JavaBean<>(someBean).getProperty("arrayPropertyNoIndexAccess");
 	}
 
 	@Override
 	protected Object createNotEqualInstance() throws Exception {
 		SomeBean someBean = new SomeBean();
 		someBean.setArrayPropertyNoIndexAccess(new String[] { "a", "b", "c" });
-		return new Bean<>(someBean).getProperty("arrayPropertyNoIndexAccess");
+		return new JavaBean<>(someBean).getProperty("arrayPropertyNoIndexAccess");
 	}
 
 }

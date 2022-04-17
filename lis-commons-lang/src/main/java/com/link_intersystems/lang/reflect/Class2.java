@@ -115,11 +115,13 @@ public class Class2<T> implements Serializable {
 
     private static final Object TYPE_VARIABLE_CACHE_SYNCHRONIZATION = new Object();
 
-    private static final Map<Class<?>, Class2<?>> CLASS_TO_CLASS2 = new HashMap<Class<?>, Class2<?>>();
+    private static final Map<Class<?>, Class2<?>> CLASS_TO_CLASS2 = new HashMap<>();
 
     private static final PotentiallyApplicableMemberStrategy POTENTIALLY_APPLICABLE_STRATEGY = new PotentiallyApplicableMemberStrategy();
 
-    private static final ChooseMostSpecificMemberStrategy<Member2<?>> CHOOSE_POTENTIAL_APPLICABLE = new ChooseMostSpecificMemberStrategy<Member2<?>>();
+    private static final ChooseMostSpecificMemberStrategy<Member2<?>> CHOOSE_POTENTIAL_APPLICABLE = new ChooseMostSpecificMemberStrategy<>();
+
+    private ArrayType<T> arrayType;
 
     @SuppressWarnings("unchecked")
     private static <RT extends Member2<?>> ChooseMostSpecificMemberStrategy<RT> getChooseMostSpecificStrategy() {
@@ -127,10 +129,8 @@ public class Class2<T> implements Serializable {
     }
 
     /**
-     * @param className
      * @return a {@link Class2} object that represents the {@link Class} defined
      * by the full qualified class name.
-     * @throws ClassNotFoundException
      * @since 1.0.0;
      * @deprecated use {@link #get(String)} instead.
      */
@@ -140,10 +140,8 @@ public class Class2<T> implements Serializable {
     }
 
     /**
-     * @param className
      * @return a {@link Class2} object that represents the {@link Class} defined
      * by the full qualified class name.
-     * @throws ClassNotFoundException
      */
     @SuppressWarnings("unchecked")
     public static <T> Class2<T> get(String className)
@@ -153,7 +151,6 @@ public class Class2<T> implements Serializable {
     }
 
     /**
-     * @param clazz
      * @return a {@link Class2} for the given {@link Class}.
      * @since 1.0.0;
      * @deprecated use {@link #get(Class)} instead.
@@ -163,7 +160,6 @@ public class Class2<T> implements Serializable {
     }
 
     /**
-     * @param clazz
      * @return a {@link Class2} for the given {@link Class}.
      * @since 1.2.0;
      */
@@ -172,7 +168,7 @@ public class Class2<T> implements Serializable {
         Assert.notNull("clazz", clazz);
         Class2<T> class2 = (Class2<T>) CLASS_TO_CLASS2.get(clazz);
         if (class2 == null) {
-            class2 = new Class2<T>(clazz);
+            class2 = new Class2<>(clazz);
             CLASS_TO_CLASS2.put(clazz, class2);
         }
         return class2;
@@ -207,8 +203,7 @@ public class Class2<T> implements Serializable {
      * @since 1.2.0;
      */
     public Package2 getPackage() {
-        Package2 package2 = Package2.get(getType().getPackage());
-        return package2;
+        return Package2.get(getType().getPackage());
     }
 
     /**
@@ -248,32 +243,13 @@ public class Class2<T> implements Serializable {
      * dynamically create an array type.
      * @since 1.2.0;
      */
-    public Class<T[]> getArrayType() {
-        return getArrayType2().getType();
+    public ArrayType<T> getArrayType() {
+        if(arrayType == null){
+            arrayType = new ArrayType<>(getType());
+        }
+        return arrayType;
     }
 
-    /**
-     * Returns the array type of this {@link Class2}'s type as a {@link Class2}
-     * object, e.g. if this <code>Class2</code>'s type is <code>Object</code>
-     * the returned Class2's type is <code>Object[]</code>. This method is a way
-     * to dynamically create an array type.
-     *
-     * @return the array type of this {@link Class2}'s type as a {@link Class2}
-     * object, e.g. if this <code>Class2</code>'s type is
-     * <code>Object</code> the returned Class2's type is
-     * <code>Object[]</code>. This method is a way to dynamically create
-     * an array type.
-     * @since 1.2.0;
-     */
-    @SuppressWarnings("unchecked")
-    public Class2<T[]> getArrayType2() {
-        if (arrayType2 == null) {
-            Class<T> type = getType();
-            Object arrayTemplate = Array.newInstance(type, 0);
-            arrayType2 = (Class2<T[]>) Class2.get(arrayTemplate.getClass());
-        }
-        return arrayType2;
-    }
 
     /**
      * Identifies the {@link Constructor2} of this {@link Class2} that is
@@ -282,7 +258,6 @@ public class Class2<T> implements Serializable {
      * {@link Class} represented by this {@link Class2} is an interface this
      * method does never return a {@link Constructor2} always null.
      *
-     * @param invocationParameters
      * @return the applicable constructor or null if no applicable constructor
      * could be found.
      * @since 1.0.0;
@@ -385,7 +360,6 @@ public class Class2<T> implements Serializable {
     }
 
     /**
-     * @param method
      * @return the {@link Method2} for the given {@link Method}. The
      * {@link Method} must be declared on this {@link Class2}'s
      * {@link Class}.
@@ -410,7 +384,6 @@ public class Class2<T> implements Serializable {
      * applicable for the invocation parameters regardless to the access type.
      * If this class represents an interface null is returned.
      *
-     * @param paramTypes
      * @return the applicable constructor or null if no applicable constructor
      * could be found.
      * @see #getApplicableConstructor(AccessType[], Class...)
@@ -434,8 +407,6 @@ public class Class2<T> implements Serializable {
      * Identifies the {@link Method2} of this {@link Class2} that is applicable
      * for the name and invocation parameters regardless to the access type.
      *
-     * @param name
-     * @param paramTypes
      * @return the applicable method or null if no applicable method could be
      * found.
      * @see #getApplicableMethod(String, AccessType[], Class...)
@@ -545,9 +516,8 @@ public class Class2<T> implements Serializable {
      * invocation parameter objects. E.g. finds a methods that is applicable to
      * be invoked with the invocation parameter objects.
      *
-     * @param name        the name of the method.
-     * @param accessTypes
-     * @param args        the invocation parameters.
+     * @param name the name of the method.
+     * @param args the invocation parameters.
      * @return the applicable method or null if no applicable method exists in
      * this class nor in it's superclasses.
      * @since 1.2.0;
@@ -572,12 +542,10 @@ public class Class2<T> implements Serializable {
      * uses invocation parameter objects. Finds a methods that is applicable to
      * be invoked with the invocation parameter objects.
      *
-     * @param name        the name of the method.
-     * @param accessTypes
-     * @param args        the invocation parameters.
+     * @param name the name of the method.
+     * @param args the invocation parameters.
      * @return the applicable method or null if no applicable method exists in
      * this class.
-     * @since
      * @since 1.2.0;
      */
     public Method2 getDeclaredApplicableMethod(String name,
@@ -623,9 +591,9 @@ public class Class2<T> implements Serializable {
             } else {
                 Constructor<?>[] declaredConstructors = clazz
                         .getDeclaredConstructors();
-                List<Constructor2<T>> constructors = new ArrayList<Constructor2<T>>();
-                for (int i = 0; i < declaredConstructors.length; i++) {
-                    constructors.add(new Constructor2(declaredConstructors[i]));
+                List<Constructor2<T>> constructors = new ArrayList<>();
+                for (Constructor<?> declaredConstructor : declaredConstructors) {
+                    constructors.add(new Constructor2(declaredConstructor));
                 }
                 this.declaredConstructors = Collections
                         .unmodifiableList(constructors);
@@ -639,12 +607,12 @@ public class Class2<T> implements Serializable {
      * by sub classes.
      * @since 1.0.0;
      */
-    private final List<Method2> getDeclaredMethods() {
+    private List<Method2> getDeclaredMethods() {
         if (declaredMethods == null) {
-            List<Method2> declaredMethods = new ArrayList<Method2>();
+            List<Method2> declaredMethods = new ArrayList<>();
             Method[] declaredMethodArray = clazz.getDeclaredMethods();
-            for (int i = 0; i < declaredMethodArray.length; i++) {
-                declaredMethods.add(new Method2(declaredMethodArray[i]));
+            for (Method method : declaredMethodArray) {
+                declaredMethods.add(new Method2(method));
             }
             this.declaredMethods = Collections
                     .unmodifiableList(declaredMethods);
@@ -655,7 +623,6 @@ public class Class2<T> implements Serializable {
     /**
      * The generic type variables defined at this class.
      *
-     * @return
      * @since 1.2.0;
      */
     public TypeVariable<?>[] getTypeVariables() {
@@ -663,7 +630,6 @@ public class Class2<T> implements Serializable {
     }
 
     /**
-     * @param typeVarName
      * @return the {@link TypeVariable} for the given name that is defined on
      * this generic type or null if no {@link TypeVariable} is
      * defined with that name. This method only looks at the current
@@ -723,7 +689,6 @@ public class Class2<T> implements Serializable {
      * also no interface has a type variable with the required name the next
      * class in the hierarchy will be traversed.
      *
-     * @param typeVarName
      * @return the class bound to this class's type variable with the
      * typeVarName. Searches the class hierarchy for the first
      * occurrence of a type variable with the given name.
@@ -745,18 +710,16 @@ public class Class2<T> implements Serializable {
                 break;
             }
         }
-        Class<C> resolvedClass = null;
+
         if (typeVariable == null) {
             throw new IllegalArgumentException("No type variable named "
                     + typeVarName + " was found in the hierarchy of "
                     + getType());
         }
-        resolvedClass = getBoundClass(typeVariable);
-        return resolvedClass;
+        return getBoundClass(typeVariable);
     }
 
     /**
-     * @param typeVariable
      * @return the class that is bound on this generic type for the
      * given {@link TypeVariable} or null if the type bound is not a
      * Class<?>. If the bound type resolved for the {@link TypeVariable}
@@ -775,8 +738,7 @@ public class Class2<T> implements Serializable {
         }
 
         if (boundType instanceof GenericArrayType) {
-            GenericArrayType genericArrayType = GenericArrayType.class
-                    .cast(boundType);
+            GenericArrayType genericArrayType = GenericArrayType.class.cast(boundType);
             Type genericComponentType = genericArrayType
                     .getGenericComponentType();
             Class<?> componentType = Class.class.cast(genericComponentType);
@@ -833,8 +795,7 @@ public class Class2<T> implements Serializable {
                             + Arrays.asList(constructorArgClasses));
         }
         try {
-            @SuppressWarnings("unchecked")
-            TI t = (TI) constructor2.getInvokable().invoke(constructorArgs);
+            TI t = constructor2.getInvokable().invoke(constructorArgs);
             return t;
         } catch (Exception e) {
             throw new IllegalStateException(
@@ -924,6 +885,7 @@ public class Class2<T> implements Serializable {
         return toStringBuilder.toString();
     }
 
+    @SuppressWarnings("SameParameterValue")
     private String[] transform(TypeVariable<?>[] typeVariables, Function<TypeVariable<?>, String> objectTransformer) {
         String[] toStringList = new String[typeVariables.length];
         for (int i = 0; i < typeVariables.length; i++) {
@@ -1001,21 +963,15 @@ public class Class2<T> implements Serializable {
 
     private Type findBoundTypeInSuperclasses(Class<?> typeClass,
                                              TypeVariable<?> typeVariable) {
-        Type boundType = null;
-
         Class<?> superclass = typeClass.getSuperclass();
-        boundType = doGetBoundType(typeVariable, new Type[]{superclass});
-
+        Type boundType = doGetBoundType(typeVariable, superclass);
         return boundType;
     }
 
     private Type findBoundTypeInInterfaces(Class<?> typeClass,
                                            TypeVariable<?> typeVariable) {
-        Type boundType = null;
-
         Class<?>[] interfaces = typeClass.getInterfaces();
-        boundType = doGetBoundType(typeVariable, interfaces);
-
+        Type boundType = doGetBoundType(typeVariable, interfaces);
         return boundType;
     }
 
@@ -1070,9 +1026,7 @@ public class Class2<T> implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         Class2 other = (Class2) obj;
-        if (!clazz.equals(other.clazz))
-            return false;
-        return true;
+        return clazz.equals(other.clazz);
     }
 
 }

@@ -7,6 +7,7 @@ import javax.swing.DefaultButtonModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import com.link_intersystems.beans.java.JavaBean;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,11 +23,11 @@ class BeanEventSupportTest  {
 	private BeanEventSupport<ButtonModel, ChangeListener> beanEventSupport;
 
 	@BeforeEach
-	public void setup() throws IntrospectionException {
+	public void setup() {
 		changeListener = Mockito.mock(ChangeListener.class);
 		defaultButtonModel = new DefaultButtonModel();
-		beanEventSupport = new BeanEventSupport<ButtonModel, ChangeListener>();
-		beanEventSupport.setBean(defaultButtonModel);
+		beanEventSupport = new BeanEventSupport<>();
+		beanEventSupport.setBean(new JavaBean<>(defaultButtonModel));
 	}
 
 	@Test

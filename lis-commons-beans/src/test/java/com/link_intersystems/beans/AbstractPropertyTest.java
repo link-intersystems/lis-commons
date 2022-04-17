@@ -16,6 +16,7 @@
 package com.link_intersystems.beans;
 
 import com.link_intersystems.beans.PropertyAccessException.PropertyAccessType;
+import com.link_intersystems.beans.java.JavaProperty;
 import com.link_intersystems.lang.reflect.Class2;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -24,11 +25,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class AbstractPropertyTest<T> {
 
-    protected abstract Property<T> getReadOnlyProperty();
+    protected abstract JavaProperty<T> getReadOnlyProperty();
 
-    protected abstract Property<T> getWriteOnlyProperty();
+    protected abstract JavaProperty<T> getWriteOnlyProperty();
 
-    protected abstract Property<T> getProperty();
+    protected abstract JavaProperty<T> getProperty();
 
     protected abstract T getPropertySetValue();
 
@@ -58,7 +59,7 @@ public abstract class AbstractPropertyTest<T> {
 
     @Test
     void typeForReadOnlyProperty() {
-        Property<T> property = getReadOnlyProperty();
+        JavaProperty<T> property = getReadOnlyProperty();
         Class<?> type = property.getType();
         Class<?> expectedType = getExpectedType();
         assertEquals(expectedType, type);
@@ -66,7 +67,7 @@ public abstract class AbstractPropertyTest<T> {
 
     @Test
     void typeForWriteOnlyProperty() {
-        Property<T> property = getWriteOnlyProperty();
+        JavaProperty<T> property = getWriteOnlyProperty();
         Class<?> type = property.getType();
         Class<?> expectedType = getExpectedType();
         assertEquals(expectedType, type);
@@ -74,7 +75,7 @@ public abstract class AbstractPropertyTest<T> {
 
     @Test
     void name() {
-        Property<T> property = getProperty();
+        JavaProperty<T> property = getProperty();
         String name = property.getName();
         String propertyName = getPropertyName();
         assertEquals(propertyName, name);
@@ -82,7 +83,7 @@ public abstract class AbstractPropertyTest<T> {
 
     @Test
     void getValue() {
-        Property<T> property = getProperty();
+        JavaProperty<T> property = getProperty();
         Object propertyValue = property.getValue();
         T expected = getExpectedPropertyValue();
 
@@ -96,7 +97,7 @@ public abstract class AbstractPropertyTest<T> {
 
     @Test
     void setValue() {
-        Property<T> property = getProperty();
+        JavaProperty<T> property = getProperty();
         T propertySetValue = getPropertySetValue();
         T value = property.getValue();
         Assertions.assertFalse(propertySetValue.equals(value));
@@ -113,13 +114,13 @@ public abstract class AbstractPropertyTest<T> {
 
     @Test
     void getWriteOnlyPropertyValue() {
-        Property<T> property = getWriteOnlyProperty();
+        JavaProperty<T> property = getWriteOnlyProperty();
         assertThrows(PropertyAccessException.class, () -> property.getValue());
     }
 
     @Test
     void setReadOnlyPropertyValue() {
-        Property<T> property = getReadOnlyProperty();
+        JavaProperty<T> property = getReadOnlyProperty();
         T propertySetValue = getPropertySetValue();
         assertThrows(PropertyAccessException.class, () -> property.setValue(propertySetValue));
     }

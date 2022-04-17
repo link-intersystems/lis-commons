@@ -1,57 +1,55 @@
 package com.link_intersystems.beans;
 
+import com.link_intersystems.lang.ref.Reference;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-import com.link_intersystems.lang.ref.Reference;
-
 public class PropertyChangeSourceSupport<T extends PropertyChangeSource> implements Reference<T> {
 
-	private class PropertyChangeListenerAdapter implements PropertyChangeListener {
+    private PropertyChangeListenerAdapter adapter = new PropertyChangeListenerAdapter();
+    private T referent;
+    private Consumer<PropertyChangeEvent> propertyChangeListener;
+    private boolean enabled = true;
 
-		@Override
-		public void propertyChange(PropertyChangeEvent evt) {
-			propertyChangeListener.accept(evt);
-		}
+    public PropertyChangeSourceSupport(Consumer<PropertyChangeEvent> propertyChangeListener) {
+        this.propertyChangeListener = Objects.requireNonNull(propertyChangeListener);
+    }
 
-	}
+    public PropertyChangeSourceSupport(PropertyChangeListener propertyChangeListener) {
+        this((Consumer<PropertyChangeEvent>) propertyChangeListener::propertyChange);
+    }
 
-	private PropertyChangeListenerAdapter adapter = new PropertyChangeListenerAdapter();
+    public void setReferent(T referent) {
+        if (this.referent != null) {
+            this.referent.removePropertyChangeListener(adapter);
+        }
 
-	private T referent;
-	private Consumer<PropertyChangeEvent> propertyChangeListener;
+        this.referent = referent;
 
-	private boolean enabled = true;
+        if (this.referent != null && enabled) {
+            this.referent.addPropertyChangeListener(adapter);
+        }
+    }
 
-	public PropertyChangeSourceSupport(Consumer<PropertyChangeEvent> propertyChangeListener) {
-		this.propertyChangeListener = Objects.requireNonNull(propertyChangeListener);
-	}
+    public void setPropertyChangeEventsEnabled(boolean enabled) {
+        this.enabled = enabled;
+        setReferent(referent);
+    }
 
-	public PropertyChangeSourceSupport(PropertyChangeListener propertyChangeListener) {
-		this((Consumer<PropertyChangeEvent>) propertyChangeListener::propertyChange);
-	}
+    public T get() {
+        return referent;
+    }
 
-	public void setReferent(T referent) {
-		if (this.referent != null) {
-			this.referent.removePropertyChangeListener(adapter);
-		}
+    private class PropertyChangeListenerAdapter implements PropertyChangeListener {
 
-		this.referent = referent;
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            propertyChangeListener.accept(evt);
+        }
 
-		if (this.referent != null && enabled) {
-			this.referent.addPropertyChangeListener(adapter);
-		}
-	}
-
-	public void setPropertyChangeEventsEnabled(boolean enabled) {
-		this.enabled = enabled;
-		setReferent(referent);
-	}
-
-	public T get() {
-		return referent;
-	}
+    }
 
 }

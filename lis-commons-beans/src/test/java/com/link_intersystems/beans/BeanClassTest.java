@@ -1,5 +1,8 @@
 package com.link_intersystems.beans;
 
+import com.link_intersystems.beans.java.JavaBean;
+import com.link_intersystems.beans.java.JavaBeanClass;
+import com.link_intersystems.beans.java.JavaPropertyDescriptors;
 import org.junit.jupiter.api.Test;
 
 import java.beans.PropertyDescriptor;
@@ -12,14 +15,14 @@ class BeanClassTest {
 
     @Test
     void getPropertyDescriptorWrongClassProperty() throws NoSuchMethodException, SecurityException {
-        BeanClass<SomeBean> someBeanClass = BeanClass.get(SomeBean.class);
+        JavaBeanClass<SomeBean> someBeanClass = JavaBeanClass.get(SomeBean.class);
         PropertyDescriptor propertyDescriptor = someBeanClass.getPropertyDescriptor(BeanClassTest.class.getDeclaredMethod("getPropertyDescriptorWrongClassProperty"));
         assertNull(propertyDescriptor, "propertyDescriptor");
     }
 
     @Test
     void getPropertyDescriptorByGetter() throws NoSuchMethodException, SecurityException {
-        BeanClass<SomeBean> someBeanClass = BeanClass.get(SomeBean.class);
+        JavaBeanClass<SomeBean> someBeanClass = JavaBeanClass.get(SomeBean.class);
         PropertyDescriptor propertyDescriptor = someBeanClass.getPropertyDescriptor(SomeBean.class.getDeclaredMethod("getStringProperty"));
         assertNotNull(propertyDescriptor, "propertyDescriptor");
         assertEquals("stringProperty", propertyDescriptor.getName());
@@ -27,17 +30,17 @@ class BeanClassTest {
 
     @Test
     void getPropertyDescriptorBySetter() throws NoSuchMethodException, SecurityException {
-        BeanClass<SomeBean> someBeanClass = BeanClass.get(SomeBean.class);
+        JavaBeanClass<SomeBean> someBeanClass = JavaBeanClass.get(SomeBean.class);
         PropertyDescriptor propertyDescriptor = someBeanClass.getPropertyDescriptor(SomeBean.class.getDeclaredMethod("setStringProperty", String.class));
         assertNotNull(propertyDescriptor, "propertyDescriptor");
         assertEquals("stringProperty", propertyDescriptor.getName());
     }
 
     @Test
-    void consistency() throws NoSuchMethodException, SecurityException {
-        BeanClass<SomeBean> someBeanClass = BeanClass.get(SomeBean.class);
-        Map<String, PropertyDescriptor> propertyDescriptors = someBeanClass.getPropertyDescriptors();
-        for (PropertyDescriptor propertyDescriptor : propertyDescriptors.values()) {
+    void consistency() throws SecurityException {
+        JavaBeanClass<SomeBean> someBeanClass = JavaBeanClass.get(SomeBean.class);
+        JavaPropertyDescriptors propertyDescriptors = someBeanClass.getJavaPropertyDescriptors();
+        for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
             Method readMethod = propertyDescriptor.getReadMethod();
             if (readMethod != null) {
                 PropertyDescriptor propertyDescriptorByMethod = someBeanClass.getPropertyDescriptor(readMethod);
@@ -54,15 +57,15 @@ class BeanClassTest {
 
     @Test
     void isPropertyMethod() throws NoSuchMethodException, SecurityException {
-        BeanClass<SomeBean> someBeanClass = BeanClass.get(SomeBean.class);
+        JavaBeanClass<SomeBean> someBeanClass = JavaBeanClass.get(SomeBean.class);
         Method propertyMethod = SomeBean.class.getDeclaredMethod("setStringProperty", String.class);
         assertTrue(someBeanClass.isPropertyAccessor(propertyMethod));
     }
 
     @Test
-    void newInstance() throws NoSuchMethodException, SecurityException {
-        BeanClass<SomeBean> someBeanClass = BeanClass.get(SomeBean.class);
-        Bean<SomeBean> someBeanBean = someBeanClass.newBeanInstance();
+    void newInstance() throws SecurityException {
+        JavaBeanClass<SomeBean> someBeanClass = JavaBeanClass.get(SomeBean.class);
+        JavaBean<SomeBean> someBeanBean = someBeanClass.newInstance();
         assertNotNull(someBeanBean);
 
         SomeBean object = someBeanBean.getObject();

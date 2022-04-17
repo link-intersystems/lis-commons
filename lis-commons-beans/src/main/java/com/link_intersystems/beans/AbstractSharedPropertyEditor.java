@@ -1,8 +1,8 @@
 package com.link_intersystems.beans;
 
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Rectangle;
+import com.link_intersystems.beans.java.SharedPropertyEditor;
+
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyEditor;
@@ -11,110 +11,109 @@ import java.util.List;
 
 public abstract class AbstractSharedPropertyEditor implements SharedPropertyEditor {
 
-	class PropertyChangeEventAdapter implements PropertyChangeListener {
+    protected PropertyChangeEventAdapter propertyChangeEventAdapter = new PropertyChangeEventAdapter();
+    protected PropertyEditor propertyEditor;
+    public AbstractSharedPropertyEditor(PropertyEditor propertyEditor) {
+        this.propertyEditor = propertyEditor;
+        propertyEditor.addPropertyChangeListener(propertyChangeEventAdapter);
+    }
 
-		private List<PropertyChangeListener> propetyChangeListeners = new ArrayList<>();
+    public Object getValue() {
+        return getPropertyEditor().getValue();
+    }
 
-		@Override
-		public void propertyChange(PropertyChangeEvent evt) {
-			PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(AbstractSharedPropertyEditor.this,
-					evt.getPropertyName(), evt.getOldValue(), evt.getNewValue());
-			propertyChangeEvent.setPropagationId(evt.getPropagationId());
+    public void setValue(Object value) {
+        getPropertyEditor().setValue(value);
+    }
 
-			propetyChangeListeners.forEach(l -> l.propertyChange(propertyChangeEvent));
+    public boolean isPaintable() {
+        return getPropertyEditor().isPaintable();
+    }
 
-		}
+    public void paintValue(Graphics gfx, Rectangle box) {
+        getPropertyEditor().paintValue(gfx, box);
+    }
 
-		public void addPropertyChangeListener(PropertyChangeListener listener) {
-			propetyChangeListeners.add(listener);
-		}
+    public String getJavaInitializationString() {
+        return getPropertyEditor().getJavaInitializationString();
+    }
 
-		public void removePropertyChangeListener(PropertyChangeListener listener) {
-			propetyChangeListeners.remove(listener);
-		}
+    public String getAsText() {
+        return getPropertyEditor().getAsText();
+    }
 
-		public void release() {
-			propertyEditor.removePropertyChangeListener(this);
-		}
+    public void setAsText(String text) throws IllegalArgumentException {
+        getPropertyEditor().setAsText(text);
+    }
 
-		public void releaseListeners() {
-			propetyChangeListeners.clear();
-		}
+    public String[] getTags() {
+        return getPropertyEditor().getTags();
+    }
 
-	}
+    public Component getCustomEditor() {
+        return getPropertyEditor().getCustomEditor();
+    }
 
-	protected PropertyChangeEventAdapter propertyChangeEventAdapter = new PropertyChangeEventAdapter();
-	protected PropertyEditor propertyEditor;
+    public boolean supportsCustomEditor() {
+        return getPropertyEditor().supportsCustomEditor();
+    }
 
-	public AbstractSharedPropertyEditor(PropertyEditor propertyEditor) {
-		this.propertyEditor = propertyEditor;
-		propertyEditor.addPropertyChangeListener(propertyChangeEventAdapter);
-	}
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeEventAdapter.addPropertyChangeListener(listener);
+    }
 
-	public void setValue(Object value) {
-		getPropertyEditor().setValue(value);
-	}
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeEventAdapter.removePropertyChangeListener(listener);
+    }
 
-	public Object getValue() {
-		return getPropertyEditor().getValue();
-	}
+    private PropertyEditor getPropertyEditor() {
+        if (propertyEditor == null) {
+            throw new IllegalStateException("SharedPropertyEditor has been released.");
+        }
 
-	public boolean isPaintable() {
-		return getPropertyEditor().isPaintable();
-	}
+        return propertyEditor;
+    }
 
-	public void paintValue(Graphics gfx, Rectangle box) {
-		getPropertyEditor().paintValue(gfx, box);
-	}
+    @Override
+    public void release() {
+        propertyChangeEventAdapter.release();
+        this.propertyEditor = null;
+    }
 
-	public String getJavaInitializationString() {
-		return getPropertyEditor().getJavaInitializationString();
-	}
+    protected void releaseListeners() {
+        propertyChangeEventAdapter.releaseListeners();
+    }
 
-	public String getAsText() {
-		return getPropertyEditor().getAsText();
-	}
+    class PropertyChangeEventAdapter implements PropertyChangeListener {
 
-	public void setAsText(String text) throws IllegalArgumentException {
-		getPropertyEditor().setAsText(text);
-	}
+        private List<PropertyChangeListener> propetyChangeListeners = new ArrayList<>();
 
-	public String[] getTags() {
-		return getPropertyEditor().getTags();
-	}
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(AbstractSharedPropertyEditor.this,
+                    evt.getPropertyName(), evt.getOldValue(), evt.getNewValue());
+            propertyChangeEvent.setPropagationId(evt.getPropagationId());
 
-	public Component getCustomEditor() {
-		return getPropertyEditor().getCustomEditor();
-	}
+            propetyChangeListeners.forEach(l -> l.propertyChange(propertyChangeEvent));
 
-	public boolean supportsCustomEditor() {
-		return getPropertyEditor().supportsCustomEditor();
-	}
+        }
 
-	public void addPropertyChangeListener(PropertyChangeListener listener) {
-		propertyChangeEventAdapter.addPropertyChangeListener(listener);
-	}
+        public void addPropertyChangeListener(PropertyChangeListener listener) {
+            propetyChangeListeners.add(listener);
+        }
 
-	public void removePropertyChangeListener(PropertyChangeListener listener) {
-		propertyChangeEventAdapter.removePropertyChangeListener(listener);
-	}
+        public void removePropertyChangeListener(PropertyChangeListener listener) {
+            propetyChangeListeners.remove(listener);
+        }
 
-	private PropertyEditor getPropertyEditor() {
-		if (propertyEditor == null) {
-			throw new IllegalStateException("SharedPropertyEditor has been released.");
-		}
+        public void release() {
+            propertyEditor.removePropertyChangeListener(this);
+        }
 
-		return propertyEditor;
-	}
+        public void releaseListeners() {
+            propetyChangeListeners.clear();
+        }
 
-	@Override
-	public void release() {
-		propertyChangeEventAdapter.release();
-		this.propertyEditor = null;
-	}
-
-	protected void releaseListeners() {
-		propertyChangeEventAdapter.releaseListeners();
-	}
+    }
 
 }

@@ -6,76 +6,76 @@ import java.util.function.Consumer;
 
 public interface PropertyChangeSource {
 
-	public static class PropertyObservation {
+    public void addPropertyChangeListener(PropertyChangeListener propertyChangeListener);
 
-		private boolean activated;
+    public void addPropertyChangeListener(String propertyName, PropertyChangeListener propertyChangeListener);
 
-		private PropertyChangeSource propertyChangeSource;
-		private PropertyChangeListener listener;
-		private String propertyName;
+    public void removePropertyChangeListener(PropertyChangeListener propertyChangeListener);
 
-		public PropertyObservation(PropertyChangeSource propertyChangeSource, PropertyChangeListener listener) {
-			this(propertyChangeSource, listener, null);
-		}
+    public void removePropertyChangeListener(String propertyName, PropertyChangeListener propertyChangeListener);
 
-		public PropertyObservation(PropertyChangeSource propertyChangeSource, PropertyChangeListener listener,
-				String propertyName) {
-			this.propertyChangeSource = propertyChangeSource;
-			this.propertyName = propertyName;
-			this.listener = listener;
-		}
+    default public PropertyObservation onPropertyChange(String propertyName, Runnable runnable) {
+        return onPropertyChange(propertyName, v -> runnable.run());
+    }
 
-		public void activate() {
-			if (!activated) {
-				if (propertyName == null) {
-					propertyChangeSource.addPropertyChangeListener(listener);
-				} else {
-					propertyChangeSource.addPropertyChangeListener(propertyName, listener);
-				}
-				activated = true;
-			}
-		}
+    @SuppressWarnings("unchecked")
+    default public <T> PropertyObservation onPropertyChange(String propertyName, Consumer<T> newValueConsumer) {
+        PropertyChangeListener listener = PropertyChangeMethods.CHANGED
+                .listener(pce -> newValueConsumer.accept((T) pce.getNewValue()));
+        PropertyObservation propertyObservation = new PropertyObservation(this, listener, propertyName);
+        propertyObservation.activate();
+        return propertyObservation;
+    }
 
-		public void deactivate() {
-			if (activated) {
-				if (propertyName == null) {
-					propertyChangeSource.removePropertyChangeListener(listener);
-				} else {
-					propertyChangeSource.removePropertyChangeListener(propertyName, listener);
-				}
-				activated = false;
-			}
-		}
+    default public <T> PropertyObservation onPropertyChangeEvent(String propertyName,
+                                                                 Consumer<PropertyChangeEvent> eventConsumer) {
+        PropertyChangeListener listener = PropertyChangeMethods.CHANGED.listener(eventConsumer);
+        PropertyObservation propertyObservation = new PropertyObservation(this, listener, propertyName);
+        propertyObservation.activate();
+        return propertyObservation;
+    }
 
-	}
+    public static class PropertyObservation {
 
-	public void addPropertyChangeListener(PropertyChangeListener propertyChangeListener);
+        private boolean activated;
 
-	public void addPropertyChangeListener(String propertyName, PropertyChangeListener propertyChangeListener);
+        private PropertyChangeSource propertyChangeSource;
+        private PropertyChangeListener listener;
+        private String propertyName;
 
-	public void removePropertyChangeListener(PropertyChangeListener propertyChangeListener);
+        public PropertyObservation(PropertyChangeSource propertyChangeSource, PropertyChangeListener listener) {
+            this(propertyChangeSource, listener, null);
+        }
 
-	public void removePropertyChangeListener(String propertyName, PropertyChangeListener propertyChangeListener);
+        public PropertyObservation(PropertyChangeSource propertyChangeSource, PropertyChangeListener listener,
+                                   String propertyName) {
+            this.propertyChangeSource = propertyChangeSource;
+            this.propertyName = propertyName;
+            this.listener = listener;
+        }
 
-	default public PropertyObservation onPropertyChange(String propertyName, Runnable runnable) {
-		return onPropertyChange(propertyName, v -> runnable.run());
-	}
+        public void activate() {
+            if (!activated) {
+                if (propertyName == null) {
+                    propertyChangeSource.addPropertyChangeListener(listener);
+                } else {
+                    propertyChangeSource.addPropertyChangeListener(propertyName, listener);
+                }
+                activated = true;
+            }
+        }
 
-	@SuppressWarnings("unchecked")
-	default public <T> PropertyObservation onPropertyChange(String propertyName, Consumer<T> newValueConsumer) {
-		PropertyChangeListener listener = PropertyChangeMethods.CHANGED
-				.listener(pce -> newValueConsumer.accept((T) pce.getNewValue()));
-		PropertyObservation propertyObservation = new PropertyObservation(this, listener, propertyName);
-		propertyObservation.activate();
-		return propertyObservation;
-	}
+        public void deactivate() {
+            if (activated) {
+                if (propertyName == null) {
+                    propertyChangeSource.removePropertyChangeListener(listener);
+                } else {
+                    propertyChangeSource.removePropertyChangeListener(propertyName, listener);
+                }
+                activated = false;
+            }
+        }
 
-	default public <T> PropertyObservation onPropertyChangeEvent(String propertyName,
-			Consumer<PropertyChangeEvent> eventConsumer) {
-		PropertyChangeListener listener = PropertyChangeMethods.CHANGED.listener(eventConsumer);
-		PropertyObservation propertyObservation = new PropertyObservation(this, listener, propertyName);
-		propertyObservation.activate();
-		return propertyObservation;
-	}
+    }
 
 }

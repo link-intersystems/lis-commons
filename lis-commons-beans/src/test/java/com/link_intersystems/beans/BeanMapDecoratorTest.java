@@ -1,6 +1,7 @@
 package com.link_intersystems.beans;
 
 import com.link_intersystems.beans.BeanMapDecorator.IndexedValue;
+import com.link_intersystems.beans.java.JavaBean;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,7 +24,8 @@ class BeanMapDecoratorTest  {
         container.add(label);
 
         container.setBackground(Color.BLUE);
-        beanMapDecorator = new BeanMapDecorator(container);
+        JavaBean<Container> containerJavaBean = new JavaBean<>(container);
+        beanMapDecorator = new BeanMapDecorator(containerJavaBean);
     }
 
     @Test

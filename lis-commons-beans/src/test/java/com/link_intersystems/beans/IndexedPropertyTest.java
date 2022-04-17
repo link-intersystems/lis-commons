@@ -25,16 +25,19 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 
+import com.link_intersystems.beans.java.JavaBean;
+import com.link_intersystems.beans.java.JavaIndexedProperty;
+import com.link_intersystems.beans.java.JavaIndexedPropertyDesc;
+import com.link_intersystems.beans.java.JavaProperty;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class IndexedPropertyTest extends AbstractPropertyTest <String[]> {
 
 	private static final String[] STRING_ARRAY = new String[] { "Hello", "World" };
-	private Bean<SomeBean> bean;
-	private IndexedProperty<String> readOnlyProperty;
-	private IndexedProperty<String> writeOnlyProperty;
-	private IndexedProperty<String> stringProperty;
+	private JavaIndexedProperty<String> readOnlyProperty;
+	private JavaIndexedProperty<String> writeOnlyProperty;
+	private JavaIndexedProperty<String> stringProperty;
 
 	@BeforeEach
 	public void setup() throws IntrospectionException {
@@ -45,18 +48,18 @@ class IndexedPropertyTest extends AbstractPropertyTest <String[]> {
 		};
 		someBean.setStringArrayProperty(STRING_ARRAY);
 
-		bean = new Bean<>(someBean);
+		JavaBean<SomeBean> bean = new JavaBean<>(someBean);
 
 		BeanInfo beanInfo = Introspector.getBeanInfo(SomeBean.class);
 		PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
 		for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
 			String name = propertyDescriptor.getName();
 			if ("readOnlyIndexedProperty".equals(name)) {
-				readOnlyProperty = new IndexedProperty<>(bean, (IndexedPropertyDescriptor) propertyDescriptor);
+				readOnlyProperty = new JavaIndexedProperty<>(bean, new JavaIndexedPropertyDesc<>((IndexedPropertyDescriptor) propertyDescriptor));
 			} else if ("writeOnlyIndexedProperty".equals(name)) {
-				writeOnlyProperty = new IndexedProperty<>(bean, (IndexedPropertyDescriptor) propertyDescriptor);
+				writeOnlyProperty = new JavaIndexedProperty<>(bean, new JavaIndexedPropertyDesc<>((IndexedPropertyDescriptor) propertyDescriptor));
 			} else if ("stringArrayProperty".equals(name)) {
-				stringProperty = new IndexedProperty<>(bean, (IndexedPropertyDescriptor) propertyDescriptor);
+				stringProperty = new JavaIndexedProperty<>(bean, new JavaIndexedPropertyDesc<>((IndexedPropertyDescriptor) propertyDescriptor));
 			}
 		}
 
@@ -91,17 +94,17 @@ class IndexedPropertyTest extends AbstractPropertyTest <String[]> {
 	}
 
 	@Override
-	protected Property<String[]> getReadOnlyProperty() {
+	protected JavaProperty<String[]> getReadOnlyProperty() {
 		return readOnlyProperty;
 	}
 
 	@Override
-	protected Property<String[]> getWriteOnlyProperty() {
+	protected JavaProperty<String[]> getWriteOnlyProperty() {
 		return writeOnlyProperty;
 	}
 
 	@Override
-	protected Property<String[]> getProperty() {
+	protected JavaProperty<String[]> getProperty() {
 		return stringProperty;
 	}
 

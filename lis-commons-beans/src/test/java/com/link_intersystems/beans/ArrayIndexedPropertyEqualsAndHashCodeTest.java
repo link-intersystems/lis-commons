@@ -16,6 +16,7 @@
 package com.link_intersystems.beans;
 
 import com.link_intersystems.EqualsAndHashCodeTest;
+import com.link_intersystems.beans.java.JavaBean;
 
 class ArrayIndexedPropertyEqualsAndHashCodeTest extends EqualsAndHashCodeTest  {
 
@@ -26,7 +27,7 @@ class ArrayIndexedPropertyEqualsAndHashCodeTest extends EqualsAndHashCodeTest  {
 				setIndexedPropertyReadOnlyIndexOnlyAccess(new String[] { "a", "" });
 			}
 		};
-		return new Bean<>(someBean).getProperty("indexedPropertyReadOnlyIndexOnlyAccess");
+		return new JavaBean<>(someBean).getProperty("indexedPropertyReadOnlyIndexOnlyAccess");
 	}
 
 	@Override
@@ -36,7 +37,7 @@ class ArrayIndexedPropertyEqualsAndHashCodeTest extends EqualsAndHashCodeTest  {
 				setIndexedPropertyReadOnlyIndexOnlyAccess(new String[] { "a", "b" });
 			}
 		};
-		return new Bean<>(someBean).getProperty("indexedPropertyReadOnlyIndexOnlyAccess");
+		return new JavaBean<>(someBean).getProperty("indexedPropertyReadOnlyIndexOnlyAccess");
 	}
 
 }

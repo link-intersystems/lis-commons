@@ -16,6 +16,9 @@
 package com.link_intersystems.beans;
 
 import com.link_intersystems.beans.PropertyAccessException.PropertyAccessType;
+import com.link_intersystems.beans.java.JavaBean;
+import com.link_intersystems.beans.java.JavaProperty;
+import com.link_intersystems.beans.java.JavaPropertyDesc;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,7 +33,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PropertyTest extends AbstractPropertyTest <String> {
 
-    private Bean<SomeBean> bean;
+    private JavaBean<SomeBean> bean;
     private PropertyDescriptor readOnlyProperty;
     private PropertyDescriptor writeOnlyProperty;
     private PropertyDescriptor stringProperty;
@@ -41,7 +44,7 @@ class PropertyTest extends AbstractPropertyTest <String> {
         someBean.setStringProperty("HELLO");
         someBean.setStringArrayProperty(new String[]{"Hello", "World"});
 
-        bean = new Bean<>(someBean);
+        bean = new JavaBean<>(someBean);
 
         BeanInfo beanInfo = Introspector.getBeanInfo(SomeBean.class);
         PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
@@ -59,16 +62,21 @@ class PropertyTest extends AbstractPropertyTest <String> {
 
     @Test
     void typeCache() {
-        Property<String> property = new Property<String>(bean, writeOnlyProperty);
+        JavaProperty<String> property = createJavaProperty(writeOnlyProperty);
         Class<?> type = property.getType();
         type = property.getType();
         Class<?> expectedType = getExpectedType();
         assertEquals(expectedType, type);
     }
 
+    private JavaProperty<String> createJavaProperty(PropertyDescriptor property) {
+        return new JavaProperty<>(bean, new JavaPropertyDesc<>(property));
+    }
+
     @Test
     void invocationTargetExceptionOnGet() {
-        Property<String> property = new ExceptionThrowingPropertyOnAccess<>(bean, stringProperty, new InvocationTargetException(new RuntimeException()));
+        JavaProperty<String> javaProperty = createJavaProperty(stringProperty);
+        JavaProperty<String> property = new ExceptionThrowingPropertyOnAccess<>(bean, javaProperty.getPropertyDescriptor(), new InvocationTargetException(new RuntimeException()));
 
         PropertyAccessException propertyAccessException = assertThrows(PropertyAccessException.class, () -> property.getValue());
         assertPropertyAccessException(propertyAccessException, PropertyAccessType.READ, InvocationTargetException.class);
@@ -76,71 +84,74 @@ class PropertyTest extends AbstractPropertyTest <String> {
 
     @Test
     void illeagalAccessExceptionOnGet() {
-        Property<String> property = new ExceptionThrowingPropertyOnAccess<String>(bean, stringProperty, new IllegalAccessException());
+        JavaProperty<String> javaProperty = createJavaProperty(stringProperty);
+        JavaProperty<String> property = new ExceptionThrowingPropertyOnAccess<String>(bean, javaProperty.getPropertyDescriptor(), new IllegalAccessException());
         PropertyAccessException propertyAccessException = assertThrows(PropertyAccessException.class, () -> property.getValue());
         assertPropertyAccessException(propertyAccessException, PropertyAccessType.READ, IllegalAccessException.class);
     }
 
     @Test
     void invocationTargetExceptionOnSet() {
-        Property<String> property = new ExceptionThrowingPropertyOnAccess<String>(bean, stringProperty, new InvocationTargetException(new RuntimeException()));
+        JavaProperty<String> javaProperty = createJavaProperty(stringProperty);
+        JavaProperty<String> property = new ExceptionThrowingPropertyOnAccess<String>(bean, javaProperty.getPropertyDescriptor(), new InvocationTargetException(new RuntimeException()));
         PropertyAccessException propertyAccessException = assertThrows(PropertyAccessException.class, () -> property.setValue(""));
         assertPropertyAccessException(propertyAccessException, PropertyAccessType.WRITE, InvocationTargetException.class);
     }
 
     @Test
     void isReadable() {
-        Property<String> writableOnly = new Property<String>(bean, writeOnlyProperty);
+        JavaProperty<String> writableOnly = createJavaProperty(writeOnlyProperty);
         assertFalse(writableOnly.isReadable());
 
-        Property<String> readOnly = new Property<String>(bean, readOnlyProperty);
+        JavaProperty<String> readOnly = createJavaProperty(readOnlyProperty);
         assertTrue(readOnly.isReadable());
 
-        Property<String> readWritable = new Property<String>(bean, stringProperty);
+        JavaProperty<String> readWritable = createJavaProperty(stringProperty);
         assertTrue(readWritable.isReadable());
     }
 
     @Test
     void isWritable() {
-        Property<String> writableOnly = new Property<String>(bean, writeOnlyProperty);
+        JavaProperty<String> writableOnly = createJavaProperty(writeOnlyProperty);
         assertTrue(writableOnly.isWritable());
 
-        Property<String> readOnly = new Property<String>(bean, readOnlyProperty);
+        JavaProperty<String> readOnly = createJavaProperty(readOnlyProperty);
         assertFalse(readOnly.isWritable());
 
-        Property<String> readWritable = new Property<String>(bean, stringProperty);
+        JavaProperty<String> readWritable = createJavaProperty(stringProperty);
         assertTrue(readWritable.isWritable());
     }
 
     @Test
     void illeagalAccessExceptionOnSet() {
-        Property<String> property = new ExceptionThrowingPropertyOnAccess<String>(bean, stringProperty, new IllegalAccessException());
+        JavaProperty<String> javaProperty = createJavaProperty(stringProperty);
+        JavaProperty<String> property = new ExceptionThrowingPropertyOnAccess<String>(bean, javaProperty.getPropertyDescriptor(), new IllegalAccessException());
         PropertyAccessException propertyAccessException = assertThrows(PropertyAccessException.class, () -> property.setValue(""));
         assertPropertyAccessException(propertyAccessException, PropertyAccessType.WRITE, IllegalAccessException.class);
     }
 
     @Test
     void toStringTest() {
-        Property<String> writableOnly = new Property<String>(bean, writeOnlyProperty);
+        JavaProperty<String> writableOnly = createJavaProperty(writeOnlyProperty);
         String toString = writableOnly.toString();
         assertEquals("writeOnlyProperty", toString);
     }
 
     @Override
-    protected Property<String> getReadOnlyProperty() {
-        Property<String> property = new Property<String>(bean, readOnlyProperty);
+    protected JavaProperty<String> getReadOnlyProperty() {
+        JavaProperty<String> property = createJavaProperty(readOnlyProperty);
         return property;
     }
 
     @Override
-    protected Property<String> getWriteOnlyProperty() {
-        Property<String> property = new Property<String>(bean, writeOnlyProperty);
+    protected JavaProperty<String> getWriteOnlyProperty() {
+        JavaProperty<String> property = createJavaProperty(writeOnlyProperty);
         return property;
     }
 
     @Override
-    protected Property<String> getProperty() {
-        Property<String> property = new Property<String>(bean, stringProperty);
+    protected JavaProperty<String> getProperty() {
+        JavaProperty<String> property = createJavaProperty(stringProperty);
         return property;
     }
 
@@ -159,7 +170,7 @@ class PropertyTest extends AbstractPropertyTest <String> {
         return "HELLO";
     }
 
-    private static class ExceptionThrowingPropertyOnAccess<T> extends Property<T> {
+    private static class ExceptionThrowingPropertyOnAccess<T> extends JavaProperty<T> {
 
         /**
          *
@@ -168,12 +179,12 @@ class PropertyTest extends AbstractPropertyTest <String> {
         private IllegalAccessException illegalAccessException;
         private InvocationTargetException invocationTargetException;
 
-        ExceptionThrowingPropertyOnAccess(Bean<?> bean, PropertyDescriptor propertyDescriptor, IllegalAccessException illegalAccessException) {
+        ExceptionThrowingPropertyOnAccess(JavaBean<?> bean, JavaPropertyDesc propertyDescriptor, IllegalAccessException illegalAccessException) {
             super(bean, propertyDescriptor);
             this.illegalAccessException = illegalAccessException;
         }
 
-        ExceptionThrowingPropertyOnAccess(Bean<?> bean, PropertyDescriptor propertyDescriptor, InvocationTargetException invocationTargetException) {
+        ExceptionThrowingPropertyOnAccess(JavaBean<?> bean, JavaPropertyDesc propertyDescriptor, InvocationTargetException invocationTargetException) {
             super(bean, propertyDescriptor);
             this.invocationTargetException = invocationTargetException;
         }
