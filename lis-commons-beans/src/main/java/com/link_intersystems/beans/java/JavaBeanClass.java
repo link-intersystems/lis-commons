@@ -25,7 +25,9 @@ import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static java.util.Arrays.stream;
@@ -48,12 +50,12 @@ public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
     private transient Map<Method, PropertyDescriptor> propertyDescriptorsByMethod;
     private transient JavaPropertyDescriptors propertyDescriptors;
 
-    private Class<T> beanType;
+    private BeanInfo beanInfo;
     private BeanEventTypes<JavaBeanEventType> beanEventTypes;
     private PropertyDescs<JavaPropertyDesc<?>> properties;
 
-    protected JavaBeanClass(Class<T> beanType) {
-        this.beanType = beanType;
+    protected JavaBeanClass(Class<T> beanType) throws IntrospectionException {
+        beanInfo = Introspector.getBeanInfo(beanType, null);
     }
 
     /**
@@ -104,7 +106,11 @@ public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
         Assert.notNull("clazz", clazz);
         JavaBeanClass<T> class2 = (JavaBeanClass<T>) CLASS_TO_BEANCLASS.get(clazz);
         if (class2 == null) {
-            class2 = new JavaBeanClass<>(clazz);
+            try {
+                class2 = new JavaBeanClass<>(clazz);
+            } catch (IntrospectionException e) {
+                throw new RuntimeException(e);
+            }
             CLASS_TO_BEANCLASS.put(clazz, class2);
         }
         return class2;
@@ -112,7 +118,6 @@ public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
 
     /**
      * Has the clazz a public default constructor?
-     *
      */
     private static boolean hasBeanConstructor(Class<?> clazz) {
         try {
@@ -125,8 +130,14 @@ public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
     }
 
     @Override
+    public String getName() {
+        return beanInfo.getBeanDescriptor().getName();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
     public Class<T> getType() {
-        return beanType;
+        return (Class<T>) beanInfo.getBeanDescriptor().getBeanClass();
     }
 
     /**
@@ -247,7 +258,6 @@ public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
 
     /**
      * TODO make package scope again after refactoring
-     *
      */
     public PropertyDescriptor getPropertyDescriptorInternal(String propertyName) {
         return getJavaPropertyDescriptors().getByName(propertyName);
@@ -259,15 +269,20 @@ public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
      * @return creates a new {@link JavaBean} instance of this {@link JavaBeanClass}.
      */
     @Override
-    public JavaBean<T> newInstance() throws BeanInstantiationException {
+    public JavaBean<T> newBeanInstance() throws BeanInstantiationException {
         Class<T> beanClass = getType();
         try {
             Constructor<T> defaultConstructor = beanClass.getDeclaredConstructor();
             T newBeanObj = defaultConstructor.newInstance();
-            return new JavaBean<>(newBeanObj);
+            return getBean(newBeanObj);
         } catch (Exception e) {
             throw new BeanInstantiationException("Bean " + getType().getCanonicalName() + " throws an exception in default constructor. Does it have a default constructor (a strict BeanClass). See BeanClass.getStrict(Class<T>)", e);
         }
+    }
+
+    @Override
+    public JavaBean<T> getBean(T bean) {
+        return new JavaBean<>(bean);
     }
 
     @Override

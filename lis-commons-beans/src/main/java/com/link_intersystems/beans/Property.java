@@ -3,12 +3,12 @@ package com.link_intersystems.beans;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public interface Property<TYPE> {
+public interface Property<T> {
 
-    PropertyDesc<TYPE> getDescriptor();
+    PropertyDesc<T> getDescriptor();
 
-    TYPE getValue();
+    T getValue() throws PropertyAccessException;
 
-    void setValue(TYPE propertyValue);
+    void setValue(T propertyValue) throws PropertyAccessException;
 
 }

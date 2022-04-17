@@ -7,9 +7,18 @@ import java.util.stream.Stream;
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
 public interface BeanClass<T> {
+
+    String getName();
+
     Class<T> getType();
 
-    Bean<T> newInstance() throws BeanInstantiationException;
+    Bean<T> newBeanInstance() throws BeanInstantiationException;
+
+    default T newInstance() throws BeanInstantiationException {
+        return newBeanInstance().getObject();
+    }
+
+    Bean<T> getBean(T bean);
 
     PropertyDescs<? extends PropertyDesc<?>> getProperties();
 

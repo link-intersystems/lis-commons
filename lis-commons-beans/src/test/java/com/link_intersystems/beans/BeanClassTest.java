@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -65,7 +64,7 @@ class BeanClassTest {
     @Test
     void newInstance() throws SecurityException {
         JavaBeanClass<SomeBean> someBeanClass = JavaBeanClass.get(SomeBean.class);
-        JavaBean<SomeBean> someBeanBean = someBeanClass.newInstance();
+        JavaBean<SomeBean> someBeanBean = someBeanClass.newBeanInstance();
         assertNotNull(someBeanBean);
 
         SomeBean object = someBeanBean.getObject();

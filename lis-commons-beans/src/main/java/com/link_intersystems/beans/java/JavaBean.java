@@ -213,7 +213,7 @@ public class JavaBean<T> implements Bean<T> {
     private T getTarget() {
         if (bean == null) {
             try {
-                JavaBean<T> newBeanInstance = beanClass.newInstance();
+                JavaBean<T> newBeanInstance = beanClass.newBeanInstance();
                 bean = newBeanInstance.getTarget();
             } catch (Exception e) {
                 throw new IllegalStateException("Bean " + getBeanClass() + " can not be instantiated. Is it a nice Bean. See Bean.niceBean(Class<T>)", e);
