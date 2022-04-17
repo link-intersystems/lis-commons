@@ -89,7 +89,7 @@ import java.util.function.Function;
  * @author René Link <a
  * href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  * intersystems.com]</a>
- * @since 1.0.0.0
+ * @since 1.0.0;
  */
 public class Class2<T> implements Serializable {
 
@@ -131,7 +131,7 @@ public class Class2<T> implements Serializable {
      * @return a {@link Class2} object that represents the {@link Class} defined
      * by the full qualified class name.
      * @throws ClassNotFoundException
-     * @since 1.0.0.0
+     * @since 1.0.0;
      * @deprecated use {@link #get(String)} instead.
      */
     public static <T> Class2<T> forName(String className)
@@ -155,7 +155,7 @@ public class Class2<T> implements Serializable {
     /**
      * @param clazz
      * @return a {@link Class2} for the given {@link Class}.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      * @deprecated use {@link #get(Class)} instead.
      */
     public static <T> Class2<T> forClass(Class<T> clazz) {
@@ -165,7 +165,7 @@ public class Class2<T> implements Serializable {
     /**
      * @param clazz
      * @return a {@link Class2} for the given {@link Class}.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     @SuppressWarnings("unchecked")
     public static <T> Class2<T> get(Class<T> clazz) {
@@ -193,7 +193,7 @@ public class Class2<T> implements Serializable {
      * loader. If this class has no class loader (java system classes)
      * it returns a {@link ClassLoaderContextAware} that uses the
      * {@link ClassLoader#getSystemClassLoader()}.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public ClassLoaderContextAware getClassLoaderContextAware() {
         ClassLoader classLoader = clazz.getClassLoader();
@@ -204,7 +204,7 @@ public class Class2<T> implements Serializable {
 
     /**
      * @return the {@link Package2} that this {@link Class2} belongs to.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public Package2 getPackage() {
         Package2 package2 = Package2.get(getType().getPackage());
@@ -220,7 +220,7 @@ public class Class2<T> implements Serializable {
      * @return a new instance of the type represented by this {@link Class2}.
      * @throws Exception if one of the declared exceptions (if any) of the constructor
      *                   is thrown.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public T newInstance(Object... constructorArgs) throws Exception {
         Constructor2<T> applicableConstructor = getApplicableConstructor(constructorArgs);
@@ -230,7 +230,7 @@ public class Class2<T> implements Serializable {
 
     /**
      * @return the {@link Class} object that this {@link Class2} is based on.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public Class<T> getType() {
         return clazz;
@@ -246,7 +246,7 @@ public class Class2<T> implements Serializable {
      * <code>Class2</code>'s type is <code>Object</code> the returned
      * type is <code>Object[]</code>. This method is a way to
      * dynamically create an array type.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public Class<T[]> getArrayType() {
         return getArrayType2().getType();
@@ -263,7 +263,7 @@ public class Class2<T> implements Serializable {
      * <code>Object</code> the returned Class2's type is
      * <code>Object[]</code>. This method is a way to dynamically create
      * an array type.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     @SuppressWarnings("unchecked")
     public Class2<T[]> getArrayType2() {
@@ -285,7 +285,7 @@ public class Class2<T> implements Serializable {
      * @param invocationParameters
      * @return the applicable constructor or null if no applicable constructor
      * could be found.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
     public Constructor2<T> getApplicableConstructor(AccessType[] accessTypes,
@@ -307,7 +307,7 @@ public class Class2<T> implements Serializable {
      *
      * @param accessTypes the {@link AccessType} that the selected constructor must
      *                    have.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
     public Constructor2<T> getApplicableConstructor(AccessType[] accessTypes,
@@ -349,7 +349,7 @@ public class Class2<T> implements Serializable {
      * @return the {@link Method2} that represents the declaring method with the
      * name and Assert.
      * @throws NoSuchMethodException if no method matches the parameters.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public Method2 getDeclaringMethod2(String name, Class<?>... parameterTypes)
             throws NoSuchMethodException {
@@ -372,7 +372,7 @@ public class Class2<T> implements Serializable {
      * @param signature the {@link Signature} of the requested method
      * @return the {@link Method2} of this {@link Class2} that matches the
      * signature or null if no method matches.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public Method2 getMethod2(Signature signature) {
         List<Method2> declaredMethods = getDeclaredMethods();
@@ -391,7 +391,7 @@ public class Class2<T> implements Serializable {
      * {@link Class}.
      * @throws NoSuchMethodException if the method is not declared on this {@link Class2}'s
      *                               {@link Class}.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     Method2 getMethod2(Method method) throws NoSuchMethodException {
         Assert.notNull("method", method);
@@ -414,7 +414,7 @@ public class Class2<T> implements Serializable {
      * @return the applicable constructor or null if no applicable constructor
      * could be found.
      * @see #getApplicableConstructor(AccessType[], Class...)
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public Constructor2<T> getApplicableConstructor(Class<?>... paramTypes) {
         return getApplicableConstructor(AccessType.values(), paramTypes);
@@ -439,7 +439,7 @@ public class Class2<T> implements Serializable {
      * @return the applicable method or null if no applicable method could be
      * found.
      * @see #getApplicableMethod(String, AccessType[], Class...)
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public Method2 getApplicableMethod(String name, Class<?>... paramTypes) {
         return getApplicableMethod(name, AccessType.values(), paramTypes);
@@ -480,7 +480,7 @@ public class Class2<T> implements Serializable {
      * @param paramTypes the parameter classes.
      * @return the applicable method or null if no applicable method exists in
      * this class nor in it's superclasses.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public Method2 getApplicableMethod(String name, AccessType[] accessTypes,
                                        Class<?>... paramTypes) {
@@ -525,7 +525,7 @@ public class Class2<T> implements Serializable {
      * @param paramTypes the parameter classes.
      * @return the applicable method or null if no applicable method exists in
      * this class.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public Method2 getDeclaredApplicableMethod(String name,
                                                AccessType[] accessTypes, Class<?>... paramTypes) {
@@ -550,7 +550,7 @@ public class Class2<T> implements Serializable {
      * @param args        the invocation parameters.
      * @return the applicable method or null if no applicable method exists in
      * this class nor in it's superclasses.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public Method2 getApplicableMethod(String name, AccessType[] accessTypes,
                                        Object... args) {
@@ -578,7 +578,7 @@ public class Class2<T> implements Serializable {
      * @return the applicable method or null if no applicable method exists in
      * this class.
      * @since
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public Method2 getDeclaredApplicableMethod(String name,
                                                AccessType[] accessTypes, Object... args) {
@@ -599,7 +599,7 @@ public class Class2<T> implements Serializable {
      * @return the {@link Class2} instance that represents this class's
      * superclass if any. If this class represents the java
      * {@link Object} class null is returned.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public Class2<? super T> getSuperclass2() {
         Class<? super T> superclass = clazz.getSuperclass();
@@ -613,7 +613,7 @@ public class Class2<T> implements Serializable {
     /**
      * @return the {@link Method2}s for this {@link Class2}. Supposed to be used
      * by sub classes. Subclasses must not modify the returned array.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
     private List<Constructor2<T>> getConstructors() {
@@ -637,7 +637,7 @@ public class Class2<T> implements Serializable {
     /**
      * @return the {@link Method2}s for this {@link Class2}. Supposed to be used
      * by sub classes.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     private final List<Method2> getDeclaredMethods() {
         if (declaredMethods == null) {
@@ -656,7 +656,7 @@ public class Class2<T> implements Serializable {
      * The generic type variables defined at this class.
      *
      * @return
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public TypeVariable<?>[] getTypeVariables() {
         return clazz.getTypeParameters();
@@ -669,7 +669,7 @@ public class Class2<T> implements Serializable {
      * defined with that name. This method only looks at the current
      * type represented by this generic object and not on super
      * types.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public TypeVariable<?> getTypeVariable(String typeVarName) {
         Assert.notNull("typeVarName", typeVarName);
@@ -703,7 +703,7 @@ public class Class2<T> implements Serializable {
      * {@link TypeVariable} or null if the type is not bound on this
      * generic's type. If the bound type is a generic type the
      * raw type will be returned.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public Type getBoundType(TypeVariable<?> typeVariable) {
         Assert.notNull("typeVariable", typeVariable);
@@ -729,7 +729,7 @@ public class Class2<T> implements Serializable {
      * occurrence of a type variable with the given name.
      * @throws IllegalArgumentException if no type variable definition could be found in this class's
      *                                  hierarchy.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public <C> Class<C> getBoundClass(String typeVarName) {
         ClassCriteria classCriteria = new ClassCriteria();
@@ -849,7 +849,7 @@ public class Class2<T> implements Serializable {
      * Same as {@link #toString(String...)} with parameter "java.lang".
      *
      * @return a string representation of this {@link Class2};
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public String toString() {
         return toString("java.lang");
@@ -873,7 +873,7 @@ public class Class2<T> implements Serializable {
      *                          well known the Class2 that represents a String class will be
      *                          printed just as &quot;String&quot; and not java.lang.String.
      * @return a string representation of this {@link Class2};
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public String toString(String... wellKnownPackages) {
         Assert.notNull("wellKnownPackages", wellKnownPackages);
@@ -1042,7 +1042,7 @@ public class Class2<T> implements Serializable {
      * will be returned.
      *
      * @return the class loader of this {@link Class2}.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public ClassLoader getClassLoader() {
         ClassLoader classLoader = getType().getClassLoader();

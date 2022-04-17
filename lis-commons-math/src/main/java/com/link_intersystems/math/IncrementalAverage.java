@@ -44,7 +44,7 @@ import com.link_intersystems.lang.Assert;
  * @author René Link <a
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
- * @since 1.0.0.0
+ * @since 1.0.0;
  */
 public class IncrementalAverage implements Average<Double> {
 
@@ -64,7 +64,7 @@ public class IncrementalAverage implements Average<Double> {
 	 *             precision.
 	 * @see BigIncrementalAverage
 	 * 
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public boolean addValue(Number value) {
 		Assert.notNull("value", value);
@@ -95,7 +95,7 @@ public class IncrementalAverage implements Average<Double> {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public Double getValue() {
 		return average;

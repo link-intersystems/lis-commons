@@ -49,7 +49,7 @@ public abstract class AbstractBigDecimalAggregate implements Aggregate<BigDecima
 	 * </ul>
 	 *
 	 * @inherited
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public boolean addValue(Number value) {
 		Assert.notNull("value", value);

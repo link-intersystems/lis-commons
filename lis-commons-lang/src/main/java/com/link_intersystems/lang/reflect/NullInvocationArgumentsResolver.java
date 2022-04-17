@@ -27,7 +27,7 @@ import com.link_intersystems.lang.Primitives;
  * @author René Link [<a
  *         href="mailto:rene.link@link-intersystems.com">rene.link@link-
  *         intersystems.com</a>]
- * @since 1.2.0.0
+ * @since 1.2.0;
  *
  */
 public final class NullInvocationArgumentsResolver implements
@@ -44,7 +44,7 @@ public final class NullInvocationArgumentsResolver implements
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public Object[] getArguments(Object invokedObject, Method invokedMethod) {
 		Class<?>[] argumentTypes = invokedMethod.getParameterTypes();

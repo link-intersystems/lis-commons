@@ -77,7 +77,7 @@ import com.link_intersystems.lang.reflect.AbstractInvocationHandler;
  *         intersystems.com]</a>
  * @param <T> the reference object's referent type.
  *
- * @since 1.2.0.10
+ * @since 1.2.0;
  */
 public class WeakDelegateProxy<T> extends AbstractInvocationHandler<T> {
 
@@ -134,7 +134,7 @@ public class WeakDelegateProxy<T> extends AbstractInvocationHandler<T> {
 	}
 
 	/**
-	 * Enable or disable the {@link DelegateProxy} interface when creating proxies.
+	 * Enable or disable the {@link WeakDelegateProxy} interface when creating proxies.
 	 * Defaults to <code>false</code>.
 	 *
 	 * @param delegateProxyEnabled

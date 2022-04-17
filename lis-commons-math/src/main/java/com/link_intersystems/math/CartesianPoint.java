@@ -22,7 +22,7 @@ package com.link_intersystems.math;
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
  * 
- * @since 1.2.0.0
+ * @since 1.2.0;
  * 
  */
 public class CartesianPoint {
@@ -37,7 +37,7 @@ public class CartesianPoint {
 	 *            the x coordinate.
 	 * @param y
 	 *            the y coordinate.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public CartesianPoint(double x, double y) {
 		this.x = x;
@@ -48,7 +48,7 @@ public class CartesianPoint {
 	 * The x coordinate.
 	 * 
 	 * @return the x coordinate.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public double getX() {
 		return x;
@@ -58,7 +58,7 @@ public class CartesianPoint {
 	 * The y coordinate.
 	 * 
 	 * @return the y coordinate.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public double getY() {
 		return y;
@@ -70,7 +70,7 @@ public class CartesianPoint {
 	 * 
 	 * @return the {@link PolarPoint} that is equal to this
 	 *         {@link CartesianPoint}.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public PolarPoint toPolarPoint() {
 		double x2 = Math.pow(getX(), 2.0);

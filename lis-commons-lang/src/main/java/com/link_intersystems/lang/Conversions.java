@@ -38,7 +38,7 @@ import java.util.Objects;
  *         <a href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
  *
- * @since 1.0.0.0
+ * @since 1.0.0;
  */
 public abstract class Conversions {
 
@@ -52,7 +52,7 @@ public abstract class Conversions {
 	 * @param from
 	 * @param to
 	 * @return true if both types are the same.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public static boolean isIdentity(Class<?> from, Class<?> to) {
 		return from == to;
@@ -77,7 +77,7 @@ public abstract class Conversions {
 	 * @param from the base type
 	 * @param to   the widening type
 	 * @return true if from to to is a primitive widening.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public static boolean isPrimitiveWidening(Class<?> from, Class<?> to) {
 		Assert.isTrue(Primitives.isPrimitive(from), PARAMETER_MUST_BE_A_PRIMITIVE, "form");
@@ -188,7 +188,7 @@ public abstract class Conversions {
 	 * @param from the base type
 	 * @param to   the widening type
 	 * @return true if from to to is a primitive widening.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public static boolean isPrimitiveNarrowing(Class<?> from, Class<?> to) {
 		Assert.isTrue(Primitives.isPrimitive(from), "mustBeAPrimitive", "form");
@@ -287,7 +287,7 @@ public abstract class Conversions {
 	 * @param from
 	 * @param to
 	 * @return true if from is a subtype of t.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public static boolean isWideningReference(Class<?> from, Class<?> to) {
 		Assert.notNull("from", from);
@@ -321,7 +321,7 @@ public abstract class Conversions {
 	 * @param from
 	 * @param to
 	 * @return true if a cast "to t = (to) from;" would be a downcast.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public static boolean isNarrowingReference(Class<?> from, Class<?> to) {
 		boolean wideningReference = isWideningReference(from, to);
@@ -332,7 +332,7 @@ public abstract class Conversions {
 	 *
 	 * @param clazz
 	 * @return true if clazz is either a primitive or a primitive wrapper type.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public static boolean isBoxingType(Class<?> clazz) {
 		return getBoxingConversion(clazz) != null || getUnboxingConversion(clazz) != null;
@@ -356,7 +356,7 @@ public abstract class Conversions {
 	 * @param primitive
 	 * @return the wrapper type for the primitive or null if primitive is not a
 	 *         primitive type.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public static Class<?> getBoxingConversion(Class<?> primitive) {
 		Class<?> wrapper = Primitives.getWrapperType(primitive);
@@ -377,7 +377,7 @@ public abstract class Conversions {
 	 * @param to
 	 * @return true if the conversion of type from to type to is a boxing
 	 *         conversion. E.g. int -> Integer.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 * @see #getBoxingConversion(Class)
 	 */
 	public static boolean isBoxingConversion(Class<?> from, Class<?> to) {
@@ -395,7 +395,7 @@ public abstract class Conversions {
 	 * @param to
 	 * @return true if the conversion of type from to type to is an unboxing
 	 *         conversion. E.g. Integer -> int.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 * @see #getUnboxingConversion(Class)
 	 */
 	public static boolean isUnboxingConversion(Class<?> from, Class<?> to) {
@@ -425,7 +425,7 @@ public abstract class Conversions {
 	 * @param primitiveWrapper
 	 * @return the primitive type for the primitiveWrapper or null if parameter
 	 *         primitiveWrapper is not a primitive wrapper type.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public static Class<?> getUnboxingConversion(Class<?> primitiveWrapper) {
 		Class<?> primitive = Primitives.getPrimitiveType(primitiveWrapper);
@@ -440,7 +440,7 @@ public abstract class Conversions {
 	 *
 	 * @see PrimitiveCallbackAdapter
 	 * @see PrimitiveArrayCallback
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public static void unbox(Object primitiveWrapper, PrimitiveCallback primitiveCallback) {
 		if (primitiveWrapper instanceof Boolean) {

@@ -45,7 +45,7 @@ import com.link_intersystems.lang.reflect.criteria.Result;
  * @author René Link <a
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
- * @since 1.0.0.0
+ * @since 1.0.0;
  */
 public class Method2 extends Member2<Method> {
 
@@ -58,7 +58,7 @@ public class Method2 extends Member2<Method> {
 	 *
 	 * @param method
 	 * @return a {@link Method2} object for the given {@link Method}.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public static Method2 forMethod(Method method) {
 		Assert.notNull("method", method);
@@ -99,7 +99,7 @@ public class Method2 extends Member2<Method> {
 	 *         the first occurrence of the method signature within the class
 	 *         hierarchy. Interfaces method definitions take precedence over
 	 *         class method definitions.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public Method getDefinition() {
 		Class<?> declaringClass = getDeclaringClass();
@@ -127,7 +127,7 @@ public class Method2 extends Member2<Method> {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public Type[] getGenericParameterTypes() {
 		return getMember().getGenericParameterTypes();
@@ -137,7 +137,7 @@ public class Method2 extends Member2<Method> {
 	 *
 	 * @param target
 	 * @return
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public Invokable getInvokable(Object target) {
 		return new Method2Invokable(target, this);
@@ -146,7 +146,7 @@ public class Method2 extends Member2<Method> {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public Class<?>[] getParameterTypes() {
 		return getMember().getParameterTypes();
@@ -155,7 +155,7 @@ public class Method2 extends Member2<Method> {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	protected Class<?> getReturnType() {
 		return getMember().getReturnType();
@@ -192,7 +192,7 @@ public class Method2 extends Member2<Method> {
 	 * m2 has the same signature as m1, or
 	 * the signature of m1 is the same as the erasure of the signature of m2.
 	 * </pre>
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public Signature getSignature() {
 		if (signature == null) {
@@ -222,7 +222,7 @@ public class Method2 extends Member2<Method> {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	@Override
 	public Class<?>[] getDeclaredExceptionTypes() {
@@ -232,7 +232,7 @@ public class Method2 extends Member2<Method> {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public boolean isVarArgs() {
 		return getMember().isVarArgs();
@@ -286,7 +286,7 @@ public class Method2 extends Member2<Method> {
 	 * Which of these overloaded move methods of class RealPoint will be chosen for any particular method invocation will be
 	 * determined at compile time by the overloading resolution procedure described in §15.12.
 	 * </pre>
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public boolean overloads(Method2 method) {
 		Method2 higher = method;
@@ -385,7 +385,7 @@ public class Method2 extends Member2<Method> {
 	 * class SlowPoint, the overriding definition in class SlowPoint will always be called, even if the reference to the
 	 * SlowPoint object is taken from a variable whose type is Point.
 	 * </pre>
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public boolean overrides(Method method) {
 		Method2 referenceMethod = new Method2(method);
@@ -420,7 +420,7 @@ public class Method2 extends Member2<Method> {
 	/**
 	 * Same semantics as {@link #overrides(Method)}.
 	 *
-	 * @param methodInfo
+	 * @param methodInvokable
 	 * @return
 	 */
 	public boolean overrides(Method2 methodInvokable) {

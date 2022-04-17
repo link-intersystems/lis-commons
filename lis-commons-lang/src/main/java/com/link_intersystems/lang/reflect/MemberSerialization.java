@@ -29,7 +29,7 @@ import com.link_intersystems.lang.Assert;
  *         intersystems.com]</a>
  *
  * @param <T>
- * @since 1.2.0.0
+ * @since 1.2.0;
  */
 class MemberSerialization<T extends Member> implements Serializable {
 

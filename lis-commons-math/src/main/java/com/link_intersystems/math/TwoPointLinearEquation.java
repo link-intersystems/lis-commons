@@ -28,7 +28,7 @@ package com.link_intersystems.math;
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
  *
- * @since 1.2.0.0
+ * @since 1.2.0;
  */
 public class TwoPointLinearEquation extends PointSlopeLinearEquation {
 
@@ -50,7 +50,7 @@ public class TwoPointLinearEquation extends PointSlopeLinearEquation {
 	 * @param y2
 	 *            y coordinate of point 2.
 	 *
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public TwoPointLinearEquation(double x1, double y1, double x2, double y2) {
 		super(new Slope(x1, y1, x2, y2), x1, y1);
@@ -72,7 +72,7 @@ public class TwoPointLinearEquation extends PointSlopeLinearEquation {
 	 * @param y
 	 *            y coordinate of point 1.
 	 *
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public TwoPointLinearEquation(double x, double y) {
 		this(x, y, 0.0, 0.0);

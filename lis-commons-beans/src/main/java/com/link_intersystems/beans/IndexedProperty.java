@@ -78,7 +78,7 @@ import com.link_intersystems.lang.reflect.Class2;
  *
  * @param <T>
  *            the element type of the indexed property.
- * @since 1.2.0.0
+ * @since 1.2.0;
  */
 public class IndexedProperty<T> extends Property<T[]> {
 
@@ -127,7 +127,7 @@ public class IndexedProperty<T> extends Property<T[]> {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -166,7 +166,7 @@ public class IndexedProperty<T> extends Property<T[]> {
 	 *            the index of the element to get.
 	 * @return the element value at the specified index of this
 	 *         {@link IndexedProperty}.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	@SuppressWarnings("unchecked")
 	public T getValue(int index) {
@@ -194,7 +194,7 @@ public class IndexedProperty<T> extends Property<T[]> {
 	 *            the index of the element to set.
 	 * @param elementValue
 	 *            the element to set at the specified index.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public void setValue(int index, T elementValue) {
 		Object target = getBean();
@@ -219,7 +219,7 @@ public class IndexedProperty<T> extends Property<T[]> {
 	 * @return the Method that represents this {@link IndexedProperty}'s index
 	 *         write accessor (e.g. setPROPERTY(int index, TYPE value)) or
 	 *         <code>null</code> if no write index method exists.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	protected final Method getIndexedWriteMethod() {
 		IndexedPropertyDescriptor indexedPropertyDescriptor = getIndexedPropertyDescriptor();
@@ -234,7 +234,7 @@ public class IndexedProperty<T> extends Property<T[]> {
 	 * @return the Method that represents this {@link IndexedProperty}'s index
 	 *         read accessor (e.g. TYPE getPROPERTY(int index)) or
 	 *         <code>null</code> if no read index method exists.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	protected final Method getIndexedReadMethod() {
 		IndexedPropertyDescriptor indexedPropertyDescriptor = getIndexedPropertyDescriptor();

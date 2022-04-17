@@ -24,7 +24,7 @@ import java.util.Arrays;
  * @author René Link <a
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
- * @since 1.2.0.0
+ * @since 1.2.0;
  */
 public abstract class Assert {
 
@@ -36,7 +36,7 @@ public abstract class Assert {
      * @param value
      * @param defaultIfNull
      * @return
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public static <T> T defaultIfNull(T value, T defaultIfNull) {
         notNull("defaultIfNull", defaultIfNull);
@@ -52,7 +52,7 @@ public abstract class Assert {
      *            the name of the value that must of the Assert.
      * @param value
      *            the value of the Assert.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public static void notNull(String name, Object value)
             throws IllegalArgumentException {
@@ -92,7 +92,7 @@ public abstract class Assert {
      * @param value
      *            the value.
      *
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public static void greater(String name, int greaterThan, int value) {
         if (not(value > greaterThan)) {
@@ -119,7 +119,7 @@ public abstract class Assert {
      * @param value
      *            the value.
      *
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public static void greaterOrEqual(String name, int greaterOrEqual, int value) {
         if (not(value >= greaterOrEqual)) {
@@ -140,7 +140,7 @@ public abstract class Assert {
      * @param value
      *            the value.
      *
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public static void greaterOrEqual(String name, double greaterOrEqual,
                                       double value) {
@@ -162,7 +162,7 @@ public abstract class Assert {
      * @param value
      *            the value.
      *
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public static void lower(String name, int lowerThan, int value) {
         if (not(value < lowerThan)) {
@@ -182,7 +182,7 @@ public abstract class Assert {
      * @param value
      *            the value.
      *
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public static void lowerOrEqual(String name, int lowerOrEqual, int value) {
         if (not(value <= lowerOrEqual)) {
@@ -207,7 +207,7 @@ public abstract class Assert {
      *            the arguments that should be applied to the formatted message.
      * @throws IllegalArgumentException
      *             if the condition is not met.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public static void isTrue(boolean expectedTruth, String messageFormat,
                               Object... messageFormatArgs) throws IllegalArgumentException {
@@ -227,7 +227,7 @@ public abstract class Assert {
      *            the value.
      * @param expectedInstanceOfs
      *            the expected classes that the value must be an instance of.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public static void instanceOf(String name, Object value,
                                   Class<?>... expectedInstanceOfs) {
@@ -252,7 +252,7 @@ public abstract class Assert {
      *            the expected class.
      * @param value
      *            the value.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public static void sameClass(String name, Class<?> expectedClass,
                                  Class<?> value) {
@@ -275,7 +275,7 @@ public abstract class Assert {
      * @param value
      *            the <code>int</code> value to ensure to be not equal to the
      *            notExpected <code>int</code>.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public static void notEqual(String name, int notExcepted, int value) {
         if (notExcepted == value) {
@@ -297,7 +297,7 @@ public abstract class Assert {
      * @param value
      *            the <code>int</code> value to ensure to be equal to the
      *            expected <code>int</code>.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public static void equal(String name, int expected, int value) {
         if (expected != value) {
@@ -319,7 +319,7 @@ public abstract class Assert {
      * @param value
      *            the {@link Object} value to ensure to be equal to the expected
      *            {@link Object}.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public static void equal(String name, Object expected, Object value) {
         if (expected == null && value == null) {

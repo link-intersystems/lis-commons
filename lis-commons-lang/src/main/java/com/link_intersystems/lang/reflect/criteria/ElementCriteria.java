@@ -71,7 +71,7 @@ import java.util.function.Predicate;
  * @author René Link <a
  * href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  * intersystems.com]</a>
- * @since 1.0.0.0
+ * @since 1.0.0;
  */
 public abstract class ElementCriteria<T> implements Serializable {
 
@@ -97,7 +97,7 @@ public abstract class ElementCriteria<T> implements Serializable {
      *                  must implement {@link Serializable} to allow the
      *                  {@link ElementCriteria} to be serializable. For details take a
      *                  look at the {@link ElementCriteria} javadoc.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public void add(Predicate<T> predicate) {
         Assert.notNull("predicate", predicate);
@@ -129,7 +129,7 @@ public abstract class ElementCriteria<T> implements Serializable {
      * @return an {@link Iterator} that filters the elements of the given
      * {@link Iterator} according to the filter {@link Predicate}s
      * defined by {@link #add(Predicate)}.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     protected Iterator<T> applyElementFilter(Iterator<T> iterator) {
         if (elementFilterPredicate == null) {
@@ -148,7 +148,7 @@ public abstract class ElementCriteria<T> implements Serializable {
      * @return an {@link Iterator} that selects the elements of the given
      * {@link Iterator} according to selection as specified by
      * {@link #setResult(Result)}.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     protected Iterator<T> applySelectionFilter(final Iterator<T> iterator) {
         Iterator<T> result = null;
@@ -184,7 +184,7 @@ public abstract class ElementCriteria<T> implements Serializable {
      *
      * @param select specifies which matched elements will be returned. Defaults to
      *               {@link Result#ALL}
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public void setResult(Result select) {
         Assert.notNull("select", select);

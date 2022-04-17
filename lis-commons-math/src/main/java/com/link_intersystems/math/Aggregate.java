@@ -24,7 +24,7 @@ package com.link_intersystems.math;
  *         intersystems.com]</a>
  * @param <N>
  *            the precision of the average.
- * @since 1.0.0.0
+ * @since 1.0.0;
  */
 public interface Aggregate<N extends Number> {
 
@@ -33,7 +33,7 @@ public interface Aggregate<N extends Number> {
 	 *
 	 * @return the result, according to the {@link Aggregate} specification, of
 	 *         all values that have been added until now.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public N getValue();
 
@@ -46,7 +46,7 @@ public interface Aggregate<N extends Number> {
 	 *         of this {@link Aggregate}.
 	 * @throws IllegalArgumentException
 	 *             if value is null.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public boolean addValue(Number value);
 

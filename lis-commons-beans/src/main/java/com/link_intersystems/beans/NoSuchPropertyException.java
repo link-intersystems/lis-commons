@@ -23,7 +23,7 @@ package com.link_intersystems.beans;
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
  * 
- * @since 1.2.0.0
+ * @since 1.2.0;
  * 
  */
 public class NoSuchPropertyException extends PropertyException {

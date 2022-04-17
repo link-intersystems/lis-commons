@@ -34,7 +34,7 @@ import java.util.function.Predicate;
  * @author René Link
  * <a href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  * intersystems.com]</a>
- * @since 1.2.0.0
+ * @since 1.2.0;
  */
 public class BeanClass<T> extends Class2<T> {
 
@@ -75,7 +75,7 @@ public class BeanClass<T> extends Class2<T> {
      * @return a {@link Class2} for the given {@link Class}.
      * @throws IllegalArgumentException if the clazz argument does not declare a
      *                                  public default constructor.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public static <T> BeanClass<T> getStrict(Class<T> clazz) {
         Assert.notNull("clazz", clazz);
@@ -97,7 +97,7 @@ public class BeanClass<T> extends Class2<T> {
      * @throws IllegalArgumentException if the clazz argument does not declare a
      *                                  public default constructor.
      * @see #getStrict(Class)
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     @SuppressWarnings("unchecked")
     public static <T> BeanClass<T> get(Class<T> clazz) {
@@ -135,7 +135,7 @@ public class BeanClass<T> extends Class2<T> {
      * class defines according to the java bean specification. The values
      * are the corresponding {@link PropertyDescriptor}s. The returned Map
      * is unmodifiable.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public Map<String, PropertyDescriptor> getPropertyDescriptors() {
         if (propertyDescriptors == null) {
@@ -162,7 +162,7 @@ public class BeanClass<T> extends Class2<T> {
      *                                  resolving the {@link PropertyDescriptor}s.
      *                                  The cause might be an
      *                                  {@link IntrospectionException}.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public Map<String, PropertyDescriptor> getPropertyDescriptors(Class<?> stopClass) throws IllegalStateException {
         Class<T> beanType = getType();
@@ -189,7 +189,7 @@ public class BeanClass<T> extends Class2<T> {
      * @param method the method to test if it is a property accessor method of this
      *               class.
      * @return true if the given method is a property accessor method of this class.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     @SuppressWarnings("unchecked")
     public boolean isPropertyAccessor(Method method) {
@@ -217,7 +217,7 @@ public class BeanClass<T> extends Class2<T> {
      * @param propertyName the name of the property.
      * @return the {@link PropertyDescriptor} for the property name or
      * <code>null</code> if none exists.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public PropertyDescriptor getPropertyDescriptor(String propertyName) {
         PropertyDescriptor propertyDescriptor = getPropertyDescriptorInternal(propertyName);
@@ -232,7 +232,7 @@ public class BeanClass<T> extends Class2<T> {
      * @param method
      * @return a {@link PropertyDescriptor} for the given method if the method is a
      * getter or setter of a property of this {@link BeanClass}.
-     * @since 1.2.0.9
+     * @since 1.2.0;
      */
     public PropertyDescriptor getPropertyDescriptor(Method method) {
         Map<Method, PropertyDescriptor> propertyDescriptorsByMethod = getPropertyDescriptorsByMethod();

@@ -33,7 +33,7 @@ import java.util.Stack;
  *
  * @param <T>
  *            the stack's element type
- * @since 1.0.0.0
+ * @since 1.0.0;
  */
 class UnmodifiableStack<T> extends Stack<T> implements Cloneable {
 

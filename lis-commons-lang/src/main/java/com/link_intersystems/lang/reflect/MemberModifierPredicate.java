@@ -23,12 +23,12 @@ import com.link_intersystems.lang.Assert;
 
 /**
  * A {@link Predicate} that evaluates {@link Member}'s modifiers. See
- * {@link #test(Object)} for details.
+ * {@link #test(Member)} for details.
  *
  * @author René Link <a
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
- * @since 1.0.0.0
+ * @since 1.0.0;
  */
 public class MemberModifierPredicate implements Predicate<Member>, Serializable {
 
@@ -47,14 +47,14 @@ public class MemberModifierPredicate implements Predicate<Member>, Serializable 
 	 * @author René Link <a
 	 *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
 	 *         intersystems.com]</a>
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public enum Match {
 		/**
 		 * Exact modifier match. E.g. {@link Member#getModifiers()} ==
 		 * definedModifiers.
 		 *
-		 * @since 1.0.0.0
+		 * @since 1.0.0;
 		 */
 		EXACT,
 		/**
@@ -62,7 +62,7 @@ public class MemberModifierPredicate implements Predicate<Member>, Serializable 
 		 * are public static final and the modifiers compared to are final it
 		 * matches.
 		 *
-		 * @since 1.0.0.0
+		 * @since 1.0.0;
 		 */
 		AT_LEAST_ONE,
 		/**
@@ -72,7 +72,7 @@ public class MemberModifierPredicate implements Predicate<Member>, Serializable 
 		 * not enforce that all modifiers must match. It only defines that the
 		 * modifiers compared to must all match.
 		 *
-		 * @since 1.0.0.0
+		 * @since 1.0.0;
 		 */
 		AT_LEAST_ALL
 	}
@@ -82,7 +82,7 @@ public class MemberModifierPredicate implements Predicate<Member>, Serializable 
 	 * modifers with {@link Match} type {@link Match#AT_LEAST_ALL};
 	 *
 	 * @param modifiers
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public MemberModifierPredicate(int modifiers) {
 		this(modifiers, Match.AT_LEAST_ALL);
@@ -93,7 +93,7 @@ public class MemberModifierPredicate implements Predicate<Member>, Serializable 
 	 * modifers with the given {@link Match} type.
 	 *
 	 * @param modifiers
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public MemberModifierPredicate(int modifiers, Match match) {
 		Assert.notNull("match", match);
@@ -110,7 +110,7 @@ public class MemberModifierPredicate implements Predicate<Member>, Serializable 
 	 *         the {@link Match} type.
 	 * @param object
 	 *            must be a {@link Member}.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 * @throws IllegalArgumentException
 	 *             if the object this {@link Predicate} is evaluated against is
 	 *             not a {@link Member}.

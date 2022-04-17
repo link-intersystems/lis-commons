@@ -24,7 +24,7 @@ package com.link_intersystems.util;
  *
  * @param <T>
  * @see ParameterizedObjectFactory
- * @since 1.0.0.0
+ * @since 1.0.0;
  */
 public interface ObjectFactory<T> {
 
@@ -35,7 +35,7 @@ public interface ObjectFactory<T> {
 	 *         it is only named {@link #getObject()} to be complaint with the
 	 *         java bean specification. Nevertheless this method creates
 	 *         objects.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public T getObject();
 }

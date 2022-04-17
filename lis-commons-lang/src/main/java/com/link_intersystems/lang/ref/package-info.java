@@ -16,6 +16,6 @@
 /**
  * Provides extensions for the java.lang.ref package.
  * 
- * @since 1.0.0.0
+ * @since 1.0.0;
  */
 package com.link_intersystems.lang.ref;

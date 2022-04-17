@@ -24,7 +24,7 @@ import java.util.*;
  * @author René Link <a
  * href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  * intersystems.com]</a>
- * @since 1.0.0.0
+ * @since 1.0.0;
  */
 public class DepthFirstNodeIterator implements Iterator<Node> {
 
@@ -36,7 +36,7 @@ public class DepthFirstNodeIterator implements Iterator<Node> {
      * New iterator that starts at the given {@link Node}.
      *
      * @param startNode the node to start the depth first traversal from.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public DepthFirstNodeIterator(Node startNode) {
         stack.push(Objects.requireNonNull(startNode, "startNode"));
@@ -45,7 +45,7 @@ public class DepthFirstNodeIterator implements Iterator<Node> {
     /**
      * {@inheritDoc}
      *
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     @SuppressWarnings("unchecked")
     public boolean hasNext() {
@@ -74,7 +74,7 @@ public class DepthFirstNodeIterator implements Iterator<Node> {
     /**
      * {@inheritDoc}
      *
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public Node next() {
         if (hasNext()) {
@@ -90,7 +90,7 @@ public class DepthFirstNodeIterator implements Iterator<Node> {
      * Not implemented for {@link Node}s.
      *
      * @throws UnsupportedOperationException
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public void remove() {
         throw new UnsupportedOperationException("remove operation is not supported.");

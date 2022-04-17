@@ -34,7 +34,7 @@ import com.link_intersystems.lang.ClassLoaderContextAware;
  * @author René Link <a
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
- * @version 1.2.0.0
+ * @version 1.2.0;
  */
 public abstract class AbstractInvokable implements Invokable {
 
@@ -51,7 +51,7 @@ public abstract class AbstractInvokable implements Invokable {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @version 1.2.0.0
+	 * @version 1.2.0;
 	 */
 	@SuppressWarnings("unchecked")
 	public <T> T invoke(Object... args) throws Exception {
@@ -149,7 +149,7 @@ public abstract class AbstractInvokable implements Invokable {
 	 *            the parameters that this {@link Invokable}'s
 	 *            {@link Invokable#invoke(Object...)} method is invoked with.
 	 * @return
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	protected boolean isApplicable(Object... params) {
 		return true;
@@ -165,7 +165,7 @@ public abstract class AbstractInvokable implements Invokable {
 	 * 
 	 * @param e
 	 * @return
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	protected boolean isDeclaredException(Exception e) {
 		return false;
@@ -209,14 +209,14 @@ public abstract class AbstractInvokable implements Invokable {
 	 *             exception handling details done by the template method
 	 *             {@link #invoke(Object...)} that calls
 	 *             {@link #doInvoke(Object...)}.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	protected abstract <T> T doInvoke(Object... args) throws Exception;
 
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public <RESULT_TYPE> RESULT_TYPE invokeWithContextClassLoader(
 			ClassLoader classLoader, Object... params) throws Exception {
@@ -240,7 +240,7 @@ public abstract class AbstractInvokable implements Invokable {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public final Runnable asRunnable(final Object... params) {
 		return new Runnable() {
@@ -260,7 +260,7 @@ public abstract class AbstractInvokable implements Invokable {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public final <T> Callable<T> asCallable(final Object... params) {
 		return new Callable<T>() {
@@ -277,7 +277,7 @@ public abstract class AbstractInvokable implements Invokable {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public <T> PrivilegedExceptionAction<T> asPrivilegedExceptionAction(
 			final Object... params) {

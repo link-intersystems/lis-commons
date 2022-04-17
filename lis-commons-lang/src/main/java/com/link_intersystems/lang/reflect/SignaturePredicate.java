@@ -33,7 +33,7 @@ import com.link_intersystems.lang.Signature;
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
  *
- * @since 1.0.0.0
+ * @since 1.0.0;
  */
 public class SignaturePredicate implements Predicate<Object>, Serializable {
 
@@ -50,7 +50,7 @@ public class SignaturePredicate implements Predicate<Object>, Serializable {
 	 * {@link Constructor}'s signature.
 	 *
 	 * @param constructor
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public SignaturePredicate(Constructor<?> constructor) {
@@ -63,7 +63,7 @@ public class SignaturePredicate implements Predicate<Object>, Serializable {
 	 * 's signature.
 	 *
 	 * @param method
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public SignaturePredicate(Method method) {
 		this(new Method2(method));
@@ -72,10 +72,10 @@ public class SignaturePredicate implements Predicate<Object>, Serializable {
 	/**
 	 * Constructs a {@link SignaturePredicate} that evaluates to true if the
 	 * object it is evaluates against is a method or constructor with the given
-	 * {@link Invokable2} 's signature.
+	 * {@link Invokable} 's signature.
 	 *
 	 * @param member2
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public SignaturePredicate(Member2<?> member2) {
 		Assert.notNull("member2", member2);
@@ -102,8 +102,8 @@ public class SignaturePredicate implements Predicate<Object>, Serializable {
 	 *            should be a {@link Constructor}, {@link Method} or a
 	 *            {@link Signature}. All other types evaluate to false.
 	 *
-	 * @since 1.0.0.0
-	 * @version 1.2.0.0
+	 * @since 1.0.0;
+	 * @version 1.2.0;
 	 */
 	public boolean test(Object object) {
 		Member2<?> otherInvokable = null;

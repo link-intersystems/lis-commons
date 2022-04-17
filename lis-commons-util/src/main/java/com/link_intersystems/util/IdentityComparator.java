@@ -30,7 +30,7 @@ import java.util.Comparator;
  *         intersystems.com]</a>
  *
  * @param <T>
- * @since 1.0.0.0
+ * @since 1.0.0;
  */
 public class IdentityComparator<T> implements Comparator<T>, Serializable {
 
@@ -46,7 +46,7 @@ public class IdentityComparator<T> implements Comparator<T>, Serializable {
 	 *         or greater values are calculated by the
 	 *         {@link System#identityHashCode(Object)}. If the identity hash
 	 *         code of o1 is less then o2 it is considered to be less.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public int compare(T o1, T o2) {
 		int identityHashCode1 = System.identityHashCode(o1);

@@ -36,7 +36,7 @@ import java.util.stream.StreamSupport;
  * @author René Link <a
  * href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  * intersystems.com]</a>
- * @since 1.0.0.0
+ * @since 1.0.0;
  */
 public class ClassCriteria extends ElementCriteria<Class<?>> {
 
@@ -89,7 +89,7 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
      * {@link TraverseStrategy#DEPTH_FIRST}).
      *
      * @param traverseStrategy
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public void setTraverseStrategy(TraverseStrategy traverseStrategy) {
         Assert.notNull("traverseStrategy", traverseStrategy);
@@ -105,7 +105,7 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
      *                   selected when iterating through the hierarchy. The classTypes
      *                   should be unique. Otherwise the first occurrence in the
      *                   classTypes array wins. All later occurrences will be ignored.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
 
     public void setSelection(ClassType... classTypes) {
@@ -125,7 +125,7 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
      * tree will be traversed together in the set {@link TraverseStrategy}.
      *
      * @param separatedClassTypeTraversal
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public void setSeparatedClassTypeTraversal(boolean separatedClassTypeTraversal) {
         this.separatedClassTypeTraversal = separatedClassTypeTraversal;
@@ -140,7 +140,7 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
      * {@link Class#getInterfaces()} method returns them.
      *
      * @param interfacesComparator
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public void setInterfacesIterationOrder(Comparator<Class<?>> interfacesComparator) {
         Assert.notNull("interfacesComparator", interfacesComparator);
@@ -152,7 +152,7 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
      * iterated.
      *
      * @param innerClassesIterationOrder
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public void setInnerClassesIterationOrder(Comparator<Class<?>> innerClassesIterationOrder) {
         Assert.notNull("innerClassesIterationOrder", interfacesComparator);
@@ -162,7 +162,7 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
     /**
      * @return the interfaces iteration order comparator set by
      * {@link #setInterfacesIterationOrder(Comparator)} if any or null.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     Comparator<Class<?>> getInterfacesComparator() {
         return interfacesComparator;
@@ -198,7 +198,7 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
      * </p>
      *
      * @param stopClass
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public void stopAt(Class<?> stopClass) {
         this.stopClass = stopClass;
@@ -211,7 +211,7 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
      * a specific class one time instead of all occurrences. Default is false.
      *
      * @param traverseClassesUniquely
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public void setTraverseClassesUniquely(boolean traverseClassesUniquely) {
         this.traverseClassesUniquely = traverseClassesUniquely;
@@ -224,7 +224,7 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
      * {@link Predicate#test(Object)} method.
      * </p>
      *
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     @Override
     public void add(Predicate<Class<?>> predicate) {
@@ -245,7 +245,7 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
      * at that class.
      * @throws IllegalArgumentException if the this criteria specifies a stop class and this class is
      *                                  not a superclass of the start class.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public Iterable<? extends AnnotatedElement> getAnnotatedElementIterable(Class<?> startAt, Class<?> stopAt) {
         Iterable<Class<?>> iterable = getIterable(startAt, stopAt);
@@ -261,7 +261,7 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
      * defined by this criteria starting at the given class and stopping
      * at the given class.
      * @throws IllegalArgumentException if the stop class is not a superclass of the start class.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public Iterable<? extends AnnotatedElement> getAnnotatedElementIterable(Class<?> startAt) {
         return getAnnotatedElementIterable(startAt, stopClass);
@@ -275,7 +275,7 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
      * at that class.
      * @throws IllegalArgumentException if the this criteria specifies a stop class and this class is
      *                                  not a superclass of the start class.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public Iterable<Class<?>> getIterable(Class<?> startAt) {
         return getIterable(startAt, stopClass);
@@ -299,7 +299,7 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
      * defined by this criteria starting at the given class and stopping
      * at the given class.
      * @throws IllegalArgumentException if the stop class is not a superclass of the start class.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public Iterable<Class<?>> getIterable(Class<?> startAt, Class<?> stopAt) {
         Assert.notNull("startAt", startAt);

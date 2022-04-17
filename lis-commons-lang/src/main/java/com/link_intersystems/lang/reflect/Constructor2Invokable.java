@@ -23,7 +23,7 @@ import java.lang.reflect.Constructor;
  * @author René Link <a
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
- * @since 1.2.0.0
+ * @since 1.2.0;
  * @see Constructor2#getInvokable()
  */
 class Constructor2Invokable extends AbstractMemberInvokable<Constructor2<?>> {
@@ -40,7 +40,7 @@ class Constructor2Invokable extends AbstractMemberInvokable<Constructor2<?>> {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	@SuppressWarnings("unchecked")
 	protected <T> T doInvoke(Object... params) throws Exception {

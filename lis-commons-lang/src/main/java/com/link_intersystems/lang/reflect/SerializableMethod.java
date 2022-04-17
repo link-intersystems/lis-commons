@@ -32,7 +32,7 @@ import com.link_intersystems.lang.ref.Reference;
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
  *
- * @since 1.0.0.0
+ * @since 1.0.0;
  *
  */
 class SerializableMethod extends AbstractSerializableReference<Method> {
@@ -73,7 +73,7 @@ class SerializableMethod extends AbstractSerializableReference<Method> {
 	 * @param method
 	 *            that should be wrapped in a serializable way.
 	 *
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public SerializableMethod(Method method) {
 		super(method);

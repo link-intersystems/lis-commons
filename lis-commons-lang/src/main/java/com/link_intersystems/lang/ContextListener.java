@@ -23,9 +23,9 @@ package com.link_intersystems.lang;
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
  * 
- * @param <CONTEXT_TYPE>
+ * @param <T>
  *            the type of the context object.
- * @since 1.2.0.0
+ * @since 1.2.0;
  */
 public interface ContextListener<T> {
 
@@ -34,7 +34,7 @@ public interface ContextListener<T> {
 	 * with the given contextObject.
 	 * 
 	 * @param contextObject
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public void contextActivated(T contextObject);
 
@@ -45,7 +45,7 @@ public interface ContextListener<T> {
 	 * with.
 	 * 
 	 * @param contextObject
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public void contextDeactivated(T contextObject);
 
@@ -59,7 +59,7 @@ public interface ContextListener<T> {
 	 * @param exception
 	 *            the exception that was thrown while executing within the
 	 *            context or <code>null</code> if no exception occurred.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public void contextDeactivated(T contextObject, Exception exception);
 }

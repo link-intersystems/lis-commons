@@ -29,7 +29,7 @@ import com.link_intersystems.lang.Signature;
  * @author René Link <a
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
- * @since 1.0.0.0
+ * @since 1.0.0;
  * 
  */
 public class Constructor2<T> extends Member2<Constructor<T>> {
@@ -49,7 +49,7 @@ public class Constructor2<T> extends Member2<Constructor<T>> {
 	 * @param constructor
 	 *            the constructor that is the base for this {@link Constructor2}
 	 *            .
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	Constructor2(Constructor<T> constructor) {
 		super(constructor);
@@ -58,7 +58,7 @@ public class Constructor2<T> extends Member2<Constructor<T>> {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public Type[] getGenericParameterTypes() {
 		return getMember().getGenericParameterTypes();
@@ -74,7 +74,7 @@ public class Constructor2<T> extends Member2<Constructor<T>> {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public Class<?>[] getParameterTypes() {
 		return getMember().getParameterTypes();
@@ -83,7 +83,7 @@ public class Constructor2<T> extends Member2<Constructor<T>> {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	protected Class<?> getReturnType() {
 		return getMember().getDeclaringClass();
@@ -92,7 +92,7 @@ public class Constructor2<T> extends Member2<Constructor<T>> {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	@Override
 	public Class<?>[] getDeclaredExceptionTypes() {
@@ -111,7 +111,7 @@ public class Constructor2<T> extends Member2<Constructor<T>> {
 	 *         Therefore two constructor signatures can be equal even if they do
 	 *         not belong to the same declaring class (e.g. same class name in
 	 *         different packages).
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public Signature getSignature() {
 		if (signature == null) {
@@ -123,7 +123,7 @@ public class Constructor2<T> extends Member2<Constructor<T>> {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public boolean isVarArgs() {
 		return getMember().isVarArgs();
@@ -141,7 +141,7 @@ public class Constructor2<T> extends Member2<Constructor<T>> {
 	 * @throws Exception
 	 *             if one of the declared exceptions (if any) of the constructor
 	 *             is thrown.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	@SuppressWarnings("unchecked")
 	public T newInstance(Object... constructorArgs) throws Exception {

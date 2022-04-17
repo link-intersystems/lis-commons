@@ -29,7 +29,7 @@ import java.io.Serializable;
  *         intersystems.com]</a>
  *
  * @param <T>
- * @since 1.2.0.0
+ * @since 1.2.0;
  */
 public class CopyOnAccessReference<T extends Serializable> implements
 		Reference<T> {
@@ -42,7 +42,7 @@ public class CopyOnAccessReference<T extends Serializable> implements
 	 *
 	 * @param referentToCopyOnAccess
 	 *            the template referent.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public CopyOnAccessReference(T referentToCopyOnAccess) {
 		this.referentToCopyOnAccess = referentToCopyOnAccess;
@@ -51,7 +51,7 @@ public class CopyOnAccessReference<T extends Serializable> implements
 	/**
 	 * {@inheritDoc}. Always returns a copy of the referent.
 	 *
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public T get() {
 		if (referentToCopyOnAccess == null) {

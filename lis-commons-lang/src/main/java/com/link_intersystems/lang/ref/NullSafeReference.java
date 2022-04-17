@@ -25,7 +25,7 @@ import com.link_intersystems.lang.Assert;
  *         intersystems.com]</a>
  * 
  * @param <T>
- * @see http://www.refactoring.com/catalog/introduceNullObject.html
+ * @see <a href="http://www.refactoring.com/catalog/introduceNullObject.html">...</a>
  */
 public class NullSafeReference<T> implements Reference<T> {
 
@@ -40,7 +40,7 @@ public class NullSafeReference<T> implements Reference<T> {
 	 * @param nullInstance
 	 *            the null object instance in terms of the null object pattern.
 	 *            Must never be <code>null</code>
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public NullSafeReference(T nullInstance) {
 		Assert.notNull("nullInstance", nullInstance);
@@ -55,7 +55,7 @@ public class NullSafeReference<T> implements Reference<T> {
 	 * 
 	 * @param referent
 	 *            the referent to set. Can be <code>null</code>
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public void setReferent(T referent) {
 		if (referent == null) {
@@ -71,9 +71,9 @@ public class NullSafeReference<T> implements Reference<T> {
 	 * {@link NullSafeReference} was constructed with, will be returned by
 	 * {@link #get()}. Otherwise the referent.
 	 * 
-	 * @param referent
+	 * @param referentRef
 	 *            the referent to set. Can be <code>null</code>
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public void setReferent(Reference<T> referentRef) {
 		this.referentRef = referentRef;
@@ -81,7 +81,7 @@ public class NullSafeReference<T> implements Reference<T> {
 
 	/**
 	 * @inherited
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public T get() {
 		T referent = referentRef.get();

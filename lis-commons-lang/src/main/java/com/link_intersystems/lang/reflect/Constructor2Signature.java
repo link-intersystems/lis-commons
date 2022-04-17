@@ -29,7 +29,7 @@ package com.link_intersystems.lang.reflect;
  *         intersystems.com]</a>
  * @param <T>
  *            the type that this constructor belongs to.
- * @since 1.2.0.0
+ * @since 1.2.0;
  */
 class Constructor2Signature<T> extends Member2Signature<Constructor2<?>> {
 

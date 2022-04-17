@@ -23,7 +23,7 @@ import java.lang.reflect.Method;
  * @author René Link <a
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
- * @since 1.2.0.0
+ * @since 1.2.0;
  * @see Method2#getInvokable(Object)
  */
 class Method2Invokable extends AbstractMemberInvokable<Method2> {
@@ -40,7 +40,7 @@ class Method2Invokable extends AbstractMemberInvokable<Method2> {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	@SuppressWarnings("unchecked")
 	protected <T> T doInvoke(Object... args) throws Exception {

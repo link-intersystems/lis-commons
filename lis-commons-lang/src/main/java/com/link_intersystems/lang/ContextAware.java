@@ -157,7 +157,7 @@ import java.util.stream.StreamSupport;
  * @author René Link <a
  * href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  * intersystems.com]</a>
- * @since 1.2.0.0
+ * @since 1.2.0;
  */
 public abstract class ContextAware<CONTEXT_TYPE> {
 
@@ -176,7 +176,7 @@ public abstract class ContextAware<CONTEXT_TYPE> {
      * {@link #getInvocationMethod()} always returns <code>null</code>.
      *
      * @return the method of the context proxy that is invoked.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public Method2 getInvocationMethod() {
         return invocationMethod.get();
@@ -239,7 +239,7 @@ public abstract class ContextAware<CONTEXT_TYPE> {
      *
      * @param runnable the runnable that should be run with this {@link ContextAware}
      *                 's context (defined by subclasses).
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public void runInContext(Runnable runnable) {
         RunnableRunInContext runInContext = new RunnableRunInContext(runnable);
@@ -261,7 +261,7 @@ public abstract class ContextAware<CONTEXT_TYPE> {
      * @return the result of the {@link Callable#call()} method.
      * @throws Exception the exception that is thrown by the {@link Callable#call()}
      *                   method.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public <RESULT> RESULT runInContext(Callable<RESULT> callable)
             throws Exception {
@@ -275,7 +275,7 @@ public abstract class ContextAware<CONTEXT_TYPE> {
     /**
      * Adds the {@link ContextListener} to this {@link ContextAware}.
      *
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public void addContextListener(ContextListener<CONTEXT_TYPE> contextListener) {
         Assert.notNull("contextListener", contextListener);
@@ -285,7 +285,7 @@ public abstract class ContextAware<CONTEXT_TYPE> {
     /**
      * Removes the {@link ContextListener} from this {@link ContextAware}.
      *
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public void removeContextListener(
             ContextListener<CONTEXT_TYPE> contextListener) {
@@ -299,7 +299,7 @@ public abstract class ContextAware<CONTEXT_TYPE> {
      *
      * @return a context object that will be passed to the
      * {@link #deactivateContext(Object)} method on de-activation.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     protected abstract CONTEXT_TYPE activateContext();
 
@@ -309,7 +309,7 @@ public abstract class ContextAware<CONTEXT_TYPE> {
      *
      * @param context the object that was returned by the {@link #activateContext()}
      *                call.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     protected abstract void deactivateContext(CONTEXT_TYPE context);
 
@@ -326,7 +326,7 @@ public abstract class ContextAware<CONTEXT_TYPE> {
      *                  call.
      * @param exception the exception that occurred while executing within the
      *                  context.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     protected void deactivateContext(CONTEXT_TYPE context, Exception exception) {
         deactivateContext(context);
@@ -342,7 +342,7 @@ public abstract class ContextAware<CONTEXT_TYPE> {
      * @param params
      * @return the invoked method's return value
      * @throws Exception if the invoked method throws an exception.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     @SuppressWarnings("unchecked")
     public <EXPECTED_TYPE> EXPECTED_TYPE invokeInContext(Object target,
@@ -388,7 +388,7 @@ public abstract class ContextAware<CONTEXT_TYPE> {
      * @param params the invokation parameters.
      * @return the invoked method's return value
      * @throws Exception if the invoked method throws an exception.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     @SuppressWarnings("unchecked")
     public <EXPECTED_TYPE> EXPECTED_TYPE invokeStaticInContext(Class<?> target,
@@ -419,7 +419,7 @@ public abstract class ContextAware<CONTEXT_TYPE> {
      * @author René Link <a
      * href="mailto:rene.link@link-intersystems.com">[rene.link@link-
      * intersystems.com]</a>
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public static interface ContextProvider {
 
@@ -431,7 +431,7 @@ public abstract class ContextAware<CONTEXT_TYPE> {
          * @param runInContext the object to proceed the invocation with when the context
          *                     is established by calling {@link RunInContext#proceed()}.
          * @throws Exception
-         * @since 1.2.0.0
+         * @since 1.2.0;
          */
         public void provideContext(RunInContext runInContext) throws Exception;
     }
@@ -442,7 +442,7 @@ public abstract class ContextAware<CONTEXT_TYPE> {
      * @author René Link <a
      * href="mailto:rene.link@link-intersystems.com">[rene.link@link-
      * intersystems.com]</a>
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public static interface RunInContext {
 
@@ -451,7 +451,7 @@ public abstract class ContextAware<CONTEXT_TYPE> {
          * context.
          *
          * @throws Exception
-         * @since 1.2.0.0
+         * @since 1.2.0;
          */
         public void proceed() throws Exception;
     }

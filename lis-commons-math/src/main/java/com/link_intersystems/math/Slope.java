@@ -23,7 +23,7 @@ import com.link_intersystems.lang.Assert;
  * @author René Link <a
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
- * @since 1.2.0.0
+ * @since 1.2.0;
  */
 public class Slope {
 
@@ -33,17 +33,10 @@ public class Slope {
 	 * Constructs a slope based on the cartesian points represented by their x
 	 * and y coordinates.
 	 * 
-	 * @param x1
-	 *            the first point's x coordinate.
-	 * @param y1
-	 *            the first point's y coordinate.
+	 * @param slope
+	 *            the slope value as described in {@link #getValue()}.
 	 * 
-	 * @param x2
-	 *            the second point's x coordinate.
-	 * @param y2
-	 *            the second point's y coordinate.
-	 * 
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public Slope(double slope) {
 		this.slope = slope;
@@ -63,7 +56,7 @@ public class Slope {
 	 * @param y2
 	 *            the second point's y coordinate.
 	 * 
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public Slope(double x1, double y1, double x2, double y2) {
 		init(new CartesianPoint(x1, y1), new CartesianPoint(x2, y2));
@@ -77,7 +70,7 @@ public class Slope {
 	 * @param p2
 	 *            the second point.
 	 * 
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public Slope(CartesianPoint p1, CartesianPoint p2) {
 		Assert.notNull("p1", p1);
@@ -101,7 +94,7 @@ public class Slope {
 	 * @param p2
 	 *            the second point.
 	 * 
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public Slope(PolarPoint p1, PolarPoint p2) {
 		Assert.notNull("p1", p1);

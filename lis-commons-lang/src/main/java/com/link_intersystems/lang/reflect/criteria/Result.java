@@ -22,8 +22,8 @@ package com.link_intersystems.lang.reflect.criteria;
  * @author René Link <a
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
- * @since 1.2.0.0
- * @since 1.0.0.0 formerly named Selection
+ * @since 1.2.0;
+ * @since 1.0.0; formerly named Selection
  * 
  */
 public enum Result {
@@ -31,20 +31,20 @@ public enum Result {
 	 * Only the first element that matches the criteria is included in the
 	 * result.
 	 * 
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	FIRST,
 	/**
 	 * Only the last element that matches the criteria is included in the
 	 * result.
 	 * 
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	LAST,
 	/**
 	 * All elements that match the criteria are included in the result.
 	 * 
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	ALL;
 }

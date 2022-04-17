@@ -28,7 +28,7 @@ import java.util.function.Predicate;
  *         intersystems.com]</a>
  *
  * @param <CANDIDATE_TYPE>
- * @since 1.2.0.0
+ * @since 1.2.0;
  */
 class ChooseMostSpecificMemberStrategy<CANDIDATE_TYPE extends Member2<?>> {
 

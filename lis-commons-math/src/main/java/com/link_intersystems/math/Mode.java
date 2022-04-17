@@ -26,7 +26,7 @@ import java.util.List;
  *         intersystems.com]</a>
  * @param <N>
  *            the precision of the mode.
- * @since 1.2.0.0
+ * @since 1.2.0;
  */
 public interface Mode<N extends Number> extends Aggregate<N> {
 
@@ -40,7 +40,7 @@ public interface Mode<N extends Number> extends Aggregate<N> {
 	 *         been added the same times, the result is undefined. Any of those
 	 *         values might be returned. Use {@link #getValues()} if you want to
 	 *         get all values that were added most often.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public N getValue();
 
@@ -52,7 +52,7 @@ public interface Mode<N extends Number> extends Aggregate<N> {
 	 *         <code>2</code> and <code>5</code> will be returned. While
 	 *         {@link #getValue()} will return either <code>2</code> or
 	 *         <code>5</code>.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public List<Integer> getValues();
 
@@ -63,7 +63,7 @@ public interface Mode<N extends Number> extends Aggregate<N> {
 	 *            the value to add.
 	 * @throws IllegalArgumentException
 	 *             if value is null.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public boolean addValue(Number value);
 

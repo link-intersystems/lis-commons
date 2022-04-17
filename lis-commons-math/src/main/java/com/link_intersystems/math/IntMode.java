@@ -27,7 +27,7 @@ import java.util.Map;
  * @author René Link <a
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
- * @since 1.2.0.0
+ * @since 1.2.0;
  * 
  */
 public class IntMode implements Mode<Integer> {
@@ -50,7 +50,7 @@ public class IntMode implements Mode<Integer> {
 	 *         been added the same times, the result is undefined. Any of those
 	 *         values might be returned. Use {@link #getValues()} if you want to
 	 *         get all values that were added most often.
-	 * @since 1.2.0.0.
+	 * @since 1.2.0;.
 	 */
 	public Integer getValue() {
 		Integer value = null;
@@ -68,7 +68,7 @@ public class IntMode implements Mode<Integer> {
 	 *         <code>2</code> and <code>5</code> will be returned. While
 	 *         {@link #getValue()} will return either <code>2</code> or
 	 *         <code>5</code>.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public List<Integer> getValues() {
 		return Collections.unmodifiableList(modes);
@@ -76,7 +76,7 @@ public class IntMode implements Mode<Integer> {
 
 	/**
 	 * @inherited
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public boolean addValue(Number value) {
 		int oldModeCount = modes.size();

@@ -33,8 +33,8 @@ import java.io.Serializable;
  *
  * @param <T>
  *            of the wrapped non serializable object.
- * @since 1.0.0.0
- * @version 1.2.0.0
+ * @since 1.0.0;
+ * @version 1.2.0;
  */
 public abstract class AbstractSerializableReference<T> implements
 		SerializableReference<T> {
@@ -43,7 +43,7 @@ public abstract class AbstractSerializableReference<T> implements
 	 * Member field that holds a reference to the wrapped non-serializable
 	 * object.
 	 *
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	private transient T transientReferent;
 
@@ -57,7 +57,7 @@ public abstract class AbstractSerializableReference<T> implements
 	/**
 	 * Constructor that does not initialize the referent.
 	 *
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	protected AbstractSerializableReference() {
 		this(null);
@@ -68,7 +68,7 @@ public abstract class AbstractSerializableReference<T> implements
 	 *
 	 * @param transientReferent
 	 *            the referent that this {@link Reference} refers to.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	protected AbstractSerializableReference(T transientReferent) {
 		this.transientReferent = transientReferent;
@@ -81,7 +81,7 @@ public abstract class AbstractSerializableReference<T> implements
 	 *         the object that this {@link SerializableReference} was construted
 	 *         with or in case of deserialization delegates to the restore
 	 *         routine to create one.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public T get() {
 		return transientReferent;
@@ -113,7 +113,7 @@ public abstract class AbstractSerializableReference<T> implements
 	 *         restore the referent on deserialization.
 	 * @throws Exception
 	 *             if any exception occurs.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	protected abstract Serializable serialize(T nonSerializableObject)
 			throws Exception;
@@ -144,14 +144,14 @@ public abstract class AbstractSerializableReference<T> implements
 	 * @return the restored non-serializable referent.
 	 * @throws Exception
 	 *             if any exception occurs.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	protected abstract T deserialize(Serializable restoreInfo) throws Exception;
 
 	/**
 	 * {@inheritDoc}.
 	 *
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	@Override
 	public String toString() {
@@ -170,7 +170,7 @@ public abstract class AbstractSerializableReference<T> implements
 	/**
 	 * {@inheritDoc}. The hash code is based on the referent's hash code.
 	 *
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	@Override
 	public int hashCode() {
@@ -189,7 +189,7 @@ public abstract class AbstractSerializableReference<T> implements
 	 * {@link AbstractSerializableReference} if their referents are equal
 	 * according to their equal method's implementation.
 	 *
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	@SuppressWarnings("rawtypes")
 	@Override

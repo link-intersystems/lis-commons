@@ -28,7 +28,7 @@ import com.link_intersystems.lang.Assert;
  * @author René Link [<a
  *         href="mailto:rene.link@link-intersystems.com">rene.link@link-
  *         intersystems.com</a>]
- * @version 1.0.0.0
+ * @version 1.0.0;
  */
 public class MethodInvokingTransformer implements Function<Object, Object> {
 
@@ -38,7 +38,7 @@ public class MethodInvokingTransformer implements Function<Object, Object> {
 	/**
 	 *
 	 * @param methodToUse
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public MethodInvokingTransformer(Method methodToUse) {
 		this(Method2.forMethod(methodToUse));
@@ -47,7 +47,7 @@ public class MethodInvokingTransformer implements Function<Object, Object> {
 	/**
 	 *
 	 * @param methodToUse
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public MethodInvokingTransformer(Method2 methodToUse) {
 		this(methodToUse, NullInvocationArgumentsResolver.INSTANCE);
@@ -57,7 +57,7 @@ public class MethodInvokingTransformer implements Function<Object, Object> {
 	 *
 	 * @param methodToUse
 	 * @param invocationArgumentsResolver
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public MethodInvokingTransformer(Method2 methodToUse,
 			InvocationArgumentsResolver invocationArgumentsResolver) {
@@ -71,7 +71,7 @@ public class MethodInvokingTransformer implements Function<Object, Object> {
 	 *
 	 * @param methodToUse
 	 * @param invocationArgumentsResolver
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public MethodInvokingTransformer(Method methodToUse,
 			InvocationArgumentsResolver invocationArgumentsResolver) {
@@ -97,8 +97,8 @@ public class MethodInvokingTransformer implements Function<Object, Object> {
 	 * @throws IllegalStateException
 	 *             if an exception occurs while invoking the transform method on
 	 *             the input object.
-	 * @since 1.0.0.0
-	 * @version 1.2.0.0
+	 * @since 1.0.0;
+	 * @version 1.2.0;
 	 */
 	public Object apply(Object targetObject) {
 		Object result = null;

@@ -32,7 +32,7 @@ import com.link_intersystems.lang.Signature;
  *
  * @param <T>
  *
- * @since 1.2.0.0
+ * @since 1.2.0;
  */
 abstract class Member2Signature<T extends Member2<?>> implements Signature {
 

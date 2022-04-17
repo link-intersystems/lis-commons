@@ -25,7 +25,7 @@ package com.link_intersystems.lang.ref;
  *         intersystems.com]</a>
  * 
  * @param <T>
- * @since 1.0.0.0
+ * @since 1.0.0;
  */
 public class HardReference<T> implements Reference<T> {
 
@@ -38,7 +38,7 @@ public class HardReference<T> implements Reference<T> {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public T get() {
 		return t;

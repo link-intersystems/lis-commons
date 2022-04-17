@@ -28,7 +28,7 @@ import java.lang.reflect.Member;
  * @author René Link <a
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
- * @since 1.2.0.0
+ * @since 1.2.0;
  */
 class Method2Signature extends Member2Signature<Method2> {
 

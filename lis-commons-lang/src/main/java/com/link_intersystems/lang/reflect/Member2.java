@@ -87,7 +87,7 @@ public abstract class Member2<MEMBER_TYPE extends Member> implements Member,
 	 * Returns the member that this {@link Member2} wraps.
 	 *
 	 * @return the member that this {@link Member2} wraps.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public MEMBER_TYPE getMember() {
 		return memberRef.get();
@@ -97,7 +97,7 @@ public abstract class Member2<MEMBER_TYPE extends Member> implements Member,
 	 * The class that declares this {@link Member2}.
 	 *
 	 * @return the declaring class of this {@link Member2}.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public Class<?> getDeclaringClass() {
 		return getMember().getDeclaringClass();
@@ -107,7 +107,7 @@ public abstract class Member2<MEMBER_TYPE extends Member> implements Member,
 	 * The generic type parameters of this {@link Invokable}.
 	 *
 	 * @return the generic parameter types of this {@link Invokable}.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public abstract Type[] getGenericParameterTypes();
 
@@ -115,7 +115,7 @@ public abstract class Member2<MEMBER_TYPE extends Member> implements Member,
 	 * Returns true if this {@link Member2} has variable arguments.
 	 *
 	 * @return true if this {@link Member2} has variable arguments.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public abstract boolean isVarArgs();
 
@@ -123,7 +123,7 @@ public abstract class Member2<MEMBER_TYPE extends Member> implements Member,
 	 * The type that invocations of this {@link Member2} will return.
 	 *
 	 * @return the return type of this {@link Member2}.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public Class2<?> getReturnClass2() {
 		Class<?> returnType = getReturnType();
@@ -133,7 +133,7 @@ public abstract class Member2<MEMBER_TYPE extends Member> implements Member,
 	/**
 	 * @return the {@link Class} object that represents this member's return
 	 *         type.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	protected abstract Class<?> getReturnType();
 
@@ -145,7 +145,7 @@ public abstract class Member2<MEMBER_TYPE extends Member> implements Member,
 	 * The modifiers of this {@link Member2}.
 	 *
 	 * @return the modifiers of this {@link Member2}.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public int getModifiers() {
 		return getMember().getModifiers();
@@ -155,7 +155,7 @@ public abstract class Member2<MEMBER_TYPE extends Member> implements Member,
 	 * The name of this {@link Member2}.
 	 *
 	 * @return the name of this {@link Member2}.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public String getName() {
 		return getMember().getName();
@@ -165,7 +165,7 @@ public abstract class Member2<MEMBER_TYPE extends Member> implements Member,
 	 * The parameter type array of this {@link Member2}.
 	 *
 	 * @return the parameter types of this {@link Member2}.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public abstract Class<?>[] getParameterTypes();
 
@@ -173,7 +173,7 @@ public abstract class Member2<MEMBER_TYPE extends Member> implements Member,
 	 * @param accessTypes
 	 * @return true if this {@link Member2} is accessible by one of the given
 	 *         {@link AccessType}s.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public boolean isAccessible(AccessType... accessTypes) {
 		Assert.notNull("accessTypes", accessTypes);
@@ -200,7 +200,7 @@ public abstract class Member2<MEMBER_TYPE extends Member> implements Member,
 	 * @param otherMember2
 	 * @return true if the names of this {@link Member2} is equal to the name of
 	 *         the other {@link Member2}.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	protected boolean isNameEqual(Member2<?> otherMember2) {
 		return getName().equals(otherMember2.getName());
@@ -213,7 +213,7 @@ public abstract class Member2<MEMBER_TYPE extends Member> implements Member,
 	 *
 	 * @param member2
 	 * @return
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	protected boolean isInterfaceImplementation(Member2<?> member2) {
 		return member2.isDeclaringClassIsAnInterface()
@@ -262,7 +262,7 @@ public abstract class Member2<MEMBER_TYPE extends Member> implements Member,
 	 * </pre>
 	 *
 	 *         </p>
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	protected boolean isAccessModifierOverriddingCompatible(
 			Member2<?> referenceMember) {
@@ -286,7 +286,7 @@ public abstract class Member2<MEMBER_TYPE extends Member> implements Member,
 	 * @param member2
 	 * @return true if the this {@link Member2}'s declaring class is assignable
 	 *         from the invokable.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	protected boolean isDeclaringClassAssignableFrom(Member2<?> member2) {
 		return member2.getDeclaringClass()
@@ -299,7 +299,7 @@ public abstract class Member2<MEMBER_TYPE extends Member> implements Member,
 	 *
 	 * @param compareWithMember2
 	 * @return
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	protected boolean areParametersEqual(Member2<?> compareWithMember2) {
 		return Arrays.deepEquals(getParameterTypes(),
@@ -315,7 +315,7 @@ public abstract class Member2<MEMBER_TYPE extends Member> implements Member,
 	 *
 	 * @param args
 	 * @return
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	protected Class<?>[] argObjectsToParamClasses(Object[] args) {
 		Class<?>[] paramClasses = new Class<?>[args.length];
@@ -335,7 +335,7 @@ public abstract class Member2<MEMBER_TYPE extends Member> implements Member,
 	/**
 	 * @param index
 	 * @return
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	protected Parameter getParameter(int index) {
 		List<Parameter> parametersInternal = getParameters();
@@ -354,11 +354,11 @@ public abstract class Member2<MEMBER_TYPE extends Member> implements Member,
 	}
 
 	/**
-	 * Can {@link #invoke(Object, Object...)} be called with that arguments?
+	 * Returns true if this member can be called with the given arguments.
 	 *
 	 * @param arguments
 	 * @return true if this {@link Invokable} is applicable for the arguments.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public boolean isApplicable(Object[] arguments) {
 		Class<?>[] paramClasses = argObjectsToParamClasses(arguments);
@@ -366,7 +366,7 @@ public abstract class Member2<MEMBER_TYPE extends Member> implements Member,
 	}
 
 	/**
-	 * Can {@link #invoke(Object, Object...)} be called with that parameter
+	 * Returns true if this member is applicable for the given parameter types.
 	 * types?
 	 *
 	 * @param paramTypes
@@ -385,7 +385,7 @@ public abstract class Member2<MEMBER_TYPE extends Member> implements Member,
 	 *
 	 * @param callParameters
 	 * @return
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	protected Object[] toMethodInvokeParams(Object[] callParameters) {
 		if (isVarArgs()) {
@@ -479,7 +479,7 @@ public abstract class Member2<MEMBER_TYPE extends Member> implements Member,
 	 * Type parameters of generic methods need not be provided explicitly when a generic method is
 	 * invoked. Instead, they are almost always inferred as specified in §15.12.2.7
 	 * </pre>
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public boolean isGeneric() {
 		if (generic == null) {
@@ -501,7 +501,7 @@ public abstract class Member2<MEMBER_TYPE extends Member> implements Member,
 	 * Returns the {@link Parameter}s of this {@link Invokable}.
 	 *
 	 * @return the {@link Parameter}s of this {@link Invokable}.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public List<Parameter> getParameters() {
 		if (parameters == null) {
@@ -546,7 +546,7 @@ public abstract class Member2<MEMBER_TYPE extends Member> implements Member,
 
 	/**
 	 * @return the declared exception types of this method.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public abstract Class<?>[] getDeclaredExceptionTypes();
 
@@ -554,7 +554,7 @@ public abstract class Member2<MEMBER_TYPE extends Member> implements Member,
 	 * @param exceptionClass
 	 * @return true if the exceptionClass is a exception type declared by this
 	 *         method.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public boolean isDeclaredException(Class<? extends Exception> exceptionClass) {
 		Assert.notNull("exceptionClass", exceptionClass);
@@ -574,7 +574,7 @@ public abstract class Member2<MEMBER_TYPE extends Member> implements Member,
 	/**
 	 * @param exception
 	 * @return true if the exception is declared by this method.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public boolean isDeclaredException(Exception exception) {
 		Assert.notNull("exception", exception);

@@ -27,7 +27,7 @@ import com.link_intersystems.lang.Assert;
  * @author René Link <a
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
- * @since 1.2.0.0
+ * @since 1.2.0;
  */
 public class PointSlopeLinearEquation implements LinearEquation {
 
@@ -44,10 +44,8 @@ public class PointSlopeLinearEquation implements LinearEquation {
 	 * 
 	 * @param slope
 	 *            the slope of the line.
-	 * @param x1
-	 * @param y1
-	 * 
-	 * @since 1.2.0.0
+	 *
+	 * @since 1.2.0;
 	 */
 	public PointSlopeLinearEquation(Slope slope) {
 		this(slope, 0.0, 0.0);
@@ -62,10 +60,8 @@ public class PointSlopeLinearEquation implements LinearEquation {
 	 * 
 	 * @param slope
 	 *            the slope of the line.
-	 * @param x1
-	 * @param y1
-	 * 
-	 * @since 1.2.0.0
+	 *
+	 * @since 1.2.0;
 	 */
 	public PointSlopeLinearEquation(double slope) {
 		this(new Slope(slope), 0.0, 0.0);
@@ -83,7 +79,7 @@ public class PointSlopeLinearEquation implements LinearEquation {
 	 * @param b
 	 *            the intersection point with the y axis.
 	 * 
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public PointSlopeLinearEquation(Slope slope, double b) {
 		this(slope, 0.0, b);
@@ -96,12 +92,10 @@ public class PointSlopeLinearEquation implements LinearEquation {
 	 * y = m * x + b
 	 * </pre>
 	 * 
-	 * @param m
+	 * @param slope
 	 *            the slope of the line.
-	 * @param x1
-	 * @param y1
-	 * 
-	 * @since 1.2.0.0
+	 *
+	 * @since 1.2.0;
 	 */
 	public PointSlopeLinearEquation(double slope, double b) {
 		this(new Slope(slope), 0.0, b);
@@ -117,7 +111,7 @@ public class PointSlopeLinearEquation implements LinearEquation {
 	 * @param y
 	 *            y coordinate of a point on the linear equation.
 	 * 
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public PointSlopeLinearEquation(double slope, double x, double y) {
 		this(new Slope(slope), new CartesianPoint(x, y));
@@ -133,7 +127,7 @@ public class PointSlopeLinearEquation implements LinearEquation {
 	 * @param y
 	 *            y coordinate of a point on the linear equation.
 	 * 
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public PointSlopeLinearEquation(Slope slope, double x, double y) {
 		this(slope, new CartesianPoint(x, y));
@@ -147,7 +141,7 @@ public class PointSlopeLinearEquation implements LinearEquation {
 	 * @param cartesianPoint
 	 *            the {@link CartesianPoint} that describes the x and y
 	 *            coordinates. x coordinate of a point on the linear equation.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public PointSlopeLinearEquation(double slope, CartesianPoint cartesianPoint) {
 		this(new Slope(slope), cartesianPoint);
@@ -161,7 +155,7 @@ public class PointSlopeLinearEquation implements LinearEquation {
 	 * @param cartesianPoint
 	 *            the {@link CartesianPoint} that describes the x and y
 	 *            coordinates. x coordinate of a point on the linear equation.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public PointSlopeLinearEquation(Slope slope, CartesianPoint cartesianPoint) {
 		Assert.notNull("slope", slope);
@@ -178,7 +172,7 @@ public class PointSlopeLinearEquation implements LinearEquation {
 	 * @param polarPoint
 	 *            the {@link PolarPoint} that describes the x and y coordinates.
 	 *            x coordinate of a point on the linear equation.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public PointSlopeLinearEquation(double slope, PolarPoint polarPoint) {
 		this(new Slope(slope), polarPoint);
@@ -187,13 +181,13 @@ public class PointSlopeLinearEquation implements LinearEquation {
 	/**
 	 * <b>Slope–intercept</b> based {@link TwoPointLinearEquation}.
 	 * 
-	 * @param m
+	 * @param slope
 	 *            the slope of the line.
 	 * 
 	 * @param polarPoint
 	 *            the {@link PolarPoint} that describes the x and y coordinates.
 	 *            x coordinate of a point on the linear equation.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public PointSlopeLinearEquation(Slope slope, PolarPoint polarPoint) {
 		Assert.notNull("polarPoint", polarPoint);
@@ -212,7 +206,7 @@ public class PointSlopeLinearEquation implements LinearEquation {
 	 * 
 	 * @return the {@link CartesianPoint} that describes the x and y coordinates
 	 *         of this {@link PointSlopeLinearEquation}.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	protected CartesianPoint getCartesianPoint() {
 		return cartesianPoint;
@@ -221,7 +215,7 @@ public class PointSlopeLinearEquation implements LinearEquation {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public double fX(double x) {
 		CartesianPoint cartesianPoint = getCartesianPoint();

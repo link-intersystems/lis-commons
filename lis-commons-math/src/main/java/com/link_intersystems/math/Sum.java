@@ -23,7 +23,7 @@ package com.link_intersystems.math;
  *         intersystems.com]</a>
  * @param <N>
  *            the precision of the sum.
- * @since 1.2.0.0
+ * @since 1.2.0;
  */
 public interface Sum<N extends Number> extends Aggregate<N> {
 
@@ -32,7 +32,7 @@ public interface Sum<N extends Number> extends Aggregate<N> {
 	 * 
 	 * @return the sum of all values that have been added, or 0 if no value has
 	 *         been added yet.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public N getValue();
 
@@ -43,7 +43,7 @@ public interface Sum<N extends Number> extends Aggregate<N> {
 	 *            the value to add.
 	 * @throws IllegalArgumentException
 	 *             if value is null.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public boolean addValue(Number value);
 }

@@ -27,7 +27,7 @@ import java.util.List;
  * @author René Link <a
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
- * @since 1.0.0.0
+ * @since 1.0.0;
  */
 public class NodeImpl implements Node {
 

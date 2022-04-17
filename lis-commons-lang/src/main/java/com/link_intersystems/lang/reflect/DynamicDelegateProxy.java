@@ -44,7 +44,7 @@ import com.link_intersystems.lang.ref.Reference;
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
  * 
- * @since 1.2.0.0
+ * @since 1.2.0;
  */
 public class DynamicDelegateProxy<T> implements InvocationHandler {
 
@@ -61,7 +61,7 @@ public class DynamicDelegateProxy<T> implements InvocationHandler {
 	 * @return an {@link DynamicDelegateProxy} that delegates calls to it's
 	 *         interface to a target object with the same interface.
 	 * 
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T create(Class<T> delegateClass,

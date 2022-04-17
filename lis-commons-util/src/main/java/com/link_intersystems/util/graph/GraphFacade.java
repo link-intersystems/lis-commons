@@ -30,7 +30,7 @@ import java.util.function.Predicate;
  * @author René Link
  * <a href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  * intersystems.com]</a>
- * @since 1.2.0.0
+ * @since 1.2.0;
  */
 public abstract class GraphFacade {
 
@@ -41,7 +41,7 @@ public abstract class GraphFacade {
      *
      * @param start         the {@link Node} to start the traversal from.
      * @param nodeProcessor the closure that should be applied to every node.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public static void traverseBreadthFirst(Node start, Consumer<Node> nodeProcessor) {
         Iterator<Node> objectGraphIterator = new BreadthFirstNodeIterator(start);
@@ -55,7 +55,7 @@ public abstract class GraphFacade {
      *
      * @param start         the {@link Node} to start the traversal from.
      * @param nodeProcessor the closure that should be applied to every node.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public static void traverseDepthFirst(Node start, Consumer<Node> nodeProcessor) {
         DepthFirstNodeIterator objectGraphTransformer = new DepthFirstNodeIterator(start);

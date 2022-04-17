@@ -28,7 +28,7 @@ import java.util.List;
  * @author René Link <a
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
- * @since 1.2.0.0
+ * @since 1.2.0;
  */
 class PotentiallyApplicableMemberStrategy {
 
@@ -68,7 +68,7 @@ class PotentiallyApplicableMemberStrategy {
 	 *         intersystems.com]</a>
 	 *
 	 * @param <CANDIDATE_TYPE>
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	private abstract static class AbstractPotentionallyApplicableCriteria<CANDIDATE_TYPE extends Member2<?>>
 			implements PotentiallyApplicableCriteria<CANDIDATE_TYPE> {
@@ -120,7 +120,7 @@ class PotentiallyApplicableMemberStrategy {
 	 * @author René Link <a
 	 *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
 	 *         intersystems.com]</a>
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	static class PotentionallyApplicableConstructorCriteria extends
 			AbstractPotentionallyApplicableCriteria<Constructor2<?>> {
@@ -147,7 +147,7 @@ class PotentiallyApplicableMemberStrategy {
 	 * @author René Link <a
 	 *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
 	 *         intersystems.com]</a>
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	static class PotentionallyApplicableMethodCriteria extends
 			AbstractPotentionallyApplicableCriteria<Method2> {

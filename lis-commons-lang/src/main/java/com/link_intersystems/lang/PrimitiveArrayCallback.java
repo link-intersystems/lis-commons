@@ -44,7 +44,7 @@ import java.lang.reflect.Array;
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
  *
- * @since 1.0.0.0
+ * @since 1.0.0;
  *
  */
 public class PrimitiveArrayCallback implements PrimitiveCallback {
@@ -65,7 +65,7 @@ public class PrimitiveArrayCallback implements PrimitiveCallback {
 	 *            the primitiveArray that is used to store the callback value
 	 *            in.
 	 *
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public PrimitiveArrayCallback(Object primitiveArray) {
 		Assert.notNull("primitiveArray", primitiveArray);
@@ -94,7 +94,7 @@ public class PrimitiveArrayCallback implements PrimitiveCallback {
 	 * @throws IndexOutOfBoundsException
 	 *             if the index is out of the bounds of the backed array.
 	 *
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public void setIndex(int index) {
 		if (index < 0 || index >= length) {

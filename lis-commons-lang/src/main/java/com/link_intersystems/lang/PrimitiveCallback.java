@@ -23,7 +23,7 @@ package com.link_intersystems.lang;
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
  * 
- * @since 1.0.0.0
+ * @since 1.0.0;
  * 
  */
 public interface PrimitiveCallback {
@@ -33,7 +33,7 @@ public interface PrimitiveCallback {
 	 * 
 	 * @param value
 	 * 
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	void primitive(boolean value);
 
@@ -42,7 +42,7 @@ public interface PrimitiveCallback {
 	 * 
 	 * @param value
 	 * 
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	void primitive(byte value);
 
@@ -51,7 +51,7 @@ public interface PrimitiveCallback {
 	 * 
 	 * @param value
 	 * 
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	void primitive(char value);
 
@@ -60,7 +60,7 @@ public interface PrimitiveCallback {
 	 * 
 	 * @param value
 	 * 
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	void primitive(short value);
 
@@ -69,7 +69,7 @@ public interface PrimitiveCallback {
 	 * 
 	 * @param value
 	 * 
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	void primitive(int value);
 
@@ -78,7 +78,7 @@ public interface PrimitiveCallback {
 	 * 
 	 * @param value
 	 * 
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	void primitive(long value);
 
@@ -87,7 +87,7 @@ public interface PrimitiveCallback {
 	 * 
 	 * @param value
 	 * 
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	void primitive(float value);
 
@@ -96,7 +96,7 @@ public interface PrimitiveCallback {
 	 * 
 	 * @param value
 	 * 
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	void primitive(double value);
 }

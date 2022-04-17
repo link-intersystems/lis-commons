@@ -23,7 +23,7 @@ import java.math.BigDecimal;
  * @author René Link <a
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
- * @since 1.2.0.0
+ * @since 1.2.0;
  *
  */
 public class BigDecimalSum extends AbstractBigDecimalAggregate implements
@@ -35,7 +35,7 @@ public class BigDecimalSum extends AbstractBigDecimalAggregate implements
 	 *
 	 * @inherited
 	 *
-	 * @since 1.2.0.0.
+	 * @since 1.2.0;.
 	 */
 	public BigDecimal getValue() {
 		return sum;

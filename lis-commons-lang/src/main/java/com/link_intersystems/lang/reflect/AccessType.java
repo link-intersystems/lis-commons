@@ -20,12 +20,12 @@ import java.lang.reflect.Modifier;
 
 /**
  * Access modifiers definition. The {@link Modifier} specified by the java
- * language are not sufficient for the use case that the {@link MemberIterator}
+ * language are not sufficient for the use case that the {@link com.link_intersystems.lang.reflect.criteria.MemberCriteria}
  * supports, because {@link Modifier} doesn't declare the default modifier. The
  * default is defined implicitly if none of the other access modifiers are
  * declared for a {@link Member}. Here is an example why we need to define our
  * own enum for access modifier. <br/>
- * Suppose you want to say that all members should be found that have protected
+ * Suppose you want to describe that all members should be found that have protected
  * or default access modifiers. How do you select them with the {@link Modifier}
  * class??? {@link Modifier#PROTECTED} | ??? <br/>
  * The answer is to say that you want to select all that match the protected and
@@ -40,7 +40,7 @@ import java.lang.reflect.Modifier;
  * </pre>
  * 
  * And now the big question is... how can you define a method for the
- * {@link MemberIterator} to allow callers to select this???<br/>
+ * {@link com.link_intersystems.lang.reflect.criteria.MemberCriteria} to allow callers to select this???<br/>
  * 
  * <pre>
  * // Default java would not work
@@ -55,15 +55,15 @@ import java.lang.reflect.Modifier;
  * @author René Link [<a
  *         href="mailto:rene.link@link-intersystems.com">rene.link@link-
  *         intersystems.com</a>]
- * @since 1.0.0.0
- * @see MemberIterator#withAccess(AccessType...)
+ * @since 1.0.0;
+ * @see com.link_intersystems.lang.reflect.criteria.MemberCriteria#withAccess(AccessType...)
  */
 public enum AccessType {
 
 	/**
 	 * The default access modifier.
 	 * 
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	DEFAULT(Modifier.PUBLIC & Modifier.PRIVATE & Modifier.PROTECTED) {
 		@Override
@@ -75,19 +75,19 @@ public enum AccessType {
 	/**
 	 * The public access modifier.
 	 * 
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	PUBLIC(Modifier.PUBLIC),
 	/**
 	 * The private access modifier.
 	 * 
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	PRIVATE(Modifier.PRIVATE),
 	/**
 	 * The protected access modifier.
 	 * 
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	PROTECTED(Modifier.PROTECTED);
 
@@ -105,7 +105,7 @@ public enum AccessType {
 	 * Match method for the {@link AccessType}.
 	 * 
 	 * @return true if this {@link AccessType} matches the given modifiers.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public boolean isMatching(int modifiers) {
 		return (modifiers & modifier) != 0;

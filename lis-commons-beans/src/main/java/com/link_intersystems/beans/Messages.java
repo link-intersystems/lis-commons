@@ -29,7 +29,7 @@ import com.link_intersystems.lang.Assert;
  * @author René Link <a
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
- * @since 1.2.0.0
+ * @since 1.2.0;
  */
 abstract class Messages {
 

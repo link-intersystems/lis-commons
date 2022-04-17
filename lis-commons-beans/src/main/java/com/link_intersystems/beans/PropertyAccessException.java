@@ -22,7 +22,7 @@ package com.link_intersystems.beans;
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
  * 
- * @since 1.2.0.0
+ * @since 1.2.0;
  * 
  */
 public class PropertyAccessException extends PropertyException {
@@ -40,20 +40,20 @@ public class PropertyAccessException extends PropertyException {
 	 * @author René Link <a
 	 *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
 	 *         intersystems.com]</a>
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 * 
 	 */
 	public enum PropertyAccessType {
 		/**
 		 * The {@link PropertyAccessType} that signals getter access.
 		 * 
-		 * @since 1.2.0.0
+		 * @since 1.2.0;
 		 */
 		READ,
 		/**
 		 * The {@link PropertyAccessType} that signals setter access.
 		 * 
-		 * @since 1.2.0.0
+		 * @since 1.2.0;
 		 */
 		WRITE;
 	}
@@ -76,7 +76,7 @@ public class PropertyAccessException extends PropertyException {
 	 * The type of access that caused this {@link PropertyAccessException}.
 	 * 
 	 * @return type of access that caused this {@link PropertyAccessException}.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public PropertyAccessType getPropertyAccessType() {
 		return propertyAccessType;

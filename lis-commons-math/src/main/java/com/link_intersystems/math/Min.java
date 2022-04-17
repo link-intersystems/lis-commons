@@ -23,7 +23,7 @@ package com.link_intersystems.math;
  *         intersystems.com]</a>
  * @param <N>
  *            the precision of the minimum.
- * @since 1.2.0.0
+ * @since 1.2.0;
  */
 public interface Min<N extends Number> extends Aggregate<N> {
 
@@ -32,7 +32,7 @@ public interface Min<N extends Number> extends Aggregate<N> {
 	 * 
 	 * @return the minimum of all values that have been added, or
 	 *         <code>null</code> if no value has been added yet.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public N getValue();
 
@@ -43,7 +43,7 @@ public interface Min<N extends Number> extends Aggregate<N> {
 	 *            the value to add.
 	 * @throws IllegalArgumentException
 	 *             if value is null.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public boolean addValue(Number value);
 }

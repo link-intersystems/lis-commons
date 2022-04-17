@@ -30,7 +30,7 @@ import java.util.Map;
  * @author René Link <a
  * href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  * intersystems.com]</a>
- * @since 1.2.0.0
+ * @since 1.2.0;
  */
 public class Package2 implements Serializable {
 
@@ -68,7 +68,7 @@ public class Package2 implements Serializable {
      * Returns the java {@link Package} this {@link Package2} is based on.
      *
      * @return the java {@link Package} this {@link Package2} is based on.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public Package getPackage() {
         return packageRef.get();
@@ -77,7 +77,7 @@ public class Package2 implements Serializable {
     /**
      * @return the parent {@link Package2} of this {@link Package2} if any or
      * null.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public Package2 getParent() {
         String packageName = getName();
@@ -95,7 +95,7 @@ public class Package2 implements Serializable {
      * Returns the full package name like the {@link Package #getName()} does.
      *
      * @return the full package name like the {@link Package #getName()} does.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public String getName() {
         return getPackage().getName();
@@ -105,7 +105,7 @@ public class Package2 implements Serializable {
      * Returns the name of only this package, not the full package name.
      *
      * @return the name of only this package, not the full package name.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public String getSimpleName() {
         String packageName = getName();

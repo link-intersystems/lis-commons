@@ -26,7 +26,7 @@ import java.math.BigDecimal;
  * @author René Link <a
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
- * @since 1.0.0.0
+ * @since 1.0.0;
  */
 public class BigIncrementalAverage extends AbstractBigDecimalAggregate
 		implements Average<BigDecimal> {
@@ -38,7 +38,7 @@ public class BigIncrementalAverage extends AbstractBigDecimalAggregate
 	/**
 	 * Create a new {@link BigIncrementalAverage} instance.
 	 * 
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public BigIncrementalAverage() {
 		averageIndex = BigDecimal.ZERO;
@@ -48,7 +48,7 @@ public class BigIncrementalAverage extends AbstractBigDecimalAggregate
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public BigDecimal getValue() {
 		return average;

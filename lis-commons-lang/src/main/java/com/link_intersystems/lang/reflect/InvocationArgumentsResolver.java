@@ -23,7 +23,7 @@ import java.lang.reflect.Method;
  * @author René Link [<a
  *         href="mailto:rene.link@link-intersystems.com">rene.link@link-
  *         intersystems.com</a>]
- * @since 1.2.0.0
+ * @since 1.2.0;
  */
 public interface InvocationArgumentsResolver {
 
@@ -36,7 +36,7 @@ public interface InvocationArgumentsResolver {
 	 * @return an array of argument objects for invoking the method on the
 	 *         object. The length of the returned argument object array must
 	 *         match the length of the invoked method's parameter types.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public Object[] getArguments(Object invokedObject, Method invokedMethod);
 }

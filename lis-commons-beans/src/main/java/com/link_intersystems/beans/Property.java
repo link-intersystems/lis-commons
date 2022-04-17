@@ -65,7 +65,7 @@ import com.link_intersystems.lang.Assert;
  *
  * @param <TYPE>
  *            the {@link Property}'s type.
- * @since 1.2.0.0
+ * @since 1.2.0;
  */
 public class Property<TYPE> implements Serializable, Formattable {
 
@@ -87,7 +87,7 @@ public class Property<TYPE> implements Serializable, Formattable {
 
 	/**
 	 * @return the bean object of this {@link Property}.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	protected final Object getBean() {
 		return bean.getObject();
@@ -95,7 +95,7 @@ public class Property<TYPE> implements Serializable, Formattable {
 
 	/**
 	 * @return this {@link Property}'s getter method, if any.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	protected final Method getReadMethod() {
 		return getPropertyDescriptor().getReadMethod();
@@ -103,7 +103,7 @@ public class Property<TYPE> implements Serializable, Formattable {
 
 	/**
 	 * @return this {@link Property}'s setter method, if any.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	protected final Method getWriteMethod() {
 		return getPropertyDescriptor().getWriteMethod();
@@ -113,7 +113,7 @@ public class Property<TYPE> implements Serializable, Formattable {
 	 * The {@link Property}'s type.
 	 *
 	 * @return the {@link Property}'s type.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	@SuppressWarnings("unchecked")
 	public Class<TYPE> getType() {
@@ -136,7 +136,7 @@ public class Property<TYPE> implements Serializable, Formattable {
 	 * The name of this {@link Property}.
 	 *
 	 * @return name of this {@link Property}.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public String getName() {
 		return getPropertyDescriptor().getName();
@@ -146,7 +146,7 @@ public class Property<TYPE> implements Serializable, Formattable {
 	 * The name of this {@link Property}.
 	 *
 	 * @return name of this {@link Property}.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public String getDisplayName() {
 		return getPropertyDescriptor().getDisplayName();
@@ -157,7 +157,7 @@ public class Property<TYPE> implements Serializable, Formattable {
 	 *
 	 * @return the property editor for this property.
 	 * @throws PropertyEditorNotAvailableException
-	 * @since 1.2.0.4
+	 * @since 1.2.0;
 	 */
 	public PropertyEditor createPropertiyEditor() throws PropertyEditorNotAvailableException {
 		Object bean = getBean();
@@ -183,7 +183,7 @@ public class Property<TYPE> implements Serializable, Formattable {
 	 *
 	 * @param text
 	 * @throws PropertyEditorNotAvailableException
-	 * @since 1.2.0.5
+	 * @since 1.2.0;
 	 */
 	@SuppressWarnings("unchecked")
 	public void setValueAsText(String text) throws PropertyEditorNotAvailableException {
@@ -197,9 +197,8 @@ public class Property<TYPE> implements Serializable, Formattable {
 	 * Get this {@link Property}'s value as text, according to the associated
 	 * {@link PropertyEditor}'s return value.
 	 *
-	 * @param text
 	 * @throws PropertyEditorNotAvailableException
-	 * @since 1.2.0.5
+	 * @since 1.2.0;
 	 */
 	public String getValueAsText() throws PropertyEditorNotAvailableException {
 		try {
@@ -219,7 +218,7 @@ public class Property<TYPE> implements Serializable, Formattable {
 	 *             if the property could not be accessed for any reason. If the
 	 *             thrown {@link PropertyAccessException} has no cause this property
 	 *             is not readable (has no property getter method).
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	@SuppressWarnings("unchecked")
 	public TYPE getValue() {
@@ -264,7 +263,7 @@ public class Property<TYPE> implements Serializable, Formattable {
 	 *             if this {@link Property}'s value could not be set. If the thrown
 	 *             {@link PropertyAccessException} has no cause this property is not
 	 *             writable (has no property setter method).
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public void setValue(TYPE propertyValue) {
 		Object target = getBean();
@@ -283,7 +282,7 @@ public class Property<TYPE> implements Serializable, Formattable {
 
 	/**
 	 * @inherited
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	@Override
 	public void formatTo(Formatter formatter, int flags, int width, int precision) {
@@ -294,7 +293,7 @@ public class Property<TYPE> implements Serializable, Formattable {
 	 * Returns the {@link PropertyDescriptor} of this {@link Property}.
 	 *
 	 * @return
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public final PropertyDescriptor getPropertyDescriptor() {
 		return propertyDescriptor;

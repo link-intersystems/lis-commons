@@ -9,7 +9,7 @@ package com.link_intersystems.lang.ref;
  *         intersystems.com]</a>
  * 
  * @param <T>
- * @since 1.2.0.0
+ * @since 1.2.0;
  */
 public class DefaultMutableReference<T> implements MutableReference<T> {
 
@@ -19,7 +19,7 @@ public class DefaultMutableReference<T> implements MutableReference<T> {
 	 * Creates a {@link DefaultMutableReference} that references the given
 	 * referent object.
 	 * 
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 * @param referent
 	 */
 	public DefaultMutableReference(T referent) {
@@ -30,7 +30,7 @@ public class DefaultMutableReference<T> implements MutableReference<T> {
 	 * Creates a {@link DefaultMutableReference} that has no referent object (
 	 * <code>null</code>).
 	 * 
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public DefaultMutableReference() {
 	}

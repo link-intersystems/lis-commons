@@ -31,15 +31,15 @@ package com.link_intersystems.lang.ref;
  * @param <T>
  *            the reference object's referent type.
  * 
- * @since 1.0.0.0
- * @version 1.2.0.0
+ * @since 1.0.0;
+ * @version 1.2.0;
  */
 public interface Reference<T> {
 
 	/**
 	 * 
 	 * @return reference object's referent.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public T get();
 }

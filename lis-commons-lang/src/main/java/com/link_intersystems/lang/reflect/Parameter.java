@@ -27,7 +27,7 @@ import com.link_intersystems.lang.Conversions;
  * @author René Link <a
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
- * @since 1.0.0.0
+ * @since 1.0.0;
  * @see Method2
  * @see Constructor2
  */
@@ -56,7 +56,7 @@ public class Parameter implements Serializable {
 	 * Returns the type of the Assert.
 	 *
 	 * @return the type of the this {@link Parameter}.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public Class2<?> getParameterClass2() {
 		Class<?> type = getParameterClass();
@@ -75,7 +75,7 @@ public class Parameter implements Serializable {
 	 *
 	 * @return true if this {@link Parameter} represents a variable argument
 	 *         {@link Parameter}.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public boolean isVarArg() {
 		/*
@@ -92,7 +92,7 @@ public class Parameter implements Serializable {
 	 * @param type
 	 * @return true if the type is an applicable subtype of the type that this
 	 *         {@link Parameter} represents.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	boolean isApplicableSubtype(Class<?> type) {
 		if (type == null) {
@@ -129,9 +129,8 @@ public class Parameter implements Serializable {
 	 * Invocation Conversion.
 	 *
 	 * @param invocationParameter
-	 * @param declarationParameter
 	 * @return
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	boolean isApplicableMethodInvocationConversion(Class<?> invocationParameter) {
 		Class<?> declarationParameter = getParameterClass2().getType();
@@ -144,7 +143,7 @@ public class Parameter implements Serializable {
 	 *
 	 * @param invocationParameter
 	 * @return
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	boolean isApplicableVariableArityMethodInvocationConversion(
 			Class<?> invocationParameter) {

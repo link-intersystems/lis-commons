@@ -27,7 +27,7 @@ import java.util.Map;
  * @author René Link <a
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
- * @since 1.0.0.0
+ * @since 1.0.0;
  *
  */
 public abstract class Primitives {
@@ -86,7 +86,7 @@ public abstract class Primitives {
 	 *         null, if parameter type is neither a primitive nor a primitive
 	 *         wrapper type. If the parameter is already an autoboxing type
 	 *         (e.g. Integer) it is returned.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public static Class<?> getAutoboxingType(Class<?> type) {
 		if (isPrimitive(type)) {
@@ -103,7 +103,7 @@ public abstract class Primitives {
 	 * @param type
 	 * @return true if the parameter type is a primitive type (boolean, byte,
 	 *         short, char, int, long, float or double).
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public static boolean isPrimitive(Class<?> type) {
 		if (type == null) {
@@ -118,7 +118,7 @@ public abstract class Primitives {
 	 * @param type
 	 * @return true if the parameter type is a primitive wrapper type (Boolean,
 	 *         Byte, Short, Character, Integer, Long, Float or Double).
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public static boolean isPrimitiveWrapper(Class<?> type) {
 		return Conversions.getUnboxingConversion(type) != null;
@@ -193,7 +193,7 @@ public abstract class Primitives {
 	 *             if the given primitiveType argument is not a primitive type
 	 *             in terms of the {@link #isPrimitive(Class)} method.
 	 *
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T getDefaultValue(Class<?> primitiveType) {
@@ -213,7 +213,7 @@ public abstract class Primitives {
 	 *            and so on.
 	 * @param primitiveCallback
 	 *            the callback to call for the primitive wrapper type.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public static void primitiveCallback(Object primitiveWrapper,
 			PrimitiveCallback primitiveCallback) {
@@ -267,7 +267,7 @@ public abstract class Primitives {
 	 *         Casts must respect the primitive wrapper array's component type.
 	 *         Due to the fact that generic definitions do not allow primitive
 	 *         types the return type can not be constraint further.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T wrapperToPrimitiveArray(Object[] primitiveWrapperArray) {
@@ -310,7 +310,7 @@ public abstract class Primitives {
 	 * @param primitiveArray
 	 * @return the appropriated primitive wrapper array for the primitive array.
 	 *         Casts must respect the primitive array's component type.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T[] primitiveToWrapperArray(Object primitiveArray) {

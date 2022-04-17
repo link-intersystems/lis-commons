@@ -35,7 +35,7 @@ import java.util.Set;
  *            {@link Set} and object that this
  *            {@link SerializableObjectReference} was created with is a
  *            {@link HashSet}.
- * @since 1.0.0.0
+ * @since 1.0.0;
  */
 public class SerializableObjectReference<T> implements SerializableReference<T> {
 
@@ -56,7 +56,7 @@ public class SerializableObjectReference<T> implements SerializableReference<T> 
 	 * @throws ClassCastException
 	 *             if the serializable object is not of the type that this
 	 *             class's type T defines.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	@SuppressWarnings("unchecked")
 	public <SERIALIZABLE_TYPE extends Serializable> SerializableObjectReference(
@@ -67,7 +67,7 @@ public class SerializableObjectReference<T> implements SerializableReference<T> 
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public T get() {
 		return t;

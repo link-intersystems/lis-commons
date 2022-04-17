@@ -25,7 +25,7 @@ import java.net.URLClassLoader;
  * @author René Link <a
  * href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  * intersystems.com]</a>
- * @since 1.2.0.0
+ * @since 1.2.0;
  */
 public class ParentLastURLClassLoader extends URLClassLoader {
 
@@ -49,7 +49,7 @@ public class ParentLastURLClassLoader extends URLClassLoader {
      *                           <code>checkCreateClassLoader</code> method doesn't allow
      *                           creation of a class loader.
      * @see SecurityManager#checkCreateClassLoader
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public ParentLastURLClassLoader(URL[] urls) {
         this(urls, ParentLastURLClassLoader.class.getClassLoader());
@@ -64,7 +64,7 @@ public class ParentLastURLClassLoader extends URLClassLoader {
      * @throws SecurityException if a security manager exists and its
      *                           <code>checkCreateClassLoader</code> method doesn't allow
      *                           creation of a class loader.
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     public ParentLastURLClassLoader(URL[] urls, ClassLoader parent) {
         super(urls);
@@ -78,7 +78,7 @@ public class ParentLastURLClassLoader extends URLClassLoader {
      * {@inheritDoc}
      * </p>
      *
-     * @since 1.2.0.0
+     * @since 1.2.0;
      */
     protected synchronized Class<?> loadClass(String name, boolean resolve)
             throws ClassNotFoundException {

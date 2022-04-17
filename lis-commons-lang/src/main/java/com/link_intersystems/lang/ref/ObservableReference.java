@@ -13,7 +13,7 @@ import java.util.Observer;
  *         intersystems.com]</a>
  * 
  * @param <T>
- * @since 1.2.0.0
+ * @since 1.2.0;
  */
 public interface ObservableReference<T> extends MutableReference<T> {
 
@@ -21,7 +21,7 @@ public interface ObservableReference<T> extends MutableReference<T> {
 	 * The property identifier of this {@link MutableReference}'s referent that
 	 * is used by {@link PropertyChangeEvent}s.
 	 * 
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public static final String PROPERTY_REFERENT = "referent";
 
@@ -32,7 +32,7 @@ public interface ObservableReference<T> extends MutableReference<T> {
 	 * 
 	 * @param propertyChangeListener
 	 * 
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public void addPropertyChangeListener(
 			PropertyChangeListener propertyChangeListener);
@@ -44,7 +44,7 @@ public interface ObservableReference<T> extends MutableReference<T> {
 	 * 
 	 * @param propertyChangeListener
 	 * 
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	void removePropertyChangeListener(
 			PropertyChangeListener propertyChangeListener);

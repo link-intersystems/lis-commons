@@ -37,7 +37,7 @@ import com.link_intersystems.util.ParameterizedObjectFactory;
  *            the return type of the factory method that is invoked on the
  *            parameter object.
  *
- * @since 1.0.0.0
+ * @since 1.0.0;
  * @see MethodInvokingTransformer
  */
 public class MethodInvokingParameterizedObjectFactory<OBJECT_TYPE, METHOD_RETURN_TYPE>
@@ -53,7 +53,7 @@ public class MethodInvokingParameterizedObjectFactory<OBJECT_TYPE, METHOD_RETURN
 	 * @param objectType
 	 * @param methodName
 	 *
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public MethodInvokingParameterizedObjectFactory(
 			Class<OBJECT_TYPE> objectType, String methodName,

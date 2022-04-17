@@ -31,7 +31,7 @@ import java.util.concurrent.Callable;
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
  *
- * @since 1.2.0.0
+ * @since 1.2.0;
  *
  * @see ContextAware#createContextProxy(Object)
  * @see ContextAware#runInContext(Callable)
@@ -75,7 +75,7 @@ public final class ClassLoaderContextAware extends ContextAware<ClassLoader> {
 	 *            the classLoader to use or <code>null</code> if the system
 	 *            class loader should be used.
 	 * @return
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public static ClassLoaderContextAware forClassLoader(ClassLoader classLoader) {
 		if (classLoader == null) {
@@ -113,7 +113,7 @@ public final class ClassLoaderContextAware extends ContextAware<ClassLoader> {
 	 * @return the previous class loader that was bound to the current thread's
 	 *         {@link Thread#getContextClassLoader()} when this method was
 	 *         called.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	@Override
 	protected ClassLoader activateContext() {
@@ -128,7 +128,7 @@ public final class ClassLoaderContextAware extends ContextAware<ClassLoader> {
 	 * {@link Thread#getContextClassLoader()} and restores the class loader that
 	 * was previously.
 	 *
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	@Override
 	protected void deactivateContext(ClassLoader previousClassLoader) {

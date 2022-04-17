@@ -28,7 +28,7 @@ package com.link_intersystems.util;
  * @param <PRAMETER_TYPE>
  *            the type of the parameter object used when creating an object.
  * @see ObjectFactory
- * @since 1.0.0.0
+ * @since 1.0.0;
  */
 public interface ParameterizedObjectFactory<OBJECT_TYPE, PRAMETER_TYPE> {
 

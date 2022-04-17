@@ -26,7 +26,7 @@ import java.io.Serializable;
  * 
  * @param <T>
  *            the referent's type
- * @since 1.0.0.0
+ * @since 1.0.0;
  */
 public interface SerializableReference<T> extends Reference<T>, Serializable {
 

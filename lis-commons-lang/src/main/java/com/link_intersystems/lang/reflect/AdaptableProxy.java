@@ -119,7 +119,7 @@ import com.link_intersystems.lang.Signature;
  * @author René Link [<a
  *         href="mailto:rene.link@link-intersystems.com">rene.link@link-
  *         intersystems.com</a>]
- * @since 1.0.0.0
+ * @since 1.0.0;
  */
 public class AdaptableProxy implements InvocationHandler {
 
@@ -140,7 +140,7 @@ public class AdaptableProxy implements InvocationHandler {
 	 * @return an adapter that implements the <code>adapterClasses</code> and
 	 *         delegates invocations to those interface methods to the
 	 *         <code>adaptables<code> method with the same signature.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T create(Object adaptable, Class<?>... adapterClasses) {
@@ -200,7 +200,7 @@ public class AdaptableProxy implements InvocationHandler {
 	 * Creates an {@link AdaptableProxy} for the given object.
 	 *
 	 * @param adaptable
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public AdaptableProxy(Object adaptable) {
 		Assert.notNull("adaptable", adaptable);
@@ -211,7 +211,7 @@ public class AdaptableProxy implements InvocationHandler {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public Object invoke(Object proxy, Method method, Object[] args)
 			throws Throwable {

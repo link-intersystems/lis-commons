@@ -28,7 +28,7 @@ import java.util.function.Function;
  * @author René Link <a
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
- * @since 1.2.0.0
+ * @since 1.2.0;
  */
 class TypeVariableToStringTransformer implements Function<TypeVariable<?>, String> {
 

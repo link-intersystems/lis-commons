@@ -23,7 +23,7 @@ package com.link_intersystems.lang;
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
  * 
- * @since 1.0.0.0
+ * @since 1.0.0;
  * 
  */
 public class PrimitiveCallbackAdapter implements PrimitiveCallback {

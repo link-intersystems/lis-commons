@@ -17,6 +17,6 @@
  * Provides mathematical components and algorithm add-ons to the java.lang.math
  * package.
  *
- * @since 1.0.0.0
+ * @since 1.0.0;
  */
 package com.link_intersystems.math;

@@ -26,7 +26,7 @@ import com.link_intersystems.lang.Assert;
  * 
  * @param <T>
  *            the type of the referenced object.
- * @since 1.2.0.0
+ * @since 1.2.0;
  */
 public class ThreadLocalReference<T> implements Reference<T> {
 
@@ -37,7 +37,7 @@ public class ThreadLocalReference<T> implements Reference<T> {
 	 * 
 	 * @param threadLocal
 	 *            the {@link ThreadLocal} to call for the referent object.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public ThreadLocalReference(ThreadLocal<T> threadLocal) {
 		Assert.notNull("threadLocal", threadLocal);
@@ -46,7 +46,7 @@ public class ThreadLocalReference<T> implements Reference<T> {
 
 	/**
 	 * @inherited
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public T get() {
 		return threadLocal.get();

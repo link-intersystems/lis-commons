@@ -22,7 +22,7 @@ package com.link_intersystems.math;
  * @author René Link <a
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
- * @since 1.2.0.0
+ * @since 1.2.0;
  */
 public class PolarPoint {
 
@@ -39,7 +39,7 @@ public class PolarPoint {
 	 * @param polarAxis
 	 *            the angle in degree (the polar axis).
 	 * 
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public PolarPoint(double distance, double polarAxis) {
 		this.distance = distance;
@@ -50,7 +50,7 @@ public class PolarPoint {
 	 * The polar axis in degrees.
 	 * 
 	 * @return the polar axis in degrees.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public double getPolarAxis() {
 		return polarAxis;
@@ -60,7 +60,7 @@ public class PolarPoint {
 	 * The distance from the center point (radius).
 	 * 
 	 * @return the distance.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public double getDistance() {
 		return distance;
@@ -72,7 +72,7 @@ public class PolarPoint {
 	 * 
 	 * @return the {@link CartesianPoint} that is equal to this
 	 *         {@link PolarPoint}.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public CartesianPoint toCartesianPoint() {
 		double radians = Math.toRadians(getPolarAxis());

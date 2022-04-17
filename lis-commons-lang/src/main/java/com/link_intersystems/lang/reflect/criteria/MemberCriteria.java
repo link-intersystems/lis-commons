@@ -84,7 +84,7 @@ import java.util.regex.Pattern;
  * @author René Link
  * <a href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  * intersystems.com]</a>
- * @since 1.0.0.0
+ * @since 1.0.0;
  */
 public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
 
@@ -136,26 +136,26 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
      * @author René Link
      * <a href="mailto:rene.link@link-intersystems.com">[rene.link@link-
      * intersystems.com]</a>
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public enum IterateStrategy {
         /**
          * Iterate only elements that are {@link Member}s.
          *
-         * @since 1.0.0.0
+         * @since 1.0.0;
          */
         MEMBERS_ONLY(JavaElementTraverseStrategies.MEMBER_TRAVERSE_STRATEGY),
 
         /**
          * Iterate only elements that are {@link Class}es.
          *
-         * @since 1.0.0.0
+         * @since 1.0.0;
          */
         CLASSES_ONLY(JavaElementTraverseStrategies.CURRENT_CLASS_TRAVERSE_STRATEGY),
         /**
          * Iterate only elements that are {@link Package}s.
          *
-         * @since 1.0.0.0
+         * @since 1.0.0;
          */
         PACKAGES_ONLY(JavaElementTraverseStrategies.PACKAGE_TRAVERSE_STRATEGY),
 
@@ -163,28 +163,28 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
          * Iterate elements that are {@link Class}es or {@link Member}s in that
          * order.
          *
-         * @since 1.0.0.0
+         * @since 1.0.0;
          */
         CLASS_MEMBERS(JavaElementTraverseStrategies.CURRENT_CLASS_TRAVERSE_STRATEGY, JavaElementTraverseStrategies.MEMBER_TRAVERSE_STRATEGY),
         /**
          * Iterate elements that are {@link Member}s or {@link Class}es in that
          * order.
          *
-         * @since 1.0.0.0
+         * @since 1.0.0;
          */
         MEMBERS_CLASS(JavaElementTraverseStrategies.MEMBER_TRAVERSE_STRATEGY, JavaElementTraverseStrategies.CURRENT_CLASS_TRAVERSE_STRATEGY),
         /**
          * Iterate elements that are {@link Package}s, {@link Class}es or
          * {@link Member}s in that order.
          *
-         * @since 1.0.0.0
+         * @since 1.0.0;
          */
         PACKAGE_CLASS_MEMBERS(JavaElementTraverseStrategies.PACKAGE_TRAVERSE_STRATEGY, JavaElementTraverseStrategies.CURRENT_CLASS_TRAVERSE_STRATEGY, JavaElementTraverseStrategies.MEMBER_TRAVERSE_STRATEGY),
         /**
          * Iterate elements that are {@link Member}s, {@link Class}es or
          * {@link Package}s in that order.
          *
-         * @since 1.0.0.0
+         * @since 1.0.0;
          */
         MEMBERS_CLASS_PACKAGE(JavaElementTraverseStrategies.MEMBER_TRAVERSE_STRATEGY, JavaElementTraverseStrategies.CURRENT_CLASS_TRAVERSE_STRATEGY, JavaElementTraverseStrategies.PACKAGE_TRAVERSE_STRATEGY);
 
@@ -212,7 +212,7 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
      * affect the order of {@link Member}s of different classes (global order).
      *
      * @param iterateOrderComparator the member comparator that orders the members.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public void setMemberIterateOrder(Comparator<Member> iterateOrderComparator) {
         Assert.notNull("iterateOrderComparator", iterateOrderComparator);
@@ -226,7 +226,7 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
      * {@link Predicate#test(Object)} method.
      * </p>
      *
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     @Override
     public void add(Predicate<T> predicate) {
@@ -247,7 +247,7 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
      *
      * @param memberTypes the member types that this {@link MemberCriteria} should
      *                    select.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public final void membersOfType(Class<?>... memberTypes) {
         /*
@@ -292,7 +292,7 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
      *
      * @param accesses the {@link AccessType}s that this criteria should match with.
      *                 Must contain at least one element.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public void withAccess(AccessType... accesses) {
         Assert.notNull("accesses", accesses);
@@ -308,7 +308,7 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
      * {@link #withAccess(AccessType...)} to set access modifiers.
      *
      * @param modifiers the modifiers that the {@link Member}s, that are selected by this {@link MemberCriteria}, must have.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public void withModifiers(int modifiers) {
         if (Modifier.isPublic(modifiers) || Modifier.isProtected(modifiers) || Modifier.isPrivate(modifiers)) {
@@ -329,7 +329,7 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
      * removed.
      *
      * @param pattern a regular expression pattern to filter members by name.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public void named(Pattern pattern) {
         this.pattern = pattern;
@@ -341,7 +341,7 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
      * removed.
      *
      * @param name a name to filter the members.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public void named(String name) {
         this.name = name;
@@ -355,7 +355,7 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
      * through {@link AnnotatedElement}s as defined by this
      * {@link MemberCriteria} using the default {@link IterateStrategy}
      * ( {@link IterateStrategy#MEMBERS_CLASS_PACKAGE} ).
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public Iterable<? extends AnnotatedElement> getAnnotatedElementIterable(Iterable<Class<?>> classIterable) {
         return getAnnotatedElementIterable(classIterable, IterateStrategy.MEMBERS_CLASS_PACKAGE);
@@ -373,7 +373,7 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
      * @return an {@link Iterable} that creates {@link Iterator}s that iterate
      * through {@link AnnotatedElement}s as defined by this
      * {@link MemberCriteria} using the given iterate strategy.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public Iterable<? extends AnnotatedElement> getAnnotatedElementIterable(Iterable<Class<?>> classIterable, IterateStrategy iterateStrategy) {
         return new AnnotatedElementIterable(classIterable, iterateStrategy, getObjectFactory());
@@ -386,7 +386,7 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
      * @return an {@link Iterable} that creates {@link Iterator}s that iterate
      * through {@link Member}s as defined by this {@link MemberCriteria}
      * .
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public Iterable<Member> getIterable(Iterable<Class<?>> classIterable) {
         return new MemberIterableWithClassIterable(classIterable, getObjectFactory());

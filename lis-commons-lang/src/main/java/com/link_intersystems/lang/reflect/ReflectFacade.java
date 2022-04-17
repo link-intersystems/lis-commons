@@ -70,7 +70,7 @@ public abstract class ReflectFacade {
      * @return a {@link Predicate} that evaluates to true if the object it is
      * evaluated against is a {@link Class} and that {@link Class}
      * represents an interface.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public static Predicate<Class<?>> getIsInterfacePredicate() {
         return CLASS_IS_INTERFACE_PREDICATE;
@@ -84,7 +84,7 @@ public abstract class ReflectFacade {
      * @return {@link Predicate} that evaluates to true if the {@link Member}'s
      * name it is evaluated against is equal to the name that this
      * member name predicate was constructed with.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public static Predicate getMemberNamePredicate(String memberName) {
         Assert.notNull("memberName", memberName);
@@ -124,7 +124,7 @@ public abstract class ReflectFacade {
      * @author René Link <a
      * href="mailto:rene.link@link-intersystems.com">[rene.link@link-
      * intersystems.com]</a>
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public static Predicate getDeclaringClassPredicate(Class<?> declaringClass) {
         Assert.notNull("declaringClass", declaringClass);
@@ -162,7 +162,7 @@ public abstract class ReflectFacade {
      * @return a {@link Predicate} that evaluates to true if the {@link Class}
      * it is evaluated against is assignable from the class it was
      * constructed with.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public static Predicate getIsAssignablePredicate(Class<?> clazz) {
         Assert.notNull("clazz", clazz);
@@ -178,7 +178,7 @@ public abstract class ReflectFacade {
      * @return a {@link Predicate} that evaluates to true if it is evaluated
      * against a {@link Member} object and the {@link Member}'s name
      * matches the namePattern.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public static Predicate getMemberNamePatternPredicate(Pattern namePattern) {
         return new MemberNamePatternPredicate(namePattern);
@@ -189,7 +189,7 @@ public abstract class ReflectFacade {
      *
      * @return a {@link Comparator} that compares {@link Class}es by their
      * canonical name.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public static Comparator<Class<?>> getCanonicalClassNameComparator() {
         return CanonicalClassNameComparator.INSTANCE;
@@ -200,7 +200,7 @@ public abstract class ReflectFacade {
      *
      * @return a {@link Comparator} that compares {@link Member}s by their name
      * ({@link Member#getName()}).
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public static Comparator<Member> getMemberNameComparator() {
         return MemberNameComparator.INSTANCE;
@@ -211,7 +211,7 @@ public abstract class ReflectFacade {
      *
      * @return a {@link Function} that transforms a {@link Field} into it's
      * type.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public static Function<Field, Class<?>> getFieldTypeTransformer() {
         return FieldTypeTransformer.getInstance();
@@ -223,7 +223,7 @@ public abstract class ReflectFacade {
      *
      * @return a {@link Function} that transforms a {@link Method} into it's
      * return type.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public static Function<Method, Class<?>> getMethodTypeTransformer() {
         return Method::getReturnType;
@@ -237,7 +237,7 @@ public abstract class ReflectFacade {
      * @return a {@link SerializableReference} that represents the member. This
      * factory method can produce {@link SerializableReference}s for
      * {@link Constructor}s, {@link Method}s and {@link Field}s.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public static SerializableReference<? extends Member> getSerializableReference(Member member) {
         if (member instanceof Method) {
@@ -261,7 +261,7 @@ public abstract class ReflectFacade {
      * each time the {@link Reference#get()} method is called. Even
      * after serialisation/deserialization of the
      * {@link SerializableReference}.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public static SerializableReference<Constructor<?>> getSerializableReference(Constructor<?> constructor) {
         return new SerializableConstructor(constructor);
@@ -277,7 +277,7 @@ public abstract class ReflectFacade {
      * the {@link Reference#get()} method is called. Even after
      * serialisation/deserialization of the
      * {@link SerializableReference}.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public static SerializableReference<Method> getSerializableReference(Method method) {
         return new SerializableMethod(method);
@@ -293,7 +293,7 @@ public abstract class ReflectFacade {
      * {@link Reference#get()} method is called. Even after
      * serialisation/deserialization of the
      * {@link SerializableReference}.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public static SerializableReference<Field> getSerializableReference(Field field) {
         return new SerializableField(field);
@@ -309,7 +309,7 @@ public abstract class ReflectFacade {
      * time the {@link Reference#get()} method is called. Even after
      * serialisation/deserialization of the
      * {@link SerializableReference}.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public static SerializableReference<Package> getSerializableReference(Package packageObj) {
         return new SerializablePackage(packageObj);
@@ -322,7 +322,7 @@ public abstract class ReflectFacade {
  * @author René Link <a
  * href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  * intersystems.com]</a>
- * @since 1.0.0.0
+ * @since 1.0.0;
  */
 class MemberNameComparator implements Comparator<Member>, Serializable {
 
@@ -334,7 +334,7 @@ class MemberNameComparator implements Comparator<Member>, Serializable {
     /**
      * Singleton instance of the {@link MemberNameComparator}.
      *
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public static final Comparator<Member> INSTANCE = new MemberNameComparator();
 
@@ -342,7 +342,7 @@ class MemberNameComparator implements Comparator<Member>, Serializable {
      * {@inheritDoc}
      *
      * @see MemberNameComparator class javadoc
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public int compare(Member o1, Member o2) {
         int compareValue = 0;
@@ -372,7 +372,7 @@ class MemberNameComparator implements Comparator<Member>, Serializable {
  * @author René Link <a
  * href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  * intersystems.com]</a>
- * @since 1.0.0.0
+ * @since 1.0.0;
  */
 class MethodTypeTransformer implements Function<Method, Class<?>>, Serializable {
 
@@ -393,7 +393,7 @@ class MethodTypeTransformer implements Function<Method, Class<?>>, Serializable 
     /**
      * {@inheritDoc} Transforms a {@link Method} into it's return type.
      *
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public Class<?> apply(Method input) {
         return input.getReturnType();
@@ -407,7 +407,7 @@ class MethodTypeTransformer implements Function<Method, Class<?>>, Serializable 
  * @author René Link <a
  * href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  * intersystems.com]</a>
- * @since 1.0.0.0
+ * @since 1.0.0;
  */
 class FieldTypeTransformer implements Function<Field, Class<?>>, Serializable {
 
@@ -420,7 +420,7 @@ class FieldTypeTransformer implements Function<Field, Class<?>>, Serializable {
      * See class documentation.
      *
      * @return
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public static Function<Field, Class<?>> getInstance() {
         return new FieldTypeTransformer();
@@ -430,7 +430,7 @@ class FieldTypeTransformer implements Function<Field, Class<?>>, Serializable {
      * {@inheritDoc}
      *
      * @param input must be a {@link Field}.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public Class<?> apply(Field input) {
         Class<?> type = input.getType();
@@ -446,7 +446,7 @@ class FieldTypeTransformer implements Function<Field, Class<?>>, Serializable {
  * @author René Link <a
  * href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  * intersystems.com]</a>
- * @since 1.0.0.0
+ * @since 1.0.0;
  */
 class MemberNamePatternPredicate implements Predicate, Serializable {
 
@@ -464,7 +464,7 @@ class MemberNamePatternPredicate implements Predicate, Serializable {
      * {@link Pattern}.
      *
      * @param namePattern the {@link Pattern} to use when evaluating.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public MemberNamePatternPredicate(Pattern namePattern) {
         Assert.notNull("namePattern", namePattern);
@@ -488,7 +488,7 @@ class MemberNamePatternPredicate implements Predicate, Serializable {
      * {@inheritDoc}
      *
      * @see MemberNamePatternPredicate class javadoc
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public boolean test(Object object) {
         if (!Member.class.isInstance(object)) {
@@ -510,7 +510,7 @@ class MemberNamePatternPredicate implements Predicate, Serializable {
  * @author René Link <a
  * href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  * intersystems.com]</a>
- * @since 1.0.0.0
+ * @since 1.0.0;
  */
 class AssignablePredicate implements Predicate, Serializable {
 
@@ -530,7 +530,7 @@ class AssignablePredicate implements Predicate, Serializable {
      * the given class is assignable from the class it is evaluated against.
      *
      * @param clazz
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public AssignablePredicate(Class<?> clazz) {
         Assert.notNull("clazz", clazz);
@@ -542,7 +542,7 @@ class AssignablePredicate implements Predicate, Serializable {
      *
      * @param object must be a {@link Class}. Other objects always evaluate to
      *               false.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public boolean test(Object object) {
         boolean isAssignable = false;
@@ -571,7 +571,7 @@ class AssignablePredicate implements Predicate, Serializable {
  * @author René Link <a
  * href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  * intersystems.com]</a>
- * @since 1.0.0.0
+ * @since 1.0.0;
  */
 class CanonicalClassNameComparator implements Comparator<Class<?>>, Serializable {
 
@@ -583,7 +583,7 @@ class CanonicalClassNameComparator implements Comparator<Class<?>>, Serializable
     /**
      * A singleton of the {@link CanonicalClassNameComparator}.
      *
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public static final Comparator<Class<?>> INSTANCE = new CanonicalClassNameComparator();
 
@@ -593,7 +593,7 @@ class CanonicalClassNameComparator implements Comparator<Class<?>>, Serializable
      * Compares two {@link Class}es by their canonical name.
      * </p>
      *
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public int compare(Class<?> o1, Class<?> o2) {
         int compareValue = 0;

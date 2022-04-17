@@ -25,7 +25,7 @@ package com.link_intersystems.lang;
  * @author René Link <a
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
- * @since 1.0.0.0
+ * @since 1.0.0;
  */
 public interface Signature {
 
@@ -33,7 +33,7 @@ public interface Signature {
 	 * @param obj
 	 * @return true if this {@link Signature} and the other {@link Signature}
 	 *         are equal according to the collection of attributes they have.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	@Override
 	public boolean equals(Object obj);
@@ -41,7 +41,7 @@ public interface Signature {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	@Override
 	public int hashCode();
@@ -50,7 +50,7 @@ public interface Signature {
 	 * @return a string representation of this signature. It is recommended, but
 	 *         not required, for two {@link Signature}s to return the same
 	 *         string representation if they are equal.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	@Override
 	public String toString();

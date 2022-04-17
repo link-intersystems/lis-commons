@@ -30,7 +30,7 @@ import java.util.concurrent.Callable;
  * @author René Link <a
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
- * @since 1.0.0.0
+ * @since 1.0.0;
  */
 public interface Invokable {
 
@@ -48,8 +48,8 @@ public interface Invokable {
 	 * @see Method2#getInvokable(Object)
 	 * @see Constructor2#getInvokable()
 	 * 
-	 * @since 1.0.0.0
-	 * @version 1.2.0.0
+	 * @since 1.0.0;
+	 * @version 1.2.0;
 	 */
 	public abstract <T> T invoke(Object... params) throws Exception;
 
@@ -60,7 +60,7 @@ public interface Invokable {
 	 * @param params
 	 * @return a {@link Runnable} adapter for this {@link Invokable}. If you are
 	 *         interested in the return type use {@link #asCallable(Object...)};
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public abstract Runnable asRunnable(Object... params);
 
@@ -73,7 +73,7 @@ public interface Invokable {
 	 *            is called.
 	 * @return a {@link Callable} adapter for this {@link Invokable} to
 	 *         integrate with the java.util.concurrent package.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public abstract <T> Callable<T> asCallable(Object... args);
 
@@ -92,7 +92,7 @@ public interface Invokable {
 	 *            the parameter to pass to this {@link Invokable}.
 	 * @return the result of the invocation of this {@link Invokable}.
 	 * @throws Exception
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	<RESULT_TYPE> RESULT_TYPE invokeWithContextClassLoader(
 			ClassLoader classLoader, Object... args) throws Exception;
@@ -116,7 +116,7 @@ public interface Invokable {
 	 *            if this invokable should be accessible or not in terms of
 	 *            {@link AccessibleObject#setAccessible(boolean)}. Default is
 	 *            true.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public void setAccessible(boolean accessible);
 
@@ -124,7 +124,7 @@ public interface Invokable {
 	 * @return true if this {@link Invokable} is accessible in terms of the
 	 *         {@link AccessibleObject#isAccessible()} method.
 	 * 
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public boolean isAccessible();
 }

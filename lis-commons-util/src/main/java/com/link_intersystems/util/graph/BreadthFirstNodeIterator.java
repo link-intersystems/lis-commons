@@ -26,7 +26,7 @@ import static java.util.Objects.requireNonNull;
  * @author René Link <a
  * href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  * intersystems.com]</a>
- * @since 1.0.0.0
+ * @since 1.0.0;
  */
 public class BreadthFirstNodeIterator implements Iterator<Node> {
 
@@ -36,7 +36,7 @@ public class BreadthFirstNodeIterator implements Iterator<Node> {
      * New iterator that starts at the given {@link Node}.
      *
      * @param startNode the node to start the breadth first traversal from.
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public BreadthFirstNodeIterator(Node startNode) {
         queue.offer(requireNonNull(startNode, "startNode"));
@@ -45,7 +45,7 @@ public class BreadthFirstNodeIterator implements Iterator<Node> {
     /**
      * {@inheritDoc}
      *
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public boolean hasNext() {
         return !queue.isEmpty();
@@ -54,7 +54,7 @@ public class BreadthFirstNodeIterator implements Iterator<Node> {
     /**
      * {@inheritDoc}
      *
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public Node next() {
         if (hasNext()) {
@@ -71,7 +71,7 @@ public class BreadthFirstNodeIterator implements Iterator<Node> {
      * Not implemented for {@link Node}s.
      *
      * @throws UnsupportedOperationException
-     * @since 1.0.0.0
+     * @since 1.0.0;
      */
     public void remove() {
         throw new UnsupportedOperationException("remove operation is not supported.");

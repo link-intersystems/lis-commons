@@ -41,7 +41,7 @@ import com.link_intersystems.lang.Assert;
  *         intersystems.com]</a>
  * @param <T>
  *            the type of the bean.
- * @since 1.2.0.0
+ * @since 1.2.0;
  */
 public class Bean<T> {
 
@@ -63,7 +63,7 @@ public class Bean<T> {
 	 *
 	 * @param beanClass
 	 *            the type of the bean that this {@link Bean} represents.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public static <T> Bean<T> strictBean(Class<T> beanClass) {
 		return new Bean<>(BeanClass.getStrict(beanClass));
@@ -77,7 +77,7 @@ public class Bean<T> {
 	 *
 	 * @param beanClass
 	 *            the type of the bean that this {@link Bean} represents.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public static <T, B extends T> Bean<T> niceBean(Class<T> beanClass, B beanObject) {
 		Bean<T> bean = new Bean<>(BeanClass.get(beanClass));
@@ -94,7 +94,7 @@ public class Bean<T> {
 	 *
 	 * @param bean
 	 *            the bean object.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	@SuppressWarnings("unchecked")
 	public Bean(T bean) {
@@ -118,7 +118,7 @@ public class Bean<T> {
 	 *             if the property does not exist.
 	 * @throws PropertyAccessException
 	 *             if the property could not be accessed.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public <PT> IndexedProperty<PT> getIndexedProperty(String propertyName) {
 		IndexedProperty<PT> indexedProperty = getIndexedPropertyInternal(propertyName);
@@ -162,7 +162,7 @@ public class Bean<T> {
 	 *
 	 * @return all properties or an empty list.
 	 *
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public List<Property<Object>> getProperties() {
 		List<Property<Object>> properties = new ArrayList<>();
@@ -188,7 +188,7 @@ public class Bean<T> {
 	 *             if the property does not exist.
 	 * @throws PropertyAccessException
 	 *             if the property could not be accessed.
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public <PT> Property<PT> getProperty(String propertyName) {
 		Property<PT> property = getPropertyInternal(propertyName);

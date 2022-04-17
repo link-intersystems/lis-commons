@@ -21,7 +21,7 @@ package com.link_intersystems.math;
  * @author René Link <a
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
- * @since 1.2.0.0
+ * @since 1.2.0;
  * 
  */
 public class IntMax implements Max<Integer> {
@@ -32,7 +32,7 @@ public class IntMax implements Max<Integer> {
 	 * 
 	 * @inherited
 	 * 
-	 * @since 1.2.0.0.
+	 * @since 1.2.0;.
 	 */
 	public Integer getValue() {
 		return max;
@@ -43,7 +43,7 @@ public class IntMax implements Max<Integer> {
 	 * 
 	 * @inherited
 	 * 
-	 * @since 1.2.0.0
+	 * @since 1.2.0;
 	 */
 	public boolean addValue(Number value) {
 		boolean changed = false;

@@ -24,29 +24,29 @@ import java.util.Collection;
  * @author René Link <a
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
- * @since 1.0.0.0
+ * @since 1.0.0;
  */
 public interface Node {
 
 	/**
 	 * @return the nodes that this node references.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public Collection<Node> getReferences();
 
 	/**
 	 * @return the user object that carries the information necessary for your
 	 *         concrete use case.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public Object getUserObject();
 
 	/**
 	 * Adds the given node as a reference of this node.
 	 * 
-	 * @param the
+	 * @param node
 	 *            node to add as a reference for this node.
-	 * @since 1.0.0.0
+	 * @since 1.0.0;
 	 */
 	public void addReference(Node node);
 
