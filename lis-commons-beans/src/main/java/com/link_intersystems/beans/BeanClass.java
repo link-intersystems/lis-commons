@@ -20,6 +20,7 @@ import com.link_intersystems.lang.reflect.Class2;
 import com.link_intersystems.lang.reflect.SignaturePredicate;
 
 import java.beans.*;
+import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -36,11 +37,8 @@ import java.util.function.Predicate;
  * intersystems.com]</a>
  * @since 1.2.0;
  */
-public class BeanClass<T> extends Class2<T> {
+public class BeanClass<T> implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -5446272789930350423L;
 
     private static final Map<Class<?>, BeanClass<?>> CLASS_TO_BEANCLASS = new HashMap<Class<?>, BeanClass<?>>();
@@ -49,6 +47,7 @@ public class BeanClass<T> extends Class2<T> {
     private transient Map<String, PropertyDescriptor> propertyDescriptors;
 
     private transient PropertyNames propertyNames;
+    private Class<T> beanType;
 
     /**
      * Constructs a new {@link BeanClass} for the specified type. The type described
@@ -127,7 +126,11 @@ public class BeanClass<T> extends Class2<T> {
     }
 
     protected BeanClass(Class<T> beanType) {
-        super(beanType);
+        this.beanType = beanType;
+    }
+
+    public Class<T> getType() {
+        return beanType;
     }
 
     /**
@@ -274,8 +277,10 @@ public class BeanClass<T> extends Class2<T> {
      * @return creates a new {@link Bean} instance of this {@link BeanClass}.
      */
     public Bean<T> newBeanInstance() {
+        Class<T> beanClass = getType();
         try {
-            T newBeanObj = newInstance();
+            Constructor<T> defaultConstructor = beanClass.getDeclaredConstructor();
+            T newBeanObj =  defaultConstructor.newInstance();
             Bean<T> newBean = new Bean<T>(newBeanObj);
             return newBean;
         } catch (Exception e) {

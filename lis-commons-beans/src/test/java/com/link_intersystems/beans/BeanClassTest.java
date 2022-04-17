@@ -59,4 +59,14 @@ class BeanClassTest {
         assertTrue(someBeanClass.isPropertyAccessor(propertyMethod));
     }
 
+    @Test
+    void newInstance() throws NoSuchMethodException, SecurityException {
+        BeanClass<SomeBean> someBeanClass = BeanClass.get(SomeBean.class);
+        Bean<SomeBean> someBeanBean = someBeanClass.newBeanInstance();
+        assertNotNull(someBeanBean);
+
+        SomeBean object = someBeanBean.getObject();
+        assertNotNull(object);
+    }
+
 }
