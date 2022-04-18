@@ -52,17 +52,18 @@ public abstract class BeansFactory {
 
     public abstract String getTypeName();
 
-    public <T> BeanClass<T> createBeanClass(Class<T> beanClass) {
+    public <T> BeanClass<T> createBeanClass(Class<T> beanClass) throws BeanClassException {
         return createBeanClass(beanClass, null);
     }
 
-    public abstract <T> BeanClass<T> createBeanClass(Class<T> beanClass, Class<?> stopClass);
+    public abstract <T> BeanClass<T> createBeanClass(Class<T> beanClass, Class<?> stopClass) throws BeanClassException;
 
-    public <T> Bean<T> createBean(T bean) {
+    public <T> Bean<T> createBean(T bean) throws BeanClassException {
         return createBean(bean, null);
     }
 
-    public <T> Bean<T> createBean(T bean, Class<?> stopClass) {
+    @SuppressWarnings("unchecked")
+    public <T> Bean<T> createBean(T bean, Class<?> stopClass) throws BeanClassException {
         BeanClass<T> beanClass = (BeanClass<T>) createBeanClass(bean.getClass(), stopClass);
         return beanClass.getBean(bean);
     }

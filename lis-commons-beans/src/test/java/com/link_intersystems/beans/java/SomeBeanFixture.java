@@ -1,5 +1,7 @@
 package com.link_intersystems.beans.java;
 
+import com.link_intersystems.beans.BeanClassException;
+
 import java.beans.*;
 
 /**
@@ -26,11 +28,11 @@ public class SomeBeanFixture {
     public final JavaProperty stringProperty;
 
 
-    public SomeBeanFixture(TestBeansFactory beansFactory) throws IntrospectionException {
+    public SomeBeanFixture(TestBeansFactory beansFactory) throws IntrospectionException, BeanClassException {
         this(beansFactory, createSomeBean());
     }
 
-    public SomeBeanFixture(TestBeansFactory beansFactory, SomeBean someBean) throws IntrospectionException {
+    public SomeBeanFixture(TestBeansFactory beansFactory, SomeBean someBean) throws IntrospectionException, BeanClassException {
         this.someBean = someBean;
         bean = beansFactory.createBean(someBean);
 

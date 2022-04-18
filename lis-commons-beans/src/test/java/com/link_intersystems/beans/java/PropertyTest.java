@@ -15,6 +15,7 @@
  */
 package com.link_intersystems.beans.java;
 
+import com.link_intersystems.beans.BeanClassException;
 import com.link_intersystems.beans.PropertyReadException;
 import com.link_intersystems.beans.PropertyWriteException;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,7 +35,7 @@ class PropertyTest extends AbstractPropertyTest<String> {
     private SomeBeanFixture someBeanFixture;
 
     @BeforeEach
-    public void setup(TestBeansFactory beansFactory) throws IntrospectionException {
+    public void setup(TestBeansFactory beansFactory) throws IntrospectionException, BeanClassException {
         SomeBean someBean = new SomeBean();
         someBean.setStringProperty("HELLO");
         someBean.setStringArrayProperty(new String[]{"Hello", "World"});

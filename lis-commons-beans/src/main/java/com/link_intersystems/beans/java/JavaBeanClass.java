@@ -58,6 +58,10 @@ public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
         beanInfo = Introspector.getBeanInfo(beanType, null);
     }
 
+    protected JavaBeanClass(Class<T> beanType, Class<?> stopClass) throws IntrospectionException {
+        beanInfo = Introspector.getBeanInfo(beanType, stopClass);
+    }
+
     /**
      * Constructs a new {@link JavaBeanClass} for the specified type. The type described
      * by the className string must fulfill the java bean specification and declare

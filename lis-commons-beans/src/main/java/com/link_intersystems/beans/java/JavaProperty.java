@@ -16,7 +16,6 @@
 package com.link_intersystems.beans.java;
 
 import com.link_intersystems.beans.*;
-import com.link_intersystems.lang.Assert;
 
 import java.beans.PropertyDescriptor;
 import java.beans.PropertyEditor;
@@ -29,6 +28,8 @@ import java.util.Arrays;
 import java.util.Formattable;
 import java.util.Formatter;
 import java.util.Objects;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * Encapsulates access to a java bean property.
@@ -73,10 +74,8 @@ public class JavaProperty implements Serializable, Formattable, Property {
     private JavaPropertyDesc propertyDescriptor;
 
     public JavaProperty(JavaBean<?> bean, JavaPropertyDesc propertyDescriptor) {
-        Assert.notNull("bean", bean);
-        Assert.notNull("propertyDescriptor", propertyDescriptor);
-        this.bean = bean;
-        this.propertyDescriptor = propertyDescriptor;
+        this.bean = requireNonNull(bean);
+        this.propertyDescriptor = requireNonNull(propertyDescriptor);
     }
 
     @Override

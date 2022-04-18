@@ -1,5 +1,6 @@
 package com.link_intersystems.beans.java;
 
+import com.link_intersystems.beans.BeanClassException;
 import com.link_intersystems.beans.BeanEventSupport;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +22,7 @@ class BeanEventSupportTest {
     private BeanEventSupport<ButtonModel, ChangeListener> beanEventSupport;
 
     @BeforeEach
-    public void setup(TestBeansFactory beansFactory) {
+    public void setup(TestBeansFactory beansFactory) throws BeanClassException {
         changeListener = Mockito.mock(ChangeListener.class);
         defaultButtonModel = new DefaultButtonModel();
         beanEventSupport = new BeanEventSupport<>();

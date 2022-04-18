@@ -1,5 +1,6 @@
 package com.link_intersystems.beans.java;
 
+import com.link_intersystems.beans.BeanClassException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,7 +25,7 @@ class BeanEventTest {
     private JavaBeanEvent beanEvent;
 
     @BeforeEach
-    public void setup(TestBeansFactory beansFactory) throws IntrospectionException {
+    public void setup(TestBeansFactory beansFactory) throws IntrospectionException, BeanClassException {
         changeListener = mock(ChangeListener.class);
         defaultButtonModel = new DefaultButtonModel();
         JavaBean<DefaultButtonModel> bean = beansFactory.createBean(defaultButtonModel);

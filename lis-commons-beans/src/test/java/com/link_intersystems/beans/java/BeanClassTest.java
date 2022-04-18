@@ -1,5 +1,6 @@
 package com.link_intersystems.beans.java;
 
+import com.link_intersystems.beans.BeanClassException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +16,7 @@ class BeanClassTest {
     private JavaBeanClass<SomeBean> someBeanClass;
 
     @BeforeEach
-    void setUp(TestBeansFactory beansFactory) {
+    void setUp(TestBeansFactory beansFactory) throws BeanClassException {
         someBeanClass = beansFactory.createBeanClass(SomeBean.class);
     }
 

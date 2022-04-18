@@ -16,13 +16,14 @@
 package com.link_intersystems.beans.java;
 
 import com.link_intersystems.EqualsAndHashCodeTest;
+import com.link_intersystems.beans.BeanClassException;
 
 class ArrayIndexedPropertyEqualsAndHashCodeTest2 extends EqualsAndHashCodeTest {
 
     private TestBeansFactory beansFactory = new TestJavaBeansFactory();
 
     @Override
-    protected Object createInstance() {
+    protected Object createInstance() throws BeanClassException {
         SomeBean someBean = new SomeBean() {
             {
                 setIndexedPropertyReadOnlyIndexOnlyAccess(new String[]{"a", "b", "c"});
@@ -32,7 +33,7 @@ class ArrayIndexedPropertyEqualsAndHashCodeTest2 extends EqualsAndHashCodeTest {
     }
 
     @Override
-    protected Object createNotEqualInstance() {
+    protected Object createNotEqualInstance() throws BeanClassException {
         SomeBean someBean = new SomeBean() {
             {
                 setIndexedPropertyReadOnlyIndexOnlyAccess(new String[]{"a", "b"});

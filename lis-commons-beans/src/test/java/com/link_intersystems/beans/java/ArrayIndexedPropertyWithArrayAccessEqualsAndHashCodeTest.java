@@ -16,20 +16,21 @@
 package com.link_intersystems.beans.java;
 
 import com.link_intersystems.EqualsAndHashCodeTest;
+import com.link_intersystems.beans.BeanClassException;
 
 class ArrayIndexedPropertyWithArrayAccessEqualsAndHashCodeTest extends EqualsAndHashCodeTest {
 
     private TestBeansFactory beansFactory = new TestJavaBeansFactory();
 
     @Override
-    protected Object createInstance() {
+    protected Object createInstance() throws BeanClassException {
         SomeBean someBean = new SomeBean();
         someBean.setStringArrayProperty(new String[]{"a", "c"});
         return beansFactory.createBean(someBean).getProperties().getAnyProperty("stringArrayProperty");
     }
 
     @Override
-    protected Object createNotEqualInstance() {
+    protected Object createNotEqualInstance() throws BeanClassException {
         SomeBean someBean = new SomeBean();
         someBean.setStringArrayProperty(new String[]{"a", "b"});
         return beansFactory.createBean(someBean).getProperties().getAnyProperty("stringArrayProperty");
