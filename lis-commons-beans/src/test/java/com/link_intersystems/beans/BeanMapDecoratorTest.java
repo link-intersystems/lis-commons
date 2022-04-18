@@ -11,7 +11,7 @@ import java.awt.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class BeanMapDecoratorTest  {
+class BeanMapDecoratorTest {
 
     private BeanMapDecorator beanMapDecorator;
     private Container container;

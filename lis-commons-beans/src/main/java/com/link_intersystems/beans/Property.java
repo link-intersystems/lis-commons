@@ -9,6 +9,6 @@ public interface Property {
 
     <T> T getValue() throws PropertyReadException;
 
-    <T> void setValue(T propertyValue) throws PropertyWriteException;
+    void setValue(Object propertyValue) throws PropertyWriteException;
 
 }

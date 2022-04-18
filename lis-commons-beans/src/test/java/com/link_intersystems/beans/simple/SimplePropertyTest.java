@@ -1,9 +1,9 @@
 package com.link_intersystems.beans.simple;
 
-import com.link_intersystems.test.UnitTest;
 import com.link_intersystems.beans.PropertyReadException;
 import com.link_intersystems.beans.PropertyWriteException;
 import com.link_intersystems.beans.java.JavaBeanClass;
+import com.link_intersystems.test.UnitTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

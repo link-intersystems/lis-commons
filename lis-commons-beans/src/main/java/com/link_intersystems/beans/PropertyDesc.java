@@ -13,4 +13,8 @@ public interface PropertyDesc {
     boolean isWritable();
 
     Class<?> getDeclaringClass();
+
+    public <T> T getPropertyValue(Object bean) throws PropertyReadException;
+
+    public void setPropertyValue(Object bean, Object value);
 }

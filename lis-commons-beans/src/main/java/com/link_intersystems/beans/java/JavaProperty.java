@@ -58,12 +58,11 @@ import java.util.Objects;
  * assertEquals("Hello", someBean.getName());
  * </pre>
  *
- *
  * @author René Link
- *         <a href="mailto:rene.link@link-intersystems.com">[rene.link@link-
- *         intersystems.com]</a>
- *
- *            the {@link JavaProperty}'s type.
+ * <a href="mailto:rene.link@link-intersystems.com">[rene.link@link-
+ * intersystems.com]</a>
+ * <p>
+ * the {@link JavaProperty}'s type.
  * @since 1.2.0;
  */
 public class JavaProperty implements Serializable, Formattable, Property {
@@ -91,17 +90,6 @@ public class JavaProperty implements Serializable, Formattable, Property {
      */
     protected final JavaBean<?> getBean() {
         return bean;
-    }
-
-    /**
-     * The {@link JavaProperty}'s type.
-     *
-     * @return the {@link JavaProperty}'s type.
-     * @since 1.2.0;
-     */
-    public Class<?> getType() {
-        return getPropertyDesc().getType();
-
     }
 
     /**
@@ -137,7 +125,7 @@ public class JavaProperty implements Serializable, Formattable, Property {
         PropertyEditor propertyEditor = javaPropertyDescriptor.createPropertyEditor(bean);
 
         if (propertyEditor == null) {
-            Class<?> propertyType = getType();
+            Class<?> propertyType = getPropertyDesc().getType();
             propertyEditor = PropertyEditorManager.findEditor(propertyType);
         }
 
@@ -182,61 +170,34 @@ public class JavaProperty implements Serializable, Formattable, Property {
      * Gets the value of this {@link JavaProperty}.
      *
      * @return the value of this property.
-     * @throws PropertyReadException
-     *             if the property could not be accessed for any reason. If the
-     *             thrown {@link PropertyReadException} has no cause this property
-     *             is not readable (has no property getter method).
+     * @throws PropertyReadException if the property could not be accessed for any reason. If the
+     *                               thrown {@link PropertyReadException} has no cause this property
+     *                               is not readable (has no property getter method).
      * @since 1.2.0;
      */
     @Override
-    @SuppressWarnings("unchecked")
     public <T> T getValue() {
-        Object target = getBean().getObject();
-        JavaPropertyDesc propertyDescriptor = getJavaPropertyDesc();
-        PropertyDescriptor javaPropertyDescriptor = propertyDescriptor.getJavaPropertyDescriptor();
-        Method readMethod = javaPropertyDescriptor.getReadMethod();
-        if (readMethod == null) {
-            throw new PropertyReadException(bean.getBeanClass().getType(), getPropertyDesc().getName());
-        }
-        try {
-            Object beanValue = invoke(readMethod, target);
-            return (T) beanValue;
-        } catch (InvocationTargetException | IllegalAccessException e) {
-            throw new PropertyReadException(bean.getBeanClass().getType(), getPropertyDesc().getName(), e);
-        }
+        PropertyDesc propertyDesc = getPropertyDesc();
+        return propertyDesc.getPropertyValue(bean.getObject());
     }
 
     /**
      * Sets the value of this {@link JavaProperty}.
      *
-     * @param propertyValue
-     *            the value to set.
-     *
-     * @throws PropertyReadException
-     *             if this {@link JavaProperty}'s value could not be set. If the thrown
-     *             {@link PropertyWriteException} has no cause this property is not
-     *             writable (has no property setter method).
+     * @param propertyValue the value to set.
+     * @throws PropertyReadException if this {@link JavaProperty}'s value could not be set. If the thrown
+     *                               {@link PropertyWriteException} has no cause this property is not
+     *                               writable (has no property setter method).
      * @since 1.2.0;
      */
     @Override
-    public <T> void setValue(T propertyValue) {
-        Object target = getBean().getObject();
-        JavaPropertyDesc propertyDescriptor = getJavaPropertyDesc();
-        PropertyDescriptor javaPropertyDescriptor = propertyDescriptor.getJavaPropertyDescriptor();
-        Method writeMethod = javaPropertyDescriptor.getWriteMethod();
-        if (writeMethod == null) {
-            throw new PropertyWriteException(bean.getBeanClass().getType(), getPropertyDesc().getName());
-        }
-        try {
-            invoke(writeMethod, target, propertyValue);
-        } catch (InvocationTargetException | IllegalAccessException e) {
-            throw new PropertyWriteException(bean.getBeanClass().getType(), getPropertyDesc().getName(), e);
-        }
+    public void setValue(Object propertyValue) {
+        PropertyDesc propertyDesc = getPropertyDesc();
+        propertyDesc.setPropertyValue(bean.getObject(), propertyValue);
     }
 
     /**
      * Encapsulation of a method invocation for better testing.
-     *
      */
     protected Object invoke(Method method, Object target, Object... args)
             throws IllegalAccessException, InvocationTargetException {

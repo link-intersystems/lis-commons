@@ -15,7 +15,10 @@
  */
 package com.link_intersystems.beans.java;
 
-import com.link_intersystems.beans.*;
+import com.link_intersystems.beans.IndexedProperty;
+import com.link_intersystems.beans.IndexedPropertyDesc;
+import com.link_intersystems.beans.PropertyReadException;
+import com.link_intersystems.beans.PropertyWriteException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -77,7 +80,7 @@ public class JavaIndexedProperty extends JavaProperty implements IndexedProperty
 
     private static final long serialVersionUID = 3014890786938775513L;
 
-    public JavaIndexedProperty(JavaBean<?> bean, JavaIndexedPropertyDesc indexedPropertyDescriptor) {
+    public JavaIndexedProperty(JavaBean<?> bean, JavaPropertyDesc indexedPropertyDescriptor) {
         super(bean, indexedPropertyDescriptor);
     }
 
@@ -88,17 +91,6 @@ public class JavaIndexedProperty extends JavaProperty implements IndexedProperty
     @Override
     public IndexedPropertyDesc getPropertyDesc() {
         return (IndexedPropertyDesc) super.getPropertyDesc();
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @since 1.2.0;
-     */
-    @Override
-    public Class<?> getType() {
-        JavaPropertyDesc propertyDescriptor = getJavaPropertyDesc();
-        return propertyDescriptor.getType();
     }
 
     /**
@@ -140,7 +132,7 @@ public class JavaIndexedProperty extends JavaProperty implements IndexedProperty
      * @since 1.2.0;
      */
     @Override
-    public <T> void setValue(int index, T elementValue) {
+    public void setValue(int index, Object elementValue) {
         JavaBean<?> bean = getBean();
 
         Method indexedWriteMethod = getIndexedWriteMethod();

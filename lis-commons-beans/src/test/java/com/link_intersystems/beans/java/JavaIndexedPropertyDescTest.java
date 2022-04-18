@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import java.beans.*;
+import java.beans.IntrospectionException;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -24,16 +24,16 @@ public class JavaIndexedPropertyDescTest {
 
     @Test
     void isIndexedReadable() {
-        assertTrue(someBeanFixture.stringPropertyDescriptor.isIndexedReadable());
-        assertTrue(someBeanFixture.readOnlyPropertyDescriptor.isIndexedReadable());
-        assertFalse(someBeanFixture.writeOnlyPropertyDescriptor.isIndexedReadable());
+        assertTrue(someBeanFixture.stringArrayPropertyDescriptor.isIndexedReadable());
+        assertTrue(someBeanFixture.readOnlyIndexedPropertyDescriptor.isIndexedReadable());
+        assertFalse(someBeanFixture.writeOnlyIndexedPropertyDescriptor.isIndexedReadable());
 
     }
 
     @Test
     void isIndexedWriteable() {
-        assertTrue(someBeanFixture.stringPropertyDescriptor.isIndexedWritable());
-        assertTrue(someBeanFixture.writeOnlyPropertyDescriptor.isIndexedWritable());
-        assertFalse(someBeanFixture.readOnlyPropertyDescriptor.isIndexedWritable());
+        assertTrue(someBeanFixture.stringArrayPropertyDescriptor.isIndexedWritable());
+        assertTrue(someBeanFixture.writeOnlyIndexedPropertyDescriptor.isIndexedWritable());
+        assertFalse(someBeanFixture.readOnlyIndexedPropertyDescriptor.isIndexedWritable());
     }
 }

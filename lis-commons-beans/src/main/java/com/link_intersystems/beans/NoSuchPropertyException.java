@@ -22,11 +22,9 @@ import com.link_intersystems.beans.java.JavaProperty;
  * not exist in the context (bean class) it is requested.
  *
  * @author René Link <a
- *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
- *         intersystems.com]</a>
- *
+ * href="mailto:rene.link@link-intersystems.com">[rene.link@link-
+ * intersystems.com]</a>
  * @since 1.2.0;
- *
  */
 public class NoSuchPropertyException extends PropertyException {
 

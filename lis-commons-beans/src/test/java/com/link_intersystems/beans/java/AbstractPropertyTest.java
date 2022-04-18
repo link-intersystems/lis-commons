@@ -61,7 +61,7 @@ public abstract class AbstractPropertyTest<T> {
     @Test
     void typeForReadOnlyProperty() {
         JavaProperty property = getReadOnlyProperty();
-        Class<?> type = property.getType();
+        Class<?> type = property.getPropertyDesc().getType();
         Class<?> expectedType = getExpectedType();
         assertEquals(expectedType, type);
     }
@@ -69,7 +69,7 @@ public abstract class AbstractPropertyTest<T> {
     @Test
     void typeForWriteOnlyProperty() {
         JavaProperty property = getWriteOnlyProperty();
-        Class<?> type = property.getType();
+        Class<?> type = property.getPropertyDesc().getType();
         Class<?> expectedType = getExpectedType();
         assertEquals(expectedType, type);
     }

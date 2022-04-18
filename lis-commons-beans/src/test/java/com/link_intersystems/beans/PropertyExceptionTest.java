@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class PropertyExceptionTest  {
+class PropertyExceptionTest {
 
     @Test
     void getName() {

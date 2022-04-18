@@ -1,85 +1,83 @@
 package com.link_intersystems.beans.reflect;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
-import java.beans.PropertyDescriptor;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class PropertyNameResolverProxyTest  {
+import java.beans.PropertyDescriptor;
 
-	public static interface SomeBeanInterface {
+import static org.junit.jupiter.api.Assertions.*;
 
-		public boolean isEnabled();
+class PropertyNameResolverProxyTest {
 
-		public void setEnabled(boolean enabled);
+    private PropertyNameResolverProxy<SomeBeanInterface> propertyNameResolverProxy;
+    private SomeBeanInterface someBeanInterface;
 
-		public String getTitle();
+    @BeforeEach
+    public void setup() {
+        propertyNameResolverProxy = new PropertyNameResolverProxy<>(SomeBeanInterface.class);
+        someBeanInterface = propertyNameResolverProxy.createProxy();
+    }
 
-		public void setTitle(String title);
+    private void assertLatestProperty(String propertyName) {
+        PropertyDescriptor latestCallPropertyDescriptor = propertyNameResolverProxy.getLatestCallPropertyDescriptor();
+        assertNotNull(latestCallPropertyDescriptor, "latestCallPropertyDescriptor");
 
-	}
+        String name = latestCallPropertyDescriptor.getName();
+        assertEquals(propertyName, name);
+    }
 
-	private PropertyNameResolverProxy<SomeBeanInterface> propertyNameResolverProxy;
-	private SomeBeanInterface someBeanInterface;
+    @Test
+    void noProperyAccessed() {
+        PropertyDescriptor latestCallPropertyDescriptor = propertyNameResolverProxy.getLatestCallPropertyDescriptor();
+        assertNull(latestCallPropertyDescriptor, "latestCallPropertyDescriptor");
+    }
 
-	@BeforeEach
-	public void setup() {
-		propertyNameResolverProxy = new PropertyNameResolverProxy<>(SomeBeanInterface.class);
-		someBeanInterface = propertyNameResolverProxy.createProxy();
-	}
+    @Test
+    void booleanGetter() {
+        someBeanInterface.isEnabled();
 
-	private void assertLatestProperty(String propertyName) {
-		PropertyDescriptor latestCallPropertyDescriptor = propertyNameResolverProxy.getLatestCallPropertyDescriptor();
-		assertNotNull(latestCallPropertyDescriptor, "latestCallPropertyDescriptor");
+        assertLatestProperty("enabled");
+    }
 
-		String name = latestCallPropertyDescriptor.getName();
-		assertEquals(propertyName, name);
-	}
+    @Test
+    void booleanSetter() {
+        someBeanInterface.setEnabled(false);
 
-	@Test
-	void noProperyAccessed() {
-		PropertyDescriptor latestCallPropertyDescriptor = propertyNameResolverProxy.getLatestCallPropertyDescriptor();
-		assertNull(latestCallPropertyDescriptor, "latestCallPropertyDescriptor");
-	}
+        assertLatestProperty("enabled");
+    }
 
-	@Test
-	void booleanGetter() {
-		someBeanInterface.isEnabled();
+    @Test
+    void objectGetter() {
+        someBeanInterface.getTitle();
 
-		assertLatestProperty("enabled");
-	}
+        assertLatestProperty("title");
+    }
 
-	@Test
-	void booleanSetter() {
-		someBeanInterface.setEnabled(false);
+    @Test
+    void objectSetter() {
+        someBeanInterface.setTitle("");
 
-		assertLatestProperty("enabled");
-	}
+        assertLatestProperty("title");
+    }
 
-	@Test
-	void objectGetter() {
-		someBeanInterface.getTitle();
+    @Test
+    void latestPropertyDescriptorReturned() {
+        someBeanInterface.setTitle("");
+        someBeanInterface.setEnabled(true);
 
-		assertLatestProperty("title");
-	}
+        assertLatestProperty("enabled");
+    }
 
-	@Test
-	void objectSetter() {
-		someBeanInterface.setTitle("");
+    public static interface SomeBeanInterface {
 
-		assertLatestProperty("title");
-	}
+        public boolean isEnabled();
 
-	@Test
-	void latestPropertyDescriptorReturned() {
-		someBeanInterface.setTitle("");
-		someBeanInterface.setEnabled(true);
+        public void setEnabled(boolean enabled);
 
-		assertLatestProperty("enabled");
-	}
+        public String getTitle();
+
+        public void setTitle(String title);
+
+    }
 
 }

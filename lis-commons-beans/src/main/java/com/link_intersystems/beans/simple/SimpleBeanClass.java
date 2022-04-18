@@ -42,7 +42,7 @@ public class SimpleBeanClass<T> {
         return new SimpleProperty(propertyDesc, (BeanClass<Object>) beanClass);
     }
 
-    public T newInstance() throws BeanInstantiationException{
+    public T newInstance() throws BeanInstantiationException {
         return beanClass.newInstance();
     }
 }

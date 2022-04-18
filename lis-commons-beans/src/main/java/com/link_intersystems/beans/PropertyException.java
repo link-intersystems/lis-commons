@@ -21,8 +21,8 @@ import com.link_intersystems.lang.Assert;
  * Base exception for all {@link Exception}s regard to {@link Property}s.
  *
  * @author René Link <a
- *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
- *         intersystems.com]</a>
+ * href="mailto:rene.link@link-intersystems.com">[rene.link@link-
+ * intersystems.com]</a>
  * @since 1.2.0;
  */
 public abstract class PropertyException extends RuntimeException {
@@ -52,7 +52,7 @@ public abstract class PropertyException extends RuntimeException {
      * {@link PropertyException}.
      *
      * @return bean's class that holds the property that caused this
-     *         {@link PropertyException}.
+     * {@link PropertyException}.
      * @since 1.2.0;
      */
     public Class<?> getBeanType() {
@@ -63,7 +63,6 @@ public abstract class PropertyException extends RuntimeException {
      * The name of the property.
      *
      * @return the name of the property.
-     *
      * @since 1.2.0;
      */
     public String getPropertyName() {

@@ -36,30 +36,30 @@ class JavaIndexedPropertyTest extends AbstractPropertyTest<String[]> {
 
     @Test
     void getValueByIndex() {
-        Object propertyValue = someBeanFixture.stringProperty.getValue(0);
+        Object propertyValue = someBeanFixture.stringArrayProperty.getValue(0);
         assertEquals(someBeanFixture.stringArrayPropertyValue[0], propertyValue);
     }
 
     @Test
     void setValueByIndex() {
-        someBeanFixture.stringProperty.setValue(0, "test");
-        Object propertyValue = someBeanFixture.stringProperty.getValue(0);
+        someBeanFixture.stringArrayProperty.setValue(0, "test");
+        Object propertyValue = someBeanFixture.stringArrayProperty.getValue(0);
         assertEquals("test", propertyValue);
     }
 
     @Override
     protected JavaProperty getReadOnlyProperty() {
-        return someBeanFixture.readOnlyProperty;
+        return someBeanFixture.readOnlyIndexedProperty;
     }
 
     @Override
     protected JavaProperty getWriteOnlyProperty() {
-        return someBeanFixture.writeOnlyProperty;
+        return someBeanFixture.writeOnlyIndexedProperty;
     }
 
     @Override
     protected JavaProperty getProperty() {
-        return someBeanFixture.stringProperty;
+        return someBeanFixture.stringArrayProperty;
     }
 
     @Override

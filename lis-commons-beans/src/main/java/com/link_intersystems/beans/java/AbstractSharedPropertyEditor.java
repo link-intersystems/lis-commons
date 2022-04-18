@@ -11,6 +11,7 @@ public abstract class AbstractSharedPropertyEditor implements SharedPropertyEdit
 
     protected PropertyChangeEventAdapter propertyChangeEventAdapter = new PropertyChangeEventAdapter();
     protected PropertyEditor propertyEditor;
+
     public AbstractSharedPropertyEditor(PropertyEditor propertyEditor) {
         this.propertyEditor = propertyEditor;
         propertyEditor.addPropertyChangeListener(propertyChangeEventAdapter);
