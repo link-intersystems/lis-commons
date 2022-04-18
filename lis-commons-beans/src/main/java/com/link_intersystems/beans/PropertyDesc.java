@@ -3,10 +3,10 @@ package com.link_intersystems.beans;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public interface PropertyDesc<TYPE> {
+public interface PropertyDesc<T> {
     String getName();
 
-    Class<TYPE> getType();
+    Class<T> getType();
 
     boolean isReadable();
 

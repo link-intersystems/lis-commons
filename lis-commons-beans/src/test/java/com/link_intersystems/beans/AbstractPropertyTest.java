@@ -15,7 +15,6 @@
  */
 package com.link_intersystems.beans;
 
-import com.link_intersystems.beans.PropertyAccessException.PropertyAccessType;
 import com.link_intersystems.beans.java.JavaProperty;
 import com.link_intersystems.lang.reflect.Class2;
 import org.junit.jupiter.api.Assertions;
@@ -115,20 +114,17 @@ public abstract class AbstractPropertyTest<T> {
     @Test
     void getWriteOnlyPropertyValue() {
         JavaProperty<T> property = getWriteOnlyProperty();
-        assertThrows(PropertyAccessException.class, () -> property.getValue());
+        assertThrows(PropertyReadException.class, () -> property.getValue());
     }
 
     @Test
     void setReadOnlyPropertyValue() {
         JavaProperty<T> property = getReadOnlyProperty();
         T propertySetValue = getPropertySetValue();
-        assertThrows(PropertyAccessException.class, () -> property.setValue(propertySetValue));
+        assertThrows(PropertyWriteException.class, () -> property.setValue(propertySetValue));
     }
 
-    protected void assertPropertyAccessException(PropertyAccessException e, PropertyAccessType accessType, Class<? extends Throwable> causeType) {
-        PropertyAccessType propertyAccessType = e.getPropertyAccessType();
-        assertEquals(accessType, propertyAccessType);
-
+    protected void assertPropertyAccessException(PropertyException e,  Class<? extends Throwable> causeType) {
         Class<?> beanType = e.getBeanType();
         assertEquals(SomeBean.class, beanType);
 

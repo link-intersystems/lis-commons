@@ -15,7 +15,6 @@
  */
 package com.link_intersystems.beans;
 
-import com.link_intersystems.beans.PropertyAccessException.PropertyAccessType;
 import com.link_intersystems.beans.java.JavaBean;
 import com.link_intersystems.beans.java.JavaProperty;
 import com.link_intersystems.beans.java.JavaPropertyDesc;
@@ -31,7 +30,7 @@ import java.lang.reflect.Method;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PropertyTest extends AbstractPropertyTest <String> {
+class PropertyTest extends AbstractPropertyTest<String> {
 
     private JavaBean<SomeBean> bean;
     private PropertyDescriptor readOnlyProperty;
@@ -78,24 +77,24 @@ class PropertyTest extends AbstractPropertyTest <String> {
         JavaProperty<String> javaProperty = createJavaProperty(stringProperty);
         JavaProperty<String> property = new ExceptionThrowingPropertyOnAccess<>(bean, javaProperty.getPropertyDescriptor(), new InvocationTargetException(new RuntimeException()));
 
-        PropertyAccessException propertyAccessException = assertThrows(PropertyAccessException.class, () -> property.getValue());
-        assertPropertyAccessException(propertyAccessException, PropertyAccessType.READ, InvocationTargetException.class);
+        PropertyReadException propertyAccessException = assertThrows(PropertyReadException.class, () -> property.getValue());
+        assertPropertyAccessException(propertyAccessException, InvocationTargetException.class);
     }
 
     @Test
     void illeagalAccessExceptionOnGet() {
         JavaProperty<String> javaProperty = createJavaProperty(stringProperty);
         JavaProperty<String> property = new ExceptionThrowingPropertyOnAccess<String>(bean, javaProperty.getPropertyDescriptor(), new IllegalAccessException());
-        PropertyAccessException propertyAccessException = assertThrows(PropertyAccessException.class, () -> property.getValue());
-        assertPropertyAccessException(propertyAccessException, PropertyAccessType.READ, IllegalAccessException.class);
+        PropertyReadException propertyAccessException = assertThrows(PropertyReadException.class, () -> property.getValue());
+        assertPropertyAccessException(propertyAccessException, IllegalAccessException.class);
     }
 
     @Test
     void invocationTargetExceptionOnSet() {
         JavaProperty<String> javaProperty = createJavaProperty(stringProperty);
         JavaProperty<String> property = new ExceptionThrowingPropertyOnAccess<String>(bean, javaProperty.getPropertyDescriptor(), new InvocationTargetException(new RuntimeException()));
-        PropertyAccessException propertyAccessException = assertThrows(PropertyAccessException.class, () -> property.setValue(""));
-        assertPropertyAccessException(propertyAccessException, PropertyAccessType.WRITE, InvocationTargetException.class);
+        PropertyWriteException propertyAccessException = assertThrows(PropertyWriteException.class, () -> property.setValue(""));
+        assertPropertyAccessException(propertyAccessException, InvocationTargetException.class);
     }
 
     @Test
@@ -126,8 +125,8 @@ class PropertyTest extends AbstractPropertyTest <String> {
     void illeagalAccessExceptionOnSet() {
         JavaProperty<String> javaProperty = createJavaProperty(stringProperty);
         JavaProperty<String> property = new ExceptionThrowingPropertyOnAccess<String>(bean, javaProperty.getPropertyDescriptor(), new IllegalAccessException());
-        PropertyAccessException propertyAccessException = assertThrows(PropertyAccessException.class, () -> property.setValue(""));
-        assertPropertyAccessException(propertyAccessException, PropertyAccessType.WRITE, IllegalAccessException.class);
+        PropertyWriteException propertyAccessException = assertThrows(PropertyWriteException.class, () -> property.setValue(""));
+        assertPropertyAccessException(propertyAccessException, IllegalAccessException.class);
     }
 
     @Test

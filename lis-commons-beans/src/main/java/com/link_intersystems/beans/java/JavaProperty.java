@@ -15,11 +15,7 @@
  */
 package com.link_intersystems.beans.java;
 
-import com.link_intersystems.beans.Property;
-import com.link_intersystems.beans.PropertyAccessException;
-import com.link_intersystems.beans.PropertyAccessException.PropertyAccessType;
-import com.link_intersystems.beans.PropertyDesc;
-import com.link_intersystems.beans.PropertyEditorNotAvailableException;
+import com.link_intersystems.beans.*;
 import com.link_intersystems.lang.Assert;
 
 import java.beans.PropertyDescriptor;
@@ -67,20 +63,18 @@ import java.util.Objects;
  *         <a href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
  *
- * @param <TYPE>
+ * @param <T>
  *            the {@link JavaProperty}'s type.
  * @since 1.2.0;
  */
-public class JavaProperty<TYPE> implements Serializable, Formattable, Property<TYPE> {
+public class JavaProperty<T> implements Serializable, Formattable, Property<T> {
 
     private static final long serialVersionUID = -6759158627808430975L;
 
     private JavaBean<?> bean;
-    private JavaPropertyDesc<TYPE> propertyDescriptor;
+    private JavaPropertyDesc<T> propertyDescriptor;
 
-    private Class<TYPE> type;
-
-    public JavaProperty(JavaBean<?> bean, JavaPropertyDesc<TYPE> propertyDescriptor) {
+    public JavaProperty(JavaBean<?> bean, JavaPropertyDesc<T> propertyDescriptor) {
         Assert.notNull("bean", bean);
         Assert.notNull("propertyDescriptor", propertyDescriptor);
         this.bean = bean;
@@ -88,7 +82,7 @@ public class JavaProperty<TYPE> implements Serializable, Formattable, Property<T
     }
 
     @Override
-    public PropertyDesc<TYPE> getDescriptor() {
+    public PropertyDesc<T> getDescriptor() {
         return propertyDescriptor;
     }
 
@@ -96,8 +90,8 @@ public class JavaProperty<TYPE> implements Serializable, Formattable, Property<T
      * @return the bean object of this {@link JavaProperty}.
      * @since 1.2.0;
      */
-    protected final Object getBean() {
-        return bean.getObject();
+    protected final JavaBean<?> getBean() {
+        return bean;
     }
 
     /**
@@ -106,7 +100,7 @@ public class JavaProperty<TYPE> implements Serializable, Formattable, Property<T
      * @return the {@link JavaProperty}'s type.
      * @since 1.2.0;
      */
-    public Class<TYPE> getType() {
+    public Class<T> getType() {
         return getDescriptor().getType();
 
     }
@@ -138,13 +132,13 @@ public class JavaProperty<TYPE> implements Serializable, Formattable, Property<T
      * @since 1.2.0;
      */
     public PropertyEditor createPropertiyEditor() throws PropertyEditorNotAvailableException {
-        Object bean = getBean();
+        Object bean = getBean().getObject();
 
         PropertyDescriptor javaPropertyDescriptor = propertyDescriptor.getJavaPropertyDescriptor();
         PropertyEditor propertyEditor = javaPropertyDescriptor.createPropertyEditor(bean);
 
         if (propertyEditor == null) {
-            Class<TYPE> propertyType = getType();
+            Class<T> propertyType = getType();
             propertyEditor = PropertyEditorManager.findEditor(propertyType);
         }
 
@@ -183,34 +177,34 @@ public class JavaProperty<TYPE> implements Serializable, Formattable, Property<T
         PropertyEditor propertiyEditor = createPropertiyEditor();
         propertiyEditor.setAsText(text);
         Object value = propertiyEditor.getValue();
-        setValue((TYPE) value);
+        setValue((T) value);
     }
 
     /**
      * Gets the value of this {@link JavaProperty}.
      *
      * @return the value of this property.
-     * @throws PropertyAccessException
+     * @throws PropertyReadException
      *             if the property could not be accessed for any reason. If the
-     *             thrown {@link PropertyAccessException} has no cause this property
+     *             thrown {@link PropertyReadException} has no cause this property
      *             is not readable (has no property getter method).
      * @since 1.2.0;
      */
     @Override
     @SuppressWarnings("unchecked")
-    public TYPE getValue() {
-        Object target = getBean();
-        JavaPropertyDesc<TYPE> propertyDescriptor = getPropertyDescriptor();
+    public T getValue() {
+        Object target = getBean().getObject();
+        JavaPropertyDesc<T> propertyDescriptor = getPropertyDescriptor();
         PropertyDescriptor javaPropertyDescriptor = propertyDescriptor.getJavaPropertyDescriptor();
         Method readMethod = javaPropertyDescriptor.getReadMethod();
         if (readMethod == null) {
-            throw new JavaPropertyAccessException(this, PropertyAccessType.READ);
+            throw new PropertyReadException(bean.getBeanClass().getType(), getDescriptor().getName());
         }
         try {
             Object beanValue = invoke(readMethod, target);
-            return (TYPE) beanValue;
+            return (T) beanValue;
         } catch (InvocationTargetException | IllegalAccessException e) {
-            throw new JavaPropertyAccessException(this, PropertyAccessType.READ, e);
+            throw new PropertyReadException(bean.getBeanClass().getType(), getDescriptor().getName(), e);
         }
     }
 
@@ -220,25 +214,25 @@ public class JavaProperty<TYPE> implements Serializable, Formattable, Property<T
      * @param propertyValue
      *            the value to set.
      *
-     * @throws PropertyAccessException
+     * @throws PropertyReadException
      *             if this {@link JavaProperty}'s value could not be set. If the thrown
-     *             {@link PropertyAccessException} has no cause this property is not
+     *             {@link PropertyWriteException} has no cause this property is not
      *             writable (has no property setter method).
      * @since 1.2.0;
      */
     @Override
-    public void setValue(TYPE propertyValue) {
-        Object target = getBean();
-        JavaPropertyDesc<TYPE> propertyDescriptor = getPropertyDescriptor();
+    public void setValue(T propertyValue) {
+        Object target = getBean().getObject();
+        JavaPropertyDesc<T> propertyDescriptor = getPropertyDescriptor();
         PropertyDescriptor javaPropertyDescriptor = propertyDescriptor.getJavaPropertyDescriptor();
         Method writeMethod = javaPropertyDescriptor.getWriteMethod();
         if (writeMethod == null) {
-            throw new JavaPropertyAccessException(this, PropertyAccessType.WRITE);
+            throw new PropertyWriteException(bean.getBeanClass().getType(), getDescriptor().getName());
         }
         try {
             invoke(writeMethod, target, propertyValue);
         } catch (InvocationTargetException | IllegalAccessException e) {
-            throw new JavaPropertyAccessException(this, PropertyAccessType.WRITE, e);
+            throw new PropertyWriteException(bean.getBeanClass().getType(), getDescriptor().getName(), e);
         }
     }
 
@@ -257,7 +251,7 @@ public class JavaProperty<TYPE> implements Serializable, Formattable, Property<T
      */
     @Override
     public void formatTo(Formatter formatter, int flags, int width, int precision) {
-        formatter.format("%s.%s", getBean().getClass().getCanonicalName(), getName());
+        formatter.format("%s.%s", getBean().getObject().getClass().getCanonicalName(), getName());
     }
 
     /**
@@ -265,7 +259,7 @@ public class JavaProperty<TYPE> implements Serializable, Formattable, Property<T
      *
      * @since 1.2.0;
      */
-    public JavaPropertyDesc<TYPE> getPropertyDescriptor() {
+    public JavaPropertyDesc<T> getPropertyDescriptor() {
         return propertyDescriptor;
     }
 

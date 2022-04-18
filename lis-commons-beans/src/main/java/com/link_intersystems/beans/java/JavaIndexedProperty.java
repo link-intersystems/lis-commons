@@ -16,8 +16,8 @@
 package com.link_intersystems.beans.java;
 
 import com.link_intersystems.beans.IndexedProperty;
-import com.link_intersystems.beans.PropertyAccessException;
-import com.link_intersystems.beans.PropertyAccessException.PropertyAccessType;
+import com.link_intersystems.beans.PropertyReadException;
+import com.link_intersystems.beans.PropertyWriteException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -70,20 +70,15 @@ import java.util.Objects;
  * assertTrue(Arrays.equals(new String[]{"Hello", World}, bean.getValue()));
  * </pre>
  *
- *
+ * @param <T> the element type of the indexed property.
  * @author René Link
- *         <a href="mailto:rene.link@link-intersystems.com">[rene.link@link-
- *         intersystems.com]</a>
- *
- * @param <T>
- *            the element type of the indexed property.
+ * <a href="mailto:rene.link@link-intersystems.com">[rene.link@link-
+ * intersystems.com]</a>
  * @since 1.2.0;
  */
 public class JavaIndexedProperty<T> extends JavaProperty<T[]> implements IndexedProperty<T> {
 
     private static final long serialVersionUID = 3014890786938775513L;
-
-    private Class<T[]> type;
 
     public JavaIndexedProperty(JavaBean<?> bean, JavaIndexedPropertyDesc<T> indexedPropertyDescriptor) {
         super(bean, indexedPropertyDescriptor);
@@ -98,7 +93,7 @@ public class JavaIndexedProperty<T> extends JavaProperty<T[]> implements Indexed
      * getter method, e.g. <code>PropertyType getter(int index);</code>.
      *
      * @return true if this indexed property can be accessed through an indexed
-     *         getter method.
+     * getter method.
      */
     @Override
     public boolean isIndexedReadable() {
@@ -111,7 +106,7 @@ public class JavaIndexedProperty<T> extends JavaProperty<T[]> implements Indexed
      * <code>void setter(int index, PropertyType value);</code>.
      *
      * @return true if this indexed property can be accessed through an indexed
-     *         setter method.
+     * setter method.
      */
     @Override
     public boolean isIndexedWritable() {
@@ -133,28 +128,29 @@ public class JavaIndexedProperty<T> extends JavaProperty<T[]> implements Indexed
      * Get the element value at the specified index of this
      * {@link JavaIndexedProperty}.
      *
-     * @param index
-     *            the index of the element to get.
+     * @param index the index of the element to get.
      * @return the element value at the specified index of this
-     *         {@link JavaIndexedProperty}.
+     * {@link JavaIndexedProperty}.
      * @since 1.2.0;
      */
     @Override
     @SuppressWarnings("unchecked")
     public T getValue(int index) {
-        Object target = getBean();
+        JavaBean<?> bean = getBean();
         Method indexedReadMethod = getIndexedReadMethod();
         if (indexedReadMethod == null) {
-            throw new JavaPropertyAccessException(this, PropertyAccessType.READ);
+
+            throw new PropertyReadException(bean.getBeanClass().getType(), getDescriptor().getName());
         }
         try {
+            Object target = bean.getObject();
             Object elementValue = invoke(indexedReadMethod, target, index);
             return (T) elementValue;
         } catch (InvocationTargetException e) {
             Throwable targetException = e.getTargetException();
-            throw new JavaPropertyAccessException(this, PropertyAccessType.READ, targetException);
+            throw new PropertyReadException(bean.getBeanClass().getType(), getDescriptor().getName(), targetException);
         } catch (IllegalAccessException e) {
-            throw new JavaPropertyAccessException(this, PropertyAccessType.READ, e);
+            throw new PropertyReadException(bean.getBeanClass().getType(), getDescriptor().getName(), e);
         }
     }
 
@@ -162,26 +158,27 @@ public class JavaIndexedProperty<T> extends JavaProperty<T[]> implements Indexed
      * set the element value at the specified index of this
      * {@link JavaIndexedProperty}.
      *
-     * @param index
-     *            the index of the element to set.
-     * @param elementValue
-     *            the element to set at the specified index.
+     * @param index        the index of the element to set.
+     * @param elementValue the element to set at the specified index.
      * @since 1.2.0;
      */
     @Override
     public void setValue(int index, T elementValue) {
-        Object target = getBean();
+        JavaBean<?> bean = getBean();
+
         Method indexedWriteMethod = getIndexedWriteMethod();
         if (indexedWriteMethod == null) {
-            throw new JavaPropertyAccessException(this, PropertyAccessType.WRITE);
+
+            throw new PropertyWriteException(bean.getBeanClass().getType(), getDescriptor().getName());
         }
         try {
+            Object target = bean.getObject();
             invoke(indexedWriteMethod, target, index, elementValue);
         } catch (InvocationTargetException e) {
             Throwable targetException = e.getTargetException();
-            throw new JavaPropertyAccessException(this, PropertyAccessType.WRITE, targetException);
+            throw new PropertyWriteException(bean.getBeanClass().getType(), getDescriptor().getName(), targetException);
         } catch (IllegalAccessException e) {
-            throw new JavaPropertyAccessException(this, PropertyAccessType.WRITE, e);
+            throw new PropertyWriteException(bean.getBeanClass().getType(), getDescriptor().getName(), e);
         }
     }
 
@@ -190,8 +187,8 @@ public class JavaIndexedProperty<T> extends JavaProperty<T[]> implements Indexed
      * accessor (e.g. setPROPERTY(int index, TYPE value)).
      *
      * @return the Method that represents this {@link JavaIndexedProperty}'s index
-     *         write accessor (e.g. setPROPERTY(int index, TYPE value)) or
-     *         <code>null</code> if no write index method exists.
+     * write accessor (e.g. setPROPERTY(int index, TYPE value)) or
+     * <code>null</code> if no write index method exists.
      * @since 1.2.0;
      */
     protected final Method getIndexedWriteMethod() {
@@ -205,8 +202,8 @@ public class JavaIndexedProperty<T> extends JavaProperty<T[]> implements Indexed
      * accessor (e.g. TYPE getPROPERTY(int index)).
      *
      * @return the Method that represents this {@link JavaIndexedProperty}'s index
-     *         read accessor (e.g. TYPE getPROPERTY(int index)) or
-     *         <code>null</code> if no read index method exists.
+     * read accessor (e.g. TYPE getPROPERTY(int index)) or
+     * <code>null</code> if no read index method exists.
      * @since 1.2.0;
      */
     protected final Method getIndexedReadMethod() {
@@ -246,7 +243,7 @@ public class JavaIndexedProperty<T> extends JavaProperty<T[]> implements Indexed
             try {
                 T value = getValue(i);
                 result = prime * result + (value == null ? 0 : value.hashCode());
-            } catch (PropertyAccessException e) {
+            } catch (PropertyReadException e) {
                 Throwable cause = e.getCause();
                 if (cause instanceof IndexOutOfBoundsException) {
                     break;
@@ -309,7 +306,7 @@ public class JavaIndexedProperty<T> extends JavaProperty<T[]> implements Indexed
                     if (!equal) {
                         break;
                     }
-                } catch (PropertyAccessException e) {
+                } catch (PropertyReadException e) {
                     equal = false;
                     Throwable cause = e.getCause();
                     if (cause instanceof IndexOutOfBoundsException) {
@@ -319,11 +316,11 @@ public class JavaIndexedProperty<T> extends JavaProperty<T[]> implements Indexed
                     }
                 }
 
-            } catch (PropertyAccessException e) {
+            } catch (PropertyReadException e) {
                 try {
                     other.getValue(i);
                     equal = false;
-                } catch (PropertyAccessException pe) {
+                } catch (PropertyReadException pe) {
                     Throwable cause = pe.getCause();
                     if (!(cause instanceof IndexOutOfBoundsException)) {
                         throw new RuntimeException(e);

@@ -1,5 +1,6 @@
 package com.link_intersystems.beans.java;
 
+import com.link_intersystems.beans.BeanClass;
 import com.link_intersystems.beans.PropertyDesc;
 
 import java.beans.IndexedPropertyDescriptor;
@@ -7,6 +8,8 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
 import java.util.Objects;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
@@ -17,7 +20,7 @@ public class JavaPropertyDesc<T> implements PropertyDesc<T> {
     private Class<T> type;
 
     public JavaPropertyDesc(PropertyDescriptor propertyDescriptor) {
-        this.propertyDescriptor = Objects.requireNonNull(propertyDescriptor);
+        this.propertyDescriptor = requireNonNull(propertyDescriptor);
     }
 
     @Override

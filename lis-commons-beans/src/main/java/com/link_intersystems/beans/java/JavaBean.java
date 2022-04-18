@@ -114,13 +114,13 @@ public class JavaBean<T> implements Bean<T> {
      * @param propertyName the name of the indexed property.
      * @return the indexed property, if any.
      * @throws NoSuchPropertyException if the property does not exist.
-     * @throws PropertyAccessException if the property could not be accessed.
+     * @throws PropertyReadException if the property could not be accessed.
      * @since 1.2.0;
      */
     public <PT> IndexedProperty<PT> getIndexedProperty(String propertyName) {
         IndexedProperty<PT> indexedProperty = getIndexedPropertyInternal(propertyName);
         if (indexedProperty == null) {
-            throw new NoSuchPropertyException(bean.getClass(), propertyName);
+            throw new PropertyReadException(bean.getClass(), propertyName);
         }
         return indexedProperty;
     }
@@ -179,7 +179,6 @@ public class JavaBean<T> implements Bean<T> {
      * @param propertyName the name of the indexed property.
      * @return the property, if any.
      * @throws NoSuchPropertyException if the property does not exist.
-     * @throws PropertyAccessException if the property could not be accessed.
      * @since 1.2.0;
      */
     @Override

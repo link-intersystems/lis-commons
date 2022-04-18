@@ -7,8 +7,8 @@ public interface Property<T> {
 
     PropertyDesc<T> getDescriptor();
 
-    T getValue() throws PropertyAccessException;
+    T getValue() throws PropertyReadException;
 
-    void setValue(T propertyValue) throws PropertyAccessException;
+    void setValue(T propertyValue) throws PropertyWriteException;
 
 }
