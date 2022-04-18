@@ -1,18 +1,21 @@
 package com.link_intersystems.beans;
 
+import com.link_intersystems.util.Equality;
+
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class PropertyDescs<T extends PropertyDesc> extends AbstractList<T> {
+public class PropertyDescList<T extends PropertyDesc> extends AbstractList<T> {
 
     private List<T> descriptors = new ArrayList<>();
 
-    public PropertyDescs(List<T> descriptors) {
+    public PropertyDescList(List<T> descriptors) {
         this.descriptors.addAll(descriptors);
     }
 
@@ -32,7 +35,11 @@ public class PropertyDescs<T extends PropertyDesc> extends AbstractList<T> {
     }
 
     public PropertyDesc getByName(String propertyName) {
-        return stream().filter(pd -> pd.getName().equals(propertyName)).findFirst().orElse(null);
+        return getByName(propertyName, Objects::equals);
+    }
+
+    public PropertyDesc getByName(String propertyName, Equality<String> nameEquality) {
+        return stream().filter(pd -> nameEquality.isEqual(propertyName, pd.getName())).findFirst().orElse(null);
     }
 
 

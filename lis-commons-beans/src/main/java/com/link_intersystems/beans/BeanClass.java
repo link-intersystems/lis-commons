@@ -20,7 +20,7 @@ public interface BeanClass<T> {
 
     Bean<T> getBean(T bean);
 
-    PropertyDescs<? extends PropertyDesc> getProperties();
+    PropertyDescList<? extends PropertyDesc> getProperties();
 
 
     /**
