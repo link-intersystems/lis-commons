@@ -8,9 +8,9 @@ import java.util.List;
 public interface Bean<T> {
     List<Property<Object>> getProperties();
 
-    <PT> Property<PT> getProperty(String propertyName);
+    <P> Property<P> getProperty(String propertyName);
 
-    <PT> Property<PT> getProperty(PropertyDesc<PT> propertyDesc);
+    <P> Property<P> getProperty(PropertyDesc<P> propertyDesc);
 
     T getObject();
 

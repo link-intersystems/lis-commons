@@ -1,4 +1,6 @@
-package com.link_intersystems.beans;
+package com.link_intersystems.beans.java;
+
+import com.link_intersystems.beans.PropertyChangeSource;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
