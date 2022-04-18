@@ -25,14 +25,14 @@ class ArrayPropertyEqualsAndHashCodeTest extends EqualsAndHashCodeTest {
     protected Object createInstance() {
         SomeBean someBean = new SomeBean();
         someBean.setArrayPropertyNoIndexAccess(new String[]{"a", "b"});
-        return beansFactory.createBean(someBean).getProperty("arrayPropertyNoIndexAccess");
+        return beansFactory.createBean(someBean).getProperties().getAnyProperty("arrayPropertyNoIndexAccess");
     }
 
     @Override
     protected Object createNotEqualInstance() {
         SomeBean someBean = new SomeBean();
         someBean.setArrayPropertyNoIndexAccess(new String[]{"a", "b", "c"});
-        return beansFactory.createBean(someBean).getProperty("arrayPropertyNoIndexAccess");
+        return beansFactory.createBean(someBean).getProperties().getAnyProperty("arrayPropertyNoIndexAccess");
     }
 
 }

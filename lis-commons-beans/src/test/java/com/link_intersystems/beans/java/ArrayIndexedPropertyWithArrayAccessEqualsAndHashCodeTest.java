@@ -25,14 +25,14 @@ class ArrayIndexedPropertyWithArrayAccessEqualsAndHashCodeTest extends EqualsAnd
     protected Object createInstance() {
         SomeBean someBean = new SomeBean();
         someBean.setStringArrayProperty(new String[]{"a", "c"});
-        return beansFactory.createBean(someBean).getProperty("stringArrayProperty");
+        return beansFactory.createBean(someBean).getProperties().getAnyProperty("stringArrayProperty");
     }
 
     @Override
     protected Object createNotEqualInstance() {
         SomeBean someBean = new SomeBean();
         someBean.setStringArrayProperty(new String[]{"a", "b"});
-        return beansFactory.createBean(someBean).getProperty("stringArrayProperty");
+        return beansFactory.createBean(someBean).getProperties().getAnyProperty("stringArrayProperty");
     }
 
 }
