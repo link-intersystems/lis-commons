@@ -15,9 +15,7 @@
  */
 package com.link_intersystems.beans.java;
 
-import com.link_intersystems.beans.IndexedProperty;
-import com.link_intersystems.beans.PropertyReadException;
-import com.link_intersystems.beans.PropertyWriteException;
+import com.link_intersystems.beans.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -83,33 +81,13 @@ public class JavaIndexedProperty extends JavaProperty implements IndexedProperty
         super(bean, indexedPropertyDescriptor);
     }
 
-    public JavaIndexedPropertyDesc getPropertyDescriptor() {
-        return (JavaIndexedPropertyDesc) super.getPropertyDescriptor();
+    public JavaIndexedPropertyDesc getJavaPropertyDesc() {
+        return (JavaIndexedPropertyDesc) super.getJavaPropertyDesc();
     }
 
-    /**
-     * Returns true if this indexed property can be accessed through an indexed
-     * getter method, e.g. <code>PropertyType getter(int index);</code>.
-     *
-     * @return true if this indexed property can be accessed through an indexed
-     * getter method.
-     */
     @Override
-    public boolean isIndexedReadable() {
-        return getIndexedReadMethod() != null;
-    }
-
-    /**
-     * Returns true if this indexed property can be accessed through an indexed
-     * setter method, e.g.
-     * <code>void setter(int index, PropertyType value);</code>.
-     *
-     * @return true if this indexed property can be accessed through an indexed
-     * setter method.
-     */
-    @Override
-    public boolean isIndexedWritable() {
-        return getIndexedWriteMethod() != null;
+    public IndexedPropertyDesc getPropertyDesc() {
+        return (IndexedPropertyDesc) super.getPropertyDesc();
     }
 
     /**
@@ -119,7 +97,7 @@ public class JavaIndexedProperty extends JavaProperty implements IndexedProperty
      */
     @Override
     public Class<?> getType() {
-        JavaPropertyDesc propertyDescriptor = getPropertyDescriptor();
+        JavaPropertyDesc propertyDescriptor = getJavaPropertyDesc();
         return propertyDescriptor.getType();
     }
 
@@ -139,7 +117,7 @@ public class JavaIndexedProperty extends JavaProperty implements IndexedProperty
         Method indexedReadMethod = getIndexedReadMethod();
         if (indexedReadMethod == null) {
 
-            throw new PropertyReadException(bean.getBeanClass().getType(), getDescriptor().getName());
+            throw new PropertyReadException(bean.getBeanClass().getType(), getPropertyDesc().getName());
         }
         try {
             Object target = bean.getObject();
@@ -147,9 +125,9 @@ public class JavaIndexedProperty extends JavaProperty implements IndexedProperty
             return (T) elementValue;
         } catch (InvocationTargetException e) {
             Throwable targetException = e.getTargetException();
-            throw new PropertyReadException(bean.getBeanClass().getType(), getDescriptor().getName(), targetException);
+            throw new PropertyReadException(bean.getBeanClass().getType(), getPropertyDesc().getName(), targetException);
         } catch (IllegalAccessException e) {
-            throw new PropertyReadException(bean.getBeanClass().getType(), getDescriptor().getName(), e);
+            throw new PropertyReadException(bean.getBeanClass().getType(), getPropertyDesc().getName(), e);
         }
     }
 
@@ -168,16 +146,16 @@ public class JavaIndexedProperty extends JavaProperty implements IndexedProperty
         Method indexedWriteMethod = getIndexedWriteMethod();
         if (indexedWriteMethod == null) {
 
-            throw new PropertyWriteException(bean.getBeanClass().getType(), getDescriptor().getName());
+            throw new PropertyWriteException(bean.getBeanClass().getType(), getPropertyDesc().getName());
         }
         try {
             Object target = bean.getObject();
             invoke(indexedWriteMethod, target, index, elementValue);
         } catch (InvocationTargetException e) {
             Throwable targetException = e.getTargetException();
-            throw new PropertyWriteException(bean.getBeanClass().getType(), getDescriptor().getName(), targetException);
+            throw new PropertyWriteException(bean.getBeanClass().getType(), getPropertyDesc().getName(), targetException);
         } catch (IllegalAccessException e) {
-            throw new PropertyWriteException(bean.getBeanClass().getType(), getDescriptor().getName(), e);
+            throw new PropertyWriteException(bean.getBeanClass().getType(), getPropertyDesc().getName(), e);
         }
     }
 
@@ -191,7 +169,7 @@ public class JavaIndexedProperty extends JavaProperty implements IndexedProperty
      * @since 1.2.0;
      */
     protected final Method getIndexedWriteMethod() {
-        JavaIndexedPropertyDesc indexedPropertyDescriptor = getPropertyDescriptor();
+        JavaIndexedPropertyDesc indexedPropertyDescriptor = getJavaPropertyDesc();
         Method indexedWriteMethod = indexedPropertyDescriptor.getJavaPropertyDescriptor().getIndexedWriteMethod();
         return indexedWriteMethod;
     }
@@ -206,7 +184,7 @@ public class JavaIndexedProperty extends JavaProperty implements IndexedProperty
      * @since 1.2.0;
      */
     protected final Method getIndexedReadMethod() {
-        JavaIndexedPropertyDesc indexedPropertyDescriptor = getPropertyDescriptor();
+        JavaIndexedPropertyDesc indexedPropertyDescriptor = getJavaPropertyDesc();
         Method indexedWriteMethod = indexedPropertyDescriptor.getJavaPropertyDescriptor().getIndexedReadMethod();
         return indexedWriteMethod;
     }
@@ -265,8 +243,8 @@ public class JavaIndexedProperty extends JavaProperty implements IndexedProperty
             return false;
         JavaIndexedProperty other = (JavaIndexedProperty) obj;
 
-        JavaIndexedPropertyDesc propertyDescriptor = getPropertyDescriptor();
-        JavaIndexedPropertyDesc otherPropertyDescriptor = other.getPropertyDescriptor();
+        JavaIndexedPropertyDesc propertyDescriptor = getJavaPropertyDesc();
+        JavaIndexedPropertyDesc otherPropertyDescriptor = other.getJavaPropertyDesc();
 
         if (!propertyDescriptor.equals(otherPropertyDescriptor)) {
             return false;

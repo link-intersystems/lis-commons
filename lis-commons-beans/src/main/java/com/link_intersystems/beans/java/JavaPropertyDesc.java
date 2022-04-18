@@ -52,11 +52,6 @@ public class JavaPropertyDesc implements PropertyDesc {
         return propertyDescriptor.getWriteMethod() != null;
     }
 
-    @Override
-    public boolean isIndexed() {
-        return this.propertyDescriptor instanceof IndexedPropertyDescriptor;
-    }
-
     public PropertyDescriptor getJavaPropertyDescriptor() {
         return propertyDescriptor;
     }

@@ -12,7 +12,5 @@ public interface PropertyDesc {
 
     boolean isWritable();
 
-    boolean isIndexed();
-
     Class<?> getDeclaringClass();
 }

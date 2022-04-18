@@ -86,7 +86,7 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
         }
         Object previousValue = null;
 
-        if (propertyDesc.isIndexed()) {
+        if (propertyDesc instanceof IndexedPropertyDesc) {
             if (!(value instanceof IndexedElementSetter)) {
                 throw new IllegalArgumentException(
                         "Property named "
@@ -113,14 +113,14 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
 
     private Object getValueIfReadable(String propertyName) {
         Property property = bean.getProperty(propertyName);
-        if (property.getDescriptor().isReadable()) {
+        if (property.getPropertyDesc().isReadable()) {
             return property.getValue();
         }
         return null;
     }
 
     private void checkWriteAccess(IndexedProperty property) {
-        if (!property.isIndexedWritable()) {
+        if (!property.getPropertyDesc().isIndexedWritable()) {
             throw new UnsupportedOperationException(
                     "BeanMapDecorator can not put property "
                             + property
@@ -130,7 +130,7 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
     }
 
     private void checkWriteAccess(Property property) {
-        if (!property.getDescriptor().isWritable()) {
+        if (!property.getPropertyDesc().isWritable()) {
             throw new UnsupportedOperationException(
                     "BeanMapDecorator can not put property " + property
                             + ", because the property is not writable");
@@ -138,7 +138,7 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
     }
 
     private void checkReadAccess(IndexedProperty property) {
-        if (!property.isIndexedReadable()) {
+        if (!property.getPropertyDesc().isIndexedReadable()) {
             throw new UnsupportedOperationException(
                     "BeanMapDecorator can not get property "
                             + property
@@ -148,7 +148,7 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
     }
 
     private void checkReadAccess(Property property) {
-        if (!property.getDescriptor().isReadable()) {
+        if (!property.getPropertyDesc().isReadable()) {
             throw new UnsupportedOperationException(
                     "BeanMapDecorator can not get property " + property
                             + ", because the property is not readable");
@@ -222,7 +222,7 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
                     public Object next() {
                         String propertyName = propertsNameIterator.next();
                         PropertyDesc propertyDesc = bean.getBeanClass().getProperties().getByName(propertyName);
-                        if (propertyDesc.isIndexed()) {
+                        if (propertyDesc instanceof IndexedPropertyDesc) {
                             IndexedProperty indexedProperty = (IndexedProperty) bean.getProperty(propertyDesc);
                             return new IndexedValue(indexedProperty);
                         } else {

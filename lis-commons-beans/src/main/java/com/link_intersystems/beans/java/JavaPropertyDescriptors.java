@@ -1,5 +1,6 @@
 package com.link_intersystems.beans.java;
 
+import java.beans.BeanInfo;
 import java.beans.PropertyDescriptor;
 import java.util.AbstractList;
 import java.util.ArrayList;
@@ -12,6 +13,10 @@ import java.util.List;
 public class JavaPropertyDescriptors extends AbstractList<PropertyDescriptor> {
 
     private List<PropertyDescriptor> propertyDescriptors = new ArrayList<>();
+
+    public JavaPropertyDescriptors(BeanInfo beanInfo) {
+        this(beanInfo.getPropertyDescriptors());
+    }
 
     public JavaPropertyDescriptors(List<PropertyDescriptor> propertyDescriptors) {
         this.propertyDescriptors.addAll(propertyDescriptors);

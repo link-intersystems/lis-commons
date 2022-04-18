@@ -99,10 +99,10 @@ public class JavaBean<T> implements Bean<T> {
     @Override
     public Property getProperty(PropertyDesc propertyDesc) {
         String propertyName = propertyDesc.getName();
-        if (propertyDesc.isIndexed()) {
+        if (propertyDesc instanceof IndexedPropertyDesc) {
             IndexedProperty indexedProperty = getIndexedProperty(propertyName);
             // TODO something might be wrong with the generic typing here. I have to do it later when the refactoring is done.
-            return (Property) indexedProperty;
+            return indexedProperty;
         }
         return getProperty(propertyName);
     }

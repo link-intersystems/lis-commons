@@ -33,14 +33,14 @@ public interface BeanClass<T> {
 
     default boolean hasProperty(String propertyName) {
         Stream<? extends PropertyDesc> stream = getProperties().stream();
-        return stream.filter(p -> !p.isIndexed())
+        return stream.filter(p -> !(p instanceof IndexedPropertyDesc))
                 .map(PropertyDesc::getName)
                 .anyMatch(propertyName::equals);
     }
 
     default boolean hasIndexedProperty(String propertyName) {
         Stream<? extends PropertyDesc> stream = getProperties().stream();
-        return stream.filter(PropertyDesc::isIndexed)
+        return stream.filter(IndexedPropertyDesc.class::isInstance)
                 .map(PropertyDesc::getName)
                 .anyMatch(propertyName::equals);
     }

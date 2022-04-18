@@ -5,7 +5,7 @@ package com.link_intersystems.beans;
  */
 public interface Property {
 
-    PropertyDesc getDescriptor();
+    PropertyDesc getPropertyDesc();
 
     <T> T getValue() throws PropertyReadException;
 

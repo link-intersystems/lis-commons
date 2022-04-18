@@ -3,13 +3,9 @@ package com.link_intersystems.beans;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public interface IndexedProperty {
+public interface IndexedProperty extends Property {
 
-    PropertyDesc getDescriptor();
-
-    boolean isIndexedReadable();
-
-    boolean isIndexedWritable();
+    IndexedPropertyDesc getPropertyDesc();
 
     <T> T getValue(int index);
 

@@ -1,6 +1,6 @@
 package com.link_intersystems.beans.java;
 
-import com.link_intersystems.beans.IntedexPropertyDesc;
+import com.link_intersystems.beans.IndexedPropertyDesc;
 import com.link_intersystems.lang.reflect.ArrayType;
 
 import java.beans.IndexedPropertyDescriptor;
@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class JavaIndexedPropertyDesc extends JavaPropertyDesc implements IntedexPropertyDesc {
+public class JavaIndexedPropertyDesc extends JavaPropertyDesc implements IndexedPropertyDesc {
 
     private static final int SETTER_TYPE_PARAM_INDEX = 0;
     private static final int INDEXED_SETTER_TYPE_PARAM_INDEX = 1;
@@ -22,6 +22,31 @@ public class JavaIndexedPropertyDesc extends JavaPropertyDesc implements Intedex
 
     public IndexedPropertyDescriptor getJavaPropertyDescriptor() {
         return (IndexedPropertyDescriptor) super.getJavaPropertyDescriptor();
+    }
+
+    /**
+     * Returns true if this indexed property can be accessed through an indexed
+     * getter method, e.g. <code>PropertyType getter(int index);</code>.
+     *
+     * @return true if this indexed property can be accessed through an indexed
+     * getter method.
+     */
+    @Override
+    public boolean isIndexedReadable() {
+        return getJavaPropertyDescriptor().getIndexedReadMethod() != null;
+    }
+
+    /**
+     * Returns true if this indexed property can be accessed through an indexed
+     * setter method, e.g.
+     * <code>void setter(int index, PropertyType value);</code>.
+     *
+     * @return true if this indexed property can be accessed through an indexed
+     * setter method.
+     */
+    @Override
+    public boolean isIndexedWritable() {
+        return getJavaPropertyDescriptor().getIndexedWriteMethod() != null;
     }
 
     @Override

@@ -24,11 +24,11 @@ public class PropertyDescs<T extends PropertyDesc> extends AbstractList<T> {
      * @return all properties that are not indexed properties.
      */
     public List<String> getPropertyNames() {
-        return stream().filter(pd -> !pd.isIndexed()).map(PropertyDesc::getName).collect(Collectors.toList());
+        return stream().filter(pd -> !(pd instanceof IndexedPropertyDesc)).map(PropertyDesc::getName).collect(Collectors.toList());
     }
 
     public List<String> getIndexedPropertyNames() {
-        return stream().filter(PropertyDesc::isIndexed).map(PropertyDesc::getName).collect(Collectors.toList());
+        return stream().filter(IndexedPropertyDesc.class::isInstance).map(PropertyDesc::getName).collect(Collectors.toList());
     }
 
     public PropertyDesc getByName(String propertyName) {

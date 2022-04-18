@@ -81,7 +81,7 @@ public class JavaProperty implements Serializable, Formattable, Property {
     }
 
     @Override
-    public PropertyDesc getDescriptor() {
+    public PropertyDesc getPropertyDesc() {
         return propertyDescriptor;
     }
 
@@ -100,7 +100,7 @@ public class JavaProperty implements Serializable, Formattable, Property {
      * @since 1.2.0;
      */
     public Class<?> getType() {
-        return getDescriptor().getType();
+        return getPropertyDesc().getType();
 
     }
 
@@ -111,7 +111,7 @@ public class JavaProperty implements Serializable, Formattable, Property {
      * @since 1.2.0;
      */
     public String getName() {
-        return getDescriptor().getName();
+        return getPropertyDesc().getName();
     }
 
     /**
@@ -121,7 +121,7 @@ public class JavaProperty implements Serializable, Formattable, Property {
      * @since 1.2.0;
      */
     public String getDisplayName() {
-        return getPropertyDescriptor().getJavaPropertyDescriptor().getDisplayName();
+        return getJavaPropertyDesc().getJavaPropertyDescriptor().getDisplayName();
     }
 
     /**
@@ -192,17 +192,17 @@ public class JavaProperty implements Serializable, Formattable, Property {
     @SuppressWarnings("unchecked")
     public <T> T getValue() {
         Object target = getBean().getObject();
-        JavaPropertyDesc propertyDescriptor = getPropertyDescriptor();
+        JavaPropertyDesc propertyDescriptor = getJavaPropertyDesc();
         PropertyDescriptor javaPropertyDescriptor = propertyDescriptor.getJavaPropertyDescriptor();
         Method readMethod = javaPropertyDescriptor.getReadMethod();
         if (readMethod == null) {
-            throw new PropertyReadException(bean.getBeanClass().getType(), getDescriptor().getName());
+            throw new PropertyReadException(bean.getBeanClass().getType(), getPropertyDesc().getName());
         }
         try {
             Object beanValue = invoke(readMethod, target);
             return (T) beanValue;
         } catch (InvocationTargetException | IllegalAccessException e) {
-            throw new PropertyReadException(bean.getBeanClass().getType(), getDescriptor().getName(), e);
+            throw new PropertyReadException(bean.getBeanClass().getType(), getPropertyDesc().getName(), e);
         }
     }
 
@@ -221,16 +221,16 @@ public class JavaProperty implements Serializable, Formattable, Property {
     @Override
     public <T> void setValue(T propertyValue) {
         Object target = getBean().getObject();
-        JavaPropertyDesc propertyDescriptor = getPropertyDescriptor();
+        JavaPropertyDesc propertyDescriptor = getJavaPropertyDesc();
         PropertyDescriptor javaPropertyDescriptor = propertyDescriptor.getJavaPropertyDescriptor();
         Method writeMethod = javaPropertyDescriptor.getWriteMethod();
         if (writeMethod == null) {
-            throw new PropertyWriteException(bean.getBeanClass().getType(), getDescriptor().getName());
+            throw new PropertyWriteException(bean.getBeanClass().getType(), getPropertyDesc().getName());
         }
         try {
             invoke(writeMethod, target, propertyValue);
         } catch (InvocationTargetException | IllegalAccessException e) {
-            throw new PropertyWriteException(bean.getBeanClass().getType(), getDescriptor().getName(), e);
+            throw new PropertyWriteException(bean.getBeanClass().getType(), getPropertyDesc().getName(), e);
         }
     }
 
@@ -257,7 +257,7 @@ public class JavaProperty implements Serializable, Formattable, Property {
      *
      * @since 1.2.0;
      */
-    public JavaPropertyDesc getPropertyDescriptor() {
+    public JavaPropertyDesc getJavaPropertyDesc() {
         return propertyDescriptor;
     }
 
@@ -267,7 +267,7 @@ public class JavaProperty implements Serializable, Formattable, Property {
      * @return true if this property is readable (has a getter method).
      */
     public boolean isReadable() {
-        return getPropertyDescriptor().isReadable();
+        return getJavaPropertyDesc().isReadable();
     }
 
     /**
@@ -276,7 +276,7 @@ public class JavaProperty implements Serializable, Formattable, Property {
      * @return true if this property is writable (has a setter method).
      */
     public boolean isWritable() {
-        return getPropertyDescriptor().isWritable();
+        return getJavaPropertyDesc().isWritable();
     }
 
     /**
@@ -347,6 +347,6 @@ public class JavaProperty implements Serializable, Formattable, Property {
      * class in the hierarchy is returned.
      */
     public Class<?> getDeclaringClass() {
-        return getPropertyDescriptor().getDeclaringClass();
+        return getJavaPropertyDesc().getDeclaringClass();
     }
 }
