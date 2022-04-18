@@ -4,6 +4,7 @@ import com.link_intersystems.beans.java.JavaBeanClass;
 import com.link_intersystems.beans.java.JavaPropertyDescriptors;
 import com.link_intersystems.lang.reflect.AbstractInvocationHandler;
 
+import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 
@@ -11,9 +12,9 @@ public abstract class AbstractBeanProxyHandler<T> extends AbstractInvocationHand
 
     private JavaBeanClass<T> beanClass;
 
-    protected AbstractBeanProxyHandler(Class<T> beanClass) {
+    protected AbstractBeanProxyHandler(Class<T> beanClass) throws IntrospectionException {
         super(beanClass);
-        this.beanClass = JavaBeanClass.get(beanClass);
+        this.beanClass = new JavaBeanClass<>(beanClass);
     }
 
     @Override

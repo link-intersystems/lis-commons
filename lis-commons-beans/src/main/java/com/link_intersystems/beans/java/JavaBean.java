@@ -16,11 +16,11 @@
 package com.link_intersystems.beans.java;
 
 import com.link_intersystems.beans.*;
-import com.link_intersystems.lang.Assert;
 
 import java.text.MessageFormat;
 import java.util.List;
 
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -42,55 +42,9 @@ public class JavaBean<T> implements Bean<T> {
     private JavaBeanClass<T> beanClass;
     private PropertyList propertyList;
 
-
-    /**
-     * Constructs a new {@link JavaBean} for the given bean object.
-     *
-     * @param bean the bean object.
-     * @since 1.2.0;
-     */
-    @SuppressWarnings("unchecked")
-    public JavaBean(T bean) {
-        Assert.notNull("bean", bean);
-        this.bean = bean;
-        beanClass = (JavaBeanClass<T>) JavaBeanClass.get(bean.getClass());
-    }
-
-    private JavaBean(JavaBeanClass<T> beanClass) {
-        Assert.notNull("beanClass", beanClass);
-        this.beanClass = beanClass;
-    }
-
-    /**
-     * Constructs a new {@link JavaBean} based on the beanClass. The bean class must
-     * fulfill the java bean specification. The bean that this {@link JavaBean}
-     * represents is lazy initialized by instantiating a bean using the default
-     * constructor of the beanClass.
-     *
-     * @param beanClass the type of the bean that this {@link JavaBean} represents.
-     * @since 1.2.0;
-     */
-    public static <T> JavaBean<T> strictBean(Class<T> beanClass) {
-        return new JavaBean<>(JavaBeanClass.getStrict(beanClass));
-    }
-
-    /**
-     * Constructs a new {@link JavaBean} based on the beanClass. The bean class must
-     * fulfill the java bean specification. The bean that this {@link JavaBean}
-     * represents is lazy initialized by instantiating a bean using the default
-     * constructor of the beanClass.
-     *
-     * @param beanClass the type of the bean that this {@link JavaBean} represents.
-     * @since 1.2.0;
-     */
-    public static <T, B extends T> JavaBean<T> niceBean(Class<T> beanClass, B beanObject) {
-        JavaBean<T> bean = new JavaBean<>(JavaBeanClass.get(beanClass));
-        bean.bean = beanObject;
-        return bean;
-    }
-
-    public static <T> JavaBean<T> niceBean(Class<T> beanClass) {
-        return new JavaBean<>(JavaBeanClass.get(beanClass));
+    JavaBean(JavaBeanClass<T> beanClass, T bean) {
+        this.beanClass = requireNonNull(beanClass);
+        this.bean = requireNonNull(bean);
     }
 
     /**

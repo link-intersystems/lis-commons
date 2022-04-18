@@ -16,15 +16,12 @@
 package com.link_intersystems.beans.java;
 
 import com.link_intersystems.beans.*;
-import com.link_intersystems.lang.Assert;
-import com.link_intersystems.lang.reflect.Class2;
 import com.link_intersystems.lang.reflect.SignaturePredicate;
 
 import java.beans.*;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,8 +41,7 @@ import static java.util.Arrays.stream;
 public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
 
     private static final long serialVersionUID = -5446272789930350423L;
-
-    private static final Map<Class<?>, JavaBeanClass<?>> CLASS_TO_BEANCLASS = new HashMap<>();
+    private static final PropertyFilter NULL_FILTER = p -> true;
 
     private transient Map<Method, PropertyDescriptor> propertyDescriptorsByMethod;
     private transient JavaPropertyDescriptors propertyDescriptors;
@@ -54,83 +50,12 @@ public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
     private BeanEventTypes<JavaBeanEventType> beanEventTypes;
     private PropertyDescList<JavaPropertyDesc> properties;
 
-    protected JavaBeanClass(Class<T> beanType) throws IntrospectionException {
-        beanInfo = Introspector.getBeanInfo(beanType, null);
+    public JavaBeanClass(Class<T> beanType) throws IntrospectionException {
+        this(beanType, null);
     }
 
-    protected JavaBeanClass(Class<T> beanType, Class<?> stopClass) throws IntrospectionException {
+    public JavaBeanClass(Class<T> beanType, Class<?> stopClass) throws IntrospectionException {
         beanInfo = Introspector.getBeanInfo(beanType, stopClass);
-    }
-
-    /**
-     * Constructs a new {@link JavaBeanClass} for the specified type. The type described
-     * by the className string must fulfill the java bean specification and declare
-     * a public default constructor.
-     *
-     * @return a {@link Class2} object that represents the {@link Class} defined by
-     * the full qualified class name.
-     */
-    @SuppressWarnings("unchecked")
-    public static <T> JavaBeanClass<T> get(String className) throws ClassNotFoundException {
-        Class<T> classForName = (Class<T>) Class.forName(className);
-        return get(classForName);
-    }
-
-    /**
-     * Constructs a new {@link JavaBeanClass} for the specified clazz. The given class
-     * must fulfill the java bean specification and declare a public default
-     * constructor.
-     *
-     * @return a {@link Class2} for the given {@link Class}.
-     * @throws IllegalArgumentException if the clazz argument does not declare a
-     *                                  public default constructor.
-     * @since 1.2.0;
-     */
-    public static <T> JavaBeanClass<T> getStrict(Class<T> clazz) {
-        Assert.notNull("clazz", clazz);
-        JavaBeanClass<T> class2 = get(clazz);
-        if (!hasBeanConstructor(clazz)) {
-            throw new IllegalArgumentException("Class " + clazz.getCanonicalName() + " does not declare a public default constructor " + "and therefore does not fulfill the bean specification");
-        }
-        return class2;
-    }
-
-    /**
-     * Constructs a new {@link JavaBeanClass} for the specified clazz. The given class
-     * must not declare a public default constructor.
-     *
-     * @return a {@link Class2} for the given {@link Class}.
-     * @throws IllegalArgumentException if the clazz argument does not declare a
-     *                                  public default constructor.
-     * @see #getStrict(Class)
-     * @since 1.2.0;
-     */
-    @SuppressWarnings("unchecked")
-    public static <T> JavaBeanClass<T> get(Class<T> clazz) {
-        Assert.notNull("clazz", clazz);
-        JavaBeanClass<T> class2 = (JavaBeanClass<T>) CLASS_TO_BEANCLASS.get(clazz);
-        if (class2 == null) {
-            try {
-                class2 = new JavaBeanClass<>(clazz);
-            } catch (IntrospectionException e) {
-                throw new RuntimeException(e);
-            }
-            CLASS_TO_BEANCLASS.put(clazz, class2);
-        }
-        return class2;
-    }
-
-    /**
-     * Has the clazz a public default constructor?
-     */
-    private static boolean hasBeanConstructor(Class<?> clazz) {
-        try {
-            Constructor<?> defaultConstructor = clazz.getDeclaredConstructor();
-            int modifiers = defaultConstructor.getModifiers();
-            return Modifier.isPublic(modifiers);
-        } catch (NoSuchMethodException e) {
-            return false;
-        }
     }
 
     @Override
@@ -183,7 +108,6 @@ public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
         try {
             BeanInfo beanInfo = Introspector.getBeanInfo(beanType, stopClass);
             PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
-
             return new JavaPropertyDescriptors(propertyDescriptors);
         } catch (IntrospectionException e) {
             throw new IllegalArgumentException("Unable to build property map for " + beanType + " with stopClass " + stopClass, e);
@@ -216,23 +140,6 @@ public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
     }
 
     /**
-     * Returns the {@link PropertyDescriptor} for the property name.
-     *
-     * @param propertyName the name of the property.
-     * @return the {@link PropertyDescriptor} for the property name or
-     * <code>null</code> if none exists.
-     * @since 1.2.0;
-     */
-    public PropertyDescriptor getPropertyDescriptor(String propertyName) {
-        PropertyDescriptor propertyDescriptor = getPropertyDescriptorInternal(propertyName);
-        if (propertyDescriptor == null) {
-            Class<T> beanType = getType();
-            throw new NoSuchPropertyException(beanType, propertyName);
-        }
-        return propertyDescriptor;
-    }
-
-    /**
      * @return a {@link PropertyDescriptor} for the given method if the method is a
      * getter or setter of a property of this {@link JavaBeanClass}.
      * @since 1.2.0;
@@ -261,13 +168,6 @@ public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
     }
 
     /**
-     * TODO make package scope again after refactoring
-     */
-    public PropertyDescriptor getPropertyDescriptorInternal(String propertyName) {
-        return getJavaPropertyDescriptors().getByName(propertyName);
-    }
-
-    /**
      * A {@link JavaBean} instance factory of this {@link JavaBeanClass}.
      *
      * @return creates a new {@link JavaBean} instance of this {@link JavaBeanClass}.
@@ -286,7 +186,7 @@ public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
 
     @Override
     public JavaBean<T> getBean(T bean) {
-        return new JavaBean<>(bean);
+        return new JavaBean<>(this, bean);
     }
 
     @Override
@@ -344,5 +244,13 @@ public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
         } else {
             return new JavaPropertyDesc(pd);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "JavaBeanClass{" +
+                "name=" + getName() +
+                ", type=" + getType().getName() +
+                '}';
     }
 }

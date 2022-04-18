@@ -15,7 +15,14 @@
  */
 package com.link_intersystems.beans.java;
 
+import javax.swing.event.EventListenerList;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.Arrays;
+
 public class SomeBean {
+
+    private EventListenerList listeners = new EventListenerList();
 
     @SuppressWarnings("unused")
     private String writeOnlyProperty;
@@ -41,7 +48,7 @@ public class SomeBean {
     }
 
     public void setStringProperty(String stringProperty) {
-        this.stringProperty = stringProperty;
+        firePropertyChanged("stringProperty", this.stringProperty, this.stringProperty = stringProperty);
     }
 
     public String[] getStringArrayProperty() {
@@ -65,7 +72,7 @@ public class SomeBean {
     }
 
     public void setWriteOnlyProperty(String writeOnlyProperty) {
-        this.writeOnlyProperty = writeOnlyProperty;
+        firePropertyChanged("writeOnlyProperty", this.writeOnlyProperty, this.writeOnlyProperty = writeOnlyProperty);
     }
 
     public void setWriteOnlyIndexedProperty(String[] writeOnlyIndexedProperty) {
@@ -101,6 +108,22 @@ public class SomeBean {
     }
 
     protected void setIndexedPropertyReadOnlyIndexOnlyAccess(String[] indexedPropertyReadOnlyIndexOnlyAccess) {
-        this.indexedPropertyReadOnlyIndexOnlyAccess = indexedPropertyReadOnlyIndexOnlyAccess;
+        firePropertyChanged("indexedPropertyReadOnlyIndexOnlyAccess", this.indexedPropertyReadOnlyIndexOnlyAccess, this.indexedPropertyReadOnlyIndexOnlyAccess = indexedPropertyReadOnlyIndexOnlyAccess);
     }
+
+    public void addPropertyChangeListener(PropertyChangeListener l) {
+        this.listeners.add(PropertyChangeListener.class, l);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener l) {
+        this.listeners.remove(PropertyChangeListener.class, l);
+    }
+
+    private void firePropertyChanged(String property, Object oldValue, Object newValue) {
+        PropertyChangeEvent e = new PropertyChangeEvent(this, property, oldValue, newValue);
+
+        Arrays.stream(listeners.getListeners(PropertyChangeListener.class)).forEach(l -> l.propertyChange(e));
+    }
+
+
 }

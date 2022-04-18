@@ -3,6 +3,7 @@ package com.link_intersystems.beans.reflect;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,7 +14,7 @@ class PropertyNameResolverProxyTest {
     private SomeBeanInterface someBeanInterface;
 
     @BeforeEach
-    public void setup() {
+    public void setup() throws IntrospectionException {
         propertyNameResolverProxy = new PropertyNameResolverProxy<>(SomeBeanInterface.class);
         someBeanInterface = propertyNameResolverProxy.createProxy();
     }

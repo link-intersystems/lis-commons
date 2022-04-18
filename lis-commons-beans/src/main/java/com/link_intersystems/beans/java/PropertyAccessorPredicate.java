@@ -1,5 +1,6 @@
 package com.link_intersystems.beans.java;
 
+import java.beans.IntrospectionException;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.function.Predicate;
@@ -25,7 +26,12 @@ public class PropertyAccessorPredicate implements Predicate<Method>, Serializabl
     @Override
     public boolean test(Method method) {
         Class<?> declaringClass = method.getDeclaringClass();
-        JavaBeanClass<?> beanClass = JavaBeanClass.get(declaringClass);
-        return beanClass.isPropertyAccessor(method);
+
+        try {
+            JavaBeanClass<?> beanClass = new JavaBeanClass<>(declaringClass);
+            return beanClass.isPropertyAccessor(method);
+        } catch (IntrospectionException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

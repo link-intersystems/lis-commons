@@ -2,6 +2,7 @@ package com.link_intersystems.beans.reflect;
 
 import com.link_intersystems.lang.Primitives;
 
+import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 
@@ -14,7 +15,7 @@ public class PropertyNameResolverProxy<T> extends AbstractBeanProxyHandler<T> {
 
     private PropertyDescriptor latestCallPropertyDescriptor;
 
-    protected PropertyNameResolverProxy(Class<T> beanClass) {
+    protected PropertyNameResolverProxy(Class<T> beanClass) throws IntrospectionException {
         super(beanClass);
     }
 
