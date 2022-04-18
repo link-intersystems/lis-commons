@@ -7,10 +7,10 @@ import com.link_intersystems.beans.*;
  */
 public class SimpleProperty {
 
-    private PropertyDesc<?> propertyDesc;
+    private PropertyDesc propertyDesc;
     private BeanClass<Object> beanClass;
 
-    public SimpleProperty(PropertyDesc<?> propertyDesc, BeanClass<Object> beanClass) {
+    public SimpleProperty(PropertyDesc propertyDesc, BeanClass<Object> beanClass) {
         this.propertyDesc = propertyDesc;
         this.beanClass = beanClass;
     }

@@ -38,7 +38,7 @@ public class SimpleBeanClass<T> {
         return propertyList;
     }
 
-    private SimpleProperty toSimpleProperty(PropertyDesc<?> propertyDesc) {
+    private SimpleProperty toSimpleProperty(PropertyDesc propertyDesc) {
         return new SimpleProperty(propertyDesc, (BeanClass<Object>) beanClass);
     }
 

@@ -6,11 +6,11 @@ import java.util.List;
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
 public interface Bean<T> {
-    List<Property<Object>> getProperties();
+    List<Property> getProperties();
 
-    <P> Property<P> getProperty(String propertyName);
+    Property getProperty(String propertyName);
 
-    <P> Property<P> getProperty(PropertyDesc<P> propertyDesc);
+    Property getProperty(PropertyDesc propertyDesc);
 
     T getObject();
 

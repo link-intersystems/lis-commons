@@ -52,7 +52,7 @@ public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
 
     private BeanInfo beanInfo;
     private BeanEventTypes<JavaBeanEventType> beanEventTypes;
-    private PropertyDescs<JavaPropertyDesc<?>> properties;
+    private PropertyDescs<JavaPropertyDesc> properties;
 
     protected JavaBeanClass(Class<T> beanType) throws IntrospectionException {
         beanInfo = Introspector.getBeanInfo(beanType, null);
@@ -324,9 +324,9 @@ public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
     }
 
     @Override
-    public PropertyDescs<JavaPropertyDesc<?>> getProperties() {
+    public PropertyDescs<JavaPropertyDesc> getProperties() {
         if (this.properties == null) {
-            List<JavaPropertyDesc<?>> desciptors = getJavaPropertyDescriptors().stream()
+            List<JavaPropertyDesc> desciptors = getJavaPropertyDescriptors().stream()
                     .map(this::toPropertyDesc)
                     .collect(Collectors.toList());
             this.properties = new PropertyDescs<>(desciptors);
@@ -334,11 +334,11 @@ public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
         return properties;
     }
 
-    private JavaPropertyDesc<?> toPropertyDesc(PropertyDescriptor pd) {
+    private JavaPropertyDesc toPropertyDesc(PropertyDescriptor pd) {
         if (pd instanceof IndexedPropertyDescriptor) {
-            return new JavaIndexedPropertyDesc<>((IndexedPropertyDescriptor) pd);
+            return new JavaIndexedPropertyDesc((IndexedPropertyDescriptor) pd);
         } else {
-            return new JavaPropertyDesc<>(pd);
+            return new JavaPropertyDesc(pd);
         }
     }
 }

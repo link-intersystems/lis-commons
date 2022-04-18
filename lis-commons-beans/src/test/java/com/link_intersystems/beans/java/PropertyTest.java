@@ -62,96 +62,95 @@ class PropertyTest extends AbstractPropertyTest<String> {
 
     @Test
     void typeCache() {
-        JavaProperty<String> property = createJavaProperty(writeOnlyProperty);
+        JavaProperty property = createJavaProperty(writeOnlyProperty);
         Class<?> type = property.getType();
-        type = property.getType();
         Class<?> expectedType = getExpectedType();
         assertEquals(expectedType, type);
     }
 
-    private JavaProperty<String> createJavaProperty(PropertyDescriptor property) {
-        return new JavaProperty<>(bean, new JavaPropertyDesc<>(property));
+    private JavaProperty createJavaProperty(PropertyDescriptor property) {
+        return new JavaProperty(bean, new JavaPropertyDesc(property));
     }
 
     @Test
     void invocationTargetExceptionOnGet() {
-        JavaProperty<String> javaProperty = createJavaProperty(stringProperty);
-        JavaProperty<String> property = new ExceptionThrowingPropertyOnAccess<>(bean, javaProperty.getPropertyDescriptor(), new InvocationTargetException(new RuntimeException()));
+        JavaProperty javaProperty = createJavaProperty(stringProperty);
+        JavaProperty property = new ExceptionThrowingPropertyOnAccess<>(bean, javaProperty.getPropertyDescriptor(), new InvocationTargetException(new RuntimeException()));
 
-        PropertyReadException propertyAccessException = assertThrows(PropertyReadException.class, () -> property.getValue());
+        PropertyReadException propertyAccessException = assertThrows(PropertyReadException.class, property::getValue);
         assertPropertyAccessException(propertyAccessException, InvocationTargetException.class);
     }
 
     @Test
     void illeagalAccessExceptionOnGet() {
-        JavaProperty<String> javaProperty = createJavaProperty(stringProperty);
-        JavaProperty<String> property = new ExceptionThrowingPropertyOnAccess<String>(bean, javaProperty.getPropertyDescriptor(), new IllegalAccessException());
-        PropertyReadException propertyAccessException = assertThrows(PropertyReadException.class, () -> property.getValue());
+        JavaProperty javaProperty = createJavaProperty(stringProperty);
+        JavaProperty property = new ExceptionThrowingPropertyOnAccess<String>(bean, javaProperty.getPropertyDescriptor(), new IllegalAccessException());
+        PropertyReadException propertyAccessException = assertThrows(PropertyReadException.class, property::getValue);
         assertPropertyAccessException(propertyAccessException, IllegalAccessException.class);
     }
 
     @Test
     void invocationTargetExceptionOnSet() {
-        JavaProperty<String> javaProperty = createJavaProperty(stringProperty);
-        JavaProperty<String> property = new ExceptionThrowingPropertyOnAccess<String>(bean, javaProperty.getPropertyDescriptor(), new InvocationTargetException(new RuntimeException()));
+        JavaProperty javaProperty = createJavaProperty(stringProperty);
+        JavaProperty property = new ExceptionThrowingPropertyOnAccess<String>(bean, javaProperty.getPropertyDescriptor(), new InvocationTargetException(new RuntimeException()));
         PropertyWriteException propertyAccessException = assertThrows(PropertyWriteException.class, () -> property.setValue(""));
         assertPropertyAccessException(propertyAccessException, InvocationTargetException.class);
     }
 
     @Test
     void isReadable() {
-        JavaProperty<String> writableOnly = createJavaProperty(writeOnlyProperty);
+        JavaProperty writableOnly = createJavaProperty(writeOnlyProperty);
         assertFalse(writableOnly.isReadable());
 
-        JavaProperty<String> readOnly = createJavaProperty(readOnlyProperty);
+        JavaProperty readOnly = createJavaProperty(readOnlyProperty);
         assertTrue(readOnly.isReadable());
 
-        JavaProperty<String> readWritable = createJavaProperty(stringProperty);
+        JavaProperty readWritable = createJavaProperty(stringProperty);
         assertTrue(readWritable.isReadable());
     }
 
     @Test
     void isWritable() {
-        JavaProperty<String> writableOnly = createJavaProperty(writeOnlyProperty);
+        JavaProperty writableOnly = createJavaProperty(writeOnlyProperty);
         assertTrue(writableOnly.isWritable());
 
-        JavaProperty<String> readOnly = createJavaProperty(readOnlyProperty);
+        JavaProperty readOnly = createJavaProperty(readOnlyProperty);
         assertFalse(readOnly.isWritable());
 
-        JavaProperty<String> readWritable = createJavaProperty(stringProperty);
+        JavaProperty readWritable = createJavaProperty(stringProperty);
         assertTrue(readWritable.isWritable());
     }
 
     @Test
     void illeagalAccessExceptionOnSet() {
-        JavaProperty<String> javaProperty = createJavaProperty(stringProperty);
-        JavaProperty<String> property = new ExceptionThrowingPropertyOnAccess<String>(bean, javaProperty.getPropertyDescriptor(), new IllegalAccessException());
+        JavaProperty javaProperty = createJavaProperty(stringProperty);
+        JavaProperty property = new ExceptionThrowingPropertyOnAccess<String>(bean, javaProperty.getPropertyDescriptor(), new IllegalAccessException());
         PropertyWriteException propertyAccessException = assertThrows(PropertyWriteException.class, () -> property.setValue(""));
         assertPropertyAccessException(propertyAccessException, IllegalAccessException.class);
     }
 
     @Test
     void toStringTest() {
-        JavaProperty<String> writableOnly = createJavaProperty(writeOnlyProperty);
+        JavaProperty writableOnly = createJavaProperty(writeOnlyProperty);
         String toString = writableOnly.toString();
         assertEquals("writeOnlyProperty", toString);
     }
 
     @Override
-    protected JavaProperty<String> getReadOnlyProperty() {
-        JavaProperty<String> property = createJavaProperty(readOnlyProperty);
+    protected JavaProperty getReadOnlyProperty() {
+        JavaProperty property = createJavaProperty(readOnlyProperty);
         return property;
     }
 
     @Override
-    protected JavaProperty<String> getWriteOnlyProperty() {
-        JavaProperty<String> property = createJavaProperty(writeOnlyProperty);
+    protected JavaProperty getWriteOnlyProperty() {
+        JavaProperty property = createJavaProperty(writeOnlyProperty);
         return property;
     }
 
     @Override
-    protected JavaProperty<String> getProperty() {
-        JavaProperty<String> property = createJavaProperty(stringProperty);
+    protected JavaProperty getProperty() {
+        JavaProperty property = createJavaProperty(stringProperty);
         return property;
     }
 
@@ -170,7 +169,7 @@ class PropertyTest extends AbstractPropertyTest<String> {
         return "HELLO";
     }
 
-    private static class ExceptionThrowingPropertyOnAccess<T> extends JavaProperty<T> {
+    private static class ExceptionThrowingPropertyOnAccess<T> extends JavaProperty {
 
         /**
          *

@@ -20,7 +20,7 @@ public interface BeanClass<T> {
 
     Bean<T> getBean(T bean);
 
-    PropertyDescs<? extends PropertyDesc<?>> getProperties();
+    PropertyDescs<? extends PropertyDesc> getProperties();
 
 
     /**
@@ -32,14 +32,14 @@ public interface BeanClass<T> {
     }
 
     default boolean hasProperty(String propertyName) {
-        Stream<? extends PropertyDesc<?>> stream = getProperties().stream();
+        Stream<? extends PropertyDesc> stream = getProperties().stream();
         return stream.filter(p -> !p.isIndexed())
                 .map(PropertyDesc::getName)
                 .anyMatch(propertyName::equals);
     }
 
     default boolean hasIndexedProperty(String propertyName) {
-        Stream<? extends PropertyDesc<?>> stream = getProperties().stream();
+        Stream<? extends PropertyDesc> stream = getProperties().stream();
         return stream.filter(PropertyDesc::isIndexed)
                 .map(PropertyDesc::getName)
                 .anyMatch(propertyName::equals);

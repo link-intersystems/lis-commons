@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class PropertyDescs<T extends PropertyDesc<?>> extends AbstractList<T> {
+public class PropertyDescs<T extends PropertyDesc> extends AbstractList<T> {
 
     private List<T> descriptors = new ArrayList<>();
 
@@ -31,7 +31,7 @@ public class PropertyDescs<T extends PropertyDesc<?>> extends AbstractList<T> {
         return stream().filter(PropertyDesc::isIndexed).map(PropertyDesc::getName).collect(Collectors.toList());
     }
 
-    public PropertyDesc<?> getByName(String propertyName) {
+    public PropertyDesc getByName(String propertyName) {
         return stream().filter(pd -> pd.getName().equals(propertyName)).findFirst().orElse(null);
     }
 

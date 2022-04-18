@@ -70,22 +70,21 @@ import java.util.Objects;
  * assertTrue(Arrays.equals(new String[]{"Hello", World}, bean.getValue()));
  * </pre>
  *
- * @param <T> the element type of the indexed property.
  * @author René Link
  * <a href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  * intersystems.com]</a>
  * @since 1.2.0;
  */
-public class JavaIndexedProperty<T> extends JavaProperty<T[]> implements IndexedProperty<T> {
+public class JavaIndexedProperty extends JavaProperty implements IndexedProperty {
 
     private static final long serialVersionUID = 3014890786938775513L;
 
-    public JavaIndexedProperty(JavaBean<?> bean, JavaIndexedPropertyDesc<T> indexedPropertyDescriptor) {
+    public JavaIndexedProperty(JavaBean<?> bean, JavaIndexedPropertyDesc indexedPropertyDescriptor) {
         super(bean, indexedPropertyDescriptor);
     }
 
-    public JavaIndexedPropertyDesc<T> getPropertyDescriptor() {
-        return (JavaIndexedPropertyDesc<T>) super.getPropertyDescriptor();
+    public JavaIndexedPropertyDesc getPropertyDescriptor() {
+        return (JavaIndexedPropertyDesc) super.getPropertyDescriptor();
     }
 
     /**
@@ -119,8 +118,8 @@ public class JavaIndexedProperty<T> extends JavaProperty<T[]> implements Indexed
      * @since 1.2.0;
      */
     @Override
-    public Class<T[]> getType() {
-        JavaPropertyDesc<T[]> propertyDescriptor = getPropertyDescriptor();
+    public Class<?> getType() {
+        JavaPropertyDesc propertyDescriptor = getPropertyDescriptor();
         return propertyDescriptor.getType();
     }
 
@@ -135,7 +134,7 @@ public class JavaIndexedProperty<T> extends JavaProperty<T[]> implements Indexed
      */
     @Override
     @SuppressWarnings("unchecked")
-    public T getValue(int index) {
+    public <T> T getValue(int index) {
         JavaBean<?> bean = getBean();
         Method indexedReadMethod = getIndexedReadMethod();
         if (indexedReadMethod == null) {
@@ -163,7 +162,7 @@ public class JavaIndexedProperty<T> extends JavaProperty<T[]> implements Indexed
      * @since 1.2.0;
      */
     @Override
-    public void setValue(int index, T elementValue) {
+    public <T> void setValue(int index, T elementValue) {
         JavaBean<?> bean = getBean();
 
         Method indexedWriteMethod = getIndexedWriteMethod();
@@ -192,7 +191,7 @@ public class JavaIndexedProperty<T> extends JavaProperty<T[]> implements Indexed
      * @since 1.2.0;
      */
     protected final Method getIndexedWriteMethod() {
-        JavaIndexedPropertyDesc<T> indexedPropertyDescriptor = getPropertyDescriptor();
+        JavaIndexedPropertyDesc indexedPropertyDescriptor = getPropertyDescriptor();
         Method indexedWriteMethod = indexedPropertyDescriptor.getJavaPropertyDescriptor().getIndexedWriteMethod();
         return indexedWriteMethod;
     }
@@ -207,7 +206,7 @@ public class JavaIndexedProperty<T> extends JavaProperty<T[]> implements Indexed
      * @since 1.2.0;
      */
     protected final Method getIndexedReadMethod() {
-        JavaIndexedPropertyDesc<T> indexedPropertyDescriptor = getPropertyDescriptor();
+        JavaIndexedPropertyDesc indexedPropertyDescriptor = getPropertyDescriptor();
         Method indexedWriteMethod = indexedPropertyDescriptor.getJavaPropertyDescriptor().getIndexedReadMethod();
         return indexedWriteMethod;
     }
@@ -231,7 +230,7 @@ public class JavaIndexedProperty<T> extends JavaProperty<T[]> implements Indexed
     }
 
     private int hashCodeByArray() {
-        T[] value = getValue();
+        Object[] value = getValue();
         return Arrays.hashCode(value);
     }
 
@@ -241,7 +240,7 @@ public class JavaIndexedProperty<T> extends JavaProperty<T[]> implements Indexed
 
         for (int i = 0; i < Integer.MAX_VALUE; i++) {
             try {
-                T value = getValue(i);
+                Object value = getValue(i);
                 result = prime * result + (value == null ? 0 : value.hashCode());
             } catch (PropertyReadException e) {
                 Throwable cause = e.getCause();
@@ -256,7 +255,6 @@ public class JavaIndexedProperty<T> extends JavaProperty<T[]> implements Indexed
         return result;
     }
 
-    @SuppressWarnings({"unchecked"})
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -265,10 +263,10 @@ public class JavaIndexedProperty<T> extends JavaProperty<T[]> implements Indexed
             return false;
         if (getClass() != obj.getClass())
             return false;
-        JavaIndexedProperty<T> other = (JavaIndexedProperty<T>) obj;
+        JavaIndexedProperty other = (JavaIndexedProperty) obj;
 
-        JavaIndexedPropertyDesc<T> propertyDescriptor = getPropertyDescriptor();
-        JavaIndexedPropertyDesc<T> otherPropertyDescriptor = other.getPropertyDescriptor();
+        JavaIndexedPropertyDesc propertyDescriptor = getPropertyDescriptor();
+        JavaIndexedPropertyDesc otherPropertyDescriptor = other.getPropertyDescriptor();
 
         if (!propertyDescriptor.equals(otherPropertyDescriptor)) {
             return false;
@@ -281,26 +279,26 @@ public class JavaIndexedProperty<T> extends JavaProperty<T[]> implements Indexed
         }
     }
 
-    private boolean equalsByArray(JavaIndexedProperty<T> other) {
+    private boolean equalsByArray(JavaIndexedProperty other) {
         if (!other.isReadable()) {
             return false;
         }
 
-        T[] value = getValue();
-        T[] otherValue = other.getValue();
+        Object[] value = getValue();
+        Object[] otherValue = other.getValue();
 
         return Arrays.equals(value, otherValue);
     }
 
-    private boolean equalsByIndex(JavaIndexedProperty<T> other) {
+    private boolean equalsByIndex(JavaIndexedProperty other) {
         boolean equal = true;
 
         for (int i = 0; i < Integer.MAX_VALUE; i++) {
             try {
-                T value = getValue(i);
+                Object value = getValue(i);
 
                 try {
-                    T otherValue = other.getValue(i);
+                    Object otherValue = other.getValue(i);
 
                     equal = Objects.equals(value, otherValue);
                     if (!equal) {

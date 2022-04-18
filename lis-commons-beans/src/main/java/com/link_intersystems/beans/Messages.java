@@ -27,8 +27,8 @@ import java.util.ResourceBundle;
  * forget to move the message bundle and edit this class.
  *
  * @author René Link <a
- *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
- *         intersystems.com]</a>
+ * href="mailto:rene.link@link-intersystems.com">[rene.link@link-
+ * intersystems.com]</a>
  * @since 1.2.0;
  */
 public abstract class Messages {
@@ -49,11 +49,11 @@ public abstract class Messages {
         return message;
     }
 
-    public static String formatPropertyNotReadable(Property<?> property) {
+    public static String formatPropertyNotReadable(Property property) {
         return formatPropertyMessage(property, "propertyNotReadable");
     }
 
-    private static String formatPropertyMessage(Property<?> property,
+    private static String formatPropertyMessage(Property property,
                                                 String messageBundleKey) {
         ResourceBundle resourceBundle = Messages.get();
         String template = resourceBundle.getString(messageBundleKey);
@@ -61,7 +61,7 @@ public abstract class Messages {
         return message;
     }
 
-    public static String formatPropertyNotWritable(Property<?> property) {
+    public static String formatPropertyNotWritable(Property property) {
         return formatPropertyMessage(property, "propertyNotWritable");
     }
 

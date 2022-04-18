@@ -42,9 +42,9 @@ public class JavaBean<T> implements Bean<T> {
 
     private JavaBeanClass<T> beanClass;
 
-    private Map<String, JavaProperty<?>> properties = new HashMap<>();
+    private Map<String, JavaProperty> properties = new HashMap<>();
 
-    private Map<String, JavaIndexedProperty<?>> indexedProperties = new HashMap<>();
+    private Map<String, JavaIndexedProperty> indexedProperties = new HashMap<>();
 
     /**
      * Constructs a new {@link JavaBean} for the given bean object.
@@ -96,14 +96,13 @@ public class JavaBean<T> implements Bean<T> {
         return new JavaBean<>(JavaBeanClass.get(beanClass));
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public <PT> Property<PT> getProperty(PropertyDesc<PT> propertyDesc) {
+    public Property getProperty(PropertyDesc propertyDesc) {
         String propertyName = propertyDesc.getName();
         if (propertyDesc.isIndexed()) {
-            IndexedProperty<PT> indexedProperty = getIndexedProperty(propertyName);
+            IndexedProperty indexedProperty = getIndexedProperty(propertyName);
             // TODO something might be wrong with the generic typing here. I have to do it later when the refactoring is done.
-            return (Property<PT>) indexedProperty;
+            return (Property) indexedProperty;
         }
         return getProperty(propertyName);
     }
@@ -114,25 +113,24 @@ public class JavaBean<T> implements Bean<T> {
      * @param propertyName the name of the indexed property.
      * @return the indexed property, if any.
      * @throws NoSuchPropertyException if the property does not exist.
-     * @throws PropertyReadException if the property could not be accessed.
+     * @throws PropertyReadException   if the property could not be accessed.
      * @since 1.2.0;
      */
-    public <PT> IndexedProperty<PT> getIndexedProperty(String propertyName) {
-        IndexedProperty<PT> indexedProperty = getIndexedPropertyInternal(propertyName);
+    public IndexedProperty getIndexedProperty(String propertyName) {
+        IndexedProperty indexedProperty = getIndexedPropertyInternal(propertyName);
         if (indexedProperty == null) {
             throw new PropertyReadException(bean.getClass(), propertyName);
         }
         return indexedProperty;
     }
 
-    @SuppressWarnings("unchecked")
-    private <PT> IndexedProperty<PT> getIndexedPropertyInternal(String propertyName) {
-        JavaIndexedProperty<PT> indexedProperty = (JavaIndexedProperty<PT>) indexedProperties.get(propertyName);
+    private IndexedProperty getIndexedPropertyInternal(String propertyName) {
+        JavaIndexedProperty indexedProperty = indexedProperties.get(propertyName);
         if (indexedProperty == null) {
-            PropertyDesc<?> propertyDesc = beanClass.getProperties().getByName(propertyName);
+            PropertyDesc propertyDesc = beanClass.getProperties().getByName(propertyName);
             if (propertyDesc instanceof JavaIndexedPropertyDesc) {
-                JavaIndexedPropertyDesc<PT> indexedPropertyDescriptor = (JavaIndexedPropertyDesc<PT>) propertyDesc;
-                indexedProperty = new JavaIndexedProperty<>(this, indexedPropertyDescriptor);
+                JavaIndexedPropertyDesc indexedPropertyDescriptor = (JavaIndexedPropertyDesc) propertyDesc;
+                indexedProperty = new JavaIndexedProperty(this, indexedPropertyDescriptor);
                 indexedProperties.put(propertyName, indexedProperty);
                 properties.put(propertyName, indexedProperty);
             }
@@ -140,8 +138,8 @@ public class JavaBean<T> implements Bean<T> {
         return indexedProperty;
     }
 
-    private List<Property<?>> getPropertiesInternal() {
-        List<Property<?>> properties = new ArrayList<>();
+    private List<Property> getPropertiesInternal() {
+        List<Property> properties = new ArrayList<>();
 
         List<String> propertyNames = beanClass.getProperties().getAllPropertyNames();
 
@@ -159,14 +157,14 @@ public class JavaBean<T> implements Bean<T> {
      * @since 1.2.0;
      */
     @Override
-    public List<Property<Object>> getProperties() {
-        List<Property<Object>> properties = new ArrayList<>();
+    public List<Property> getProperties() {
+        List<Property> properties = new ArrayList<>();
 
         JavaBeanClass<T> beanClass = getBeanClass();
         List<String> propertyNames = beanClass.getProperties().getAllPropertyNames();
 
         for (String propertyName : propertyNames) {
-            Property<Object> property = getProperty(propertyName);
+            Property property = getProperty(propertyName);
             properties.add(property);
         }
 
@@ -182,27 +180,25 @@ public class JavaBean<T> implements Bean<T> {
      * @since 1.2.0;
      */
     @Override
-    public <PT> Property<PT> getProperty(String propertyName) {
-        JavaProperty<PT> property = getPropertyInternal(propertyName);
+    public Property getProperty(String propertyName) {
+        JavaProperty property = getPropertyInternal(propertyName);
         if (property == null) {
             throw new NoSuchPropertyException(bean.getClass(), propertyName);
         }
         return property;
     }
 
-
-    @SuppressWarnings("unchecked")
-    private <PT> JavaProperty<PT> getPropertyInternal(String propertyName) {
-        IndexedProperty<PT> indexedProperty = getIndexedPropertyInternal(propertyName);
+    private JavaProperty getPropertyInternal(String propertyName) {
+        IndexedProperty indexedProperty = getIndexedPropertyInternal(propertyName);
         if (indexedProperty != null) {
-            return (JavaProperty<PT>) indexedProperty;
+            return (JavaProperty) indexedProperty;
         }
 
-        JavaProperty<PT> property = (JavaProperty<PT>) properties.get(propertyName);
+        JavaProperty property = properties.get(propertyName);
         if (property == null) {
-            JavaPropertyDesc<PT> propertyDesc = (JavaPropertyDesc<PT>) beanClass.getProperties().getByName(propertyName);
+            JavaPropertyDesc propertyDesc = (JavaPropertyDesc) beanClass.getProperties().getByName(propertyName);
             if (propertyDesc != null) {
-                property = new JavaProperty<>(this, propertyDesc);
+                property = new JavaProperty(this, propertyDesc);
                 properties.put(propertyName, property);
             }
         }
@@ -282,8 +278,8 @@ public class JavaBean<T> implements Bean<T> {
     }
 
     public boolean propertiesEqual(JavaBean<T> otherBean) {
-        List<Property<?>> properties = getPropertiesInternal();
-        List<Property<?>> otherProperties = otherBean.getPropertiesInternal();
+        List<Property> properties = getPropertiesInternal();
+        List<Property> otherProperties = otherBean.getPropertiesInternal();
         return properties.equals(otherProperties);
     }
 

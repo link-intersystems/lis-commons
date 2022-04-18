@@ -63,18 +63,17 @@ import java.util.Objects;
  *         <a href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
  *
- * @param <T>
  *            the {@link JavaProperty}'s type.
  * @since 1.2.0;
  */
-public class JavaProperty<T> implements Serializable, Formattable, Property<T> {
+public class JavaProperty implements Serializable, Formattable, Property {
 
     private static final long serialVersionUID = -6759158627808430975L;
 
     private JavaBean<?> bean;
-    private JavaPropertyDesc<T> propertyDescriptor;
+    private JavaPropertyDesc propertyDescriptor;
 
-    public JavaProperty(JavaBean<?> bean, JavaPropertyDesc<T> propertyDescriptor) {
+    public JavaProperty(JavaBean<?> bean, JavaPropertyDesc propertyDescriptor) {
         Assert.notNull("bean", bean);
         Assert.notNull("propertyDescriptor", propertyDescriptor);
         this.bean = bean;
@@ -82,7 +81,7 @@ public class JavaProperty<T> implements Serializable, Formattable, Property<T> {
     }
 
     @Override
-    public PropertyDesc<T> getDescriptor() {
+    public PropertyDesc getDescriptor() {
         return propertyDescriptor;
     }
 
@@ -100,7 +99,7 @@ public class JavaProperty<T> implements Serializable, Formattable, Property<T> {
      * @return the {@link JavaProperty}'s type.
      * @since 1.2.0;
      */
-    public Class<T> getType() {
+    public Class<?> getType() {
         return getDescriptor().getType();
 
     }
@@ -138,7 +137,7 @@ public class JavaProperty<T> implements Serializable, Formattable, Property<T> {
         PropertyEditor propertyEditor = javaPropertyDescriptor.createPropertyEditor(bean);
 
         if (propertyEditor == null) {
-            Class<T> propertyType = getType();
+            Class<?> propertyType = getType();
             propertyEditor = PropertyEditorManager.findEditor(propertyType);
         }
 
@@ -172,12 +171,11 @@ public class JavaProperty<T> implements Serializable, Formattable, Property<T> {
      *
      * @since 1.2.0;
      */
-    @SuppressWarnings("unchecked")
     public void setValueAsText(String text) throws PropertyEditorNotAvailableException {
         PropertyEditor propertiyEditor = createPropertiyEditor();
         propertiyEditor.setAsText(text);
         Object value = propertiyEditor.getValue();
-        setValue((T) value);
+        setValue(value);
     }
 
     /**
@@ -192,9 +190,9 @@ public class JavaProperty<T> implements Serializable, Formattable, Property<T> {
      */
     @Override
     @SuppressWarnings("unchecked")
-    public T getValue() {
+    public <T> T getValue() {
         Object target = getBean().getObject();
-        JavaPropertyDesc<T> propertyDescriptor = getPropertyDescriptor();
+        JavaPropertyDesc propertyDescriptor = getPropertyDescriptor();
         PropertyDescriptor javaPropertyDescriptor = propertyDescriptor.getJavaPropertyDescriptor();
         Method readMethod = javaPropertyDescriptor.getReadMethod();
         if (readMethod == null) {
@@ -221,9 +219,9 @@ public class JavaProperty<T> implements Serializable, Formattable, Property<T> {
      * @since 1.2.0;
      */
     @Override
-    public void setValue(T propertyValue) {
+    public <T> void setValue(T propertyValue) {
         Object target = getBean().getObject();
-        JavaPropertyDesc<T> propertyDescriptor = getPropertyDescriptor();
+        JavaPropertyDesc propertyDescriptor = getPropertyDescriptor();
         PropertyDescriptor javaPropertyDescriptor = propertyDescriptor.getJavaPropertyDescriptor();
         Method writeMethod = javaPropertyDescriptor.getWriteMethod();
         if (writeMethod == null) {
@@ -259,7 +257,7 @@ public class JavaProperty<T> implements Serializable, Formattable, Property<T> {
      *
      * @since 1.2.0;
      */
-    public JavaPropertyDesc<T> getPropertyDescriptor() {
+    public JavaPropertyDesc getPropertyDescriptor() {
         return propertyDescriptor;
     }
 
@@ -308,7 +306,6 @@ public class JavaProperty<T> implements Serializable, Formattable, Property<T> {
         return result;
     }
 
-    @SuppressWarnings("rawtypes")
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

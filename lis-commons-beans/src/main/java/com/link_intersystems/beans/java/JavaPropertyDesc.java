@@ -1,6 +1,5 @@
 package com.link_intersystems.beans.java;
 
-import com.link_intersystems.beans.BeanClass;
 import com.link_intersystems.beans.PropertyDesc;
 
 import java.beans.IndexedPropertyDescriptor;
@@ -14,10 +13,10 @@ import static java.util.Objects.requireNonNull;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class JavaPropertyDesc<T> implements PropertyDesc<T> {
+public class JavaPropertyDesc implements PropertyDesc {
 
     private PropertyDescriptor propertyDescriptor;
-    private Class<T> type;
+    private Class<?> type;
 
     public JavaPropertyDesc(PropertyDescriptor propertyDescriptor) {
         this.propertyDescriptor = requireNonNull(propertyDescriptor);
@@ -28,17 +27,16 @@ public class JavaPropertyDesc<T> implements PropertyDesc<T> {
         return propertyDescriptor.getName();
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public Class<T> getType() {
+    public Class<?> getType() {
         if (this.type == null) {
             Method readMethod = propertyDescriptor.getReadMethod();
             if (readMethod != null) {
-                type = (Class<T>) readMethod.getReturnType();
+                type = readMethod.getReturnType();
             } else {
                 Method writeMethod = propertyDescriptor.getWriteMethod();
                 Class<?>[] parameterTypes = writeMethod.getParameterTypes();
-                type = (Class<T>) parameterTypes[0];
+                type = parameterTypes[0];
             }
         }
         return type;
@@ -93,7 +91,7 @@ public class JavaPropertyDesc<T> implements PropertyDesc<T> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        JavaPropertyDesc<?> that = (JavaPropertyDesc<?>) o;
+        JavaPropertyDesc that = (JavaPropertyDesc) o;
         return Objects.equals(propertyDescriptor, that.propertyDescriptor) && Objects.equals(type, that.type);
     }
 

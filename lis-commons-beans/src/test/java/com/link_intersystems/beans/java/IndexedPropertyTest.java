@@ -27,9 +27,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class IndexedPropertyTest extends AbstractPropertyTest<String[]> {
 
     private static final String[] STRING_ARRAY = new String[]{"Hello", "World"};
-    private JavaIndexedProperty<String> readOnlyProperty;
-    private JavaIndexedProperty<String> writeOnlyProperty;
-    private JavaIndexedProperty<String> stringProperty;
+    private JavaIndexedProperty readOnlyProperty;
+    private JavaIndexedProperty writeOnlyProperty;
+    private JavaIndexedProperty stringProperty;
 
     @BeforeEach
     public void setup(TestBeansFactory beansFactory) throws IntrospectionException {
@@ -47,11 +47,11 @@ class IndexedPropertyTest extends AbstractPropertyTest<String[]> {
         for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
             String name = propertyDescriptor.getName();
             if ("readOnlyIndexedProperty".equals(name)) {
-                readOnlyProperty = new JavaIndexedProperty<>(bean, new JavaIndexedPropertyDesc<>((IndexedPropertyDescriptor) propertyDescriptor));
+                readOnlyProperty = new JavaIndexedProperty(bean, new JavaIndexedPropertyDesc((IndexedPropertyDescriptor) propertyDescriptor));
             } else if ("writeOnlyIndexedProperty".equals(name)) {
-                writeOnlyProperty = new JavaIndexedProperty<>(bean, new JavaIndexedPropertyDesc<>((IndexedPropertyDescriptor) propertyDescriptor));
+                writeOnlyProperty = new JavaIndexedProperty(bean, new JavaIndexedPropertyDesc((IndexedPropertyDescriptor) propertyDescriptor));
             } else if ("stringArrayProperty".equals(name)) {
-                stringProperty = new JavaIndexedProperty<>(bean, new JavaIndexedPropertyDesc<>((IndexedPropertyDescriptor) propertyDescriptor));
+                stringProperty = new JavaIndexedProperty(bean, new JavaIndexedPropertyDesc((IndexedPropertyDescriptor) propertyDescriptor));
             }
         }
 
@@ -86,17 +86,17 @@ class IndexedPropertyTest extends AbstractPropertyTest<String[]> {
     }
 
     @Override
-    protected JavaProperty<String[]> getReadOnlyProperty() {
+    protected JavaProperty getReadOnlyProperty() {
         return readOnlyProperty;
     }
 
     @Override
-    protected JavaProperty<String[]> getWriteOnlyProperty() {
+    protected JavaProperty getWriteOnlyProperty() {
         return writeOnlyProperty;
     }
 
     @Override
-    protected JavaProperty<String[]> getProperty() {
+    protected JavaProperty getProperty() {
         return stringProperty;
     }
 

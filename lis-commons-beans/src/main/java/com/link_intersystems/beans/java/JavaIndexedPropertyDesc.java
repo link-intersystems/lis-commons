@@ -9,12 +9,12 @@ import java.lang.reflect.Method;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class JavaIndexedPropertyDesc<T> extends JavaPropertyDesc<T[]> implements IntedexPropertyDesc<T> {
+public class JavaIndexedPropertyDesc extends JavaPropertyDesc implements IntedexPropertyDesc {
 
     private static final int SETTER_TYPE_PARAM_INDEX = 0;
     private static final int INDEXED_SETTER_TYPE_PARAM_INDEX = 1;
 
-    private Class<T[]> type;
+    private Class<?> type;
 
     public JavaIndexedPropertyDesc(IndexedPropertyDescriptor propertyDescriptor) {
         super(propertyDescriptor);
@@ -24,29 +24,28 @@ public class JavaIndexedPropertyDesc<T> extends JavaPropertyDesc<T[]> implements
         return (IndexedPropertyDescriptor) super.getJavaPropertyDescriptor();
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public Class<T[]> getType() {
+    public Class<?> getType() {
         if (this.type == null) {
             IndexedPropertyDescriptor javaPropertyDescriptor = getJavaPropertyDescriptor();
             Method readMethod = javaPropertyDescriptor.getReadMethod();
             if (readMethod != null) {
-                type = (Class<T[]>) readMethod.getReturnType();
+                type = readMethod.getReturnType();
             } else {
                 Method writeMethod = javaPropertyDescriptor.getWriteMethod();
                 if (writeMethod != null) {
-                    type = (Class<T[]>) writeMethod.getParameterTypes()[SETTER_TYPE_PARAM_INDEX];
+                    type = writeMethod.getParameterTypes()[SETTER_TYPE_PARAM_INDEX];
                 } else {
                     Method indexedReadMethod = javaPropertyDescriptor.getIndexedReadMethod();
-                    Class<T> elementType;
+                    Class<?> elementType;
                     if (indexedReadMethod != null) {
-                        elementType = (Class<T>) indexedReadMethod.getReturnType();
+                        elementType = indexedReadMethod.getReturnType();
                     } else {
                         Method indexedWriteMethod = javaPropertyDescriptor.getIndexedWriteMethod();
                         Class<?>[] parameterTypes = indexedWriteMethod.getParameterTypes();
-                        elementType = (Class<T>) parameterTypes[INDEXED_SETTER_TYPE_PARAM_INDEX];
+                        elementType = parameterTypes[INDEXED_SETTER_TYPE_PARAM_INDEX];
                     }
-                    ArrayType<T> arrayType = new ArrayType<>(elementType);
+                    ArrayType<?> arrayType = new ArrayType<>(elementType);
                     this.type = arrayType.getType();
                 }
             }
