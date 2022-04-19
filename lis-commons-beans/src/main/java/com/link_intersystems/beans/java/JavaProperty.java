@@ -78,6 +78,10 @@ public class JavaProperty implements Serializable, Formattable, Property {
         this.propertyDescriptor = requireNonNull(propertyDescriptor);
     }
 
+    protected PropertyDescriptor getJavaPropertyDescriptor() {
+        return propertyDescriptor.getJavaPropertyDescriptor();
+    }
+
     @Override
     public PropertyDesc getPropertyDesc() {
         return propertyDescriptor;
@@ -108,7 +112,7 @@ public class JavaProperty implements Serializable, Formattable, Property {
      * @since 1.2.0;
      */
     public String getDisplayName() {
-        return getJavaPropertyDesc().getJavaPropertyDescriptor().getDisplayName();
+        return getJavaPropertyDescriptor().getDisplayName();
     }
 
     /**
@@ -118,9 +122,11 @@ public class JavaProperty implements Serializable, Formattable, Property {
      * @since 1.2.0;
      */
     public PropertyEditor createPropertiyEditor() throws PropertyEditorNotAvailableException {
-        Object bean = getBean().getObject();
+        JavaBean<?> beanObj = getBean();
+        Object bean = beanObj.getObject();
 
-        PropertyDescriptor javaPropertyDescriptor = propertyDescriptor.getJavaPropertyDescriptor();
+        PropertyDescriptor javaPropertyDescriptor = getJavaPropertyDescriptor();
+
         PropertyEditor propertyEditor = javaPropertyDescriptor.createPropertyEditor(bean);
 
         if (propertyEditor == null) {
@@ -212,14 +218,6 @@ public class JavaProperty implements Serializable, Formattable, Property {
         formatter.format("%s.%s", getBean().getObject().getClass().getCanonicalName(), getName());
     }
 
-    /**
-     * Returns the {@link PropertyDescriptor} of this {@link JavaProperty}.
-     *
-     * @since 1.2.0;
-     */
-    public JavaPropertyDesc getJavaPropertyDesc() {
-        return propertyDescriptor;
-    }
 
     /**
      * Returns true if this property is readable (has a getter method).
@@ -227,7 +225,7 @@ public class JavaProperty implements Serializable, Formattable, Property {
      * @return true if this property is readable (has a getter method).
      */
     public boolean isReadable() {
-        return getJavaPropertyDesc().isReadable();
+        return getPropertyDesc().isReadable();
     }
 
     /**
@@ -236,7 +234,7 @@ public class JavaProperty implements Serializable, Formattable, Property {
      * @return true if this property is writable (has a setter method).
      */
     public boolean isWritable() {
-        return getJavaPropertyDesc().isWritable();
+        return getPropertyDesc().isWritable();
     }
 
     /**
@@ -307,6 +305,6 @@ public class JavaProperty implements Serializable, Formattable, Property {
      * class in the hierarchy is returned.
      */
     public Class<?> getDeclaringClass() {
-        return getJavaPropertyDesc().getDeclaringClass();
+        return getPropertyDesc().getDeclaringClass();
     }
 }

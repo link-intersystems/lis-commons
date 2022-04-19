@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
 
 class PropertyDescListTest {
 
-    private PropertyDescList<? extends PropertyDesc> propertyDescList;
+    private PropertyDescList propertyDescList;
     private PropertyDesc firstnamePropertyDesc;
     private PropertyDesc lastnamePropertyDesc;
     private IndexedPropertyDesc favoriteColorsPropertyDesc;
@@ -40,7 +40,7 @@ class PropertyDescListTest {
         descriptors.add(lastnamePropertyDesc);
         descriptors.add(favoriteColorsPropertyDesc);
 
-        propertyDescList = new PropertyDescList<>(descriptors);
+        propertyDescList = new PropertyDescList(descriptors);
     }
 
     @Test

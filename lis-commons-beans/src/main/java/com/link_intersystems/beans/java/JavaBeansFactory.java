@@ -3,7 +3,6 @@ package com.link_intersystems.beans.java;
 import com.link_intersystems.beans.BeanClass;
 import com.link_intersystems.beans.BeanClassException;
 import com.link_intersystems.beans.BeansFactory;
-import com.link_intersystems.beans.PropertyFilter;
 
 import java.beans.IntrospectionException;
 import java.text.MessageFormat;

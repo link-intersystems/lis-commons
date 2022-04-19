@@ -20,6 +20,7 @@ import com.link_intersystems.beans.IndexedPropertyDesc;
 import com.link_intersystems.beans.PropertyReadException;
 import com.link_intersystems.beans.PropertyWriteException;
 
+import java.beans.IndexedPropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -80,12 +81,13 @@ public class JavaIndexedProperty extends JavaProperty implements IndexedProperty
 
     private static final long serialVersionUID = 3014890786938775513L;
 
-    public JavaIndexedProperty(JavaBean<?> bean, JavaPropertyDesc indexedPropertyDescriptor) {
+    public JavaIndexedProperty(JavaBean<?> bean, JavaIndexedPropertyDesc indexedPropertyDescriptor) {
         super(bean, indexedPropertyDescriptor);
     }
 
-    public JavaIndexedPropertyDesc getJavaPropertyDesc() {
-        return (JavaIndexedPropertyDesc) super.getJavaPropertyDesc();
+    @Override
+    protected IndexedPropertyDescriptor getJavaPropertyDescriptor() {
+        return (IndexedPropertyDescriptor) super.getJavaPropertyDescriptor();
     }
 
     @Override
@@ -161,9 +163,7 @@ public class JavaIndexedProperty extends JavaProperty implements IndexedProperty
      * @since 1.2.0;
      */
     protected final Method getIndexedWriteMethod() {
-        JavaIndexedPropertyDesc indexedPropertyDescriptor = getJavaPropertyDesc();
-        Method indexedWriteMethod = indexedPropertyDescriptor.getJavaPropertyDescriptor().getIndexedWriteMethod();
-        return indexedWriteMethod;
+        return getJavaPropertyDescriptor().getIndexedWriteMethod();
     }
 
     /**
@@ -176,9 +176,7 @@ public class JavaIndexedProperty extends JavaProperty implements IndexedProperty
      * @since 1.2.0;
      */
     protected final Method getIndexedReadMethod() {
-        JavaIndexedPropertyDesc indexedPropertyDescriptor = getJavaPropertyDesc();
-        Method indexedWriteMethod = indexedPropertyDescriptor.getJavaPropertyDescriptor().getIndexedReadMethod();
-        return indexedWriteMethod;
+        return getJavaPropertyDescriptor().getIndexedReadMethod();
     }
 
     /**
@@ -233,10 +231,10 @@ public class JavaIndexedProperty extends JavaProperty implements IndexedProperty
             return false;
         if (getClass() != obj.getClass())
             return false;
-        JavaIndexedProperty other = (JavaIndexedProperty) obj;
+        IndexedProperty other = (IndexedProperty) obj;
 
-        JavaIndexedPropertyDesc propertyDescriptor = getJavaPropertyDesc();
-        JavaIndexedPropertyDesc otherPropertyDescriptor = other.getJavaPropertyDesc();
+        IndexedPropertyDesc propertyDescriptor = getPropertyDesc();
+        IndexedPropertyDesc otherPropertyDescriptor = other.getPropertyDesc();
 
         if (!propertyDescriptor.equals(otherPropertyDescriptor)) {
             return false;
@@ -249,8 +247,8 @@ public class JavaIndexedProperty extends JavaProperty implements IndexedProperty
         }
     }
 
-    private boolean equalsByArray(JavaIndexedProperty other) {
-        if (!other.isReadable()) {
+    private boolean equalsByArray(IndexedProperty other) {
+        if (!other.getPropertyDesc().isReadable()) {
             return false;
         }
 
@@ -260,7 +258,7 @@ public class JavaIndexedProperty extends JavaProperty implements IndexedProperty
         return Arrays.equals(value, otherValue);
     }
 
-    private boolean equalsByIndex(JavaIndexedProperty other) {
+    private boolean equalsByIndex(IndexedProperty other) {
         boolean equal = true;
 
         for (int i = 0; i < Integer.MAX_VALUE; i++) {

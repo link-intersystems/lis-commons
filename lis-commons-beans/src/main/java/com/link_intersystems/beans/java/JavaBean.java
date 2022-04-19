@@ -41,6 +41,7 @@ public class JavaBean<T> implements Bean<T> {
 
     private JavaBeanClass<T> beanClass;
     private PropertyList propertyList;
+    private List<JavaProperty> javaProperties;
 
     JavaBean(JavaBeanClass<T> beanClass, T bean) {
         this.beanClass = requireNonNull(beanClass);
@@ -56,16 +57,22 @@ public class JavaBean<T> implements Bean<T> {
     @Override
     public PropertyList getProperties() {
         if (propertyList == null) {
-            List<Property> properties = beanClass.getProperties().stream()
-                    .map(this::toProperty).collect(toList());
-            propertyList = new PropertyList(properties);
+            propertyList = new PropertyList(getJavaProperties());
         }
         return propertyList;
     }
 
-    private Property toProperty(JavaPropertyDesc propertyDesc) {
-        if (propertyDesc instanceof IndexedPropertyDesc) {
-            return new JavaIndexedProperty(this, propertyDesc);
+    List<JavaProperty> getJavaProperties() {
+        if (javaProperties == null) {
+            javaProperties = beanClass.getJavaPropertyDescs().stream()
+                    .map(this::toProperty).collect(toList());
+        }
+        return javaProperties;
+    }
+
+    private JavaProperty toProperty(JavaPropertyDesc propertyDesc) {
+        if (propertyDesc instanceof JavaIndexedPropertyDesc) {
+            return new JavaIndexedProperty(this, (JavaIndexedPropertyDesc) propertyDesc);
         } else {
             return new JavaProperty(this, propertyDesc);
         }
@@ -131,12 +138,12 @@ public class JavaBean<T> implements Bean<T> {
     private JavaBeanEvent getApplicableBeanEvent(Object listener) {
         JavaBeanClass<T> beanClass = getBeanClass();
 
-        BeanEventTypes<JavaBeanEventType> beanEventTypes = beanClass.getBeanEventTypes();
+        BeanEventTypes beanEventTypes = beanClass.getBeanEventTypes();
 
         JavaBeanEvent applicableBeanEvent = null;
-        for (JavaBeanEventType beanEvent : beanEventTypes) {
+        for (BeanEventType beanEvent : beanEventTypes) {
             if (beanEvent.isApplicable(listener)) {
-                applicableBeanEvent = new JavaBeanEvent(this, beanEvent);
+                applicableBeanEvent = new JavaBeanEvent(this, (JavaBeanEventType) beanEvent);
                 break;
             }
         }

@@ -12,7 +12,7 @@ import static java.util.Objects.requireNonNull;
  */
 public class PropertyList extends AbstractList<Property> {
 
-    private List<Property> properties;
+    private List<? extends Property> properties;
 
     private Map<String, Property> propertyMap = new HashMap<>();
     private Map<String, IndexedProperty> indexedPropertyMap = new HashMap<>();
@@ -21,7 +21,7 @@ public class PropertyList extends AbstractList<Property> {
     private Map<PropertyDesc, IndexedProperty> indexedPropertyByDesc = new HashMap<>();
 
 
-    public PropertyList(List<Property> properties) {
+    public PropertyList(List<? extends Property> properties) {
         this.properties = requireNonNull(properties);
 
         properties.forEach(property -> {

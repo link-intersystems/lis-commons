@@ -50,7 +50,7 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
         String propertyName = key.toString();
         BeanClass<?> beanClass = bean.getBeanClass();
 
-        PropertyDescList<? extends PropertyDesc> properties = beanClass.getProperties();
+        PropertyDescList properties = beanClass.getProperties();
         PropertyDesc propertyDesc = properties.getByName(propertyName);
 
         if (propertyDesc == null) {
@@ -77,7 +77,7 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
         }
         String propertyName = key;
         BeanClass<?> beanClass = bean.getBeanClass();
-        PropertyDescList<? extends PropertyDesc> properties = beanClass.getProperties();
+        PropertyDescList properties = beanClass.getProperties();
         PropertyDesc propertyDesc = properties.getByName(propertyName);
 
         if (propertyDesc == null) {

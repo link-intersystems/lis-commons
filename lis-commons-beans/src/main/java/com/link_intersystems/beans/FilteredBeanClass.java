@@ -10,6 +10,57 @@ import static java.util.stream.Collectors.toList;
  */
 public class FilteredBeanClass<T> implements BeanClass<T> {
 
+    private BeanClass<T> beanClass;
+    private PropertyFilter propertyFilter;
+    public FilteredBeanClass(BeanClass<T> beanClass, PropertyFilter propertyFilter) {
+        this.beanClass = requireNonNull(beanClass);
+        this.propertyFilter = requireNonNull(propertyFilter);
+    }
+
+    @Override
+    public String getName() {
+        return beanClass.getName();
+    }
+
+    @Override
+    public Class<T> getType() {
+        return beanClass.getType();
+    }
+
+    @Override
+    public Bean<T> newBeanInstance() throws BeanInstantiationException {
+        Bean<T> bean = beanClass.newBeanInstance();
+        return new FilteredBean<>(this, bean, propertyFilter);
+    }
+
+    @Override
+    public Bean<T> getBean(T bean) {
+        Bean<T> beanObj = beanClass.getBean(bean);
+        return new FilteredBean<>(this, beanObj, propertyFilter);
+    }
+
+    @Override
+    public BeanEventTypes getBeanEventTypes() {
+        return beanClass.getBeanEventTypes();
+    }
+
+    @Override
+    public PropertyDescList getProperties() {
+        PropertyDescList properties = beanClass.getProperties();
+        List<? extends PropertyDesc> filteredPropertyDescs = properties.stream()
+                .filter(propertyFilter::accept)
+                .collect(toList());
+        return new PropertyDescList(filteredPropertyDescs);
+    }
+
+    @Override
+    public String toString() {
+        return "FilteredBeanClass{" +
+                "beanClass=" + beanClass +
+                ", propertyFilter=" + propertyFilter +
+                '}';
+    }
+
     private static class FilteredBean<T> implements Bean<T> {
 
         private final BeanClass<T> beanClass;
@@ -60,52 +111,5 @@ public class FilteredBeanClass<T> implements BeanClass<T> {
                     ", propertyFilter=" + propertyFilter +
                     '}';
         }
-    }
-
-    private BeanClass<T> beanClass;
-    private PropertyFilter propertyFilter;
-
-    public FilteredBeanClass(BeanClass<T> beanClass, PropertyFilter propertyFilter) {
-        this.beanClass = requireNonNull(beanClass);
-        this.propertyFilter = requireNonNull(propertyFilter);
-    }
-
-    @Override
-    public String getName() {
-        return beanClass.getName();
-    }
-
-    @Override
-    public Class<T> getType() {
-        return beanClass.getType();
-    }
-
-    @Override
-    public Bean<T> newBeanInstance() throws BeanInstantiationException {
-        Bean<T> bean = beanClass.newBeanInstance();
-        return new FilteredBean<>(this, bean, propertyFilter);
-    }
-
-    @Override
-    public Bean<T> getBean(T bean) {
-        Bean<T> beanObj = beanClass.getBean(bean);
-        return new FilteredBean<>(this, beanObj, propertyFilter);
-    }
-
-    @Override
-    public PropertyDescList<? extends PropertyDesc> getProperties() {
-        PropertyDescList<? extends PropertyDesc> properties = beanClass.getProperties();
-        List<? extends PropertyDesc> filteredPropertyDescs = properties.stream()
-                .filter(propertyFilter::accept)
-                .collect(toList());
-        return new PropertyDescList<>(filteredPropertyDescs);
-    }
-
-    @Override
-    public String toString() {
-        return "FilteredBeanClass{" +
-                "beanClass=" + beanClass +
-                ", propertyFilter=" + propertyFilter +
-                '}';
     }
 }

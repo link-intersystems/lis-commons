@@ -5,7 +5,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.beans.PropertyChangeListener;
 import java.beans.PropertyDescriptor;
+import java.beans.VetoableChangeListener;
 import java.lang.reflect.Method;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -76,6 +78,13 @@ class BeanClassTest {
 
         SomeBean object = someBeanBean.getObject();
         assertNotNull(object);
+    }
+
+    @Test
+    void isListenerSupported() {
+        assertTrue(someBeanClass.isListenerSupported(PropertyChangeListener.class));
+
+        assertFalse(someBeanClass.isListenerSupported(VetoableChangeListener.class));
     }
 
 }

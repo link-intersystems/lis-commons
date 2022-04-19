@@ -15,7 +15,10 @@
  */
 package com.link_intersystems.beans.java;
 
-import com.link_intersystems.beans.*;
+import com.link_intersystems.beans.BeanClass;
+import com.link_intersystems.beans.BeanEventTypes;
+import com.link_intersystems.beans.BeanInstantiationException;
+import com.link_intersystems.beans.PropertyDescList;
 import com.link_intersystems.lang.reflect.SignaturePredicate;
 
 import java.beans.*;
@@ -41,14 +44,14 @@ import static java.util.Arrays.stream;
 public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
 
     private static final long serialVersionUID = -5446272789930350423L;
-    private static final PropertyFilter NULL_FILTER = p -> true;
 
     private transient Map<Method, PropertyDescriptor> propertyDescriptorsByMethod;
     private transient JavaPropertyDescriptors propertyDescriptors;
 
     private BeanInfo beanInfo;
-    private BeanEventTypes<JavaBeanEventType> beanEventTypes;
-    private PropertyDescList<JavaPropertyDesc> properties;
+    private BeanEventTypes beanEventTypes;
+    private PropertyDescList properties;
+    private List<JavaPropertyDesc> javaPropertyDescs;
 
     public JavaBeanClass(Class<T> beanType) throws IntrospectionException {
         this(beanType, null);
@@ -78,40 +81,14 @@ public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
      */
     public JavaPropertyDescriptors getJavaPropertyDescriptors() {
         if (propertyDescriptors == null) {
-            propertyDescriptors = getJavaPropertyDescriptors(null);
+            propertyDescriptors = createJavaPropertyDescriptors();
         }
         return propertyDescriptors;
     }
 
-    /**
-     * @param stopClass the class to stop {@link PropertyDescriptor} resolution.
-     *                  Must be a superclass of this class. If the stop class is not
-     *                  null then all {@link PropertyDescriptor}s are contained in
-     *                  the result map that this class and every class along the
-     *                  hierarchy until the stop class has. The
-     *                  {@link PropertyDescriptor} of the stop class are not
-     *                  included.
-     * @return a map whose keys are the property names of the properties that this
-     * class defines according to the java bean specification. The values
-     * are the corresponding {@link PropertyDescriptor}s. The returned
-     * {@link Map} can be modified by clients without interfering this
-     * object's state.
-     * @throws IllegalArgumentException if the stop class is not a super class of
-     *                                  this class or another Exception occurs while
-     *                                  resolving the {@link PropertyDescriptor}s.
-     *                                  The cause might be an
-     *                                  {@link IntrospectionException}.
-     * @since 1.2.0;
-     */
-    public JavaPropertyDescriptors getJavaPropertyDescriptors(Class<?> stopClass) throws IllegalStateException {
-        Class<T> beanType = getType();
-        try {
-            BeanInfo beanInfo = Introspector.getBeanInfo(beanType, stopClass);
-            PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
-            return new JavaPropertyDescriptors(propertyDescriptors);
-        } catch (IntrospectionException e) {
-            throw new IllegalArgumentException("Unable to build property map for " + beanType + " with stopClass " + stopClass, e);
-        }
+    private JavaPropertyDescriptors createJavaPropertyDescriptors() throws IllegalStateException {
+        PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
+        return new JavaPropertyDescriptors(propertyDescriptors);
     }
 
     /**
@@ -180,7 +157,12 @@ public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
             T newBeanObj = defaultConstructor.newInstance();
             return getBean(newBeanObj);
         } catch (Exception e) {
-            throw new BeanInstantiationException("Bean " + getType().getCanonicalName() + " throws an exception in default constructor. Does it have a default constructor (a strict BeanClass). See BeanClass.getStrict(Class<T>)", e);
+            String msg = "Bean " +
+                    getType().getCanonicalName() +
+                    " throws an exception while invoking the default constructor." +
+                    " Does it have a public default constructor?" +
+                    " See BeanClass.getStrict(Class<T>)";
+            throw new BeanInstantiationException(msg, e);
         }
     }
 
@@ -190,52 +172,42 @@ public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
     }
 
     @Override
-    public BeanEventTypes<JavaBeanEventType> getBeanEventTypes() {
+    public BeanEventTypes getBeanEventTypes() {
         if (beanEventTypes == null) {
-            beanEventTypes = getBeanEventsInternal(null);
+            beanEventTypes = createBeanEventTypes();
         }
         return beanEventTypes;
     }
 
-    private BeanEventTypes<JavaBeanEventType> getBeanEventsInternal(Class<?> stopClass) {
-        Class<T> beanType = getType();
-        try {
-            BeanInfo beanInfo = Introspector.getBeanInfo(beanType, stopClass);
-            EventSetDescriptor[] eventSetDescriptors = beanInfo.getEventSetDescriptors();
-            List<JavaBeanEventType> beanEventTypes = stream(eventSetDescriptors)
-                    .map(JavaBeanEventType::new)
-                    .collect(Collectors.toList());
-            return new BeanEventTypes<>(beanEventTypes);
-        } catch (IntrospectionException e) {
-            throw new IllegalArgumentException("Unable to build property map for " + beanType + " with stopClass " + stopClass, e);
-        }
-    }
-
-    @Override
-    public BeanEventTypes<JavaBeanEventType> getBeanEvents(Class<?> stopClass) {
-        return getBeanEventsInternal(stopClass);
+    private BeanEventTypes createBeanEventTypes() {
+        EventSetDescriptor[] eventSetDescriptors = beanInfo.getEventSetDescriptors();
+        List<JavaBeanEventType> beanEventTypes = stream(eventSetDescriptors)
+                .map(JavaBeanEventType::new)
+                .collect(Collectors.toList());
+        return new BeanEventTypes(beanEventTypes);
     }
 
     @Override
     public boolean isListenerSupported(Class<?> listenerClass) {
-        BeanEventTypes<JavaBeanEventType> beanEvents = getBeanEventTypes();
-        for (JavaBeanEventType beanEvent : beanEvents) {
-            if (beanEvent.isApplicable(listenerClass)) {
-                return true;
-            }
-        }
-        return false;
+        BeanEventTypes beanEvents = getBeanEventTypes();
+        return beanEvents.stream().anyMatch(be -> be.isApplicable(listenerClass));
     }
 
     @Override
-    public PropertyDescList<JavaPropertyDesc> getProperties() {
+    public PropertyDescList getProperties() {
         if (this.properties == null) {
-            List<JavaPropertyDesc> desciptors = getJavaPropertyDescriptors().stream()
-                    .map(this::toPropertyDesc)
-                    .collect(Collectors.toList());
-            this.properties = new PropertyDescList<>(desciptors);
+            this.properties = new PropertyDescList(getJavaPropertyDescs());
         }
         return properties;
+    }
+
+    List<JavaPropertyDesc> getJavaPropertyDescs() {
+        if (javaPropertyDescs == null) {
+            javaPropertyDescs = getJavaPropertyDescriptors().stream()
+                    .map(this::toPropertyDesc)
+                    .collect(Collectors.toList());
+        }
+        return javaPropertyDescs;
     }
 
     private JavaPropertyDesc toPropertyDesc(PropertyDescriptor pd) {

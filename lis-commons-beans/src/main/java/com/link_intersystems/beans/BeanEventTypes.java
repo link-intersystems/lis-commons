@@ -12,29 +12,29 @@ import static java.util.stream.Collectors.toMap;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class BeanEventTypes<T extends BeanEventType> extends AbstractList<T> {
+public class BeanEventTypes extends AbstractList<BeanEventType> {
 
-    private List<T> beanEventTypes = new ArrayList<>();
-    private Map<String, T> beanEventTypesByName;
+    private List<BeanEventType> beanEventTypes = new ArrayList<>();
+    private Map<String, BeanEventType> beanEventTypesByName;
 
-    public BeanEventTypes(List<T> beanEventTypes) {
+    public BeanEventTypes(List<? extends BeanEventType> beanEventTypes) {
         this.beanEventTypes.addAll(beanEventTypes);
     }
 
-    public T getByName(String eventName) {
+    public BeanEventType getByName(String eventName) {
         return getBeanEventTypesByName().get(eventName);
     }
 
-    private Map<String, T> getBeanEventTypesByName() {
+    private Map<String, BeanEventType> getBeanEventTypesByName() {
         if (beanEventTypesByName == null) {
-            Collector<T, ?, Map<String, T>> mapByName = toMap(BeanEventType::getName, identity());
+            Collector<BeanEventType, ?, Map<String, BeanEventType>> mapByName = toMap(com.link_intersystems.beans.BeanEventType::getName, identity());
             beanEventTypesByName = this.stream().collect(mapByName);
         }
         return beanEventTypesByName;
     }
 
     @Override
-    public T get(int index) {
+    public BeanEventType get(int index) {
         return beanEventTypes.get(index);
     }
 

@@ -20,7 +20,7 @@ public interface BeanClass<T> {
 
     Bean<T> getBean(T bean);
 
-    PropertyDescList<? extends PropertyDesc> getProperties();
+    PropertyDescList getProperties();
 
 
     /**
@@ -46,13 +46,7 @@ public interface BeanClass<T> {
     }
 
 
-    default BeanEventTypes<? extends BeanEventType> getBeanEventTypes() {
-        return getBeanEvents(null);
-    }
-
-    default BeanEventTypes<? extends BeanEventType> getBeanEvents(Class<?> stopClass) {
-        return new BeanEventTypes<>(Collections.emptyList());
-    }
+    BeanEventTypes getBeanEventTypes();
 
     default boolean isListenerSupported(Class<?> listenerClass) {
         return getBeanEventTypes()
