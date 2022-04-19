@@ -12,6 +12,7 @@ public class FilteredBeanClass<T> implements BeanClass<T> {
 
     private BeanClass<T> beanClass;
     private PropertyFilter propertyFilter;
+
     public FilteredBeanClass(BeanClass<T> beanClass, PropertyFilter propertyFilter) {
         this.beanClass = requireNonNull(beanClass);
         this.propertyFilter = requireNonNull(propertyFilter);
@@ -47,6 +48,22 @@ public class FilteredBeanClass<T> implements BeanClass<T> {
     @Override
     public PropertyDescList getProperties() {
         PropertyDescList properties = beanClass.getProperties();
+        return getFilteredProperties(properties);
+    }
+
+    @Override
+    public PropertyDescList getIndexedProperties() {
+        PropertyDescList properties = beanClass.getIndexedProperties();
+        return getFilteredProperties(properties);
+    }
+
+    @Override
+    public PropertyDescList getAllProperties() {
+        PropertyDescList properties = beanClass.getAllProperties();
+        return getFilteredProperties(properties);
+    }
+
+    private PropertyDescList getFilteredProperties(PropertyDescList properties) {
         List<? extends PropertyDesc> filteredPropertyDescs = properties.stream()
                 .filter(propertyFilter::accept)
                 .collect(toList());
@@ -61,20 +78,21 @@ public class FilteredBeanClass<T> implements BeanClass<T> {
                 '}';
     }
 
-    private static class FilteredBean<T> implements Bean<T> {
+    private static class FilteredBean<T> extends Bean<T> {
 
         private final BeanClass<T> beanClass;
         private final Bean<T> bean;
         private final PropertyFilter propertyFilter;
 
         public FilteredBean(BeanClass<T> beanClass, Bean<T> bean, PropertyFilter propertyFilter) {
+            super(beanClass, bean.getObject());
             this.beanClass = beanClass;
             this.bean = bean;
             this.propertyFilter = propertyFilter;
         }
 
         @Override
-        public PropertyList getProperties() {
+        public PropertyList getAllProperties() {
             List<Property> properties = bean.getProperties().stream()
                     .filter(this::accept).collect(toList());
             return new PropertyList(properties);

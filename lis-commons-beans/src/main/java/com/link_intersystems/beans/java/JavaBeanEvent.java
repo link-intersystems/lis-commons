@@ -1,5 +1,6 @@
 package com.link_intersystems.beans.java;
 
+import com.link_intersystems.beans.Bean;
 import com.link_intersystems.beans.BeanEvent;
 import com.link_intersystems.lang.Assert;
 import com.link_intersystems.lang.reflect.Invokable;
@@ -15,7 +16,7 @@ public class JavaBeanEvent implements BeanEvent {
     private Invokable removeListenerMethodInvokable;
     private Invokable addListenerInvokable;
 
-    JavaBeanEvent(JavaBean<?> bean, JavaBeanEventType javaBeanEventType) {
+    JavaBeanEvent(Bean<?> bean, JavaBeanEventType javaBeanEventType) {
         Assert.notNull("bean", bean);
         Assert.notNull("javaBeanEventType", javaBeanEventType);
         this.javaBeanEventType = javaBeanEventType;

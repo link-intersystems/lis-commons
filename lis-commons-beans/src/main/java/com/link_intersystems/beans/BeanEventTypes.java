@@ -4,7 +4,6 @@ import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
 
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toMap;

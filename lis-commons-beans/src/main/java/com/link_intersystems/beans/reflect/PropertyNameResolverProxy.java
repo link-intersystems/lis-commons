@@ -1,6 +1,5 @@
 package com.link_intersystems.beans.reflect;
 
-import com.link_intersystems.beans.java.JavaPropertyDescList;
 import com.link_intersystems.lang.Primitives;
 
 import java.beans.IntrospectionException;

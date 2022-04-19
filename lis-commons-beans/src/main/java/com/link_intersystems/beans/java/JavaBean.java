@@ -17,10 +17,8 @@ package com.link_intersystems.beans.java;
 
 import com.link_intersystems.beans.*;
 
-import java.text.MessageFormat;
 import java.util.List;
 
-import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -35,17 +33,21 @@ import static java.util.stream.Collectors.toList;
  * intersystems.com]</a>
  * @since 1.2.0;
  */
-public class JavaBean<T> implements Bean<T> {
+public class JavaBean<T> extends Bean<T> {
 
-    private T bean;
-
-    private JavaBeanClass<T> beanClass;
     private PropertyList propertyList;
     private List<JavaProperty> javaProperties;
 
     JavaBean(JavaBeanClass<T> beanClass, T bean) {
-        this.beanClass = requireNonNull(beanClass);
-        this.bean = requireNonNull(bean);
+        super(beanClass, bean);
+    }
+
+    /**
+     * @return the {@link JavaBeanClass} of this {@link JavaBean}.
+     */
+    @Override
+    public JavaBeanClass<T> getBeanClass() {
+        return (JavaBeanClass<T>) super.getBeanClass();
     }
 
     /**
@@ -55,7 +57,7 @@ public class JavaBean<T> implements Bean<T> {
      * @since 1.2.0;
      */
     @Override
-    public PropertyList getProperties() {
+    public PropertyList getAllProperties() {
         if (propertyList == null) {
             propertyList = new PropertyList(getJavaProperties());
         }
@@ -64,7 +66,7 @@ public class JavaBean<T> implements Bean<T> {
 
     List<JavaProperty> getJavaProperties() {
         if (javaProperties == null) {
-            javaProperties = beanClass.getJavaPropertyDescs().stream()
+            javaProperties = getBeanClass().getJavaPropertyDescs().stream()
                     .map(this::toProperty).collect(toList());
         }
         return javaProperties;
@@ -78,69 +80,12 @@ public class JavaBean<T> implements Bean<T> {
         }
     }
 
-    private T getTarget() {
-        if (bean == null) {
-            try {
-                JavaBean<T> newBeanInstance = beanClass.newBeanInstance();
-                bean = newBeanInstance.getTarget();
-            } catch (Exception e) {
-                throw new IllegalStateException("Bean " + getBeanClass() + " can not be instantiated. Is it a nice Bean. See Bean.niceBean(Class<T>)", e);
-            }
-        }
-        return bean;
-    }
-
-    @Override
-    public T getObject() {
-        return getTarget();
-    }
-
-    /**
-     * @return the {@link JavaBeanClass} of this {@link JavaBean}.
-     */
-    @Override
-    public JavaBeanClass<T> getBeanClass() {
-        return beanClass;
-    }
-
-    @Override
-    public void removeListener(Object listener) {
-        if (listener == null) {
-            return;
-        }
-
-        JavaBeanEvent applicableBeanEvent = getApplicableBeanEvent(listener);
-
-        if (applicableBeanEvent == null) {
-            String msg = MessageFormat.format("{0} can not handle listener {1}", getBeanClass(), listener.getClass());
-            throw new UnsupportedOperationException(msg);
-        }
-
-        applicableBeanEvent.removeListener(listener);
-    }
-
-    @Override
-    public void addListener(Object listener) {
-        if (listener == null) {
-            return;
-        }
-
-        JavaBeanEvent applicableBeanEvent = getApplicableBeanEvent(listener);
-
-        if (applicableBeanEvent == null) {
-            String msg = MessageFormat.format("{0} can not handle listener {1}", getBeanClass(), listener.getClass());
-            throw new UnsupportedOperationException(msg);
-        }
-
-        applicableBeanEvent.addListener(listener);
-    }
-
-    private JavaBeanEvent getApplicableBeanEvent(Object listener) {
-        JavaBeanClass<T> beanClass = getBeanClass();
+    protected BeanEvent getApplicableBeanEvent(Object listener) {
+        BeanClass<T> beanClass = getBeanClass();
 
         BeanEventTypes beanEventTypes = beanClass.getBeanEventTypes();
 
-        JavaBeanEvent applicableBeanEvent = null;
+        BeanEvent applicableBeanEvent = null;
         for (BeanEventType beanEvent : beanEventTypes) {
             if (beanEvent.isApplicable(listener)) {
                 applicableBeanEvent = new JavaBeanEvent(this, (JavaBeanEventType) beanEvent);

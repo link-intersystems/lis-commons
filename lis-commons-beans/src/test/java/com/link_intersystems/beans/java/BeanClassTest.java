@@ -50,7 +50,7 @@ class BeanClassTest {
     @Test
     void consistency() throws SecurityException {
         JavaPropertyDescriptors propertyDescriptors = someBeanClass.getJavaPropertyDescriptors();
-        JavaPropertyDescList someBeanProperties = someBeanClass.getProperties();
+        JavaPropertyDescList someBeanProperties = someBeanClass.getAllProperties();
 
         for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
             Method readMethod = propertyDescriptor.getReadMethod();

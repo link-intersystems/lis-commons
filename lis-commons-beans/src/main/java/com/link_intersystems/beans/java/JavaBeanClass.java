@@ -15,19 +15,20 @@
  */
 package com.link_intersystems.beans.java;
 
-import com.link_intersystems.beans.*;
+import com.link_intersystems.beans.BeanClass;
+import com.link_intersystems.beans.BeanEventTypes;
+import com.link_intersystems.beans.BeanInstantiationException;
 import com.link_intersystems.lang.reflect.SignaturePredicate;
 
 import java.beans.*;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.function.Predicate;
 
 import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.toList;
 
 /**
  * A {@link JavaBeanClass} provides features for handling common bean issues.
@@ -41,14 +42,21 @@ import static java.util.Arrays.stream;
 public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
 
     private static final long serialVersionUID = -5446272789930350423L;
+    private static final Predicate<? super JavaPropertyDesc> INDEXED_PROPERTY_FILTER = jpd -> jpd instanceof JavaIndexedPropertyDesc;
+    private static final Predicate<? super JavaPropertyDesc> NO_INDEXED_PROPERTY_FILTER = jpd -> !INDEXED_PROPERTY_FILTER.test(jpd);
 
-    private transient Map<Method, PropertyDescriptor> propertyDescriptorsByMethod;
-    private transient JavaPropertyDescriptors propertyDescriptors;
 
     private BeanInfo beanInfo;
+
+    private transient JavaPropertyDescriptors propertyDescriptors;
+
+    private transient List<JavaPropertyDesc> javaPropertyDescs;
+
+    private transient JavaPropertyDescList properties;
+    private transient JavaPropertyDescList indexedProperties;
+    private transient JavaPropertyDescList allProperties;
+
     private BeanEventTypes beanEventTypes;
-    private JavaPropertyDescList properties;
-    private List<JavaPropertyDesc> javaPropertyDescs;
 
     public JavaBeanClass(Class<T> beanType) throws IntrospectionException {
         this(beanType, null);
@@ -152,7 +160,7 @@ public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
         EventSetDescriptor[] eventSetDescriptors = beanInfo.getEventSetDescriptors();
         List<JavaBeanEventType> beanEventTypes = stream(eventSetDescriptors)
                 .map(JavaBeanEventType::new)
-                .collect(Collectors.toList());
+                .collect(toList());
         return new BeanEventTypes(beanEventTypes);
     }
 
@@ -165,16 +173,38 @@ public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
     @Override
     public JavaPropertyDescList getProperties() {
         if (this.properties == null) {
-            this.properties = new JavaPropertyDescList(getJavaPropertyDescs());
+            List<JavaPropertyDesc> javaPropertyDescs = getJavaPropertyDescs().stream()
+                    .filter(NO_INDEXED_PROPERTY_FILTER)
+                    .collect(toList());
+            this.properties = new JavaPropertyDescList(javaPropertyDescs);
         }
         return properties;
+    }
+
+    @Override
+    public JavaPropertyDescList getIndexedProperties() {
+        if (this.indexedProperties == null) {
+            List<JavaPropertyDesc> javaPropertyDescs = getJavaPropertyDescs().stream()
+                    .filter(INDEXED_PROPERTY_FILTER)
+                    .collect(toList());
+            this.indexedProperties = new JavaPropertyDescList(javaPropertyDescs);
+        }
+        return indexedProperties;
+    }
+
+    @Override
+    public JavaPropertyDescList getAllProperties() {
+        if (this.allProperties == null) {
+            this.allProperties = new JavaPropertyDescList(getJavaPropertyDescs());
+        }
+        return allProperties;
     }
 
     List<JavaPropertyDesc> getJavaPropertyDescs() {
         if (javaPropertyDescs == null) {
             javaPropertyDescs = getJavaPropertyDescriptors().stream()
                     .map(this::toPropertyDesc)
-                    .collect(Collectors.toList());
+                    .collect(toList());
         }
         return javaPropertyDescs;
     }

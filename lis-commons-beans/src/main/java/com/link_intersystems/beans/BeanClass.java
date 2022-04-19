@@ -1,8 +1,5 @@
 package com.link_intersystems.beans;
 
-import java.util.Collections;
-import java.util.stream.Stream;
-
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
@@ -22,6 +19,10 @@ public interface BeanClass<T> {
 
     PropertyDescList getProperties();
 
+    PropertyDescList getIndexedProperties();
+
+    PropertyDescList getAllProperties();
+
 
     /**
      * @return true if either a simple property or an indexed property with the
@@ -32,15 +33,13 @@ public interface BeanClass<T> {
     }
 
     default boolean hasProperty(String propertyName) {
-        Stream<? extends PropertyDesc> stream = getProperties().stream();
-        return stream.filter(p -> !(p instanceof IndexedPropertyDesc))
+        return getProperties().stream()
                 .map(PropertyDesc::getName)
                 .anyMatch(propertyName::equals);
     }
 
     default boolean hasIndexedProperty(String propertyName) {
-        Stream<? extends PropertyDesc> stream = getProperties().stream();
-        return stream.filter(IndexedPropertyDesc.class::isInstance)
+        return getIndexedProperties().stream()
                 .map(PropertyDesc::getName)
                 .anyMatch(propertyName::equals);
     }

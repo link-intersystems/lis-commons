@@ -15,10 +15,8 @@ public class PropertyList extends AbstractList<Property> {
     private List<? extends Property> properties;
 
     private Map<String, Property> propertyMap = new HashMap<>();
-    private Map<String, IndexedProperty> indexedPropertyMap = new HashMap<>();
 
     private Map<PropertyDesc, Property> propertyByDesc = new HashMap<>();
-    private Map<PropertyDesc, IndexedProperty> indexedPropertyByDesc = new HashMap<>();
 
 
     public PropertyList(List<? extends Property> properties) {
@@ -26,49 +24,18 @@ public class PropertyList extends AbstractList<Property> {
 
         properties.forEach(property -> {
             String name = property.getPropertyDesc().getName();
-            if (property instanceof IndexedProperty) {
-                IndexedProperty indexedProperty = (IndexedProperty) property;
-                indexedPropertyMap.put(name, indexedProperty);
-                indexedPropertyByDesc.put(property.getPropertyDesc(), indexedProperty);
-            } else {
-                propertyMap.put(name, property);
-                propertyByDesc.put(property.getPropertyDesc(), property);
-            }
+            propertyMap.put(name, property);
+            propertyByDesc.put(property.getPropertyDesc(), property);
         });
     }
 
-    public Property getAnyProperty(String propertyName) {
-        Property property = getProperty(propertyName);
-        if (property == null) {
-            return getIndexedProperty(propertyName);
-        }
-        return property;
-    }
-
-    public Property getAnyProperty(PropertyDesc propertyDesc) {
-        Property property = getProperty(propertyDesc);
-        if (property == null) {
-            return getIndexedProperty(propertyDesc);
-        }
-        return property;
-    }
-
-    public Property getProperty(String propertyName) {
+    public Property getByName(String propertyName) {
         return propertyMap.get(propertyName);
     }
 
-    public Property getProperty(PropertyDesc propertyDesc) {
+    public Property getByDesc(PropertyDesc propertyDesc) {
         return propertyByDesc.get(propertyDesc);
     }
-
-    public Property getIndexedProperty(String propertyName) {
-        return indexedPropertyMap.get(propertyName);
-    }
-
-    public Property getIndexedProperty(PropertyDesc propertyDesc) {
-        return indexedPropertyByDesc.get(propertyDesc);
-    }
-
 
     @Override
     public Property get(int index) {
