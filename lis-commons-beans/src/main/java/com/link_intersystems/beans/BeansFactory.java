@@ -65,6 +65,6 @@ public abstract class BeansFactory {
     @SuppressWarnings("unchecked")
     public <T> Bean<T> createBean(T bean, Class<?> stopClass) throws BeanClassException {
         BeanClass<T> beanClass = (BeanClass<T>) createBeanClass(bean.getClass(), stopClass);
-        return beanClass.getBean(bean);
+        return beanClass.getBeanFromInstance(bean);
     }
 }

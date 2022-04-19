@@ -26,7 +26,7 @@ class BeanMapDecoratorTest {
         container.add(label);
 
         container.setBackground(Color.BLUE);
-        JavaBean<Container> containerJavaBean = new JavaBeanClass<>(Container.class).getBean(container);
+        JavaBean<Container> containerJavaBean = new JavaBeanClass<>(Container.class).getBeanFromInstance(container);
         beanMapDecorator = new BeanMapDecorator(containerJavaBean);
     }
 

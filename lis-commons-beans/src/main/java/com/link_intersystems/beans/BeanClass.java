@@ -9,13 +9,20 @@ public interface BeanClass<T> {
 
     Class<T> getType();
 
+    /**
+     * Creates a new {@link Bean} of this class that has
+     * a new bean instance that can be retrieved by {@link Bean#getObject()}.
+     */
     Bean<T> newBeanInstance() throws BeanInstantiationException;
 
     default T newInstance() throws BeanInstantiationException {
         return newBeanInstance().getObject();
     }
 
-    Bean<T> getBean(T bean);
+    /**
+     * Returns a {@link Bean} based on the given bean instance.
+     */
+    Bean<T> getBeanFromInstance(T bean);
 
     PropertyDescList getProperties();
 
@@ -45,7 +52,9 @@ public interface BeanClass<T> {
     }
 
 
-    BeanEventTypeList getBeanEventTypes();
+    default BeanEventTypeList getBeanEventTypes() {
+        return BeanEventTypeList.EMPTY;
+    }
 
     default boolean isListenerSupported(Class<?> listenerClass) {
         return getBeanEventTypes()

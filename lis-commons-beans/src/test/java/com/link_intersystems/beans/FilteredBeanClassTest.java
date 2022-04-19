@@ -53,25 +53,25 @@ class FilteredBeanClassTest {
 
     @Test
     void getBeanProperties() {
-        assertEquals(1, filteredBeanClass.getBean(someBeanFixture.someBean).getProperties().size());
+        assertEquals(1, filteredBeanClass.getBeanFromInstance(someBeanFixture.someBean).getProperties().size());
     }
 
 
     @Test
     void getBeanBeanClass() {
-        assertEquals(filteredBeanClass, filteredBeanClass.getBean(someBeanFixture.someBean).getBeanClass());
+        assertEquals(filteredBeanClass, filteredBeanClass.getBeanFromInstance(someBeanFixture.someBean).getBeanClass());
     }
 
     @Test
     void getBeanObject() {
-        assertEquals(someBeanFixture.someBean, filteredBeanClass.getBean(someBeanFixture.someBean).getObject());
+        assertEquals(someBeanFixture.someBean, filteredBeanClass.getBeanFromInstance(someBeanFixture.someBean).getObject());
     }
 
     @Test
     void beanAddListener() {
         PropertyChangeListener pcl = Mockito.mock(PropertyChangeListener.class);
 
-        filteredBeanClass.getBean(someBeanFixture.someBean).addListener(pcl);
+        filteredBeanClass.getBeanFromInstance(someBeanFixture.someBean).addListener(pcl);
 
         someBeanFixture.someBean.setStringProperty("TEST");
 
@@ -90,7 +90,7 @@ class FilteredBeanClassTest {
     void beanRemoveListener() {
         PropertyChangeListener pcl = Mockito.mock(PropertyChangeListener.class);
 
-        Bean<SomeBean> bean = filteredBeanClass.getBean(someBeanFixture.someBean);
+        Bean<SomeBean> bean = filteredBeanClass.getBeanFromInstance(someBeanFixture.someBean);
 
         bean.addListener(pcl);
         bean.removeListener(pcl);

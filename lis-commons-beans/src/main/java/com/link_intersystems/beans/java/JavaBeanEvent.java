@@ -41,11 +41,6 @@ public class JavaBeanEvent implements BeanEvent {
     }
 
     @Override
-    public boolean isApplicable(Object listener) {
-        return javaBeanEventType.isApplicable(listener);
-    }
-
-    @Override
     public void addListener(Object listener) {
         if (addListenerInvokable == null) {
             String msg = MessageFormat.format("{0} has no add method", javaBeanEventType);

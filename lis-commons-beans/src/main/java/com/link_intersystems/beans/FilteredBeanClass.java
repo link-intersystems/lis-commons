@@ -11,9 +11,9 @@ import static java.util.stream.Collectors.toList;
 public class FilteredBeanClass<T> implements BeanClass<T> {
 
     private BeanClass<T> beanClass;
-    private PropertyFilter propertyFilter;
+    private PropertyDescFilter propertyFilter;
 
-    public FilteredBeanClass(BeanClass<T> beanClass, PropertyFilter propertyFilter) {
+    public FilteredBeanClass(BeanClass<T> beanClass, PropertyDescFilter propertyFilter) {
         this.beanClass = requireNonNull(beanClass);
         this.propertyFilter = requireNonNull(propertyFilter);
     }
@@ -35,8 +35,8 @@ public class FilteredBeanClass<T> implements BeanClass<T> {
     }
 
     @Override
-    public Bean<T> getBean(T bean) {
-        Bean<T> beanObj = beanClass.getBean(bean);
+    public Bean<T> getBeanFromInstance(T bean) {
+        Bean<T> beanObj = beanClass.getBeanFromInstance(bean);
         return new FilteredBean<>(this, beanObj, propertyFilter);
     }
 
@@ -82,9 +82,9 @@ public class FilteredBeanClass<T> implements BeanClass<T> {
 
         private final BeanClass<T> beanClass;
         private final Bean<T> bean;
-        private final PropertyFilter propertyFilter;
+        private final PropertyDescFilter propertyFilter;
 
-        public FilteredBean(BeanClass<T> beanClass, Bean<T> bean, PropertyFilter propertyFilter) {
+        public FilteredBean(BeanClass<T> beanClass, Bean<T> bean, PropertyDescFilter propertyFilter) {
             super(beanClass, bean.getObject());
             this.beanClass = beanClass;
             this.bean = bean;

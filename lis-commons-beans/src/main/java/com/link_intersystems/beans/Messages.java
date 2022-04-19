@@ -31,7 +31,7 @@ import java.util.ResourceBundle;
  * intersystems.com]</a>
  * @since 1.2.0;
  */
-public abstract class Messages {
+abstract class Messages {
 
     static ResourceBundle get() {
         String baseName = Messages.class.getPackage().getName() + ".messages";

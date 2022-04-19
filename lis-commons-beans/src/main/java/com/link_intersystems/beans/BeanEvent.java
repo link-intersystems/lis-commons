@@ -10,12 +10,6 @@ public interface BeanEvent {
     BeanEventType getType();
 
     /**
-     * Returns true if the given listener is applicable for this {@link BeanEvent},
-     * which means that it can be added or removed.
-     */
-    boolean isApplicable(Object listener);
-
-    /**
      * Adds the given listener to this {@link BeanEvent} if the {@link Bean}, which provided this {@link BeanEvent},
      * has an add method for the given listener's type. Otherwise it throws an {@link UnsupportedOperationException}.
      *

@@ -1,9 +1,6 @@
 package com.link_intersystems.beans;
 
-import java.util.AbstractList;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toMap;
@@ -12,6 +9,8 @@ import static java.util.stream.Collectors.toMap;
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
 public class BeanEventTypeList extends AbstractList<BeanEventType> {
+
+    public static final BeanEventTypeList EMPTY = new BeanEventTypeList(Collections.emptyList());
 
     private List<BeanEventType> beanEventTypes = new ArrayList<>();
     private Map<String, BeanEventType> byName;

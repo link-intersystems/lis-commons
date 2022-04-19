@@ -132,7 +132,7 @@ public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
         try {
             Constructor<T> defaultConstructor = beanClass.getDeclaredConstructor();
             T newBeanObj = defaultConstructor.newInstance();
-            return getBean(newBeanObj);
+            return getBeanFromInstance(newBeanObj);
         } catch (Exception e) {
             String msg = "Bean " +
                     getType().getCanonicalName() +
@@ -144,7 +144,7 @@ public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
     }
 
     @Override
-    public JavaBean<T> getBean(T bean) {
+    public JavaBean<T> getBeanFromInstance(T bean) {
         return new JavaBean<>(this, bean);
     }
 
