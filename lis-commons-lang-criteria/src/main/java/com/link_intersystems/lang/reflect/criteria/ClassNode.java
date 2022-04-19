@@ -20,8 +20,7 @@ class ClassNode implements Node {
 
     private Class<?> clazz;
     private ClassType[] classTypes;
-    private Comparator<Class<?>> interfacesComparator;
-    private Comparator<Class<?>> innerClassesComparator;
+    private Map<ClassType, Comparator<Class<?>>> classesComparators = new HashMap<>();
 
     /**
      * Constructs a {@link ClassNode} that returns it's referenced classes
@@ -53,77 +52,44 @@ class ClassNode implements Node {
         for (int i = 0; i < classTypes.length; i++) {
             ClassType classType = classTypes[i];
             remainingTypes.remove(classType);
-            switch (classType) {
-                case INNER_CLASSES:
-                    Class<?>[] classes = clazz.getClasses();
-                    if (innerClassesComparator != null) {
-                        Arrays.sort(classes, innerClassesComparator);
-                    }
-                    Collection<Node> innerClassNodes = toNodes(classes);
-                    subNodes.addAll(innerClassNodes);
-                    break;
-                case INTERFACES:
-                    Class<?>[] interfaces = clazz.getInterfaces();
-                    if (interfacesComparator != null) {
-                        Arrays.sort(interfaces, interfacesComparator);
-                    }
-                    Collection<Node> interfaceNodes = toNodes(interfaces);
-                    subNodes.addAll(interfaceNodes);
-                    break;
-                case CLASSES:
-                    Class<?> superclass = clazz.getSuperclass();
-                    if (superclass == null) {
-                        continue;
-                    }
-                    ClassNode superclassNode = newClassNode(superclass);
-                    subNodes.add(superclassNode);
-                    break;
-            }
+
+            Collection<Node> innerClassNodes = getClassNodes(classType);
+            subNodes.addAll(innerClassNodes);
         }
 
         for (ClassType classType : remainingTypes) {
-            switch (classType) {
-                case INNER_CLASSES:
-                    Class<?>[] classes = clazz.getClasses();
-                    if (innerClassesComparator != null) {
-                        Arrays.sort(classes, innerClassesComparator);
-                    }
-                    Collection<Node> innerClassNodes = toNodes(classes);
-                    subNodes.addAll(innerClassNodes);
-                    break;
-                case INTERFACES:
-                    Class<?>[] interfaces = clazz.getInterfaces();
-                    if (interfacesComparator != null) {
-                        Arrays.sort(interfaces, interfacesComparator);
-                    }
-                    Collection<Node> interfaceNodes = toNodes(interfaces);
-                    subNodes.addAll(interfaceNodes);
-                    break;
-                case CLASSES:
-                    Class<?> superclass = clazz.getSuperclass();
-                    if (superclass == null) {
-                        continue;
-                    }
-                    ClassNode superclassNode = newClassNode(superclass);
-                    subNodes.add(superclassNode);
-                    break;
-            }
+            Collection<Node> innerClassNodes = getClassNodes(classType);
+            subNodes.addAll(innerClassNodes);
         }
 
         return subNodes;
     }
 
+    private Collection<Node> getClassNodes(ClassType classType) {
+        Class<?>[] classes = classType.getClasses(clazz);
+        Comparator<Class<?>> classComparator = classesComparators.get(classType);
+        if (classComparator != null) {
+            Arrays.sort(classes, classComparator);
+        }
+        Collection<Node> innerClassNodes = toNodes(classes);
+        return innerClassNodes;
+    }
+
     public void setInterfacesOrder(Comparator<Class<?>> interfacesComparator) {
-        this.interfacesComparator = interfacesComparator;
+        this.classesComparators.put(ClassType.INTERFACES, interfacesComparator);
     }
 
     public void setInnerClassesOrder(Comparator<Class<?>> innerClassesComparator) {
-        this.innerClassesComparator = innerClassesComparator;
+        this.classesComparators.put(ClassType.INNER_CLASSES, innerClassesComparator);
     }
 
     private ClassNode newClassNode(Class<?> clazz) {
         ClassNode classNode = new ClassNode(clazz, classTypes);
+
+        Comparator<Class<?>> interfacesComparator = classesComparators.get(ClassType.INTERFACES);
         classNode.setInterfacesOrder(interfacesComparator);
+
+        Comparator<Class<?>> innerClassesComparator = classesComparators.get(ClassType.INNER_CLASSES);
         classNode.setInnerClassesOrder(innerClassesComparator);
         return classNode;
     }

@@ -16,19 +16,18 @@
 package com.link_intersystems.lang.ref;
 
 import com.link_intersystems.util.Serialization;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
 
-import static junit.framework.Assert.assertNull;
-
-class NullReferenceTest  {
+class NullReferenceTest {
 
     @Test
     void isNull() {
         SerializableReference<Object> instance = NullReference.getInstance();
         Object object = instance.get();
-        assertNull(object);
+        Assertions.assertNull(object);
     }
 
     @Test
@@ -37,15 +36,15 @@ class NullReferenceTest  {
         SerializableReference<Object> clone = Serialization
                 .clone(instance);
         Object object = clone.get();
-        assertNull(object);
+        Assertions.assertNull(object);
     }
 
     @Test
     void serializationMethods() {
         NullReference<Object> nullReference = new NullReference<Object>();
         Serializable serialize = nullReference.serialize(null);
-        assertNull(serialize);
+        Assertions.assertNull(serialize);
         Object deserialize = nullReference.deserialize(serialize);
-        assertNull(deserialize);
+        Assertions.assertNull(deserialize);
     }
 }

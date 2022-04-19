@@ -20,7 +20,6 @@ public class DepthFirstTreeModelIterable<T> extends AbstractTreeModelIterable<T>
         stack.push(rootElement);
 
         return new Iterator<T>() {
-            private T current;
 
             @Override
             public boolean hasNext() {
@@ -33,7 +32,7 @@ public class DepthFirstTreeModelIterable<T> extends AbstractTreeModelIterable<T>
                     throw new NoSuchElementException();
                 }
 
-                current = stack.pop();
+                T current = stack.pop();
 
                 Stream<? extends T> children = treeModel.getChildren(current);
                 int headIndex = stack.size();

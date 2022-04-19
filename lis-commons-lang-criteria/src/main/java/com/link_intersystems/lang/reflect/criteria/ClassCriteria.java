@@ -45,44 +45,18 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
      *
      */
     private static final long serialVersionUID = -5205145459979909916L;
+    private ClassType[] classTypes = new ClassType[]{ClassType.CLASSES, ClassType.INTERFACES};
+    private boolean traverseClassesUniquely;
+    private Class<?> stopClass;
+    private Comparator<Class<?>> interfacesComparator = ReflectFacade.getCanonicalClassNameComparator();
+    private TraverseStrategy traverseStrategy = TraverseStrategy.DEPTH_FIRST;
+    private boolean separatedClassTypeTraversal = true;
+    private Comparator<Class<?>> innerClassesComparator = ReflectFacade.getCanonicalClassNameComparator();
 
     public List<Class<?>> getResult(Class<?> startAt) {
         Iterable<Class<?>> iterable = getIterable(startAt);
         return StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList());
     }
-
-    public enum ClassType implements Predicate<Class<?>> {
-        CLASSES() {
-            @Override
-            public boolean test(Class<?> clazz) {
-                return !clazz.isInterface() && clazz.getEnclosingClass() == null;
-            }
-        }, INTERFACES() {
-            @Override
-            public boolean test(Class<?> clazz) {
-                return clazz.isInterface();
-            }
-        }, INNER_CLASSES() {
-            @Override
-            public boolean test(Class<?> clazz) {
-                return clazz.getEnclosingClass() != null;
-            }
-        };
-    }
-
-    private ClassType[] classTypes = new ClassType[]{ClassType.CLASSES, ClassType.INTERFACES};
-
-    private boolean traverseClassesUniquely;
-
-    private Class<?> stopClass;
-
-    private Comparator<Class<?>> interfacesComparator = ReflectFacade.getCanonicalClassNameComparator();
-
-    private TraverseStrategy traverseStrategy = TraverseStrategy.DEPTH_FIRST;
-
-    private boolean separatedClassTypeTraversal = true;
-
-    private Comparator<Class<?>> innerClassesComparator = ReflectFacade.getCanonicalClassNameComparator();
 
     /**
      * Set the class hierarchy traverse strategy (
@@ -279,17 +253,6 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
         return getIterable(startAt, stopClass);
     }
 
-    public enum TraverseStrategy {
-        /**
-         *
-         */
-        DEPTH_FIRST,
-        /**
-         *
-         */
-        BREADTH_FIRST
-    }
-
     /**
      * @param startAt
      * @param stopAt
@@ -337,7 +300,7 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
 
                 }
                 Iterator<Node> classNodeIterator = null;
-                Iterator classesIterator = null;
+                Iterator classesIterator;
                 if (separatedClassTypeTraversal) {
                     NodeIterateStrategy nodeIterateStrategy = NodeIterateStrategy.valueOf(traverseStrategy.name());
                     Predicate[] nodeIteratePredicates = new Predicate[classTypes.length];
@@ -381,7 +344,6 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
         return new StartAtIterable(startAt, getObjectFactory());
     }
 
-    @SuppressWarnings("unchecked")
     protected Iterator<Class<?>> applyTraverseClassesUniquely(Iterator<Class<?>> iterator) {
         if (isTraverseClassesUniquelyEnabled()) {
             Set<Class<?>> uniqueClasses = new HashSet<>();
@@ -405,6 +367,58 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
 
     public ObjectFactory<ClassCriteria> getObjectFactory() {
         return new SerializableTemplateObjectFactory<>(this);
+    }
+
+    public enum ClassType implements Predicate<Class<?>> {
+        CLASSES() {
+            @Override
+            Class<?>[] getClasses(Class<?> clazz) {
+                Class<?> superclass = clazz.getSuperclass();
+                if (superclass == null) {
+                    return new Class<?>[0];
+                }
+                return new Class[]{superclass};
+            }
+
+            @Override
+            public boolean test(Class<?> clazz) {
+                return !clazz.isInterface() && clazz.getEnclosingClass() == null;
+            }
+        }, INTERFACES() {
+            @Override
+            Class<?>[] getClasses(Class<?> clazz) {
+                return clazz.getInterfaces();
+            }
+
+            @Override
+            public boolean test(Class<?> clazz) {
+                return clazz.isInterface();
+            }
+        }, INNER_CLASSES() {
+            @Override
+            Class<?>[] getClasses(Class<?> clazz) {
+                return clazz.getClasses();
+            }
+
+            @Override
+            public boolean test(Class<?> clazz) {
+                return clazz.getEnclosingClass() != null;
+            }
+        };
+
+
+        abstract Class<?>[] getClasses(Class<?> clazz);
+    }
+
+    public enum TraverseStrategy {
+        /**
+         *
+         */
+        DEPTH_FIRST,
+        /**
+         *
+         */
+        BREADTH_FIRST
     }
 
 }

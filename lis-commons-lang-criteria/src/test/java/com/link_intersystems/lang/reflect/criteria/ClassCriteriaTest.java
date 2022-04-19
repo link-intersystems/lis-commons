@@ -422,7 +422,6 @@ class ClassCriteriaTest extends ElementCriteriaTest {
         assertFalse(iterator.hasNext());
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     void allInterfaces() {
         classCriteria.setTraverseStrategy(TraverseStrategy.DEPTH_FIRST);
@@ -441,7 +440,6 @@ class ClassCriteriaTest extends ElementCriteriaTest {
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     void interfacesComparator() {
         classCriteria.setTraverseStrategy(TraverseStrategy.DEPTH_FIRST);
@@ -462,7 +460,6 @@ class ClassCriteriaTest extends ElementCriteriaTest {
 
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     void visitOnceFilter() {
         classCriteria.setTraverseStrategy(TraverseStrategy.DEPTH_FIRST);
@@ -483,7 +480,6 @@ class ClassCriteriaTest extends ElementCriteriaTest {
         assertTrue(expectedInterfaces.isEmpty(), "Iterator does not iterator over the interfaces " + expectedInterfaces);
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     void visitAllFilter() {
         classCriteria.setTraverseStrategy(TraverseStrategy.DEPTH_FIRST);

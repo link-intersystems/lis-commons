@@ -32,13 +32,10 @@ class Member2ApplicabilityTest  {
 
     private Method genericMethod;
     private Method2 genericMethod2;
-    private Method noVarargMethod;
     private Method2 noVarargMethod2;
-    private Method varargMethod;
     private Method2 varargMethod2;
     private Method anotherGenericMethod;
     private Method2 anotherGenericMethod2;
-    private Method stringMethod;
     private Method2 stringMethod2;
 
     @BeforeEach
@@ -57,13 +54,13 @@ class Member2ApplicabilityTest  {
         genericMethod2 = new Method2(genericMethod);
         anotherGenericMethod2 = new Method2(anotherGenericMethod);
 
-        noVarargMethod = VarargsMethod.class.getDeclaredMethod("method", int.class, int.class, int.class);
+        Method noVarargMethod = VarargsMethod.class.getDeclaredMethod("method", int.class, int.class, int.class);
         noVarargMethod2 = new Method2(noVarargMethod);
 
-        stringMethod = VarargsMethod.class.getDeclaredMethod("string", String.class, String[].class);
+        Method stringMethod = VarargsMethod.class.getDeclaredMethod("string", String.class, String[].class);
         stringMethod2 = new Method2(stringMethod);
 
-        varargMethod = VarargsMethod.class.getDeclaredMethod("method", int.class, int.class, int[].class);
+        Method varargMethod = VarargsMethod.class.getDeclaredMethod("method", int.class, int.class, int[].class);
         varargMethod2 = new Method2(varargMethod);
         boolean varArgs = varargMethod2.isVarArgs();
         assertTrue(varArgs);

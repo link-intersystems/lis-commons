@@ -15,14 +15,12 @@
  */
 package com.link_intersystems.lang.reflect;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-
-class FieldTypeTransformerTest  {
+class FieldTypeTransformerTest {
 
     /*
      * only for test
@@ -35,8 +33,8 @@ class FieldTypeTransformerTest  {
         Field declaredField = FieldTypeTransformerTest.class
                 .getDeclaredField("fieldTypeTransformerTest");
         Object transform = field2TypeTransformer.apply(declaredField);
-        assertNotNull(transform);
-        assertEquals(FieldTypeTransformerTest.class, transform);
+        Assertions.assertNotNull(transform);
+        Assertions.assertEquals(FieldTypeTransformerTest.class, transform);
     }
 
 }

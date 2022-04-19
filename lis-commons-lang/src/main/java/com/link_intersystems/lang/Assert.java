@@ -97,7 +97,7 @@ public abstract class Assert {
     public static void greater(String name, int greaterThan, int value) {
         if (not(value > greaterThan)) {
             String formatted = String.format("%s must be greater than %s",
-                    name, Integer.toString(greaterThan));
+                    name, greaterThan);
             throw new IllegalArgumentException(formatted);
         }
     }
@@ -125,7 +125,7 @@ public abstract class Assert {
         if (not(value >= greaterOrEqual)) {
             String formatted = String.format(
                     "%s must be greater than or equal to %s", name,
-                    Integer.toString(greaterOrEqual));
+                    greaterOrEqual);
             throw new IllegalArgumentException(formatted);
         }
     }
@@ -147,7 +147,7 @@ public abstract class Assert {
         if (not(value >= greaterOrEqual)) {
             String formatted = String.format(
                     "%s must be greater than or equal to %s", name,
-                    Double.toString(greaterOrEqual));
+                    greaterOrEqual);
             throw new IllegalArgumentException(formatted);
         }
     }
@@ -167,7 +167,7 @@ public abstract class Assert {
     public static void lower(String name, int lowerThan, int value) {
         if (not(value < lowerThan)) {
             String formatted = String.format("%s must be lower than %s", name,
-                    Integer.toString(lowerThan));
+                    lowerThan);
             throw new IllegalArgumentException(formatted);
         }
     }
@@ -188,7 +188,7 @@ public abstract class Assert {
         if (not(value <= lowerOrEqual)) {
             String formatted = String.format(
                     "%s must be lower than or equal to %s", name,
-                    Integer.toString(lowerOrEqual));
+                    lowerOrEqual);
             throw new IllegalArgumentException(formatted);
         }
     }

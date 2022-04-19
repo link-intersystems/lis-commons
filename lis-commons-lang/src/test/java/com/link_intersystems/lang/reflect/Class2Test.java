@@ -29,18 +29,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class Class2Test  {
 
-    private List<String> allContainerProperties;
-
-    @SuppressWarnings("unused")
-    private List<String> containerOnlyProperties;
-
-    private ArrayList<String> allPanelProperties;
-
     @BeforeEach
     public void instantiate() {
-        allContainerProperties = new ArrayList<String>(Arrays.asList("alignmentY", "component", "focusTraversalPolicyProvider", "layout", "containerListeners", "insets", "preferredSize", "minimumSize", "focusCycleRoot", "maximumSize", "foreground", "focusTraversalPolicy", "componentCount", "font", "components", "focusable", "enabled", "focusTraversalPolicySet", "visible", "background", "alignmentX", "name", "focusTraversalKeys"));
-        containerOnlyProperties = new ArrayList<String>(Arrays.asList("alignmentY", "component", "focusTraversalPolicyProvider", "layout", "containerListeners", "insets", "preferredSize", "minimumSize", "focusCycleRoot", "maximumSize", "foreground", "focusTraversalPolicy", "componentCount", "font", "components", "focusable", "enabled", "focusTraversalPolicySet", "visible", "background", "alignmentX", "name", "focusTraversalKeys"));
-        allPanelProperties = new ArrayList<String>(Arrays.asList("accessibleContext"));
+        List<String> allContainerProperties = new ArrayList<>(Arrays.asList("alignmentY", "component", "focusTraversalPolicyProvider", "layout", "containerListeners", "insets", "preferredSize", "minimumSize", "focusCycleRoot", "maximumSize", "foreground", "focusTraversalPolicy", "componentCount", "font", "components", "focusable", "enabled", "focusTraversalPolicySet", "visible", "background", "alignmentX", "name", "focusTraversalKeys"));
+        ArrayList<String> allPanelProperties = new ArrayList<>(Arrays.asList("accessibleContext"));
         allPanelProperties.addAll(allContainerProperties);
     }
 

@@ -88,12 +88,11 @@ import static java.util.Objects.requireNonNull;
  */
 public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
 
+    public static final List<Class<?>> DEFAULT_MEMBER_TYPES;
     /**
      *
      */
     private static final long serialVersionUID = 4870605392298539751L;
-
-    public static final List<Class<?>> DEFAULT_MEMBER_TYPES;
 
     static {
         List<Class<?>> defaultMemberTypes = new ArrayList<>();
@@ -108,6 +107,13 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
     private int modifiers = 0;
 
     private Pattern pattern;
+    /**
+     * A non empty collection of {@link AccessType}s that this criteria should
+     * match with.
+     */
+    private Collection<AccessType> accesses = Arrays.asList(AccessType.values());
+    private String name;
+    private Comparator<Member> iterateOrderComparator = ReflectFacade.getMemberNameComparator();
 
     public MemberCriteria() {
 
@@ -117,91 +123,6 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
         MemberCriteria<Member> memberCriteria = new MemberCriteria<>();
         memberCriteria.membersOfType(memberTypes);
         return memberCriteria;
-    }
-
-    /**
-     * A non empty collection of {@link AccessType}s that this criteria should
-     * match with.
-     */
-    private Collection<AccessType> accesses = Arrays.asList(AccessType.values());
-
-    private String name;
-    private Comparator<Member> iterateOrderComparator = ReflectFacade.getMemberNameComparator();
-
-    /**
-     * The {@link IterateStrategy} determines in which order
-     * {@link AnnotatedElement}s are iterated when using an {@link Iterable} of
-     * {@link AnnotatedElement}s.
-     *
-     * @author René Link
-     * <a href="mailto:rene.link@link-intersystems.com">[rene.link@link-
-     * intersystems.com]</a>
-     * @since 1.0.0;
-     */
-    public enum IterateStrategy {
-        /**
-         * Iterate only elements that are {@link Member}s.
-         *
-         * @since 1.0.0;
-         */
-        MEMBERS_ONLY(JavaElementTraverseStrategies.MEMBER_TRAVERSE_STRATEGY),
-
-        /**
-         * Iterate only elements that are {@link Class}es.
-         *
-         * @since 1.0.0;
-         */
-        CLASSES_ONLY(JavaElementTraverseStrategies.CURRENT_CLASS_TRAVERSE_STRATEGY),
-        /**
-         * Iterate only elements that are {@link Package}s.
-         *
-         * @since 1.0.0;
-         */
-        PACKAGES_ONLY(JavaElementTraverseStrategies.PACKAGE_TRAVERSE_STRATEGY),
-
-        /**
-         * Iterate elements that are {@link Class}es or {@link Member}s in that
-         * order.
-         *
-         * @since 1.0.0;
-         */
-        CLASS_MEMBERS(JavaElementTraverseStrategies.CURRENT_CLASS_TRAVERSE_STRATEGY, JavaElementTraverseStrategies.MEMBER_TRAVERSE_STRATEGY),
-        /**
-         * Iterate elements that are {@link Member}s or {@link Class}es in that
-         * order.
-         *
-         * @since 1.0.0;
-         */
-        MEMBERS_CLASS(JavaElementTraverseStrategies.MEMBER_TRAVERSE_STRATEGY, JavaElementTraverseStrategies.CURRENT_CLASS_TRAVERSE_STRATEGY),
-        /**
-         * Iterate elements that are {@link Package}s, {@link Class}es or
-         * {@link Member}s in that order.
-         *
-         * @since 1.0.0;
-         */
-        PACKAGE_CLASS_MEMBERS(JavaElementTraverseStrategies.PACKAGE_TRAVERSE_STRATEGY, JavaElementTraverseStrategies.CURRENT_CLASS_TRAVERSE_STRATEGY, JavaElementTraverseStrategies.MEMBER_TRAVERSE_STRATEGY),
-        /**
-         * Iterate elements that are {@link Member}s, {@link Class}es or
-         * {@link Package}s in that order.
-         *
-         * @since 1.0.0;
-         */
-        MEMBERS_CLASS_PACKAGE(JavaElementTraverseStrategies.MEMBER_TRAVERSE_STRATEGY, JavaElementTraverseStrategies.CURRENT_CLASS_TRAVERSE_STRATEGY, JavaElementTraverseStrategies.PACKAGE_TRAVERSE_STRATEGY);
-
-        private final JavaElementTraverseStrategy javaElementTraverseStrategy;
-
-        IterateStrategy(JavaElementTraverseStrategy... javaElementTraverseStrategies) {
-            if (javaElementTraverseStrategies.length == 1) {
-                this.javaElementTraverseStrategy = javaElementTraverseStrategies[0];
-            } else {
-                this.javaElementTraverseStrategy = new CompositeJavaElementTraverseStrategy(javaElementTraverseStrategies);
-            }
-        }
-
-        private JavaElementTraverseStrategy getJavaElementTraverseStrategy() {
-            return javaElementTraverseStrategy;
-        }
-
     }
 
     /**
@@ -470,6 +391,90 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
         return memberTypes;
     }
 
+    /**
+     * @return an object factory that uses this {@link MemberCriteria} as a
+     * template to create a new {@link MemberCriteria}.
+     */
+    public ObjectFactory<MemberCriteria<Member>> getObjectFactory() {
+        return new SerializableTemplateObjectFactory(this);
+    }
+
+    /**
+     * The {@link IterateStrategy} determines in which order
+     * {@link AnnotatedElement}s are iterated when using an {@link Iterable} of
+     * {@link AnnotatedElement}s.
+     *
+     * @author René Link
+     * <a href="mailto:rene.link@link-intersystems.com">[rene.link@link-
+     * intersystems.com]</a>
+     * @since 1.0.0;
+     */
+    public enum IterateStrategy {
+        /**
+         * Iterate only elements that are {@link Member}s.
+         *
+         * @since 1.0.0;
+         */
+        MEMBERS_ONLY(JavaElementTraverseStrategies.MEMBER_TRAVERSE_STRATEGY),
+
+        /**
+         * Iterate only elements that are {@link Class}es.
+         *
+         * @since 1.0.0;
+         */
+        CLASSES_ONLY(JavaElementTraverseStrategies.CURRENT_CLASS_TRAVERSE_STRATEGY),
+        /**
+         * Iterate only elements that are {@link Package}s.
+         *
+         * @since 1.0.0;
+         */
+        PACKAGES_ONLY(JavaElementTraverseStrategies.PACKAGE_TRAVERSE_STRATEGY),
+
+        /**
+         * Iterate elements that are {@link Class}es or {@link Member}s in that
+         * order.
+         *
+         * @since 1.0.0;
+         */
+        CLASS_MEMBERS(JavaElementTraverseStrategies.CURRENT_CLASS_TRAVERSE_STRATEGY, JavaElementTraverseStrategies.MEMBER_TRAVERSE_STRATEGY),
+        /**
+         * Iterate elements that are {@link Member}s or {@link Class}es in that
+         * order.
+         *
+         * @since 1.0.0;
+         */
+        MEMBERS_CLASS(JavaElementTraverseStrategies.MEMBER_TRAVERSE_STRATEGY, JavaElementTraverseStrategies.CURRENT_CLASS_TRAVERSE_STRATEGY),
+        /**
+         * Iterate elements that are {@link Package}s, {@link Class}es or
+         * {@link Member}s in that order.
+         *
+         * @since 1.0.0;
+         */
+        PACKAGE_CLASS_MEMBERS(JavaElementTraverseStrategies.PACKAGE_TRAVERSE_STRATEGY, JavaElementTraverseStrategies.CURRENT_CLASS_TRAVERSE_STRATEGY, JavaElementTraverseStrategies.MEMBER_TRAVERSE_STRATEGY),
+        /**
+         * Iterate elements that are {@link Member}s, {@link Class}es or
+         * {@link Package}s in that order.
+         *
+         * @since 1.0.0;
+         */
+        MEMBERS_CLASS_PACKAGE(JavaElementTraverseStrategies.MEMBER_TRAVERSE_STRATEGY, JavaElementTraverseStrategies.CURRENT_CLASS_TRAVERSE_STRATEGY, JavaElementTraverseStrategies.PACKAGE_TRAVERSE_STRATEGY);
+
+        private final JavaElementTraverseStrategy javaElementTraverseStrategy;
+
+        IterateStrategy(JavaElementTraverseStrategy... javaElementTraverseStrategies) {
+            if (javaElementTraverseStrategies.length == 1) {
+                this.javaElementTraverseStrategy = javaElementTraverseStrategies[0];
+            } else {
+                this.javaElementTraverseStrategy = new CompositeJavaElementTraverseStrategy(javaElementTraverseStrategies);
+            }
+        }
+
+        private JavaElementTraverseStrategy getJavaElementTraverseStrategy() {
+            return javaElementTraverseStrategy;
+        }
+
+    }
+
     private abstract static class AbstractCriteriaTransformer<I, O> implements Function<I, O> {
 
         private final MemberCriteria<Member> memberCriteria;
@@ -592,13 +597,5 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
                 return input;
             }
         }
-    }
-
-    /**
-     * @return an object factory that uses this {@link MemberCriteria} as a
-     * template to create a new {@link MemberCriteria}.
-     */
-    public ObjectFactory<MemberCriteria<Member>> getObjectFactory() {
-        return new SerializableTemplateObjectFactory(this);
     }
 }

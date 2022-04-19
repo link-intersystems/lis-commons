@@ -263,14 +263,17 @@ public class Class2<T> implements Serializable {
     @SuppressWarnings({"unchecked", "rawtypes"})
     public Constructor2<T> getApplicableConstructor(AccessType[] accessTypes,
                                                     Class<?>... invocationParameters) {
-        List constructorsInternal = getConstructors();
         PotentionallyApplicableConstructorCriteria potentionallyApplicableConstructorCriteria = new PotentionallyApplicableConstructorCriteria(
                 accessTypes, invocationParameters);
-        List<Constructor2<?>> potentiallyApplicable = getPotentiallyApplicable(
+        return getApplicableConstructor(potentionallyApplicableConstructorCriteria);
+    }
+
+    private Constructor2<T> getApplicableConstructor(PotentionallyApplicableConstructorCriteria potentionallyApplicableConstructorCriteria) {
+        List<Constructor2<T>> constructorsInternal = getConstructors();
+        List<Constructor2<T>> potentiallyApplicable = getPotentiallyApplicable(
                 constructorsInternal,
                 potentionallyApplicableConstructorCriteria);
-        Constructor2<T> constructor2 = (Constructor2<T>) chooseApplicableMember(potentiallyApplicable);
-        return constructor2;
+        return chooseApplicableMember(potentiallyApplicable);
     }
 
     /**
@@ -282,27 +285,19 @@ public class Class2<T> implements Serializable {
      *                    have.
      * @since 1.0.0;
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public Constructor2<T> getApplicableConstructor(AccessType[] accessTypes,
-                                                    Object... invocationParameters) {
-        List constructorsInternal = getConstructors();
+                                                    Object... invocationArguments) {
         PotentionallyApplicableConstructorCriteria potentionallyApplicableConstructorCriteria = new PotentionallyApplicableConstructorCriteria(
-                accessTypes, invocationParameters);
-
-        List<Constructor2<?>> potentiallyApplicable = getPotentiallyApplicable(
-                constructorsInternal,
-                potentionallyApplicableConstructorCriteria);
-        Constructor2<T> constructor2 = (Constructor2<T>) chooseApplicableMember(potentiallyApplicable);
-        return constructor2;
+                accessTypes, invocationArguments);
+        return getApplicableConstructor(potentionallyApplicableConstructorCriteria);
     }
 
-    private <RT extends Member2<?>> List<RT> getPotentiallyApplicable(
-            List<RT> candidates,
-            PotentiallyApplicableCriteria<RT> potentiallyApplicableCriteria) {
-        List<RT> potentialApplicable = POTENTIALLY_APPLICABLE_STRATEGY
+    private <T extends Member2<?>> List getPotentiallyApplicable(
+            List<T> candidates,
+            PotentiallyApplicableCriteria<T> potentiallyApplicableCriteria) {
+        return POTENTIALLY_APPLICABLE_STRATEGY
                 .getPotentialApplicable(candidates,
                         potentiallyApplicableCriteria);
-        return potentialApplicable;
     }
 
     private <RT extends Member2<?>> RT chooseApplicableMember(

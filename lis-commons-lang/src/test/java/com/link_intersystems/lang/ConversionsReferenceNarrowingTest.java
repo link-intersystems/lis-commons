@@ -15,6 +15,7 @@
  */
 package com.link_intersystems.lang;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
@@ -24,8 +25,6 @@ import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.List;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -36,7 +35,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  * intersystems.com]</a>
  */
-class ConversionsReferenceNarrowingTest  {
+class ConversionsReferenceNarrowingTest {
 
     @Test
     void nullFrom() {
@@ -64,9 +63,9 @@ class ConversionsReferenceNarrowingTest  {
         Class<?> t = List.class;
         boolean narrowingReference = false;
         narrowingReference = Conversions.isNarrowingReference(s, t);
-        assertTrue(narrowingReference);
+        Assertions.assertTrue(narrowingReference);
         narrowingReference = Conversions.isNarrowingReference(t, s);
-        assertFalse(narrowingReference);
+        Assertions.assertFalse(narrowingReference);
     }
 
     /**
@@ -78,13 +77,13 @@ class ConversionsReferenceNarrowingTest  {
         Class<?> c = Thread.class;
         Class<?> k = Appendable.class;
 
-        assertFalse(Modifier.isFinal(c.getModifiers()));
+        Assertions.assertFalse(Modifier.isFinal(c.getModifiers()));
         Type genericSuperclass = c.getGenericSuperclass();
-        assertFalse(genericSuperclass instanceof ParameterizedType);
+        Assertions.assertFalse(genericSuperclass instanceof ParameterizedType);
 
         boolean narrowingReference = false;
         narrowingReference = Conversions.isNarrowingReference(c, k);
-        assertTrue(narrowingReference);
+        Assertions.assertTrue(narrowingReference);
     }
 
     /**
@@ -96,14 +95,14 @@ class ConversionsReferenceNarrowingTest  {
         Class<?> j = Appendable.class;
         Class<?> c = Thread.class;
 
-        assertTrue(j.isInterface());
+        Assertions.assertTrue(j.isInterface());
         Type genericSuperclass = c.getGenericSuperclass();
-        assertFalse(genericSuperclass instanceof ParameterizedType);
-        assertFalse(Modifier.isFinal(c.getModifiers()));
+        Assertions.assertFalse(genericSuperclass instanceof ParameterizedType);
+        Assertions.assertFalse(Modifier.isFinal(c.getModifiers()));
 
         boolean narrowingReference = false;
         narrowingReference = Conversions.isNarrowingReference(j, c);
-        assertTrue(narrowingReference);
+        Assertions.assertTrue(narrowingReference);
     }
 
     /**
@@ -116,13 +115,13 @@ class ConversionsReferenceNarrowingTest  {
         Class<?> s = Serializable.class;
         Class<?> a = Thread[].class;
 
-        assertTrue(a.isArray());
+        Assertions.assertTrue(a.isArray());
 
         boolean narrowingReference = false;
         narrowingReference = Conversions.isNarrowingReference(c, a);
-        assertTrue(narrowingReference);
+        Assertions.assertTrue(narrowingReference);
         narrowingReference = Conversions.isNarrowingReference(s, a);
-        assertTrue(narrowingReference);
+        Assertions.assertTrue(narrowingReference);
     }
 
     /**
@@ -134,15 +133,15 @@ class ConversionsReferenceNarrowingTest  {
         Class<?> j = Appendable.class;
         Class<?> k = CharSequence.class;
 
-        assertTrue(j.isInterface());
-        assertTrue(k.isInterface());
+        Assertions.assertTrue(j.isInterface());
+        Assertions.assertTrue(k.isInterface());
         Type genericSuperclass = k.getGenericSuperclass();
-        assertFalse(genericSuperclass instanceof ParameterizedType);
-        assertFalse(k.isAssignableFrom(j));
+        Assertions.assertFalse(genericSuperclass instanceof ParameterizedType);
+        Assertions.assertFalse(k.isAssignableFrom(j));
 
         boolean narrowingReference = false;
         narrowingReference = Conversions.isNarrowingReference(j, k);
-        assertTrue(narrowingReference);
+        Assertions.assertTrue(narrowingReference);
     }
 
     /**
@@ -154,12 +153,12 @@ class ConversionsReferenceNarrowingTest  {
         Class<?> sc = Appendable[].class;
         Class<?> tc = CharSequence[].class;
 
-        assertTrue(sc.isArray());
-        assertTrue(tc.isArray());
+        Assertions.assertTrue(sc.isArray());
+        Assertions.assertTrue(tc.isArray());
 
         boolean narrowingReference = false;
         narrowingReference = Conversions.isNarrowingReference(sc, tc);
-        assertTrue(narrowingReference);
+        Assertions.assertTrue(narrowingReference);
     }
 
 }

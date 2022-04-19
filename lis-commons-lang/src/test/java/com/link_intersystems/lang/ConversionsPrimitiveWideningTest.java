@@ -15,10 +15,9 @@
  */
 package com.link_intersystems.lang;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -29,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  * intersystems.com]</a>
  */
-class ConversionsPrimitiveWideningTest  {
+class ConversionsPrimitiveWideningTest {
 
     @Test
     void nonPrimitiveFrom() {
@@ -47,13 +46,13 @@ class ConversionsPrimitiveWideningTest  {
     @Test
     void byteWidening() {
         Class<?> from = Byte.TYPE;
-        assertFalse(Conversions.isPrimitiveWidening(from, Byte.TYPE));
-        assertTrue(Conversions.isPrimitiveWidening(from, Short.TYPE));
-        assertFalse(Conversions.isPrimitiveWidening(from, Character.TYPE));
-        assertTrue(Conversions.isPrimitiveWidening(from, Integer.TYPE));
-        assertTrue(Conversions.isPrimitiveWidening(from, Long.TYPE));
-        assertTrue(Conversions.isPrimitiveWidening(from, Float.TYPE));
-        assertTrue(Conversions.isPrimitiveWidening(from, Double.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveWidening(from, Byte.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveWidening(from, Short.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveWidening(from, Character.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveWidening(from, Integer.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveWidening(from, Long.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveWidening(from, Float.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveWidening(from, Double.TYPE));
     }
 
     /**
@@ -62,13 +61,13 @@ class ConversionsPrimitiveWideningTest  {
     @Test
     void shortWidening() {
         Class<?> from = Short.TYPE;
-        assertFalse(Conversions.isPrimitiveWidening(from, Byte.TYPE));
-        assertFalse(Conversions.isPrimitiveWidening(from, Short.TYPE));
-        assertFalse(Conversions.isPrimitiveWidening(from, Character.TYPE));
-        assertTrue(Conversions.isPrimitiveWidening(from, Integer.TYPE));
-        assertTrue(Conversions.isPrimitiveWidening(from, Long.TYPE));
-        assertTrue(Conversions.isPrimitiveWidening(from, Float.TYPE));
-        assertTrue(Conversions.isPrimitiveWidening(from, Double.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveWidening(from, Byte.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveWidening(from, Short.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveWidening(from, Character.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveWidening(from, Integer.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveWidening(from, Long.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveWidening(from, Float.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveWidening(from, Double.TYPE));
     }
 
     /**
@@ -77,13 +76,13 @@ class ConversionsPrimitiveWideningTest  {
     @Test
     void characterWidening() {
         Class<?> from = Character.TYPE;
-        assertFalse(Conversions.isPrimitiveWidening(from, Byte.TYPE));
-        assertFalse(Conversions.isPrimitiveWidening(from, Short.TYPE));
-        assertFalse(Conversions.isPrimitiveWidening(from, Character.TYPE));
-        assertTrue(Conversions.isPrimitiveWidening(from, Integer.TYPE));
-        assertTrue(Conversions.isPrimitiveWidening(from, Long.TYPE));
-        assertTrue(Conversions.isPrimitiveWidening(from, Float.TYPE));
-        assertTrue(Conversions.isPrimitiveWidening(from, Double.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveWidening(from, Byte.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveWidening(from, Short.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveWidening(from, Character.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveWidening(from, Integer.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveWidening(from, Long.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveWidening(from, Float.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveWidening(from, Double.TYPE));
     }
 
     /**
@@ -92,13 +91,13 @@ class ConversionsPrimitiveWideningTest  {
     @Test
     void integerWidening() {
         Class<?> from = Integer.TYPE;
-        assertFalse(Conversions.isPrimitiveWidening(from, Byte.TYPE));
-        assertFalse(Conversions.isPrimitiveWidening(from, Short.TYPE));
-        assertFalse(Conversions.isPrimitiveWidening(from, Character.TYPE));
-        assertFalse(Conversions.isPrimitiveWidening(from, Integer.TYPE));
-        assertTrue(Conversions.isPrimitiveWidening(from, Long.TYPE));
-        assertTrue(Conversions.isPrimitiveWidening(from, Float.TYPE));
-        assertTrue(Conversions.isPrimitiveWidening(from, Double.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveWidening(from, Byte.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveWidening(from, Short.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveWidening(from, Character.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveWidening(from, Integer.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveWidening(from, Long.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveWidening(from, Float.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveWidening(from, Double.TYPE));
     }
 
     /**
@@ -107,13 +106,13 @@ class ConversionsPrimitiveWideningTest  {
     @Test
     void longWidening() {
         Class<?> from = Long.TYPE;
-        assertFalse(Conversions.isPrimitiveWidening(from, Byte.TYPE));
-        assertFalse(Conversions.isPrimitiveWidening(from, Short.TYPE));
-        assertFalse(Conversions.isPrimitiveWidening(from, Character.TYPE));
-        assertFalse(Conversions.isPrimitiveWidening(from, Integer.TYPE));
-        assertFalse(Conversions.isPrimitiveWidening(from, Long.TYPE));
-        assertTrue(Conversions.isPrimitiveWidening(from, Float.TYPE));
-        assertTrue(Conversions.isPrimitiveWidening(from, Double.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveWidening(from, Byte.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveWidening(from, Short.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveWidening(from, Character.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveWidening(from, Integer.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveWidening(from, Long.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveWidening(from, Float.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveWidening(from, Double.TYPE));
     }
 
     /**
@@ -122,13 +121,13 @@ class ConversionsPrimitiveWideningTest  {
     @Test
     void floatWidening() {
         Class<?> from = Float.TYPE;
-        assertFalse(Conversions.isPrimitiveWidening(from, Byte.TYPE));
-        assertFalse(Conversions.isPrimitiveWidening(from, Short.TYPE));
-        assertFalse(Conversions.isPrimitiveWidening(from, Character.TYPE));
-        assertFalse(Conversions.isPrimitiveWidening(from, Integer.TYPE));
-        assertFalse(Conversions.isPrimitiveWidening(from, Long.TYPE));
-        assertFalse(Conversions.isPrimitiveWidening(from, Float.TYPE));
-        assertTrue(Conversions.isPrimitiveWidening(from, Double.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveWidening(from, Byte.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveWidening(from, Short.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveWidening(from, Character.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveWidening(from, Integer.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveWidening(from, Long.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveWidening(from, Float.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveWidening(from, Double.TYPE));
     }
 
     /**
@@ -138,12 +137,12 @@ class ConversionsPrimitiveWideningTest  {
     @Test
     void doubleWidening() {
         Class<?> from = Double.TYPE;
-        assertFalse(Conversions.isPrimitiveWidening(from, Byte.TYPE));
-        assertFalse(Conversions.isPrimitiveWidening(from, Short.TYPE));
-        assertFalse(Conversions.isPrimitiveWidening(from, Character.TYPE));
-        assertFalse(Conversions.isPrimitiveWidening(from, Integer.TYPE));
-        assertFalse(Conversions.isPrimitiveWidening(from, Long.TYPE));
-        assertFalse(Conversions.isPrimitiveWidening(from, Float.TYPE));
-        assertFalse(Conversions.isPrimitiveWidening(from, Double.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveWidening(from, Byte.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveWidening(from, Short.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveWidening(from, Character.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveWidening(from, Integer.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveWidening(from, Long.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveWidening(from, Float.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveWidening(from, Double.TYPE));
     }
 }

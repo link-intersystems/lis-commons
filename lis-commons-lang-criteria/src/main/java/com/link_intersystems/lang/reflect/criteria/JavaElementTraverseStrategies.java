@@ -66,7 +66,6 @@ abstract class JavaElementTraverseStrategies {
             this.interfacesOnly = interfacesOnly;
         }
 
-        @SuppressWarnings("unchecked")
         public Iterator<?> getIterator(Class<?> currentClass, ElementCriteria elementCriteria) {
             if (interfacesOnly) {
                 if (currentClass.isInterface()) {
@@ -82,9 +81,6 @@ abstract class JavaElementTraverseStrategies {
 
     private static class InterfaceTraverseStrategy implements JavaElementTraverseStrategy {
 
-        /**
-         *
-         */
         private static final long serialVersionUID = -8550106254098361926L;
 
         public Iterator<?> getIterator(Class<?> currentClass, ElementCriteria elementCriteria) {
@@ -102,9 +98,6 @@ abstract class JavaElementTraverseStrategies {
 
     private static class MembersTraverseStrategy implements JavaElementTraverseStrategy {
 
-        /**
-         *
-         */
         private static final long serialVersionUID = 6115298421487915686L;
 
         public Iterator<?> getIterator(Class<?> currentClass, ElementCriteria elementCriteria) {
@@ -128,9 +121,6 @@ abstract class JavaElementTraverseStrategies {
 
 class CompositeJavaElementTraverseStrategy implements JavaElementTraverseStrategy {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 3345188252751383941L;
 
     private final JavaElementTraverseStrategy[] javaElementTraverseStrategies;

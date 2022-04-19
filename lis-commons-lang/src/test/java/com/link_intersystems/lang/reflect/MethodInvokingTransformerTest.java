@@ -15,6 +15,7 @@
  */
 package com.link_intersystems.lang.reflect;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,11 +23,10 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.function.Function;
 
-import static junit.framework.Assert.*;
 import static org.easymock.EasyMock.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class MethodInvokingTransformerTest  {
+class MethodInvokingTransformerTest {
 
     private InvocationArgumentsResolver argumentResolver;
     private Method charAtMethod;
@@ -82,10 +82,10 @@ class MethodInvokingTransformerTest  {
 
         Function<Object, Object> transformer = new MethodInvokingTransformer(charAtMethod, argumentResolver);
         Object transform = transformer.apply(testString);
-        assertNotNull(transform);
-        assertTrue(transform instanceof Character);
+        Assertions.assertNotNull(transform);
+        Assertions.assertTrue(transform instanceof Character);
         Character charAt1 = (Character) transform;
-        assertEquals('e', charAt1.charValue());
+        Assertions.assertEquals('e', charAt1.charValue());
     }
 
     @Test
@@ -100,10 +100,10 @@ class MethodInvokingTransformerTest  {
         Method toStringMethod = Object.class.getDeclaredMethod("toString");
         Function<Object, Object> transformer = new MethodInvokingTransformer(toStringMethod);
         Object transform = transformer.apply(testString);
-        assertNotNull(transform);
-        assertTrue(transform instanceof String);
+        Assertions.assertNotNull(transform);
+        Assertions.assertTrue(transform instanceof String);
         String string = (String) transform;
-        assertEquals("HelloWorld", string);
+        Assertions.assertEquals("HelloWorld", string);
     }
 
     @Test
@@ -130,8 +130,8 @@ class MethodInvokingTransformerTest  {
 
         Function<Object, Object> transformer = new MethodInvokingTransformer(formatMethod, invocationArgumentsResolver);
         Object transform = transformer.apply(null);
-        assertNotNull(transform);
-        assertEquals("Hello World", transform);
+        Assertions.assertNotNull(transform);
+        Assertions.assertEquals("Hello World", transform);
     }
 
     @Test
@@ -143,8 +143,8 @@ class MethodInvokingTransformerTest  {
 
         Function<Object, Object> transformer = new MethodInvokingTransformer(formatMethod, invocationArgumentsResolver);
         Object transform = transformer.apply(String.class);
-        assertNotNull(transform);
-        assertEquals("Hello World", transform);
+        Assertions.assertNotNull(transform);
+        Assertions.assertEquals("Hello World", transform);
     }
 
 }

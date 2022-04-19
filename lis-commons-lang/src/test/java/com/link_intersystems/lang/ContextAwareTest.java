@@ -29,17 +29,15 @@ import java.lang.reflect.Method;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.concurrent.Callable;
 
-import static junit.framework.Assert.*;
 import static org.easymock.EasyMock.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class ContextAwareTest  {
+class ContextAwareTest {
 
     private static final String CALLED = "CALLED";
     private Runnable runnableMock;
     private Callable<String> callableMock;
 
-    @SuppressWarnings("unchecked")
     @BeforeEach
     public void setup() throws Exception {
         runnableMock = EasyMock.createStrictMock(Runnable.class);
@@ -65,11 +63,11 @@ class ContextAwareTest  {
         contextAware.runInContext(new Runnable() {
 
             public void run() {
-                assertTrue(contextAware.isActivated());
+                Assertions.assertTrue(contextAware.isActivated());
 
             }
         });
-        assertFalse(contextAware.isActivated());
+        Assertions.assertFalse(contextAware.isActivated());
     }
 
     @Test
@@ -85,14 +83,14 @@ class ContextAwareTest  {
             contextAware.runInContext(new Runnable() {
 
                 public void run() {
-                    assertTrue(contextAware.isActivated());
+                    Assertions.assertTrue(contextAware.isActivated());
                     throw new RuntimeException();
                 }
             });
-            assertTrue("Exception expected", false);
+            Assertions.assertTrue(false, "Exception expected");
         } catch (RuntimeException e) {
         }
-        assertFalse(contextAware.isActivated());
+        Assertions.assertFalse(contextAware.isActivated());
     }
 
     @Test
@@ -123,12 +121,12 @@ class ContextAwareTest  {
         assertThrows(IOException.class, () -> contextAware.runInContext(new Callable<String>() {
 
             public String call() throws Exception {
-                assertTrue(contextAware.isActivated());
+                Assertions.assertTrue(contextAware.isActivated());
                 throw new IOException();
             }
         }));
 
-        assertFalse(contextAware.isActivated());
+        Assertions.assertFalse(contextAware.isActivated());
     }
 
     @Test
@@ -137,12 +135,12 @@ class ContextAwareTest  {
         String runInContext = contextAware.runInContext(new Callable<String>() {
 
             public String call() {
-                assertTrue(contextAware.isActivated());
+                Assertions.assertTrue(contextAware.isActivated());
                 return "TEST2";
             }
         });
-        assertEquals("TEST2", runInContext);
-        assertFalse(contextAware.isActivated());
+        Assertions.assertEquals("TEST2", runInContext);
+        Assertions.assertFalse(contextAware.isActivated());
     }
 
     @Test
@@ -184,7 +182,7 @@ class ContextAwareTest  {
         expect(targetInterface.concat("HELLO ", "WORLD")).andAnswer(new IAnswer<String>() {
 
             public String answer() throws Throwable {
-                assertTrue(contextAware.isActivated());
+                Assertions.assertTrue(contextAware.isActivated());
                 Method2 method = contextAware.getInvocationMethod();
                 Assertions.assertNotNull(method);
                 Method declaredMethod = TargetInterface.class.getDeclaredMethod("concat", String.class, String.class);
@@ -200,8 +198,8 @@ class ContextAwareTest  {
         String concat = targetInterfaceContextAware.concat("HELLO ", "WORLD");
         method = contextAware.getInvocationMethod();
         Assertions.assertNull(method);
-        assertEquals("Hello World", concat);
-        assertFalse(contextAware.isActivated());
+        Assertions.assertEquals("Hello World", concat);
+        Assertions.assertFalse(contextAware.isActivated());
     }
 
     @Test
@@ -212,7 +210,7 @@ class ContextAwareTest  {
         expect(targetInterface.concat("HELLO ", "WORLD")).andAnswer(new IAnswer<String>() {
 
             public String answer() throws Throwable {
-                assertTrue(contextAware.isActivated());
+                Assertions.assertTrue(contextAware.isActivated());
                 Method2 method = contextAware.getInvocationMethod();
                 Assertions.assertNotNull(method);
                 Method declaredMethod = TargetInterface.class.getDeclaredMethod("concat", String.class, String.class);
@@ -231,7 +229,7 @@ class ContextAwareTest  {
             method = contextAware.getInvocationMethod();
             Assertions.assertNull(method);
         }
-        assertFalse(contextAware.isActivated());
+        Assertions.assertFalse(contextAware.isActivated());
     }
 
     @Test
@@ -242,7 +240,7 @@ class ContextAwareTest  {
         expect(targetInterface.getString()).andAnswer(new IAnswer<String>() {
 
             public String answer() throws Throwable {
-                assertTrue(contextAware.isActivated());
+                Assertions.assertTrue(contextAware.isActivated());
                 return "Hello World";
             }
         });
@@ -251,8 +249,8 @@ class ContextAwareTest  {
         TargetInterface targetInterfaceContextAware = contextAware.createContextProxy(targetInterface);
 
         String concat = targetInterfaceContextAware.getString();
-        assertEquals("Hello World", concat);
-        assertFalse(contextAware.isActivated());
+        Assertions.assertEquals("Hello World", concat);
+        Assertions.assertFalse(contextAware.isActivated());
     }
 
     @Test
@@ -288,8 +286,8 @@ class ContextAwareTest  {
     void invokeStaticMethod() throws Exception {
         final TestContextAware contextAware = new TestContextAware();
         String runInContext = contextAware.invokeStaticInContext(String.class, "valueOf", Boolean.TRUE);
-        assertEquals("true", runInContext);
-        assertFalse(contextAware.isActivated());
+        Assertions.assertEquals("true", runInContext);
+        Assertions.assertFalse(contextAware.isActivated());
     }
 
     @Test
@@ -312,18 +310,17 @@ class ContextAwareTest  {
         expect(targetInterface.getString()).andAnswer(new IAnswer<String>() {
 
             public String answer() throws Throwable {
-                assertTrue(contextAware.isActivated());
+                Assertions.assertTrue(contextAware.isActivated());
                 return "Hello World";
             }
         });
 
         replay(targetInterface);
         Object runInContext = contextAware.invokeInContext(targetInterface, "getString");
-        assertEquals("Hello World", runInContext);
-        assertFalse(contextAware.isActivated());
+        Assertions.assertEquals("Hello World", runInContext);
+        Assertions.assertFalse(contextAware.isActivated());
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     void contextListenerTest() throws Exception {
         final TestContextAware contextAware = new TestContextAware();
@@ -336,7 +333,7 @@ class ContextAwareTest  {
         expect(targetInterface.getString()).andAnswer(new IAnswer<String>() {
 
             public String answer() throws Throwable {
-                assertTrue(contextAware.isActivated());
+                Assertions.assertTrue(contextAware.isActivated());
                 return "Hello World";
             }
         });
@@ -354,15 +351,15 @@ class ContextAwareTest  {
         expect(targetInterface.getString()).andAnswer(new IAnswer<String>() {
 
             public String answer() throws Throwable {
-                assertTrue(contextAware.isActivated());
+                Assertions.assertTrue(contextAware.isActivated());
                 return "Hello World";
             }
         });
         replay(targetInterface, contextListener);
         contextAware.removeContextListener(contextListener);
         runInContext = contextAware.invokeInContext(targetInterface, "getString");
-        assertEquals("Hello World", runInContext);
-        assertFalse(contextAware.isActivated());
+        Assertions.assertEquals("Hello World", runInContext);
+        Assertions.assertFalse(contextAware.isActivated());
         EasyMock.verify(targetInterface, contextListener);
     }
 
@@ -403,7 +400,7 @@ class ContextAwareTest  {
 
         @Override
         protected void deactivateContext(Object context) {
-            assertEquals("TEST", context);
+            Assertions.assertEquals("TEST", context);
             activated = false;
         }
 

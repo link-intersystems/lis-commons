@@ -17,16 +17,16 @@ package com.link_intersystems.lang.reflect;
 
 import com.link_intersystems.util.ObjectFactory;
 import com.link_intersystems.util.SerializableTemplateObjectFactory;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-import static junit.framework.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class MemberNamePatternPredicateTest  {
+class MemberNamePatternPredicateTest {
 
     @Test
     void nullConstructor() {
@@ -40,7 +40,7 @@ class MemberNamePatternPredicateTest  {
         ObjectFactory<MemberNamePatternPredicate> objectFactory = new SerializableTemplateObjectFactory<MemberNamePatternPredicate>(memberNamePatternPredicate);
         MemberNamePatternPredicate deserialized = objectFactory.getObject();
         boolean evaluated = deserialized.test(declaredMethod);
-        assertTrue(evaluated);
+        Assertions.assertTrue(evaluated);
     }
 
     @Test
@@ -48,7 +48,7 @@ class MemberNamePatternPredicateTest  {
         Method declaredMethod = ArrayList.class.getDeclaredMethod("add", int.class, Object.class);
         MemberNamePatternPredicate memberNamePatternPredicate = new MemberNamePatternPredicate(Pattern.compile("add.*"));
         boolean evaluated = memberNamePatternPredicate.test(declaredMethod);
-        assertTrue(evaluated);
+        Assertions.assertTrue(evaluated);
     }
 
     @Test

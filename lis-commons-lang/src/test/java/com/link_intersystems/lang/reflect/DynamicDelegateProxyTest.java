@@ -36,7 +36,6 @@ class DynamicDelegateProxyTest  {
 	private List<String> anotherListMock;
 	private Reference<List<String>> listRefMock;
 
-	@SuppressWarnings("unchecked")
 	@BeforeEach
 	public void setupMocks() {
 		strictControl = EasyMock.createStrictControl();

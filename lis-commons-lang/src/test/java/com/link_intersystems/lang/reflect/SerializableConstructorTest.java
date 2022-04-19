@@ -17,15 +17,15 @@ package com.link_intersystems.lang.reflect;
 
 import com.link_intersystems.Assertion;
 import com.link_intersystems.util.Serialization;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Constructor;
 import java.util.concurrent.Callable;
 
-import static junit.framework.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class SerializableConstructorTest  {
+class SerializableConstructorTest {
 
     @Test
     void nullConstructor() {
@@ -41,7 +41,7 @@ class SerializableConstructorTest  {
 
         Constructor<?> deserializedMethod = deserialized.get();
 
-        assertEquals(constructor, deserializedMethod);
+        Assertions.assertEquals(constructor, deserializedMethod);
     }
 
     @Test

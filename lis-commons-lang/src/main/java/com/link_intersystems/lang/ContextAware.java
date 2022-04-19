@@ -249,11 +249,6 @@ public abstract class ContextAware<CONTEXT_TYPE> {
             }
         }
 
-//        Class2<?> class2 = Class2.get(targetObjectClass);
-//        ClassCriteria classCriteria = new ClassCriteria();
-//        classCriteria.setSelection(ClassCriteria.ClassType.INTERFACES);
-//        classCriteria.setTraverseStrategy(ClassCriteria.TraverseStrategy.DEPTH_FIRST);
-//        Iterable<Class<?>> allInterfaces = classCriteria.getIterable(targetObjectClass);
         AllInterfacesIterator allInterfacesIterator = new AllInterfacesIterator(targetObjectClass);
         List<Class<?>> allInterfaces = new ArrayList<>();
         while (allInterfacesIterator.hasNext()) {

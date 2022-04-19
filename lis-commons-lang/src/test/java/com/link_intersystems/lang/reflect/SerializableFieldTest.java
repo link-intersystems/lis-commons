@@ -17,16 +17,16 @@ package com.link_intersystems.lang.reflect;
 
 import com.link_intersystems.util.Serialization;
 import com.link_intersystems.util.SerializationException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.powermock.reflect.Whitebox;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
 
-import static junit.framework.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class SerializableFieldTest  {
+class SerializableFieldTest {
 
     protected String testField;
 
@@ -44,7 +44,7 @@ class SerializableFieldTest  {
 
         Field deserializedField = deserialized.get();
 
-        assertEquals(field, deserializedField);
+        Assertions.assertEquals(field, deserializedField);
     }
 
     @Test

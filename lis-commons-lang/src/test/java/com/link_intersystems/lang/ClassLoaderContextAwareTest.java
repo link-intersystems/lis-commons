@@ -55,7 +55,6 @@ class ClassLoaderContextAwareTest  {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void runCallable() throws Exception {
         Callable<URL> callable = createStrictMock(Callable.class);
         expect(callable.call()).andReturn(testResourceUrl);
@@ -67,7 +66,6 @@ class ClassLoaderContextAwareTest  {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void callableResetThreadContextLoader() throws Exception {
         Callable<URL> callable = createStrictMock(Callable.class);
         expect(callable.call()).andReturn(testResourceUrl);
@@ -94,7 +92,6 @@ class ClassLoaderContextAwareTest  {
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     void callableResetThreadContextLoaderOnException() throws Exception {
         Callable<URL> callable = createStrictMock(Callable.class);
@@ -177,7 +174,6 @@ class ClassLoaderContextAwareTest  {
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     void classLoaderContextProxy() {
         List<String> targetMock = createStrictMock(List.class);
@@ -207,7 +203,6 @@ class ClassLoaderContextAwareTest  {
         assertThrows(IllegalArgumentException.class, () -> mockClassLoaderContext.createContextProxy(new Object()));
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     void invokeMethodUsingReflection() throws Exception {
         List<String> targetMock = createStrictMock(List.class);

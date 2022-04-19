@@ -15,6 +15,7 @@
  */
 package com.link_intersystems.util.graph;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,15 +24,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class GraphFacadeImplTest  {
+class GraphFacadeImplTest {
 
     private Node start;
     private Node cRef;
-    private Node dRef;
     private Node eRef;
 
     @BeforeEach
@@ -51,7 +49,7 @@ class GraphFacadeImplTest  {
         start.addReference(new NodeImpl("B"));
         cRef = new NodeImpl("C");
         start.addReference(cRef);
-        dRef = new NodeImpl("D");
+        Node dRef = new NodeImpl("D");
         start.addReference(dRef);
 
         eRef = new NodeImpl("E");
@@ -96,7 +94,7 @@ class GraphFacadeImplTest  {
 
         public void accept(Node node) {
             Object next = userObjects.next();
-            assertEquals(next, node.getUserObject());
+            Assertions.assertEquals(next, node.getUserObject());
         }
 
         public void assertAllUserObjectsTraversed() {
@@ -105,7 +103,7 @@ class GraphFacadeImplTest  {
             if (hasNext) {
                 unexpectedNode = userObjects.next();
             }
-            assertFalse("Unexpected node " + unexpectedNode + " traversed", hasNext);
+            Assertions.assertFalse(hasNext, "Unexpected node " + unexpectedNode + " traversed");
         }
     }
 

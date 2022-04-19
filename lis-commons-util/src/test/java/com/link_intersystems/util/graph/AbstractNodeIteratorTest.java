@@ -15,6 +15,7 @@
  */
 package com.link_intersystems.util.graph;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +24,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.function.Consumer;
 
-import static junit.framework.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public abstract class AbstractNodeIteratorTest {
@@ -75,8 +75,8 @@ public abstract class AbstractNodeIteratorTest {
 
     @Test
     void removeUnsupported() {
-        assertTrue(nodeIterator.hasNext());
-        assertNotNull(nodeIterator.next());
+        Assertions.assertTrue(nodeIterator.hasNext());
+        Assertions.assertNotNull(nodeIterator.next());
         assertThrows(UnsupportedOperationException.class, () -> nodeIterator.remove());
     }
 
@@ -100,11 +100,11 @@ public abstract class AbstractNodeIteratorTest {
 
         public void accept(Node input) {
             Object next = userObjects.next();
-            assertEquals(next, input.getUserObject());
+            Assertions.assertEquals(next, input.getUserObject());
         }
 
         public void assertAllUserObjectsTraversed() {
-            assertFalse(userObjects.hasNext());
+            Assertions.assertFalse(userObjects.hasNext());
         }
     }
 }

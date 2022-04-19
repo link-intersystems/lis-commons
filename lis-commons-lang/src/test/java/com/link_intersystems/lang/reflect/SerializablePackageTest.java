@@ -17,13 +17,13 @@ package com.link_intersystems.lang.reflect;
 
 import com.link_intersystems.util.Serialization;
 import com.link_intersystems.util.SerializationException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.powermock.reflect.Whitebox;
 
-import static junit.framework.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class SerializablePackageTest  {
+class SerializablePackageTest {
 
     @Test
     void nullConstructor() {
@@ -39,7 +39,7 @@ class SerializablePackageTest  {
 
         Package deserializedPackageObject = deserialized.get();
 
-        assertEquals(packageObject, deserializedPackageObject);
+        Assertions.assertEquals(packageObject, deserializedPackageObject);
     }
 
     @Test

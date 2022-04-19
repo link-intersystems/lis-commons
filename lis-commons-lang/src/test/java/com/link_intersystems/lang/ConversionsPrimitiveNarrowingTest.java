@@ -15,10 +15,9 @@
  */
 package com.link_intersystems.lang;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -29,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  * intersystems.com]</a>
  */
-class ConversionsPrimitiveNarrowingTest  {
+class ConversionsPrimitiveNarrowingTest {
 
     @Test
     void nonPrimitiveFrom() {
@@ -47,13 +46,13 @@ class ConversionsPrimitiveNarrowingTest  {
     @Test
     void byteNarrowing() {
         Class<?> from = Byte.TYPE;
-        assertFalse(Conversions.isPrimitiveNarrowing(from, Byte.TYPE));
-        assertFalse(Conversions.isPrimitiveNarrowing(from, Short.TYPE));
-        assertFalse(Conversions.isPrimitiveNarrowing(from, Character.TYPE));
-        assertFalse(Conversions.isPrimitiveNarrowing(from, Integer.TYPE));
-        assertFalse(Conversions.isPrimitiveNarrowing(from, Long.TYPE));
-        assertFalse(Conversions.isPrimitiveNarrowing(from, Float.TYPE));
-        assertFalse(Conversions.isPrimitiveNarrowing(from, Double.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveNarrowing(from, Byte.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveNarrowing(from, Short.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveNarrowing(from, Character.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveNarrowing(from, Integer.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveNarrowing(from, Long.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveNarrowing(from, Float.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveNarrowing(from, Double.TYPE));
     }
 
     /**
@@ -62,13 +61,13 @@ class ConversionsPrimitiveNarrowingTest  {
     @Test
     void shortNarrowing() {
         Class<?> from = Short.TYPE;
-        assertTrue(Conversions.isPrimitiveNarrowing(from, Byte.TYPE));
-        assertFalse(Conversions.isPrimitiveNarrowing(from, Short.TYPE));
-        assertTrue(Conversions.isPrimitiveNarrowing(from, Character.TYPE));
-        assertFalse(Conversions.isPrimitiveNarrowing(from, Integer.TYPE));
-        assertFalse(Conversions.isPrimitiveNarrowing(from, Long.TYPE));
-        assertFalse(Conversions.isPrimitiveNarrowing(from, Float.TYPE));
-        assertFalse(Conversions.isPrimitiveNarrowing(from, Double.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveNarrowing(from, Byte.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveNarrowing(from, Short.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveNarrowing(from, Character.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveNarrowing(from, Integer.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveNarrowing(from, Long.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveNarrowing(from, Float.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveNarrowing(from, Double.TYPE));
     }
 
     /**
@@ -77,13 +76,13 @@ class ConversionsPrimitiveNarrowingTest  {
     @Test
     void characterNarrowing() {
         Class<?> from = Character.TYPE;
-        assertTrue(Conversions.isPrimitiveNarrowing(from, Byte.TYPE));
-        assertTrue(Conversions.isPrimitiveNarrowing(from, Short.TYPE));
-        assertFalse(Conversions.isPrimitiveNarrowing(from, Character.TYPE));
-        assertFalse(Conversions.isPrimitiveNarrowing(from, Integer.TYPE));
-        assertFalse(Conversions.isPrimitiveNarrowing(from, Long.TYPE));
-        assertFalse(Conversions.isPrimitiveNarrowing(from, Float.TYPE));
-        assertFalse(Conversions.isPrimitiveNarrowing(from, Double.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveNarrowing(from, Byte.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveNarrowing(from, Short.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveNarrowing(from, Character.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveNarrowing(from, Integer.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveNarrowing(from, Long.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveNarrowing(from, Float.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveNarrowing(from, Double.TYPE));
     }
 
     /**
@@ -92,13 +91,13 @@ class ConversionsPrimitiveNarrowingTest  {
     @Test
     void integerNarrowing() {
         Class<?> from = Integer.TYPE;
-        assertTrue(Conversions.isPrimitiveNarrowing(from, Byte.TYPE));
-        assertTrue(Conversions.isPrimitiveNarrowing(from, Short.TYPE));
-        assertTrue(Conversions.isPrimitiveNarrowing(from, Character.TYPE));
-        assertFalse(Conversions.isPrimitiveNarrowing(from, Integer.TYPE));
-        assertFalse(Conversions.isPrimitiveNarrowing(from, Long.TYPE));
-        assertFalse(Conversions.isPrimitiveNarrowing(from, Float.TYPE));
-        assertFalse(Conversions.isPrimitiveNarrowing(from, Double.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveNarrowing(from, Byte.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveNarrowing(from, Short.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveNarrowing(from, Character.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveNarrowing(from, Integer.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveNarrowing(from, Long.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveNarrowing(from, Float.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveNarrowing(from, Double.TYPE));
     }
 
     /**
@@ -107,13 +106,13 @@ class ConversionsPrimitiveNarrowingTest  {
     @Test
     void longNarrowing() {
         Class<?> from = Long.TYPE;
-        assertTrue(Conversions.isPrimitiveNarrowing(from, Byte.TYPE));
-        assertTrue(Conversions.isPrimitiveNarrowing(from, Short.TYPE));
-        assertTrue(Conversions.isPrimitiveNarrowing(from, Character.TYPE));
-        assertTrue(Conversions.isPrimitiveNarrowing(from, Integer.TYPE));
-        assertFalse(Conversions.isPrimitiveNarrowing(from, Long.TYPE));
-        assertFalse(Conversions.isPrimitiveNarrowing(from, Float.TYPE));
-        assertFalse(Conversions.isPrimitiveNarrowing(from, Double.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveNarrowing(from, Byte.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveNarrowing(from, Short.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveNarrowing(from, Character.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveNarrowing(from, Integer.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveNarrowing(from, Long.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveNarrowing(from, Float.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveNarrowing(from, Double.TYPE));
     }
 
     /**
@@ -122,13 +121,13 @@ class ConversionsPrimitiveNarrowingTest  {
     @Test
     void floatNarrowing() {
         Class<?> from = Float.TYPE;
-        assertTrue(Conversions.isPrimitiveNarrowing(from, Byte.TYPE));
-        assertTrue(Conversions.isPrimitiveNarrowing(from, Short.TYPE));
-        assertTrue(Conversions.isPrimitiveNarrowing(from, Character.TYPE));
-        assertTrue(Conversions.isPrimitiveNarrowing(from, Integer.TYPE));
-        assertTrue(Conversions.isPrimitiveNarrowing(from, Long.TYPE));
-        assertFalse(Conversions.isPrimitiveNarrowing(from, Float.TYPE));
-        assertFalse(Conversions.isPrimitiveNarrowing(from, Double.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveNarrowing(from, Byte.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveNarrowing(from, Short.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveNarrowing(from, Character.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveNarrowing(from, Integer.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveNarrowing(from, Long.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveNarrowing(from, Float.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveNarrowing(from, Double.TYPE));
     }
 
     /**
@@ -137,12 +136,12 @@ class ConversionsPrimitiveNarrowingTest  {
     @Test
     void doubleNarrowing() {
         Class<?> from = Double.TYPE;
-        assertTrue(Conversions.isPrimitiveNarrowing(from, Byte.TYPE));
-        assertTrue(Conversions.isPrimitiveNarrowing(from, Short.TYPE));
-        assertTrue(Conversions.isPrimitiveNarrowing(from, Character.TYPE));
-        assertTrue(Conversions.isPrimitiveNarrowing(from, Integer.TYPE));
-        assertTrue(Conversions.isPrimitiveNarrowing(from, Long.TYPE));
-        assertTrue(Conversions.isPrimitiveNarrowing(from, Float.TYPE));
-        assertFalse(Conversions.isPrimitiveNarrowing(from, Double.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveNarrowing(from, Byte.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveNarrowing(from, Short.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveNarrowing(from, Character.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveNarrowing(from, Integer.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveNarrowing(from, Long.TYPE));
+        Assertions.assertTrue(Conversions.isPrimitiveNarrowing(from, Float.TYPE));
+        Assertions.assertFalse(Conversions.isPrimitiveNarrowing(from, Double.TYPE));
     }
 }

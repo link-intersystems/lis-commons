@@ -15,13 +15,12 @@
  */
 package com.link_intersystems.lang;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
 import java.util.List;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -32,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  * intersystems.com]</a>
  */
-class ConversionsReferenceWideningTest  {
+class ConversionsReferenceWideningTest {
 
     @Test
     void nullFrom() {
@@ -58,9 +57,9 @@ class ConversionsReferenceWideningTest  {
         Class<?> t = Collection.class;
         boolean wideningReference = false;
         wideningReference = Conversions.isWideningReference(s, t);
-        assertTrue(wideningReference);
+        Assertions.assertTrue(wideningReference);
         wideningReference = Conversions.isWideningReference(t, s);
-        assertFalse(wideningReference);
+        Assertions.assertFalse(wideningReference);
     }
 
     @Test
@@ -69,9 +68,9 @@ class ConversionsReferenceWideningTest  {
         Class<?> t = Collection[].class;
         boolean wideningReference = false;
         wideningReference = Conversions.isWideningReference(s, t);
-        assertTrue(wideningReference);
+        Assertions.assertTrue(wideningReference);
         wideningReference = Conversions.isWideningReference(t, s);
-        assertFalse(wideningReference);
+        Assertions.assertFalse(wideningReference);
     }
 
 }

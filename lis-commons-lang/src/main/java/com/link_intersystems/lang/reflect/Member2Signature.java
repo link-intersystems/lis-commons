@@ -60,7 +60,7 @@ abstract class Member2Signature<T extends Member2<?>> implements Signature {
 		Class2<?> returnClass2 = member2.getReturnClass2();
 		Class<?> declaringClass = member2.getMember().getDeclaringClass();
 		if (!returnClass2.getType().equals(declaringClass)) {
-			builder.append(returnClass2.toString());
+			builder.append(returnClass2);
 			builder.append(" ");
 		}
 

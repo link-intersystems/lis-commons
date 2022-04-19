@@ -24,8 +24,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 class ThreadLocalProxyTest {
 
-    private String string1 = "string1";
-    private String string2 = "string2";
     private static final ThreadLocal<Reference<String>> THREAD_LOCAL = new ThreadLocal<>();
 
     @Test
@@ -35,10 +33,12 @@ class ThreadLocalProxyTest {
         String string = referenceProxy.get();
         assertNull(string);
 
+        String string1 = "string1";
         THREAD_LOCAL.set(new HardReference<>(string1));
         string = referenceProxy.get();
         assertEquals(string1, string);
 
+        String string2 = "string2";
         THREAD_LOCAL.set(new HardReference<>(string2));
         string = referenceProxy.get();
         assertEquals(string2, string);

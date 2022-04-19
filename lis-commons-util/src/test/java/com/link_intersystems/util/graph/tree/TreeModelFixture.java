@@ -98,7 +98,7 @@ public class TreeModelFixture {
         }
 
         Tree addTree() {
-            Tree tree = new Tree(toString() + "->" + "Tree " + (trees.size() + 1));
+            Tree tree = new Tree(this + "->" + "Tree " + (trees.size() + 1));
             trees.add(tree);
             return tree;
         }
@@ -122,7 +122,7 @@ public class TreeModelFixture {
         }
 
         Branch addBranch() {
-            String name = toString() + "->Branch " + (branches.size() + 1);
+            String name = this + "->Branch " + (branches.size() + 1);
             Branch branch = new Branch(name);
             branches.add(branch);
             return branch;
@@ -148,7 +148,7 @@ public class TreeModelFixture {
         }
 
         Leaf addLeaf() {
-            Leaf leaf = new Leaf(toString() + "->Leaf " + (leaves.size() + 1));
+            Leaf leaf = new Leaf(this + "->Leaf " + (leaves.size() + 1));
             leaves.add(leaf);
             return leaf;
         }

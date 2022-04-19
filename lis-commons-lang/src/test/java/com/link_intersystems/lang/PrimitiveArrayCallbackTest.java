@@ -15,12 +15,12 @@
  */
 package com.link_intersystems.lang;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static junit.framework.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class PrimitiveArrayCallbackTest  {
+class PrimitiveArrayCallbackTest {
 
     @Test
     void nullConstructorArg() {
@@ -57,7 +57,7 @@ class PrimitiveArrayCallbackTest  {
         PrimitiveArrayCallback callback = new PrimitiveArrayCallback(arr);
         callback.setIndex(6);
         int index = callback.getIndex();
-        assertEquals(6, index);
+        Assertions.assertEquals(6, index);
 
     }
 
@@ -66,10 +66,10 @@ class PrimitiveArrayCallbackTest  {
         int[] arr = new int[10];
         PrimitiveArrayCallback callback = new PrimitiveArrayCallback(arr);
         callback.setIndex(8);
-        assertEquals(0, arr[8]);
+        Assertions.assertEquals(0, arr[8]);
         callback.primitive(13);
-        assertEquals(13, arr[8]);
+        Assertions.assertEquals(13, arr[8]);
         callback.primitive(15);
-        assertEquals(15, arr[9]);
+        Assertions.assertEquals(15, arr[9]);
     }
 }

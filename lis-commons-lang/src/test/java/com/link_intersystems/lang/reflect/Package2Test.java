@@ -16,12 +16,12 @@
 package com.link_intersystems.lang.reflect;
 
 import com.link_intersystems.util.Serialization;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static junit.framework.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class Package2Test  {
+class Package2Test {
 
     @Test
     void getNullPackageName() {
@@ -31,45 +31,45 @@ class Package2Test  {
     @Test
     void getNullPackage() {
         Package2 package2 = Package2.get((Package) null);
-        assertNull(package2);
+        Assertions.assertNull(package2);
     }
 
     @Test
     void packageCache() {
         Package2 expected = Package2.get(Package2Test.class.getPackage());
         Package2 package2 = Package2.get(Package2Test.class.getPackage());
-        assertSame(expected, package2);
+        Assertions.assertSame(expected, package2);
     }
 
     @Test
     void packageByName() {
         Package2 package2 = Package2.get(Package2Test.class.getPackage().getName());
-        assertEquals("com.link_intersystems.lang.reflect", package2.getName());
+        Assertions.assertEquals("com.link_intersystems.lang.reflect", package2.getName());
     }
 
     @Test
     void getName() {
         Package2 package2 = Package2.get(Package2Test.class.getPackage());
-        assertEquals("com.link_intersystems.lang.reflect", package2.getName());
+        Assertions.assertEquals("com.link_intersystems.lang.reflect", package2.getName());
     }
 
     @Test
     void getSimpleName() {
         Package2 package2 = Package2.get(Package2Test.class.getPackage());
-        assertEquals("reflect", package2.getSimpleName());
+        Assertions.assertEquals("reflect", package2.getSimpleName());
     }
 
     @Test
     void getSimpleNameForDefaultPackage() {
         Package2 package2 = Package2.get("");
-        assertNull(package2);
+        Assertions.assertNull(package2);
     }
 
     @Test
     void getPackage() {
         Package package1 = Package2Test.class.getPackage();
         Package2 package2 = Package2.get(package1);
-        assertEquals(package1, package2.getPackage());
+        Assertions.assertEquals(package1, package2.getPackage());
     }
 
     @Test
@@ -77,7 +77,7 @@ class Package2Test  {
         Package package1 = Package2Test.class.getPackage();
         Package2 package2 = Package2.get(package1);
         String string = package2.toString();
-        assertNotNull(string);
+        Assertions.assertNotNull(string);
     }
 
     @Test
@@ -85,13 +85,13 @@ class Package2Test  {
         Package package1 = Package2Test.class.getPackage();
         Package2 package2 = Package2.get(package1);
         Package2 parent = package2.getParent();
-        assertEquals("com.link_intersystems.lang", parent.getName());
+        Assertions.assertEquals("com.link_intersystems.lang", parent.getName());
     }
 
     @Test
     void serializable() {
         Package2 package2 = Package2.get(Package2Test.class.getPackage());
         Package2 clone = Serialization.clone(package2);
-        assertEquals(package2, clone);
+        Assertions.assertEquals(package2, clone);
     }
 }

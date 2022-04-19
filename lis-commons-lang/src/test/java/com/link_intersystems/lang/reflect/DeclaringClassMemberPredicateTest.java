@@ -15,6 +15,7 @@
  */
 package com.link_intersystems.lang.reflect;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
@@ -24,10 +25,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.function.Predicate;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
-
-class DeclaringClassMemberPredicateTest  {
+class DeclaringClassMemberPredicateTest {
 
     @Test
     void evaluateTrue() throws SecurityException, NoSuchMethodException,
@@ -37,16 +35,16 @@ class DeclaringClassMemberPredicateTest  {
         Method declaredMethod = JComponent.class
                 .getDeclaredMethod("getPreferredSize");
         boolean evaluate = declaringClassMemberPredicate.test(declaredMethod);
-        assertTrue(evaluate);
+        Assertions.assertTrue(evaluate);
 
         Constructor<JComponent> declaredConstructor = JComponent.class
                 .getDeclaredConstructor();
         evaluate = declaringClassMemberPredicate.test(declaredConstructor);
-        assertTrue(evaluate);
+        Assertions.assertTrue(evaluate);
 
         Field declaredField = JComponent.class.getDeclaredField("WHEN_FOCUSED");
         evaluate = declaringClassMemberPredicate.test(declaredField);
-        assertTrue(evaluate);
+        Assertions.assertTrue(evaluate);
     }
 
     @Test
@@ -58,16 +56,16 @@ class DeclaringClassMemberPredicateTest  {
                 .getDeclaredMethod("getPreferredSize");
         boolean evaluate = declaringClassMemberPredicate
                 .test(declaredMethod);
-        assertFalse(evaluate);
+        Assertions.assertFalse(evaluate);
 
         Constructor<Container> declaredConstructor = Container.class
                 .getDeclaredConstructor();
         evaluate = declaringClassMemberPredicate.test(declaredConstructor);
-        assertFalse(evaluate);
+        Assertions.assertFalse(evaluate);
 
         Field declaredField = Container.class.getDeclaredField("INCLUDE_SELF");
         evaluate = declaringClassMemberPredicate.test(declaredField);
-        assertFalse(evaluate);
+        Assertions.assertFalse(evaluate);
     }
 
 }

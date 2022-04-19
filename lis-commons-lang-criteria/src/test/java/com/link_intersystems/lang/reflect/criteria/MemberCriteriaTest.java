@@ -21,6 +21,7 @@ import com.link_intersystems.lang.reflect.SignaturePredicate;
 import com.link_intersystems.lang.reflect.criteria.ClassCriteria.ClassType;
 import com.link_intersystems.lang.reflect.criteria.ClassCriteria.TraverseStrategy;
 import com.link_intersystems.lang.reflect.criteria.MemberCriteria.IterateStrategy;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,11 +31,9 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.*;
 
-class MemberCriteriaTest  {
+class MemberCriteriaTest {
 
     private MemberCriteria memberCriteria;
 
@@ -52,12 +51,12 @@ class MemberCriteriaTest  {
     void defaultMemberIterator() {
         Iterable<Class<?>> classIterable = new ClassCriteria().getIterable(Object.class);
         Iterable<Member> iterable = memberCriteria.getIterable(classIterable);
-        assertNotNull(iterable);
+        Assertions.assertNotNull(iterable);
         Iterator<Member> iterator = iterable.iterator();
-        assertNotNull(iterator);
+        Assertions.assertNotNull(iterator);
         assertTrue(iterator.hasNext());
         Member next = iterator.next();
-        assertNotNull(next);
+        Assertions.assertNotNull(next);
 
     }
 
@@ -65,12 +64,12 @@ class MemberCriteriaTest  {
     void annotatedElementIterator() {
         Iterable<Class<?>> classIterable = new ClassCriteria().getIterable(Object.class);
         Iterable<? extends AnnotatedElement> iterable = memberCriteria.getAnnotatedElementIterable(classIterable);
-        assertNotNull(iterable);
+        Assertions.assertNotNull(iterable);
         Iterator<? extends AnnotatedElement> iterator = iterable.iterator();
-        assertNotNull(iterator);
+        Assertions.assertNotNull(iterator);
         assertTrue(iterator.hasNext());
         AnnotatedElement next = iterator.next();
-        assertNotNull(next);
+        Assertions.assertNotNull(next);
 
     }
 
@@ -141,7 +140,7 @@ class MemberCriteriaTest  {
         Member member = criteriaIterator.next();
         Method firstMatch = (Method) member;
         Method declaredMethod = ArrayList.class.getDeclaredMethod("isEmpty");
-        assertEquals(declaredMethod, firstMatch);
+        Assertions.assertEquals(declaredMethod, firstMatch);
         assertFalse(criteriaIterator.hasNext());
     }
 
@@ -329,25 +328,25 @@ class MemberCriteriaTest  {
         Iterator<? extends AnnotatedElement> iterator = annotatedElementIterable.iterator();
         assertTrue(iterator.hasNext());
         AnnotatedElement next = iterator.next();
-        assertEquals(ArrayList.class.getPackage(), next);
+        Assertions.assertEquals(ArrayList.class.getPackage(), next);
         next = iterator.next();
-        assertEquals(ArrayList.class, next);
+        Assertions.assertEquals(ArrayList.class, next);
         next = iterator.next();
-        assertEquals(ArrayList.class.getDeclaredMethod("size"), next);
+        Assertions.assertEquals(ArrayList.class.getDeclaredMethod("size"), next);
         next = iterator.next();
-        assertEquals(AbstractList.class.getPackage(), next);
+        Assertions.assertEquals(AbstractList.class.getPackage(), next);
         next = iterator.next();
-        assertEquals(AbstractList.class, next);
+        Assertions.assertEquals(AbstractList.class, next);
         next = iterator.next();
-        assertEquals(AbstractCollection.class.getPackage(), next);
+        Assertions.assertEquals(AbstractCollection.class.getPackage(), next);
         next = iterator.next();
-        assertEquals(AbstractCollection.class, next);
+        Assertions.assertEquals(AbstractCollection.class, next);
         next = iterator.next();
-        assertEquals(AbstractCollection.class.getDeclaredMethod("size"), next);
+        Assertions.assertEquals(AbstractCollection.class.getDeclaredMethod("size"), next);
         next = iterator.next();
-        assertEquals(Object.class.getPackage(), next);
+        Assertions.assertEquals(Object.class.getPackage(), next);
         next = iterator.next();
-        assertEquals(Object.class, next);
+        Assertions.assertEquals(Object.class, next);
         assertFalse(iterator.hasNext());
     }
 
@@ -365,17 +364,17 @@ class MemberCriteriaTest  {
         Iterator<? extends AnnotatedElement> iterator = annotatedElementIterable.iterator();
         assertTrue(iterator.hasNext());
         AnnotatedElement next = iterator.next();
-        assertEquals(ArrayList.class.getDeclaredMethod("size"), next);
+        Assertions.assertEquals(ArrayList.class.getDeclaredMethod("size"), next);
         next = iterator.next();
-        assertEquals(ArrayList.class, next);
+        Assertions.assertEquals(ArrayList.class, next);
         next = iterator.next();
-        assertEquals(AbstractList.class, next);
+        Assertions.assertEquals(AbstractList.class, next);
         next = iterator.next();
-        assertEquals(AbstractCollection.class.getDeclaredMethod("size"), next);
+        Assertions.assertEquals(AbstractCollection.class.getDeclaredMethod("size"), next);
         next = iterator.next();
-        assertEquals(AbstractCollection.class, next);
+        Assertions.assertEquals(AbstractCollection.class, next);
         next = iterator.next();
-        assertEquals(Object.class, next);
+        Assertions.assertEquals(Object.class, next);
         assertFalse(iterator.hasNext());
     }
 
@@ -390,13 +389,13 @@ class MemberCriteriaTest  {
         Iterator<? extends AnnotatedElement> iterator = annotatedElementIterable.iterator();
         assertTrue(iterator.hasNext());
         AnnotatedElement next = iterator.next();
-        assertEquals(ArrayList.class.getPackage(), next);
+        Assertions.assertEquals(ArrayList.class.getPackage(), next);
         next = iterator.next();
-        assertEquals(AbstractList.class.getPackage(), next);
+        Assertions.assertEquals(AbstractList.class.getPackage(), next);
         next = iterator.next();
-        assertEquals(AbstractCollection.class.getPackage(), next);
+        Assertions.assertEquals(AbstractCollection.class.getPackage(), next);
         next = iterator.next();
-        assertEquals(Object.class.getPackage(), next);
+        Assertions.assertEquals(Object.class.getPackage(), next);
         assertFalse(iterator.hasNext());
     }
 

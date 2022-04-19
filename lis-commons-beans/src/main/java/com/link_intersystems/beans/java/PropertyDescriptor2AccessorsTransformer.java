@@ -31,7 +31,6 @@ import java.util.function.Function;
  * intersystems.com]</a>
  * @since 1.2.0;
  */
-@SuppressWarnings("rawtypes")
 class PropertyDescriptor2AccessorsTransformer implements Function<PropertyDescriptor, List<Method>> {
 
     public static final Function<PropertyDescriptor, List<Method>> INSTANCE = new PropertyDescriptor2AccessorsTransformer();

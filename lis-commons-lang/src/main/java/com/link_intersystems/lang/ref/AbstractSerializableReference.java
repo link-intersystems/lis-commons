@@ -159,7 +159,7 @@ public abstract class AbstractSerializableReference<T> implements
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("Reference[");
 		if (referent != null) {
-			stringBuilder.append(referent.toString());
+			stringBuilder.append(referent);
 		} else {
 			stringBuilder.append("null");
 		}

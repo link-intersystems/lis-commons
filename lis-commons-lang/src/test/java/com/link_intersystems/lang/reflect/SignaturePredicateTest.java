@@ -16,6 +16,7 @@
 package com.link_intersystems.lang.reflect;
 
 import com.link_intersystems.util.SerializableTemplateObjectFactory;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
@@ -25,11 +26,9 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class SignaturePredicateTest  {
+class SignaturePredicateTest {
 
     @Test
     void constructorSignatureWithNull() {
@@ -47,7 +46,7 @@ class SignaturePredicateTest  {
         Method declaredMethod2 = ArrayList.class.getDeclaredMethod("add", Object.class);
         SignaturePredicate<Method> signaturePredicate = new SignaturePredicate<>(declaredMethod);
         boolean evaluate = signaturePredicate.test(declaredMethod2);
-        assertTrue(evaluate);
+        Assertions.assertTrue(evaluate);
     }
 
     @Test
@@ -56,7 +55,7 @@ class SignaturePredicateTest  {
         Method declaredMethod2 = ArrayList.class.getDeclaredMethod("add", Object.class);
         SignaturePredicate<Method> signaturePredicate = new SignaturePredicate<>(declaredMethod);
         boolean evaluate = signaturePredicate.test(declaredMethod2);
-        assertTrue(evaluate);
+        Assertions.assertTrue(evaluate);
     }
 
     @Test
@@ -67,7 +66,7 @@ class SignaturePredicateTest  {
         SerializableTemplateObjectFactory<SignaturePredicate> serializableTemplateObjectFactory = new SerializableTemplateObjectFactory<SignaturePredicate>(signaturePredicate);
         SignaturePredicate object = serializableTemplateObjectFactory.getObject();
         boolean evaluate = object.test(declaredMethod2);
-        assertTrue(evaluate);
+        Assertions.assertTrue(evaluate);
     }
 
     @Test
@@ -76,7 +75,7 @@ class SignaturePredicateTest  {
         Method declaredMethod2 = ArrayList.class.getDeclaredMethod("add", Object.class);
         SignaturePredicate signaturePredicate = new SignaturePredicate(declaredMethod);
         boolean evaluate = signaturePredicate.test(declaredMethod2);
-        assertFalse(evaluate);
+        Assertions.assertFalse(evaluate);
     }
 
     @SuppressWarnings("rawtypes")
@@ -86,7 +85,7 @@ class SignaturePredicateTest  {
         Constructor<ArrayList> declaredConstructor = ArrayList.class.getDeclaredConstructor();
         SignaturePredicate signaturePredicate = new SignaturePredicate(declaredMethod);
         boolean evaluate = signaturePredicate.test(declaredConstructor);
-        assertFalse(evaluate);
+        Assertions.assertFalse(evaluate);
     }
 
     @Test
@@ -96,7 +95,7 @@ class SignaturePredicateTest  {
             Field field = JComponent.class.getDeclaredField("WHEN_FOCUSED");
             SignaturePredicate signaturePredicate = new SignaturePredicate(declaredMethod);
             boolean evaluate = signaturePredicate.test(field);
-            assertFalse(evaluate);
+            Assertions.assertFalse(evaluate);
         });
     }
 

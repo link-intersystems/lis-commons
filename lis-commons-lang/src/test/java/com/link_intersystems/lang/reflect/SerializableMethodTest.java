@@ -17,20 +17,20 @@ package com.link_intersystems.lang.reflect;
 
 import com.link_intersystems.Assertion;
 import com.link_intersystems.util.Serialization;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.concurrent.Callable;
 
-import static junit.framework.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class SerializableMethodTest  {
+class SerializableMethodTest {
 
     @Test
     void nullConstructor() {
-        assertThrows(IllegalArgumentException.class, () ->new SerializableMethod(null));
+        assertThrows(IllegalArgumentException.class, () -> new SerializableMethod(null));
     }
 
     @Test
@@ -42,7 +42,7 @@ class SerializableMethodTest  {
 
         Method deserializedMethod = deserialized.get();
 
-        assertEquals(method, deserializedMethod);
+        Assertions.assertEquals(method, deserializedMethod);
     }
 
     public String someTestMethod(int i, int[] js, String string) {

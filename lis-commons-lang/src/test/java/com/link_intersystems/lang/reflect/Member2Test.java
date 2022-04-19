@@ -17,6 +17,7 @@ package com.link_intersystems.lang.reflect;
 
 import com.link_intersystems.lang.Signature;
 import com.link_intersystems.lang.ref.SerializableReference;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.powermock.api.easymock.PowerMock;
@@ -27,11 +28,10 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 
-import static junit.framework.Assert.*;
 import static org.easymock.EasyMock.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class Member2Test  {
+class Member2Test {
 
     private Member2<?> overriding;
     private Member2<?> overridden;
@@ -48,21 +48,21 @@ class Member2Test  {
         expect(overridden.getModifiers()).andReturn(Modifier.PUBLIC);
         replay(overriding, overridden);
         boolean areAccessModifierCompatible = overriding.isAccessModifierOverriddingCompatible(overridden);
-        assertTrue(areAccessModifierCompatible);
+        Assertions.assertTrue(areAccessModifierCompatible);
 
         reset(overriding, overridden);
         expect(overriding.getModifiers()).andReturn(Modifier.PROTECTED);
         expect(overridden.getModifiers()).andReturn(Modifier.PUBLIC);
         replay(overriding, overridden);
         areAccessModifierCompatible = overriding.isAccessModifierOverriddingCompatible(overridden);
-        assertFalse(areAccessModifierCompatible);
+        Assertions.assertFalse(areAccessModifierCompatible);
 
         reset(overriding, overridden);
         expect(overriding.getModifiers()).andReturn(0);
         expect(overridden.getModifiers()).andReturn(Modifier.PUBLIC);
         replay(overriding, overridden);
         areAccessModifierCompatible = overriding.isAccessModifierOverriddingCompatible(overridden);
-        assertFalse(areAccessModifierCompatible);
+        Assertions.assertFalse(areAccessModifierCompatible);
 
     }
 
@@ -73,21 +73,21 @@ class Member2Test  {
         expect(overriding.getModifiers()).andReturn(Modifier.PROTECTED);
         replay(overriding, overridden);
         boolean areAccessModifierCompatible = overriding.isAccessModifierOverriddingCompatible(overridden);
-        assertTrue(areAccessModifierCompatible);
+        Assertions.assertTrue(areAccessModifierCompatible);
 
         reset(overriding, overridden);
         expect(overridden.getModifiers()).andReturn(Modifier.PROTECTED);
         expect(overriding.getModifiers()).andReturn(Modifier.PUBLIC);
         replay(overriding, overridden);
         areAccessModifierCompatible = overriding.isAccessModifierOverriddingCompatible(overridden);
-        assertTrue(areAccessModifierCompatible);
+        Assertions.assertTrue(areAccessModifierCompatible);
 
         reset(overriding, overridden);
         expect(overridden.getModifiers()).andReturn(Modifier.PROTECTED);
         expect(overriding.getModifiers()).andReturn(0);
         replay(overriding, overridden);
         areAccessModifierCompatible = overriding.isAccessModifierOverriddingCompatible(overridden);
-        assertFalse(areAccessModifierCompatible);
+        Assertions.assertFalse(areAccessModifierCompatible);
 
     }
 
@@ -97,14 +97,14 @@ class Member2Test  {
         expect(overriding.getModifiers()).andReturn(Modifier.PUBLIC);
         replay(overriding, overridden);
         boolean areAccessModifierCompatible = overriding.isAccessModifierOverriddingCompatible(overridden);
-        assertTrue(areAccessModifierCompatible);
+        Assertions.assertTrue(areAccessModifierCompatible);
 
         reset(overriding, overridden);
         expect(overridden.getModifiers()).andReturn(0);
         expect(overriding.getModifiers()).andReturn(Modifier.PROTECTED);
         replay(overriding, overridden);
         areAccessModifierCompatible = overriding.isAccessModifierOverriddingCompatible(overridden);
-        assertTrue(areAccessModifierCompatible);
+        Assertions.assertTrue(areAccessModifierCompatible);
 
         reset(overriding, overridden);
         expect(overridden.getModifiers()).andReturn(0);
@@ -112,7 +112,7 @@ class Member2Test  {
         replay(overriding, overridden);
 
         areAccessModifierCompatible = overriding.isAccessModifierOverriddingCompatible(overridden);
-        assertTrue(areAccessModifierCompatible);
+        Assertions.assertTrue(areAccessModifierCompatible);
     }
 
     @Test
@@ -121,14 +121,14 @@ class Member2Test  {
         expect(overriding.getModifiers()).andReturn(Modifier.PUBLIC);
         replay(overriding, overridden);
         boolean areAccessModifierCompatible = overriding.isAccessModifierOverriddingCompatible(overridden);
-        assertFalse(areAccessModifierCompatible);
+        Assertions.assertFalse(areAccessModifierCompatible);
 
         reset(overriding, overridden);
         expect(overridden.getModifiers()).andReturn(Modifier.PUBLIC);
         expect(overriding.getModifiers()).andReturn(Modifier.PRIVATE);
         replay(overriding, overridden);
         areAccessModifierCompatible = overriding.isAccessModifierOverriddingCompatible(overridden);
-        assertFalse(areAccessModifierCompatible);
+        Assertions.assertFalse(areAccessModifierCompatible);
     }
 
     @Test
@@ -137,17 +137,17 @@ class Member2Test  {
         Method2 declaringMethod2 = class2.getDeclaringMethod2("getSerializableRefForMember2");
         SerializableReference<Method2> serializableReference = Member2.getSerializableReference(declaringMethod2);
         Method2 method2 = serializableReference.get();
-        assertSame(declaringMethod2, method2);
+        Assertions.assertSame(declaringMethod2, method2);
     }
 
     @Test
     void isDeclaredException() {
         Method[] declaredMethods = TestInvokableMember.class.getDeclaredMethods();
         TestInvokableMember testInvokableMember = new TestInvokableMember(declaredMethods[0]);
-        assertTrue(testInvokableMember.isDeclaredException(IOException.class));
-        assertTrue(testInvokableMember.isDeclaredException(new IOException()));
-        assertTrue(testInvokableMember.isDeclaredException(FileNotFoundException.class));
-        assertFalse(testInvokableMember.isDeclaredException(ClassCastException.class));
+        Assertions.assertTrue(testInvokableMember.isDeclaredException(IOException.class));
+        Assertions.assertTrue(testInvokableMember.isDeclaredException(new IOException()));
+        Assertions.assertTrue(testInvokableMember.isDeclaredException(FileNotFoundException.class));
+        Assertions.assertFalse(testInvokableMember.isDeclaredException(ClassCastException.class));
     }
 
     @Test
