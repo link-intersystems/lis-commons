@@ -1,9 +1,7 @@
 package com.link_intersystems.beans.java;
 
-import com.link_intersystems.beans.BeanClassException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 
 import javax.swing.*;
@@ -17,7 +15,6 @@ import java.beans.Introspector;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(JavaBeansExtension.class)
 class BeanEventTest {
 
     private ChangeListener changeListener;
@@ -25,16 +22,15 @@ class BeanEventTest {
     private JavaBeanEvent beanEvent;
 
     @BeforeEach
-    public void setup(TestBeansFactory beansFactory) throws IntrospectionException, BeanClassException {
+    public void setup() throws IntrospectionException {
         changeListener = mock(ChangeListener.class);
         defaultButtonModel = new DefaultButtonModel();
-        JavaBean<DefaultButtonModel> bean = beansFactory.createBean(defaultButtonModel);
 
         BeanInfo beanInfo = Introspector.getBeanInfo(DefaultButtonModel.class);
         EventSetDescriptor[] eventSetDescriptors = beanInfo.getEventSetDescriptors();
         for (EventSetDescriptor eventSetDescriptor : eventSetDescriptors) {
             if ("change".equals(eventSetDescriptor.getName())) {
-                beanEvent = new JavaBeanEvent(bean, new JavaBeanEventType(eventSetDescriptor));
+                beanEvent = new JavaBeanEvent(defaultButtonModel, new JavaBeanEventType(eventSetDescriptor));
             }
         }
 

@@ -35,4 +35,11 @@ public class JavaBeanEventType implements BeanEventType {
         Class<?> listenerType = eventSetDescriptor.getListenerType();
         return listenerType.isAssignableFrom(listenerClass);
     }
+
+    @Override
+    public String toString() {
+        return "JavaBeanEventType{" +
+                "eventSetDescriptor=" + eventSetDescriptor +
+                '}';
+    }
 }
