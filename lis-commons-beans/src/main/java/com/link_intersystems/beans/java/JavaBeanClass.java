@@ -15,10 +15,7 @@
  */
 package com.link_intersystems.beans.java;
 
-import com.link_intersystems.beans.BeanClass;
-import com.link_intersystems.beans.BeanEventTypes;
-import com.link_intersystems.beans.BeanInstantiationException;
-import com.link_intersystems.beans.PropertyDescList;
+import com.link_intersystems.beans.*;
 import com.link_intersystems.lang.reflect.SignaturePredicate;
 
 import java.beans.*;
@@ -50,7 +47,7 @@ public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
 
     private BeanInfo beanInfo;
     private BeanEventTypes beanEventTypes;
-    private PropertyDescList properties;
+    private JavaPropertyDescList properties;
     private List<JavaPropertyDesc> javaPropertyDescs;
 
     public JavaBeanClass(Class<T> beanType) throws IntrospectionException {
@@ -117,34 +114,6 @@ public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
     }
 
     /**
-     * @return a {@link PropertyDescriptor} for the given method if the method is a
-     * getter or setter of a property of this {@link JavaBeanClass}.
-     * @since 1.2.0;
-     */
-    public PropertyDescriptor getPropertyDescriptor(Method method) {
-        Map<Method, PropertyDescriptor> propertyDescriptorsByMethod = getPropertyDescriptorsByMethod();
-
-        return propertyDescriptorsByMethod.getOrDefault(method, null);
-    }
-
-    private Map<Method, PropertyDescriptor> getPropertyDescriptorsByMethod() {
-        if (propertyDescriptorsByMethod == null) {
-            Map<Method, PropertyDescriptor> mapToBuild = new HashMap<>();
-
-            for (PropertyDescriptor propertyDescriptor : getJavaPropertyDescriptors()) {
-                Method readMethod = propertyDescriptor.getReadMethod();
-                mapToBuild.put(readMethod, propertyDescriptor);
-
-                Method writeMethod = propertyDescriptor.getWriteMethod();
-                mapToBuild.put(writeMethod, propertyDescriptor);
-            }
-
-            this.propertyDescriptorsByMethod = mapToBuild;
-        }
-        return propertyDescriptorsByMethod;
-    }
-
-    /**
      * A {@link JavaBean} instance factory of this {@link JavaBeanClass}.
      *
      * @return creates a new {@link JavaBean} instance of this {@link JavaBeanClass}.
@@ -194,9 +163,9 @@ public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
     }
 
     @Override
-    public PropertyDescList getProperties() {
+    public JavaPropertyDescList getProperties() {
         if (this.properties == null) {
-            this.properties = new PropertyDescList(getJavaPropertyDescs());
+            this.properties = new JavaPropertyDescList(getJavaPropertyDescs());
         }
         return properties;
     }

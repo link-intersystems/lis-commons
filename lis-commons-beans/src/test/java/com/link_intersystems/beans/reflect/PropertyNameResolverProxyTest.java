@@ -1,5 +1,7 @@
 package com.link_intersystems.beans.reflect;
 
+import com.link_intersystems.beans.java.JavaPropertyDesc;
+import com.link_intersystems.beans.java.JavaPropertyDescList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

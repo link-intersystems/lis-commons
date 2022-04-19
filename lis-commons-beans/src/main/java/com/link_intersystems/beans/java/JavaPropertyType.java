@@ -75,6 +75,30 @@ public class JavaPropertyType implements PropertyType {
         }
     }
 
+    public boolean isReadMethod(Method method) {
+        if (method == null) {
+            return false;
+        }
+
+        PropertyDescriptor javaPropertyDescriptor = getJavaPropertyDescriptor();
+        Method readMethod = javaPropertyDescriptor.getReadMethod();
+        return method.equals(readMethod);
+    }
+
+    public boolean isWriteMethod(Method method) {
+        if (method == null) {
+            return false;
+        }
+
+        PropertyDescriptor javaPropertyDescriptor = getJavaPropertyDescriptor();
+        Method writeMethod = javaPropertyDescriptor.getWriteMethod();
+        return method.equals(writeMethod);
+    }
+
+    public boolean hasMethod(Method method) {
+        return isReadMethod(method) || isWriteMethod(method);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

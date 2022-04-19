@@ -15,22 +15,17 @@ import static java.util.stream.Collectors.toMap;
 public class BeanEventTypes extends AbstractList<BeanEventType> {
 
     private List<BeanEventType> beanEventTypes = new ArrayList<>();
-    private Map<String, BeanEventType> beanEventTypesByName;
+    private Map<String, BeanEventType> byName;
 
     public BeanEventTypes(List<? extends BeanEventType> beanEventTypes) {
         this.beanEventTypes.addAll(beanEventTypes);
     }
 
     public BeanEventType getByName(String eventName) {
-        return getBeanEventTypesByName().get(eventName);
-    }
-
-    private Map<String, BeanEventType> getBeanEventTypesByName() {
-        if (beanEventTypesByName == null) {
-            Collector<BeanEventType, ?, Map<String, BeanEventType>> mapByName = toMap(com.link_intersystems.beans.BeanEventType::getName, identity());
-            beanEventTypesByName = this.stream().collect(mapByName);
+        if (byName == null) {
+            byName = stream().collect(toMap(BeanEventType::getName, identity()));
         }
-        return beanEventTypesByName;
+        return byName.get(eventName);
     }
 
     @Override

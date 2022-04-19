@@ -1,6 +1,8 @@
 package com.link_intersystems.beans.reflect;
 
 import com.link_intersystems.beans.java.JavaBeanClass;
+import com.link_intersystems.beans.java.JavaPropertyDesc;
+import com.link_intersystems.beans.java.JavaPropertyDescList;
 import com.link_intersystems.beans.java.JavaPropertyDescriptors;
 import com.link_intersystems.lang.reflect.AbstractInvocationHandler;
 
@@ -19,18 +21,19 @@ public abstract class AbstractBeanProxyHandler<T> extends AbstractInvocationHand
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        PropertyDescriptor propertyDescriptor = beanClass.getPropertyDescriptor(method);
-        if (propertyDescriptor == null) {
+        JavaPropertyDescList javaPropertyDescs = beanClass.getProperties();
+
+        JavaPropertyDesc propertyDesc = javaPropertyDescs.getByMethod(method);
+
+        if (propertyDesc == null) {
             method.invoke(this, args);
         } else {
-            Method readMethod = propertyDescriptor.getReadMethod();
-            if (method.equals(readMethod)) {
-                return handleGetMethod(method, propertyDescriptor);
+            PropertyDescriptor javaPropertyDescriptor = propertyDesc.getJavaPropertyDescriptor();
+
+            if (propertyDesc.isReadMethod(method)) {
+                return handleGetMethod(method, javaPropertyDescriptor);
             } else {
-                Method writeMethod = propertyDescriptor.getWriteMethod();
-                if (method.equals(writeMethod)) {
-                    handleSetMethod(method, args, propertyDescriptor);
-                }
+                handleSetMethod(method, args, javaPropertyDescriptor);
             }
         }
         return null;

@@ -48,6 +48,7 @@ public class JavaPropertyDesc extends JavaPropertyType implements PropertyDesc {
         }
     }
 
+
     protected Object invoke(Method method, Object target, Object... args) throws IllegalAccessException, InvocationTargetException {
         return method.invoke(target, args);
     }
@@ -58,4 +59,6 @@ public class JavaPropertyDesc extends JavaPropertyType implements PropertyDesc {
         if (o == null || getClass() != o.getClass()) return false;
         return super.equals(o);
     }
+
+
 }
