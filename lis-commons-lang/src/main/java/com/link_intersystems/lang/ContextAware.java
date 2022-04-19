@@ -18,12 +18,9 @@ package com.link_intersystems.lang;
 import com.link_intersystems.lang.reflect.Class2;
 import com.link_intersystems.lang.reflect.Invokable;
 import com.link_intersystems.lang.reflect.Method2;
-import com.link_intersystems.lang.reflect.criteria.ClassCriteria;
 
 import java.lang.reflect.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -223,14 +220,48 @@ public abstract class ContextAware<CONTEXT_TYPE> {
     }
 
     private List<Class<?>> getAllInterfaces(Class<?> targetObjectClass) {
-        Class2<?> class2 = Class2.get(targetObjectClass);
-        ClassCriteria classCriteria = new ClassCriteria();
-        classCriteria.setSelection(ClassCriteria.ClassType.INTERFACES);
-        classCriteria.setTraverseStrategy(ClassCriteria.TraverseStrategy.DEPTH_FIRST);
-        Iterable<Class<?>> allInterfaces = classCriteria.getIterable(targetObjectClass);
+        class AllInterfacesIterator implements Iterator<Class<?>> {
 
-        return StreamSupport.stream(allInterfaces.spliterator(), false)
-                .collect(Collectors.toList());
+            private Queue<Class<?>> types = new LinkedList<>();
+
+            public AllInterfacesIterator(Class<?> type) {
+                if (type.isInterface()) {
+                    types.add(type);
+                } else {
+                    Class<?>[] interfaces = type.getInterfaces();
+                    types.addAll(Arrays.asList(interfaces));
+                }
+            }
+
+            @Override
+            public boolean hasNext() {
+                return !types.isEmpty();
+            }
+
+            @Override
+            public Class<?> next() {
+                Class<?> nextType = types.poll();
+
+                Class<?>[] interfaces = nextType.getInterfaces();
+                types.addAll(Arrays.asList(interfaces));
+
+                return nextType;
+            }
+        }
+
+//        Class2<?> class2 = Class2.get(targetObjectClass);
+//        ClassCriteria classCriteria = new ClassCriteria();
+//        classCriteria.setSelection(ClassCriteria.ClassType.INTERFACES);
+//        classCriteria.setTraverseStrategy(ClassCriteria.TraverseStrategy.DEPTH_FIRST);
+//        Iterable<Class<?>> allInterfaces = classCriteria.getIterable(targetObjectClass);
+        AllInterfacesIterator allInterfacesIterator = new AllInterfacesIterator(targetObjectClass);
+        List<Class<?>> allInterfaces = new ArrayList<>();
+        while (allInterfacesIterator.hasNext()) {
+            Class<?> next =  allInterfacesIterator.next();
+            allInterfaces.add(next);
+
+        }
+        return allInterfaces;
     }
 
     /**

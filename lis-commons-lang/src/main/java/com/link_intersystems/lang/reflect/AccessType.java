@@ -20,17 +20,13 @@ import java.lang.reflect.Modifier;
 
 /**
  * Access modifiers definition. The {@link Modifier} specified by the java
- * language are not sufficient for the use case that the {@link com.link_intersystems.lang.reflect.criteria.MemberCriteria}
- * supports, because {@link Modifier} doesn't declare the default modifier. The
- * default is defined implicitly if none of the other access modifiers are
- * declared for a {@link Member}. Here is an example why we need to define our
- * own enum for access modifier. <br/>
- * Suppose you want to describe that all members should be found that have protected
- * or default access modifiers. How do you select them with the {@link Modifier}
- * class??? {@link Modifier#PROTECTED} | ??? <br/>
- * The answer is to say that you want to select all that match the protected and
- * all that doesn't have any of the access modifiers. <br/>
- * So the definition would be something like...
+ * language are not sufficient some use cases, because a {@link Modifier} doesn't
+ * declare the default modifier. The default is defined implicitly if none of the other
+ * access modifiers are declared for a {@link Member}. Here is an example why we need to
+ * define our own enum for access modifier. <br/>
+ *
+ * Suppose you want to describe the default modifier.
+ * The definition would be something like this...
  * 
  * <pre>
  * (({@link Modifier#PROTECTED} & searchForModifier) != 0)
@@ -38,25 +34,13 @@ import java.lang.reflect.Modifier;
  * 				| {@link Modifier#PROTECTED}
  * 				| {@link Modifier#PRIVATE}) & searchForModifier) != 0)
  * </pre>
- * 
- * And now the big question is... how can you define a method for the
- * {@link com.link_intersystems.lang.reflect.criteria.MemberCriteria} to allow callers to select this???<br/>
- * 
- * <pre>
- * // Default java would not work
- * public void withAccess(int modifiers);
- * 
- * // clients would only be able to select public, protected and/or private.
- * memberFInder.withAccess({@link Modifier#PROTECTED} | ??? how to select default ???);
- * </pre>
- * 
- * Thats the reason why the {@link AccessType} exists.
+ *
+ * That's the reason why the {@link AccessType} exists.
  * 
  * @author René Link [<a
  *         href="mailto:rene.link@link-intersystems.com">rene.link@link-
  *         intersystems.com</a>]
  * @since 1.0.0;
- * @see com.link_intersystems.lang.reflect.criteria.MemberCriteria#withAccess(AccessType...)
  */
 public enum AccessType {
 

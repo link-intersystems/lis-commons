@@ -16,14 +16,15 @@
 package com.link_intersystems.lang.reflect;
 
 import com.link_intersystems.lang.Assert;
-import com.link_intersystems.lang.reflect.criteria.ClassCriteria;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
+
+import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.toList;
 
 public class ThreadLocalProxy implements InvocationHandler {
 
@@ -32,9 +33,7 @@ public class ThreadLocalProxy implements InvocationHandler {
 
     @SuppressWarnings("unchecked")
     public static <T, TC> T createProxy(ThreadLocal<T> threadLocal, T nullInstance, Class<TC> targetClass) {
-        ClassCriteria classCriteria = new ClassCriteria();
-        classCriteria.setSelection(ClassCriteria.ClassType.INTERFACES);
-        Set<Class<?>> allInterfaces = new LinkedHashSet<>(classCriteria.getResult(targetClass));
+        Set<Class<?>> allInterfaces = getAllInterfaces(targetClass);
 
         if (targetClass.isInterface()) {
             allInterfaces.add(targetClass);
@@ -42,6 +41,21 @@ public class ThreadLocalProxy implements InvocationHandler {
         Class<?>[] interfaces = allInterfaces.toArray(new Class<?>[allInterfaces.size()]);
         T proxy = (T) Proxy.newProxyInstance(targetClass.getClassLoader(), interfaces, new ThreadLocalProxy(threadLocal, nullInstance));
         return proxy;
+    }
+
+    private static Set<Class<?>> getAllInterfaces(Class<?> type) {
+        Set<Class<?>> allInterfaces = new LinkedHashSet<>();
+
+        if (type.isInterface()) {
+            allInterfaces.add(type);
+        }
+
+        Class<?>[] interfaces = type.getInterfaces();
+        allInterfaces.addAll(stream(interfaces)
+                .map(ThreadLocalProxy::getAllInterfaces)
+                .flatMap(Set::stream).collect(toList()));
+
+        return allInterfaces;
     }
 
     protected ThreadLocalProxy(ThreadLocal<?> threadLocal, Object nullInstance) {

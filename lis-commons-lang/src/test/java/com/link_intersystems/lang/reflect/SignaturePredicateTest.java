@@ -42,15 +42,10 @@ class SignaturePredicateTest  {
     }
 
     @Test
-    void invokableSignatureWithNull() {
-        assertThrows(IllegalArgumentException.class, () -> new SignaturePredicate((Member2<?>) null));
-    }
-
-    @Test
     void methodEqual() throws SecurityException, NoSuchMethodException {
         Method declaredMethod = Collection.class.getDeclaredMethod("add", Object.class);
         Method declaredMethod2 = ArrayList.class.getDeclaredMethod("add", Object.class);
-        SignaturePredicate signaturePredicate = new SignaturePredicate(declaredMethod);
+        SignaturePredicate<Method> signaturePredicate = new SignaturePredicate<>(declaredMethod);
         boolean evaluate = signaturePredicate.test(declaredMethod2);
         assertTrue(evaluate);
     }
@@ -59,8 +54,8 @@ class SignaturePredicateTest  {
     void methodEqualWithInvokable() throws SecurityException, NoSuchMethodException {
         Method declaredMethod = Collection.class.getDeclaredMethod("add", Object.class);
         Method declaredMethod2 = ArrayList.class.getDeclaredMethod("add", Object.class);
-        SignaturePredicate signaturePredicate = new SignaturePredicate(declaredMethod);
-        boolean evaluate = signaturePredicate.test(new Method2(declaredMethod2));
+        SignaturePredicate<Method> signaturePredicate = new SignaturePredicate<>(declaredMethod);
+        boolean evaluate = signaturePredicate.test(declaredMethod2);
         assertTrue(evaluate);
     }
 
@@ -71,7 +66,7 @@ class SignaturePredicateTest  {
         SignaturePredicate signaturePredicate = new SignaturePredicate(declaredMethod);
         SerializableTemplateObjectFactory<SignaturePredicate> serializableTemplateObjectFactory = new SerializableTemplateObjectFactory<SignaturePredicate>(signaturePredicate);
         SignaturePredicate object = serializableTemplateObjectFactory.getObject();
-        boolean evaluate = object.test(new Method2(declaredMethod2));
+        boolean evaluate = object.test(declaredMethod2);
         assertTrue(evaluate);
     }
 
@@ -105,23 +100,4 @@ class SignaturePredicateTest  {
         });
     }
 
-    @SuppressWarnings("rawtypes")
-    @Test
-    void evaluateWithAnotherSignature() throws SecurityException, NoSuchMethodException {
-        Constructor<ArrayList> declaredConstructor = ArrayList.class.getDeclaredConstructor(int.class);
-        Class2<ArrayList> class2 = Class2.get(ArrayList.class);
-        Constructor2<ArrayList> applicableConstructor = class2.getApplicableConstructor(int.class);
-        SignaturePredicate signaturePredicate = new SignaturePredicate(declaredConstructor);
-        boolean evaluate = signaturePredicate.test(applicableConstructor.getSignature());
-        assertTrue(evaluate);
-    }
-
-    @SuppressWarnings("rawtypes")
-    @Test
-    void evaluateWithUnsupportedObject() throws SecurityException, NoSuchMethodException {
-        Constructor<ArrayList> declaredConstructor = ArrayList.class.getDeclaredConstructor(int.class);
-        SignaturePredicate signaturePredicate = new SignaturePredicate(declaredConstructor);
-        boolean evaluate = signaturePredicate.test(Integer.valueOf(1));
-        assertFalse(evaluate);
-    }
 }

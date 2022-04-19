@@ -21,7 +21,7 @@ import java.io.Serializable;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Member;
 
-abstract class AbstractMemberInvokable<MEMBER2_TYPE extends Member2<? extends Member>>
+abstract class AbstractMemberInvokable<M extends Member2<? extends Member>>
         extends AbstractInvokable implements Invokable, Serializable {
 
     /**
@@ -29,11 +29,11 @@ abstract class AbstractMemberInvokable<MEMBER2_TYPE extends Member2<? extends Me
      */
     private static final long serialVersionUID = -5885139676808487497L;
 
-    private final MEMBER2_TYPE invokableMember;
+    private final M invokableMember;
 
     private final Object target;
 
-    public AbstractMemberInvokable(Object target, MEMBER2_TYPE invokableMember) {
+    public AbstractMemberInvokable(Object target, M invokableMember) {
         Assert.notNull("invokableMember", invokableMember);
         this.target = target;
         this.invokableMember = invokableMember;
@@ -46,12 +46,12 @@ abstract class AbstractMemberInvokable<MEMBER2_TYPE extends Member2<? extends Me
      * {@link Member2#isApplicable(Object[])} is applicable for the arguments.
      */
     protected boolean isApplicable(Object... args) {
-        MEMBER2_TYPE invokableMember2 = getInvokableMember();
+        M invokableMember2 = getInvokableMember();
         return invokableMember2.isApplicable(args);
     }
 
     protected AccessibleObject getAccessibleObject() {
-        MEMBER2_TYPE invokableMember = getInvokableMember();
+        M invokableMember = getInvokableMember();
         Member member = invokableMember.getMember();
         AccessibleObject accessibleObject = AccessibleObject.class.cast(member);
         return accessibleObject;
@@ -67,10 +67,10 @@ abstract class AbstractMemberInvokable<MEMBER2_TYPE extends Member2<? extends Me
 
     /**
      * @return the {@link Member2} that this
-     *         {@link AbstractMemberInvokable} is based on.
+     * {@link AbstractMemberInvokable} is based on.
      * @since 1.2.0;
      */
-    protected final MEMBER2_TYPE getInvokableMember() {
+    protected final M getInvokableMember() {
         return invokableMember;
     }
 

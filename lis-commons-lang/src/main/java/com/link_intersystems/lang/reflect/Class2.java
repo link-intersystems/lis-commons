@@ -21,8 +21,6 @@ import com.link_intersystems.lang.Signature;
 import com.link_intersystems.lang.reflect.PotentiallyApplicableMemberStrategy.PotentiallyApplicableCriteria;
 import com.link_intersystems.lang.reflect.PotentiallyApplicableMemberStrategy.PotentionallyApplicableConstructorCriteria;
 import com.link_intersystems.lang.reflect.PotentiallyApplicableMemberStrategy.PotentionallyApplicableMethodCriteria;
-import com.link_intersystems.lang.reflect.criteria.ClassCriteria;
-import com.link_intersystems.lang.reflect.criteria.ClassCriteria.ClassType;
 
 import java.io.Serializable;
 import java.lang.reflect.*;
@@ -244,7 +242,7 @@ public class Class2<T> implements Serializable {
      * @since 1.2.0;
      */
     public ArrayType<T> getArrayType() {
-        if(arrayType == null){
+        if (arrayType == null) {
             arrayType = new ArrayType<>(getType());
         }
         return arrayType;
@@ -697,13 +695,40 @@ public class Class2<T> implements Serializable {
      * @since 1.2.0;
      */
     public <C> Class<C> getBoundClass(String typeVarName) {
-        ClassCriteria classCriteria = new ClassCriteria();
-        classCriteria.setSelection(ClassType.CLASSES, ClassType.INTERFACES);
-        classCriteria.setTraverseClassesUniquely(true);
-        Iterable<Class<?>> hierarchieIterator = classCriteria.getIterable(
-                getType(), Object.class);
+        class BoundClassIterator implements Iterator<Class<?>> {
+
+            private Queue<Class<?>> types = new LinkedList<>();
+
+            public BoundClassIterator(Class<T> type) {
+                types.add(type);
+            }
+
+            @Override
+            public boolean hasNext() {
+                return !types.isEmpty();
+            }
+
+            @Override
+            public Class<?> next() {
+                Class<?> nextType = types.poll();
+
+                Class<?> superclass = nextType.getSuperclass();
+                if (superclass != null) {
+                    types.add(superclass);
+                }
+                Class<?>[] interfaces = nextType.getInterfaces();
+
+                types.addAll(Arrays.asList(interfaces));
+
+                return nextType;
+            }
+        }
+
+        BoundClassIterator boundClassIterator = new BoundClassIterator(getType());
+
         TypeVariable<?> typeVariable = null;
-        for (Class<?> clazzInHierarchy : hierarchieIterator) {
+        while (boundClassIterator.hasNext()) {
+            Class<?> clazzInHierarchy = boundClassIterator.next();
             Class2<?> class2InHierarchy = Class2.get(clazzInHierarchy);
             typeVariable = class2InHierarchy.getTypeVariable(typeVarName);
             if (typeVariable != null) {
