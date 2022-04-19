@@ -7,14 +7,21 @@ import com.link_intersystems.beans.PropertyWriteException;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.MessageFormat;
+import java.util.Objects;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class JavaPropertyDesc extends JavaPropertyType implements PropertyDesc {
+public class JavaPropertyDesc implements PropertyDesc {
+
+    private PropertyDescriptor propertyDescriptor;
+    private Class<?> type;
 
     public JavaPropertyDesc(PropertyDescriptor propertyDescriptor) {
-        super(propertyDescriptor);
+        this.propertyDescriptor = requireNonNull(propertyDescriptor);
     }
 
     @SuppressWarnings("unchecked")
@@ -57,8 +64,94 @@ public class JavaPropertyDesc extends JavaPropertyType implements PropertyDesc {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        return super.equals(o);
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        JavaPropertyDesc that = (JavaPropertyDesc) o;
+        return Objects.equals(propertyDescriptor, that.propertyDescriptor) && Objects.equals(type, that.type);
     }
 
 
+    public String getName() {
+        return propertyDescriptor.getName();
+    }
+
+    public Class<?> getType() {
+        if (this.type == null) {
+            Method readMethod = propertyDescriptor.getReadMethod();
+            if (readMethod != null) {
+                type = readMethod.getReturnType();
+            } else {
+                Method writeMethod = propertyDescriptor.getWriteMethod();
+                Class<?>[] parameterTypes = writeMethod.getParameterTypes();
+                type = parameterTypes[0];
+            }
+        }
+        return type;
+    }
+
+    public boolean isReadable() {
+        return propertyDescriptor.getReadMethod() != null;
+    }
+
+    public boolean isWritable() {
+        return propertyDescriptor.getWriteMethod() != null;
+    }
+
+    public PropertyDescriptor getJavaPropertyDescriptor() {
+        return propertyDescriptor;
+    }
+
+    public Class<?> getDeclaringClass() {
+        Method readMethod = propertyDescriptor.getReadMethod();
+        Method writeMethod = propertyDescriptor.getWriteMethod();
+
+        if (readMethod != null && writeMethod == null) {
+            return readMethod.getDeclaringClass();
+        } else if (readMethod == null && writeMethod != null) {
+            return writeMethod.getDeclaringClass();
+        } else if (readMethod != null) {
+            Class<?> readDeclaringClass = readMethod.getDeclaringClass();
+            Class<?> writeDeclaringClass = writeMethod.getDeclaringClass();
+
+            if (readDeclaringClass.equals(writeDeclaringClass)
+                    || readDeclaringClass.isAssignableFrom(writeDeclaringClass)) {
+                return readDeclaringClass;
+            } else {
+                return writeDeclaringClass;
+            }
+        } else {
+            String msg = MessageFormat.format("Can not determine declaring class of property {0}. " + //
+                    "Read and write method is null.", this);
+            throw new IllegalStateException(msg);
+        }
+    }
+
+    public boolean isReadMethod(Method method) {
+        if (method == null) {
+            return false;
+        }
+
+        PropertyDescriptor javaPropertyDescriptor = getJavaPropertyDescriptor();
+        Method readMethod = javaPropertyDescriptor.getReadMethod();
+        return method.equals(readMethod);
+    }
+
+    public boolean isWriteMethod(Method method) {
+        if (method == null) {
+            return false;
+        }
+
+        PropertyDescriptor javaPropertyDescriptor = getJavaPropertyDescriptor();
+        Method writeMethod = javaPropertyDescriptor.getWriteMethod();
+        return method.equals(writeMethod);
+    }
+
+    public boolean hasMethod(Method method) {
+        return isReadMethod(method) || isWriteMethod(method);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(propertyDescriptor, type);
+    }
 }
