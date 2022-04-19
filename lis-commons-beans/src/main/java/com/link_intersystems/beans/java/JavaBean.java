@@ -83,7 +83,7 @@ public class JavaBean<T> extends Bean<T> {
     protected BeanEvent getApplicableBeanEvent(Object listener) {
         BeanClass<T> beanClass = getBeanClass();
 
-        BeanEventTypes beanEventTypes = beanClass.getBeanEventTypes();
+        BeanEventTypeList beanEventTypes = beanClass.getBeanEventTypes();
 
         BeanEvent applicableBeanEvent = null;
         for (BeanEventType beanEvent : beanEventTypes) {

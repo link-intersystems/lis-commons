@@ -16,7 +16,7 @@
 package com.link_intersystems.beans.java;
 
 import com.link_intersystems.beans.BeanClass;
-import com.link_intersystems.beans.BeanEventTypes;
+import com.link_intersystems.beans.BeanEventTypeList;
 import com.link_intersystems.beans.BeanInstantiationException;
 import com.link_intersystems.lang.reflect.SignaturePredicate;
 
@@ -56,7 +56,7 @@ public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
     private transient JavaPropertyDescList indexedProperties;
     private transient JavaPropertyDescList allProperties;
 
-    private BeanEventTypes beanEventTypes;
+    private BeanEventTypeList beanEventTypes;
 
     public JavaBeanClass(Class<T> beanType) throws IntrospectionException {
         this(beanType, null);
@@ -149,24 +149,24 @@ public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
     }
 
     @Override
-    public BeanEventTypes getBeanEventTypes() {
+    public BeanEventTypeList getBeanEventTypes() {
         if (beanEventTypes == null) {
             beanEventTypes = createBeanEventTypes();
         }
         return beanEventTypes;
     }
 
-    private BeanEventTypes createBeanEventTypes() {
+    private BeanEventTypeList createBeanEventTypes() {
         EventSetDescriptor[] eventSetDescriptors = beanInfo.getEventSetDescriptors();
         List<JavaBeanEventType> beanEventTypes = stream(eventSetDescriptors)
                 .map(JavaBeanEventType::new)
                 .collect(toList());
-        return new BeanEventTypes(beanEventTypes);
+        return new BeanEventTypeList(beanEventTypes);
     }
 
     @Override
     public boolean isListenerSupported(Class<?> listenerClass) {
-        BeanEventTypes beanEvents = getBeanEventTypes();
+        BeanEventTypeList beanEvents = getBeanEventTypes();
         return beanEvents.stream().anyMatch(be -> be.isApplicable(listenerClass));
     }
 

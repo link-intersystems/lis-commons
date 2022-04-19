@@ -11,12 +11,12 @@ import static java.util.stream.Collectors.toMap;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class BeanEventTypes extends AbstractList<BeanEventType> {
+public class BeanEventTypeList extends AbstractList<BeanEventType> {
 
     private List<BeanEventType> beanEventTypes = new ArrayList<>();
     private Map<String, BeanEventType> byName;
 
-    public BeanEventTypes(List<? extends BeanEventType> beanEventTypes) {
+    public BeanEventTypeList(List<? extends BeanEventType> beanEventTypes) {
         this.beanEventTypes.addAll(beanEventTypes);
     }
 

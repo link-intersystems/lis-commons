@@ -15,7 +15,6 @@ public class PropertyList extends AbstractList<Property> {
     private List<? extends Property> properties;
 
     private Map<String, Property> propertyMap = new HashMap<>();
-
     private Map<PropertyDesc, Property> propertyByDesc = new HashMap<>();
 
 

@@ -45,7 +45,7 @@ public interface BeanClass<T> {
     }
 
 
-    BeanEventTypes getBeanEventTypes();
+    BeanEventTypeList getBeanEventTypes();
 
     default boolean isListenerSupported(Class<?> listenerClass) {
         return getBeanEventTypes()

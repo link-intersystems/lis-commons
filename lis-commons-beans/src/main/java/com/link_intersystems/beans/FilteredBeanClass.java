@@ -41,7 +41,7 @@ public class FilteredBeanClass<T> implements BeanClass<T> {
     }
 
     @Override
-    public BeanEventTypes getBeanEventTypes() {
+    public BeanEventTypeList getBeanEventTypes() {
         return beanClass.getBeanEventTypes();
     }
 
