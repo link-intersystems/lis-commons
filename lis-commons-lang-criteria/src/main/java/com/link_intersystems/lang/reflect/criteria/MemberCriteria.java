@@ -324,8 +324,8 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
     protected Iterator<T> applyAccessAndNamePredicates(Iterator<T> iterator) {
         List<Predicate<T>> predicates = new ArrayList<>();
 
-        int accessModifiers = 0;
         Collection<AccessType> accesses = getAccesses();
+        int accessModifiers = 0;
         for (AccessType access : accesses) {
             switch (access) {
                 case PUBLIC:

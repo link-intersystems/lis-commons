@@ -15,16 +15,20 @@
  */
 package com.link_intersystems.lang.reflect.criteria;
 
+import com.link_intersystems.util.FilteredIterator;
+
+import java.util.Iterator;
+import java.util.function.Predicate;
+
 /**
  * A {@link Result} defines how many result elements are selected by an
  * {@link ElementCriteria}.
  *
  * @author René Link <a
- *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
- *         intersystems.com]</a>
+ * href="mailto:rene.link@link-intersystems.com">[rene.link@link-
+ * intersystems.com]</a>
  * @since 1.2.0;
  * @since 1.0.0; formerly named Selection
- *
  */
 public enum Result {
     /**
@@ -33,18 +37,48 @@ public enum Result {
      *
      * @since 1.2.0;
      */
-    FIRST,
+    FIRST {
+        @Override
+        <T> Iterator<T> apply(Iterator<T> iterator) {
+            Predicate<T> firstPredicate = new Predicate<T>() {
+
+                private boolean first = true;
+
+                public boolean test(Object object) {
+                    if (first) {
+                        first = false;
+                        return true;
+                    }
+                    return false;
+                }
+            };
+            return new FilteredIterator<>(iterator, firstPredicate);
+        }
+    },
     /**
      * Only the last element that matches the criteria is included in the
      * result.
      *
      * @since 1.2.0;
      */
-    LAST,
+    LAST {
+        @Override
+        <T> Iterator<T> apply(Iterator<T> iterator) {
+            Predicate<T> lastElementPredicate = object -> !iterator.hasNext();
+            return new FilteredIterator<>(iterator, lastElementPredicate);
+        }
+    },
     /**
      * All elements that match the criteria are included in the result.
      *
      * @since 1.2.0;
      */
-    ALL;
+    ALL {
+        @Override
+        <T> Iterator<T> apply(Iterator<T> iterator) {
+            return iterator;
+        }
+    };
+
+    abstract <T> Iterator<T> apply(Iterator<T> iterator);
 }

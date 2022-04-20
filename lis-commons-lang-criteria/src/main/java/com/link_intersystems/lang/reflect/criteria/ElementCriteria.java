@@ -111,32 +111,7 @@ public abstract class ElementCriteria<T> implements Cloneable {
      * @since 1.0.0;
      */
     protected Iterator<T> applySelectionFilter(final Iterator<T> iterator) {
-        Iterator<T> result = null;
-        switch (select) {
-            case FIRST:
-                Predicate<T> firstPredicate = new Predicate<T>() {
-
-                    private boolean first = true;
-
-                    public boolean test(Object object) {
-                        if (first) {
-                            first = false;
-                            return true;
-                        }
-                        return false;
-                    }
-                };
-                result = new FilteredIterator<>(iterator, firstPredicate);
-                break;
-            case LAST:
-                Predicate<T> lastElementPredicate = object -> !iterator.hasNext();
-                result = new FilteredIterator<>(iterator, lastElementPredicate);
-                break;
-            case ALL:
-                result = iterator;
-                break;
-        }
-        return result;
+        return select.apply(iterator);
     }
 
     /**
