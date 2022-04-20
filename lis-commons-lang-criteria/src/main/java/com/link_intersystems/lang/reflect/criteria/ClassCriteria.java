@@ -305,7 +305,7 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
                     }
 
                 }
-                Iterator<Node> classNodeIterator = null;
+                Iterator<Node> classNodeIterator;
                 Iterator classesIterator;
                 if (separatedClassTypeTraversal) {
                     NodeIterateStrategy nodeIterateStrategy = NodeIterateStrategy.valueOf(traverseStrategy.name());
@@ -319,14 +319,7 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
                     classNodeIterator = GraphFacade.perPredicateNodeIterator(nodeIterateStrategy, rootNode, nodeIteratePredicates);
                     classesIterator = new TransformedIterator(classNodeIterator, new Node2ClassTransformer());
                 } else {
-                    switch (classCriteria.traverseStrategy) {
-                        case BREADTH_FIRST:
-                            classNodeIterator = new BreadthFirstNodeIterator(rootNode);
-                            break;
-                        case DEPTH_FIRST:
-                            classNodeIterator = new DepthFirstNodeIterator(rootNode);
-                            break;
-                    }
+                    classNodeIterator = classCriteria.traverseStrategy.getNodeIterator(rootNode);
                     classesIterator = new TransformedIterator(classNodeIterator, new Node2ClassTransformer());
                 }
 
@@ -334,6 +327,7 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
                 Predicate<Class<?>> classTypePredicate = classTypesList.stream()
                         .reduce((prev, curr) -> prev == null ? curr : prev.or(curr))
                         .orElse(c -> true);
+
                 classesIterator = new FilteredIterator<>(classesIterator, classTypePredicate);
 
                 classesIterator = classCriteria.applyTraverseClassesUniquely(classesIterator);
@@ -415,14 +409,20 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
     }
 
     public enum TraverseStrategy {
-        /**
-         *
-         */
-        DEPTH_FIRST,
-        /**
-         *
-         */
-        BREADTH_FIRST
+        DEPTH_FIRST {
+            @Override
+            Iterator<Node> getNodeIterator(ClassNode classNode) {
+                return new DepthFirstNodeIterator(classNode);
+            }
+        },
+        BREADTH_FIRST {
+            @Override
+            Iterator<Node> getNodeIterator(ClassNode classNode) {
+                return new BreadthFirstNodeIterator(classNode);
+            }
+        };
+
+        abstract Iterator<Node> getNodeIterator(ClassNode classNode);
     }
 
 }
