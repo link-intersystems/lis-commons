@@ -16,7 +16,10 @@
 package com.link_intersystems.lang.reflect.criteria;
 
 import com.link_intersystems.lang.reflect.ReflectFacade;
-import com.link_intersystems.util.*;
+import com.link_intersystems.util.FilteredIterator;
+import com.link_intersystems.util.TransformedIterator;
+import com.link_intersystems.util.TransformedPredicate;
+import com.link_intersystems.util.Transformer;
 import com.link_intersystems.util.graph.BreadthFirstNodeIterator;
 import com.link_intersystems.util.graph.DepthFirstNodeIterator;
 import com.link_intersystems.util.graph.GraphFacade;
@@ -29,6 +32,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import static java.util.Arrays.asList;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -80,7 +84,7 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
 
     public void setSelection(ClassType... classTypes) {
         requireNonNull(classTypes);
-        this.classTypes = Arrays.asList(classTypes).stream().distinct().toArray(ClassType[]::new);
+        this.classTypes = asList(classTypes).stream().distinct().toArray(ClassType[]::new);
     }
 
     /**
@@ -309,8 +313,7 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
                     Node2ClassTransformer node2ClassTransformer = new Node2ClassTransformer();
                     for (int i = 0; i < classTypes.length; i++) {
                         ClassType classType = classTypes[i];
-                        Predicate<Class<?>> classTypePredicate = new OrPredicate<>(classType);
-                        Predicate transformedPredicate = new TransformedPredicate(node2ClassTransformer, classTypePredicate);
+                        Predicate transformedPredicate = new TransformedPredicate(node2ClassTransformer, classType);
                         nodeIteratePredicates[i] = transformedPredicate;
                     }
                     classNodeIterator = GraphFacade.perPredicateNodeIterator(nodeIterateStrategy, rootNode, nodeIteratePredicates);
@@ -327,7 +330,10 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
                     classesIterator = new TransformedIterator(classNodeIterator, new Node2ClassTransformer());
                 }
 
-                Predicate<Class<?>> classTypePredicate = new OrPredicate<>(classTypes);
+                List<Predicate<Class<?>>> classTypesList = new ArrayList<>(asList(classTypes));
+                Predicate<Class<?>> classTypePredicate = classTypesList.stream()
+                        .reduce((prev, curr) -> prev == null ? curr : prev.or(curr))
+                        .orElse(c -> true);
                 classesIterator = new FilteredIterator<>(classesIterator, classTypePredicate);
 
                 classesIterator = classCriteria.applyTraverseClassesUniquely(classesIterator);

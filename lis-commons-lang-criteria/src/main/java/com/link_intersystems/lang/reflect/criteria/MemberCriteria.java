@@ -18,7 +18,6 @@ package com.link_intersystems.lang.reflect.criteria;
 import com.link_intersystems.lang.reflect.AccessType;
 import com.link_intersystems.lang.reflect.MemberModifierPredicate;
 import com.link_intersystems.lang.reflect.ReflectFacade;
-import com.link_intersystems.util.AndPredicate;
 import com.link_intersystems.util.FilteredIterator;
 import com.link_intersystems.util.Iterators;
 import com.link_intersystems.util.graph.tree.DepthFirstBottomUpTreeModelIterable;
@@ -323,7 +322,7 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
 
     @SuppressWarnings("unchecked")
     protected Iterator<T> applyAccessAndNamePredicates(Iterator<T> iterator) {
-        Collection<Predicate<T>> predicates = new ArrayList<>();
+        List<Predicate<T>> predicates = new ArrayList<>();
 
         int accessModifiers = 0;
         Collection<AccessType> accesses = getAccesses();
@@ -365,9 +364,23 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
         if (pattern != null) {
             predicates.add(ReflectFacade.getMemberNamePatternPredicate(pattern));
         }
-        Predicate<T> allPredicate = new AndPredicate<>(predicates);
+        Predicate<T> allPredicate = andPredicate(predicates);
         iterator = new FilteredIterator<>(iterator, allPredicate);
         return iterator;
+    }
+
+    private Predicate<T> andPredicate(List<Predicate<T>> predicates) {
+        Predicate<T> result = null;
+
+        for (Predicate<T> predicate : predicates) {
+            if (result == null) {
+                result = predicate;
+            } else {
+                result = result.and(predicate);
+            }
+        }
+
+        return result;
     }
 
     /**

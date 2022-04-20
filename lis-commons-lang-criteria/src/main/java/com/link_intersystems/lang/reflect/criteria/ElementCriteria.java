@@ -15,7 +15,6 @@
  */
 package com.link_intersystems.lang.reflect.criteria;
 
-import com.link_intersystems.util.AndPredicate;
 import com.link_intersystems.util.FilteredIterator;
 
 import java.util.Iterator;
@@ -78,7 +77,7 @@ public abstract class ElementCriteria<T> implements Cloneable {
         if (elementFilterPredicate == null) {
             elementFilterPredicate = requireNonNull(predicate);
         } else {
-            elementFilterPredicate = new AndPredicate<>(elementFilterPredicate, requireNonNull(predicate));
+            elementFilterPredicate = elementFilterPredicate.and(requireNonNull(predicate));
         }
     }
 
