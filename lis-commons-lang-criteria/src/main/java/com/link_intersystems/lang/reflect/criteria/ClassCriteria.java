@@ -41,10 +41,6 @@ import static java.util.Objects.requireNonNull;
  */
 public class ClassCriteria extends ElementCriteria<Class<?>> {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = -5205145459979909916L;
     private ClassType[] classTypes = new ClassType[]{ClassType.CLASSES, ClassType.INTERFACES};
     private boolean traverseClassesUniquely;
     private Class<?> stopClass;
@@ -77,7 +73,7 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
      *
      * @param classTypes the {@link ClassType}s of the class hierarchy that should be
      *                   selected when iterating through the hierarchy. The classTypes
-     *                   should be unique. Otherwise the first occurrence in the
+     *                   should be unique. Otherwise, the first occurrence in the
      *                   classTypes array wins. All later occurrences will be ignored.
      * @since 1.2.0;
      */
@@ -253,6 +249,13 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
         return getIterable(startAt, stopClass);
     }
 
+    @Override
+    protected ClassCriteria clone() {
+        ClassCriteria clone = (ClassCriteria) super.clone();
+        clone.classTypes = this.classTypes.clone();
+        return clone;
+    }
+
     /**
      * @param startAt
      * @param stopAt
@@ -270,21 +273,20 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
         class StartAtIterable implements Iterable<Class<?>> {
 
             private final Class<?> startAt;
-            private final ObjectFactory<ClassCriteria> templateObjectFactory;
+            private final ClassCriteria classCriteria;
 
-            public StartAtIterable(Class<?> startAt, ObjectFactory<ClassCriteria> classCriteria) {
-                this.templateObjectFactory = classCriteria;
+            public StartAtIterable(ClassCriteria classCriteria, Class<?> startAt) {
+                this.classCriteria = classCriteria.clone();
                 this.startAt = startAt;
             }
 
             @SuppressWarnings({"unchecked", "rawtypes"})
             public Iterator<Class<?>> iterator() {
-                ClassCriteria classCriteriaCopy = templateObjectFactory.getObject();
-                TraverseStrategy traverseStrategy = classCriteriaCopy.traverseStrategy;
-                boolean separatedClassTypeTraversal = classCriteriaCopy.separatedClassTypeTraversal;
-                Comparator<Class<?>> interfacesComparator = classCriteriaCopy.interfacesComparator;
-                Comparator<Class<?>> innerClassesComparator = classCriteriaCopy.innerClassesComparator;
-                ClassType[] classTypes = classCriteriaCopy.classTypes;
+                TraverseStrategy traverseStrategy = classCriteria.traverseStrategy;
+                boolean separatedClassTypeTraversal = classCriteria.separatedClassTypeTraversal;
+                Comparator<Class<?>> interfacesComparator = classCriteria.interfacesComparator;
+                Comparator<Class<?>> innerClassesComparator = classCriteria.innerClassesComparator;
+                ClassType[] classTypes = classCriteria.classTypes;
                 ClassNode rootNode = new ClassNode(startAt, classTypes);
 
                 rootNode.setInterfacesOrder(interfacesComparator);
@@ -307,14 +309,14 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
                     Node2ClassTransformer node2ClassTransformer = new Node2ClassTransformer();
                     for (int i = 0; i < classTypes.length; i++) {
                         ClassType classType = classTypes[i];
-                        Predicate<Class<?>> classTypePredicate = new OrAbstractPredicate<>(classType);
+                        Predicate<Class<?>> classTypePredicate = new OrPredicate<>(classType);
                         Predicate transformedPredicate = new TransformedPredicate(node2ClassTransformer, classTypePredicate);
                         nodeIteratePredicates[i] = transformedPredicate;
                     }
                     classNodeIterator = GraphFacade.perPredicateNodeIterator(nodeIterateStrategy, rootNode, nodeIteratePredicates);
                     classesIterator = new TransformedIterator(classNodeIterator, new Node2ClassTransformer());
                 } else {
-                    switch (classCriteriaCopy.traverseStrategy) {
+                    switch (classCriteria.traverseStrategy) {
                         case BREADTH_FIRST:
                             classNodeIterator = new BreadthFirstNodeIterator(rootNode);
                             break;
@@ -325,23 +327,23 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
                     classesIterator = new TransformedIterator(classNodeIterator, new Node2ClassTransformer());
                 }
 
-                Predicate<Class<?>> classTypePredicate = new OrAbstractPredicate<>(classTypes);
+                Predicate<Class<?>> classTypePredicate = new OrPredicate<>(classTypes);
                 classesIterator = new FilteredIterator<>(classesIterator, classTypePredicate);
 
-                classesIterator = classCriteriaCopy.applyTraverseClassesUniquely(classesIterator);
+                classesIterator = classCriteria.applyTraverseClassesUniquely(classesIterator);
 
-                classesIterator = classCriteriaCopy.applyStopAtFilter(classesIterator);
+                classesIterator = classCriteria.applyStopAtFilter(classesIterator);
 
-                classesIterator = classCriteriaCopy.applyElementFilter(classesIterator);
+                classesIterator = classCriteria.applyElementFilter(classesIterator);
 
-                classesIterator = classCriteriaCopy.applySelectionFilter(classesIterator);
+                classesIterator = classCriteria.applySelectionFilter(classesIterator);
 
                 return classesIterator;
             }
 
         }
 
-        return new StartAtIterable(startAt, getObjectFactory());
+        return new StartAtIterable(this, startAt);
     }
 
     protected Iterator<Class<?>> applyTraverseClassesUniquely(Iterator<Class<?>> iterator) {
@@ -363,10 +365,6 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
             iterator = new FilteredIterator<>(iterator, stopPredicate);
         }
         return iterator;
-    }
-
-    public ObjectFactory<ClassCriteria> getObjectFactory() {
-        return new SerializableTemplateObjectFactory<>(this);
     }
 
     public enum ClassType implements Predicate<Class<?>> {

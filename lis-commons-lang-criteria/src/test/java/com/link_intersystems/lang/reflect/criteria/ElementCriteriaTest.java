@@ -40,28 +40,12 @@ public abstract class ElementCriteriaTest {
     }
 
     @Test
-    void addNonSerializablePredicate() {
-        ElementCriteria criteria = getElementCriteria();
-        assertThrows(IllegalArgumentException.class, () -> criteria.add(new SomePredicateNotSerializable()));
-    }
-
-    @Test
     void elementCriteriaDefaultConstructor() {
         /*
          * Should not throw any exception
          */
         new ElementCriteria() {
-
-            /**
-             *
-             */
-            private static final long serialVersionUID = -6057707149446648089L;
         };
-    }
-
-    @Test
-    void elementCriteriaSerializable() {
-        Serialization.clone(getElementCriteria());
     }
 
     private static class SomePredicateNotSerializable implements Predicate<Object> {

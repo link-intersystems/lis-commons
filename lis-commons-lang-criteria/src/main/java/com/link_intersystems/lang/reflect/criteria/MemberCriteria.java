@@ -18,7 +18,9 @@ package com.link_intersystems.lang.reflect.criteria;
 import com.link_intersystems.lang.reflect.AccessType;
 import com.link_intersystems.lang.reflect.MemberModifierPredicate;
 import com.link_intersystems.lang.reflect.ReflectFacade;
-import com.link_intersystems.util.*;
+import com.link_intersystems.util.AndPredicate;
+import com.link_intersystems.util.FilteredIterator;
+import com.link_intersystems.util.Iterators;
 import com.link_intersystems.util.graph.tree.DepthFirstBottomUpTreeModelIterable;
 import com.link_intersystems.util.graph.tree.TransformedIterableTreeModel;
 
@@ -296,7 +298,7 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
      * @since 1.0.0;
      */
     public Iterable<? extends AnnotatedElement> getAnnotatedElementIterable(Iterable<Class<?>> classIterable, IterateStrategy iterateStrategy) {
-        return new AnnotatedElementIterable(classIterable, iterateStrategy, getObjectFactory());
+        return new AnnotatedElementIterable(classIterable, iterateStrategy, (MemberCriteria<Member>) this);
     }
 
     /**
@@ -309,7 +311,7 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
      * @since 1.0.0;
      */
     public Iterable<Member> getIterable(Iterable<Class<?>> classIterable) {
-        return new MemberIterableWithClassIterable(classIterable, getObjectFactory());
+        return new MemberIterableWithClassIterable(classIterable, (MemberCriteria<Member>) this);
     }
 
     @Override
@@ -389,14 +391,6 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
 
     protected List<Class<?>> getMemberTypes() {
         return memberTypes;
-    }
-
-    /**
-     * @return an object factory that uses this {@link MemberCriteria} as a
-     * template to create a new {@link MemberCriteria}.
-     */
-    public ObjectFactory<MemberCriteria<Member>> getObjectFactory() {
-        return new SerializableTemplateObjectFactory(this);
     }
 
     /**
@@ -509,16 +503,15 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
     private static class MemberIterableWithClassIterable implements Iterable<Member> {
 
         private final Iterable<Class<?>> classIterable;
-        private final ObjectFactory<MemberCriteria<Member>> templateObjectFactory;
+        private final MemberCriteria<Member> memberCriteria;
 
-        public MemberIterableWithClassIterable(Iterable<Class<?>> classIterable, ObjectFactory<MemberCriteria<Member>> templateObjectFactory) {
+        public MemberIterableWithClassIterable(Iterable<Class<?>> classIterable, MemberCriteria<Member> memberCriteria) {
             this.classIterable = classIterable;
-            this.templateObjectFactory = templateObjectFactory;
+            this.memberCriteria = memberCriteria.clone();
         }
 
         public Iterator<Member> iterator() {
             Iterator<Class<?>> classIterator = classIterable.iterator();
-            MemberCriteria<Member> memberCriteria = templateObjectFactory.getObject();
             Function<Object, Object> memberIteratorTransformer = new MemberIteratorTransformer(memberCriteria);
 
             TransformedIterableTreeModel<Object> transformedIterableTreeModel = new TransformedIterableTreeModel<>(memberIteratorTransformer::apply);
@@ -536,19 +529,17 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
     private static class AnnotatedElementIterable implements Iterable<AnnotatedElement> {
 
         private final Iterable<Class<?>> classIterable;
-        private final ObjectFactory<MemberCriteria<Member>> templateObjectFactory;
+        private final MemberCriteria<Member> memberCriteria;
         private final IterateStrategy traverseStrategy;
 
-        public AnnotatedElementIterable(Iterable<Class<?>> classIterable, IterateStrategy traverseStrategy, ObjectFactory<MemberCriteria<Member>> templateObjectFactory) {
+        public AnnotatedElementIterable(Iterable<Class<?>> classIterable, IterateStrategy traverseStrategy, MemberCriteria<Member> memberCriteria) {
             this.classIterable = classIterable;
             this.traverseStrategy = traverseStrategy;
-            this.templateObjectFactory = templateObjectFactory;
+            this.memberCriteria = memberCriteria.clone();
         }
 
         public Iterator<AnnotatedElement> iterator() {
             Iterator<Class<?>> classIterator = classIterable.iterator();
-            MemberCriteria<Member> memberCriteria = templateObjectFactory.getObject();
-
             Function<Object, Object> memberIteratorTransformer = new AnnotatedElementIteratorTransformer(traverseStrategy, memberCriteria);
 
             TransformedIterableTreeModel<Object> transformedIterableTreeModel = new TransformedIterableTreeModel<>(memberIteratorTransformer::apply);
@@ -597,5 +588,10 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
                 return input;
             }
         }
+    }
+
+    @Override
+    protected MemberCriteria<T> clone() {
+        return (MemberCriteria<T>) super.clone();
     }
 }
