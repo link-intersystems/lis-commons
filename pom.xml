@@ -26,6 +26,7 @@
         <module>lis-commons-util</module>
         <module>lis-commons-test</module>
         <module>lis-commons-graph</module>
+        <module>lis-commons-listener</module>
     </modules>
 
     <dependencyManagement>
