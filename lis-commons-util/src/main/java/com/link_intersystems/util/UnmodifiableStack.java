@@ -15,17 +15,46 @@
  */
 package com.link_intersystems.util;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * A {@link Stack} implementation that can not be modified. Every attempt to
  * modify it will result in an {@link UnsupportedOperationException}.
+ * <p>
+ * <strong>Methods of Stack that throw an
+ * {@link UnsupportedOperationException} s</strong><br>
+ * {@link Stack#pop()}<br/>
+ * {@link Stack#push(Object)}
+ * </p>
+ * <p>
+ * <strong>Methods of the Vector superclass that will throw an
+ * {@link UnsupportedOperationException}s</strong><br>
+ * {@link Vector#addElement(Object)}<br/>
+ * {@link Vector#removeAllElements()}<br/>
+ * {@link Vector#removeElement(Object)}<br/>
+ * {@link Vector#removeElementAt(int)}<br/>
+ * {@link Vector#setElementAt(Object, int)}<br/>
+ * {@link Vector#trimToSize()}<br/>
+ * {@link Vector#setSize(int)} <br/>
+ * </p>
+ * <p>
+ * <strong>Methods of the List interface that throw will an
+ * {@link UnsupportedOperationException}s</strong><br>
+ * {@link List#add(int, Object)}<br/>
+ * {@link List#addAll(Collection)}<br/>
+ * {@link List#remove(int)}<br/>
+ * {@link List#set(int, Object)}<br/>
+ * </p>
+ * <p>
+ * <strong>Methods of the Collection interface that will throw an
+ * {@link UnsupportedOperationException}s</strong><br>
+ * {@link Collection#add(Object)}<br/>
+ * {@link Collection#addAll(Collection)}<br/>
+ * {@link Collection#clear()}<br/>
+ * {@link Collection#remove(Object)}<br/>
+ * {@link Collection#removeAll(Collection)}<br/>
+ * {@link Collection#retainAll(Collection)}<br/>
+ * </p>
  *
  * @author René Link <a
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-

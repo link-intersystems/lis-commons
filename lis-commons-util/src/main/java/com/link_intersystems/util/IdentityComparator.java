@@ -34,9 +34,6 @@ import java.util.Comparator;
  */
 public class IdentityComparator<T> implements Comparator<T>, Serializable {
 
-	/**
-     *
-     */
 	private static final long serialVersionUID = -4923287345290357681L;
 
 	/**
