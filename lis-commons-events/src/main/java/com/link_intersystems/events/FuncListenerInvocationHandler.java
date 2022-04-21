@@ -27,8 +27,8 @@ class FuncListenerInvocationHandler<L, E extends EventObject, P> implements Invo
     }
 
     @Override
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        args = nulsafeArgs(args);
+    public Object invoke(Object proxy, Method method, Object[] args) {
+        args = nullsafeArgs(args);
 
         if (method.getName().equals("equals") && args.length == 1 && method.getReturnType().equals(Boolean.TYPE)) {
             Object object = args[0];
@@ -59,7 +59,7 @@ class FuncListenerInvocationHandler<L, E extends EventObject, P> implements Invo
         return null;
     }
 
-    private Object[] nulsafeArgs(Object[] args) {
+    private Object[] nullsafeArgs(Object[] args) {
         if (args == null) {
             args = EMPTY_ARGS;
         }

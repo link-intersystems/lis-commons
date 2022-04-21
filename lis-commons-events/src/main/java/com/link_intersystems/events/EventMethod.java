@@ -3,12 +3,10 @@ package com.link_intersystems.events;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.EventObject;
-import java.util.List;
+import java.util.*;
 import java.util.function.*;
 
+import static java.text.MessageFormat.format;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toList;
 
@@ -23,27 +21,49 @@ public class EventMethod<L, E extends EventObject> implements Predicate<Method> 
         String notGenericSuperclass();
     }
 
+    private class EventMethodResolver implements Supplier<List<Method>> {
+
+        private String[] methodNames;
+        private Supplier<Class<?>> listenerClassSupplier;
+        private Supplier<Class<?>> eventClassSupplier;
+
+        public EventMethodResolver(String[] methodNames, Supplier<Class<?>> listenerClassSupplier, Supplier<Class<?>> eventClassSupplier) {
+            this.methodNames = methodNames;
+            this.listenerClassSupplier = listenerClassSupplier;
+            this.eventClassSupplier = eventClassSupplier;
+        }
+
+        @Override
+        public List<Method> get() {
+            if (methodNames.length == 0) {
+                return resolveListenerMethods(getListenerClass(), getEventObjectClass());
+            } else {
+                return resolveListenerMethodsByName(methodNames, getListenerClass(), getEventObjectClass());
+            }
+        }
+    }
+
     private List<Method> eventMethods;
+    private Supplier<List<Method>> eventMethodsSupplier;
+
     private Class<E> eventObjectClass;
     private Class<L> listenerClass;
 
     public EventMethod(String... methodNames) {
-        if (methodNames.length == 0) {
-            eventMethods = resolveListenerMethods(listenerClass, getEventObjectClass());
-        } else {
-            eventMethods = resolveListenerMethodsByName(methodNames, getListenerClass(), eventObjectClass);
-        }
+        this(null, null, methodNames);
     }
 
     public EventMethod(Class<L> listenerClass, Class<E> eventObjectClass, String... methodNames) {
         this.listenerClass = listenerClass;
         this.eventObjectClass = eventObjectClass;
 
-        if (methodNames.length == 0) {
-            eventMethods = resolveListenerMethods(listenerClass, eventObjectClass);
-        } else {
-            eventMethods = resolveListenerMethodsByName(methodNames, listenerClass, eventObjectClass);
-        }
+        this.eventMethodsSupplier = new EventMethodResolver(methodNames, this::getListenerClass, this::getEventObjectClass);
+    }
+
+    private EventMethod(EventMethod cloneBase, List<Method> methods) {
+        this.eventObjectClass = cloneBase.getEventObjectClass();
+        this.listenerClass = cloneBase.getListenerClass();
+        this.eventMethodsSupplier = () -> methods;
     }
 
     private List<Method> resolveListenerMethodsByName(String[] methodNames, Class<L> listenerClass, Class<E> eventObjectClass) {
@@ -74,6 +94,48 @@ public class EventMethod<L, E extends EventObject> implements Predicate<Method> 
 
         listenerMethodNames.addAll(superMethodNames);
         return listenerMethodNames;
+    }
+
+    public boolean isCompatible(EventMethod<?, ?> otherEventMethod) {
+        Class<?> otherListenerClass = otherEventMethod.getListenerClass();
+        Class<?> eventObjectClass = getEventObjectClass();
+        Class<?> thisListenerClass = getListenerClass();
+        Class<?> otherEventObjectClass = otherEventMethod.getEventObjectClass();
+
+        return thisListenerClass.equals(otherListenerClass) && eventObjectClass.equals(otherEventObjectClass);
+    }
+
+    public EventMethod<L, E> join(EventMethod<L, E> otherEventMethod) {
+        if (!isCompatible(otherEventMethod)) {
+            Class<?> otherListenerClass = otherEventMethod.getListenerClass();
+            Class<?> eventObjectClass = this.getEventObjectClass();
+            Class<?> thisListenerClass = getListenerClass();
+            Class<?> otherEventObjectClass = otherEventMethod.getEventObjectClass();
+
+            String msg = format("EventMethod can not be joined, because it's event listener and event object type is incompatible." +
+                            " {0}.{1} != {2}.{3}", thisListenerClass.getSimpleName(),
+                    eventObjectClass.getSimpleName(),
+                    otherListenerClass.getSimpleName(),
+                    otherEventObjectClass.getSimpleName());
+            throw new IllegalArgumentException(msg);
+        }
+
+        List<Method> thisEventMethods = getEventMethods();
+        LinkedHashSet<Method> joinMethodsUnique = new LinkedHashSet<>(thisEventMethods);
+
+        List<Method> otherEventMethods = otherEventMethod.getEventMethods();
+        joinMethodsUnique.addAll(otherEventMethods);
+
+        List<Method> joinedMethods = new ArrayList<>(joinMethodsUnique);
+
+        return new EventMethod<>(this, joinedMethods);
+    }
+
+    protected List<Method> getEventMethods() {
+        if (eventMethods == null) {
+            eventMethods = Collections.unmodifiableList(eventMethodsSupplier.get());
+        }
+        return eventMethods;
     }
 
     protected Class<L> getListenerClass() {
@@ -127,10 +189,10 @@ public class EventMethod<L, E extends EventObject> implements Predicate<Method> 
 
 
     public boolean test(Method method) {
-        return eventMethods.contains(method);
+        return getEventMethods().contains(method);
     }
 
-    public E getEventObject(Object[] args) {
+    E getEventObject(Object[] args) {
         if (args.length > 0) {
             Object arg1 = args[0];
             if (eventObjectClass.isInstance(arg1)) {
@@ -205,7 +267,10 @@ public class EventMethod<L, E extends EventObject> implements Predicate<Method> 
 
     public <P, T> L listener(BiConsumer<T, P> consumer, Function<E, T> transformFunciton, Supplier<P> paramSupplier) {
         return FuncListenerFactory.create(listenerClass, this,
-                (E e, P p) -> consumer.accept(transformFunciton.apply(e), p), paramSupplier);
+                (E e, P p) -> {
+                    T apply = transformFunciton.apply(e);
+                    consumer.accept(apply, p);
+                }, paramSupplier);
     }
 
     public <P, T> L listener(BiConsumer<T, P> consumer, Function<E, T> transformFunciton, Supplier<P> paramSupplier,
@@ -214,4 +279,11 @@ public class EventMethod<L, E extends EventObject> implements Predicate<Method> 
                 (E e, P p) -> consumer.accept(transformFunciton.apply(e), p), paramSupplier);
     }
 
+
+    @Override
+    public String toString() {
+        return getEventObjectClass().getName() +
+                "[" + String.join(", ", getEventMethods().stream().map(Method::getName).collect(toList())) +
+                "]";
+    }
 }
