@@ -1,6 +1,6 @@
 package com.link_intersystems.beans;
 
-import com.link_intersystems.util.EventMethod;
+import com.link_intersystems.events.EventMethod;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

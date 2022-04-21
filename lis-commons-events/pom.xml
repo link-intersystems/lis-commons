@@ -9,7 +9,11 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>lis-commons-listener</artifactId>
+    <artifactId>lis-commons-events</artifactId>
+    <name>Events</name>
+    <description>Link Intersystems Commons Events (lis-commons-events) is a collection of reusable software components
+        that provide support for event and event listener based programming tasks.
+    </description>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

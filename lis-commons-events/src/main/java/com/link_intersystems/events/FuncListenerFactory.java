@@ -1,4 +1,4 @@
-package com.link_intersystems.util;
+package com.link_intersystems.events;
 
 import java.lang.reflect.Proxy;
 import java.util.EventObject;

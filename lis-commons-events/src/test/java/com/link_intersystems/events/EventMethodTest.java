@@ -1,4 +1,4 @@
-package com.link_intersystems.util;
+package com.link_intersystems.events;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
