@@ -25,6 +25,7 @@
         <module>lis-commons-beans</module>
         <module>lis-commons-util</module>
         <module>lis-commons-test</module>
+        <module>lis-commons-graph</module>
     </modules>
 
     <dependencyManagement>

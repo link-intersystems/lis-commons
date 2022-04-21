@@ -15,13 +15,13 @@
  */
 package com.link_intersystems.lang.reflect.criteria;
 
+import com.link_intersystems.graph.tree.DepthFirstBottomUpTreeModelIterable;
+import com.link_intersystems.graph.tree.TransformedIterableTreeModel;
 import com.link_intersystems.lang.reflect.AccessType;
 import com.link_intersystems.lang.reflect.MemberModifierPredicate;
 import com.link_intersystems.lang.reflect.ReflectFacade;
 import com.link_intersystems.util.FilteredIterator;
 import com.link_intersystems.util.Iterators;
-import com.link_intersystems.util.graph.tree.DepthFirstBottomUpTreeModelIterable;
-import com.link_intersystems.util.graph.tree.TransformedIterableTreeModel;
 
 import java.lang.reflect.*;
 import java.util.*;

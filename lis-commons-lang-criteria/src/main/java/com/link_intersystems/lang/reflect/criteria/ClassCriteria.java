@@ -15,16 +15,15 @@
  */
 package com.link_intersystems.lang.reflect.criteria;
 
+import com.link_intersystems.graph.BreadthFirstNodeIterator;
+import com.link_intersystems.graph.DepthFirstNodeIterator;
+import com.link_intersystems.graph.GraphFacade;
+import com.link_intersystems.graph.Node;
 import com.link_intersystems.lang.reflect.ReflectFacade;
 import com.link_intersystems.util.FilteredIterator;
 import com.link_intersystems.util.TransformedIterator;
 import com.link_intersystems.util.TransformedPredicate;
 import com.link_intersystems.util.Transformer;
-import com.link_intersystems.util.graph.BreadthFirstNodeIterator;
-import com.link_intersystems.util.graph.DepthFirstNodeIterator;
-import com.link_intersystems.util.graph.GraphFacade;
-import com.link_intersystems.util.graph.GraphFacade.NodeIterateStrategy;
-import com.link_intersystems.util.graph.Node;
 
 import java.lang.reflect.AnnotatedElement;
 import java.util.*;
@@ -33,6 +32,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static java.util.Arrays.asList;
+import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -84,7 +84,7 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
 
     public void setSelection(ClassType... classTypes) {
         requireNonNull(classTypes);
-        this.classTypes = asList(classTypes).stream().distinct().toArray(ClassType[]::new);
+        this.classTypes = stream(classTypes).distinct().toArray(ClassType[]::new);
     }
 
     /**
@@ -308,7 +308,7 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
                 Iterator<Node> classNodeIterator;
                 Iterator classesIterator;
                 if (separatedClassTypeTraversal) {
-                    NodeIterateStrategy nodeIterateStrategy = NodeIterateStrategy.valueOf(traverseStrategy.name());
+                    GraphFacade.NodeIterateStrategy nodeIterateStrategy = GraphFacade.NodeIterateStrategy.valueOf(traverseStrategy.name());
                     Predicate[] nodeIteratePredicates = new Predicate[classTypes.length];
                     Node2ClassTransformer node2ClassTransformer = new Node2ClassTransformer();
                     for (int i = 0; i < classTypes.length; i++) {
@@ -325,7 +325,7 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
 
                 List<Predicate<Class<?>>> classTypesList = new ArrayList<>(asList(classTypes));
                 Predicate<Class<?>> classTypePredicate = classTypesList.stream()
-                        .reduce((prev, curr) -> prev == null ? curr : prev.or(curr))
+                        .reduce((prev, curr) -> prev.or(curr))
                         .orElse(c -> true);
 
                 classesIterator = new FilteredIterator<>(classesIterator, classTypePredicate);

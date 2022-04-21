@@ -1,7 +1,7 @@
 package com.link_intersystems.lang.reflect.criteria;
 
+import com.link_intersystems.graph.Node;
 import com.link_intersystems.lang.reflect.criteria.ClassCriteria.ClassType;
-import com.link_intersystems.util.graph.Node;
 
 import java.util.*;
 
