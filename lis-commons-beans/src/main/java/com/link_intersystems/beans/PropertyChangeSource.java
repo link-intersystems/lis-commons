@@ -1,5 +1,7 @@
 package com.link_intersystems.beans;
 
+import com.link_intersystems.events.beans.PropertyChangeMethod;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.function.Consumer;
@@ -20,7 +22,7 @@ public interface PropertyChangeSource {
 
     @SuppressWarnings("unchecked")
     default public <T> PropertyObservation onPropertyChange(String propertyName, Consumer<T> newValueConsumer) {
-        PropertyChangeListener listener = PropertyChangeMethods.CHANGED
+        PropertyChangeListener listener = PropertyChangeMethod.CHANGE
                 .listener(pce -> newValueConsumer.accept((T) pce.getNewValue()));
         PropertyObservation propertyObservation = new PropertyObservation(this, listener, propertyName);
         propertyObservation.activate();
@@ -29,7 +31,7 @@ public interface PropertyChangeSource {
 
     default public <T> PropertyObservation onPropertyChangeEvent(String propertyName,
                                                                  Consumer<PropertyChangeEvent> eventConsumer) {
-        PropertyChangeListener listener = PropertyChangeMethods.CHANGED.listener(eventConsumer);
+        PropertyChangeListener listener = PropertyChangeMethod.CHANGE.listener(eventConsumer);
         PropertyObservation propertyObservation = new PropertyObservation(this, listener, propertyName);
         propertyObservation.activate();
         return propertyObservation;
