@@ -21,13 +21,14 @@ import com.link_intersystems.lang.reflect.criteria.ClassCriteria.TraverseStrateg
 import com.link_intersystems.lang.reflect.testclasses.*;
 import com.link_intersystems.util.EqualPredicate;
 import com.link_intersystems.util.Iterators;
-import com.link_intersystems.util.NotPredicate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
 import java.util.*;
+import java.util.function.Predicate;
 
+import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ClassCriteriaTest extends ElementCriteriaTest {
@@ -35,7 +36,7 @@ class ClassCriteriaTest extends ElementCriteriaTest {
     private ClassCriteria classCriteria;
 
     @Override
-    protected ElementCriteria getElementCriteria() {
+    protected ElementCriteria<Class<?>> getElementCriteria() {
         return classCriteria;
     }
 
@@ -283,9 +284,8 @@ class ClassCriteriaTest extends ElementCriteriaTest {
         criteria.setSelection(ClassType.CLASSES);
         criteria.stopAt(AbstractList.class);
         Iterator<Class<?>> classIterator = criteria.getIterable(ArrayList.class).iterator();
-        Class<?> currentClass = null;
 
-        currentClass = classIterator.next();
+        Class<?> currentClass = classIterator.next();
         assertEquals(ArrayList.class, currentClass);
 
         currentClass = classIterator.next();
@@ -355,15 +355,15 @@ class ClassCriteriaTest extends ElementCriteriaTest {
         ClassCriteria classCriteria = new ClassCriteria();
         classCriteria.setResult(Result.ALL);
         classCriteria.setTraverseStrategy(TraverseStrategy.DEPTH_FIRST);
-        classCriteria.add(new NotPredicate(ReflectFacade.getIsInterfacePredicate()));
+        classCriteria.add(ReflectFacade.getIsInterfacePredicate().negate());
         classCriteria.stopAt(AbstractCollection.class);
 
         Iterator<Class<?>> classIterator = classCriteria.getIterable(ArrayList.class).iterator();
         Class<?>[] expectedClasses = new Class<?>[]{ArrayList.class, AbstractList.class, AbstractCollection.class};
-        for (int i = 0; i < expectedClasses.length; i++) {
+        for (Class<?> expectedClass : expectedClasses) {
             assertTrue(classIterator.hasNext());
             Class<?> next = classIterator.next();
-            assertEquals(expectedClasses[i], next);
+            assertEquals(expectedClass, next);
         }
         assertFalse(classIterator.hasNext());
     }
@@ -377,7 +377,7 @@ class ClassCriteriaTest extends ElementCriteriaTest {
         assertTrue(classIterator.hasNext());
         classIterator.next();
         assertFalse(classIterator.hasNext());
-        assertThrows(NoSuchElementException.class, () -> classIterator.next());
+        assertThrows(NoSuchElementException.class, classIterator::next);
     }
 
     @Test
@@ -387,7 +387,7 @@ class ClassCriteriaTest extends ElementCriteriaTest {
         Iterator<Class<?>> classIterator = classCriteria.getIterable(ArrayList.class).iterator();
         assertTrue(classIterator.hasNext());
         classIterator.next();
-        assertThrows(UnsupportedOperationException.class, () -> classIterator.remove());
+        assertThrows(UnsupportedOperationException.class, classIterator::remove);
     }
 
     @Test
@@ -405,7 +405,7 @@ class ClassCriteriaTest extends ElementCriteriaTest {
     void classesOnly() {
         classCriteria.setTraverseStrategy(TraverseStrategy.DEPTH_FIRST);
         classCriteria.setSelection(ClassType.CLASSES);
-        classCriteria.add(new NotPredicate<>(ReflectFacade.getIsInterfacePredicate()));
+        classCriteria.add(ReflectFacade.getIsInterfacePredicate().negate());
         Iterator<Class<?>> iterator = classCriteria.getIterable(ArrayList.class).iterator();
         assertNotNull(iterator);
         assertTrue(iterator.hasNext());
@@ -431,7 +431,18 @@ class ClassCriteriaTest extends ElementCriteriaTest {
         Iterator<Class<?>> iterator = classCriteria.getIterable(ArrayList.class).iterator();
 
         List<Class<?>> interfaces = Iterators.toList(iterator);
-        List<Class<?>> expectedInterfaces = new ArrayList<Class<?>>(Arrays.asList(Serializable.class, Cloneable.class, List.class, Collection.class, Iterable.class, RandomAccess.class, List.class, Collection.class, Iterable.class, Collection.class, Iterable.class));
+        List<Class<?>> expectedInterfaces = new ArrayList<>(asList(
+                Serializable.class,
+                Cloneable.class,
+                List.class,
+                Collection.class,
+                Iterable.class,
+                RandomAccess.class,
+                List.class,
+                Collection.class,
+                Iterable.class,
+                Collection.class,
+                Iterable.class));
 
         for (int i = 0; i < interfaces.size(); i++) {
             Class<?> interfaceClass = interfaces.get(i);
@@ -450,7 +461,18 @@ class ClassCriteriaTest extends ElementCriteriaTest {
         Iterator<Class<?>> iterator = classCriteria.getIterable(ArrayList.class).iterator();
         List<Class<?>> interfaces = Iterators.toList(iterator);
 
-        List<Class<?>> expectedInterfaces = new ArrayList<Class<?>>(Arrays.asList(RandomAccess.class, List.class, Collection.class, Iterable.class, Cloneable.class, Serializable.class, List.class, Collection.class, Iterable.class, Collection.class, Iterable.class));
+        List<Class<?>> expectedInterfaces = new ArrayList<>(asList(
+                RandomAccess.class,
+                List.class,
+                Collection.class,
+                Iterable.class,
+                Cloneable.class,
+                Serializable.class,
+                List.class,
+                Collection.class,
+                Iterable.class,
+                Collection.class,
+                Iterable.class));
 
         for (int i = 0; i < interfaces.size(); i++) {
             Class<?> interfaceClass = interfaces.get(i);
@@ -473,7 +495,9 @@ class ClassCriteriaTest extends ElementCriteriaTest {
          * Convert the iterator to List makes debugging easier.
          */
         List<Class<?>> interfaces = Iterators.toList(iterator);
-        List<Class<?>> expectedInterfaces = new ArrayList<Class<?>>(Arrays.asList(new Class<?>[]{GenericSubInterface.class, GenericInterface_Types_A_B_C.class}));
+        List<Class<?>> expectedInterfaces = new ArrayList<>(asList(new Class<?>[]{
+                GenericSubInterface.class,
+                GenericInterface_Types_A_B_C.class}));
         for (Class<?> interf : interfaces) {
             assertTrue(expectedInterfaces.remove(interf), "Unexpected " + interf + " in interator");
         }
@@ -485,12 +509,18 @@ class ClassCriteriaTest extends ElementCriteriaTest {
         classCriteria.setTraverseStrategy(TraverseStrategy.DEPTH_FIRST);
         classCriteria.setSelection(ClassType.INTERFACES);
         classCriteria.add(ReflectFacade.getIsInterfacePredicate());
-        classCriteria.add(new NotPredicate<>(new EqualPredicate<>(GenericSubSubWithMultipleInterfaces.class)));
+        Class<?> genericSubSubWithMultipleInterfacesClass = GenericSubSubWithMultipleInterfaces.class;
+        EqualPredicate<Class<?>> classEqualPredicate = new EqualPredicate<>(genericSubSubWithMultipleInterfacesClass);
+        Predicate<Class<?>> negate = classEqualPredicate.negate();
+        classCriteria.add(negate);
         classCriteria.setTraverseClassesUniquely(false);
         Iterator<Class<?>> iterator = classCriteria.getIterable(GenericSubSubWithMultipleInterfaces.class).iterator();
 
         List<Class<?>> interfaces = Iterators.toList(iterator);
-        Collection<Class<?>> expectedInterfaces = new ArrayList<Class<?>>(Arrays.asList(GenericSubInterface.class, GenericInterface_Types_A_B_C.class, GenericInterface_Types_A_B_C.class));
+        Collection<Class<?>> expectedInterfaces = new ArrayList<>(asList(
+                GenericSubInterface.class,
+                GenericInterface_Types_A_B_C.class,
+                GenericInterface_Types_A_B_C.class));
         for (Class<?> interf : interfaces) {
             assertTrue(expectedInterfaces.remove(interf), "Unexpected " + interf + " in interator");
         }
@@ -505,7 +535,7 @@ class ClassCriteriaTest extends ElementCriteriaTest {
         assertNotNull(iterator);
         assertTrue(iterator.hasNext());
         iterator.next();
-        assertThrows(UnsupportedOperationException.class, () -> iterator.remove());
+        assertThrows(UnsupportedOperationException.class, iterator::remove);
     }
 
     @Test
@@ -517,7 +547,7 @@ class ClassCriteriaTest extends ElementCriteriaTest {
         assertNotNull(iterator);
         assertTrue(iterator.hasNext());
         iterator.next();
-        assertThrows(UnsupportedOperationException.class, () -> iterator.remove());
+        assertThrows(UnsupportedOperationException.class, iterator::remove);
     }
 
     @Test
@@ -527,7 +557,7 @@ class ClassCriteriaTest extends ElementCriteriaTest {
         while (iterator.hasNext()) {
             iterator.next();
         }
-        assertThrows(NoSuchElementException.class, () -> iterator.next()); // should throw exception
+        assertThrows(NoSuchElementException.class, iterator::next); // should throw exception
     }
 
     @Test
@@ -539,7 +569,7 @@ class ClassCriteriaTest extends ElementCriteriaTest {
         while (iterator.hasNext()) {
             iterator.next();
         }
-        assertThrows(NoSuchElementException.class, () -> iterator.next()); // should throw exception
+        assertThrows(NoSuchElementException.class, iterator::next); // should throw exception
     }
 
     @Test
@@ -550,7 +580,7 @@ class ClassCriteriaTest extends ElementCriteriaTest {
         while (iterator.hasNext()) {
             iterator.next();
         }
-        assertThrows(NoSuchElementException.class, () -> iterator.next()); // should throw exception
+        assertThrows(NoSuchElementException.class, iterator::next); // should throw exception
     }
 
     @Test
@@ -565,7 +595,7 @@ class ClassCriteriaTest extends ElementCriteriaTest {
         while (superclassIterator.hasNext()) {
             superclassIterator.next();
         }
-        assertThrows(NoSuchElementException.class, () -> superclassIterator.next());
+        assertThrows(NoSuchElementException.class, superclassIterator::next);
     }
 
     @Test
@@ -574,7 +604,7 @@ class ClassCriteriaTest extends ElementCriteriaTest {
         while (interfacesIterator.hasNext()) {
             interfacesIterator.next();
         }
-        assertThrows(NoSuchElementException.class, () -> interfacesIterator.next());
+        assertThrows(NoSuchElementException.class, interfacesIterator::next);
     }
 
     @Test
