@@ -1,6 +1,6 @@
 The lis-common-event library provides support for Java event handling.
 
-#EventMethod
+# EventMethod
 
 An EventMethod is an adapter that can adapt method references,
 such as Runnable, Consumer and BiConsumer, to event listener methods.
