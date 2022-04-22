@@ -7,7 +7,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-class FuncListenerFactory {
+class FunctionalListenerFactory {
 
     public static <L, E extends EventObject> L create(Class<L> eventListenerType, EventMethod<L, E> eventMethod,
                                                       Runnable runnable) {
@@ -44,7 +44,7 @@ class FuncListenerFactory {
     @SuppressWarnings("unchecked")
     public static <L, E extends EventObject, T,P> L create(Class<L> eventListenerType, EventMethod<L, E> eventMethod,
                                                          BiConsumer<E, P> eventConsumer, Supplier<P> paramSupplier) {
-        FuncListenerInvocationHandler<L, E, P> funcListenerInvocationHandler = new FuncListenerInvocationHandler<>(
+        FunctionalListenerInvocationHandler<L, E, P> funcListenerInvocationHandler = new FunctionalListenerInvocationHandler<>(
                 eventMethod, null, eventConsumer, paramSupplier);
         return (L) Proxy.newProxyInstance(eventListenerType.getClassLoader(), new Class<?>[]{eventListenerType},
                 funcListenerInvocationHandler);
@@ -53,7 +53,7 @@ class FuncListenerFactory {
     @SuppressWarnings("unchecked")
     public static <L, E extends EventObject, P> L create(Class<L> eventListenerType, EventMethod<L, E> eventMethod,
                                                          Predicate<E> eventFilter, BiConsumer<E, P> eventConsumer, Supplier<P> paramSupplier) {
-        FuncListenerInvocationHandler<L, E, P> funcListenerInvocationHandler = new FuncListenerInvocationHandler<>(
+        FunctionalListenerInvocationHandler<L, E, P> funcListenerInvocationHandler = new FunctionalListenerInvocationHandler<>(
                 eventMethod, eventFilter, eventConsumer, paramSupplier);
         return (L) Proxy.newProxyInstance(eventListenerType.getClassLoader(), new Class<?>[]{eventListenerType},
                 funcListenerInvocationHandler);
