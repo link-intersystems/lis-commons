@@ -15,7 +15,6 @@
  */
 package com.link_intersystems.lang.reflect;
 
-import com.link_intersystems.util.SerializableTemplateObjectFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -63,8 +62,7 @@ class SignaturePredicateTest {
         Method declaredMethod = Collection.class.getDeclaredMethod("add", Object.class);
         Method declaredMethod2 = ArrayList.class.getDeclaredMethod("add", Object.class);
         SignaturePredicate signaturePredicate = new SignaturePredicate(declaredMethod);
-        SerializableTemplateObjectFactory<SignaturePredicate> serializableTemplateObjectFactory = new SerializableTemplateObjectFactory<SignaturePredicate>(signaturePredicate);
-        SignaturePredicate object = serializableTemplateObjectFactory.getObject();
+        SignaturePredicate object = Serialization.clone(signaturePredicate);
         boolean evaluate = object.test(declaredMethod2);
         Assertions.assertTrue(evaluate);
     }

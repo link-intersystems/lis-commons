@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>lis-commons</artifactId>
         <groupId>com.link-intersystems.commons</groupId>
@@ -10,7 +11,8 @@
     <artifactId>lis-commons-util</artifactId>
     <name>Util</name>
     <description>Link Intersystems Commons Util (lis-commons-util) is collection of reusable software components
-    that extend the standard java.util components.</description>
+        that extend the standard java.util components.
+    </description>
 
     <dependencies>
         <dependency>
@@ -29,6 +31,11 @@
             <groupId>org.easymock</groupId>
             <artifactId>easymock</artifactId>
             <version>4.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.link-intersystems.commons</groupId>
+            <artifactId>lis-commons-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

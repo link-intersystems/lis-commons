@@ -15,8 +15,6 @@
  */
 package com.link_intersystems.lang.reflect;
 
-import com.link_intersystems.util.Serialization;
-import com.link_intersystems.util.SerializationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.powermock.reflect.Whitebox;
@@ -44,7 +42,7 @@ class SerializablePackageTest {
 
     @Test
     void classNotFound() throws Exception {
-        assertThrows(SerializationException.class, () -> {
+        assertThrows(IllegalStateException.class, () -> {
             Package packageObject = SerializablePackageTest.class.getPackage();
             String name = packageObject.getName();
             Whitebox.setInternalState(packageObject, String.class, "packagepath.that.does.not.exists", Package.class);

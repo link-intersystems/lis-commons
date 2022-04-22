@@ -15,6 +15,7 @@
  */
 package com.link_intersystems.lang.ref;
 
+import com.link_intersystems.lang.reflect.Serialization;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -27,16 +28,14 @@ class CopyOnAccessReferenceTest {
         StringTestHolder stringTestHolder = new StringTestHolder();
         stringTestHolder.string = "Test";
 
-        Reference<StringTestHolder> copyOnAccessReference = new CopyOnAccessReference<StringTestHolder>(
-                stringTestHolder);
-        StringTestHolder copy = copyOnAccessReference.get();
+        StringTestHolder copy = Serialization.clone(stringTestHolder);
         Assertions.assertEquals(stringTestHolder, copy);
         Assertions.assertNotSame(stringTestHolder, copy);
 
         Assertions.assertEquals("Test", copy.string);
 
         stringTestHolder.string = "Test2";
-        StringTestHolder copy2 = copyOnAccessReference.get();
+        StringTestHolder copy2 = Serialization.clone(stringTestHolder);
         Assertions.assertEquals(stringTestHolder, copy2);
         Assertions.assertNotSame(stringTestHolder, copy2);
 

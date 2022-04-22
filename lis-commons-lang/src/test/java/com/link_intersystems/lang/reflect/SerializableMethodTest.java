@@ -16,13 +16,11 @@
 package com.link_intersystems.lang.reflect;
 
 import com.link_intersystems.Assertion;
-import com.link_intersystems.util.Serialization;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.io.Serializable;
+import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.concurrent.Callable;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -38,7 +36,7 @@ class SerializableMethodTest {
         Method method = SerializableMethodTest.class.getDeclaredMethod("someTestMethod", int.class, int[].class, String.class);
         SerializableMethod serializableMethod = new SerializableMethod(method);
 
-        SerializableMethod deserialized = cloneSerializable(serializableMethod);
+        SerializableMethod deserialized = Serialization.clone(serializableMethod);
 
         Method deserializedMethod = deserialized.get();
 
@@ -54,38 +52,15 @@ class SerializableMethodTest {
         Method method = SerializableMethodTest.class.getDeclaredMethod("someTestMethod", int.class, int[].class, String.class);
         final SecurityExceptionSerializableMethod serializableMethod = new SecurityExceptionSerializableMethod(method);
 
-        Assertion.assertCause(SecurityException.class, new Callable<Object>() {
-
-            public Object call() throws Exception {
-                SerializableMethod cloneSerializable = cloneSerializable(serializableMethod);
-                return cloneSerializable;
-            }
-        });
+        Assertion.assertCause(IOException.class, () -> Serialization.clone(serializableMethod));
     }
 
     @Test
     void noSuchMethod() throws Throwable {
         Method method = SerializableMethodTest.class.getDeclaredMethod("someTestMethod", int.class, int[].class, String.class);
         final SerializableMethod serializableMethod = new NoSuchMethodSerializableMethod(method);
-        Assertion.assertCause(NoSuchMethodException.class, new Callable<Object>() {
-
-            public Object call() throws Exception {
-                SerializableMethod cloneSerializable = cloneSerializable(serializableMethod);
-                return cloneSerializable;
-            }
-        });
+        Assertion.assertCause(IOException.class, () -> Serialization.clone(serializableMethod));
     }
-
-    /**
-     * Helper method until commons-lang3 fixed the class loader problem. See
-     * {@link <a href="https://issues.apache.org/jira/browse/LANG-788">...</a>}.
-     */
-    @SuppressWarnings("unchecked")
-    private static <T extends Serializable> T cloneSerializable(T serializable) {
-        T clone = (T) Serialization.deserialize(Serialization.serialize(serializable));
-        return clone;
-    }
-
 }
 
 class SecurityExceptionSerializableMethod extends SerializableMethod {

@@ -18,7 +18,6 @@ package com.link_intersystems.lang.reflect;
 import java.util.Arrays;
 
 import com.link_intersystems.lang.Assert;
-import com.link_intersystems.util.ParameterizedObjectFactory;
 
 /**
  * A {@link MethodInvokingParameterizedObjectFactory} calls a method on each

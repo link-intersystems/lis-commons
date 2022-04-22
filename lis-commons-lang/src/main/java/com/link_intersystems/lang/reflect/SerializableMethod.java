@@ -20,7 +20,6 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 
 import com.link_intersystems.lang.Assert;
-import com.link_intersystems.util.SerializationException;
 import com.link_intersystems.lang.ref.AbstractSerializableReference;
 import com.link_intersystems.lang.ref.Reference;
 
@@ -105,7 +104,7 @@ class SerializableMethod extends AbstractSerializableReference<Method> {
 					parameterTypes);
 			return method;
 		} catch (NoSuchMethodException e) {
-			throw new SerializationException("Unable to restore method "
+			throw new IllegalStateException("Unable to restore method "
 					+ methodName + " declared at " + declaringClass
 					+ " with parameter types " + Arrays.asList(parameterTypes),
 					e);

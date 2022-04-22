@@ -15,7 +15,6 @@
  */
 package com.link_intersystems.lang.reflect;
 
-import com.link_intersystems.util.Serialization;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

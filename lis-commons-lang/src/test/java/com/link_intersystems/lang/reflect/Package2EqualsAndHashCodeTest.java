@@ -16,10 +16,9 @@
 package com.link_intersystems.lang.reflect;
 
 import com.link_intersystems.EqualsAndHashCodeTest;
-import com.link_intersystems.util.Serialization;
 import org.junit.jupiter.api.BeforeEach;
 
-class Package2EqualsAndHashCodeTest extends EqualsAndHashCodeTest  {
+class Package2EqualsAndHashCodeTest extends EqualsAndHashCodeTest {
 
     @BeforeEach
     public void createTestInstances() throws Exception {

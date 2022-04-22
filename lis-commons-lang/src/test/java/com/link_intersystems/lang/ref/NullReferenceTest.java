@@ -15,7 +15,7 @@
  */
 package com.link_intersystems.lang.ref;
 
-import com.link_intersystems.util.Serialization;
+import com.link_intersystems.lang.reflect.Serialization;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -33,8 +33,7 @@ class NullReferenceTest {
     @Test
     void serialization() {
         SerializableReference<Object> instance = NullReference.getInstance();
-        SerializableReference<Object> clone = Serialization
-                .clone(instance);
+        SerializableReference<Object> clone = Serialization.clone(instance);
         Object object = clone.get();
         Assertions.assertNull(object);
     }

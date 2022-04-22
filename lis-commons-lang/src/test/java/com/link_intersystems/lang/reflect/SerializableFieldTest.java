@@ -15,8 +15,6 @@
  */
 package com.link_intersystems.lang.reflect;
 
-import com.link_intersystems.util.Serialization;
-import com.link_intersystems.util.SerializationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.powermock.reflect.Whitebox;
@@ -49,7 +47,7 @@ class SerializableFieldTest {
 
     @Test
     void classNotFound() throws Exception {
-        assertThrows(SerializationException.class, () -> {
+        assertThrows(IllegalStateException.class, () -> {
 
             Field field = SerializableFieldTest.class.getDeclaredField("testField");
             String name = field.getName();
@@ -74,7 +72,7 @@ class SerializableFieldTest {
     void modifierChanged() throws SecurityException, NoSuchFieldException {
         Field field = SerializableFieldTest.class.getDeclaredField("testField");
         SerializableField serializableField = new SerializationExceptionSerializableField(field);
-        assertThrows(SerializationException.class, () -> Serialization.clone(serializableField));
+        assertThrows(IllegalStateException.class, () -> Serialization.clone(serializableField));
     }
 
     private static class SerializationExceptionSerializableField extends SerializableField {

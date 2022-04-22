@@ -15,8 +15,7 @@
  */
 package com.link_intersystems.lang.reflect;
 
-import com.link_intersystems.util.ObjectFactory;
-import com.link_intersystems.util.SerializableTemplateObjectFactory;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -37,8 +36,7 @@ class MemberNamePatternPredicateTest {
     void aferDesrialization() throws SecurityException, NoSuchMethodException {
         Method declaredMethod = ArrayList.class.getDeclaredMethod("add", int.class, Object.class);
         MemberNamePatternPredicate memberNamePatternPredicate = new MemberNamePatternPredicate(Pattern.compile("add.*"));
-        ObjectFactory<MemberNamePatternPredicate> objectFactory = new SerializableTemplateObjectFactory<MemberNamePatternPredicate>(memberNamePatternPredicate);
-        MemberNamePatternPredicate deserialized = objectFactory.getObject();
+        MemberNamePatternPredicate deserialized = Serialization.clone(memberNamePatternPredicate);
         boolean evaluated = deserialized.test(declaredMethod);
         Assertions.assertTrue(evaluated);
     }

@@ -18,7 +18,6 @@ package com.link_intersystems.lang.reflect;
 import com.link_intersystems.lang.Assert;
 import com.link_intersystems.lang.ref.Reference;
 import com.link_intersystems.lang.ref.SerializableReference;
-import com.link_intersystems.util.TransformedPredicate;
 
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
@@ -104,7 +103,7 @@ public abstract class ReflectFacade {
             public Predicate get() {
                 if (predicate == null) {
                     Predicate propertyValuePredicate = ((Predicate<String>) Objects::nonNull).and(name -> name.equals(memberName));
-                    Predicate<Member> instance = new TransformedPredicate<>(Member::getName, propertyValuePredicate);
+                    Predicate<Member> instance = m -> propertyValuePredicate.test(m.getName());
                     Predicate memberNamePredicate = ((Predicate<Member>) Objects::nonNull).and(instance);
                     this.predicate = memberNamePredicate;
                 }

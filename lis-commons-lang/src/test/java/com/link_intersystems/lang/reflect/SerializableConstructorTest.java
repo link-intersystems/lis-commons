@@ -16,12 +16,11 @@
 package com.link_intersystems.lang.reflect;
 
 import com.link_intersystems.Assertion;
-import com.link_intersystems.util.Serialization;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.lang.reflect.Constructor;
-import java.util.concurrent.Callable;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -48,24 +47,14 @@ class SerializableConstructorTest {
     void securityException() throws Throwable {
         Constructor<ConstructorSerializationTestClass> constructor = ConstructorSerializationTestClass.class.getDeclaredConstructor(String.class);
         final SerializableConstructor serializableConstructor = new SecurityExceptionSerializableConstructor(constructor);
-        Assertion.assertCause(SecurityException.class, new Callable<Object>() {
-
-            public Object call() throws Exception {
-                return Serialization.clone(serializableConstructor);
-            }
-        });
+        Assertion.assertCause(IOException.class, () -> Serialization.clone(serializableConstructor));
     }
 
     @Test
     void noSuchMethodOnSerialization() throws Throwable {
         Constructor<ConstructorSerializationTestClass> constructor = ConstructorSerializationTestClass.class.getDeclaredConstructor(String.class);
         final SerializableConstructor serializableConstructor = new NoSuchMethodSerializableConstructor(constructor);
-        Assertion.assertCause(NoSuchMethodException.class, new Callable<Object>() {
-
-            public Object call() throws Exception {
-                return Serialization.clone(serializableConstructor);
-            }
-        });
+        Assertion.assertCause(IOException.class, () -> Serialization.clone(serializableConstructor));
     }
 }
 

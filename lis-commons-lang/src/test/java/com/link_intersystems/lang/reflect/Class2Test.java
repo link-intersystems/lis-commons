@@ -16,7 +16,6 @@
 package com.link_intersystems.lang.reflect;
 
 import com.link_intersystems.lang.ClassLoaderContextAware;
-import com.link_intersystems.util.Serialization;
 import com.link_intersystems.lang.reflect.testclasses.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +26,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class Class2Test  {
+class Class2Test {
 
     @BeforeEach
     public void instantiate() {
