@@ -40,8 +40,56 @@ Most of the components are the result of projects that I worked on.
 
 # [lis-commons-events](lis-commons-events/README.md)
 
+Provides support for Java event handling, e.g. it provides
+easy listener adapter creation using method references. 
 
-Provides support for Java event handling.
+# lis-commons-beans
+
+Provides a more easy api to handle Java bean related issues.
+
+    BeansFactory factory = BeansFactory.getDefault();
+    Bean<DefaultButtonModel> buttonModelBean = factory.createBean(new DefaultButtonModel());
+
+    ChangeListener changeListener = ce -> System.out.println("button model changed.");
+    ActionListener actionListener = ae -> System.out.println("action performed.");
+  
+    buttonModelBean.addListener(changeListener);
+    buttonModelBean.addListener(actionListener);
+
+    DefaultButtonModel buttonModel = buttonModelBean.getBeanObject();
+
+    buttonModel.setPressed(true);
+    buttonModel.setArmed(true);
+    buttonModel.setPressed(false);
+
+    PropertyList properties = buttonModelBean.getProperties();
+    Property armedProperty = properties.getByName("armed");
+    System.out.println("button model armed: " + armedProperty.getValue());
+
+will output
+
+    button model changed.
+    button model changed.
+    action performed.
+    button model changed.
+    button model armed: true
+
+# lis-commons-util
+
+Provides utility classes that I missed in standard Java. 
+The library started when Java 1.8 was the current version.
+Thus some utility classes might already be supported by the Java version you use now.
+
+# lis-commons-math
+
+A library that contains utility classes for simple common
+math issues like aggregating values or working with linear
+functions. This library is not expected to be a sophisticated
+math library. It is only for simple use cases when high accuracy
+is not an issue.
+
+
+
 
 
 
