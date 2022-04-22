@@ -1,8 +1,16 @@
 package com.link_intersystems.events;
 
 import com.link_intersystems.events.awt.*;
+import com.link_intersystems.events.beans.BeanContextMembershipEventMethod;
+import com.link_intersystems.events.beans.BeanContextServiceRevokedEventMethod;
 import com.link_intersystems.events.beans.PropertyChangeMethod;
+import com.link_intersystems.events.beans.VetoableChangeMethod;
+import com.link_intersystems.events.naming.NamespaceChangeEventMethod;
+import com.link_intersystems.events.naming.NamingEventMethod;
 import com.link_intersystems.events.prefs.NodeChangeEventMethod;
+import com.link_intersystems.events.sql.ConnectionEventMethod;
+import com.link_intersystems.events.sql.RowSetEventMethod;
+import com.link_intersystems.events.sql.StatementEventMethod;
 import com.link_intersystems.events.swing.*;
 import org.junit.jupiter.api.*;
 
@@ -12,7 +20,6 @@ import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.EventObject;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -50,20 +57,37 @@ public class AbstractEventMethodTest {
         Stream<DynamicNode> awt() {
             return asList(
                     ActionEventMethod.class,
+                    AdjustmentEventMethod.class,
                     ComponentEventMethod.class,
                     ContainerEventMethod.class,
                     FocusEventMethod.class,
+                    HierarchyBoundsEventMethod.class,
                     HierarchyEventMethod.class,
+                    ItemEventMethod.class,
                     KeyEventMethod.class,
                     MouseEventMethod.class,
-                    WindowsEventMethod.class
+                    MouseWheelEventMethod.class,
+                    WindowEventMethod.class,
+                    WindowFocusEventMethod.class,
+                    WindowStateEventMethod.class
             ).stream().map(this::createEventMethodNode);
         }
 
         @TestFactory
         Stream<DynamicNode> beans() {
             return asList(
-                    PropertyChangeMethod.class
+                    BeanContextMembershipEventMethod.class,
+                    BeanContextServiceRevokedEventMethod.class,
+                    PropertyChangeMethod.class,
+                    VetoableChangeMethod.class
+            ).stream().map(this::createEventMethodNode);
+        }
+
+        @TestFactory
+        Stream<DynamicNode> naming() {
+            return asList(
+                    NamingEventMethod.class,
+                    NamespaceChangeEventMethod.class
             ).stream().map(this::createEventMethodNode);
         }
 
@@ -77,15 +101,30 @@ public class AbstractEventMethodTest {
         @TestFactory
         Stream<DynamicNode> swing() {
             return asList(
+                    AncestorEventMethod.class,
+                    CaretEventMethod.class,
+                    CellEditorEventMethod.class,
                     ChangeEventMethod.class,
+                    DocumentEventMethod.class,
                     InternalFrameEventMethod.class,
                     ListDataEventMethod.class,
                     ListSelectionEventMethod.class,
+                    MenuEventMethod.class,
+                    PopupMenuEventMethod.class,
                     TableColumnModelEventMethod.class,
                     TableModelEventMethod.class,
                     TreeExpansionEventMethod.class,
                     TreeModelEventMethod.class,
                     TreeSelectionEventMethod.class
+            ).stream().map(this::createEventMethodNode);
+        }
+
+        @TestFactory
+        Stream<DynamicNode> sql() {
+            return asList(
+                    ConnectionEventMethod.class,
+                    RowSetEventMethod.class,
+                    StatementEventMethod.class
             ).stream().map(this::createEventMethodNode);
         }
 
@@ -155,7 +194,7 @@ public class AbstractEventMethodTest {
             this.eventMethod = eventMethod;
         }
 
-        EventObject newEventObject() {
+        Object newEventObject() {
             return mock(eventMethod.getEventObjectClass());
         }
 
@@ -182,7 +221,7 @@ public class AbstractEventMethodTest {
         }
     }
 
-    protected void invokeListenerMethod(Object listener, Method method, EventObject eventObject) {
+    protected void invokeListenerMethod(Object listener, Method method, Object eventObject) {
         try {
             method.invoke(listener, eventObject);
         } catch (IllegalAccessException | InvocationTargetException e) {

@@ -32,7 +32,7 @@ public class EventMethodTests extends AbstractEventMethodTest {
         EventMethod<?, ?> testEventMethod = description.eventMethod;
         Object listener = testEventMethod.listener(runnable, predicate);
 
-        EventObject eventObject = description.newEventObject();
+        Object eventObject = description.newEventObject();
         when(predicate.test(eventObject)).thenReturn(true).thenReturn(false);
 
         invokeListenerMethod(listener, description.method, eventObject);
@@ -49,7 +49,7 @@ public class EventMethodTests extends AbstractEventMethodTest {
         EventMethod<?, ?> testEventMethod = description.eventMethod;
         Object listener = testEventMethod.listener(consumer);
 
-        EventObject eventObject = description.newEventObject();
+        Object eventObject = description.newEventObject();
         invokeListenerMethod(listener, description.method, eventObject);
 
         verify(consumer, times(1)).accept(eventObject);
@@ -63,7 +63,7 @@ public class EventMethodTests extends AbstractEventMethodTest {
         EventMethod<?, ?> testEventMethod = description.eventMethod;
         Object listener = testEventMethod.listener(consumer, predicate);
 
-        EventObject eventObject = description.newEventObject();
+        Object eventObject = description.newEventObject();
         when(predicate.test(eventObject)).thenReturn(true).thenReturn(false);
 
         invokeListenerMethod(listener, description.method, eventObject);
@@ -80,7 +80,7 @@ public class EventMethodTests extends AbstractEventMethodTest {
         EventMethod<?, ?> testEventMethod = description.eventMethod;
         Object listener = testEventMethod.listener(consumer, transformFunc);
 
-        EventObject eventObject = description.newEventObject();
+        Object eventObject = description.newEventObject();
         when(transformFunc.apply(eventObject)).thenReturn("A");
 
         invokeListenerMethod(listener, description.method, eventObject);
@@ -96,7 +96,7 @@ public class EventMethodTests extends AbstractEventMethodTest {
         EventMethod<?, ?> testEventMethod = description.eventMethod;
         Object listener = testEventMethod.listener(consumer, transformFunc, predicate);
 
-        EventObject eventObject = description.newEventObject();
+        Object eventObject = description.newEventObject();
         when(transformFunc.apply(eventObject)).thenReturn("A");
         when(predicate.test(eventObject)).thenReturn(true).thenReturn(false);
 
@@ -115,7 +115,7 @@ public class EventMethodTests extends AbstractEventMethodTest {
         EventMethod<?, ?> testEventMethod = description.eventMethod;
         Object listener = testEventMethod.listener(consumer, "A");
 
-        EventObject eventObject = description.newEventObject();
+        Object eventObject = description.newEventObject();
 
         invokeListenerMethod(listener, description.method, eventObject);
 
@@ -129,7 +129,7 @@ public class EventMethodTests extends AbstractEventMethodTest {
         EventMethod<?, ?> testEventMethod = description.eventMethod;
         Object listener = testEventMethod.listener(consumer, "A", predicate);
 
-        EventObject eventObject = description.newEventObject();
+        Object eventObject = description.newEventObject();
 
         when(predicate.test(eventObject)).thenReturn(true).thenReturn(false);
 
@@ -148,7 +148,7 @@ public class EventMethodTests extends AbstractEventMethodTest {
         EventMethod<?, ?> testEventMethod = description.eventMethod;
         Object listener = testEventMethod.listener(consumer, transformFunc, "B");
 
-        EventObject eventObject = description.newEventObject();
+        Object eventObject = description.newEventObject();
 
         when(transformFunc.apply(eventObject)).thenReturn("A");
 
@@ -166,7 +166,7 @@ public class EventMethodTests extends AbstractEventMethodTest {
         EventMethod<?, ?> testEventMethod = description.eventMethod;
         Object listener = testEventMethod.listener(consumer, transformFunc, "B", predicate);
 
-        EventObject eventObject = description.newEventObject();
+        Object eventObject = description.newEventObject();
         when(transformFunc.apply(eventObject)).thenReturn("A");
         when(predicate.test(eventObject)).thenReturn(true).thenReturn(false);
 
@@ -184,10 +184,10 @@ public class EventMethodTests extends AbstractEventMethodTest {
 
         EventMethod<?, ?> testEventMethod = description.eventMethod;
 
-        CompilerHelper<EventObject, String> testClass = new CompilerHelper<>(consumer);
+        CompilerHelper<Object, String> testClass = new CompilerHelper<>(consumer);
         Object listener = testEventMethod.listener(testClass::consume, supplier);
 
-        EventObject eventObject = description.newEventObject();
+        Object eventObject = description.newEventObject();
         when(supplier.get()).thenReturn("A");
 
         invokeListenerMethod(listener, description.method, eventObject);
@@ -203,10 +203,10 @@ public class EventMethodTests extends AbstractEventMethodTest {
 
         EventMethod<?, ?> testEventMethod = description.eventMethod;
 
-        CompilerHelper<EventObject, String> testClass = new CompilerHelper<>(consumer);
+        CompilerHelper<Object, String> testClass = new CompilerHelper<>(consumer);
         Object listener = testEventMethod.listener(testClass::consume, supplier, predicate);
 
-        EventObject eventObject = description.newEventObject();
+        Object eventObject = description.newEventObject();
         when(supplier.get()).thenReturn("A");
         when(predicate.test(eventObject)).thenReturn(false).thenReturn(true);
 
@@ -229,7 +229,7 @@ public class EventMethodTests extends AbstractEventMethodTest {
         CompilerHelper<String, String> compilerHelper = new CompilerHelper(consumer);
         Object listener = testEventMethod.listener(compilerHelper::consume, transformFunc, supplier);
 
-        EventObject eventObject = description.newEventObject();
+        Object eventObject = description.newEventObject();
         when(supplier.get()).thenReturn("B");
         when(transformFunc.apply(eventObject)).thenReturn("A");
 
@@ -250,7 +250,7 @@ public class EventMethodTests extends AbstractEventMethodTest {
         CompilerHelper<String, String> compilerHelper = new CompilerHelper(consumer);
         Object listener = testEventMethod.listener(compilerHelper::consume, transformFunc, supplier, predicate);
 
-        EventObject eventObject = description.newEventObject();
+        Object eventObject = description.newEventObject();
         when(supplier.get()).thenReturn("B");
         when(transformFunc.apply(eventObject)).thenReturn("A");
         when(predicate.test(eventObject)).thenReturn(false).thenReturn(true);

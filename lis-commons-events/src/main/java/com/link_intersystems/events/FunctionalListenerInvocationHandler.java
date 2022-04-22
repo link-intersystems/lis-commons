@@ -9,7 +9,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-class FunctionalListenerInvocationHandler<L, E extends EventObject, P> implements InvocationHandler {
+class FunctionalListenerInvocationHandler<L, E, P> implements InvocationHandler {
 
     private static final Object[] EMPTY_ARGS = new Object[0];
 

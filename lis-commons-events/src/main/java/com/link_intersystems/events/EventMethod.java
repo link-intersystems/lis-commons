@@ -76,7 +76,7 @@ import static java.util.stream.Collectors.toList;
  * @param <L> the event listener type.
  * @param <E> the event object type.
  */
-public class EventMethod<L, E extends EventObject> implements Predicate<Method> {
+public class EventMethod<L, E> implements Predicate<Method> {
 
     private List<Method> eventMethods;
     private Supplier<List<Method>> eventMethodsSupplier;
@@ -272,7 +272,7 @@ public class EventMethod<L, E extends EventObject> implements Predicate<Method> 
         if (eventObjectClass == null) {
             eventObjectClass = eventObjectClassSupplier.get();
 
-            if (eventObjectClass == null || !EventObject.class.isAssignableFrom(eventObjectClass)) {
+            if (eventObjectClass == null) {
                 String msg = "Can not resolve event object class by the generic superclass of" +
                         " any superclass in the hierarchy. Either override getListenerClass() or" +
                         " use the constructor that has a listener class parameter.";
