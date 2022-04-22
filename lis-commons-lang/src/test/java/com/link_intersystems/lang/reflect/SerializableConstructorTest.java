@@ -27,11 +27,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class SerializableConstructorTest {
 
     @Test
-    void nullConstructor() {
-        assertThrows(IllegalArgumentException.class, () -> new SerializableConstructor(null));
-    }
-
-    @Test
     void serialize() throws SecurityException, NoSuchMethodException {
         Constructor<ConstructorSerializationTestClass> constructor = ConstructorSerializationTestClass.class.getDeclaredConstructor(String.class);
         SerializableConstructor serializableConstructor = new SerializableConstructor(constructor);

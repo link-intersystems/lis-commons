@@ -49,23 +49,12 @@ class Class2Test {
     }
 
     @Test
-    void nullTypeVariableName() {
-        Class2<?> genericSubClass = Class2.get(GenericClass_Types_D_C_Extends_GenericClass.class);
-        assertThrows(IllegalArgumentException.class, () -> genericSubClass.getTypeVariable(null));
-    }
-
-    @Test
     void getNonExistentTypeVariable() {
         Class2<?> genericSubClass = Class2.get(GenericClass_Types_D_C_Extends_GenericClass.class);
         TypeVariable<?> typeVariable = genericSubClass.getTypeVariable("ABC");
         assertNull(typeVariable, "Type variable should not exist");
     }
 
-    @Test
-    void nullTypeVariable() {
-        Class2<?> genericSubWithInterface = Class2.get(GenericSubWithInterface.class);
-        assertThrows(IllegalArgumentException.class, () -> genericSubWithInterface.getBoundType(null));
-    }
 
     @Test
     void simpleGenerics() {

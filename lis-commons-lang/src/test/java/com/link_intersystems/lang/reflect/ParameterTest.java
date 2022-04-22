@@ -40,11 +40,6 @@ class ParameterTest  {
     }
 
     @Test
-    void newWithoutMember2() {
-        assertThrows(IllegalArgumentException.class, () -> new Parameter(null, 1));
-    }
-
-    @Test
     void indexParameterOutOfBounds() {
         expect(member2Mock.getParameterTypes()).andReturn(new Class<?>[2]).anyTimes();
         mocksControl.replay();

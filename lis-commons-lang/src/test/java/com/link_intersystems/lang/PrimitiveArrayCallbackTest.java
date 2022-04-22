@@ -23,11 +23,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class PrimitiveArrayCallbackTest {
 
     @Test
-    void nullConstructorArg() {
-        assertThrows(IllegalArgumentException.class, () -> new PrimitiveArrayCallback(null));
-    }
-
-    @Test
     void notAnArrayConstructorArg() {
         assertThrows(IllegalArgumentException.class, () -> new PrimitiveArrayCallback(new Object()));
     }

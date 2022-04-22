@@ -15,7 +15,6 @@
  */
 package com.link_intersystems.lang.reflect;
 
-import com.link_intersystems.lang.Assert;
 import com.link_intersystems.lang.ref.Reference;
 import com.link_intersystems.lang.ref.SerializableReference;
 
@@ -31,6 +30,8 @@ import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.util.Objects.requireNonNull;
+
 public abstract class ReflectFacade {
 
     private static final class SerializableReferenceImplementation implements SerializableReference<Predicate<Class<?>>> {
@@ -42,13 +43,7 @@ public abstract class ReflectFacade {
 
         public Predicate<Class<?>> get() {
             if (predicate == null) {
-                Predicate<Class<?>> isInterfacePredicate = new Predicate<Class<?>>() {
-
-                    public boolean test(Class<?> object) {
-                        return object.isInterface();
-                    }
-
-                };
+                Predicate<Class<?>> isInterfacePredicate = Class::isInterface;
                 predicate = isInterfacePredicate;
             }
             return predicate;
@@ -85,14 +80,14 @@ public abstract class ReflectFacade {
      * member name predicate was constructed with.
      * @since 1.0.0;
      */
-    public static Predicate getMemberNamePredicate(String memberName) {
-        Assert.notNull("memberName", memberName);
+    public static Predicate<Member> getMemberNamePredicate(String memberName) {
+        requireNonNull(memberName);
 
-        class SerializableMemberNamePredicate implements SerializableReference<Predicate> {
+        class SerializableMemberNamePredicate implements SerializableReference<Predicate<Member>> {
 
             private static final long serialVersionUID = -625148437829360498L;
 
-            private transient Predicate predicate;
+            private transient Predicate<Member> predicate;
 
             private final String memberName;
 
@@ -100,18 +95,18 @@ public abstract class ReflectFacade {
                 this.memberName = memberName;
             }
 
-            public Predicate get() {
+            public Predicate<Member> get() {
                 if (predicate == null) {
-                    Predicate propertyValuePredicate = ((Predicate<String>) Objects::nonNull).and(name -> name.equals(memberName));
+                    Predicate<String> propertyValuePredicate = ((Predicate<String>) Objects::nonNull).and(name -> name.equals(memberName));
                     Predicate<Member> instance = m -> propertyValuePredicate.test(m.getName());
-                    Predicate memberNamePredicate = ((Predicate<Member>) Objects::nonNull).and(instance);
+                    Predicate<Member> memberNamePredicate = ((Predicate<Member>) Objects::nonNull).and(instance);
                     this.predicate = memberNamePredicate;
                 }
                 return predicate;
             }
         }
 
-        return new SerializablePredicate(new SerializableMemberNamePredicate(memberName));
+        return new SerializablePredicate<>(new SerializableMemberNamePredicate(memberName));
     }
 
     /**
@@ -125,14 +120,14 @@ public abstract class ReflectFacade {
      * intersystems.com]</a>
      * @since 1.0.0;
      */
-    public static Predicate getDeclaringClassPredicate(Class<?> declaringClass) {
-        Assert.notNull("declaringClass", declaringClass);
+    public static Predicate<Member> getDeclaringClassPredicate(Class<?> declaringClass) {
+        requireNonNull(declaringClass);
 
-        class SerializableDeclaringClassPredicate implements SerializableReference<Predicate> {
+        class SerializableDeclaringClassPredicate implements SerializableReference<Predicate<Member>> {
 
             private static final long serialVersionUID = -625148437829360498L;
 
-            private transient Predicate predicate;
+            private transient Predicate<Member> predicate;
 
             private final Class<?> declaringClass;
 
@@ -140,17 +135,17 @@ public abstract class ReflectFacade {
                 this.declaringClass = declaringClass;
             }
 
-            public Predicate get() {
+            public Predicate<Member> get() {
                 if (predicate == null) {
-                    Predicate propertyValuePredicate = ((Predicate<Member>) Objects::nonNull).and(m -> m.getDeclaringClass().equals(declaringClass));
-                    Predicate memberNamePredicate = ((Predicate<Member>) Objects::nonNull).and(propertyValuePredicate);
+                    Predicate<Member> propertyValuePredicate = ((Predicate<Member>) Objects::nonNull).and(m -> m.getDeclaringClass().equals(declaringClass));
+                    Predicate<Member> memberNamePredicate = ((Predicate<Member>) Objects::nonNull).and(propertyValuePredicate);
                     this.predicate = memberNamePredicate;
                 }
                 return predicate;
             }
         }
 
-        return new SerializablePredicate(new SerializableDeclaringClassPredicate(declaringClass));
+        return new SerializablePredicate<>(new SerializableDeclaringClassPredicate(declaringClass));
     }
 
     /**
@@ -163,8 +158,8 @@ public abstract class ReflectFacade {
      * constructed with.
      * @since 1.0.0;
      */
-    public static Predicate getIsAssignablePredicate(Class<?> clazz) {
-        Assert.notNull("clazz", clazz);
+    public static Predicate<Object> getIsAssignablePredicate(Class<?> clazz) {
+        requireNonNull(clazz);
 
         return new AssignablePredicate(clazz);
 
@@ -179,7 +174,7 @@ public abstract class ReflectFacade {
      * matches the namePattern.
      * @since 1.0.0;
      */
-    public static Predicate getMemberNamePatternPredicate(Pattern namePattern) {
+    public static Predicate<Member> getMemberNamePatternPredicate(Pattern namePattern) {
         return new MemberNamePatternPredicate(namePattern);
     }
 
@@ -344,7 +339,7 @@ class MemberNameComparator implements Comparator<Member>, Serializable {
      * @since 1.0.0;
      */
     public int compare(Member o1, Member o2) {
-        int compareValue = 0;
+        int compareValue;
         if (o1 == null) {
             if (o2 == null) {
                 compareValue = 0;
@@ -447,7 +442,7 @@ class FieldTypeTransformer implements Function<Field, Class<?>>, Serializable {
  * intersystems.com]</a>
  * @since 1.0.0;
  */
-class MemberNamePatternPredicate implements Predicate, Serializable {
+class MemberNamePatternPredicate implements Predicate<Member>, Serializable {
 
     /**
      *
@@ -466,16 +461,13 @@ class MemberNamePatternPredicate implements Predicate, Serializable {
      * @since 1.0.0;
      */
     public MemberNamePatternPredicate(Pattern namePattern) {
-        Assert.notNull("namePattern", namePattern);
+        requireNonNull(namePattern);
         this.namePattern = namePattern;
         matcher = namePattern.matcher("");
     }
 
     private Matcher getMatcher(String string) {
         if (matcher == null) {
-            /**
-             * In case of deserialization
-             */
             matcher = namePattern.matcher(string);
         } else {
             matcher.reset(string);
@@ -489,11 +481,7 @@ class MemberNamePatternPredicate implements Predicate, Serializable {
      * @see MemberNamePatternPredicate class javadoc
      * @since 1.0.0;
      */
-    public boolean test(Object object) {
-        if (!Member.class.isInstance(object)) {
-            throw new IllegalArgumentException(MemberNamePatternPredicate.class.getSimpleName() + " can only handle " + Member.class);
-        }
-        Member member = (Member) object;
+    public boolean test(Member member) {
         String memberName = member.getName();
         Matcher matcher = getMatcher(memberName);
         return matcher.matches();
@@ -511,7 +499,7 @@ class MemberNamePatternPredicate implements Predicate, Serializable {
  * intersystems.com]</a>
  * @since 1.0.0;
  */
-class AssignablePredicate implements Predicate, Serializable {
+class AssignablePredicate implements Predicate<Object>, Serializable {
 
     /**
      *
@@ -520,7 +508,7 @@ class AssignablePredicate implements Predicate, Serializable {
 
     private final Class<?> clazz;
 
-    public static Predicate getInstance(Class<?> clazz) {
+    public static Predicate<Object> getInstance(Class<?> clazz) {
         return new AssignablePredicate(clazz);
     }
 
@@ -532,8 +520,7 @@ class AssignablePredicate implements Predicate, Serializable {
      * @since 1.0.0;
      */
     public AssignablePredicate(Class<?> clazz) {
-        Assert.notNull("clazz", clazz);
-        this.clazz = clazz;
+        this.clazz = requireNonNull(clazz);
     }
 
     /**
@@ -595,7 +582,7 @@ class CanonicalClassNameComparator implements Comparator<Class<?>>, Serializable
      * @since 1.0.0;
      */
     public int compare(Class<?> o1, Class<?> o2) {
-        int compareValue = 0;
+        int compareValue;
         if (o1 == null) {
             if (o2 == null) {
                 compareValue = 0;
@@ -626,13 +613,11 @@ class SerializablePredicate<T> implements Predicate<T>, Serializable {
     private SerializableReference<Predicate<T>> serializablePredicate;
 
     public SerializablePredicate(SerializableReference<Predicate<T>> serializablePredicate) {
-        Assert.notNull("serializablePredicate", serializablePredicate);
-        this.serializablePredicate = serializablePredicate;
+        this.serializablePredicate = requireNonNull(serializablePredicate);
     }
 
     public boolean test(T object) {
         Predicate<T> predicate = serializablePredicate.get();
-        boolean result = predicate.test(object);
-        return result;
+        return predicate.test(object);
     }
 }

@@ -150,20 +150,6 @@ class Member2Test {
         Assertions.assertFalse(testInvokableMember.isDeclaredException(ClassCastException.class));
     }
 
-    @Test
-    void isDeclaredExceptionForNullClass() {
-        Method[] declaredMethods = TestInvokableMember.class.getDeclaredMethods();
-        TestInvokableMember testInvokableMember = new TestInvokableMember(declaredMethods[0]);
-        assertThrows(IllegalArgumentException.class, () -> testInvokableMember.isDeclaredException((Class<? extends Exception>) null));
-    }
-
-    @Test
-    void isDeclaredExceptionForNullException() {
-        Method[] declaredMethods = TestInvokableMember.class.getDeclaredMethods();
-        TestInvokableMember testInvokableMember = new TestInvokableMember(declaredMethods[0]);
-        assertThrows(IllegalArgumentException.class, () -> testInvokableMember.isDeclaredException((Exception) null));
-    }
-
     private static class TestInvokableMember extends Member2<Method> {
 
         protected TestInvokableMember(Method member) {

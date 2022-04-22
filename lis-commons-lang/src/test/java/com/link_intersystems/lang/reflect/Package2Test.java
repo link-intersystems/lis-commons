@@ -23,11 +23,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class Package2Test {
 
     @Test
-    void getNullPackageName() {
-        assertThrows(IllegalArgumentException.class, () -> Package2.get((String) null));
-    }
-
-    @Test
     void getNullPackage() {
         Package2 package2 = Package2.get((Package) null);
         Assertions.assertNull(package2);

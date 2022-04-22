@@ -15,7 +15,6 @@
  */
 package com.link_intersystems.lang.reflect;
 
-import com.link_intersystems.lang.Assert;
 import com.link_intersystems.lang.ClassLoaderContextAware;
 import com.link_intersystems.lang.Signature;
 import com.link_intersystems.lang.reflect.PotentiallyApplicableMemberStrategy.PotentiallyApplicableCriteria;
@@ -26,6 +25,8 @@ import java.io.Serializable;
 import java.lang.reflect.*;
 import java.util.*;
 import java.util.function.Function;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * An extension to the {@link Class} that encapsulates complex logic like
@@ -163,7 +164,7 @@ public class Class2<T> implements Serializable {
      */
     @SuppressWarnings("unchecked")
     public static <T> Class2<T> get(Class<T> clazz) {
-        Assert.notNull("clazz", clazz);
+        requireNonNull(clazz);
         Class2<T> class2 = (Class2<T>) CLASS_TO_CLASS2.get(clazz);
         if (class2 == null) {
             class2 = new Class2<>(clazz);
@@ -178,8 +179,7 @@ public class Class2<T> implements Serializable {
      * @param clazz the class to get a {@link Class2} for.
      */
     protected Class2(Class<T> clazz) {
-        Assert.notNull("clazz", clazz);
-        this.clazz = clazz;
+        this.clazz = requireNonNull(clazz);
     }
 
     /**
@@ -270,9 +270,7 @@ public class Class2<T> implements Serializable {
 
     private Constructor2<T> getApplicableConstructor(PotentionallyApplicableConstructorCriteria potentionallyApplicableConstructorCriteria) {
         List<Constructor2<T>> constructorsInternal = getConstructors();
-        List<Constructor2<T>> potentiallyApplicable = getPotentiallyApplicable(
-                constructorsInternal,
-                potentionallyApplicableConstructorCriteria);
+        List<Constructor2<T>> potentiallyApplicable = getPotentiallyApplicable(constructorsInternal, potentionallyApplicableConstructorCriteria);
         return chooseApplicableMember(potentiallyApplicable);
     }
 
@@ -292,9 +290,9 @@ public class Class2<T> implements Serializable {
         return getApplicableConstructor(potentionallyApplicableConstructorCriteria);
     }
 
-    private <T extends Member2<?>> List getPotentiallyApplicable(
-            List<T> candidates,
-            PotentiallyApplicableCriteria<T> potentiallyApplicableCriteria) {
+    private <C extends Member2<?>> List<C> getPotentiallyApplicable(
+            List<C> candidates,
+            PotentiallyApplicableCriteria<C> potentiallyApplicableCriteria) {
         return POTENTIALLY_APPLICABLE_STRATEGY
                 .getPotentialApplicable(candidates,
                         potentiallyApplicableCriteria);
@@ -321,7 +319,7 @@ public class Class2<T> implements Serializable {
      */
     public Method2 getDeclaringMethod2(String name, Class<?>... parameterTypes)
             throws NoSuchMethodException {
-        Assert.notNull("parameterTypes", parameterTypes);
+        requireNonNull(parameterTypes);
         List<Method2> declaredMethods = getDeclaredMethods();
         for (Method2 method2 : declaredMethods) {
             Class<?>[] parameterTypes2 = method2.getParameterTypes();
@@ -361,7 +359,7 @@ public class Class2<T> implements Serializable {
      * @since 1.0.0;
      */
     Method2 getMethod2(Method method) throws NoSuchMethodException {
-        Assert.notNull("method", method);
+        requireNonNull(method);
         List<Method2> declaredMethods = getDeclaredMethods();
         for (Method2 method2 : declaredMethods) {
             if (method.equals(method2.getMember())) {
@@ -499,8 +497,7 @@ public class Class2<T> implements Serializable {
 
         List<Method2> potentiallyApplicable = getPotentiallyApplicable(
                 declaredMethods, potentionallyApplicableMethodCriteria);
-        Method2 applicableMethod = chooseApplicableMember(potentiallyApplicable);
-        return applicableMethod;
+        return chooseApplicableMember(potentiallyApplicable);
     }
 
     /**
@@ -549,8 +546,7 @@ public class Class2<T> implements Serializable {
 
         List<Method2> potentiallyApplicable = getPotentiallyApplicable(
                 declaredMethods, potentionallyApplicableMethodCriteria);
-        Method2 applicableMethod = chooseApplicableMember(potentiallyApplicable);
-        return applicableMethod;
+        return chooseApplicableMember(potentiallyApplicable);
     }
 
     /**
@@ -631,7 +627,7 @@ public class Class2<T> implements Serializable {
      * @since 1.2.0;
      */
     public TypeVariable<?> getTypeVariable(String typeVarName) {
-        Assert.notNull("typeVarName", typeVarName);
+        requireNonNull(typeVarName);
         TypeVariable<?> typeVariable = getTypeVariableCache().get(typeVarName);
         if (typeVariable == null) {
             typeVarName = typeVarName.trim();
@@ -665,7 +661,7 @@ public class Class2<T> implements Serializable {
      * @since 1.2.0;
      */
     public Type getBoundType(TypeVariable<?> typeVariable) {
-        Assert.notNull("typeVariable", typeVariable);
+        requireNonNull(typeVariable);
         Type type = doGetBoundType(typeVariable, clazz);
         if (type instanceof TypeVariable<?>) {
             typeVariable = (TypeVariable<?>) type;
@@ -857,7 +853,7 @@ public class Class2<T> implements Serializable {
      * @since 1.0.0;
      */
     public String toString(String... wellKnownPackages) {
-        Assert.notNull("wellKnownPackages", wellKnownPackages);
+        requireNonNull(wellKnownPackages);
         StringBuilder toStringBuilder = new StringBuilder();
         Class<?> clazz = getType();
         boolean isArray = clazz.isArray();
@@ -955,8 +951,7 @@ public class Class2<T> implements Serializable {
 
         Type genericSuperclass = typeClass.getGenericSuperclass();
         if (genericSuperclass instanceof ParameterizedType) {
-            ParameterizedType parameterizedType = ParameterizedType.class
-                    .cast(genericSuperclass);
+            ParameterizedType parameterizedType = ParameterizedType.class.cast(genericSuperclass);
             boundType = doGetBoundType(parameterizedType, typeVariable);
         }
 

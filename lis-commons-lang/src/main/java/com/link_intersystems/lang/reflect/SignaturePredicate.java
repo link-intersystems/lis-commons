@@ -24,6 +24,8 @@ import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.util.function.Predicate;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * A predicate that evaluates to true if the object it is evaluates against is a
  * constructor or method and has the same signature as the constructor or method
@@ -70,8 +72,7 @@ public class SignaturePredicate<T extends Member> implements Predicate<T>, Seria
     }
 
     private SignaturePredicate(Member2<?> member2) {
-        Assert.notNull("member2", member2);
-        this.member2 = member2;
+        this.member2 = requireNonNull(member2);
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})

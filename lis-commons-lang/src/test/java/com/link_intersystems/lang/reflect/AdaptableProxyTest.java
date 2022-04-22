@@ -152,11 +152,6 @@ class AdaptableProxyTest  {
         assertThrows(IllegalStateException.class, () -> a.concat("Hello"));
     }
 
-    @Test
-    void nullAdaptable() {
-        assertThrows(IllegalArgumentException.class, () -> new AdaptableProxy(null));
-    }
-
     public static interface InterfaceA {
 
         public String concat(String string);

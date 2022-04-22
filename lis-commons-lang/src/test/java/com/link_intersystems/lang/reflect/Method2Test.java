@@ -36,11 +36,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class Method2Test  {
 
     @Test
-    void nullConstructorArg() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new Method2(null));
-    }
-
-    @Test
     void privateMethod() throws SecurityException, NoSuchMethodException {
         Method2 higher = Class2.get(HigherVisibility.class).getApplicableMethod("privateMethod");
         Method2 lower = Class2.get(LowerVisibility.class).getApplicableMethod("privateMethod");
@@ -142,18 +137,6 @@ class Method2Test  {
         assertFalse(arrayList.isEmpty());
     }
 
-    @SuppressWarnings("all")
-    @Test
-    void invokeParamsMustNotBeNull() throws Exception {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-
-            Method2 arrayListAdd = Class2.get(ArrayList.class).getApplicableMethod("add", Object.class);
-            ArrayList<String> arrayList = new ArrayList<String>();
-            arrayListAdd.getInvokable(arrayList).invoke(null);
-            assertFalse(arrayList.isEmpty());
-        });
-    }
-
     @Test
     void invokeParamsContainsNull() throws Exception {
         Method2 arrayListAdd = Class2.get(ArrayList.class).getApplicableMethod("add", Object.class);
@@ -193,10 +176,4 @@ class Method2Test  {
         assertTrue(readMethod.isOverriddenBy(overriddenReadMethod.getMember()));
         assertFalse(overriddenReadMethod.isOverriddenBy(readMethod));
     }
-
-    @Test
-    void forMethodNull() throws Exception {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> Method2.forMethod(null));
-    }
-
 }

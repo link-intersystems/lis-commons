@@ -15,7 +15,6 @@
  */
 package com.link_intersystems.lang.reflect;
 
-import com.link_intersystems.lang.Assert;
 import com.link_intersystems.lang.Conversions;
 import com.link_intersystems.lang.PrimitiveArrayCallback;
 import com.link_intersystems.lang.Signature;
@@ -24,10 +23,9 @@ import com.link_intersystems.lang.ref.SerializableReference;
 
 import java.io.Serializable;
 import java.lang.reflect.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+
+import static java.util.Objects.requireNonNull;
 
 public abstract class Member2<M extends Member> implements Member,
         Serializable {
@@ -43,7 +41,7 @@ public abstract class Member2<M extends Member> implements Member,
     private Member2Applicability member2Applicability;
 
     protected Member2(M member) {
-        Assert.notNull("member", member);
+        requireNonNull(member);
         this.memberRef = getSerializableReference(member);
         member2Applicability = new Member2Applicability(this);
     }
@@ -62,7 +60,7 @@ public abstract class Member2<M extends Member> implements Member,
                     (Constructor<?>) member);
         } else if (member instanceof Member2<?>) {
             Member2<T> member2 = (Member2<T>) member;
-            return new SerializableObjectReference<T>(member2);
+            return new SerializableObjectReference<>(member2);
         } else {
             throw new IllegalArgumentException("member must be either a "
                     + Constructor.class.getCanonicalName() + ", a "
@@ -122,7 +120,7 @@ public abstract class Member2<M extends Member> implements Member,
 
     /**
      * @return the {@link Class} object that represents this member's return
-     *         type.
+     * type.
      * @since 1.0.0;
      */
     protected abstract Class<?> getReturnType();
@@ -162,15 +160,15 @@ public abstract class Member2<M extends Member> implements Member,
     /**
      * @param accessTypes
      * @return true if this {@link Member2} is accessible by one of the given
-     *         {@link AccessType}s.
+     * {@link AccessType}s.
      * @since 1.0.0;
      */
     public boolean isAccessible(AccessType... accessTypes) {
-        Assert.notNull("accessTypes", accessTypes);
+        requireNonNull(accessTypes);
         int modifiers = getModifiers();
         boolean accessible = false;
-        for (int i = 0; i < accessTypes.length; i++) {
-            if (accessTypes[i].isMatching(modifiers)) {
+        for (AccessType accessType : accessTypes) {
+            if (accessType.isMatching(modifiers)) {
                 accessible = true;
                 break;
             }
@@ -189,7 +187,7 @@ public abstract class Member2<M extends Member> implements Member,
     /**
      * @param otherMember2
      * @return true if the names of this {@link Member2} is equal to the name of
-     *         the other {@link Member2}.
+     * the other {@link Member2}.
      * @since 1.0.0;
      */
     protected boolean isNameEqual(Member2<?> otherMember2) {
@@ -213,11 +211,11 @@ public abstract class Member2<M extends Member> implements Member,
     /**
      * @param referenceMember
      * @return true if the access modifier of this {@link Member2} are less
-     *         restrictive than the access modifier of the referenceInvokable.
-     *         <p>
-     *         Logic according to the java language specification:
+     * restrictive than the access modifier of the referenceInvokable.
+     * <p>
+     * Logic according to the java language specification:
      *
-     *         <pre>
+     * <pre>
      * The access modifier (§6.6) of an overriding or hiding method must provide at least as much access as the overridden or hidden method, or a compile-time error occurs. In more detail:
      *         <ul>
      *         <li>If the overridden or hidden method is <code>public</code>,
@@ -275,7 +273,7 @@ public abstract class Member2<M extends Member> implements Member,
     /**
      * @param member2
      * @return true if the this {@link Member2}'s declaring class is assignable
-     *         from the invokable.
+     * from the invokable.
      * @since 1.0.0;
      */
     protected boolean isDeclaringClassAssignableFrom(Member2<?> member2) {
@@ -361,7 +359,7 @@ public abstract class Member2<M extends Member> implements Member,
      *
      * @param paramTypes
      * @return true if this {@link Invokable} is applicable for the parameter
-     *         types.
+     * types.
      */
     public boolean isApplicable(Class<?>[] paramTypes) {
         boolean applicable = member2Applicability.isApplicable(paramTypes);
@@ -435,10 +433,10 @@ public abstract class Member2<M extends Member> implements Member,
      * Is this {@link Member2} a generic {@link Member2}?
      *
      * @return true if this Member2 is a generic member in terms of the java
-     *         language specification. <h3>For {@link Member2}s that represent
-     *         {@link Constructor2}s</h3>
+     * language specification. <h3>For {@link Member2}s that represent
+     * {@link Constructor2}s</h3>
      *
-     *         <pre>
+     * <pre>
      * <h2>8.8.4 Generic Constructors</h2>
      * It is possible for a constructor to be declared generic, independently of whether the class the
      * constructor is declared in is itself generic. A constructor is generic if it declares one or more
@@ -454,9 +452,9 @@ public abstract class Member2<M extends Member> implements Member,
      * invoked. When they are not provided, they are inferred as specified in §15.12.2.7.
      * </pre>
      *
-     *         <h3>For {@link Member2}s that represent {@link Method2}s</h3>
+     * <h3>For {@link Member2}s that represent {@link Method2}s</h3>
      *
-     *         <pre>
+     * <pre>
      * <h2>8.4.4 Generic Methods</h2>
      * A method is generic if it declares one or more type variables (§4.4). These type variables are
      * known as the formal type parameters of the method. The form of the formal type parameter list
@@ -476,15 +474,16 @@ public abstract class Member2<M extends Member> implements Member,
             Boolean generic = Boolean.FALSE;
             Type[] genericParameterTypes = getGenericParameterTypes();
 
-            for (int i = 0; i < genericParameterTypes.length; i++) {
-                if (genericParameterTypes[i] instanceof ParameterizedType) {
+            for (Type genericParameterType : genericParameterTypes) {
+                if (genericParameterType instanceof ParameterizedType) {
                     generic = Boolean.TRUE;
+                    break;
                 }
             }
 
             this.generic = generic;
         }
-        return generic.booleanValue();
+        return generic;
     }
 
     /**
@@ -495,7 +494,7 @@ public abstract class Member2<M extends Member> implements Member,
      */
     public List<Parameter> getParameters() {
         if (parameters == null) {
-            List<Parameter> parameters = new ArrayList<Parameter>();
+            List<Parameter> parameters = new ArrayList<>();
 
             Class<?>[] parameterTypes = getParameterTypes();
             for (int i = 0; i < parameterTypes.length; i++) {
@@ -531,7 +530,7 @@ public abstract class Member2<M extends Member> implements Member,
         if (memberRef == null && other.memberRef != null) {
             return false;
         }
-        return memberRef.equals(other.memberRef);
+        return Objects.equals(memberRef, other.memberRef);
     }
 
     /**
@@ -543,15 +542,14 @@ public abstract class Member2<M extends Member> implements Member,
     /**
      * @param exceptionClass
      * @return true if the exceptionClass is a exception type declared by this
-     *         method.
+     * method.
      * @since 1.2.0;
      */
     public boolean isDeclaredException(Class<? extends Exception> exceptionClass) {
-        Assert.notNull("exceptionClass", exceptionClass);
+        requireNonNull(exceptionClass);
         boolean isDeclaredException = false;
         Class<?>[] declaredExceptionTypes = getDeclaredExceptionTypes();
-        for (int i = 0; i < declaredExceptionTypes.length; i++) {
-            Class<?> declaredExceptionType = declaredExceptionTypes[i];
+        for (Class<?> declaredExceptionType : declaredExceptionTypes) {
             isDeclaredException = declaredExceptionType
                     .isAssignableFrom(exceptionClass);
             if (isDeclaredException) {
@@ -567,7 +565,6 @@ public abstract class Member2<M extends Member> implements Member,
      * @since 1.2.0;
      */
     public boolean isDeclaredException(Exception exception) {
-        Assert.notNull("exception", exception);
         Class<? extends Exception> exceptionClass = exception.getClass();
         return isDeclaredException(exceptionClass);
     }

@@ -33,20 +33,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  */
 class ConversionsReferenceWideningTest {
 
-    @Test
-    void nullFrom() {
-        Class<?> s = null;
-        Class<?> t = Collection.class;
-        assertThrows(IllegalArgumentException.class, () -> Conversions.isWideningReference(s, t));
-    }
-
-    @Test
-    void nullTo() {
-        Class<?> s = List.class;
-        Class<?> t = null;
-        assertThrows(IllegalArgumentException.class, () -> Conversions.isWideningReference(s, t));
-    }
-
     /**
      * A widening reference conversion exists from any type S to any type T,
      * provided S is a subtype (§4.10) of T.

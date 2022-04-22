@@ -15,9 +15,9 @@
  */
 package com.link_intersystems.beans;
 
-import com.link_intersystems.lang.Assert;
-
 import java.util.ResourceBundle;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * Package internal helper class to encapsulate message resource bundle handling
@@ -41,7 +41,7 @@ abstract class Messages {
 
     public static String formatNoSuchProperty(Class<?> beanClass,
                                               String propertyName) {
-        Assert.notNull("beanClass", beanClass);
+        requireNonNull(beanClass);
         ResourceBundle resourceBundle = get();
         String template = resourceBundle.getString("noSuchProperty");
         String message = String.format(template, beanClass.getCanonicalName(),

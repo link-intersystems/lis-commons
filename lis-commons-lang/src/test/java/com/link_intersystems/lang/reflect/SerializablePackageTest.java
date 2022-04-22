@@ -24,11 +24,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class SerializablePackageTest {
 
     @Test
-    void nullConstructor() {
-        assertThrows(IllegalArgumentException.class, () -> new SerializablePackage(null));
-    }
-
-    @Test
     void serialize() {
         Package packageObject = SerializablePackageTest.class.getPackage();
         SerializablePackage serializablePackage = new SerializablePackage(packageObject);

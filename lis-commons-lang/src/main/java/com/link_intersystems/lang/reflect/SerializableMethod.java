@@ -23,6 +23,8 @@ import com.link_intersystems.lang.Assert;
 import com.link_intersystems.lang.ref.AbstractSerializableReference;
 import com.link_intersystems.lang.ref.Reference;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * Represents a {@link Method} object {@link Reference} that is
  * {@link Serializable}.
@@ -75,8 +77,7 @@ class SerializableMethod extends AbstractSerializableReference<Method> {
 	 * @since 1.0.0;
 	 */
 	public SerializableMethod(Method method) {
-		super(method);
-		Assert.notNull("method", method);
+		super(requireNonNull(method));
 	}
 
 	protected Method getMethod(Class<?> declaringClass, String methodName,

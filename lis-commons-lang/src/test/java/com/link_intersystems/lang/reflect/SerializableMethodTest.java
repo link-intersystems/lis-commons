@@ -27,11 +27,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class SerializableMethodTest {
 
     @Test
-    void nullConstructor() {
-        assertThrows(IllegalArgumentException.class, () -> new SerializableMethod(null));
-    }
-
-    @Test
     void serialize() throws SecurityException, NoSuchMethodException {
         Method method = SerializableMethodTest.class.getDeclaredMethod("someTestMethod", int.class, int[].class, String.class);
         SerializableMethod serializableMethod = new SerializableMethod(method);

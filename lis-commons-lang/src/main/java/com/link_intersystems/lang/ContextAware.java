@@ -22,8 +22,8 @@ import com.link_intersystems.lang.reflect.Method2;
 import java.lang.reflect.*;
 import java.util.*;
 import java.util.concurrent.Callable;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * Base class for handling of {@link Runnable}, {@link Callable} and method
@@ -150,17 +150,17 @@ import java.util.stream.StreamSupport;
  *
  * </pre>
  *
- * @param <CONTEXT_TYPE>
+ * @param <C>
  * @author René Link <a
  * href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  * intersystems.com]</a>
  * @since 1.2.0;
  */
-public abstract class ContextAware<CONTEXT_TYPE> {
+public abstract class ContextAware<C> {
 
-    private final ThreadLocal<Method2> invocationMethod = new ThreadLocal<Method2>();
+    private final ThreadLocal<Method2> invocationMethod = new ThreadLocal<>();
 
-    private Collection<ContextListener<CONTEXT_TYPE>> contextListeners = new ArrayList<ContextListener<CONTEXT_TYPE>>();
+    private Collection<ContextListener<C>> contextListeners = new ArrayList<>();
     private ContextProvider thisContextProviderAdapter;
 
     /**
@@ -180,8 +180,7 @@ public abstract class ContextAware<CONTEXT_TYPE> {
     }
 
     public ContextAware() {
-        thisContextProviderAdapter = new ContextAwareContextProvider<CONTEXT_TYPE>(
-                this);
+        thisContextProviderAdapter = new ContextAwareContextProvider<>(this);
     }
 
     /**
@@ -195,8 +194,6 @@ public abstract class ContextAware<CONTEXT_TYPE> {
      */
     @SuppressWarnings("unchecked")
     public <T> T createContextProxy(T targetObject) {
-        Assert.notNull("targetObject", targetObject);
-
         Class<T> targetObjectClass = (Class<T>) targetObject.getClass();
         List<Class<?>> allInterfaces = getAllInterfaces(targetObjectClass);
         if (allInterfaces.isEmpty()) {
@@ -205,8 +202,7 @@ public abstract class ContextAware<CONTEXT_TYPE> {
                             + targetObjectClass
                             + " does not implement any interface.");
         }
-        Class<?>[] allInterfacesAsArray = (Class<?>[]) allInterfaces
-                .toArray(new Class<?>[allInterfaces.size()]);
+        Class<?>[] allInterfacesAsArray = allInterfaces.toArray(new Class<?>[0]);
 
         ClassLoader classLoader = targetObject.getClass().getClassLoader();
         ContextAwareInvocationHandler classLoaderContextInvocationHandler = new ContextAwareInvocationHandler(
@@ -240,8 +236,11 @@ public abstract class ContextAware<CONTEXT_TYPE> {
 
             @Override
             public Class<?> next() {
-                Class<?> nextType = types.poll();
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
 
+                Class<?> nextType = types.poll();
                 Class<?>[] interfaces = nextType.getInterfaces();
                 types.addAll(Arrays.asList(interfaces));
 
@@ -252,7 +251,7 @@ public abstract class ContextAware<CONTEXT_TYPE> {
         AllInterfacesIterator allInterfacesIterator = new AllInterfacesIterator(targetObjectClass);
         List<Class<?>> allInterfaces = new ArrayList<>();
         while (allInterfacesIterator.hasNext()) {
-            Class<?> next =  allInterfacesIterator.next();
+            Class<?> next = allInterfacesIterator.next();
             allInterfaces.add(next);
 
         }
@@ -289,12 +288,11 @@ public abstract class ContextAware<CONTEXT_TYPE> {
      *                   method.
      * @since 1.2.0;
      */
-    public <RESULT> RESULT runInContext(Callable<RESULT> callable)
+    public <R> R runInContext(Callable<R> callable)
             throws Exception {
-        CallableRunInContext<RESULT> callableRunInContext = new CallableRunInContext<RESULT>(
-                callable);
+        CallableRunInContext<R> callableRunInContext = new CallableRunInContext<>(callable);
         thisContextProviderAdapter.provideContext(callableRunInContext);
-        RESULT result = callableRunInContext.getResult();
+        R result = callableRunInContext.getResult();
         return result;
     }
 
@@ -303,9 +301,8 @@ public abstract class ContextAware<CONTEXT_TYPE> {
      *
      * @since 1.2.0;
      */
-    public void addContextListener(ContextListener<CONTEXT_TYPE> contextListener) {
-        Assert.notNull("contextListener", contextListener);
-        contextListeners.add(contextListener);
+    public void addContextListener(ContextListener<C> contextListener) {
+        contextListeners.add(requireNonNull(contextListener));
     }
 
     /**
@@ -314,8 +311,7 @@ public abstract class ContextAware<CONTEXT_TYPE> {
      * @since 1.2.0;
      */
     public void removeContextListener(
-            ContextListener<CONTEXT_TYPE> contextListener) {
-        Assert.notNull("contextListener", contextListener);
+            ContextListener<C> contextListener) {
         contextListeners.remove(contextListener);
     }
 
@@ -327,7 +323,7 @@ public abstract class ContextAware<CONTEXT_TYPE> {
      * {@link #deactivateContext(Object)} method on de-activation.
      * @since 1.2.0;
      */
-    protected abstract CONTEXT_TYPE activateContext();
+    protected abstract C activateContext();
 
     /**
      * Subclasses must override this method to implement the de-activation of
@@ -337,7 +333,7 @@ public abstract class ContextAware<CONTEXT_TYPE> {
      *                call.
      * @since 1.2.0;
      */
-    protected abstract void deactivateContext(CONTEXT_TYPE context);
+    protected abstract void deactivateContext(C context);
 
     /**
      * Subclasses might override this method to implement the de-activation of
@@ -354,7 +350,7 @@ public abstract class ContextAware<CONTEXT_TYPE> {
      *                  context.
      * @since 1.2.0;
      */
-    protected void deactivateContext(CONTEXT_TYPE context, Exception exception) {
+    protected void deactivateContext(C context, Exception exception) {
         deactivateContext(context);
     }
 
@@ -371,36 +367,35 @@ public abstract class ContextAware<CONTEXT_TYPE> {
      * @since 1.2.0;
      */
     @SuppressWarnings("unchecked")
-    public <EXPECTED_TYPE> EXPECTED_TYPE invokeInContext(Object target,
-                                                         String method, Object... params) throws Exception {
-        Assert.notNull("target", target);
+    public <T> T invokeInContext(Object target,
+                                 String method, Object... params) throws Exception {
         Class<?> targetClass = target.getClass();
         Class2<?> targetClass2 = Class2.get(targetClass);
         Method2 applicableMethod = targetClass2.getApplicableMethod(method,
                 params);
         Invokable invokable = applicableMethod.getInvokable(target);
-        Callable<EXPECTED_TYPE> callable = invokable.asCallable(params);
+        Callable<T> callable = invokable.asCallable(params);
 
         Object methodInvokationResult = runInContext(callable);
-        EXPECTED_TYPE expectedType = (EXPECTED_TYPE) methodInvokationResult;
+        T expectedType = (T) methodInvokationResult;
         return expectedType;
     }
 
-    protected void fireContextActivated(CONTEXT_TYPE contextObject) {
-        for (ContextListener<CONTEXT_TYPE> contextListener : contextListeners) {
+    protected void fireContextActivated(C contextObject) {
+        for (ContextListener<C> contextListener : contextListeners) {
             contextListener.contextActivated(contextObject);
         }
     }
 
-    protected void fireContextDeactivated(CONTEXT_TYPE contextObject) {
-        for (ContextListener<CONTEXT_TYPE> contextListener : contextListeners) {
+    protected void fireContextDeactivated(C contextObject) {
+        for (ContextListener<C> contextListener : contextListeners) {
             contextListener.contextDeactivated(contextObject);
         }
     }
 
-    protected void fireContextDeactivated(CONTEXT_TYPE contextObject,
+    protected void fireContextDeactivated(C contextObject,
                                           Exception exception) {
-        for (ContextListener<CONTEXT_TYPE> contextListener : contextListeners) {
+        for (ContextListener<C> contextListener : contextListeners) {
             contextListener.contextDeactivated(contextObject, exception);
         }
     }
@@ -417,8 +412,8 @@ public abstract class ContextAware<CONTEXT_TYPE> {
      * @since 1.2.0;
      */
     @SuppressWarnings("unchecked")
-    public <EXPECTED_TYPE> EXPECTED_TYPE invokeStaticInContext(Class<?> target,
-                                                               String method, Object... params) throws Exception {
+    public <T> T invokeStaticInContext(Class<?> target,
+                                       String method, Object... params) throws Exception {
         Class2<?> targetClass2 = Class2.get(target);
         Method2 applicableMethod = targetClass2.getApplicableMethod(method,
                 params);
@@ -429,11 +424,10 @@ public abstract class ContextAware<CONTEXT_TYPE> {
                             + method);
         }
         Invokable invokable = applicableMethod.getInvokable(target);
-        Callable<EXPECTED_TYPE> callable = invokable.asCallable(params);
+        Callable<T> callable = invokable.asCallable(params);
 
         Object methodInvokationResult = runInContext(callable);
-        EXPECTED_TYPE expectedType = (EXPECTED_TYPE) methodInvokationResult;
-        return expectedType;
+        return (T) methodInvokationResult;
     }
 
     /**

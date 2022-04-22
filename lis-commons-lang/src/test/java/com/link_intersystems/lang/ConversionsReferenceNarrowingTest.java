@@ -37,20 +37,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  */
 class ConversionsReferenceNarrowingTest {
 
-    @Test
-    void nullFrom() {
-        Class<?> s = null;
-        Class<?> t = Collection.class;
-        assertThrows(IllegalArgumentException.class, () -> Conversions.isNarrowingReference(s, t));
-    }
-
-    @Test
-    void nullTo() {
-        Class<?> s = List.class;
-        Class<?> t = null;
-        assertThrows(IllegalArgumentException.class, () -> Conversions.isNarrowingReference(s, t));
-    }
-
     /**
      * From any reference type S to any reference type T, provided that S is a
      * proper supertype (§4.10) of T. (An important special case is that there

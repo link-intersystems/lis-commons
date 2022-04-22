@@ -68,8 +68,6 @@ public class PrimitiveArrayCallback implements PrimitiveCallback {
 	 * @since 1.0.0;
 	 */
 	public PrimitiveArrayCallback(Object primitiveArray) {
-		Assert.notNull("primitiveArray", primitiveArray);
-
 		Class<?> primitiveArrayClass = primitiveArray.getClass();
 		boolean isArrayClass = primitiveArrayClass.isArray();
 		Assert.isTrue(isArrayClass, "primitiveArray must not be an array");

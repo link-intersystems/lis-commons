@@ -15,7 +15,6 @@
  */
 package com.link_intersystems.lang.reflect;
 
-import com.link_intersystems.lang.Assert;
 import com.link_intersystems.lang.ref.AbstractSerializableReference;
 import com.link_intersystems.lang.ref.Reference;
 
@@ -23,16 +22,16 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * Represents a {@link Field} object {@link Reference} that is
  * {@link Serializable}.
  *
  * @author René Link <a
- *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
- *         intersystems.com]</a>
- *
+ * href="mailto:rene.link@link-intersystems.com">[rene.link@link-
+ * intersystems.com]</a>
  * @since 1.0.0;
- *
  */
 class SerializableField extends AbstractSerializableReference<Field> {
 
@@ -42,21 +41,17 @@ class SerializableField extends AbstractSerializableReference<Field> {
     private static final long serialVersionUID = -6636456646515992155L;
 
     public SerializableField(Field field) {
-        super(field);
-        Assert.notNull("field", field);
+        super(requireNonNull(field));
     }
 
     @Override
     protected Serializable serialize(Field nonSerializableObject) {
-        MemberSerialization<Field> memberSerializationInfo = new MemberSerialization<Field>(
-                nonSerializableObject);
-        return memberSerializationInfo;
+        return new MemberSerialization<Field>(nonSerializableObject);
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    protected Field deserialize(Serializable restoreInfo)
-            throws NoSuchFieldException {
+    protected Field deserialize(Serializable restoreInfo) throws NoSuchFieldException {
         MemberSerialization<Field> memberSerializationInfo = (MemberSerialization<Field>) restoreInfo;
         Class<?> declaringClass = memberSerializationInfo.getDeclaringClass();
         String fieldName = memberSerializationInfo.getMemberName();

@@ -30,16 +30,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class SignaturePredicateTest {
 
     @Test
-    void constructorSignatureWithNull() {
-        assertThrows(IllegalArgumentException.class, () -> new SignaturePredicate((Constructor<?>) null));
-    }
-
-    @Test
-    void methodSignatureWithNull() {
-        assertThrows(IllegalArgumentException.class, () -> new SignaturePredicate((Method) null));
-    }
-
-    @Test
     void methodEqual() throws SecurityException, NoSuchMethodException {
         Method declaredMethod = Collection.class.getDeclaredMethod("add", Object.class);
         Method declaredMethod2 = ArrayList.class.getDeclaredMethod("add", Object.class);

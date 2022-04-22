@@ -194,11 +194,6 @@ class ClassLoaderContextAwareTest  {
     }
 
     @Test
-    void classLoaderContextProxyWithNull() {
-        assertThrows(IllegalArgumentException.class, () -> mockClassLoaderContext.createContextProxy(null));
-    }
-
-    @Test
     void classLoaderContextProxyOnObjectWithNoInterfaces() {
         assertThrows(IllegalArgumentException.class, () -> mockClassLoaderContext.createContextProxy(new Object()));
     }

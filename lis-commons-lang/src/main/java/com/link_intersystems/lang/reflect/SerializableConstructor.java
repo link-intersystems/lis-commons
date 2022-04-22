@@ -15,7 +15,6 @@
  */
 package com.link_intersystems.lang.reflect;
 
-import com.link_intersystems.lang.Assert;
 import com.link_intersystems.lang.ref.AbstractSerializableReference;
 import com.link_intersystems.lang.ref.Reference;
 
@@ -23,16 +22,16 @@ import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * Represents a {@link Constructor} object {@link Reference} that is
  * {@link Serializable}.
  *
  * @author René Link <a
- *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
- *         intersystems.com]</a>
- *
+ * href="mailto:rene.link@link-intersystems.com">[rene.link@link-
+ * intersystems.com]</a>
  * @since 1.0.0;
- *
  */
 class SerializableConstructor extends
         AbstractSerializableReference<Constructor<?>> {
@@ -65,21 +64,16 @@ class SerializableConstructor extends
     /**
      * Constructs a serializable wrapper for the given constructor.
      *
-     * @param constructor
-     *            that should be wrapped in a serializable way.
-     *
+     * @param constructor that should be wrapped in a serializable way.
      * @since 1.0.0;
      */
     public SerializableConstructor(Constructor<?> constructor) {
-        super(constructor);
-        Assert.notNull("constructor", constructor);
+        super(requireNonNull(constructor));
     }
 
     @Override
     protected Serializable serialize(Constructor<?> nonSerializableObject) {
-        ConstructorSerializationInfo constructorSerializationInfo = new ConstructorSerializationInfo(
-                nonSerializableObject);
-        return constructorSerializationInfo;
+        return new ConstructorSerializationInfo(nonSerializableObject);
     }
 
     @Override

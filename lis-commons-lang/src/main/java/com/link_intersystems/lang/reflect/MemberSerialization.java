@@ -1,12 +1,12 @@
 /**
  * Copyright 2011 Link Intersystems GmbH <rene.link@link-intersystems.com>
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,7 +18,7 @@ package com.link_intersystems.lang.reflect;
 import java.io.Serializable;
 import java.lang.reflect.Member;
 
-import com.link_intersystems.lang.Assert;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Holds information about a {@link Member} in a serializable form to restore
@@ -33,41 +33,41 @@ import com.link_intersystems.lang.Assert;
  */
 class MemberSerialization<T extends Member> implements Serializable {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 4436811817861411997L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 4436811817861411997L;
 
-	/**
-	 * The name of the member
-	 */
-	private String memberName;
+    /**
+     * The name of the member
+     */
+    private String memberName;
 
-	private int modifiers;
+    private int modifiers;
 
-	/**
-	 * A serializable reference to the class that declares the method
-	 * represented by this {@link SerializableMethod}.
-	 */
-	private Class<?> declaringClass;
+    /**
+     * A serializable reference to the class that declares the method
+     * represented by this {@link SerializableMethod}.
+     */
+    private Class<?> declaringClass;
 
-	public MemberSerialization(Member member) {
-		Assert.notNull("member", member);
-		memberName = member.getName();
-		modifiers = member.getModifiers();
-		declaringClass = member.getDeclaringClass();
-	}
+    public MemberSerialization(Member member) {
+        requireNonNull(member);
+        memberName = member.getName();
+        modifiers = member.getModifiers();
+        declaringClass = member.getDeclaringClass();
+    }
 
-	protected String getMemberName() {
-		return memberName;
-	}
+    protected String getMemberName() {
+        return memberName;
+    }
 
-	protected int getModifiers() {
-		return modifiers;
-	}
+    protected int getModifiers() {
+        return modifiers;
+    }
 
-	protected Class<?> getDeclaringClass() {
-		return declaringClass;
-	}
+    protected Class<?> getDeclaringClass() {
+        return declaringClass;
+    }
 
 }

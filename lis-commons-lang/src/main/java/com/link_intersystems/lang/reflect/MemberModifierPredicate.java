@@ -21,6 +21,8 @@ import java.io.Serializable;
 import java.lang.reflect.Member;
 import java.util.function.Predicate;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * A {@link Predicate} that evaluates {@link Member}'s modifiers. See
  * {@link #test(Member)} for details.
@@ -113,7 +115,7 @@ public class MemberModifierPredicate implements Predicate<Member>, Serializable 
      * @since 1.0.0;
      */
     public MemberModifierPredicate(int modifiers, Match match) {
-        Assert.notNull("match", match);
+        requireNonNull(match);
         this.modifiers = modifiers;
         this.match = match;
     }

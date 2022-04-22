@@ -364,21 +364,9 @@ class ContextAwareTest {
     }
 
     @Test
-    void invokeMethodNullTarget() {
-        TestContextAware contextAware = new TestContextAware();
-        assertThrows(IllegalArgumentException.class, () -> contextAware.invokeInContext((Object) null, "getString"));
-    }
-
-    @Test
     void proxyNoInterfaces() {
         final TestContextAware contextAware = new TestContextAware();
         assertThrows(IllegalArgumentException.class, () -> contextAware.createContextProxy(new Object()));
-    }
-
-    @Test
-    void proxyForNullTarget() {
-        final TestContextAware contextAware = new TestContextAware();
-        assertThrows(IllegalArgumentException.class, () -> contextAware.createContextProxy(null));
     }
 
     private static interface TargetInterface {

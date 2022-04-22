@@ -15,7 +15,7 @@
  */
 package com.link_intersystems.beans;
 
-import com.link_intersystems.lang.Assert;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Base exception for all {@link Exception}s regard to {@link Property}s.
@@ -40,8 +40,8 @@ public abstract class PropertyException extends RuntimeException {
 
     PropertyException(Class<?> beanType, String propertyName, Throwable cause) {
         super(cause);
-        Assert.notNull("beanType", beanType);
-        Assert.notNull("propertyName", propertyName);
+        requireNonNull(beanType);
+        requireNonNull(propertyName);
         this.beanType = beanType;
         this.propertyName = propertyName;
     }

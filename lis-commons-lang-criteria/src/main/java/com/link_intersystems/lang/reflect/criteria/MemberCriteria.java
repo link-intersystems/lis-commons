@@ -357,12 +357,12 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
 
         String name = getName();
         if (name != null) {
-            predicates.add(ReflectFacade.getMemberNamePredicate(name));
+            predicates.add((Predicate<T>) ReflectFacade.getMemberNamePredicate(name));
         }
 
         Pattern pattern = getPattern();
         if (pattern != null) {
-            predicates.add(ReflectFacade.getMemberNamePatternPredicate(pattern));
+            predicates.add((Predicate<T>) ReflectFacade.getMemberNamePatternPredicate(pattern));
         }
         Predicate<T> allPredicate = andPredicate(predicates);
         iterator = new FilteredIterator<>(iterator, allPredicate);

@@ -28,11 +28,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class MemberNamePatternPredicateTest {
 
     @Test
-    void nullConstructor() {
-        assertThrows(IllegalArgumentException.class, () -> new MemberNamePatternPredicate(null));
-    }
-
-    @Test
     void aferDesrialization() throws SecurityException, NoSuchMethodException {
         Method declaredMethod = ArrayList.class.getDeclaredMethod("add", int.class, Object.class);
         MemberNamePatternPredicate memberNamePatternPredicate = new MemberNamePatternPredicate(Pattern.compile("add.*"));
@@ -47,11 +42,5 @@ class MemberNamePatternPredicateTest {
         MemberNamePatternPredicate memberNamePatternPredicate = new MemberNamePatternPredicate(Pattern.compile("add.*"));
         boolean evaluated = memberNamePatternPredicate.test(declaredMethod);
         Assertions.assertTrue(evaluated);
-    }
-
-    @Test
-    void notAMember() throws SecurityException, NoSuchMethodException {
-        MemberNamePatternPredicate memberNamePatternPredicate = new MemberNamePatternPredicate(Pattern.compile("add.*"));
-        assertThrows(IllegalArgumentException.class, () -> memberNamePatternPredicate.test(ArrayList.class));
     }
 }

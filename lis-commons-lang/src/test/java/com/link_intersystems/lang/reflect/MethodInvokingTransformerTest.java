@@ -67,16 +67,6 @@ class MethodInvokingTransformerTest {
     }
 
     @Test
-    void nullTypeConstructor() {
-        assertThrows(IllegalArgumentException.class, () -> new MethodInvokingTransformer((Method2) null, argumentResolver));
-    }
-
-    @Test
-    void nullArgumentResolverConstructor() {
-        assertThrows(IllegalArgumentException.class, () -> new MethodInvokingTransformer(charAtMethod, null));
-    }
-
-    @Test
     void invokeMethod() {
         String testString = "HelloWorld";
 

@@ -24,6 +24,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import static java.util.Arrays.stream;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 
 public class ThreadLocalProxy implements InvocationHandler {
@@ -38,7 +39,7 @@ public class ThreadLocalProxy implements InvocationHandler {
         if (targetClass.isInterface()) {
             allInterfaces.add(targetClass);
         }
-        Class<?>[] interfaces = allInterfaces.toArray(new Class<?>[allInterfaces.size()]);
+        Class<?>[] interfaces = allInterfaces.toArray(new Class<?>[0]);
         T proxy = (T) Proxy.newProxyInstance(targetClass.getClassLoader(), interfaces, new ThreadLocalProxy(threadLocal, nullInstance));
         return proxy;
     }
@@ -59,11 +60,8 @@ public class ThreadLocalProxy implements InvocationHandler {
     }
 
     protected ThreadLocalProxy(ThreadLocal<?> threadLocal, Object nullInstance) {
-        Assert.notNull("threadLocal", threadLocal);
-        Assert.notNull("nullInstance", nullInstance);
-
-        this.threadLocal = threadLocal;
-        this.nullInstance = nullInstance;
+        this.threadLocal = requireNonNull(threadLocal);
+        this.nullInstance = requireNonNull(nullInstance);
     }
 
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
@@ -71,7 +69,6 @@ public class ThreadLocalProxy implements InvocationHandler {
         if (target == null) {
             target = nullInstance;
         }
-        Object result = method.invoke(target, args);
-        return result;
+        return method.invoke(target, args);
     }
 }

@@ -15,7 +15,6 @@
  */
 package com.link_intersystems.lang.reflect;
 
-import com.link_intersystems.lang.Assert;
 import com.link_intersystems.lang.ref.SerializableReference;
 
 import java.io.Serializable;
@@ -23,6 +22,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * Provides more features when working with {@link Package} objects.
@@ -39,7 +40,7 @@ public class Package2 implements Serializable {
      */
     private static final long serialVersionUID = 4421507426199204063L;
 
-    private static final Map<Package, Package2> PACKAGE_TO_PACAKGE2 = new HashMap<Package, Package2>();
+    private static final Map<Package, Package2> PACKAGE_TO_PACAKGE2 = new HashMap<>();
 
     private final SerializableReference<Package> packageRef;
 
@@ -56,7 +57,7 @@ public class Package2 implements Serializable {
     }
 
     public static Package2 get(String packageName) {
-        Assert.notNull("packageName", packageName);
+        requireNonNull(packageName);
         return get(Package.getPackage(packageName));
     }
 
@@ -133,9 +134,6 @@ public class Package2 implements Serializable {
             return false;
         }
         Package2 other = (Package2) obj;
-        if (!packageRef.equals(other.packageRef)) {
-            return false;
-        }
-        return true;
+        return packageRef.equals(other.packageRef);
     }
 }

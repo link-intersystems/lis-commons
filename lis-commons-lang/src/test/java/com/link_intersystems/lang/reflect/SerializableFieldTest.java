@@ -29,11 +29,6 @@ class SerializableFieldTest {
     protected String testField;
 
     @Test
-    void nullConstructor() {
-        assertThrows(IllegalArgumentException.class, () -> new SerializableField(null));
-    }
-
-    @Test
     void serialize() throws SecurityException, NoSuchFieldException {
         Field field = SerializableFieldTest.class.getDeclaredField("testField");
         SerializableField serializableField = new SerializableField(field);

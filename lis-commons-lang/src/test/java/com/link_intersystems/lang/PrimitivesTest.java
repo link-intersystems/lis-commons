@@ -174,17 +174,6 @@ class PrimitivesTest  {
     }
 
     @Test
-    void primitiveCallbackWithNullPrimitiveCallback() {
-        assertThrows(IllegalArgumentException.class, () -> Primitives.primitiveCallback(Integer.valueOf(1), null));
-    }
-
-    @Test
-    void primitiveCallbackWithNullPrimitiveWrapper() {
-        PrimitiveCallback primitiveCallback = createStrictMock(PrimitiveCallback.class);
-        assertThrows(IllegalArgumentException.class, () -> Primitives.primitiveCallback(null, primitiveCallback));
-    }
-
-    @Test
     void primitiveCallback() {
         PrimitiveCallback primitiveCallback = createStrictMock(PrimitiveCallback.class);
 
@@ -254,11 +243,6 @@ class PrimitivesTest  {
     }
 
     @Test
-    void wrapperToPrimitiveArrayWithNullWrapperArray() {
-        assertThrows(IllegalArgumentException.class, () -> Primitives.wrapperToPrimitiveArray(null));
-    }
-
-    @Test
     void wrapperToPrimitiveArrayWithNonWrapperArray() {
         assertThrows(IllegalArgumentException.class, () -> Primitives.wrapperToPrimitiveArray(new String[]{""}));
     }
@@ -276,10 +260,6 @@ class PrimitivesTest  {
         assertThrows(IllegalArgumentException.class, () -> Primitives.primitiveToWrapperArray(new String[0]));
     }
 
-    @Test
-    void primitiveArrayWithNullPrimitiveArray() {
-        assertThrows(IllegalArgumentException.class, () -> Primitives.primitiveToWrapperArray(null));
-    }
 
     @Test
     void primitiveArrayWithNonArrayArg() {

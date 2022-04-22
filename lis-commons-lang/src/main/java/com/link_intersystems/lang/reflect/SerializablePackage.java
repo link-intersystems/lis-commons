@@ -15,10 +15,11 @@
  */
 package com.link_intersystems.lang.reflect;
 
-import com.link_intersystems.lang.Assert;
 import com.link_intersystems.lang.ref.AbstractSerializableReference;
 
 import java.io.Serializable;
+
+import static java.util.Objects.requireNonNull;
 
 class SerializablePackage extends AbstractSerializableReference<Package> {
 
@@ -28,8 +29,7 @@ class SerializablePackage extends AbstractSerializableReference<Package> {
     private static final long serialVersionUID = 7408462485150280625L;
 
     public SerializablePackage(Package packageObject) {
-        super(packageObject);
-        Assert.notNull("packageObject", packageObject);
+        super(requireNonNull(packageObject));
     }
 
     @Override

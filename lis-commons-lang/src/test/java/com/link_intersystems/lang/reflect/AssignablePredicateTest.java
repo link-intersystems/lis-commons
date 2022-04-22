@@ -36,11 +36,6 @@ class AssignablePredicateTest  {
     }
 
     @Test
-    void newWithNullConstructor() {
-        assertThrows(IllegalArgumentException.class, () -> new AssignablePredicate(null));
-    }
-
-    @Test
     void evaluateAgainstObject() {
         assertTrue(listAssignable.test(new ArrayList<Object>()));
     }

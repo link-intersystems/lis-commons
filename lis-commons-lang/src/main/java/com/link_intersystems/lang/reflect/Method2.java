@@ -15,12 +15,13 @@
  */
 package com.link_intersystems.lang.reflect;
 
-import com.link_intersystems.lang.Assert;
 import com.link_intersystems.lang.Signature;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.function.Predicate;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * Extends a {@link Method} by wrapping it and provides sophisticated methods
@@ -53,7 +54,7 @@ public class Method2 extends Member2<Method> {
      * @since 1.0.0;
      */
     public static Method2 forMethod(Method method) {
-        Assert.notNull("method", method);
+        requireNonNull(method);
         Class<?> declaringClass = method.getDeclaringClass();
         Class2<?> declaringClass2 = Class2.get(declaringClass);
         Method2 method2;
@@ -398,11 +399,7 @@ public class Method2 extends Member2<Method> {
             return false;
         }
 
-        if (!isReturnTypeAssignableFrom(referenceMethod)) {
-            return false;
-        }
-
-        return true;
+        return isReturnTypeAssignableFrom(referenceMethod);
     }
 
     /**

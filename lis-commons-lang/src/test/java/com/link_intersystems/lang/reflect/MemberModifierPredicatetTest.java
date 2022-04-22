@@ -83,11 +83,6 @@ class MemberModifierPredicatetTest  {
     }
 
     @Test
-    void newWithNullMatch() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new MemberModifierPredicate(Modifier.PUBLIC, null));
-    }
-
-    @Test
     void evaluateAgainstMethod() {
         MemberModifierPredicate memberModifierPredicate = new MemberModifierPredicate(Modifier.PUBLIC);
         boolean evaluate = memberModifierPredicate.test(privateMethod);

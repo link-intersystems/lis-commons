@@ -15,11 +15,10 @@
  */
 package com.link_intersystems.lang.reflect;
 
-import com.link_intersystems.lang.Assert;
-
 import java.io.Serializable;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Member;
+import java.util.Objects;
 
 abstract class AbstractMemberInvokable<M extends Member2<? extends Member>>
         extends AbstractInvokable implements Invokable, Serializable {
@@ -34,9 +33,8 @@ abstract class AbstractMemberInvokable<M extends Member2<? extends Member>>
     private final Object target;
 
     public AbstractMemberInvokable(Object target, M invokableMember) {
-        Assert.notNull("invokableMember", invokableMember);
         this.target = target;
-        this.invokableMember = invokableMember;
+        this.invokableMember = Objects.requireNonNull(invokableMember);
     }
 
     /**
@@ -53,8 +51,7 @@ abstract class AbstractMemberInvokable<M extends Member2<? extends Member>>
     protected AccessibleObject getAccessibleObject() {
         M invokableMember = getInvokableMember();
         Member member = invokableMember.getMember();
-        AccessibleObject accessibleObject = AccessibleObject.class.cast(member);
-        return accessibleObject;
+        return AccessibleObject.class.cast(member);
     }
 
     /**

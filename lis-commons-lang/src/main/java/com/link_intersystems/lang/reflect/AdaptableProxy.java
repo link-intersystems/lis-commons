@@ -1,12 +1,12 @@
 /**
  * Copyright 2011 Link Intersystems GmbH <rene.link@link-intersystems.com>
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,12 +15,14 @@
  */
 package com.link_intersystems.lang.reflect;
 
+import com.link_intersystems.lang.Signature;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.Objects;
 
-import com.link_intersystems.lang.Assert;
-import com.link_intersystems.lang.Signature;
+import static java.util.Objects.requireNonNull;
 
 /**
  * An {@link AdaptableProxy} is used to create adapters that route method calls
@@ -41,7 +43,7 @@ import com.link_intersystems.lang.Signature;
  * }
  *
  * </pre>
- *
+ * <p>
  * Both interfaces define exactly the same methods, but because they are of a
  * different type can not handle them equal. You (the client) have to know which
  * concrete type you deals with. So normally such a condition ends up in
@@ -53,17 +55,17 @@ import com.link_intersystems.lang.Signature;
  * 		if(o instanceof InterfaceA){
  * 			InterfaceA a = (InterfaceA) o;
  * 			a.greeting(arg);
- * 		} else if(o instanceof InterfaceB){
+ *        } else if(o instanceof InterfaceB){
  * 			InterfaceB b = (InterfaceB) o;
  * 			b.greeting(arg);
- * 		} else {
+ *        } else {
  * 			throw new IllegalStateException();
- * 		}
- *  	}
+ *        }
+ *    }
  *
  * ...
  * </pre>
- *
+ * <p>
  * You can omit this instanceof code either by
  *
  * <ol>
@@ -86,7 +88,7 @@ import com.link_intersystems.lang.Signature;
  *
  * ...
  * </pre>
- *
+ * <p>
  * Example for case 2:
  *
  * <pre>
@@ -117,139 +119,134 @@ import com.link_intersystems.lang.Signature;
  * </p>
  *
  * @author René Link [<a
- *         href="mailto:rene.link@link-intersystems.com">rene.link@link-
- *         intersystems.com</a>]
+ * href="mailto:rene.link@link-intersystems.com">rene.link@link-
+ * intersystems.com</a>]
  * @since 1.0.0;
  */
 public class AdaptableProxy implements InvocationHandler {
 
-	private final Object adaptable;
+    private final Object adaptable;
 
-	private final Class2<?> adaptableClass;
+    private final Class2<?> adaptableClass;
 
-	/**
-	 * Creates an adapter that implements the <code>adapterClasses</code> and
-	 * delegates invocations to those interface methods to the
-	 * <code>adaptables<code> method with the same signature.
-	 *
-	 * @param adaptable
-	 *            the adaptable that receives the adapter invocations.
-	 * @param adapterClasses
-	 *            the classes that the adapter should represent. All classes
-	 *            must belong to the same {@link ClassLoader}.
-	 * @return an adapter that implements the <code>adapterClasses</code> and
-	 *         delegates invocations to those interface methods to the
-	 *         <code>adaptables<code> method with the same signature.
-	 * @since 1.2.0;
-	 */
-	@SuppressWarnings("unchecked")
-	public static <T> T create(Object adaptable, Class<?>... adapterClasses) {
-		Assert.notNull("adaptable", adaptable);
-		Assert.notNull("adapterClasses", adapterClasses);
+    /**
+     * Creates an adapter that implements the <code>adapterClasses</code> and
+     * delegates invocations to those interface methods to the
+     * <code>adaptables<code> method with the same signature.
+     *
+     * @param adaptable      the adaptable that receives the adapter invocations.
+     * @param adapterClasses the classes that the adapter should represent. All classes
+     *                       must belong to the same {@link ClassLoader}.
+     * @return an adapter that implements the <code>adapterClasses</code> and
+     * delegates invocations to those interface methods to the
+     * <code>adaptables<code> method with the same signature.
+     * @since 1.2.0;
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> T create(Object adaptable, Class<?>... adapterClasses) {
+        requireNonNull(adaptable);
+        requireNonNull(adapterClasses);
 
-		ClassLoader cl = ClassLoader.getSystemClassLoader();
+        ClassLoader cl = ClassLoader.getSystemClassLoader();
 
-		for (int i = 0; i < adapterClasses.length; i++) {
-			Class<?> adapterClass = adapterClasses[i];
-			ClassLoader classLoader = adapterClass.getClassLoader();
-			if (classLoader == null) {
-				/*
-				 * java runtime class loader is always in the hierarchy of the
-				 * application class loader (system class loader).
-				 */
-				continue;
-			}
+        for (Class<?> adapterClass : adapterClasses) {
+            ClassLoader classLoader = adapterClass.getClassLoader();
+            if (classLoader == null) {
+                /*
+                 * java runtime class loader is always in the hierarchy of the
+                 * application class loader (system class loader).
+                 */
+                continue;
+            }
 
-			boolean classLoaderIsParentOfCL = inHierarchy(classLoader, cl);
-			if (!classLoaderIsParentOfCL) {
-				boolean classLoaderIsChildOfCL = inHierarchy(cl, classLoader);
-				if (classLoaderIsChildOfCL) {
-					cl = classLoader;
-				} else {
-					throw new IllegalArgumentException(
-							"All adapterClasses must belong to the same class loader hierarchy");
-				}
+            boolean classLoaderIsParentOfCL = inHierarchy(classLoader, cl);
+            if (!classLoaderIsParentOfCL) {
+                boolean classLoaderIsChildOfCL = inHierarchy(cl, classLoader);
+                if (classLoaderIsChildOfCL) {
+                    cl = classLoader;
+                } else {
+                    throw new IllegalArgumentException(
+                            "All adapterClasses must belong to the same class loader hierarchy");
+                }
 
-			}
-		}
-		AdaptableProxy adaptableInvocationHandler = new AdaptableProxy(
-				adaptable);
+            }
+        }
+        AdaptableProxy adaptableInvocationHandler = new AdaptableProxy(
+                adaptable);
 
-		T adapter = (T) Proxy.newProxyInstance(cl, adapterClasses,
-				adaptableInvocationHandler);
-		return adapter;
-	}
+        T adapter = (T) Proxy.newProxyInstance(cl, adapterClasses,
+                adaptableInvocationHandler);
+        return adapter;
+    }
 
-	private static boolean inHierarchy(ClassLoader cl, ClassLoader inHierarchyCL) {
-		boolean inHierarchy = false;
+    private static boolean inHierarchy(ClassLoader cl, ClassLoader inHierarchyCL) {
+        boolean inHierarchy = false;
 
-		ClassLoader classLoaderToFind = inHierarchyCL;
+        ClassLoader classLoaderToFind = inHierarchyCL;
 
-		while(classLoaderToFind != null){
-			if (classLoaderToFind.equals(cl)) {
-				inHierarchy = true;
-				break;
-			}
-			classLoaderToFind = classLoaderToFind.getParent();
-		}
+        while (classLoaderToFind != null) {
+            if (classLoaderToFind.equals(cl)) {
+                inHierarchy = true;
+                break;
+            }
+            classLoaderToFind = classLoaderToFind.getParent();
+        }
 
-		return inHierarchy;
-	}
+        return inHierarchy;
+    }
 
-	/**
-	 * Creates an {@link AdaptableProxy} for the given object.
-	 *
-	 * @param adaptable
-	 * @since 1.0.0;
-	 */
-	public AdaptableProxy(Object adaptable) {
-		Assert.notNull("adaptable", adaptable);
-		this.adaptable = adaptable;
-		adaptableClass = Class2.get(adaptable.getClass());
-	}
+    /**
+     * Creates an {@link AdaptableProxy} for the given object.
+     *
+     * @param adaptable
+     * @since 1.0.0;
+     */
+    public AdaptableProxy(Object adaptable) {
+        this.adaptable = Objects.requireNonNull(adaptable);
+        adaptableClass = Class2.get(adaptable.getClass());
+    }
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @since 1.0.0;
-	 */
-	public Object invoke(Object proxy, Method method, Object[] args)
-			throws Throwable {
-		Invokable invokableAdapter = getInvokableAdapter(method);
-		Object returnObj = invokableAdapter.invoke(args);
-		return returnObj;
-	}
+    /**
+     * {@inheritDoc}
+     *
+     * @since 1.0.0;
+     */
+    public Object invoke(Object proxy, Method method, Object[] args)
+            throws Throwable {
+        Invokable invokableAdapter = getInvokableAdapter(method);
+        return invokableAdapter.invoke(args);
+    }
 
-	private Invokable getInvokableAdapter(Method method) {
-		Method2 adaptableMethod2 = getAdaptableMethod(method);
-		checkReturnTypeCompatibility(adaptableMethod2, method);
-		Invokable invokable = adaptableMethod2.getInvokable(adaptable);
-		return invokable;
-	}
+    private Invokable getInvokableAdapter(Method method) {
+        Method2 adaptableMethod2 = getAdaptableMethod(method);
+        checkReturnTypeCompatibility(adaptableMethod2, method);
+        Invokable invokable = adaptableMethod2.getInvokable(adaptable);
+        return invokable;
+    }
 
-	private void checkReturnTypeCompatibility(Method2 adaptableMethod,
-			Method original) {
-		Class<?> originalReturnType = original.getReturnType();
-		Class<?> adaptableReturnType = adaptableMethod.getReturnType();
-		if (!originalReturnType.equals(adaptableReturnType)) {
-			throw new IllegalStateException("Can not adapt method " + original
-					+ ", because the adaptable's corresponding method's '"
-					+ adaptableMethod.getMember()
-					+ "' return type doesn't match.");
-		}
-	}
+    private void checkReturnTypeCompatibility(Method2 adaptableMethod,
+                                              Method original) {
+        Class<?> originalReturnType = original.getReturnType();
+        Class<?> adaptableReturnType = adaptableMethod.getReturnType();
+        if (!originalReturnType.equals(adaptableReturnType)) {
+            throw new IllegalStateException("Can not adapt method " + original
+                    + ", because the adaptable's corresponding method's '"
+                    + adaptableMethod.getMember()
+                    + "' return type doesn't match.");
+        }
+    }
 
-	private Method2 getAdaptableMethod(Method method) {
-		Method2 method2 = Method2.forMethod(method);
-		Signature invokedSignature = method2.getSignature();
-		Method2 adaptableMethod2 = adaptableClass.getMethod2(invokedSignature);
-		if (adaptableMethod2 == null) {
-			throw new UnsupportedOperationException("Can not adapt method "
-					+ method
-					+ ", because no corresponding method found on adaptable "
-					+ adaptableClass);
-		}
-		return adaptableMethod2;
-	}
+    private Method2 getAdaptableMethod(Method method) {
+        Method2 method2 = Method2.forMethod(method);
+        Signature invokedSignature = method2.getSignature();
+        Method2 adaptableMethod2 = adaptableClass.getMethod2(invokedSignature);
+        if (adaptableMethod2 == null) {
+            throw new UnsupportedOperationException("Can not adapt method "
+                    + method
+                    + ", because no corresponding method found on adaptable "
+                    + adaptableClass);
+        }
+        return adaptableMethod2;
+    }
 
 }
