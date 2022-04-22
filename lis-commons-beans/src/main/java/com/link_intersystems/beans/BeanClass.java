@@ -11,12 +11,12 @@ public interface BeanClass<T> {
 
     /**
      * Creates a new {@link Bean} of this class that has
-     * a new bean instance that can be retrieved by {@link Bean#getObject()}.
+     * a new bean instance that can be retrieved by {@link Bean#getBeanObject()}.
      */
     Bean<T> newBeanInstance() throws BeanInstantiationException;
 
     default T newInstance() throws BeanInstantiationException {
-        return newBeanInstance().getObject();
+        return newBeanInstance().getBeanObject();
     }
 
     /**

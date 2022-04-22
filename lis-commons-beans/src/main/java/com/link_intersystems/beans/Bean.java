@@ -29,7 +29,7 @@ public abstract class Bean<T> {
         return beanClass;
     }
 
-    public T getObject() {
+    public T getBeanObject() {
         return bean;
     }
 

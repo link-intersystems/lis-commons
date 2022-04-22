@@ -64,7 +64,7 @@ class FilteredBeanClassTest {
 
     @Test
     void getBeanObject() {
-        assertEquals(someBeanFixture.someBean, filteredBeanClass.getBeanFromInstance(someBeanFixture.someBean).getObject());
+        assertEquals(someBeanFixture.someBean, filteredBeanClass.getBeanFromInstance(someBeanFixture.someBean).getBeanObject());
     }
 
     @Test

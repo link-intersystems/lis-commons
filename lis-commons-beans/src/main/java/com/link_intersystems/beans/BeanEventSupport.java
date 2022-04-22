@@ -47,7 +47,7 @@ public class BeanEventSupport<B, T> {
     }
 
     public B getBean() {
-        return bean.map(Bean::getObject).orElse(null);
+        return bean.map(Bean::getBeanObject).orElse(null);
     }
 
     public void setBean(Bean<B> newBean) {

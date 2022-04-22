@@ -123,7 +123,7 @@ public class JavaProperty implements Serializable, Formattable, Property {
      */
     public PropertyEditor createPropertiyEditor() throws PropertyEditorNotAvailableException {
         JavaBean<?> beanObj = getBean();
-        Object bean = beanObj.getObject();
+        Object bean = beanObj.getBeanObject();
 
         PropertyDescriptor javaPropertyDescriptor = getJavaPropertyDescriptor();
 
@@ -183,7 +183,7 @@ public class JavaProperty implements Serializable, Formattable, Property {
     @Override
     public <T> T getValue() {
         PropertyDesc propertyDesc = getPropertyDesc();
-        return propertyDesc.getPropertyValue(bean.getObject());
+        return propertyDesc.getPropertyValue(bean.getBeanObject());
     }
 
     /**
@@ -198,7 +198,7 @@ public class JavaProperty implements Serializable, Formattable, Property {
     @Override
     public void setValue(Object propertyValue) {
         PropertyDesc propertyDesc = getPropertyDesc();
-        propertyDesc.setPropertyValue(bean.getObject(), propertyValue);
+        propertyDesc.setPropertyValue(bean.getBeanObject(), propertyValue);
     }
 
     /**
@@ -215,7 +215,7 @@ public class JavaProperty implements Serializable, Formattable, Property {
      */
     @Override
     public void formatTo(Formatter formatter, int flags, int width, int precision) {
-        formatter.format("%s.%s", getBean().getObject().getClass().getCanonicalName(), getName());
+        formatter.format("%s.%s", getBean().getBeanObject().getClass().getCanonicalName(), getName());
     }
 
 

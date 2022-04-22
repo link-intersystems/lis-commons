@@ -78,7 +78,7 @@ class BeanClassTest {
         JavaBean<SomeBean> someBeanBean = someBeanClass.newBeanInstance();
         assertNotNull(someBeanBean);
 
-        SomeBean object = someBeanBean.getObject();
+        SomeBean object = someBeanBean.getBeanObject();
         assertNotNull(object);
     }
 

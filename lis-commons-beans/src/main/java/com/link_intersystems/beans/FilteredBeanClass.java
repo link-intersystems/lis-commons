@@ -85,7 +85,7 @@ public class FilteredBeanClass<T> implements BeanClass<T> {
         private final PropertyDescFilter propertyFilter;
 
         public FilteredBean(BeanClass<T> beanClass, Bean<T> bean, PropertyDescFilter propertyFilter) {
-            super(beanClass, bean.getObject());
+            super(beanClass, bean.getBeanObject());
             this.beanClass = beanClass;
             this.bean = bean;
             this.propertyFilter = propertyFilter;
@@ -103,8 +103,8 @@ public class FilteredBeanClass<T> implements BeanClass<T> {
         }
 
         @Override
-        public T getObject() {
-            return bean.getObject();
+        public T getBeanObject() {
+            return bean.getBeanObject();
         }
 
         @Override

@@ -114,7 +114,7 @@ public class JavaIndexedProperty extends JavaProperty implements IndexedProperty
             throw new PropertyReadException(bean.getBeanClass().getType(), getPropertyDesc().getName());
         }
         try {
-            Object target = bean.getObject();
+            Object target = bean.getBeanObject();
             Object elementValue = invoke(indexedReadMethod, target, index);
             return (T) elementValue;
         } catch (InvocationTargetException e) {
@@ -143,7 +143,7 @@ public class JavaIndexedProperty extends JavaProperty implements IndexedProperty
             throw new PropertyWriteException(bean.getBeanClass().getType(), getPropertyDesc().getName());
         }
         try {
-            Object target = bean.getObject();
+            Object target = bean.getBeanObject();
             invoke(indexedWriteMethod, target, index, elementValue);
         } catch (InvocationTargetException e) {
             Throwable targetException = e.getTargetException();

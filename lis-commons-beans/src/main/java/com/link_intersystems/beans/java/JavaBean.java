@@ -88,7 +88,7 @@ public class JavaBean<T> extends Bean<T> {
         BeanEvent applicableBeanEvent = null;
         for (BeanEventType beanEvent : beanEventTypes) {
             if (beanEvent.isApplicable(listener)) {
-                T beanObject = getObject();
+                T beanObject = getBeanObject();
                 applicableBeanEvent = new JavaBeanEvent(beanObject, (JavaBeanEventType) beanEvent);
                 break;
             }
