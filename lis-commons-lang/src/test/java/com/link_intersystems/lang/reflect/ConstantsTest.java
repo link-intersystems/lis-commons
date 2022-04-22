@@ -1,4 +1,4 @@
-package com.link_intersystems.util;
+package com.link_intersystems.lang.reflect;
 
 import com.link_intersystems.test.UnitTest;
 import org.junit.jupiter.api.BeforeEach;
