@@ -35,7 +35,7 @@ public abstract class AbstractAverageTest {
     @Test
     void addNullValue() {
         Average<Number> average = createAverage();
-        Assertions.assertThrows(IllegalArgumentException.class, () -> average.addValue(null));
+        Assertions.assertThrows(NullPointerException.class, () -> average.addValue(null));
     }
 
     @Test

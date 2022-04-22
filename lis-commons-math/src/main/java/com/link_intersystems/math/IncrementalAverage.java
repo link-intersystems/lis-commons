@@ -1,12 +1,12 @@
 /**
  * Copyright 2011 Link Intersystems GmbH <rene.link@link-intersystems.com>
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,15 +17,17 @@ package com.link_intersystems.math;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Objects;
 
-import com.link_intersystems.lang.Assert;
+import static java.util.Objects.requireNonNull;
+
 
 /**
  * Implementation of an incremental average calculation based on double
  * precision. Because of the double precision restriction this implementation is
  * very fast. If you need more precision and high performance is not an issue,
  * take a look at {@link BigIncrementalAverage}.
- * 
+ *
  * <p>
  * <h3>Incremental average calculation <br/>
  * <font size="-1">&copy;
@@ -37,10 +39,10 @@ import com.link_intersystems.lang.Assert;
  * Fortunately we can easily transform the formula to an "incremental" form: <br/>
  * <br/>
  * <img src="doc-files/incremental_average_formula.jpg"/>
- * 
+ *
  * </cite> <br/>
- * 
- * 
+ *
+ *
  * @author René Link <a
  *         href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  *         intersystems.com]</a>
@@ -48,64 +50,64 @@ import com.link_intersystems.lang.Assert;
  */
 public class IncrementalAverage implements Average<Double> {
 
-	private long averageValueCount = 0;
+    private long averageValueCount = 0;
 
-	private Double average = Double.valueOf(0);
+    private Double average = Double.valueOf(0);
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @throws IllegalStateException
-	 *             if you try to add more than {@link Long#MAX_VALUE} values,
-	 *             because of data types that are used internally.
-	 * @throws IllegalStateException
-	 *             if value is a {@link BigDecimal} or {@link BigInteger},
-	 *             because this implementation can only guarantee double
-	 *             precision.
-	 * @see BigIncrementalAverage
-	 * 
-	 * @since 1.0.0;
-	 */
-	public boolean addValue(Number value) {
-		Assert.notNull("value", value);
-		if (value instanceof BigDecimal) {
-			throw new IllegalArgumentException(
-					"value must not be a big decimal, because only double"
-							+ " precision can be guranteed by this average implementation.");
-		}
-		if (value instanceof BigInteger) {
-			throw new IllegalArgumentException(
-					"value must not be a big integer, because only double"
-							+ " precision can be guranteed by this average implementation.");
-		}
-		if (getAverageValueCount() == Long.MAX_VALUE) {
-			throw new IllegalStateException(
-					"This average implementation can only handle a maximum of "
-							+ Long.MAX_VALUE + " values.");
-		}
+    /**
+     * {@inheritDoc}
+     *
+     * @throws IllegalStateException
+     *             if you try to add more than {@link Long#MAX_VALUE} values,
+     *             because of data types that are used internally.
+     * @throws IllegalStateException
+     *             if value is a {@link BigDecimal} or {@link BigInteger},
+     *             because this implementation can only guarantee double
+     *             precision.
+     * @see BigIncrementalAverage
+     *
+     * @since 1.0.0;
+     */
+    public boolean addValue(Number value) {
+        requireNonNull(value);
+        if (value instanceof BigDecimal) {
+            throw new IllegalArgumentException(
+                    "value must not be a big decimal, because only double"
+                            + " precision can be guranteed by this average implementation.");
+        }
+        if (value instanceof BigInteger) {
+            throw new IllegalArgumentException(
+                    "value must not be a big integer, because only double"
+                            + " precision can be guranteed by this average implementation.");
+        }
+        if (getAverageValueCount() == Long.MAX_VALUE) {
+            throw new IllegalStateException(
+                    "This average implementation can only handle a maximum of "
+                            + Long.MAX_VALUE + " values.");
+        }
 
-		Double oldAverage = average;
+        Double oldAverage = average;
 
-		averageValueCount++;
-		average = average
-				+ ((value.doubleValue() - average) / averageValueCount);
-		return oldAverage.compareTo(average) != 0;
-	}
+        averageValueCount++;
+        average = average
+                + ((value.doubleValue() - average) / averageValueCount);
+        return oldAverage.compareTo(average) != 0;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @since 1.0.0;
-	 */
-	public Double getValue() {
-		return average;
-	}
+    /**
+     * {@inheritDoc}
+     *
+     * @since 1.0.0;
+     */
+    public Double getValue() {
+        return average;
+    }
 
-	/**
-	 * 
-	 * @return the count of values that have been added to this {@link Average}.
-	 */
-	protected long getAverageValueCount() {
-		return averageValueCount;
-	}
+    /**
+     *
+     * @return the count of values that have been added to this {@link Average}.
+     */
+    protected long getAverageValueCount() {
+        return averageValueCount;
+    }
 }

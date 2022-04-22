@@ -15,7 +15,6 @@
  */
 package com.link_intersystems.math;
 
-import com.link_intersystems.lang.Assert;
 
 /**
  * {@link Percentage} calculates the ratio in relation to units.
@@ -63,7 +62,9 @@ public class Percentage {
      * @since 1.2.0;
      */
     public Percentage(int maxUnits) {
-        Assert.greaterOrEqual("maxUnits", 1.0, maxUnits);
+        if (maxUnits < 1.0) {
+            throw new IllegalArgumentException("max units must be 1.0 or greater");
+        }
         unitsToPercentageEquation = new TwoPointLinearEquation(0.0, 0.0, maxUnits, 1.0);
     }
 
