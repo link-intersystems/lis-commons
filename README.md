@@ -1,7 +1,7 @@
 lis-commons
 =============
 
-![Java CI with Maven](https://github.com/link-intersystems/lis-commons/workflows/Java%20CI%20with%20Maven/badge.svg)
+![Java CI with Maven](https://github.com/link-intersystems/lis-commons/workflows/Java%20CI%20with%20Maven/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/link-intersystems/lis-commons/badge.svg?branch=master)](https://coveralls.io/github/link-intersystems/lis-commons?branch=master)
 
 A collection of reusable Java components. In order to make them reusable as possible they don't have any dependency to
 other libraries. I work hard to ensure that the libraries only depend on pure Java and have a few dependencies between
