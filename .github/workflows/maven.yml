@@ -23,4 +23,6 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
+      env:
+        COVERALLS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: mvn -P ci -B package jacoco:report coveralls:report --file pom.xml
