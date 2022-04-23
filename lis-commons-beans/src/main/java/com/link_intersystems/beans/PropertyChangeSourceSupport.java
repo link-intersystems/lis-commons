@@ -7,10 +7,10 @@ import java.beans.PropertyChangeListener;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-public class PropertyChangeSourceSupport<T extends PropertyChangeSource> implements Reference<T> {
+public class PropertyChangeSourceSupport<T> implements Reference<T> {
 
     private PropertyChangeListenerAdapter adapter = new PropertyChangeListenerAdapter();
-    private T referent;
+    private Bean<T> referent;
     private Consumer<PropertyChangeEvent> propertyChangeListener;
     private boolean enabled = true;
 
@@ -22,25 +22,35 @@ public class PropertyChangeSourceSupport<T extends PropertyChangeSource> impleme
         this((Consumer<PropertyChangeEvent>) propertyChangeListener::propertyChange);
     }
 
-    public void setReferent(T referent) {
+    public void setReferent(T bean) {
+
         if (this.referent != null) {
-            this.referent.removePropertyChangeListener(adapter);
+            this.referent.removeListener(adapter);
         }
 
-        this.referent = referent;
+        if (bean == null) {
+            this.referent = null;
+        } else {
+            BeansFactory beansFactory = BeansFactory.getDefault();
+            try {
+                this.referent = beansFactory.createBean(bean);
+            } catch (BeanClassException e) {
+                throw new IllegalStateException(e);
+            }
+        }
 
         if (this.referent != null && enabled) {
-            this.referent.addPropertyChangeListener(adapter);
+            this.referent.addListener(adapter);
         }
     }
 
     public void setPropertyChangeEventsEnabled(boolean enabled) {
         this.enabled = enabled;
-        setReferent(referent);
+        setReferent(referent.getBeanObject());
     }
 
     public T get() {
-        return referent;
+        return referent == null ? null : referent.getBeanObject();
     }
 
     private class PropertyChangeListenerAdapter implements PropertyChangeListener {
