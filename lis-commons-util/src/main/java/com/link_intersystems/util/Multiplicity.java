@@ -7,6 +7,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ *
+ */
 public class Multiplicity implements Serializable {
 
 	public static final Multiplicity _1 = new Multiplicity(1, 1);
@@ -16,7 +19,7 @@ public class Multiplicity implements Serializable {
 
 	private static final long serialVersionUID = -9057903788091843682L;
 
-	private static final Map<String, Multiplicity> MOSTLY_USED_MULTIPLICITIES;
+	private static final Map<String, Multiplicity> COMMON_MULTIPLICITIES;
 	private static final Pattern MULTIPLICITY_PATTERN = Pattern.compile("([0-9]+)(\\.\\.([0-9]+|[*]))?");
 
 	static {
@@ -27,7 +30,7 @@ public class Multiplicity implements Serializable {
 		mostlyUsedMultiplicities.put("?", _0_OR_1);
 		mostlyUsedMultiplicities.put("+", _1_OR_MORE);
 
-		MOSTLY_USED_MULTIPLICITIES = Collections.unmodifiableMap(mostlyUsedMultiplicities);
+		COMMON_MULTIPLICITIES = Collections.unmodifiableMap(mostlyUsedMultiplicities);
 	}
 
 	private final int min;
@@ -63,22 +66,24 @@ public class Multiplicity implements Serializable {
 	public static Multiplicity valueOf(String str) {
 		str = str.trim();
 
-		Multiplicity multiplizitaet = MOSTLY_USED_MULTIPLICITIES.get(str);
+		Multiplicity multiplicity = COMMON_MULTIPLICITIES.get(str);
 
-		if (multiplizitaet == null) {
-			multiplizitaet = parseMultiplicity(str);
+		if (multiplicity == null) {
+			multiplicity = parse(str);
 		}
 
-		if (multiplizitaet == null) {
+		if (multiplicity == null) {
 			throw new IllegalArgumentException("Unsupported multiplicity " + str);
 		}
 
-		return multiplizitaet;
+		return multiplicity;
 	}
 
-	private static Multiplicity parseMultiplicity(String str) {
+	private static Multiplicity parse(String str) {
 		Multiplicity multiplicity = null;
+
 		Matcher matcher = MULTIPLICITY_PATTERN.matcher(str);
+
 		if (matcher.matches()) {
 			String minGroup = matcher.group(1);
 			int min = Integer.parseInt(minGroup);
@@ -94,6 +99,7 @@ public class Multiplicity implements Serializable {
 				multiplicity = new Multiplicity(min);
 			}
 		}
+
 		return multiplicity;
 	}
 

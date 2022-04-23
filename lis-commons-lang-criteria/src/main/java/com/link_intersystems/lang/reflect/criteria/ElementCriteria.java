@@ -15,11 +15,10 @@
  */
 package com.link_intersystems.lang.reflect.criteria;
 
-import com.link_intersystems.util.FilteredIterator;
-
 import java.util.Iterator;
 import java.util.function.Predicate;
 
+import static com.link_intersystems.util.Iterators.filtered;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -95,7 +94,7 @@ public abstract class ElementCriteria<T> implements Cloneable {
         if (elementFilterPredicate == null) {
             return iterator;
         } else {
-            return new FilteredIterator<>(iterator, elementFilterPredicate);
+            return filtered(iterator, elementFilterPredicate);
         }
     }
 

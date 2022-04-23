@@ -20,7 +20,6 @@ import com.link_intersystems.graph.tree.TransformedIterableTreeModel;
 import com.link_intersystems.lang.reflect.AccessType;
 import com.link_intersystems.lang.reflect.MemberModifierPredicate;
 import com.link_intersystems.lang.reflect.ReflectFacade;
-import com.link_intersystems.util.FilteredIterator;
 import com.link_intersystems.util.Iterators;
 
 import java.lang.reflect.*;
@@ -29,6 +28,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
+import static com.link_intersystems.util.Iterators.filtered;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -365,7 +365,7 @@ public class MemberCriteria<T extends Member> extends ElementCriteria<T> {
             predicates.add((Predicate<T>) ReflectFacade.getMemberNamePatternPredicate(pattern));
         }
         Predicate<T> allPredicate = andPredicate(predicates);
-        iterator = new FilteredIterator<>(iterator, allPredicate);
+        iterator = filtered(iterator, allPredicate);
         return iterator;
     }
 

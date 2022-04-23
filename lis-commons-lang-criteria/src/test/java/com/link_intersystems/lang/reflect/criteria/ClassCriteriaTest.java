@@ -19,8 +19,8 @@ import com.link_intersystems.lang.reflect.ReflectFacade;
 import com.link_intersystems.lang.reflect.criteria.ClassCriteria.ClassType;
 import com.link_intersystems.lang.reflect.criteria.ClassCriteria.TraverseStrategy;
 import com.link_intersystems.lang.reflect.testclasses.*;
-import com.link_intersystems.util.EqualPredicate;
 import com.link_intersystems.util.Iterators;
+import com.link_intersystems.util.Predicates;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -510,7 +510,7 @@ class ClassCriteriaTest extends ElementCriteriaTest {
         classCriteria.setSelection(ClassType.INTERFACES);
         classCriteria.add(ReflectFacade.getIsInterfacePredicate());
         Class<?> genericSubSubWithMultipleInterfacesClass = GenericSubSubWithMultipleInterfaces.class;
-        EqualPredicate<Class<?>> classEqualPredicate = new EqualPredicate<>(genericSubSubWithMultipleInterfacesClass);
+        Predicate<Class<?>> classEqualPredicate = Predicates.equal(genericSubSubWithMultipleInterfacesClass);
         Predicate<Class<?>> negate = classEqualPredicate.negate();
         classCriteria.add(negate);
         classCriteria.setTraverseClassesUniquely(false);

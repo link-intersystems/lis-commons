@@ -15,7 +15,7 @@
  */
 package com.link_intersystems.lang.reflect.criteria;
 
-import com.link_intersystems.util.ChainedIterator;
+import com.link_intersystems.util.Iterators;
 
 import java.lang.reflect.Member;
 import java.util.*;
@@ -139,6 +139,6 @@ class CompositeJavaElementTraverseStrategy implements JavaElementTraverseStrateg
         }
 
 
-        return new ChainedIterator(iterators);
+        return Iterators.chained((List) iterators);
     }
 }

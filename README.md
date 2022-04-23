@@ -27,12 +27,7 @@ Overview of the module dependencies:
     lis-commons-beans (1 deps)
     +- lis-commons-lang
 
-Some time ago (in 2007) I started to aggregate reusable Java components that were not included in J2SE or that provide
-an easier api for common programming tasks in one library. In 2011 I published the library on www.link-intersystems.com
-and a few weeks ago (Dec. 2014) I decided to migrate this library from svn to git and make it available under the apache
-license 2.0 on github.
-
-Most of the components are the result of projects that I worked on.
+The modules are available in the [central maven repository](https://repo.maven.apache.org/maven2/com/link-intersystems/commons/).
 
 # [lis-commons-events](lis-commons-events/README.md)
 
@@ -40,7 +35,8 @@ Provides support for Java event handling, e.g. it provides easy listener adapter
 
 # lis-commons-beans
 
-Provides a more easy api to handle Java bean related issues.
+Provides a more easy api to handle Java bean related issues. The lis-commons-beans is shipped with
+support for the Java beans specification, but can be extended to any kind of beans.
 
     BeansFactory factory = BeansFactory.getDefault();
     Bean<DefaultButtonModel> buttonModelBean = factory.createBean(new DefaultButtonModel());
@@ -71,8 +67,8 @@ will output
 
 # lis-commons-util
 
-Provides utility classes that I missed in standard Java. The library started when Java 1.8 was the current version. Thus
-some utility classes might already be supported by the Java version you use now.
+Provides utility classes that I sometimes miss in standard Java. The library started when Java 1.8 was the current version.
+Nowadays, some utility classes might already be supported by the Java version you use.
 
 # lis-commons-math
 

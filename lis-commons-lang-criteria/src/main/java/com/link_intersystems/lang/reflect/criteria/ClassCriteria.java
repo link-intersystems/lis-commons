@@ -20,7 +20,6 @@ import com.link_intersystems.graph.DepthFirstNodeIterator;
 import com.link_intersystems.graph.GraphFacade;
 import com.link_intersystems.graph.Node;
 import com.link_intersystems.lang.reflect.ReflectFacade;
-import com.link_intersystems.util.FilteredIterator;
 import com.link_intersystems.util.TransformedIterator;
 import com.link_intersystems.util.TransformedPredicate;
 import com.link_intersystems.util.Transformer;
@@ -31,6 +30,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import static com.link_intersystems.util.Iterators.filtered;
 import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
@@ -328,7 +328,7 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
                         .reduce((prev, curr) -> prev.or(curr))
                         .orElse(c -> true);
 
-                classesIterator = new FilteredIterator<>(classesIterator, classTypePredicate);
+                classesIterator = filtered(classesIterator, classTypePredicate);
 
                 classesIterator = classCriteria.applyTraverseClassesUniquely(classesIterator);
 
@@ -349,7 +349,7 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
     protected Iterator<Class<?>> applyTraverseClassesUniquely(Iterator<Class<?>> iterator) {
         if (isTraverseClassesUniquelyEnabled()) {
             Set<Class<?>> uniqueClasses = new HashSet<>();
-            iterator = new FilteredIterator<>(iterator, uniqueClasses::add);
+            iterator = filtered(iterator, uniqueClasses::add);
         }
         return iterator;
     }
@@ -362,7 +362,7 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
     protected Iterator<Class<?>> applyStopAtFilter(Iterator<Class<?>> iterator) {
         if (stopClass != null) {
             Predicate stopPredicate = ReflectFacade.getIsAssignablePredicate(stopClass);
-            iterator = new FilteredIterator<>(iterator, stopPredicate);
+            iterator = filtered(iterator, stopPredicate);
         }
         return iterator;
     }

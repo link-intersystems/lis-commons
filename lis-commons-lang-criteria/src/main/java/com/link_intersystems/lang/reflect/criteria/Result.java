@@ -15,10 +15,10 @@
  */
 package com.link_intersystems.lang.reflect.criteria;
 
-import com.link_intersystems.util.FilteredIterator;
-
 import java.util.Iterator;
 import java.util.function.Predicate;
+
+import static com.link_intersystems.util.Iterators.filtered;
 
 /**
  * A {@link Result} defines how many result elements are selected by an
@@ -52,7 +52,7 @@ public enum Result {
                     return false;
                 }
             };
-            return new FilteredIterator<>(iterator, firstPredicate);
+            return filtered(iterator, firstPredicate);
         }
     },
     /**
@@ -65,7 +65,7 @@ public enum Result {
         @Override
         <T> Iterator<T> apply(Iterator<T> iterator) {
             Predicate<T> lastElementPredicate = object -> !iterator.hasNext();
-            return new FilteredIterator<>(iterator, lastElementPredicate);
+            return filtered(iterator, lastElementPredicate);
         }
     },
     /**
