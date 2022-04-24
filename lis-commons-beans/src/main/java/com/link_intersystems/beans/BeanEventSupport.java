@@ -6,7 +6,7 @@ public class BeanEventSupport<T, L> {
 
     private Optional<L> listener = Optional.empty();
 
-    private Optional<Bean<T>> bean = Optional.empty();
+    private Optional<Bean<? extends T>> bean = Optional.empty();
 
     private boolean eventEnabled = true;
 
@@ -17,7 +17,7 @@ public class BeanEventSupport<T, L> {
     public BeanEventSupport() {
     }
 
-    public BeanEventSupport(Bean<T> bean) {
+    public BeanEventSupport(Bean<? extends T> bean) {
         setBean(bean);
     }
 
@@ -49,7 +49,7 @@ public class BeanEventSupport<T, L> {
         return bean.map(Bean::getBeanObject).orElse(null);
     }
 
-    public void setBean(Bean<T> newBean) {
+    public void setBean(Bean<? extends T> newBean) {
         if (bean.orElse(null) == newBean) {
             return;
         }
