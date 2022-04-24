@@ -30,30 +30,6 @@ Overview of the module dependencies:
 
 The modules are available in the [central maven repository](https://repo.maven.apache.org/maven2/com/link-intersystems/commons/).
 
-# [lis-commons-events](lis-commons-events/README.md)
-
-Provides support for Java event handling, e.g. it provides easy listener adapter creation using method references.
-
-    ListSelectionListener selectionListener = ListSelectionEventMethod.VALUE_CHANGED.listener(this::printEventFired);
-
-    private void printEventFired(ListSelectionEvent e) {
-        int firstIndex = e.getFirstIndex();
-        int lastIndex = e.getLastIndex();
-        boolean isAdjusting = e.getValueIsAdjusting();
-        System.out.println("Selection model event fired:" +
-                            " firstIndex= " + firstIndex +
-                            " lastIndex= " + lastIndex +
-                            " isAdjusting= " + isAdjusting);
-    }
-
-    ListSelectionModel selectionModel = new DefaultListSelectionModel();
-    selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-    selectionModel.addListSelectionListener(selectionListener);
-
-    selectionModel.setSelection(3); // fires the selection event and it is delegates to 
-                                    // the method reference this::printEventFired
-
-
 # lis-commons-beans
 
 Provides a more easy api to handle Java bean related issues. The lis-commons-beans is shipped with
@@ -85,6 +61,30 @@ will output
     action performed.
     button model changed.
     button model armed: true
+
+# [lis-commons-events](lis-commons-events/README.md)
+
+Provides support for Java event handling, e.g. it provides easy listener adapter creation using method references.
+
+    ListSelectionListener selectionListener = ListSelectionEventMethod.VALUE_CHANGED.listener(this::printEventFired);
+
+    private void printEventFired(ListSelectionEvent e) {
+        int firstIndex = e.getFirstIndex();
+        int lastIndex = e.getLastIndex();
+        boolean isAdjusting = e.getValueIsAdjusting();
+        System.out.println("Selection model event fired:" +
+                            " firstIndex= " + firstIndex +
+                            " lastIndex= " + lastIndex +
+                            " isAdjusting= " + isAdjusting);
+    }
+
+    ListSelectionModel selectionModel = new DefaultListSelectionModel();
+    selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    selectionModel.addListSelectionListener(selectionListener);
+
+    selectionModel.setSelection(3); // fires the selection event and it is delegates to 
+                                    // the method reference this::printEventFired
+
 
 # lis-commons-util
 
