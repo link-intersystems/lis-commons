@@ -60,7 +60,7 @@ class BeanEventSupportTest {
     @Test
     void disableEvents() {
         beanEventSupport.setListener(changeListener);
-        beanEventSupport.setEventDisabled(true);
+        beanEventSupport.setEventEnabled(false);
 
         defaultButtonModel.setEnabled(!defaultButtonModel.isEnabled());
         Mockito.verify(changeListener, Mockito.never()).stateChanged(Mockito.any(ChangeEvent.class));

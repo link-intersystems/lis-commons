@@ -8,20 +8,20 @@ public class BeanEventSupport<B, T> {
 
     private Optional<Bean<B>> bean = Optional.empty();
 
-    private boolean eventDisabled;
+    private boolean eventEnabled = true;
 
-    public boolean isEventDisabled() {
-        return eventDisabled;
+    public boolean isEventEnabled() {
+        return eventEnabled;
     }
 
-    public void setEventDisabled(boolean eventDisabled) {
-        if (eventDisabled) {
-            bean.ifPresent(b -> listener.ifPresent(l -> removeListener(b, l)));
+    public void setEventEnabled(boolean enabled) {
+        if (enabled) {
+            bean.ifPresent(b -> listener.ifPresent(b::addListener));
         } else {
-            bean.ifPresent(b -> listener.ifPresent(l -> addListener(b, l)));
+            bean.ifPresent(b -> listener.ifPresent(b::removeListener));
         }
 
-        this.eventDisabled = eventDisabled;
+        this.eventEnabled = enabled;
     }
 
     public T getListener() {
@@ -29,21 +29,13 @@ public class BeanEventSupport<B, T> {
     }
 
     public void setListener(T newListener) {
-        bean.ifPresent(b -> listener.ifPresent(l -> removeListener(b, l)));
+        bean.ifPresent(b -> listener.ifPresent(b::removeListener));
 
         listener = Optional.ofNullable(newListener);
 
-        if (!eventDisabled) {
-            bean.ifPresent(b -> listener.ifPresent(l -> addListener(b, l)));
+        if (eventEnabled) {
+            bean.ifPresent(b -> listener.ifPresent(b::addListener));
         }
-    }
-
-    private void addListener(Bean<B> actualBean, T actualListener) {
-        actualBean.addListener(actualListener);
-    }
-
-    private void removeListener(Bean<B> actualBean, T actualListener) {
-        actualBean.removeListener(actualListener);
     }
 
     public B getBean() {
@@ -55,13 +47,12 @@ public class BeanEventSupport<B, T> {
             return;
         }
 
-
-        bean.ifPresent(b -> listener.ifPresent(l -> removeListener(b, l)));
+        bean.ifPresent(b -> listener.ifPresent(b::removeListener));
 
         bean = Optional.ofNullable(newBean);
 
-        if (!eventDisabled) {
-            bean.ifPresent(b -> listener.ifPresent(l -> addListener(b, l)));
+        if (eventEnabled) {
+            bean.ifPresent(b -> listener.ifPresent(b::addListener));
         }
     }
 
