@@ -1,20 +1,22 @@
 package com.link_intersystems.beans.java;
 
-import com.link_intersystems.beans.BeanEvent;
 import com.link_intersystems.beans.BeanEventType;
 
 import java.beans.EventSetDescriptor;
 import java.lang.reflect.Method;
-import java.text.MessageFormat;
+
+import static java.text.MessageFormat.format;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
 public class JavaBeanEventType implements BeanEventType {
 
+    private JavaBeanClass<?> javaBeanClass;
     private EventSetDescriptor eventDescriptor;
 
-    public JavaBeanEventType(EventSetDescriptor eventDescriptor) {
+    public JavaBeanEventType(JavaBeanClass<?> javaBeanClass, EventSetDescriptor eventDescriptor) {
+        this.javaBeanClass = javaBeanClass;
         this.eventDescriptor = eventDescriptor;
     }
 
@@ -29,6 +31,10 @@ public class JavaBeanEventType implements BeanEventType {
 
     @Override
     public JavaBeanEvent newBeanEvent(Object bean) {
+        if (!javaBeanClass.isInstance(bean)) {
+            String msg = format("''{0}'' is not an instance of ''{1}''", bean, javaBeanClass);
+            throw new IllegalArgumentException(msg);
+        }
         return new JavaBeanEvent(bean, this);
     }
 
@@ -49,14 +55,14 @@ public class JavaBeanEventType implements BeanEventType {
         Method addListenerMethod = eventDescriptor.getAddListenerMethod();
 
         if (addListenerMethod == null) {
-            String msg = MessageFormat.format("{0} has no add method", eventDescriptor);
+            String msg = format("{0} has no add method", eventDescriptor);
             throw new UnsupportedOperationException(msg);
         }
 
         try {
             addListenerMethod.invoke(bean, listener);
         } catch (Exception e) {
-            String msg = MessageFormat.format("Unable to add listener {0}", listener);
+            String msg = format("Unable to add listener {0}", listener);
             throw new IllegalArgumentException(msg, e);
         }
     }
@@ -66,14 +72,14 @@ public class JavaBeanEventType implements BeanEventType {
         Method removeListenerMethod = eventDescriptor.getRemoveListenerMethod();
 
         if (removeListenerMethod == null) {
-            String msg = MessageFormat.format("{0} has no remove method.", eventDescriptor);
+            String msg = format("{0} has no remove method.", eventDescriptor);
             throw new UnsupportedOperationException(msg);
         }
 
         try {
             removeListenerMethod.invoke(bean, listener);
         } catch (Exception e) {
-            String msg = MessageFormat.format("Unable to remove listener {0}", listener);
+            String msg = format("Unable to remove listener {0}", listener);
             throw new IllegalArgumentException(msg, e);
         }
     }

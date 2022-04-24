@@ -20,6 +20,11 @@ public abstract class BeanClass<T> {
 
     public abstract Class<T> getType();
 
+
+    public boolean isInstance(Object bean){
+        return getType().isInstance(bean);
+    }
+
     /**
      * Creates a new {@link Bean} of this class that has
      * a new bean instance that can be retrieved by {@link Bean#getBeanObject()}.

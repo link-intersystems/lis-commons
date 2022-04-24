@@ -158,9 +158,13 @@ public class JavaBeanClass<T> extends BeanClass<T> implements Serializable {
     private BeanEventTypeList createBeanEventTypes() {
         EventSetDescriptor[] eventSetDescriptors = beanInfo.getEventSetDescriptors();
         List<JavaBeanEventType> beanEventTypes = stream(eventSetDescriptors)
-                .map(JavaBeanEventType::new)
+                .map(this::newJavaBeanEventType)
                 .collect(toList());
         return new BeanEventTypeList(beanEventTypes);
+    }
+
+    private JavaBeanEventType newJavaBeanEventType(EventSetDescriptor eventSetDescriptor) {
+        return new JavaBeanEventType(this, eventSetDescriptor);
     }
 
     @Override

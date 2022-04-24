@@ -30,7 +30,8 @@ class BeanEventTest {
         EventSetDescriptor[] eventSetDescriptors = beanInfo.getEventSetDescriptors();
         for (EventSetDescriptor eventSetDescriptor : eventSetDescriptors) {
             if ("change".equals(eventSetDescriptor.getName())) {
-                beanEvent = new JavaBeanEvent(defaultButtonModel, new JavaBeanEventType(eventSetDescriptor));
+
+                beanEvent = new JavaBeanEvent(defaultButtonModel, new JavaBeanEventType(mock(JavaBeanClass.class), eventSetDescriptor));
             }
         }
 
