@@ -1,6 +1,5 @@
 package com.link_intersystems.beans.java;
 
-import java.beans.IntrospectionException;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.function.Predicate;
@@ -18,20 +17,13 @@ import java.util.function.Predicate;
 public class PropertyAccessorPredicate implements Predicate<Method>, Serializable {
 
     public static final Predicate<Method> INSTANCE = new PropertyAccessorPredicate();
-    /**
-     *
-     */
+
     private static final long serialVersionUID = -5631775222210839752L;
 
     @Override
     public boolean test(Method method) {
         Class<?> declaringClass = method.getDeclaringClass();
-
-        try {
-            JavaBeanClass<?> beanClass = new JavaBeanClass<>(declaringClass);
-            return beanClass.isPropertyAccessor(method);
-        } catch (IntrospectionException e) {
-            throw new RuntimeException(e);
-        }
+        JavaBeanClass<?> beanClass = new JavaBeanClass<>(declaringClass);
+        return beanClass.isPropertyAccessor(method);
     }
 }

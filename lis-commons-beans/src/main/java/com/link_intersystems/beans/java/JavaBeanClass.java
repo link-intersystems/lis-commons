@@ -15,17 +15,16 @@
  */
 package com.link_intersystems.beans.java;
 
-import com.link_intersystems.beans.BeanClass;
-import com.link_intersystems.beans.BeanEventTypeList;
-import com.link_intersystems.beans.BeanInstantiationException;
-import com.link_intersystems.beans.PropertyDescList;
+import com.link_intersystems.beans.*;
 
 import java.beans.*;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.text.MessageFormat;
 import java.util.List;
 
+import static java.text.MessageFormat.format;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toList;
 
@@ -52,12 +51,17 @@ public class JavaBeanClass<T> extends BeanClass<T> implements Serializable {
 
     private BeanEventTypeList beanEventTypes;
 
-    public JavaBeanClass(Class<T> beanType) throws IntrospectionException {
+    public JavaBeanClass(Class<T> beanType) throws BeanClassException {
         this(beanType, null);
     }
 
-    public JavaBeanClass(Class<T> beanType, Class<?> stopClass) throws IntrospectionException {
-        beanInfo = Introspector.getBeanInfo(beanType, stopClass);
+    public JavaBeanClass(Class<T> beanType, Class<?> stopClass) throws BeanClassException {
+        try {
+            beanInfo = Introspector.getBeanInfo(beanType, stopClass);
+        } catch (IntrospectionException e) {
+            String msg = format("Unable to create BeanClass for ''{0}''. Stop at ''{1}''", beanType, stopClass);
+            throw new BeanClassException(msg, e);
+        }
     }
 
     @Override
