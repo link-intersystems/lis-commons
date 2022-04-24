@@ -46,17 +46,6 @@ class BigIncrementalAverageTest extends AbstractAverageTest  {
         average.addValue(value3);
         BigDecimal averageValue = average.getValue();
         assertEquals(expected, averageValue);
-
-        average = new BigIncrementalAverage();
-
-        Random r = new Random();
-        int samples = 10000000;
-
-        while(samples-- > 0){
-            average.addValue(r.nextInt(100));
-        }
-
-        System.out.println(average.getValue());
     }
 
     @Test

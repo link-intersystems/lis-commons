@@ -97,16 +97,33 @@ A library that contains utility classes for simple common math issues like aggre
 functions. This library is not expected to be a sophisticated math library. It is only for simple use cases when high
 accuracy is not an issue.
 
-     Average<BigDecimal> average = new BigIncrementalAvarage();
+It contains support for simple linear equations.
 
-     Random r = new Random();
-     int samples = 10000000;
+    // E.g. when you want to calculate the progress of operations
+    // you map one coordinate (the tasks) into another coordinate (the progress).
+    // The following example shows how to provide progress in values of
+    // 0 to 100 for 25 tasks.
+
+    TwoPointLinearEquation linearEquation1 = new TwoPointLinearEquation(50, 100);
+
+    double y = linearEquation1.fX(5); // 5 tasks are 10%
+    System.out.println(y);
+
+There is also support for aggregate functions. E.g. the BigIncrementalAverage
+can be used when you have to constantly calculate the average of a values, because
+it applies the next value to the previous average value. Can be useful for
+time measurements of service calls, etc.
+
+    Average<BigDecimal> average = new BigIncrementalAverage();
+
+    Random r = new Random();
+    int samples = 10000000;
   
-     while(samples-- > 0){
-         average.addValue(r.nextInt(100));
-     }
+    while(samples-- > 0){
+        average.addValue(r.nextInt(100));
+    }
   
-     System.out.println(average.getValue());
+    System.out.println(average.getValue());
 
 
 

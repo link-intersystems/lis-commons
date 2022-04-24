@@ -36,5 +36,10 @@ class TwoPointLinearEquationTest extends AbstractLinearEquationTest  {
         LinearEquation linearEquation = new TwoPointLinearEquation(1, 1);
         double fX = linearEquation.fX(0.5);
         assertEquals(0.5, fX, 0.00001);
+
+        TwoPointLinearEquation linearEquation1 = new TwoPointLinearEquation(50, 100);
+
+        double y = linearEquation1.fX(5);
+        System.out.println(y);
     }
 }
