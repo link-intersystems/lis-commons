@@ -18,19 +18,8 @@ public class PropertyDescList extends AbstractList<PropertyDesc> {
         this.descriptors.addAll(descriptors);
     }
 
-    public List<String> getAllPropertyNames() {
-        return stream().map(PropertyDesc::getName).collect(Collectors.toList());
-    }
-
-    /**
-     * @return all properties that are not indexed properties.
-     */
     public List<String> getPropertyNames() {
-        return stream().filter(pd -> !(pd instanceof IndexedPropertyDesc)).map(PropertyDesc::getName).collect(Collectors.toList());
-    }
-
-    public List<String> getIndexedPropertyNames() {
-        return stream().filter(IndexedPropertyDesc.class::isInstance).map(PropertyDesc::getName).collect(Collectors.toList());
+        return stream().map(PropertyDesc::getName).collect(Collectors.toList());
     }
 
     public PropertyDesc getByName(String propertyName) {

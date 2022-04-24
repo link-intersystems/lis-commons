@@ -17,8 +17,8 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
         this.bean = requireNonNull(bean);
     }
 
-    public static Object indexedValueSetter(int index, Object value) {
-        return new IndexedElementSetter(index, value);
+    public static Object indexSetter(int index, Object value) {
+        return new IndexSetter(index, value);
     }
 
     private PropertyDescList getAllProperties() {
@@ -52,15 +52,20 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
             return null;
         }
         String propertyName = key.toString();
-        BeanClass<?> beanClass = bean.getBeanClass();
+
 
         PropertyDescList properties = getAllProperties();
         PropertyDesc propertyDesc = properties.getByName(propertyName);
 
+        return get(propertyDesc);
+    }
+
+    private Object get(PropertyDesc propertyDesc) {
         if (propertyDesc == null) {
             return null;
         }
-
+        BeanClass<?> beanClass = bean.getBeanClass();
+        String propertyName = propertyDesc.getName();
         boolean isIndexedProperty = beanClass.hasIndexedProperty(propertyName);
 
         if (isIndexedProperty) {
@@ -75,32 +80,39 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
     }
 
 
+    /**
+     * @see BeanMapDecorator#indexSetter(int, Object) to set indexed property values.
+     */
     public Object put(String key, Object value) {
         if (key == null) {
             throw new IllegalArgumentException(
                     "BeanMapDecorator does not support putting 'null' keys, because a bean can never have a 'null' property.");
         }
-        String propertyName = key;
         BeanClass<?> beanClass = bean.getBeanClass();
         PropertyDescList properties = beanClass.getAllProperties();
-        PropertyDesc propertyDesc = properties.getByName(propertyName);
+        PropertyDesc propertyDesc = properties.getByName(key);
 
         if (propertyDesc == null) {
-            throw new NoSuchPropertyException(bean.getBeanClass().getType(),
+            throw new NoSuchPropertyException(
+                    bean.getBeanClass().getType(),
                     key);
         }
+
+        return put(propertyDesc, value);
+    }
+
+    private Object put(PropertyDesc propertyDesc, Object value) {
         Object previousValue = null;
 
         if (propertyDesc instanceof IndexedPropertyDesc) {
-            if (!(value instanceof IndexedElementSetter)) {
+            if (!(value instanceof IndexSetter)) {
                 throw new IllegalArgumentException(
                         "Property named "
-                                + key
+                                + propertyDesc.getName()
                                 + " is an indexed property. To set an indexed property's value you must use "
-                                + IndexedElementSetter.class.getSimpleName());
+                                + IndexSetter.class.getSimpleName() + " to wrap the value.");
             }
-            IndexedElementSetter indexedValueSet = IndexedElementSetter.class
-                    .cast(value);
+            IndexSetter indexedValueSet = IndexSetter.class.cast(value);
             IndexedProperty indexedProperty = (IndexedProperty) bean.getIndexedProperties().getByDesc(propertyDesc);
             checkWriteAccess(indexedProperty);
             Object element = indexedValueSet.getElement();
@@ -108,7 +120,7 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
         } else {
             Property property = bean.getProperties().getByDesc(propertyDesc);
             checkWriteAccess(property);
-            previousValue = getValueIfReadable(key);
+            previousValue = getValueIfReadable(propertyDesc.getName());
             property.setValue(value);
 
         }
@@ -196,19 +208,9 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
     }
 
     public Set<String> keySet() {
-        Set<String> keySet = new AbstractSet<String>() {
-
-            @Override
-            public Iterator<String> iterator() {
-                return bean.getBeanClass().getProperties().getAllPropertyNames().iterator();
-            }
-
-            @Override
-            public int size() {
-                return bean.getBeanClass().getProperties().getAllPropertyNames().size();
-            }
-        };
-        return keySet;
+        BeanClass<?> beanClass = bean.getBeanClass();
+        PropertyDescList allProperties = beanClass.getAllProperties();
+        return new LinkedHashSet<>(allProperties.getPropertyNames());
     }
 
     public Collection<Object> values() {
@@ -216,34 +218,37 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
 
             @Override
             public Iterator<Object> iterator() {
+                Iterator<PropertyDesc> readablePropertyDescs = bean
+                        .getBeanClass()
+                        .getAllProperties().stream()
+                        .filter(PropertyDesc::isReadable)
+                        .iterator();
+
                 return new Iterator<Object>() {
-                    private Iterator<String> propertsNameIterator = bean
-                            .getBeanClass().getProperties().getAllPropertyNames().iterator();
 
                     public boolean hasNext() {
-                        return propertsNameIterator.hasNext();
+                        return readablePropertyDescs.hasNext();
                     }
 
                     public Object next() {
-                        String propertyName = propertsNameIterator.next();
-                        PropertyDesc propertyDesc = bean.getBeanClass().getProperties().getByName(propertyName);
+                        PropertyDesc propertyDesc = readablePropertyDescs.next();
                         if (propertyDesc instanceof IndexedPropertyDesc) {
                             IndexedProperty indexedProperty = (IndexedProperty) bean.getIndexedProperties().getByDesc(propertyDesc);
                             return new IndexedValue(indexedProperty);
                         } else {
-                            return bean.getProperties().getByName(propertyName).getValue();
+                            return propertyDesc.getPropertyValue(bean.getBeanObject());
                         }
                     }
 
                     public void remove() {
-                        throw new UnsupportedOperationException();
+                        throw new UnsupportedOperationException("Bean properties can not be removed.");
                     }
                 };
             }
 
             @Override
             public int size() {
-                return bean.getBeanClass().getProperties().getAllPropertyNames().size();
+                return bean.getBeanClass().getAllProperties().getPropertyNames().size();
             }
         };
         return values;
@@ -254,31 +259,30 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
 
             @Override
             public Iterator<java.util.Map.Entry<String, Object>> iterator() {
+                Iterator<PropertyDesc> propertyDescIterator = bean.getBeanClass().getAllProperties().iterator();
 
                 return new Iterator<Map.Entry<String, Object>>() {
-                    private Iterator<String> propertyNamesIterator = bean
-                            .getBeanClass().getProperties().getAllPropertyNames().iterator();
+
 
                     public boolean hasNext() {
-                        return propertyNamesIterator.hasNext();
+                        return propertyDescIterator.hasNext();
                     }
 
                     public java.util.Map.Entry<String, Object> next() {
-                        final String propertyName = propertyNamesIterator
-                                .next();
+                        PropertyDesc propertyDesc = propertyDescIterator.next();
 
                         return new Map.Entry<String, Object>() {
 
                             public Object setValue(Object value) {
-                                return put(propertyName, value);
+                                return put(propertyDesc, value);
                             }
 
                             public Object getValue() {
-                                return get(propertyName);
+                                return get(propertyDesc);
                             }
 
                             public String getKey() {
-                                return propertyName;
+                                return propertyDesc.getName();
                             }
                         };
                     }
@@ -315,12 +319,15 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
 
     }
 
-    public static final class IndexedElementSetter {
+    /**
+     * Use {@link BeanMapDecorator#indexSetter(int, Object)} to create an instance.
+     */
+    public static final class IndexSetter {
 
         private final int index;
         private final Object element;
 
-        private IndexedElementSetter(int index, Object element) {
+        private IndexSetter(int index, Object element) {
             this.index = index;
             this.element = element;
         }
@@ -334,5 +341,4 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
         }
 
     }
-
 }

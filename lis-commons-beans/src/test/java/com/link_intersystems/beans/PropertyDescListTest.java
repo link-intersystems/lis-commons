@@ -44,18 +44,8 @@ class PropertyDescListTest {
     }
 
     @Test
-    void getAllPropertyNames() {
-        assertEquals(Arrays.asList("firstname", "lastname", "favoriteColors"), propertyDescList.getAllPropertyNames());
-    }
-
-    @Test
     void getPropertyNames() {
-        assertEquals(Arrays.asList("firstname", "lastname"), propertyDescList.getPropertyNames());
-    }
-
-    @Test
-    void getIndexedPropertyNames() {
-        assertEquals(Arrays.asList("favoriteColors"), propertyDescList.getIndexedPropertyNames());
+        assertEquals(Arrays.asList("firstname", "lastname", "favoriteColors"), propertyDescList.getPropertyNames());
     }
 
     @Test

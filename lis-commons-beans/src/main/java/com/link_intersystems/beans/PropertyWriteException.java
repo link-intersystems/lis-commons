@@ -13,4 +13,9 @@ public class PropertyWriteException extends PropertyException {
     public PropertyWriteException(Class<?> beanType, String propertyName, Throwable cause) {
         super(beanType, propertyName, cause);
     }
+
+    @Override
+    public String getLocalizedMessage() {
+        return "Property " + getPropertyName() + " is not writable.";
+    }
 }

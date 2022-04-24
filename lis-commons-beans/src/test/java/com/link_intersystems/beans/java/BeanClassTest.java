@@ -20,7 +20,7 @@ class BeanClassTest {
 
     @BeforeEach
     void setUp(TestBeansFactory beansFactory) throws BeanClassException {
-        someBeanClass = beansFactory.createBeanClass(SomeBean.class);
+        someBeanClass = beansFactory.createBeanClass(SomeBean.class, Object.class);
     }
 
     @Test

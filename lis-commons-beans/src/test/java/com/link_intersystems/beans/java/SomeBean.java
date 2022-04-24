@@ -16,11 +16,30 @@
 package com.link_intersystems.beans.java;
 
 import javax.swing.event.EventListenerList;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.Arrays;
+import java.beans.*;
+import java.util.List;
+
+import static java.util.Arrays.stream;
+import static java.util.Collections.unmodifiableList;
+import static java.util.stream.Collectors.toList;
 
 public class SomeBean {
+
+    public static final List<String> PROPERTY_NAMES;
+
+    static {
+        try {
+            BeanInfo beanInfo = Introspector.getBeanInfo(SomeBean.class, Object.class);
+            PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
+
+            PROPERTY_NAMES = unmodifiableList(
+                    stream(propertyDescriptors)
+                            .map(PropertyDescriptor::getName)
+                            .collect(toList()));
+        } catch (IntrospectionException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     private EventListenerList listeners = new EventListenerList();
 
@@ -42,6 +61,8 @@ public class SomeBean {
     private String[] indexedPropertyReadOnlyIndexOnlyAccess = new String[2];
 
     private String[] stringArrayProperty = new String[0];
+
+    private String[] indexedOnlyProperty = new String[10];
 
     public String getStringProperty() {
         return stringProperty;
@@ -107,6 +128,14 @@ public class SomeBean {
         return indexedPropertyReadOnlyIndexOnlyAccess[index];
     }
 
+    public void setIndexedOnlyProperty(int index, String value){
+        indexedOnlyProperty[index] = value;
+    }
+
+    public String getIndexedOnlyProperty(int index){
+        return indexedOnlyProperty[index];
+    }
+
     protected void setIndexedPropertyReadOnlyIndexOnlyAccess(String[] indexedPropertyReadOnlyIndexOnlyAccess) {
         firePropertyChanged("indexedPropertyReadOnlyIndexOnlyAccess", this.indexedPropertyReadOnlyIndexOnlyAccess, this.indexedPropertyReadOnlyIndexOnlyAccess = indexedPropertyReadOnlyIndexOnlyAccess);
     }
@@ -122,7 +151,7 @@ public class SomeBean {
     private void firePropertyChanged(String property, Object oldValue, Object newValue) {
         PropertyChangeEvent e = new PropertyChangeEvent(this, property, oldValue, newValue);
 
-        Arrays.stream(listeners.getListeners(PropertyChangeListener.class)).forEach(l -> l.propertyChange(e));
+        stream(listeners.getListeners(PropertyChangeListener.class)).forEach(l -> l.propertyChange(e));
     }
 
 
