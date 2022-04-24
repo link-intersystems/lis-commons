@@ -97,6 +97,16 @@ A library that contains utility classes for simple common math issues like aggre
 functions. This library is not expected to be a sophisticated math library. It is only for simple use cases when high
 accuracy is not an issue.
 
+     Average<BigDecimal> average = new BigIncrementalAvarage();
+
+     Random r = new Random();
+     int samples = 10000000;
+  
+     while(samples-- > 0){
+         average.addValue(r.nextInt(100));
+     }
+  
+     System.out.println(average.getValue());
 
 
 
