@@ -1,6 +1,7 @@
 package com.link_intersystems.beans;
 
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.requireNonNull;
@@ -89,8 +90,25 @@ public abstract class Bean<T> {
      * Override to support {@link BeanEvent}s.
      */
     protected BeanEvent getApplicableBeanEvent(Object listener) {
-        return null;
+        BeanClass<T> beanClass = getBeanClass();
+
+        BeanEventTypeList beanEventTypes = beanClass.getBeanEventTypes();
+
+        BeanEvent applicableBeanEvent = null;
+        for (BeanEventType beanEventType : beanEventTypes) {
+            if (beanEventType.isApplicable(listener)) {
+                T beanObject = getBeanObject();
+                applicableBeanEvent = beanEventType.newBeanEvent(beanObject);
+                break;
+            }
+        }
+        return applicableBeanEvent;
     }
 
+    public boolean propertiesEqual(Bean<T> otherBean) {
+        List<Property> properties = getProperties();
+        List<Property> otherProperties = otherBean.getProperties();
+        return properties.equals(otherProperties);
+    }
 
 }

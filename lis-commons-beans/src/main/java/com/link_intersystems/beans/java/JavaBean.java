@@ -79,28 +79,4 @@ public class JavaBean<T> extends Bean<T> {
             return new JavaProperty(this, propertyDesc);
         }
     }
-
-    protected BeanEvent getApplicableBeanEvent(Object listener) {
-        BeanClass<T> beanClass = getBeanClass();
-
-        BeanEventTypeList beanEventTypes = beanClass.getBeanEventTypes();
-
-        BeanEvent applicableBeanEvent = null;
-        for (BeanEventType beanEvent : beanEventTypes) {
-            if (beanEvent.isApplicable(listener)) {
-                T beanObject = getBeanObject();
-                applicableBeanEvent = new JavaBeanEvent(beanObject, (JavaBeanEventType) beanEvent);
-                break;
-            }
-        }
-        return applicableBeanEvent;
-    }
-
-    public boolean propertiesEqual(JavaBean<T> otherBean) {
-        List<Property> properties = getProperties();
-        List<Property> otherProperties = otherBean.getProperties();
-        return properties.equals(otherProperties);
-    }
-
-
 }

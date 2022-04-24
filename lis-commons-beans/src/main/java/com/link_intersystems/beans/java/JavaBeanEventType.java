@@ -1,5 +1,6 @@
 package com.link_intersystems.beans.java;
 
+import com.link_intersystems.beans.BeanEvent;
 import com.link_intersystems.beans.BeanEventType;
 
 import java.beans.EventSetDescriptor;
@@ -24,6 +25,11 @@ public class JavaBeanEventType implements BeanEventType {
     @Override
     public String getName() {
         return eventDescriptor.getName();
+    }
+
+    @Override
+    public JavaBeanEvent newBeanEvent(Object bean) {
+        return new JavaBeanEvent(bean, this);
     }
 
     @Override

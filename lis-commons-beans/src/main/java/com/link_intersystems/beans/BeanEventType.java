@@ -10,6 +10,8 @@ public interface BeanEventType {
      */
     String getName();
 
+    public BeanEvent newBeanEvent(Object bean);
+
     /**
      * Returns true if the given listener is applicable for this {@link BeanEvent},
      * which means that it can be added or removed.
