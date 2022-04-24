@@ -17,10 +17,6 @@ public abstract class Bean<T> {
     private PropertyList properties;
     private PropertyList indexedProperties;
 
-    protected Bean(BeanClass<T> beanClass) {
-        this(beanClass, null);
-    }
-
     protected Bean(BeanClass<T> beanClass, T bean) {
         this.beanClass = requireNonNull(beanClass);
         this.bean = requireNonNull(bean);

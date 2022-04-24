@@ -21,7 +21,6 @@ import java.beans.*;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.text.MessageFormat;
 import java.util.List;
 
 import static java.text.MessageFormat.format;
@@ -131,8 +130,7 @@ public class JavaBeanClass<T> extends BeanClass<T> implements Serializable {
             T newBeanObj = defaultConstructor.newInstance();
             return getBeanFromInstance(newBeanObj);
         } catch (Exception e) {
-            String msg = "Bean " +
-                    getType().getCanonicalName() +
+            String msg = "Bean " + getType().getCanonicalName() +
                     " throws an exception while invoking the default constructor." +
                     " Does it have a public default constructor?" +
                     " See BeanClass.getStrict(Class<T>)";
