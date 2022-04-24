@@ -21,9 +21,7 @@ public class Serialization {
     public static <T> T deserialize(byte[] serializedObject) {
         try (ObjectInputStream objIn = new ObjectInputStream(new ByteArrayInputStream(serializedObject))) {
             return (T) objIn.readObject();
-        } catch (IOException e) {
-            throw new SerializationException(e);
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             throw new SerializationException(e);
         }
     }
