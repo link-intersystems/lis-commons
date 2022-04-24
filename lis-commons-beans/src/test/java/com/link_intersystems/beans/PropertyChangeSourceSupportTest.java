@@ -75,7 +75,7 @@ class PropertyChangeSourceSupportTest {
         assertEquals(namedBean, changeSourceSupport.get());
     }
 
-    private static class NamedBean {
+    public static class NamedBean {
 
         private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
