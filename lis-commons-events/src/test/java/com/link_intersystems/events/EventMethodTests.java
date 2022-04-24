@@ -1,267 +1,163 @@
 package com.link_intersystems.events;
 
-import java.util.EventObject;
-import java.util.function.*;
+import com.link_intersystems.events.awt.*;
+import com.link_intersystems.events.beans.BeanContextMembershipEventMethod;
+import com.link_intersystems.events.beans.BeanContextServiceRevokedEventMethod;
+import com.link_intersystems.events.beans.PropertyChangeMethod;
+import com.link_intersystems.events.beans.VetoableChangeMethod;
+import com.link_intersystems.events.naming.NamespaceChangeEventMethod;
+import com.link_intersystems.events.naming.NamingEventMethod;
+import com.link_intersystems.events.prefs.NodeChangeEventMethod;
+import com.link_intersystems.events.sql.ConnectionEventMethod;
+import com.link_intersystems.events.sql.RowSetEventMethod;
+import com.link_intersystems.events.sql.StatementEventMethod;
+import com.link_intersystems.events.swing.*;
+import org.junit.jupiter.api.*;
 
-import static org.mockito.Mockito.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Stream;
+
+import static java.util.Arrays.asList;
+import static java.util.Arrays.stream;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class EventMethodTests extends AbstractEventMethodTest {
+@DisplayName("EventMethodTests")
+public class EventMethodTests {
 
-    public EventMethodTests(EventMethod<?, ?> eventMethod) {
-        super(eventMethod);
+    @TestFactory
+    Stream<DynamicNode> awt() {
+        return asList(
+                ActionEventMethod.class,
+                AdjustmentEventMethod.class,
+                ComponentEventMethod.class,
+                ContainerEventMethod.class,
+                FocusEventMethod.class,
+                HierarchyBoundsEventMethod.class,
+                HierarchyEventMethod.class,
+                ItemEventMethod.class,
+                KeyEventMethod.class,
+                MouseEventMethod.class,
+                MouseWheelEventMethod.class,
+                WindowEventMethod.class,
+                WindowFocusEventMethod.class,
+                WindowStateEventMethod.class
+        ).stream().map(this::createEventMethodNode);
     }
 
-    void runnable(EventMethodTestCase description) {
-        Runnable runnable = mock(Runnable.class);
-
-        EventMethod<?, ?> testEventMethod = description.eventMethod;
-        Object listener = testEventMethod.listener(runnable);
-
-        invokeListenerMethod(listener, description.method, description.newEventObject());
-
-        verify(runnable, times(1)).run();
+    @TestFactory
+    Stream<DynamicNode> beans() {
+        return asList(
+                BeanContextMembershipEventMethod.class,
+                BeanContextServiceRevokedEventMethod.class,
+                PropertyChangeMethod.class,
+                VetoableChangeMethod.class
+        ).stream().map(this::createEventMethodNode);
     }
 
-    void runnableFiltered(EventMethodTestCase description) {
-        Runnable runnable = mock(Runnable.class);
-        Predicate predicate = mock(Predicate.class);
-
-        EventMethod<?, ?> testEventMethod = description.eventMethod;
-        Object listener = testEventMethod.listener(runnable, predicate);
-
-        Object eventObject = description.newEventObject();
-        when(predicate.test(eventObject)).thenReturn(true).thenReturn(false);
-
-        invokeListenerMethod(listener, description.method, eventObject);
-        invokeListenerMethod(listener, description.method, eventObject);
-
-        verify(runnable, times(1)).run();
-        verify(predicate, times(2)).test(eventObject);
+    @TestFactory
+    Stream<DynamicNode> naming() {
+        return asList(
+                NamingEventMethod.class,
+                NamespaceChangeEventMethod.class
+        ).stream().map(this::createEventMethodNode);
     }
 
-
-    void consumer(EventMethodTestCase description) {
-        Consumer consumer = mock(Consumer.class);
-
-        EventMethod<?, ?> testEventMethod = description.eventMethod;
-        Object listener = testEventMethod.listener(consumer);
-
-        Object eventObject = description.newEventObject();
-        invokeListenerMethod(listener, description.method, eventObject);
-
-        verify(consumer, times(1)).accept(eventObject);
+    @TestFactory
+    Stream<DynamicNode> prefs() {
+        return asList(
+                NodeChangeEventMethod.class
+        ).stream().map(this::createEventMethodNode);
     }
 
-
-    void consumerFiltered(EventMethodTestCase description) {
-        Consumer consumer = mock(Consumer.class);
-        Predicate predicate = mock(Predicate.class);
-
-        EventMethod<?, ?> testEventMethod = description.eventMethod;
-        Object listener = testEventMethod.listener(consumer, predicate);
-
-        Object eventObject = description.newEventObject();
-        when(predicate.test(eventObject)).thenReturn(true).thenReturn(false);
-
-        invokeListenerMethod(listener, description.method, eventObject);
-        invokeListenerMethod(listener, description.method, eventObject);
-
-        verify(consumer, times(1)).accept(eventObject);
-        verify(predicate, times(2)).test(eventObject);
+    @TestFactory
+    Stream<DynamicNode> swing() {
+        return asList(
+                AncestorEventMethod.class,
+                CaretEventMethod.class,
+                CellEditorEventMethod.class,
+                ChangeEventMethod.class,
+                DocumentEventMethod.class,
+                InternalFrameEventMethod.class,
+                ListDataEventMethod.class,
+                ListSelectionEventMethod.class,
+                MenuEventMethod.class,
+                PopupMenuEventMethod.class,
+                TableColumnModelEventMethod.class,
+                TableModelEventMethod.class,
+                TreeExpansionEventMethod.class,
+                TreeModelEventMethod.class,
+                TreeSelectionEventMethod.class
+        ).stream().map(this::createEventMethodNode);
     }
 
-    void consumerTransformed(EventMethodTestCase description) {
-        Consumer consumer = mock(Consumer.class);
-        Function transformFunc = mock(Function.class);
-
-        EventMethod<?, ?> testEventMethod = description.eventMethod;
-        Object listener = testEventMethod.listener(consumer, transformFunc);
-
-        Object eventObject = description.newEventObject();
-        when(transformFunc.apply(eventObject)).thenReturn("A");
-
-        invokeListenerMethod(listener, description.method, eventObject);
-
-        verify(consumer, times(1)).accept("A");
-    }
-
-    void consumerFilteredTransformed(EventMethodTestCase description) {
-        Consumer consumer = mock(Consumer.class);
-        Function transformFunc = mock(Function.class);
-        Predicate predicate = mock(Predicate.class);
-
-        EventMethod<?, ?> testEventMethod = description.eventMethod;
-        Object listener = testEventMethod.listener(consumer, transformFunc, predicate);
-
-        Object eventObject = description.newEventObject();
-        when(transformFunc.apply(eventObject)).thenReturn("A");
-        when(predicate.test(eventObject)).thenReturn(true).thenReturn(false);
-
-        invokeListenerMethod(listener, description.method, eventObject);
-        invokeListenerMethod(listener, description.method, eventObject);
-
-        verify(consumer, times(1)).accept("A");
-        verify(transformFunc, times(1)).apply(eventObject);
-        verify(predicate, times(2)).test(eventObject);
+    @TestFactory
+    Stream<DynamicNode> sql() {
+        return asList(
+                ConnectionEventMethod.class,
+                RowSetEventMethod.class,
+                StatementEventMethod.class
+        ).stream().map(this::createEventMethodNode);
     }
 
 
-    void biConsumer(EventMethodTestCase description) {
-        BiConsumer consumer = mock(BiConsumer.class);
+    private DynamicContainer createEventMethodNode(Class<? extends EventMethod> eventMethodClass) {
+        List<EventMethod<?, ?>> eventMethods = toEventMethods(eventMethodClass);
 
-        EventMethod<?, ?> testEventMethod = description.eventMethod;
-        Object listener = testEventMethod.listener(consumer, "A");
 
-        Object eventObject = description.newEventObject();
+        Stream<DynamicNode> dynamicNodeStream = eventMethods.stream().map(em -> {
+            EventMethodInstanceTests abstractEventMethodTest = new EventMethodInstanceTests(em);
+            Stream<AbstractEventMethodInstanceTest.EventMethodTestCase> testCases = abstractEventMethodTest.testCases();
+            return testCases.map(tc -> createTestCaseNode(abstractEventMethodTest, tc));
+        }).flatMap(Function.identity());
 
-        invokeListenerMethod(listener, description.method, eventObject);
-
-        verify(consumer, times(1)).accept(eventObject, "A");
+        return DynamicContainer.dynamicContainer(eventMethodClass.getSimpleName(), dynamicNodeStream);
     }
 
-    void biConsumerFiltered(EventMethodTestCase description) {
-        BiConsumer consumer = mock(BiConsumer.class);
-        Predicate predicate = mock(Predicate.class);
+    private DynamicNode createTestCaseNode(EventMethodInstanceTests abstractEventMethodTest, AbstractEventMethodInstanceTest.EventMethodTestCase testCase) {
+        Class<?> aClass = abstractEventMethodTest.getClass();
+        Method[] declaredMethods = aClass.getDeclaredMethods();
 
-        EventMethod<?, ?> testEventMethod = description.eventMethod;
-        Object listener = testEventMethod.listener(consumer, "A", predicate);
-
-        Object eventObject = description.newEventObject();
-
-        when(predicate.test(eventObject)).thenReturn(true).thenReturn(false);
-
-        invokeListenerMethod(listener, description.method, eventObject);
-        invokeListenerMethod(listener, description.method, eventObject);
-
-        verify(consumer, times(1)).accept(eventObject, "A");
-        verify(predicate, times(2)).test(eventObject);
+        Class<?>[] testMethoParams = new Class<?>[]{AbstractEventMethodInstanceTest.EventMethodTestCase.class};
+        Stream<DynamicTest> dynamicTests = stream(declaredMethods).filter(m -> Arrays.equals(m.getParameterTypes(), testMethoParams))
+                .map(m -> createMethodTest(m, abstractEventMethodTest, testCase));
+        return DynamicContainer.dynamicContainer(testCase.getTestMethod().getName(), dynamicTests);
     }
 
-
-    void biConsumerTransformed(EventMethodTestCase description) {
-        BiConsumer consumer = mock(BiConsumer.class);
-        Function transformFunc = mock(Function.class);
-
-        EventMethod<?, ?> testEventMethod = description.eventMethod;
-        Object listener = testEventMethod.listener(consumer, transformFunc, "B");
-
-        Object eventObject = description.newEventObject();
-
-        when(transformFunc.apply(eventObject)).thenReturn("A");
-
-        invokeListenerMethod(listener, description.method, eventObject);
-
-        verify(consumer, times(1)).accept("A", "B");
-        verify(transformFunc, times(1)).apply(eventObject);
+    private DynamicTest createMethodTest(Method m, EventMethodInstanceTests abstractEventMethodTest, AbstractEventMethodInstanceTest.EventMethodTestCase testCase) {
+        return DynamicTest.dynamicTest(m.getName(), () -> m.invoke(abstractEventMethodTest, testCase));
     }
 
-    void biConsumerFilteredTransformed(EventMethodTestCase description) {
-        BiConsumer consumer = mock(BiConsumer.class);
-        Function transformFunc = mock(Function.class);
-        Predicate predicate = mock(Predicate.class);
+    private List<EventMethod<?, ?>> toEventMethods(Class<? extends EventMethod> eventMethodClass) {
+        List<EventMethod<?, ?>> eventMethods = new ArrayList<>();
 
-        EventMethod<?, ?> testEventMethod = description.eventMethod;
-        Object listener = testEventMethod.listener(consumer, transformFunc, "B", predicate);
+        Field[] declaredFields = eventMethodClass.getDeclaredFields();
+        Stream<EventMethod> eventMethodStream = stream(declaredFields).filter(f -> EventMethod.class.isAssignableFrom(f.getType())).map(f -> {
+            try {
+                return f.get(null);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }).map(EventMethod.class::cast);
 
-        Object eventObject = description.newEventObject();
-        when(transformFunc.apply(eventObject)).thenReturn("A");
-        when(predicate.test(eventObject)).thenReturn(true).thenReturn(false);
+        eventMethodStream.forEach(em -> {
+            for (int i = 0; i < eventMethods.size(); i++) {
+                EventMethod<?, ?> currEventMethod = eventMethods.get(i);
+                if (currEventMethod.isCompatible(em)) {
+                    eventMethods.set(i, currEventMethod.join(em));
+                    return;
+                }
+            }
 
-        invokeListenerMethod(listener, description.method, eventObject);
-        invokeListenerMethod(listener, description.method, eventObject);
+            eventMethods.add(em);
+        });
 
-        verify(consumer, times(1)).accept("A", "B");
-        verify(transformFunc, times(1)).apply(eventObject);
-        verify(predicate, times(2)).test(eventObject);
+        return eventMethods;
     }
-
-    void biConsumerWithParamSupplier(EventMethodTestCase description) {
-        BiConsumer consumer = mock(BiConsumer.class);
-        Supplier supplier = mock(Supplier.class);
-
-        EventMethod<?, ?> testEventMethod = description.eventMethod;
-
-        CompilerHelper<Object, String> testClass = new CompilerHelper<>(consumer);
-        Object listener = testEventMethod.listener(testClass::consume, supplier);
-
-        Object eventObject = description.newEventObject();
-        when(supplier.get()).thenReturn("A");
-
-        invokeListenerMethod(listener, description.method, eventObject);
-
-        verify(consumer, times(1)).accept(eventObject, "A");
-        verify(supplier, times(1)).get();
-    }
-
-    void biConsumerFilteredWithParamSupplier(EventMethodTestCase description) {
-        BiConsumer consumer = mock(BiConsumer.class);
-        Predicate predicate = mock(Predicate.class);
-        Supplier supplier = mock(Supplier.class);
-
-        EventMethod<?, ?> testEventMethod = description.eventMethod;
-
-        CompilerHelper<Object, String> testClass = new CompilerHelper<>(consumer);
-        Object listener = testEventMethod.listener(testClass::consume, supplier, predicate);
-
-        Object eventObject = description.newEventObject();
-        when(supplier.get()).thenReturn("A");
-        when(predicate.test(eventObject)).thenReturn(false).thenReturn(true);
-
-        invokeListenerMethod(listener, description.method, eventObject);
-        invokeListenerMethod(listener, description.method, eventObject);
-
-        verify(consumer, times(1)).accept(eventObject, "A");
-        verify(supplier, times(1)).get();
-        verify(predicate, times(2)).test(eventObject);
-    }
-
-
-    void biConsumerTransformedWithParamSupplier(EventMethodTestCase description) {
-        BiConsumer consumer = mock(BiConsumer.class);
-        Function transformFunc = mock(Function.class);
-        Supplier supplier = mock(Supplier.class);
-
-        EventMethod<?, ?> testEventMethod = description.eventMethod;
-
-        CompilerHelper<String, String> compilerHelper = new CompilerHelper(consumer);
-        Object listener = testEventMethod.listener(compilerHelper::consume, transformFunc, supplier);
-
-        Object eventObject = description.newEventObject();
-        when(supplier.get()).thenReturn("B");
-        when(transformFunc.apply(eventObject)).thenReturn("A");
-
-        invokeListenerMethod(listener, description.method, eventObject);
-
-        verify(consumer, times(1)).accept("A", "B");
-        verify(supplier, times(1)).get();
-    }
-
-    void biConsumerFilteredTransformedWithParamSupplier(EventMethodTestCase description) {
-        BiConsumer consumer = mock(BiConsumer.class);
-        Function transformFunc = mock(Function.class);
-        Predicate predicate = mock(Predicate.class);
-        Supplier supplier = mock(Supplier.class);
-
-        EventMethod<?, ?> testEventMethod = description.eventMethod;
-
-        CompilerHelper<String, String> compilerHelper = new CompilerHelper(consumer);
-        Object listener = testEventMethod.listener(compilerHelper::consume, transformFunc, supplier, predicate);
-
-        Object eventObject = description.newEventObject();
-        when(supplier.get()).thenReturn("B");
-        when(transformFunc.apply(eventObject)).thenReturn("A");
-        when(predicate.test(eventObject)).thenReturn(false).thenReturn(true);
-
-        invokeListenerMethod(listener, description.method, eventObject);
-        invokeListenerMethod(listener, description.method, eventObject);
-
-        verify(consumer, times(1)).accept("A", "B");
-        verify(supplier, times(1)).get();
-        verify(predicate, times(2)).test(eventObject);
-    }
-
-
 }
