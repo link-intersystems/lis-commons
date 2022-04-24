@@ -64,6 +64,19 @@ public class SomeBean {
 
     private String[] indexedOnlyProperty = new String[10];
 
+    public static EventSetDescriptor getPropertyChangeEventDescriptor() {
+        try {
+            BeanInfo beanInfo = Introspector.getBeanInfo(SomeBean.class);
+            return stream(beanInfo.getEventSetDescriptors())
+                    .filter(ed -> ed.getName().equals("propertyChange"))
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalStateException());
+        } catch (IntrospectionException e) {
+            throw new RuntimeException(e);
+
+        }
+    }
+
     public String getStringProperty() {
         return stringProperty;
     }
@@ -128,11 +141,11 @@ public class SomeBean {
         return indexedPropertyReadOnlyIndexOnlyAccess[index];
     }
 
-    public void setIndexedOnlyProperty(int index, String value){
+    public void setIndexedOnlyProperty(int index, String value) {
         indexedOnlyProperty[index] = value;
     }
 
-    public String getIndexedOnlyProperty(int index){
+    public String getIndexedOnlyProperty(int index) {
         return indexedOnlyProperty[index];
     }
 

@@ -24,11 +24,9 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
-import java.util.Arrays;
-import java.util.Formattable;
-import java.util.Formatter;
-import java.util.Objects;
+import java.util.*;
 
+import static java.util.FormattableFlags.ALTERNATE;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -66,7 +64,7 @@ import static java.util.Objects.requireNonNull;
  * the {@link JavaProperty}'s type.
  * @since 1.2.0;
  */
-public class JavaProperty implements Serializable, Formattable, Property {
+public class JavaProperty implements Serializable, Property {
 
     private static final long serialVersionUID = -6759158627808430975L;
 
@@ -103,16 +101,6 @@ public class JavaProperty implements Serializable, Formattable, Property {
      */
     public String getName() {
         return getPropertyDesc().getName();
-    }
-
-    /**
-     * The name of this {@link JavaProperty}.
-     *
-     * @return name of this {@link JavaProperty}.
-     * @since 1.2.0;
-     */
-    public String getDisplayName() {
-        return getJavaPropertyDescriptor().getDisplayName();
     }
 
     /**
@@ -209,15 +197,6 @@ public class JavaProperty implements Serializable, Formattable, Property {
         Object beanValue = method.invoke(target, args);
         return beanValue;
     }
-
-    /**
-     * @since 1.2.0;
-     */
-    @Override
-    public void formatTo(Formatter formatter, int flags, int width, int precision) {
-        formatter.format("%s.%s", getBean().getBeanObject().getClass().getCanonicalName(), getName());
-    }
-
 
     /**
      * Returns true if this property is readable (has a getter method).

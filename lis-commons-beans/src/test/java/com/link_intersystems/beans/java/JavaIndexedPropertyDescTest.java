@@ -7,8 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.beans.IntrospectionException;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
@@ -36,5 +35,15 @@ public class JavaIndexedPropertyDescTest {
         assertTrue(someBeanFixture.stringArrayPropertyDescriptor.isIndexedWritable());
         assertTrue(someBeanFixture.writeOnlyIndexedPropertyDescriptor.isIndexedWritable());
         assertFalse(someBeanFixture.readOnlyIndexedPropertyDescriptor.isIndexedWritable());
+    }
+
+    @Test
+    void getTypeByIndexedWriteMethod() {
+        assertEquals(String[].class, someBeanFixture.indexedPropertyWriteOnlyIndexOnlyAccessDescriptor.getType());
+    }
+
+    @Test
+    void getTypeByIndexedReadMethod() {
+        assertEquals(String[].class, someBeanFixture.indexedPropertyReadOnlyIndexOnlyAccessDescriptor.getType());
     }
 }

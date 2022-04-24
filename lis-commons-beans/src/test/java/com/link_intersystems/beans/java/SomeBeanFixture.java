@@ -16,9 +16,13 @@ public class SomeBeanFixture {
     public final JavaIndexedProperty readOnlyIndexedProperty;
     public final JavaIndexedProperty writeOnlyIndexedProperty;
     public final JavaIndexedProperty stringArrayProperty;
+
     public final JavaIndexedPropertyDesc readOnlyIndexedPropertyDescriptor;
     public final JavaIndexedPropertyDesc writeOnlyIndexedPropertyDescriptor;
     public final JavaIndexedPropertyDesc stringArrayPropertyDescriptor;
+    public final JavaIndexedPropertyDesc indexedPropertyWriteOnlyIndexOnlyAccessDescriptor;
+    public final JavaIndexedPropertyDesc indexedPropertyReadOnlyIndexOnlyAccessDescriptor;
+
     public final JavaBean<SomeBean> bean;
     public final JavaPropertyDesc readOnlyPropertyDescriptor;
     public final JavaProperty readOnlyProperty;
@@ -26,6 +30,8 @@ public class SomeBeanFixture {
     public final JavaProperty writeOnlyProperty;
     public final JavaPropertyDesc stringPropertyDescriptor;
     public final JavaProperty stringProperty;
+    private final JavaProperty indexedPropertyWriteOnlyIndexOnlyAccessProperty;
+    private final JavaProperty indexedPropertyReadOnlyIndexOnlyAccessProperty;
 
 
     public SomeBeanFixture(TestBeansFactory beansFactory) throws IntrospectionException, BeanClassException {
@@ -62,6 +68,14 @@ public class SomeBeanFixture {
         PropertyDescriptor stringPropertyDescriptor = propertyDescriptors.getByName("stringProperty");
         this.stringPropertyDescriptor = new JavaPropertyDesc(stringPropertyDescriptor);
         stringProperty = new JavaProperty(bean, this.stringPropertyDescriptor);
+
+        PropertyDescriptor indexedPropertyWriteOnlyIndexOnlyAccess = propertyDescriptors.getByName("indexedPropertyWriteOnlyIndexOnlyAccess");
+        this.indexedPropertyWriteOnlyIndexOnlyAccessDescriptor = new JavaIndexedPropertyDesc((IndexedPropertyDescriptor) indexedPropertyWriteOnlyIndexOnlyAccess);
+        indexedPropertyWriteOnlyIndexOnlyAccessProperty = new JavaProperty(bean, this.stringPropertyDescriptor);
+
+        PropertyDescriptor indexedPropertyReadOnlyIndexOnlyAccess = propertyDescriptors.getByName("indexedPropertyReadOnlyIndexOnlyAccess");
+        this.indexedPropertyReadOnlyIndexOnlyAccessDescriptor = new JavaIndexedPropertyDesc((IndexedPropertyDescriptor) indexedPropertyReadOnlyIndexOnlyAccess);
+        indexedPropertyReadOnlyIndexOnlyAccessProperty = new JavaProperty(bean, this.indexedPropertyReadOnlyIndexOnlyAccessDescriptor);
     }
 
     private static SomeBean createSomeBean() {
