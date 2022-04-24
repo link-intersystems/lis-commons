@@ -1,9 +1,11 @@
 package com.link_intersystems.beans;
 
 /**
- * A {@link BeanEvent} provies access to the event mechanism of {@link Bean}s.
+ * A {@link BeanEvent} provides access to the event mechanism of a {@link Bean} instance.
  *
  * @author René Link {@literal <rene.link@link-intersystems.com>}
+ *
+ * @see Bean#getApplicableBeanEvent(Object)
  */
 public interface BeanEvent {
 
