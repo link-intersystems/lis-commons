@@ -10,8 +10,8 @@ import static java.util.stream.Collectors.toList;
  */
 public abstract class BeanClass<T> {
 
-    private static final Predicate<? super PropertyDesc> INDEXED_PROPERTY_FILTER = jpd -> jpd instanceof IndexedPropertyDesc;
-    private static final Predicate<? super PropertyDesc> NO_INDEXED_PROPERTY_FILTER = jpd -> !INDEXED_PROPERTY_FILTER.test(jpd);
+    protected static final Predicate<? super PropertyDesc> INDEXED_PROPERTY_FILTER = jpd -> jpd instanceof IndexedPropertyDesc;
+    protected static final Predicate<? super PropertyDesc> NO_INDEXED_PROPERTY_FILTER = jpd -> !INDEXED_PROPERTY_FILTER.test(jpd);
 
     private transient PropertyDescList properties;
     private transient PropertyDescList indexedProperties;
@@ -19,7 +19,6 @@ public abstract class BeanClass<T> {
     public abstract String getName();
 
     public abstract Class<T> getType();
-
 
     public boolean isInstance(Object bean){
         return getType().isInstance(bean);

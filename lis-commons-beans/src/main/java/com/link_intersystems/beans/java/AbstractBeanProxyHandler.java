@@ -33,10 +33,6 @@ public abstract class AbstractBeanProxyHandler<T> extends AbstractInvocationHand
         return null;
     }
 
-    protected JavaPropertyDescriptors getPropertyDescriptors() {
-        return beanClass.getJavaPropertyDescriptors();
-    }
-
     protected JavaBeanClass<T> getBeanClass() {
         return beanClass;
     }

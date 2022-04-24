@@ -26,7 +26,6 @@ import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.List;
-import java.util.function.Predicate;
 
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toList;
@@ -43,9 +42,6 @@ import static java.util.stream.Collectors.toList;
 public class JavaBeanClass<T> extends BeanClass<T> implements Serializable {
 
     private static final long serialVersionUID = -5446272789930350423L;
-    private static final Predicate<? super JavaPropertyDesc> INDEXED_PROPERTY_FILTER = jpd -> jpd instanceof JavaIndexedPropertyDesc;
-    private static final Predicate<? super JavaPropertyDesc> NO_INDEXED_PROPERTY_FILTER = jpd -> !INDEXED_PROPERTY_FILTER.test(jpd);
-
 
     private BeanInfo beanInfo;
 
