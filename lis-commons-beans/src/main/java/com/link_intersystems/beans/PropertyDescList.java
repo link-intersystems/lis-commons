@@ -1,11 +1,10 @@
 package com.link_intersystems.beans;
 
-import com.link_intersystems.util.Equality;
-
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 /**
@@ -38,8 +37,8 @@ public class PropertyDescList extends AbstractList<PropertyDesc> {
         return getByName(propertyName, Objects::equals);
     }
 
-    public PropertyDesc getByName(String propertyName, Equality<String> nameEquality) {
-        return stream().filter(pd -> nameEquality.isEqual(propertyName, pd.getName())).findFirst().orElse(null);
+    public PropertyDesc getByName(String propertyName, BiFunction<String, String, Boolean> nameEquality) {
+        return stream().filter(pd -> nameEquality.apply(propertyName, pd.getName())).findFirst().orElse(null);
     }
 
     @Override

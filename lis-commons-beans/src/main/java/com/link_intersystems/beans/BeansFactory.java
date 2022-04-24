@@ -3,8 +3,8 @@ package com.link_intersystems.beans;
 import java.util.List;
 import java.util.ServiceLoader;
 import java.util.stream.Collectors;
-
-import static com.link_intersystems.util.Iterators.toStream;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
@@ -22,7 +22,8 @@ public abstract class BeansFactory {
 
     public static BeansFactory getInstance(String type) {
         ServiceLoader<BeansFactory> loader = ServiceLoader.load(BeansFactory.class);
-        List<BeansFactory> beansFactories = toStream(loader)
+        Stream<BeansFactory> beansFactoryStream = StreamSupport.stream(loader.spliterator(), false);
+        List<BeansFactory> beansFactories = beansFactoryStream
                 .filter(bf -> bf.getTypeName().equals(type))
                 .collect(Collectors.toList());
 

@@ -19,8 +19,7 @@ Overview of the module dependencies:
 
     lis-commons-lang (0 dep)
 
-    lis-commons-beans (1 deps)
-    +- lis-commons-util
+    lis-commons-beans (0 deps)
 
     lis-commons-lang-criteria (3 deps)
     +- lis-commons-lang
