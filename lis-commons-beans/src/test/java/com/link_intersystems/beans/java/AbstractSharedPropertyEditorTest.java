@@ -21,8 +21,7 @@ class AbstractSharedPropertyEditorTest {
     @BeforeEach
     void setUp() {
         propertyEditor = Mockito.mock(PropertyEditor.class);
-        sharedPropertyEditor = new AbstractSharedPropertyEditor(propertyEditor) {
-        };
+        sharedPropertyEditor = new DefaultSharedPropertyEditor(propertyEditor);
     }
 
     @Test
