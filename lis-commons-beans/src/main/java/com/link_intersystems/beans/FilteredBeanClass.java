@@ -8,12 +8,12 @@ import static java.util.stream.Collectors.toList;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class FilteredBeanClass<T> extends BeanClass<T> {
+class FilteredBeanClass<T> extends BeanClass<T> {
 
     private BeanClass<T> beanClass;
     private PropertyDescFilter propertyFilter;
 
-    public FilteredBeanClass(BeanClass<T> beanClass, PropertyDescFilter propertyFilter) {
+    FilteredBeanClass(BeanClass<T> beanClass, PropertyDescFilter propertyFilter) {
         this.beanClass = requireNonNull(beanClass);
         this.propertyFilter = requireNonNull(propertyFilter);
     }

@@ -1,6 +1,7 @@
 package com.link_intersystems.beans.java;
 
 import com.link_intersystems.beans.BeanClassException;
+import com.link_intersystems.beans.BeanEventTypeList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,6 +21,12 @@ class BeanClassTest {
     @BeforeEach
     void setUp(TestBeansFactory beansFactory) throws BeanClassException {
         someBeanClass = beansFactory.createBeanClass(SomeBean.class);
+    }
+
+    @Test
+    void getBeanEventTypes() throws NoSuchMethodException, SecurityException {
+        BeanEventTypeList beanEventTypes = someBeanClass.getBeanEventTypes();
+        assertEquals(1, beanEventTypes.size());
     }
 
     @Test

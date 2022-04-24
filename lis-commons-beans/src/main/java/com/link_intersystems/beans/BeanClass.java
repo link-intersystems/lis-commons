@@ -20,7 +20,7 @@ public abstract class BeanClass<T> {
 
     public abstract Class<T> getType();
 
-    public boolean isInstance(Object bean){
+    public boolean isInstance(Object bean) {
         return getType().isInstance(bean);
     }
 
@@ -93,4 +93,7 @@ public abstract class BeanClass<T> {
                 .anyMatch(be -> be.isApplicable(listenerClass));
     }
 
+    public BeanClass<T> filter(PropertyDescFilter propertyDescFilter) {
+        return new FilteredBeanClass<>(this, propertyDescFilter);
+    }
 }
