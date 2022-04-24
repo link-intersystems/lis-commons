@@ -39,8 +39,6 @@ public class NoSuchPropertyException extends PropertyException {
 
     @Override
     public String getLocalizedMessage() {
-        String localizedMessage = Messages.formatNoSuchProperty(getBeanType(),
-                getPropertyName());
-        return localizedMessage;
+        return Messages.formatNoSuchProperty(getBeanType(), getPropertyName());
     }
 }

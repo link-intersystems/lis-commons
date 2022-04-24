@@ -35,8 +35,7 @@ abstract class Messages {
 
     static ResourceBundle get() {
         String baseName = Messages.class.getPackage().getName() + ".messages";
-        ResourceBundle resourceBundle = ResourceBundle.getBundle(baseName);
-        return resourceBundle;
+        return ResourceBundle.getBundle(baseName);
     }
 
     public static String formatNoSuchProperty(Class<?> beanClass,
@@ -44,25 +43,7 @@ abstract class Messages {
         requireNonNull(beanClass);
         ResourceBundle resourceBundle = get();
         String template = resourceBundle.getString("noSuchProperty");
-        String message = String.format(template, beanClass.getCanonicalName(),
-                propertyName);
-        return message;
-    }
-
-    public static String formatPropertyNotReadable(Property property) {
-        return formatPropertyMessage(property, "propertyNotReadable");
-    }
-
-    private static String formatPropertyMessage(Property property,
-                                                String messageBundleKey) {
-        ResourceBundle resourceBundle = Messages.get();
-        String template = resourceBundle.getString(messageBundleKey);
-        String message = String.format(template, property);
-        return message;
-    }
-
-    public static String formatPropertyNotWritable(Property property) {
-        return formatPropertyMessage(property, "propertyNotWritable");
+        return String.format(template, beanClass.getCanonicalName(), propertyName);
     }
 
 }
