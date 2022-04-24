@@ -1,13 +1,12 @@
 package com.link_intersystems.beans;
 
-import com.link_intersystems.lang.ref.Reference;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-public class PropertyChangeSourceSupport<T> implements Reference<T> {
+public class PropertyChangeSourceSupport<T> {
 
     private PropertyChangeListenerAdapter adapter = new PropertyChangeListenerAdapter();
     private Bean<T> referent;

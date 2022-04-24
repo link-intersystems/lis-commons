@@ -19,7 +19,6 @@ import com.link_intersystems.beans.BeanClass;
 import com.link_intersystems.beans.BeanEventTypeList;
 import com.link_intersystems.beans.BeanInstantiationException;
 import com.link_intersystems.beans.PropertyDescList;
-import com.link_intersystems.lang.reflect.SignaturePredicate;
 
 import java.beans.*;
 import java.io.Serializable;
@@ -110,10 +109,9 @@ public class JavaBeanClass<T> extends BeanClass<T> implements Serializable {
             return false;
         }
         JavaPropertyDescriptors propertyDescriptors = getJavaPropertyDescriptors();
-        SignaturePredicate predicate = new SignaturePredicate(method);
 
         return propertyDescriptors.stream()
-                .anyMatch(pd -> PropertyDescriptor2AccessorsTransformer.INSTANCE.apply(pd).stream().anyMatch(predicate));
+                .anyMatch(pd -> PropertyDescriptor2AccessorsTransformer.INSTANCE.apply(pd).stream().anyMatch(method::equals));
     }
 
     /**

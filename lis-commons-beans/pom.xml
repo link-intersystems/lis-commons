@@ -16,6 +16,7 @@
         <dependency>
             <groupId>com.link-intersystems.commons</groupId>
             <artifactId>lis-commons-lang</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.link-intersystems.commons</groupId>

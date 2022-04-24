@@ -1,9 +1,9 @@
 package com.link_intersystems.beans.java;
 
 import com.link_intersystems.beans.IndexedPropertyDesc;
-import com.link_intersystems.lang.reflect.ArrayType;
 
 import java.beans.IndexedPropertyDescriptor;
+import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 
 /**
@@ -70,8 +70,7 @@ public class JavaIndexedPropertyDesc extends JavaPropertyDesc implements Indexed
                         Class<?>[] parameterTypes = indexedWriteMethod.getParameterTypes();
                         elementType = parameterTypes[INDEXED_SETTER_TYPE_PARAM_INDEX];
                     }
-                    ArrayType<?> arrayType = new ArrayType<>(elementType);
-                    this.type = arrayType.getType();
+                    this.type = Array.newInstance(elementType, 0).getClass();
                 }
             }
         }

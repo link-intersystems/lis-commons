@@ -19,13 +19,14 @@ Overview of the module dependencies:
 
     lis-commons-lang (0 dep)
 
+    lis-commons-beans (0 deps)
+
     lis-commons-lang-criteria (3 deps)
     +- lis-commons-lang
     +- lis-commons-util
     +- lis-commons-graph
 
-    lis-commons-beans (1 deps)
-    +- lis-commons-lang
+    
 
 The modules are available in the [central maven repository](https://repo.maven.apache.org/maven2/com/link-intersystems/commons/).
 
