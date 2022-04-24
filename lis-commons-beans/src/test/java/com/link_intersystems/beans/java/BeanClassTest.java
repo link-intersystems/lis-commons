@@ -25,7 +25,7 @@ class BeanClassTest {
     @Test
     void getPropertyDescriptorWrongClassProperty() throws NoSuchMethodException, SecurityException {
         Method method = BeanClassTest.class.getDeclaredMethod("getPropertyDescriptorWrongClassPropertyMethod");
-        JavaPropertyDesc javaPropertyDesc = someBeanClass.getProperties().getByMethod(method);
+        JavaPropertyDesc javaPropertyDesc = someBeanClass.getPropertyDescByMethod(method);
         assertNull(javaPropertyDesc, "javaPropertyDesc");
     }
 
@@ -35,14 +35,14 @@ class BeanClassTest {
 
     @Test
     void getPropertyDescriptorByGetter() throws NoSuchMethodException, SecurityException {
-        PropertyDescriptor propertyDescriptor = someBeanClass.getProperties().getByMethod(SomeBean.class.getDeclaredMethod("getStringProperty")).getJavaPropertyDescriptor();
+        PropertyDescriptor propertyDescriptor = someBeanClass.getPropertyDescByMethod(SomeBean.class.getDeclaredMethod("getStringProperty")).getJavaPropertyDescriptor();
         assertNotNull(propertyDescriptor, "propertyDescriptor");
         assertEquals("stringProperty", propertyDescriptor.getName());
     }
 
     @Test
     void getPropertyDescriptorBySetter() throws NoSuchMethodException, SecurityException {
-        PropertyDescriptor propertyDescriptor = someBeanClass.getProperties().getByMethod(SomeBean.class.getDeclaredMethod("setStringProperty", String.class)).getJavaPropertyDescriptor();
+        PropertyDescriptor propertyDescriptor = someBeanClass.getPropertyDescByMethod(SomeBean.class.getDeclaredMethod("setStringProperty", String.class)).getJavaPropertyDescriptor();
         assertNotNull(propertyDescriptor, "propertyDescriptor");
         assertEquals("stringProperty", propertyDescriptor.getName());
     }
@@ -50,18 +50,17 @@ class BeanClassTest {
     @Test
     void consistency() throws SecurityException {
         JavaPropertyDescriptors propertyDescriptors = someBeanClass.getJavaPropertyDescriptors();
-        JavaPropertyDescList someBeanProperties = someBeanClass.getAllProperties();
 
         for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
             Method readMethod = propertyDescriptor.getReadMethod();
             if (readMethod != null) {
-                PropertyDescriptor propertyDescriptorByMethod = someBeanProperties.getByMethod(readMethod).getJavaPropertyDescriptor();
+                PropertyDescriptor propertyDescriptorByMethod = someBeanClass.getPropertyDescByMethod(readMethod).getJavaPropertyDescriptor();
                 assertSame(propertyDescriptor, propertyDescriptorByMethod);
             }
 
             Method writeMethod = propertyDescriptor.getWriteMethod();
             if (writeMethod != null) {
-                PropertyDescriptor propertyDescriptorByMethod = someBeanProperties.getByMethod(writeMethod).getJavaPropertyDescriptor();
+                PropertyDescriptor propertyDescriptorByMethod = someBeanClass.getPropertyDescByMethod(writeMethod).getJavaPropertyDescriptor();
                 assertSame(propertyDescriptor, propertyDescriptorByMethod);
             }
         }

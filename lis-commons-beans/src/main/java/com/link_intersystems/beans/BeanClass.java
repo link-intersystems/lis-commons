@@ -1,62 +1,89 @@
 package com.link_intersystems.beans;
 
+import java.util.List;
+import java.util.function.Predicate;
+
+import static java.util.stream.Collectors.toList;
+
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public interface BeanClass<T> {
+public abstract class BeanClass<T> {
 
-    String getName();
+    private static final Predicate<? super PropertyDesc> INDEXED_PROPERTY_FILTER = jpd -> jpd instanceof IndexedPropertyDesc;
+    private static final Predicate<? super PropertyDesc> NO_INDEXED_PROPERTY_FILTER = jpd -> !INDEXED_PROPERTY_FILTER.test(jpd);
 
-    Class<T> getType();
+    private transient PropertyDescList properties;
+    private transient PropertyDescList indexedProperties;
+
+    public abstract String getName();
+
+    public abstract Class<T> getType();
 
     /**
      * Creates a new {@link Bean} of this class that has
      * a new bean instance that can be retrieved by {@link Bean#getBeanObject()}.
      */
-    Bean<T> newBeanInstance() throws BeanInstantiationException;
+    public abstract Bean<T> newBeanInstance() throws BeanInstantiationException;
 
-    default T newInstance() throws BeanInstantiationException {
+    public T newInstance() throws BeanInstantiationException {
         return newBeanInstance().getBeanObject();
     }
 
     /**
      * Returns a {@link Bean} based on the given bean instance.
      */
-    Bean<T> getBeanFromInstance(T bean);
+    public abstract Bean<T> getBeanFromInstance(T bean);
 
-    PropertyDescList getProperties();
+    public PropertyDescList getProperties() {
+        if (this.properties == null) {
+            List<PropertyDesc> propertyDescs = getAllProperties().stream()
+                    .filter(NO_INDEXED_PROPERTY_FILTER)
+                    .collect(toList());
+            this.properties = new PropertyDescList(propertyDescs);
+        }
+        return properties;
+    }
 
-    PropertyDescList getIndexedProperties();
+    public PropertyDescList getIndexedProperties() {
+        if (this.indexedProperties == null) {
+            List<PropertyDesc> propertyDescs = getAllProperties().stream()
+                    .filter(INDEXED_PROPERTY_FILTER)
+                    .collect(toList());
+            this.indexedProperties = new PropertyDescList(propertyDescs);
+        }
+        return indexedProperties;
+    }
 
-    PropertyDescList getAllProperties();
+    public abstract PropertyDescList getAllProperties();
 
 
     /**
      * @return true if either a simple property or an indexed property with the
      * given name exists.
      */
-    default public boolean hasAnyProperty(String propertyName) {
+    public boolean hasAnyProperty(String propertyName) {
         return hasProperty(propertyName) || hasIndexedProperty(propertyName);
     }
 
-    default boolean hasProperty(String propertyName) {
+    boolean hasProperty(String propertyName) {
         return getProperties().stream()
                 .map(PropertyDesc::getName)
                 .anyMatch(propertyName::equals);
     }
 
-    default boolean hasIndexedProperty(String propertyName) {
+    boolean hasIndexedProperty(String propertyName) {
         return getIndexedProperties().stream()
                 .map(PropertyDesc::getName)
                 .anyMatch(propertyName::equals);
     }
 
 
-    default BeanEventTypeList getBeanEventTypes() {
+    public BeanEventTypeList getBeanEventTypes() {
         return BeanEventTypeList.EMPTY;
     }
 
-    default boolean isListenerSupported(Class<?> listenerClass) {
+    public boolean isListenerSupported(Class<?> listenerClass) {
         return getBeanEventTypes()
                 .stream()
                 .anyMatch(be -> be.isApplicable(listenerClass));

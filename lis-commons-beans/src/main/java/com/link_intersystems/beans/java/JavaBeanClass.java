@@ -18,6 +18,7 @@ package com.link_intersystems.beans.java;
 import com.link_intersystems.beans.BeanClass;
 import com.link_intersystems.beans.BeanEventTypeList;
 import com.link_intersystems.beans.BeanInstantiationException;
+import com.link_intersystems.beans.PropertyDescList;
 import com.link_intersystems.lang.reflect.SignaturePredicate;
 
 import java.beans.*;
@@ -39,7 +40,7 @@ import static java.util.stream.Collectors.toList;
  * intersystems.com]</a>
  * @since 1.2.0;
  */
-public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
+public class JavaBeanClass<T> extends BeanClass<T> implements Serializable {
 
     private static final long serialVersionUID = -5446272789930350423L;
     private static final Predicate<? super JavaPropertyDesc> INDEXED_PROPERTY_FILTER = jpd -> jpd instanceof JavaIndexedPropertyDesc;
@@ -52,9 +53,7 @@ public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
 
     private transient List<JavaPropertyDesc> javaPropertyDescs;
 
-    private transient JavaPropertyDescList properties;
-    private transient JavaPropertyDescList indexedProperties;
-    private transient JavaPropertyDescList allProperties;
+    private transient PropertyDescList allProperties;
 
     private BeanEventTypeList beanEventTypes;
 
@@ -171,34 +170,13 @@ public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
     }
 
     @Override
-    public JavaPropertyDescList getProperties() {
-        if (this.properties == null) {
-            List<JavaPropertyDesc> javaPropertyDescs = getJavaPropertyDescs().stream()
-                    .filter(NO_INDEXED_PROPERTY_FILTER)
-                    .collect(toList());
-            this.properties = new JavaPropertyDescList(javaPropertyDescs);
-        }
-        return properties;
-    }
-
-    @Override
-    public JavaPropertyDescList getIndexedProperties() {
-        if (this.indexedProperties == null) {
-            List<JavaPropertyDesc> javaPropertyDescs = getJavaPropertyDescs().stream()
-                    .filter(INDEXED_PROPERTY_FILTER)
-                    .collect(toList());
-            this.indexedProperties = new JavaPropertyDescList(javaPropertyDescs);
-        }
-        return indexedProperties;
-    }
-
-    @Override
-    public JavaPropertyDescList getAllProperties() {
+    public PropertyDescList getAllProperties() {
         if (this.allProperties == null) {
-            this.allProperties = new JavaPropertyDescList(getJavaPropertyDescs());
+            this.allProperties = new PropertyDescList(getJavaPropertyDescs());
         }
         return allProperties;
     }
+
 
     List<JavaPropertyDesc> getJavaPropertyDescs() {
         if (javaPropertyDescs == null) {
@@ -207,6 +185,14 @@ public class JavaBeanClass<T> implements Serializable, BeanClass<T> {
                     .collect(toList());
         }
         return javaPropertyDescs;
+    }
+
+    JavaPropertyDesc getPropertyDescByMethod(Method method) {
+        return getAllProperties().stream()
+                .map(JavaPropertyDesc.class::cast)
+                .filter(jpd -> jpd.hasMethod(method))
+                .findFirst()
+                .orElse(null);
     }
 
     private JavaPropertyDesc toPropertyDesc(PropertyDescriptor pd) {
