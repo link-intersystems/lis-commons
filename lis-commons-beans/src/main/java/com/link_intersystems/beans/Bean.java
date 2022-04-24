@@ -50,12 +50,6 @@ public abstract class Bean<T> {
         return indexedProperties;
     }
 
-    public <L> BeanEventSupport<T, L> newBeanEventSupport() {
-        BeanEventSupport<T, L> eventSupport = new BeanEventSupport<>();
-        eventSupport.setBean(this);
-        return eventSupport;
-    }
-
     public void removeListener(Object listener) {
         if (listener == null) {
             return;

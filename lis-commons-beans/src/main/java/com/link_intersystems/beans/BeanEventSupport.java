@@ -2,16 +2,23 @@ package com.link_intersystems.beans;
 
 import java.util.Optional;
 
-public class BeanEventSupport<B, T> {
+public class BeanEventSupport<T, L> {
 
-    private Optional<T> listener = Optional.empty();
+    private Optional<L> listener = Optional.empty();
 
-    private Optional<Bean<B>> bean = Optional.empty();
+    private Optional<Bean<T>> bean = Optional.empty();
 
     private boolean eventEnabled = true;
 
     public boolean isEventEnabled() {
         return eventEnabled;
+    }
+
+    public BeanEventSupport() {
+    }
+
+    public BeanEventSupport(Bean<T> bean) {
+        setBean(bean);
     }
 
     public void setEventEnabled(boolean enabled) {
@@ -24,11 +31,11 @@ public class BeanEventSupport<B, T> {
         this.eventEnabled = enabled;
     }
 
-    public T getListener() {
+    public L getListener() {
         return listener.orElse(null);
     }
 
-    public void setListener(T newListener) {
+    public void setListener(L newListener) {
         bean.ifPresent(b -> listener.ifPresent(b::removeListener));
 
         listener = Optional.ofNullable(newListener);
@@ -38,11 +45,11 @@ public class BeanEventSupport<B, T> {
         }
     }
 
-    public B getBean() {
+    public T getBean() {
         return bean.map(Bean::getBeanObject).orElse(null);
     }
 
-    public void setBean(Bean<B> newBean) {
+    public void setBean(Bean<T> newBean) {
         if (bean.orElse(null) == newBean) {
             return;
         }
