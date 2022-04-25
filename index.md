@@ -4,3 +4,7 @@
                 - [{{ doc.name }}]({{ site.baseurl }}{{ doc.url }})
         {% endif %}
 {% endfor %}
+
+<ul>
+    <li><a href="{{ site.baseurl }}/1.3.0-rc2-SNAPSHOT/index.html">1.3.0-rc2-SNAPSHOT</a></li>
+</ul>
