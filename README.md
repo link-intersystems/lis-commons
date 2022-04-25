@@ -31,6 +31,7 @@ Here is an overview of the module dependencies:
     
 
 The modules are available in the [central maven repository](https://repo.maven.apache.org/maven2/com/link-intersystems/commons/).
+Maven project sites are linked at [link-intersystems.github.io/lis-commons/](https://link-intersystems.github.io/lis-commons/)
 
 # lis-commons-beans
 
