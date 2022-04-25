@@ -3,11 +3,13 @@ lis-commons
 
 ![Java CI with Maven](https://github.com/link-intersystems/lis-commons/workflows/Java%20CI%20with%20Maven/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/link-intersystems/lis-commons/badge.svg?branch=master)](https://coveralls.io/github/link-intersystems/lis-commons?branch=master)
 
-A collection of reusable Java components. In order to make them reusable as possible they don't have any dependency to
-other libraries. I work hard to ensure that the libraries only depend on pure Java and have a few dependencies between
-each other. Take a look at the overview of the module dependencies below.
+A collection of reusable Java components for library and framework developers.
 
-Overview of the module dependencies:
+In order to make them as reusable as possible I try to minimize the dependencies the
+modules have down to zero. I work hard to ensure that the libraries only depend on pure Java 
+and also minimize the dependencies between the modules themselves.
+
+Here is an overview of the module dependencies:
 
     lis-commons-util (0 deps)
 
@@ -33,7 +35,7 @@ The modules are available in the [central maven repository](https://repo.maven.a
 # lis-commons-beans
 
 Provides a more easy api to handle Java bean related issues. The lis-commons-beans is shipped with
-support for the Java beans specification, but can be extended to any kind of beans.
+support for the Java beans specification, but can be extended to any kind of beans (like JPA beans).
 
     BeansFactory factory = BeansFactory.getDefault();
     Bean<DefaultButtonModel> buttonModelBean = factory.createBean(new DefaultButtonModel());
