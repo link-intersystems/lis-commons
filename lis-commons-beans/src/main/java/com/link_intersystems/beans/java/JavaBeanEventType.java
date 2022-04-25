@@ -15,7 +15,7 @@ public class JavaBeanEventType implements BeanEventType {
     private JavaBeanClass<?> javaBeanClass;
     private EventSetDescriptor eventDescriptor;
 
-    public JavaBeanEventType(JavaBeanClass<?> javaBeanClass, EventSetDescriptor eventDescriptor) {
+    JavaBeanEventType(JavaBeanClass<?> javaBeanClass, EventSetDescriptor eventDescriptor) {
         this.javaBeanClass = javaBeanClass;
         this.eventDescriptor = eventDescriptor;
     }

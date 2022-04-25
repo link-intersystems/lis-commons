@@ -38,7 +38,7 @@ public class JavaBean<T> extends Bean<T> {
     private PropertyList propertyList;
     private List<JavaProperty> javaProperties;
 
-    public JavaBean(JavaBeanClass<T> beanClass, T bean) {
+    JavaBean(JavaBeanClass<T> beanClass, T bean) {
         super(beanClass, bean);
     }
 

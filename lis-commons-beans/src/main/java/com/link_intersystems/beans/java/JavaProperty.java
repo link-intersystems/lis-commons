@@ -71,7 +71,7 @@ public class JavaProperty implements Serializable, Property {
     private JavaBean<?> bean;
     private JavaPropertyDesc propertyDescriptor;
 
-    public JavaProperty(JavaBean<?> bean, JavaPropertyDesc propertyDescriptor) {
+    JavaProperty(JavaBean<?> bean, JavaPropertyDesc propertyDescriptor) {
         this.bean = requireNonNull(bean);
         this.propertyDescriptor = requireNonNull(propertyDescriptor);
     }

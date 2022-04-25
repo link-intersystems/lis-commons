@@ -28,16 +28,23 @@ class FilteredBeanClass<T> extends BeanClass<T> {
         return beanClass.getType();
     }
 
-    @Override
-    public Bean<T> newBeanInstance() throws BeanInstantiationException {
-        Bean<T> bean = beanClass.newBeanInstance();
-        return new FilteredBean<>(this, bean, propertyFilter);
-    }
 
     @Override
-    public Bean<T> getBeanFromInstance(T bean) {
-        Bean<T> beanObj = beanClass.getBeanFromInstance(bean);
-        return new FilteredBean<>(this, beanObj, propertyFilter);
+    public BeanInstanceFactory<T> getBeanInstanceFactory(ArgumentResolver argumentResolver) {
+        BeanInstanceFactory<T> beanInstanceFactory = beanClass.getBeanInstanceFactory(argumentResolver);
+        return new BeanInstanceFactory<T>() {
+            @Override
+            public Bean<T> newBeanInstance() {
+                Bean<T> bean = beanInstanceFactory.newBeanInstance();
+                return new FilteredBean<>(FilteredBeanClass.this, bean, propertyFilter);
+            }
+
+            @Override
+            public Bean<T> fromExistingInstance(T beanObject) {
+                Bean<T> bean = beanInstanceFactory.fromExistingInstance(beanObject);
+                return new FilteredBean<>(FilteredBeanClass.this, bean, propertyFilter);
+            }
+        };
     }
 
     @Override

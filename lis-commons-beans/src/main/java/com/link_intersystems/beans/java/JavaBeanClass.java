@@ -50,11 +50,11 @@ public class JavaBeanClass<T> extends BeanClass<T> implements Serializable {
 
     private BeanEventTypeList beanEventTypes;
 
-    public JavaBeanClass(Class<T> beanType) throws BeanClassException {
+    JavaBeanClass(Class<T> beanType) throws BeanClassException {
         this(beanType, null);
     }
 
-    public JavaBeanClass(Class<T> beanType, Class<?> stopClass) throws BeanClassException {
+    JavaBeanClass(Class<T> beanType, Class<?> stopClass) throws BeanClassException {
         try {
             beanInfo = Introspector.getBeanInfo(beanType, stopClass);
         } catch (IntrospectionException e) {
@@ -117,30 +117,9 @@ public class JavaBeanClass<T> extends BeanClass<T> implements Serializable {
                 .anyMatch(pd -> PropertyDescriptor2AccessorsTransformer.INSTANCE.apply(pd).stream().anyMatch(method::equals));
     }
 
-    /**
-     * A {@link JavaBean} instance factory of this {@link JavaBeanClass}.
-     *
-     * @return creates a new {@link JavaBean} instance of this {@link JavaBeanClass}.
-     */
     @Override
-    public JavaBean<T> newBeanInstance() throws BeanInstantiationException {
-        Class<T> beanClass = getType();
-        try {
-            Constructor<T> defaultConstructor = beanClass.getDeclaredConstructor();
-            T newBeanObj = defaultConstructor.newInstance();
-            return getBeanFromInstance(newBeanObj);
-        } catch (Exception e) {
-            String msg = "Bean " + getType().getCanonicalName() +
-                    " throws an exception while invoking the default constructor." +
-                    " Does it have a public default constructor?" +
-                    " See BeanClass.getStrict(Class<T>)";
-            throw new BeanInstantiationException(msg, e);
-        }
-    }
-
-    @Override
-    public JavaBean<T> getBeanFromInstance(T bean) {
-        return new JavaBean<>(this, bean);
+    public BeanInstanceFactory<T> getBeanInstanceFactory(ArgumentResolver argumentResolver) {
+        return new JavaBeanInstanceFactory<>(this);
     }
 
     @Override

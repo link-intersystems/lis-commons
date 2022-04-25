@@ -16,7 +16,7 @@ public class JavaIndexedPropertyDesc extends JavaPropertyDesc implements Indexed
 
     private Class<?> type;
 
-    public JavaIndexedPropertyDesc(IndexedPropertyDescriptor propertyDescriptor) {
+    JavaIndexedPropertyDesc(IndexedPropertyDescriptor propertyDescriptor) {
         super(propertyDescriptor);
     }
 

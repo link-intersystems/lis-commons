@@ -1,5 +1,6 @@
 package com.link_intersystems.beans.java;
 
+import com.link_intersystems.beans.BeanClass;
 import com.link_intersystems.beans.BeanInstantiationException;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  */
 class JavaBeanClassTest {
 
-    public class UninstantiableBean {
+    public static class UninstantiableBean {
 
         private UninstantiableBean() {
         }
@@ -18,7 +19,7 @@ class JavaBeanClassTest {
 
     @Test
     void newBeanInstance() {
-        JavaBeanClass<UninstantiableBean> javaBeanClass = new JavaBeanClass<>(UninstantiableBean.class);
-        assertThrows(BeanInstantiationException.class, () -> javaBeanClass.newBeanInstance());
+        BeanClass<UninstantiableBean> javaBeanClass = new JavaBeanClass<>(UninstantiableBean.class);
+        assertThrows(BeanInstantiationException.class, javaBeanClass::newBeanInstance);
     }
 }

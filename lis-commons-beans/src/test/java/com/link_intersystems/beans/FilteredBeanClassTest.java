@@ -12,8 +12,7 @@ import java.beans.IntrospectionException;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -24,7 +23,7 @@ import static org.mockito.Mockito.verify;
 class FilteredBeanClassTest {
 
     private SomeBeanFixture someBeanFixture;
-    private JavaBeanClass<SomeBean> someBeanClass;
+    private BeanClass<SomeBean> someBeanClass;
     private FilteredBeanClass<SomeBean> filteredBeanClass;
 
     @BeforeEach
@@ -82,7 +81,7 @@ class FilteredBeanClassTest {
 
         assertEquals(someBeanFixture.someBean, value.getSource());
         assertEquals("stringProperty", value.getPropertyName());
-        assertEquals(null, value.getOldValue());
+        assertNull(value.getOldValue());
         assertEquals("TEST", value.getNewValue());
     }
 
@@ -101,10 +100,4 @@ class FilteredBeanClassTest {
         verify(pcl, Mockito.times(0)).propertyChange(propertyChangeEventArgumentCaptor.capture());
     }
 
-
-    @Test
-    void newInstance() {
-        SomeBean someBean = filteredBeanClass.newInstance();
-        assertNotNull(someBean);
-    }
 }

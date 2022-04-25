@@ -20,7 +20,7 @@ public class JavaPropertyDesc implements PropertyDesc {
     private PropertyDescriptor propertyDescriptor;
     private Class<?> type;
 
-    public JavaPropertyDesc(PropertyDescriptor propertyDescriptor) {
+    JavaPropertyDesc(PropertyDescriptor propertyDescriptor) {
         this.propertyDescriptor = requireNonNull(propertyDescriptor);
     }
 
@@ -62,8 +62,6 @@ public class JavaPropertyDesc implements PropertyDesc {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         JavaPropertyDesc that = (JavaPropertyDesc) o;

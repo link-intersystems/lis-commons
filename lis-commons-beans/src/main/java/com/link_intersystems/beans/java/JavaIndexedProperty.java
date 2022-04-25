@@ -81,7 +81,7 @@ public class JavaIndexedProperty extends JavaProperty implements IndexedProperty
 
     private static final long serialVersionUID = 3014890786938775513L;
 
-    public JavaIndexedProperty(JavaBean<?> bean, JavaIndexedPropertyDesc indexedPropertyDescriptor) {
+    JavaIndexedProperty(JavaBean<?> bean, JavaIndexedPropertyDesc indexedPropertyDescriptor) {
         super(bean, indexedPropertyDescriptor);
     }
 

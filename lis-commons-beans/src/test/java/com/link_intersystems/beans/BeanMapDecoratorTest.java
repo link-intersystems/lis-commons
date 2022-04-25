@@ -1,8 +1,6 @@
 package com.link_intersystems.beans;
 
 import com.link_intersystems.beans.BeanMapDecorator.IndexedValue;
-import com.link_intersystems.beans.java.JavaBean;
-import com.link_intersystems.beans.java.JavaBeanClass;
 import com.link_intersystems.beans.java.SomeBean;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,11 +17,12 @@ class BeanMapDecoratorTest {
     private SomeBean someBean;
 
     @BeforeEach
-    public void setupBeanMap() throws IntrospectionException {
+    public void setupBeanMap() {
         someBean = new SomeBean();
 
 
-        JavaBean<SomeBean> containerJavaBean = new JavaBeanClass<>(SomeBean.class, Object.class).getBeanFromInstance(someBean);
+        BeansFactory beansFactory = BeansFactory.getDefault();
+        Bean<SomeBean> containerJavaBean = beansFactory.createBeanClass(SomeBean.class, Object.class).getBeanFromInstance(someBean);
         beanMapDecorator = new BeanMapDecorator(containerJavaBean);
     }
 
@@ -202,8 +201,6 @@ class BeanMapDecoratorTest {
 
     @Test
     void values() {
-        java.util.List<String> expectedPropertyNames = new ArrayList<>(SomeBean.PROPERTY_NAMES);
-
         Collection<Object> values = beanMapDecorator.values();
 
         assertEquals(SomeBean.PROPERTY_NAMES.size(), values.size());
