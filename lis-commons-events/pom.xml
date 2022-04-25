@@ -13,9 +13,4 @@
         that provide support for event and event listener based programming tasks.
     </description>
 
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
-
 </project>

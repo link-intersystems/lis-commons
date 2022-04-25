@@ -13,9 +13,4 @@
         that provide support for graph and tree related programming tasks, such as models and search algorithms.
     </description>
 
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
-
 </project>
