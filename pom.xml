@@ -121,14 +121,6 @@
         <url>https://github.com/link-intersystems/lis-commons/issues</url>
     </issueManagement>
 
-    <distributionManagement>
-        <site>
-            <id>gh-pages</id>
-            <name>Link Intersystems - Commons</name>
-            <url>scm:git:https://github.com/link-intersystems/lis-commons.git</url>
-        </site>
-    </distributionManagement>
-
     <build>
         <plugins>
             <plugin>
@@ -175,6 +167,13 @@
         </profile>
         <profile>
             <id>gh-pages</id>
+            <distributionManagement>
+                <site>
+                    <id>gh-pages</id>
+                    <name>Link Intersystems - Commons</name>
+                    <url>scm:git:https://github.com/link-intersystems/lis-commons.git</url>
+                </site>
+            </distributionManagement>
             <build>
                 <pluginManagement>
                     <plugins>
