@@ -2,6 +2,7 @@ package com.link_intersystems.test.jdbc;
 
 import java.sql.*;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 import static java.text.MessageFormat.format;
 import static java.util.Arrays.asList;
@@ -11,26 +12,24 @@ import static java.util.Arrays.asList;
  */
 public class H2InMemoryDB implements AutoCloseable {
 
-    public static boolean isSystemTable(String name) {
-        return asList(new String[]{
-                        "constants",
-                        "enum_values",
-                        "in_doubt",
-                        "index_columns",
-                        "indexes",
-                        "information_schema_catalog_name",
-                        "locks",
-                        "query_statistics",
-                        "rights",
-                        "roles",
-                        "sessions",
-                        "session_state",
-                        "settings",
-                        "synonyms",
-                        "users",
-                }
-        ).contains(name);
-    }
+    public static Predicate<String> SYSTEM_TABLE_PREDICATE = tableName -> asList(new String[]{
+                    "constants",
+                    "enum_values",
+                    "in_doubt",
+                    "index_columns",
+                    "indexes",
+                    "information_schema_catalog_name",
+                    "locks",
+                    "query_statistics",
+                    "rights",
+                    "roles",
+                    "sessions",
+                    "session_state",
+                    "settings",
+                    "synonyms",
+                    "users",
+            }
+    ).contains(tableName);
 
     private H2JdbcUrl h2JdbcUrl;
     private H2JdbcUrl connectionUrl;
