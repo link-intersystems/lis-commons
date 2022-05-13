@@ -8,9 +8,29 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
+ * {@link ConnectionMetaData} provides convenient api to access the meta-data of a jdbc connection.
+ *
+ * <pre>
+ * Connection jdbcConnection = ...;
+ * ConnectionMetaData metaData = new ConnectionMetaData(jdbcConnection);
+ *
+ * ForeignKeyList foreignKeys = metaData.getImportedKeys("film_actor");
+ *
+ * ColumnMetaDataList filmActorColumns = metaData.getColumnMetaDataList("film_actor");
+ * ForeignKey foreignKey = foreignKeys.getByFkColumnDescription(filmActorColumns.getByName("actor_id"));
+ * assertNotNull(foreignKey);
+ * assertEquals("fk_film_actor_actor", foreignKey.getName());
+ *
+ * ColumnMetaDataList actorColumns = metaData.getColumnMetaDataList("actor");
+ * foreignKey = foreignKeys.getByPkColumnDescription(actorColumns.getByName("actor_id"));
+ * assertNotNull(foreignKey);
+ * assertEquals("fk_film_actor_actor", foreignKey.getName());
+ * </pre>
+ * <img src="doc-files/sakila.png" alt="Sakila Database Diagram"/>
+ *
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class MetaDataRepository {
+public class ConnectionMetaData {
 
     private List<TableMetaData> tableMetaDataList;
     private Map<String, ColumnMetaDataList> columnMetaDataListByTableName = new HashMap<>();
@@ -21,20 +41,19 @@ public class MetaDataRepository {
 
     private JdbcContext context;
 
-
-    public MetaDataRepository(Connection connection) {
+    public ConnectionMetaData(Connection connection) {
         this(connection, new String[]{"TABLE"});
     }
 
-    public MetaDataRepository(Connection connection, String... tableTypes) {
+    public ConnectionMetaData(Connection connection, String... tableTypes) {
         this(connection, null, tableTypes);
     }
 
-    public MetaDataRepository(Connection connection, JdbcContext context) {
+    public ConnectionMetaData(Connection connection, JdbcContext context) {
         this(connection, context, "TABLE");
     }
 
-    public MetaDataRepository(Connection connection, JdbcContext context, String... tableTypes) {
+    public ConnectionMetaData(Connection connection, JdbcContext context, String... tableTypes) {
         this.connection = connection;
         this.context = context;
         this.tableTypes = tableTypes;

@@ -1,7 +1,10 @@
 package com.link_intersystems.jdbc;
 
 import java.util.AbstractList;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
@@ -14,38 +17,35 @@ public class ForeignKeyList extends AbstractList<ForeignKey> {
         this.foreignKeyList = foreignKeyList;
     }
 
-    public ForeignKey getByPkColumnDescription(ColumnDescription columnDescription) {
-        ForeignKey result = null;
-
-        ColumnDescriptionEquality equality = new ColumnDescriptionEquality(columnDescription);
-
-        foreignKeys:
-        for (ForeignKey foreignKey : this) {
-            for (ForeignKeyEntry entry : foreignKey) {
-                ColumnDescription pkColumnDescription = entry.getPkColumnDescription();
-                if (equality.equalsDescription(pkColumnDescription)) {
-                    result = foreignKey;
-                    break foreignKeys;
-                }
-            }
-        }
-
-        return result;
+    public ForeignKey getByPkColumnDescription(ColumnDescription... columnDescriptions) {
+        return getByColumnDescription(ForeignKeyEntry::getPkColumnDescription, columnDescriptions);
     }
 
-    public ForeignKey getByFkColumnDescription(ColumnDescription columnDescription) {
-        ForeignKey result = null;
+    public ForeignKey getByFkColumnDescription(ColumnDescription... columnDescriptions) {
+        return getByColumnDescription(ForeignKeyEntry::getFkColumnDescription, columnDescriptions);
+    }
 
-        ColumnDescriptionEquality equality = new ColumnDescriptionEquality(columnDescription);
+    private ForeignKey getByColumnDescription(Function<ForeignKeyEntry, ColumnDescription> descriptionSupplier, ColumnDescription... columnDescriptions) {
+        ForeignKey result = null;
 
         foreignKeys:
         for (ForeignKey foreignKey : this) {
+            List<ColumnDescription> descriptions = new ArrayList<>(Arrays.asList(columnDescriptions));
+
             for (ForeignKeyEntry entry : foreignKey) {
-                ColumnDescription pkColumnDescription = entry.getFkColumnDescription();
-                if (equality.equalsDescription(pkColumnDescription)) {
-                    result = foreignKey;
-                    break foreignKeys;
+                ColumnDescription entryDescription = descriptionSupplier.apply(entry);
+                for (int i = 0; i < descriptions.size(); i++) {
+                    ColumnDescription columnDescription = descriptions.get(i);
+                    if (ColumnDescriptionEquality.equals(entryDescription, columnDescription)) {
+                        descriptions.remove(i);
+                        i--;
+                    }
                 }
+            }
+
+            if (descriptions.isEmpty()) {
+                result = foreignKey;
+                break;
             }
         }
 

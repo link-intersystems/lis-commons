@@ -20,16 +20,16 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 @ExtendWith(SakilaTestTBExtension.class)
 @UnitTest
-class MetaDataRepositoryTest {
+class ConnectionMetaDataTest {
 
-    private MetaDataRepository metaDataRepository;
+    private ConnectionMetaData metaDataRepository;
 
     @BeforeEach
     void setUp(Connection connection) {
         JdbcContext.Builder builder = new JdbcContext.Builder();
         builder.setSchema("sakila");
         JdbcContext jdbcContext = builder.build();
-        metaDataRepository = new MetaDataRepository(connection, jdbcContext);
+        metaDataRepository = new ConnectionMetaData(connection, jdbcContext);
     }
 
     @Test
@@ -78,6 +78,21 @@ class MetaDataRepositoryTest {
         assertEquals("film_actor", foreignKeyEntry.getFkTableName());
         assertEquals("actor_id", foreignKeyEntry.getPkColumnName());
         assertEquals("actor", foreignKeyEntry.getPkTableName());
+    }
+
+    @Test
+    void foreignKeyByColumnDescription() throws SQLException {
+        ForeignKeyList foreignKeys = metaDataRepository.getImportedKeys("film_actor");
+
+        ColumnMetaDataList filmActorColumns = metaDataRepository.getColumnMetaDataList("film_actor");
+        ForeignKey foreignKey = foreignKeys.getByFkColumnDescription(filmActorColumns.getByName("actor_id"));
+        assertNotNull(foreignKey);
+        assertEquals("fk_film_actor_actor", foreignKey.getName());
+
+        ColumnMetaDataList actorColumns = metaDataRepository.getColumnMetaDataList("actor");
+        foreignKey = foreignKeys.getByPkColumnDescription(actorColumns.getByName("actor_id"));
+        assertNotNull(foreignKey);
+        assertEquals("fk_film_actor_actor", foreignKey.getName());
     }
 
     @Test
