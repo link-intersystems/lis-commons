@@ -42,4 +42,8 @@ public class ScopedDatabaseMetaData {
     public ResultSet getImportedKeys(String tableNamePattern) throws SQLException {
         return databaseMetaData.getImportedKeys(catalog, schemaPattern, tableNamePattern);
     }
+
+    public ResultSet getPrimaryKeys(String tableNamePattern) throws SQLException {
+        return databaseMetaData.getPrimaryKeys(catalog, schemaPattern, tableNamePattern);
+    }
 }

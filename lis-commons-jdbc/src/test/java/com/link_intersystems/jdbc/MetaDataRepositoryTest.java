@@ -41,6 +41,17 @@ class MetaDataRepositoryTest {
     }
 
     @Test
+    void primaryKey() throws SQLException {
+        PrimaryKey primaryKey = metaDataRepository.getPrimaryKey("film_actor");
+
+        assertEquals(2, primaryKey.size());
+
+        assertEquals("actor_id", primaryKey.get(0).getColumnName());
+        assertEquals("film_id", primaryKey.get(1).getColumnName());
+
+    }
+
+    @Test
     void columnMetaData() throws SQLException {
         ColumnMetaDataList actorColumnMetaData = metaDataRepository.getColumnMetaDataList("actor");
 
@@ -52,6 +63,7 @@ class MetaDataRepositoryTest {
         assertEquals("NO", firstNameColumnMetaData.getIsNullable());
         assertEquals(DatabaseMetaData.columnNoNulls, firstNameColumnMetaData.getNullable());
     }
+
 
     @Test
     void foreignKey() throws SQLException {

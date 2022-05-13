@@ -4,10 +4,7 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -17,6 +14,7 @@ public class MetaDataRepository {
 
     private List<TableMetaData> tableMetaDataList;
     private Map<String, ColumnMetaDataList> columnMetaDataListByTableName = new HashMap<>();
+    private Map<String, PrimaryKey> primaryKeysByTableName = new HashMap<>();
 
     private Connection connection;
     private String[] tableTypes;
@@ -73,6 +71,31 @@ public class MetaDataRepository {
 
     public List<ColumnMetaData> getColumnMetaDataList(TableMetaData jdbcTableMetaData) throws SQLException {
         return getColumnMetaDataList(jdbcTableMetaData.getTableName());
+    }
+
+    public PrimaryKey getPrimaryKey(String tableName) throws SQLException {
+        if (!primaryKeysByTableName.containsKey(tableName)) {
+            ColumnMetaDataList columnMetaDataList = getColumnMetaDataList(tableName);
+            ScopedDatabaseMetaData metaData = getScopedDatabaseMetaData();
+            ResultSet resultSet = metaData.getPrimaryKeys(tableName);
+            List<PrimaryKeyColumn> primaryKeyColumns = mapResultSet(resultSet, PrimaryKeyColumn::new);
+            PrimaryKey primaryKey = null;
+
+            if (primaryKeyColumns.size() > 0) {
+                Collections.sort(primaryKeyColumns);
+                List<ColumnMetaData> pkColumnMetaData = new ArrayList<>();
+                for (PrimaryKeyColumn primaryKeyColumn : primaryKeyColumns) {
+                    ColumnMetaData pkColumn = columnMetaDataList.getByName(primaryKeyColumn.getColumnName());
+                    pkColumnMetaData.add(pkColumn);
+                }
+                PrimaryKeyColumn primaryKeyColumn = primaryKeyColumns.get(0);
+                String primaryKeyName = primaryKeyColumn.getPrimaryKeyName();
+                primaryKey = new PrimaryKey(primaryKeyName, new ColumnMetaDataList(pkColumnMetaData));
+            }
+
+            primaryKeysByTableName.put(tableName, primaryKey);
+        }
+        return primaryKeysByTableName.get(tableName);
     }
 
     public ColumnMetaDataList getColumnMetaDataList(String tableName) throws SQLException {
