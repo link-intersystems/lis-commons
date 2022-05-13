@@ -1,6 +1,5 @@
 package com.link_intersystems.test.jdbc;
 
-import java.io.Closeable;
 import java.sql.*;
 import java.util.Objects;
 
@@ -9,7 +8,7 @@ import static java.text.MessageFormat.format;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class H2InMemoryDB implements Closeable {
+public class H2InMemoryDB implements AutoCloseable {
 
     private H2JdbcUrl h2JdbcUrl;
     private H2JdbcUrl connectionUrl;
@@ -36,7 +35,8 @@ public class H2InMemoryDB implements Closeable {
         h2JdbcUrl = new H2JdbcUrl.Builder(h2JdbcUrl).setSchema(schema).build();
     }
 
-    public void close() {
+    public void close() throws SQLException {
+        dropAllObjects();
         if (realConnection != null) {
             try {
                 realConnection.close();
@@ -45,6 +45,13 @@ public class H2InMemoryDB implements Closeable {
             }
             realConnection = null;
             connectionProxy = null;
+        }
+    }
+
+    public void dropAllObjects() throws SQLException {
+        Connection connection = getRealConnection();
+        try (Statement statement = connection.createStatement()) {
+            statement.execute("DROP ALL OBJECTS");
         }
     }
 

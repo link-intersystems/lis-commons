@@ -21,7 +21,7 @@ public class SakilaDataSetLoader {
         InputStream resourceAsStream = SakilaDataSetLoader.class.getResourceAsStream("sakila-db.xml");
         try (Statement stmt = connection.createStatement()) {
             stmt.execute("SET REFERENTIAL_INTEGRITY FALSE");
-            DatabaseConnection databaseConnection = new DatabaseConnection(connection);
+            DatabaseConnection databaseConnection = new DatabaseConnection(connection, "sakila");
             DatabaseConfig config = databaseConnection.getConfig();
             config.setProperty(DatabaseConfig.FEATURE_ALLOW_EMPTY_FIELDS, true);
             FlatXmlDataSet sakilaDataSet = new FlatXmlDataSetBuilder().build(resourceAsStream);

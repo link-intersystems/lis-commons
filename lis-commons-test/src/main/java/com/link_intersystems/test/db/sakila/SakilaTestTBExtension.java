@@ -37,10 +37,15 @@ public class SakilaTestTBExtension implements ParameterResolver, AfterTestExecut
 
     @Override
     public void handleAfterAllMethodExecutionException(ExtensionContext context, Throwable throwable) throws Throwable {
+        closeDatabase(context);
+    }
+
+    private void closeDatabase(ExtensionContext context) throws SQLException {
         ExtensionContext.Store store = context.getStore(sakilaTestDBNamespace);
         H2InMemoryDB db = (H2InMemoryDB) store.get("db");
         if (db != null) {
             db.close();
+            store.remove("db");
         }
     }
 
@@ -49,8 +54,7 @@ public class SakilaTestTBExtension implements ParameterResolver, AfterTestExecut
         ExtensionContext.Store store = extensionContext.getStore(sakilaTestDBNamespace);
         H2InMemoryDB db = (H2InMemoryDB) store.get("db");
         if (db != null) {
-            Connection connection = db.getConnection();
-            connection.rollback();
+            db.dropAllObjects();
         }
     }
 
@@ -65,18 +69,21 @@ public class SakilaTestTBExtension implements ParameterResolver, AfterTestExecut
     public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
         if (supportsParameter(parameterContext, extensionContext)) {
             ExtensionContext.Store store = extensionContext.getStore(sakilaTestDBNamespace);
-            Connection connection = (Connection) store.get("connection");
-            if (connection == null) {
+            H2InMemoryDB sakilaDB = (H2InMemoryDB) store.get("db");
+            if (sakilaDB == null) {
                 try {
-                    H2InMemoryDB sakilaDB = getSakilaDB();
+                    sakilaDB = getSakilaDB();
                     store.put("db", sakilaDB);
-                    return sakilaDB.getConnection();
                 } catch (SQLException | IOException | DatabaseUnitException e) {
                     throw new ParameterResolutionException("Unable to open sakila in-memory connection", e);
                 }
             }
 
-            return connection;
+            try {
+                return sakilaDB.getConnection();
+            } catch (SQLException e) {
+                throw new ParameterResolutionException("Unable to open sakila in-memory connection", e);
+            }
         }
         return null;
     }

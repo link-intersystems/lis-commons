@@ -8,11 +8,12 @@ import java.util.Objects;
 public class H2JdbcUrl {
 
     public static class Builder {
-        private String databaseName;
+        private String databaseName = "test";
         private String schema;
-        private boolean ignoreCase;
+        private boolean ignoreCase = true;
         private boolean autoCommit;
         private String init;
+        private boolean databaseToLower = true;
 
         public Builder() {
 
@@ -52,21 +53,23 @@ public class H2JdbcUrl {
         }
 
         public H2JdbcUrl build() {
-            return new H2JdbcUrl(databaseName, schema, ignoreCase, autoCommit, init);
+            return new H2JdbcUrl(databaseName, schema, ignoreCase, autoCommit, databaseToLower, init);
         }
     }
 
-    private String databaseName = "test";
+    private String databaseName;
     private String schema;
-    private boolean ignoreCase = true;
+    private boolean ignoreCase;
     private boolean autoCommit;
     private String init;
+    private boolean databaseToLower;
 
-    private H2JdbcUrl(String databaseName, String schema, boolean ignoreCase, boolean autoCommit, String init) {
+    private H2JdbcUrl(String databaseName, String schema, boolean ignoreCase, boolean autoCommit, boolean databaseToLower, String init) {
         this.databaseName = databaseName;
         this.schema = schema;
         this.ignoreCase = ignoreCase;
         this.autoCommit = autoCommit;
+        this.databaseToLower = databaseToLower;
         this.init = init;
     }
 
@@ -77,7 +80,6 @@ public class H2JdbcUrl {
     public String getSchema() {
         return schema;
     }
-
 
     public boolean isIgnoreCase() {
         return ignoreCase;
@@ -91,6 +93,10 @@ public class H2JdbcUrl {
         return init;
     }
 
+    public boolean isDatabaseToLower() {
+        return databaseToLower;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -98,6 +104,7 @@ public class H2JdbcUrl {
         H2JdbcUrl h2JdbcUrl = (H2JdbcUrl) o;
         return ignoreCase == h2JdbcUrl.ignoreCase
                 && autoCommit == h2JdbcUrl.autoCommit
+                && databaseToLower == h2JdbcUrl.databaseToLower
                 && Objects.equals(databaseName, h2JdbcUrl.databaseName)
                 && Objects.equals(schema, h2JdbcUrl.schema)
                 && Objects.equals(init, h2JdbcUrl.init);
@@ -105,7 +112,7 @@ public class H2JdbcUrl {
 
     @Override
     public int hashCode() {
-        return Objects.hash(databaseName, schema, ignoreCase, autoCommit, init);
+        return Objects.hash(databaseName, schema, ignoreCase, autoCommit, databaseToLower, init);
     }
 
     @Override
@@ -118,9 +125,12 @@ public class H2JdbcUrl {
             jdbcBuilder.append(";IGNORECASE=TRUE");
         }
 
-        if (getSchema() != null) {
-            jdbcBuilder.append(";SCHEMA=");
-            jdbcBuilder.append(getSchema());
+        if (isIgnoreCase()) {
+            jdbcBuilder.append(";IGNORECASE=TRUE");
+        }
+
+        if (isDatabaseToLower()) {
+            jdbcBuilder.append(";DATABASE_TO_LOWER=TRUE");
         }
 
         if (getInit() != null) {
