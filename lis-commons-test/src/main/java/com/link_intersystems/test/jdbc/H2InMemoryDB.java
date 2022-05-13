@@ -4,11 +4,33 @@ import java.sql.*;
 import java.util.Objects;
 
 import static java.text.MessageFormat.format;
+import static java.util.Arrays.asList;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
 public class H2InMemoryDB implements AutoCloseable {
+
+    public static boolean isSystemTable(String name) {
+        return asList(new String[]{
+                        "constants",
+                        "enum_values",
+                        "in_doubt",
+                        "index_columns",
+                        "indexes",
+                        "information_schema_catalog_name",
+                        "locks",
+                        "query_statistics",
+                        "rights",
+                        "roles",
+                        "sessions",
+                        "session_state",
+                        "settings",
+                        "synonyms",
+                        "users",
+                }
+        ).contains(name);
+    }
 
     private H2JdbcUrl h2JdbcUrl;
     private H2JdbcUrl connectionUrl;

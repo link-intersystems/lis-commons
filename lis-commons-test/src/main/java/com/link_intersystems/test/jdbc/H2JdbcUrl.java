@@ -133,6 +133,11 @@ public class H2JdbcUrl {
             jdbcBuilder.append(";DATABASE_TO_LOWER=TRUE");
         }
 
+        if (getSchema() != null) {
+            jdbcBuilder.append(";SCHEMA=");
+            jdbcBuilder.append(getSchema());
+        }
+
         if (getInit() != null) {
             jdbcBuilder.append(";INIT=");
             jdbcBuilder.append(getInit());
