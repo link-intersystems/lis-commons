@@ -12,7 +12,7 @@ import static java.util.Arrays.asList;
  */
 public class H2InMemoryDB implements AutoCloseable {
 
-    public static Predicate<String> SYSTEM_TABLE_PREDICATE = tableName -> asList(new String[]{
+    public static final Predicate<String> SYSTEM_TABLE_PREDICATE = tableName -> asList(new String[]{
                     "constants",
                     "enum_values",
                     "in_doubt",
