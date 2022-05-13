@@ -32,30 +32,30 @@ public class ColumnMetaData implements ColumnDescription {
     private String isGeneratedColumn;
 
     /**
-     * @param tablesResultSet a ResultSet as returned by {@link java.sql.DatabaseMetaData#getTables(String, String, String, String[])}.
+     * @param columnResultSet a ResultSet as returned by {@link java.sql.DatabaseMetaData#getColumns(String, String, String, String)}.
      */
-    public ColumnMetaData(ResultSet tablesResultSet) throws SQLException {
-        catalogName = tablesResultSet.getString("TABLE_CAT");
-        schemaName = tablesResultSet.getString("TABLE_SCHEM");
-        tableName = tablesResultSet.getString("TABLE_NAME");
-        columnName = tablesResultSet.getString("COLUMN_NAME");
-        dataType = tablesResultSet.getInt("DATA_TYPE");
-        typeName = tablesResultSet.getString("TYPE_NAME");
-        columnSize = tablesResultSet.getInt("COLUMN_SIZE");
-        decimalDigits = tablesResultSet.getInt("DECIMAL_DIGITS");
-        numPrecRadix = tablesResultSet.getInt("NUM_PREC_RADIX");
-        nullable = tablesResultSet.getInt("NULLABLE");
-        remarks = tablesResultSet.getString("REMARKS");
-        columnDefaultValue = tablesResultSet.getString("COLUMN_DEF");
-        charOctetLength = tablesResultSet.getInt("CHAR_OCTET_LENGTH");
-        ordinalPosition = tablesResultSet.getInt("ORDINAL_POSITION");
-        isNullable = tablesResultSet.getString("IS_NULLABLE");
-        scopeCatalogName = tablesResultSet.getString("SCOPE_CATALOG");
-        scopeSchemaName = tablesResultSet.getString("SCOPE_SCHEMA");
-        scopeTableName = tablesResultSet.getString("SCOPE_TABLE");
-        sourceDataType = tablesResultSet.getShort("SOURCE_DATA_TYPE");
-        isAutoincrement = tablesResultSet.getString("IS_AUTOINCREMENT");
-        isGeneratedColumn = tablesResultSet.getString("IS_GENERATEDCOLUMN");
+    public ColumnMetaData(ResultSet columnResultSet) throws SQLException {
+        catalogName = columnResultSet.getString("TABLE_CAT");
+        schemaName = columnResultSet.getString("TABLE_SCHEM");
+        tableName = columnResultSet.getString("TABLE_NAME");
+        columnName = columnResultSet.getString("COLUMN_NAME");
+        dataType = columnResultSet.getInt("DATA_TYPE");
+        typeName = columnResultSet.getString("TYPE_NAME");
+        columnSize = columnResultSet.getInt("COLUMN_SIZE");
+        decimalDigits = columnResultSet.getInt("DECIMAL_DIGITS");
+        numPrecRadix = columnResultSet.getInt("NUM_PREC_RADIX");
+        nullable = columnResultSet.getInt("NULLABLE");
+        remarks = columnResultSet.getString("REMARKS");
+        columnDefaultValue = columnResultSet.getString("COLUMN_DEF");
+        charOctetLength = columnResultSet.getInt("CHAR_OCTET_LENGTH");
+        ordinalPosition = columnResultSet.getInt("ORDINAL_POSITION");
+        isNullable = columnResultSet.getString("IS_NULLABLE");
+        scopeCatalogName = columnResultSet.getString("SCOPE_CATALOG");
+        scopeSchemaName = columnResultSet.getString("SCOPE_SCHEMA");
+        scopeTableName = columnResultSet.getString("SCOPE_TABLE");
+        sourceDataType = columnResultSet.getShort("SOURCE_DATA_TYPE");
+        isAutoincrement = columnResultSet.getString("IS_AUTOINCREMENT");
+        isGeneratedColumn = columnResultSet.getString("IS_GENERATEDCOLUMN");
     }
 
     public String getCatalogName() {

@@ -17,7 +17,7 @@ public class PrimaryKeyColumn implements Comparable<PrimaryKeyColumn> {
     private final short keySequenceNumber;
 
     /**
-     * @param primaryKeyResultSet a ResultSet as returned by {@link DatabaseMetaData#getTables(String, String, String, String[])}.
+     * @param primaryKeyResultSet a ResultSet as returned by {@link DatabaseMetaData#getPrimaryKeys(String, String, String)}.
      */
     public PrimaryKeyColumn(ResultSet primaryKeyResultSet) throws SQLException {
         catalogName = primaryKeyResultSet.getString("TABLE_CAT");
