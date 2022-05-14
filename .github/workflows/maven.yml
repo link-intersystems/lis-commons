@@ -24,7 +24,7 @@ jobs:
         cache: maven
     - uses: s4u/maven-settings-action@v2.6.0
       with:
-        servers: '[{"id": "ossrh", "username": "${ {secrets.sonatype_user} }", "password": "${ {secrets.sonatype_pass} }"}]'
+        servers: '[{"id": "ossrh", "username": "${ {secrets.SONATYPE_USER} }", "password": "${ {secrets.SONATYPE_PASS} }"}]'
     - name: Build with Maven
       env:
         COVERALLS_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
