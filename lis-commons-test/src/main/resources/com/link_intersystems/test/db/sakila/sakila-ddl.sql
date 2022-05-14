@@ -3,7 +3,7 @@ create index idx_actor_last_name on sakila.actor (last_name);
 create table sakila.actor_genre (actor_genre_id smallint not null, actor_id smallint not null, name varchar(20) not null, primary key (actor_genre_id));
 create index actor_id on sakila.actor_genre (actor_id);
 create table sakila.actor_info (actor_id smallint default 0 not null, first_name varchar(45) not null, last_name varchar(45) not null, film_info clob, primary key (actor_id, first_name, last_name));
-create table sakila.address (address_id smallint not null, address varchar(50) not null, address2 varchar(50), district varchar(20) not null, city_id smallint not null, postal_code varchar(10), phone varchar(20) not null, last_update timestamp default CURRENT_TIMESTAMP not null, primary key (address_id));
+create table sakila.address (address_id smallint not null, address varchar(50) not null, address2 varchar(50), district varchar(20), city_id smallint not null, postal_code varchar(10), phone varchar(20), last_update timestamp default CURRENT_TIMESTAMP not null, primary key (address_id));
 create index idx_fk_city_id on sakila.address (city_id);
 create table sakila.category (category_id smallint not null, name varchar(25) not null, last_update timestamp default CURRENT_TIMESTAMP not null, primary key (category_id));
 create table sakila.city (city_id smallint not null, city varchar(50) not null, country_id smallint not null, last_update timestamp default CURRENT_TIMESTAMP not null, primary key (city_id));

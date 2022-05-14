@@ -1,7 +1,6 @@
 package com.link_intersystems.test.db.sakila;
 
 import org.dbunit.DatabaseUnitException;
-import org.dbunit.database.DatabaseConfig;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
@@ -22,8 +21,6 @@ public class SakilaDataSetLoader {
         try (Statement stmt = connection.createStatement()) {
             stmt.execute("SET REFERENTIAL_INTEGRITY FALSE");
             DatabaseConnection databaseConnection = new DatabaseConnection(connection, "sakila");
-            DatabaseConfig config = databaseConnection.getConfig();
-            config.setProperty(DatabaseConfig.FEATURE_ALLOW_EMPTY_FIELDS, true);
             FlatXmlDataSet sakilaDataSet = new FlatXmlDataSetBuilder().build(resourceAsStream);
             DatabaseOperation.INSERT.execute(databaseConnection, sakilaDataSet);
             stmt.execute("SET REFERENTIAL_INTEGRITY TRUE");
