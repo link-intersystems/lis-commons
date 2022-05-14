@@ -1,12 +1,8 @@
 package com.link_intersystems.test.db.sakila;
 
-import org.dbunit.DatabaseUnitException;
-import org.dbunit.database.DatabaseConnection;
-import org.dbunit.dataset.xml.FlatXmlDataSet;
-import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
-import org.dbunit.operation.DatabaseOperation;
+import com.link_intersystems.test.jdbc.SqlScript;
 
-import java.io.InputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -17,14 +13,12 @@ import java.sql.Statement;
 public class SakilaDataSetLoader {
 
     public void execute(Connection connection) throws SQLException {
-        InputStream resourceAsStream = SakilaDataSetLoader.class.getResourceAsStream("sakila-db.xml");
         try (Statement stmt = connection.createStatement()) {
             stmt.execute("SET REFERENTIAL_INTEGRITY FALSE");
-            DatabaseConnection databaseConnection = new DatabaseConnection(connection, "sakila");
-            FlatXmlDataSet sakilaDataSet = new FlatXmlDataSetBuilder().build(resourceAsStream);
-            DatabaseOperation.INSERT.execute(databaseConnection, sakilaDataSet);
+            SqlScript sqlScript = new SqlScript(SakilaDataSetLoader.class.getResourceAsStream("sakila-db.sql"));
+            sqlScript.execute(connection);
             stmt.execute("SET REFERENTIAL_INTEGRITY TRUE");
-        } catch (DatabaseUnitException e) {
+        } catch (IOException e) {
             throw new SQLException(e);
         }
     }

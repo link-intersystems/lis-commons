@@ -6,7 +6,9 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Iterator;
 
 /**
@@ -67,6 +69,7 @@ public class SqlScript implements Iterator<String> {
             }
             if (commentCharCount == 1) {
                 sb.append('-');
+                commentCharCount = 0;
             }
             if (read == -1 || read == ';') {
                 break;
@@ -89,5 +92,19 @@ public class SqlScript implements Iterator<String> {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void execute(Connection connection) throws SQLException {
+        try (Statement stmt = connection.createStatement()) {
+            while (hasNext()) {
+                String nextSql = next();
+                String executableSql = removeWhitespaces(nextSql);
+                stmt.execute(executableSql);
+            }
+        }
+    }
+
+    private String removeWhitespaces(String sql) {
+        return sql.replaceAll("\\s+", " ").trim();
     }
 }

@@ -24,12 +24,12 @@ public class SakilaTestDBExtension implements ParameterResolver, AfterTestExecut
         H2InMemoryDB h2InMemoryDB;
         h2InMemoryDB = new H2InMemoryDB();
         h2InMemoryDB.execute("CREATE SCHEMA IF NOT EXISTS sakila");
-        h2InMemoryDB.setSchema("sakila");
+
 
         InputStream sakilaDDLInputStream = SakilaTestDBExtension.class.getResourceAsStream("sakila-ddl.sql");
         SqlScript ddlScript = new SqlScript(sakilaDDLInputStream);
         h2InMemoryDB.executeScript(ddlScript);
-
+        h2InMemoryDB.setSchema("sakila");
 
         SakilaDataSetLoader sakilaDataSetLoader = new SakilaDataSetLoader();
         h2InMemoryDB.doWithConnection(sakilaDataSetLoader::execute);

@@ -170,10 +170,7 @@ public class H2InMemoryDB implements AutoCloseable {
 
     public void executeScript(SqlScript sqlScript) throws SQLException {
         Connection connection = getRealConnection();
-        try (Statement stmt = connection.createStatement()) {
-            while (sqlScript.hasNext()) {
-                stmt.execute(sqlScript.next());
-            }
-        }
+        sqlScript.execute(connection);
+
     }
 }
