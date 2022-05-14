@@ -16,15 +16,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - uses: s4u/maven-settings-action@v2.6.0
-      with:
-        servers: '[{"id": "sonatype-snapshots", "username": "${ {secrets.sonatype_user} }", "password": "${ {secrets.sonatype_pass} }"}]'
     - name: Set up JDK 8
       uses: actions/setup-java@v3
       with:
         java-version: '8'
         distribution: 'temurin'
         cache: maven
+    - uses: s4u/maven-settings-action@v2.6.0
+      with:
+        servers: '[{"id": "sonatype-snapshots", "username": "${ {secrets.sonatype_user} }", "password": "${ {secrets.sonatype_pass} }"}]'
     - name: Build with Maven
       env:
         COVERALLS_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
