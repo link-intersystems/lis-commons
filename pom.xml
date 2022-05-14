@@ -10,7 +10,7 @@
 
     <groupId>com.link-intersystems.commons</groupId>
     <artifactId>lis-commons</artifactId>
-    <version>1.4.1-SNAPSHOT</version>
+    <version>1.4.1</version>
     <packaging>pom</packaging>
 
     <description>Link Intersystems commons (lis) is a collection of reusable software components based on pure Java.
@@ -59,33 +59,33 @@
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-lang</artifactId>
-                <version>1.4.1-SNAPSHOT</version>
+                <version>1.4.1</version>
             </dependency>
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-lang</artifactId>
-                <version>1.4.1-SNAPSHOT</version>
+                <version>1.4.1</version>
                 <type>test-jar</type>
             </dependency>
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-math</artifactId>
-                <version>1.4.1-SNAPSHOT</version>
+                <version>1.4.1</version>
             </dependency>
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-graph</artifactId>
-                <version>1.4.1-SNAPSHOT</version>
+                <version>1.4.1</version>
             </dependency>
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-util</artifactId>
-                <version>1.4.1-SNAPSHOT</version>
+                <version>1.4.1</version>
             </dependency>
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-test</artifactId>
-                <version>1.4.1-SNAPSHOT</version>
+                <version>1.4.1</version>
                 <scope>test</scope>
             </dependency>
 
@@ -114,7 +114,7 @@
         <connection>scm:git:https://github.com/link-intersystems/lis-commons.git</connection>
         <developerConnection>scm:git:https://github.com/link-intersystems/lis-commons.git</developerConnection>
         <url>https://github.com/link-intersystems/lis-commons</url>
-        <tag>HEAD</tag>
+        <tag>lis-commons-1.4.1</tag>
     </scm>
 
     <issueManagement>
