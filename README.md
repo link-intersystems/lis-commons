@@ -14,6 +14,8 @@ Here is an overview of the module dependencies:
 
     lis-commons-util (0 deps)
 
+    lis-commons-jdbc (0 deps)
+
     lis-commons-events (0 deps)
 
     lis-commons-graph (0 deps)
@@ -65,6 +67,26 @@ will output
     action performed.
     button model changed.
     button model armed: true
+
+# lis-commons-jdbc
+
+Provides a convenient api to access the meta-data of a jdbc connection
+
+
+    Connection jdbcConnection = ...;
+    ConnectionMetaData metaData = new ConnectionMetaData(jdbcConnection);
+    
+    ForeignKeyList foreignKeys = metaData.getImportedKeys("film_actor");
+    
+    ColumnMetaDataList filmActorColumns = metaData.getColumnMetaDataList("film_actor");
+    ForeignKey foreignKey = foreignKeys.getByFkColumnDescription(filmActorColumns.getByName("actor_id"));
+    assertNotNull(foreignKey);
+    assertEquals("fk_film_actor_actor", foreignKey.getName());
+    
+    ColumnMetaDataList actorColumns = metaData.getColumnMetaDataList("actor");
+    foreignKey = foreignKeys.getByPkColumnDescription(actorColumns.getByName("actor_id"));
+    assertNotNull(foreignKey);
+    assertEquals("fk_film_actor_actor", foreignKey.getName());
 
 # [lis-commons-events](lis-commons-events/README.md)
 
