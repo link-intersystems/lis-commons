@@ -10,7 +10,7 @@ import static java.util.Arrays.asList;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class H2InMemoryDB implements AutoCloseable {
+public class H2Database implements AutoCloseable {
 
     public static final Predicate<String> SYSTEM_TABLE_PREDICATE = tableName -> asList(new String[]{
                     "constants",
@@ -36,28 +36,24 @@ public class H2InMemoryDB implements AutoCloseable {
     private Connection realConnection;
     private Connection connectionProxy;
 
-    public H2InMemoryDB() {
-        h2JdbcUrl = new H2JdbcUrl.Builder().build();
+    public H2Database() {
+        this(new H2JdbcUrl.Builder().build());
+    }
+
+    public H2Database(H2JdbcUrl h2JdbcUrl) {
+        this.h2JdbcUrl = Objects.requireNonNull(h2JdbcUrl);
     }
 
     public String getDatabaseName() {
         return h2JdbcUrl.getDatabaseName();
     }
 
-    public void setDatabaseName(String databaseName) {
-        h2JdbcUrl = new H2JdbcUrl.Builder(h2JdbcUrl).setDatabaseName(databaseName).build();
-    }
-
     public String getSchema() {
         return h2JdbcUrl.getSchema();
     }
 
-    public void setSchema(String schema) {
-        h2JdbcUrl = new H2JdbcUrl.Builder(h2JdbcUrl).setSchema(schema).build();
-    }
-
     public void close() throws SQLException {
-        dropAllObjects();
+        reset();
         if (realConnection != null) {
             try {
                 realConnection.close();
@@ -69,7 +65,7 @@ public class H2InMemoryDB implements AutoCloseable {
         }
     }
 
-    public void dropAllObjects() throws SQLException {
+    public void reset() throws SQLException {
         Connection connection = getRealConnection();
         try (Statement statement = connection.createStatement()) {
             statement.execute("DROP ALL OBJECTS");
@@ -80,24 +76,12 @@ public class H2InMemoryDB implements AutoCloseable {
         return h2JdbcUrl.isIgnoreCase();
     }
 
-    public void setIgnoreCase(boolean ignoreCase) {
-        h2JdbcUrl = new H2JdbcUrl.Builder(h2JdbcUrl).setIgnoreCase(ignoreCase).build();
-    }
-
     public boolean isAutoCommit() {
         return h2JdbcUrl.isAutoCommit();
     }
 
-    public void setAutoCommit(boolean autoCommit) {
-        h2JdbcUrl = new H2JdbcUrl.Builder(h2JdbcUrl).setAutoCommit(autoCommit).build();
-    }
-
     public String getInit() {
         return h2JdbcUrl.getInit();
-    }
-
-    public void setInit(String init) {
-        h2JdbcUrl = new H2JdbcUrl.Builder(h2JdbcUrl).setInit(init).build();
     }
 
     public H2JdbcUrl getJdbcUrl() {
@@ -113,12 +97,6 @@ public class H2InMemoryDB implements AutoCloseable {
     }
 
     private Connection getRealConnection() throws SQLException {
-        if (realConnection != null && !Objects.equals(h2JdbcUrl, connectionUrl)) {
-            realConnection.close();
-            realConnection = null;
-            connectionProxy = null;
-        }
-
         if (realConnection == null) {
             H2JdbcUrl jdbcUrl = getJdbcUrl();
             connectionUrl = jdbcUrl;
@@ -128,10 +106,6 @@ public class H2InMemoryDB implements AutoCloseable {
     }
 
     public Connection getConnection() throws SQLException {
-        if (connectionProxy != null && !Objects.equals(h2JdbcUrl, connectionUrl)) {
-            connectionProxy = null;
-        }
-
         if (connectionProxy == null) {
             Connection realConnection = getRealConnection();
             connectionProxy = ReusableConnectionProxy.createProxy(realConnection);

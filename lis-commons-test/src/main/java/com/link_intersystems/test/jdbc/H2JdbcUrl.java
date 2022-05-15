@@ -14,6 +14,7 @@ public class H2JdbcUrl {
         private boolean autoCommit;
         private String init;
         private boolean databaseToLower = true;
+        private String databaseFilePath;
 
         public Builder() {
 
@@ -25,6 +26,11 @@ public class H2JdbcUrl {
             ignoreCase = h2JdbcUrl.ignoreCase;
             autoCommit = h2JdbcUrl.autoCommit;
             init = h2JdbcUrl.init;
+        }
+
+        public Builder setDatabaseFilePath(String databaseFilePath) {
+            this.databaseFilePath = databaseFilePath;
+            return this;
         }
 
         public Builder setDatabaseName(String databaseName) {
@@ -53,7 +59,14 @@ public class H2JdbcUrl {
         }
 
         public H2JdbcUrl build() {
-            return new H2JdbcUrl(databaseName, schema, ignoreCase, autoCommit, databaseToLower, init);
+            return new H2JdbcUrl(
+                    databaseFilePath,
+                    databaseName,
+                    schema,
+                    ignoreCase,
+                    autoCommit,
+                    databaseToLower,
+                    init);
         }
     }
 
@@ -63,8 +76,17 @@ public class H2JdbcUrl {
     private boolean autoCommit;
     private String init;
     private boolean databaseToLower;
+    private String databaseFilePath;
 
-    private H2JdbcUrl(String databaseName, String schema, boolean ignoreCase, boolean autoCommit, boolean databaseToLower, String init) {
+    private H2JdbcUrl(
+            String databaseFilePath,
+            String databaseName,
+            String schema,
+            boolean ignoreCase,
+            boolean autoCommit,
+            boolean databaseToLower,
+            String init) {
+        this.databaseFilePath = databaseFilePath;
         this.databaseName = databaseName;
         this.schema = schema;
         this.ignoreCase = ignoreCase;
@@ -97,6 +119,10 @@ public class H2JdbcUrl {
         return databaseToLower;
     }
 
+    public String getDatabaseFilePath() {
+        return databaseFilePath;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -117,8 +143,18 @@ public class H2JdbcUrl {
 
     @Override
     public String toString() {
-        StringBuilder jdbcBuilder = new StringBuilder("jdbc:h2:mem:");
-        jdbcBuilder.append(databaseName);
+        StringBuilder jdbcBuilder = new StringBuilder("jdbc:h2:");
+
+        if (getDatabaseFilePath() == null) {
+            jdbcBuilder.append("mem:");
+        } else {
+            jdbcBuilder.append("file:" + getDatabaseFilePath());
+        }
+
+        if (databaseName != null) {
+            jdbcBuilder.append(databaseName);
+        }
+
         jdbcBuilder.append(";DB_CLOSE_DELAY=-1");
 
         if (isIgnoreCase()) {
