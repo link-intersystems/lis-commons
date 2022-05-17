@@ -125,23 +125,10 @@ and also includes the sakila sample databases that is ready to use.
 The sakila sample database is provided by oracle's mysql database
 and published under the [BSD license](https://en.wikipedia.org/wiki/BSD_licenses).
 
-![Sakila Sample Database ERM](lis-commons-test-db/sakila.png)
-
-The sakila sample database is provided as the JUnit extension `SakilaTestDBExtension`.
-This extension is a `ParameterResolver` so that you can inject either a jdbc `Connection`
-or a `H2Database` into your tests by simply specifying them as parameters to a test method.
+For details take a look at [lis-commons-test-db](lis-commons-test-db/README.md)
 
     @ExtendWith(SakilaTestDBExtension.class)
-    class DatabaseTest {
-    
-        // Inject in before methods
-    
-        @BeforeEach
-        void setUp(Connection connection) {
-        }
-    
-        // or inject in test methods.
-    
+    class DatabaseTest { 
         @Test
         void selectSakilaDatabase(Connection connection) {
             try (Statement stmt = connection.createStatement()) {
@@ -157,9 +144,6 @@ or a `H2Database` into your tests by simply specifying them as parameters to a t
             }
         }
     }
-
-> You don't need to close or reset the `Connection` the `SakilaTestDBExtension` will provide you a clean
-> database for every test method and closes the Connection after all tests were executed.
 
 # lis-commons-util
 

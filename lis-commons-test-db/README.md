@@ -1,6 +1,18 @@
 The lis-commons-test-db library provides support for setting up test databases
 and also includes the sakila sample databases that is ready to use.
 
+# Maven Dependency
+
+Browse all versions under [mvnrepository.com](https://mvnrepository.com/artifact/com.link-intersystems.commons/lis-commons-test-db).
+
+    <dependency>
+        <groupId>com.link-intersystems.commons</groupId>
+        <artifactId>lis-commons-test-db</artifactId>
+        <scope>test</scope>
+        <version>1.4.4</version>
+    </dependency>
+
+
 # Sakila Sample Database
 
 The sakila sample database is provided by oracle's mysql database
