@@ -35,10 +35,12 @@ Here is an overview of the module dependencies:
     +- lis-commons-util
     +- lis-commons-graph
 
-    
+# Maven Dependencies
 
-The modules are available in the [central maven repository](https://repo.maven.apache.org/maven2/com/link-intersystems/commons/).
-Maven project sites are linked at [link-intersystems.github.io/lis-commons/](https://link-intersystems.github.io/lis-commons/)
+You can browse all libs and versions under [mvnrepository.com](https://mvnrepository.com/artifact/com.link-intersystems.commons)
+or in the [central maven repository](https://repo.maven.apache.org/maven2/com/link-intersystems/commons/).
+
+Maven project sites are available at [link-intersystems.github.io/lis-commons/](https://link-intersystems.github.io/lis-commons/)
 
 # lis-commons-beans
 
