@@ -53,3 +53,17 @@ or a `H2Database` into your tests by simply specifying them as parameters to a t
 
 > You don't need to close or reset the `Connection` the `SakilaTestDBExtension` will provide you a clean
 > database for every test method and closes the Connection after all tests were executed.
+
+## Sakila Database Data
+
+Take a look at [sakila-db.xml](https://raw.githubusercontent.com/link-intersystems/lis-commons/master/lis-commons-test-db/src/main/resources/com/link_intersystems/test/db/sakila/sakila-db.xml)
+or [sakila-db.sql](https://raw.githubusercontent.com/link-intersystems/lis-commons/master/lis-commons-test-db/src/main/resources/com/link_intersystems/test/db/sakila/sakila-db.sql)
+for details about the data.
+
+If you need a browsable database you can run this docker image:
+
+     docker run -d -p 3306:3306 --name sakila restsql/mysql-sakila
+
+or if you only need it temporary
+
+     docker run --rm -p 3306:3306 restsql/mysql-sakila
