@@ -29,6 +29,7 @@
         <module>lis-commons-graph</module>
         <module>lis-commons-events</module>
         <module>lis-commons-jdbc</module>
+        <module>lis-commons-test-db</module>
     </modules>
 
     <properties>
@@ -88,6 +89,13 @@
                 <version>1.4.4-SNAPSHOT</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>com.link-intersystems.commons</groupId>
+                <artifactId>lis-commons-test-db</artifactId>
+                <version>1.4.4-SNAPSHOT</version>
+                <scope>test</scope>
+            </dependency>
+
 
             <dependency>
                 <groupId>org.slf4j</groupId>

@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
@@ -41,6 +42,21 @@ public class SakilaTestDBExtensionTest {
         resultSet.next();
         int count = resultSet.getInt(1);
         assertEquals(6, count);
+    }
+
+    @Test
+    void actorTest() throws SQLException {
+        try (Statement stmt = connection.createStatement()) {
+            if (stmt.execute("select * from actor where actor_id = 1")) {
+                ResultSet actorResultSet = stmt.getResultSet();
+
+                assertTrue(actorResultSet.next(), "result set should not be empty");
+
+                assertEquals(1L, actorResultSet.getLong("actor_id"), "actor_id");
+                assertEquals("PENELOPE", actorResultSet.getString("first_name"), "first_name");
+                assertEquals("GUINESS", actorResultSet.getString("last_name"), "last_name");
+            }
+        }
     }
 
 }
