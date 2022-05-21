@@ -26,7 +26,6 @@ Here is an overview of the module dependencies:
 
     lis-commons-test (3 deps)
     +- org.junit.jupiter:junit-jupiter-api
-    +- org.junit.jupiter:junit-jupiter-api
 
     lis-commons-beans (0 deps)
 
