@@ -34,8 +34,16 @@ class ConnectionMetaDataTest {
     void tableMetaData() throws SQLException {
         TableMetaData actor = metaDataRepository.getTableMetaData("actor");
 
+        assertEquals("test", actor.getCatalogName());
         assertEquals("sakila", actor.getSchemaName());
         assertEquals("actor", actor.getTableName());
+        assertEquals("BASE TABLE", actor.getTableType());
+        assertEquals(null, actor.getTypeSchama());
+        assertEquals(null, actor.getTypeCatalog());
+        assertEquals(null, actor.getTypeName());
+        assertEquals(null, actor.getSelfReferencingColumnName());
+        assertEquals(null, actor.getRefGeneration());
+        assertEquals(null, actor.getRemarks());
     }
 
     @Test
@@ -51,15 +59,28 @@ class ConnectionMetaDataTest {
 
     @Test
     void columnMetaData() throws SQLException {
-        ColumnMetaDataList actorColumnMetaData = metaDataRepository.getColumnMetaDataList("actor");
+        ColumnMetaDataList columnMetaDataList = metaDataRepository.getColumnMetaDataList("film");
 
-        assertEquals(4, actorColumnMetaData.size());
+        assertEquals(13, columnMetaDataList.size());
 
-        ColumnMetaData firstNameColumnMetaData = actorColumnMetaData.getByName("first_name");
-        assertEquals(Types.VARCHAR, firstNameColumnMetaData.getDataType());
-        assertEquals(45, firstNameColumnMetaData.getColumnSize());
-        assertEquals("NO", firstNameColumnMetaData.getIsNullable());
-        assertEquals(DatabaseMetaData.columnNoNulls, firstNameColumnMetaData.getNullable());
+        ColumnMetaData id = columnMetaDataList.getByName("film_id");
+        assertEquals("NO", id.getIsAutoincrement());
+        assertEquals("NO", id.getIsGeneratedColumn());
+
+        ColumnMetaData title = columnMetaDataList.getByName("title");
+        assertEquals(Types.VARCHAR, title.getDataType());
+        assertEquals(255, title.getColumnSize());
+        assertEquals("NO", title.getIsNullable());
+        assertEquals(DatabaseMetaData.columnNoNulls, title.getNullable());
+        assertEquals("test", title.getCatalogName());
+        assertEquals("sakila", title.getSchemaName());
+        assertEquals("film", title.getTableName());
+
+        ColumnMetaData replacementCost = columnMetaDataList.getByName("replacement_cost");
+        assertEquals(2, replacementCost.getDecimalDigits());
+
+        ColumnMetaData lastUpdate = columnMetaDataList.getByName("last_update");
+        assertEquals("CURRENT_TIMESTAMP", lastUpdate.getColumnDefaultValue());
     }
 
 
