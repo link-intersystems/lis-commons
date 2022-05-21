@@ -1,4 +1,4 @@
-package com.link_intersystems.jdbc;
+package com.link_intersystems.jdbc.meta;
 
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;

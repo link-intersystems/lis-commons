@@ -1,5 +1,6 @@
-package com.link_intersystems.jdbc;
+package com.link_intersystems.jdbc.meta;
 
+import com.link_intersystems.jdbc.meta.*;
 import com.link_intersystems.test.UnitTest;
 import com.link_intersystems.test.db.sakila.SakilaTestDBExtension;
 import org.junit.jupiter.api.BeforeEach;

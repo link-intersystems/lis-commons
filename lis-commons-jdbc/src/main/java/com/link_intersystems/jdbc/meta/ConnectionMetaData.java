@@ -1,4 +1,4 @@
-package com.link_intersystems.jdbc;
+package com.link_intersystems.jdbc.meta;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;

@@ -1,4 +1,4 @@
-package com.link_intersystems.jdbc;
+package com.link_intersystems.jdbc.meta;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}

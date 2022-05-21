@@ -1,4 +1,4 @@
-package com.link_intersystems.jdbc;
+package com.link_intersystems.jdbc.meta;
 
 import java.util.AbstractList;
 import java.util.List;
