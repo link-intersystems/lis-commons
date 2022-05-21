@@ -128,7 +128,6 @@ public class H2Database implements AutoCloseable {
 
     public ResultSet execute(String sql, Object... args) throws SQLException {
         Connection connection = getConnection();
-
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             for (int i = 0; i < args.length; i++) {
                 ps.setObject(i + 1, args[i]);

@@ -60,7 +60,7 @@ public class SqlScript implements Iterator<String> {
                 commentCharCount = 0;
                 continue;
             }
-            if (read == '-') {
+            if (read == '-' && commentCharCount < 2) {
                 commentCharCount++;
                 continue;
             }
@@ -99,8 +99,10 @@ public class SqlScript implements Iterator<String> {
             while (hasNext()) {
                 String nextSql = next();
                 String executableSql = removeWhitespaces(nextSql);
-                stmt.execute(executableSql);
+                stmt.addBatch(executableSql);
             }
+
+            stmt.executeBatch();
         }
     }
 

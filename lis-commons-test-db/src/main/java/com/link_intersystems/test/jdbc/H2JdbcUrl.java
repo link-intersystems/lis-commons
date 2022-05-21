@@ -155,6 +155,13 @@ public class H2JdbcUrl {
             jdbcBuilder.append(databaseName);
         }
 
+        jdbcBuilder.append(";AUTOCOMMIT=");
+        if (autoCommit) {
+            jdbcBuilder.append("ON");
+        } else {
+            jdbcBuilder.append("OFF");
+        }
+
         jdbcBuilder.append(";DB_CLOSE_DELAY=-1");
 
         if (isIgnoreCase()) {
