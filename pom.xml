@@ -30,6 +30,7 @@
         <module>lis-commons-events</module>
         <module>lis-commons-jdbc</module>
         <module>lis-commons-test-db</module>
+        <module>lis-commons-sql</module>
     </modules>
 
     <properties>
