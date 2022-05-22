@@ -31,6 +31,7 @@
         <module>lis-commons-jdbc</module>
         <module>lis-commons-test-db</module>
         <module>lis-commons-sql</module>
+        <module>lis-commons-sql-hibernate</module>
     </modules>
 
     <properties>
@@ -96,7 +97,11 @@
                 <version>1.5.1-SNAPSHOT</version>
                 <scope>test</scope>
             </dependency>
-
+            <dependency>
+                <groupId>com.link-intersystems.commons</groupId>
+                <artifactId>lis-commons-sql</artifactId>
+                <version>1.5.1-SNAPSHOT</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.slf4j</groupId>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>lis-commons</artifactId>
+        <groupId>com.link-intersystems.commons</groupId>
+        <version>1.5.1-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>lis-commons-sql-hibernate</artifactId>
+
+    <properties>
+        <hibernate-core.version>5.6.8.Final</hibernate-core.version>
+        <hibernate-core.groupId>org.hibernate</hibernate-core.groupId>
+        <hibernate-core.artifactId>hibernate-core</hibernate-core.artifactId>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.link-intersystems.commons</groupId>
+            <artifactId>lis-commons-sql</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>${hibernate-core.groupId}</groupId>
+                <artifactId>${hibernate-core.artifactId}</artifactId>
+                <version>${hibernate-core.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>
