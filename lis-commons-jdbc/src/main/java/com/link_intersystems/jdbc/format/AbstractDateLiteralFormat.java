@@ -1,5 +1,6 @@
 package com.link_intersystems.jdbc.format;
 
+import java.text.MessageFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -13,7 +14,7 @@ import java.util.function.Supplier;
  */
 public abstract class AbstractDateLiteralFormat extends AbstractLiteralFormat {
 
-    private StringLiteralFormat stringLiteralFormat = new StringLiteralFormat();
+    private VarcharLiteralFormat stringLiteralFormat = new VarcharLiteralFormat();
 
     private DateTimeFormatter dateTimeFormatter;
     private Supplier<ZoneId> zoneIdSupplier;
@@ -34,6 +35,15 @@ public abstract class AbstractDateLiteralFormat extends AbstractLiteralFormat {
     protected LocalDateTime toLocalDateTime(Object value) {
         ZoneId zoneId = zoneIdSupplier.get();
         Instant instant = toInstant(value, zoneId);
+        if (instant == null) {
+            String msg = MessageFormat.format("Value {0} can not be formatted as date," +
+                            " because it could not be converted to an {1}, by this {2}",
+                    value.getClass(),
+                    Instant.class.getName(),
+                    getClass().getName()
+            );
+            throw new IllegalArgumentException(msg);
+        }
         ZonedDateTime zonedDateTime = instant.atZone(zoneId);
         LocalDateTime localDateTime = zonedDateTime.toLocalDateTime();
         return localDateTime;

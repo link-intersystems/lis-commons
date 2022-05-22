@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class BigDecimalLiteralFormat extends AbstractLiteralFormat {
+public class DecimalLiteralFormat extends AbstractLiteralFormat {
 
     public static final int DEFAULT_PRECISION = 10;
 
@@ -30,30 +30,36 @@ public class BigDecimalLiteralFormat extends AbstractLiteralFormat {
         return sb.toString();
     }
 
-    public BigDecimalLiteralFormat() {
+    public DecimalLiteralFormat() {
         this(DEFAULT_PRECISION);
     }
 
-    public BigDecimalLiteralFormat(int precision) {
+    public DecimalLiteralFormat(int precision) {
         this(precision, defaultFormatSymbols());
     }
 
-    public BigDecimalLiteralFormat(int precision, DecimalFormatSymbols symbols) {
+    public DecimalLiteralFormat(int precision, DecimalFormatSymbols symbols) {
         this(generatePattern(precision), symbols);
     }
 
-    public BigDecimalLiteralFormat(String pattern, DecimalFormatSymbols symbols) {
+    public DecimalLiteralFormat(String pattern, DecimalFormatSymbols symbols) {
         this(new DecimalFormat(pattern, symbols));
     }
 
-    public BigDecimalLiteralFormat(DecimalFormat decimalFormat) {
+    public DecimalLiteralFormat(DecimalFormat decimalFormat) {
         this.decimalFormat = Objects.requireNonNull(decimalFormat);
     }
 
     @Override
-    protected String doFormat(Object value) throws Exception {
+    protected String doFormat(Object value) {
         if (value instanceof BigDecimal) {
             return decimalFormat.format(value);
+        } else if (value instanceof Double) {
+            Double doubleValue = (Double) value;
+            return Double.toString(doubleValue);
+        } else if (value instanceof Float) {
+            Float floatValue = (Float) value;
+            return Float.toString(floatValue);
         }
         return null;
     }

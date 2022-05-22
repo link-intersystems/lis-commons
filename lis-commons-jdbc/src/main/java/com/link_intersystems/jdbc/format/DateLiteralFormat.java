@@ -3,6 +3,7 @@ package com.link_intersystems.jdbc.format;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.function.Supplier;
 
 /**
@@ -28,6 +29,9 @@ public class DateLiteralFormat extends AbstractDateLiteralFormat {
         if (value instanceof java.sql.Date) {
             java.sql.Date sqlDate = (java.sql.Date) value;
             return sqlDate.toLocalDate().atStartOfDay(zoneId).toInstant();
+        } else if (value instanceof Date) {
+            Date date = (Date) value;
+            return date.toInstant().atZone(zoneId).toInstant();
         }
         return null;
     }

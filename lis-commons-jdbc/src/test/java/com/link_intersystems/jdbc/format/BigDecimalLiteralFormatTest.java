@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 class BigDecimalLiteralFormatTest {
 
-    private BigDecimalLiteralFormat literalFormat;
+    private DecimalLiteralFormat literalFormat;
     private DecimalFormat decimalFormat;
 
     @BeforeEach
@@ -28,7 +28,7 @@ class BigDecimalLiteralFormatTest {
         decimalFormat = new DecimalFormat(pattern, symbols);
         decimalFormat.setParseBigDecimal(true);
 
-        literalFormat = new BigDecimalLiteralFormat();
+        literalFormat = new DecimalLiteralFormat();
     }
 
     @Test

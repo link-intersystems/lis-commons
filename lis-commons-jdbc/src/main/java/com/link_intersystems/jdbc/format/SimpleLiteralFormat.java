@@ -3,9 +3,9 @@ package com.link_intersystems.jdbc.format;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class ToStringLiteralFormat extends AbstractLiteralFormat {
+public class SimpleLiteralFormat extends AbstractLiteralFormat {
     @Override
-    public String doFormat(Object value) throws Exception {
+    public String doFormat(Object value) {
         return String.valueOf(value);
     }
 }

@@ -10,5 +10,5 @@ public interface SqlDialect {
 
     public InsertSql createInsertSql(String tableName);
 
-    public LiteralFormat getLiteralFormat(Class<?> javaType);
+    public LiteralFormat getLiteralFormat(int sqlType);
 }

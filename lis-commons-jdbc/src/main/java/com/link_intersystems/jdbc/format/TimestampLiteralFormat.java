@@ -11,6 +11,8 @@ import java.util.function.Supplier;
  */
 public class TimestampLiteralFormat extends AbstractDateLiteralFormat {
 
+    private DateLiteralFormat dateLiteralFormat = new DateLiteralFormat();
+
     public TimestampLiteralFormat() {
         this(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"), ZoneId.systemDefault());
     }
@@ -21,6 +23,15 @@ public class TimestampLiteralFormat extends AbstractDateLiteralFormat {
 
     public TimestampLiteralFormat(DateTimeFormatter dateTimeFormatter, Supplier<ZoneId> zoneIdSupplier) {
         super(dateTimeFormatter, zoneIdSupplier);
+    }
+
+    @Override
+    public String doFormat(Object value) throws Exception {
+        if (value instanceof java.sql.Date) {
+            return dateLiteralFormat.format(value);
+        }
+
+        return super.doFormat(value);
     }
 
     @Override
