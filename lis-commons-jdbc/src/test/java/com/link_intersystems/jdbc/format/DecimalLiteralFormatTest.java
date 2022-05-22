@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-class BigDecimalLiteralFormatTest {
+class DecimalLiteralFormatTest {
 
     private DecimalLiteralFormat literalFormat;
     private DecimalFormat decimalFormat;
