@@ -16,7 +16,7 @@ class DefaultSqlDialectTest {
 
     @Test
     void createInsertSql() throws Exception {
-        DefaultSqlDialect sqlDialect = new DefaultSqlDialect();
+        SqlDialect sqlDialect = new DefaultSqlDialect();
 
         InsertSql insertSql = sqlDialect.createInsertSql("actor");
 

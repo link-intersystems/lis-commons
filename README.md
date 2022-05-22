@@ -16,6 +16,10 @@ Here is an overview of the module dependencies:
 
     lis-commons-jdbc (0 deps)
 
+    lis-commons-sql (0 deps)
+
+    lis-commons-sql-hibernate (1 deps)
+
     lis-commons-events (0 deps)
 
     lis-commons-graph (0 deps)
@@ -92,6 +96,42 @@ Provides a convenient api to access the meta-data of a jdbc connection
     foreignKey = foreignKeys.getByPkColumnDescription(actorColumns.getByName("actor_id"));
     assertNotNull(foreignKey);
     assertEquals("fk_film_actor_actor", foreignKey.getName());
+
+# lis-commons-sql
+
+Provides support for sql related tasks like statement creation. This module provides
+a simple support for creating sql statements. At the moment it only supports insert statements.
+It is primarily made for the H2 dialect, but might also work for some other dialects. You
+can extend the DefaultSqlDialect to adapt the module to your needs. If you do so please make
+a pull request to let me integrate the dialect into this library.
+
+    SqlDialect sqlDialect = new DefaultSqlDialect();
+    
+    InsertSql insertSql = sqlDialect.createInsertSql("actor");
+    
+    LiteralFormat idFormat = sqlDialect.getLiteralFormat(Types.BIGINT);
+    insertSql.addColumn("id", idFormat.format(1L));
+    
+    LiteralFormat firstNameFormat = sqlDialect.getLiteralFormat(Types.VARCHAR);
+    insertSql.addColumn("first_name", firstNameFormat.format("PENELOPE"));
+    
+    LiteralFormat lastNameFormat = sqlDialect.getLiteralFormat(Types.VARCHAR);
+    insertSql.addColumn("last_name", lastNameFormat.format("GUINESS"));
+    
+    LiteralFormat lastUpdateFormat = sqlDialect.getLiteralFormat(Types.TIMESTAMP);
+    insertSql.addColumn("last_update", lastUpdateFormat.format(new Date(106, 1, 15, 4, 34, 33)));
+    
+    String sql = insertSql.toSqlString();
+    assertEquals("insert into actor (id, first_name, last_name, last_update) values (1, 'PENELOPE', 'GUINESS', '2006-02-15 04:34:33')", sql);
+
+> If you want support for more dialects you might want to take a look at the `lis-commons-sql-hibernate`
+module that uses hibernates capabilities.
+
+    H2Dialect dialect = new H2Dialect();
+    SqlDialect sqlDialect = new HibernateSqlDialect(dialect);
+    
+    InsertSql insertSql = sqlDialect.createInsertSql("actor");
+    // ...
 
 # [lis-commons-events](lis-commons-events/README.md)
 
@@ -184,6 +224,8 @@ time measurements of service calls, etc.
     }
   
     System.out.println(average.getValue());
+
+
 
 
 

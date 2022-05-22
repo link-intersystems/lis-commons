@@ -19,7 +19,8 @@ class HibernateSqlDialectTest {
 
     @Test
     void createInsertSql() throws Exception {
-        SqlDialect sqlDialect = new HibernateSqlDialect(new H2Dialect());
+        H2Dialect dialect = new H2Dialect();
+        SqlDialect sqlDialect = new HibernateSqlDialect(dialect);
 
         InsertSql insertSql = sqlDialect.createInsertSql("actor");
 
