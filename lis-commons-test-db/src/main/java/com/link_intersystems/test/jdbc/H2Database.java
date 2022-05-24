@@ -1,6 +1,9 @@
 package com.link_intersystems.test.jdbc;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Objects;
 import java.util.function.Predicate;
 
@@ -31,6 +34,13 @@ public class H2Database implements AutoCloseable {
             }
     ).contains(tableName);
 
+    public static void setReferentialIntegrity(Connection connection, boolean referentialIntegrity) throws SQLException {
+        String cmd = format("SET REFERENTIAL_INTEGRITY {0}", Boolean.toString(referentialIntegrity).toUpperCase());
+        try (Statement statement = connection.createStatement()) {
+            statement.execute(cmd);
+        }
+    }
+
     private H2JdbcUrl h2JdbcUrl;
     private H2JdbcUrl connectionUrl;
     private Connection realConnection;
@@ -53,7 +63,6 @@ public class H2Database implements AutoCloseable {
     }
 
     public void close() throws SQLException {
-        reset();
         if (realConnection != null) {
             try {
                 realConnection.close();
@@ -65,6 +74,23 @@ public class H2Database implements AutoCloseable {
         }
     }
 
+    /**
+     * Removes all data, tables and schemas from the database.
+     *
+     * @throws SQLException
+     */
+    public void clear() throws SQLException {
+        Connection connection = getRealConnection();
+        try (Statement statement = connection.createStatement()) {
+            statement.execute("DROP ALL OBJECTS");
+        }
+    }
+
+    /**
+     * Resets the database to it's initial state.
+     *
+     * @throws SQLException
+     */
     public void reset() throws SQLException {
         Connection connection = getRealConnection();
         try (Statement statement = connection.createStatement()) {
@@ -89,11 +115,8 @@ public class H2Database implements AutoCloseable {
     }
 
     public void setReferentialIntegrity(boolean referentialIntegrity) throws SQLException {
-        String cmd = format("SET REFERENTIAL_INTEGRITY {0}", Boolean.toString(referentialIntegrity).toUpperCase());
         Connection connection = getRealConnection();
-        try (Statement statement = connection.createStatement()) {
-            statement.execute(cmd);
-        }
+        setReferentialIntegrity(connection, referentialIntegrity);
     }
 
     private Connection getRealConnection() throws SQLException {
@@ -112,38 +135,5 @@ public class H2Database implements AutoCloseable {
         }
 
         return connectionProxy;
-    }
-
-
-    public void doWithConnection(ConnectionCallback connectionCallback) throws SQLException {
-        Connection connection = getConnection();
-        connectionCallback.execute(connection);
-    }
-
-    public <T> T doWithConnection(ConnectionCallbackWithResult<T> connectionCallback) throws SQLException {
-        Connection connection = getConnection();
-        return connectionCallback.execute(connection);
-    }
-
-
-    public ResultSet execute(String sql, Object... args) throws SQLException {
-        Connection connection = getConnection();
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            for (int i = 0; i < args.length; i++) {
-                ps.setObject(i + 1, args[i]);
-            }
-
-            if (ps.execute()) {
-                return ps.getResultSet();
-            }
-            return null;
-        }
-    }
-
-
-    public void executeScript(SqlScript sqlScript) throws SQLException {
-        Connection connection = getRealConnection();
-        sqlScript.execute(connection);
-
     }
 }

@@ -1,7 +1,5 @@
 package com.link_intersystems.test.db;
 
-import com.link_intersystems.test.db.H2DatabaseFactory;
-import com.link_intersystems.test.db.H2DatabaseStore;
 import com.link_intersystems.test.jdbc.H2Database;
 import org.junit.jupiter.api.extension.*;
 
@@ -16,9 +14,11 @@ import java.sql.SQLException;
 public abstract class AbstractTestDBExtension implements ParameterResolver, AfterTestExecutionCallback, LifecycleMethodExecutionExceptionHandler {
 
     private H2DatabaseStore h2DatabaseStore;
+    private DBSetup dbSetup;
 
-    public AbstractTestDBExtension(H2DatabaseFactory h2DatabaseFactory) {
-        this.h2DatabaseStore = new H2DatabaseStore(h2DatabaseFactory);
+    public AbstractTestDBExtension(DBSetup dbSetup) {
+        this.h2DatabaseStore = new H2DatabaseStore(new H2DatabaseFactory(dbSetup));
+        this.dbSetup = dbSetup;
     }
 
     @Override
@@ -28,23 +28,28 @@ public abstract class AbstractTestDBExtension implements ParameterResolver, Afte
 
     @Override
     public void afterTestExecution(ExtensionContext extensionContext) throws Exception {
-        h2DatabaseStore.clearDB(extensionContext);
+        h2DatabaseStore.removeDB(extensionContext);
     }
 
     @Override
     public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
         Parameter parameter = parameterContext.getParameter();
         Class<?> type = parameter.getType();
-        return Connection.class.equals(type) || H2Database.class.equals(type);
+        return Connection.class.equals(type) || H2Database.class.equals(type) || DBSetup.class.equals(type);
     }
 
     @Override
     public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
         if (supportsParameter(parameterContext, extensionContext)) {
+            Parameter parameter = parameterContext.getParameter();
+            Class<?> type = parameter.getType();
+            if (DBSetup.class.equals(type)) {
+                return dbSetup;
+            }
+
             try {
                 H2Database sakilaDB = h2DatabaseStore.getDB(extensionContext);
-                Parameter parameter = parameterContext.getParameter();
-                Class<?> type = parameter.getType();
+
                 if (type.equals(Connection.class)) {
                     return sakilaDB.getConnection();
                 } else {

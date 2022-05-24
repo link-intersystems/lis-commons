@@ -162,12 +162,6 @@ public class H2JdbcUrl {
             jdbcBuilder.append("OFF");
         }
 
-        jdbcBuilder.append(";DB_CLOSE_DELAY=-1");
-
-        if (isIgnoreCase()) {
-            jdbcBuilder.append(";IGNORECASE=TRUE");
-        }
-
         if (isIgnoreCase()) {
             jdbcBuilder.append(";IGNORECASE=TRUE");
         }

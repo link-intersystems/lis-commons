@@ -1,112 +1,61 @@
 package com.link_intersystems.test.jdbc;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Reader;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Iterator;
+import java.util.Objects;
+import java.util.function.Predicate;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class SqlScript implements Iterator<String> {
+public class SqlScript {
 
-    private Reader scriptReader;
-    private Integer lookahead;
+    public static interface ReaderSupplier {
 
-    public SqlScript(InputStream scriptInputStream) throws IOException, SQLException {
-        this(scriptInputStream, StandardCharsets.UTF_8);
+        public Reader get() throws IOException;
     }
 
-    public SqlScript(InputStream scriptInputStream, Charset charset) throws IOException, SQLException {
-        this(new InputStreamReader(scriptInputStream, charset));
+    public static interface StatementCallback {
+
+        public void doWithStatement(String sqlStatement) throws SQLException;
     }
 
-    public SqlScript(Reader scriptReader) {
-        this.scriptReader = scriptReader;
+    private ReaderSupplier scriptReaderSupplier;
+
+    private Predicate<String> statementFiler = s -> true;
+
+    public SqlScript(ReaderSupplier scriptReaderSupplier) {
+        this.scriptReaderSupplier = Objects.requireNonNull(scriptReaderSupplier);
     }
 
-    @Override
-    public boolean hasNext() {
-        try {
-            if (lookahead == null) {
+    public void setStatementFilter(Predicate<String> statementFiler) {
+        this.statementFiler = statementFiler;
+    }
 
-                lookahead = scriptReader.read();
+    public void execute(StatementCallback statementCallback) throws SQLException {
+        try (StatementReader statementReader = new StatementReader(scriptReaderSupplier.get())) {
+            statementReader.setStatementFilter(statementFiler);
 
+            while (statementReader.hasNext()) {
+                String nextStatement = statementReader.next();
+                statementCallback.doWithStatement(nextStatement);
             }
-            if (lookahead == -1) {
-                scriptReader.close();
-                lookahead = -2;
-            }
-            return lookahead > -1;
         } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public String next() {
-        StringBuilder sb = new StringBuilder();
-
-        int commentCharCount = 0;
-        while (true) {
-            int read = nextChar();
-            if (read == '\n') {
-                commentCharCount = 0;
-                continue;
-            }
-            if (read == '-' && commentCharCount < 2) {
-                commentCharCount++;
-                continue;
-            }
-            if (commentCharCount == 2) {
-                continue;
-            }
-            if (commentCharCount == 1) {
-                sb.append('-');
-                commentCharCount = 0;
-            }
-            if (read == -1 || read == ';') {
-                break;
-            }
-            sb.append((char) read);
-        }
-        return sb.toString();
-    }
-
-    private int nextChar() {
-        if (lookahead != null) {
-            try {
-                return lookahead;
-            } finally {
-                lookahead = null;
-            }
-        }
-        try {
-            return scriptReader.read();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SQLException(e);
         }
     }
 
     public void execute(Connection connection) throws SQLException {
         try (Statement stmt = connection.createStatement()) {
-            while (hasNext()) {
-                String nextSql = next();
-                String executableSql = removeWhitespaces(nextSql);
-                stmt.addBatch(executableSql);
-            }
+            execute(sqlStatement -> {
+                stmt.addBatch(sqlStatement);
+            });
 
             stmt.executeBatch();
         }
     }
 
-    private String removeWhitespaces(String sql) {
-        return sql.replaceAll("\\s+", " ").trim();
-    }
 }

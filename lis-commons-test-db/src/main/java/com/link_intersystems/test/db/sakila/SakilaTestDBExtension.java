@@ -14,6 +14,6 @@ import java.sql.Connection;
 public class SakilaTestDBExtension extends AbstractTestDBExtension {
 
     public SakilaTestDBExtension() {
-        super(new SakilaDBFactory());
+        super(new SakilaDB());
     }
 }
