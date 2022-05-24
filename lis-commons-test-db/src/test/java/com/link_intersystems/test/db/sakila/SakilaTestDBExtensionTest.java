@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-@ExtendWith(SakilaTinyTestDBExtension.class)
+@ExtendWith(SakilaSlimTestDBExtension.class)
 @UnitTest
 public class SakilaTestDBExtensionTest {
 
