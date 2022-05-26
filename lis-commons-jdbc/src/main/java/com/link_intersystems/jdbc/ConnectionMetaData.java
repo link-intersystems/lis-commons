@@ -39,8 +39,8 @@ public class ConnectionMetaData {
     private Map<String, PrimaryKey> primaryKeysByTableName = new HashMap<>();
     private Map<String, ForeignKeyList> exportedForeignKeysByTableName = new HashMap<>();
     private Map<String, ForeignKeyList> importedForeignKeysByTableName = new HashMap<>();
-    private Map<String, List<TableReference>> outgoingReferences = new HashMap<>();
-    private Map<String, List<TableReference>> incommingReferences = new HashMap<>();
+    private Map<String, TableReferenceList> outgoingReferences = new HashMap<>();
+    private Map<String, TableReferenceList> incommingReferences = new HashMap<>();
 
     private Connection connection;
     private String[] tableTypes;
@@ -179,20 +179,20 @@ public class ConnectionMetaData {
         return new ForeignKeyList(mapToForeignKeys(jdbcForeignKeyEntries));
     }
 
-    public List<TableReference> getOutgoingReferences(String tableName) throws SQLException {
+    public TableReferenceList getOutgoingReferences(String tableName) throws SQLException {
         if (!outgoingReferences.containsKey(tableName)) {
             ForeignKeyList importedKeys = getImportedKeys(tableName);
             List<TableReference> outgoing = importedKeys.stream().map(TableReference::new).collect(toList());
-            this.outgoingReferences.put(tableName, outgoing);
+            this.outgoingReferences.put(tableName, new TableReferenceList(outgoing));
         }
         return outgoingReferences.get(tableName);
     }
 
-    public List<TableReference> getIncomingReferences(String tableName) throws SQLException {
+    public TableReferenceList getIncomingReferences(String tableName) throws SQLException {
         if (!incommingReferences.containsKey(tableName)) {
             ForeignKeyList exportedKeys = getExportedKeys(tableName);
             List<TableReference> incoming = exportedKeys.stream().map(TableReference::new).collect(toList());
-            this.incommingReferences.put(tableName, incoming);
+            this.incommingReferences.put(tableName, new TableReferenceList(incoming));
         }
         return incommingReferences.get(tableName);
     }

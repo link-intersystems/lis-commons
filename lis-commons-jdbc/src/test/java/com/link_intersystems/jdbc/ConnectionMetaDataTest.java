@@ -1,13 +1,16 @@
 package com.link_intersystems.jdbc;
 
-import com.link_intersystems.jdbc.*;
 import com.link_intersystems.test.UnitTest;
+import com.link_intersystems.test.db.sakila.SakilaSlimTestDBExtension;
 import com.link_intersystems.test.db.sakila.SakilaTestDBExtension;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-@ExtendWith(SakilaTestDBExtension.class)
+@ExtendWith(SakilaSlimTestDBExtension.class)
 @UnitTest
 class ConnectionMetaDataTest {
 
@@ -55,6 +58,8 @@ class ConnectionMetaDataTest {
         assertEquals("actor_id", primaryKey.get(0).getColumnName());
         assertEquals("film_id", primaryKey.get(1).getColumnName());
 
+        assertEquals("pk_film_actor", primaryKey.getName());
+
     }
 
     @Test
@@ -86,17 +91,19 @@ class ConnectionMetaDataTest {
 
     @Test
     void foreignKey() throws SQLException {
-        List<ForeignKey> foreignKeys = metaDataRepository.getImportedKeys("film_actor");
+        ForeignKeyList foreignKeys = metaDataRepository.getImportedKeys("film_actor");
 
         assertEquals(2, foreignKeys.size());
-        ForeignKey fk_film_actor_actor = foreignKeys.stream().filter(fk -> fk.getName().equals("fk_film_actor_actor")).findFirst().orElse(null);
+        ForeignKey fk_film_actor_actor = foreignKeys.getByName("fk_film_actor_actor");
 
         assertEquals(1, fk_film_actor_actor.size());
         ForeignKeyEntry foreignKeyEntry = fk_film_actor_actor.get(0);
         assertEquals("actor_id", foreignKeyEntry.getFkColumnName());
         assertEquals("film_actor", foreignKeyEntry.getFkTableName());
+        assertEquals("fk_film_actor_actor", foreignKeyEntry.getFkName());
         assertEquals("actor_id", foreignKeyEntry.getPkColumnName());
         assertEquals("actor", foreignKeyEntry.getPkTableName());
+        assertEquals("pk_actor", foreignKeyEntry.getPkName());
     }
 
     @Test
@@ -112,7 +119,7 @@ class ConnectionMetaDataTest {
         ForeignKeyList foreignKeyList = foreignKeys.getByPkColumnDescription(actorColumns.getByName("actor_id"));
         assertNotNull(foreignKeyList);
         assertEquals(1, foreignKeyList.size());
-        assertNotNull( foreignKeyList.getByName("fk_film_actor_actor"));
+        assertNotNull(foreignKeyList.getByName("fk_film_actor_actor"));
     }
 
     @Test
@@ -143,5 +150,61 @@ class ConnectionMetaDataTest {
         assertEquals(2, foreignKeyList.size());
         assertNotNull(foreignKeyList.getByName("fk_film_actor_actor"));
         assertNotNull(foreignKeyList.getByName("fk_actor_genre_actor"));
+    }
+
+
+    @Test
+    void outgoingReferences() throws SQLException {
+        TableReferenceList outgoingReferences = metaDataRepository.getOutgoingReferences("film_actor");
+
+        assertEquals(2, outgoingReferences.size());
+        assertNotNull(outgoingReferences.getByName("fk_film_actor_actor"));
+        TableReference fkFilmActorFilm = outgoingReferences.getByName("fk_film_actor_film");
+        assertNotNull(fkFilmActorFilm);
+
+        TableReference.Edge sourceEdge = fkFilmActorFilm.getSourceEdge();
+        assertEquals("film_actor", sourceEdge.getTableName());
+        assertEquals(1, sourceEdge.getColumns().size());
+        assertEquals("film_id", sourceEdge.getColumns().get(0));
+
+        TableReference.Edge targetEdge = fkFilmActorFilm.getTargetEdge();
+        assertEquals("film", targetEdge.getTableName());
+        assertEquals(1, targetEdge.getColumns().size());
+        assertEquals("film_id", targetEdge.getColumns().get(0));
+    }
+
+    @Test
+    void incomingReferences() throws SQLException {
+        TableReferenceList incomingReferences = metaDataRepository.getIncomingReferences("actor");
+
+        assertEquals(2, incomingReferences.size());
+        TableReference fkFilmActorActor = incomingReferences.getByName("fk_film_actor_actor");
+        assertNotNull(fkFilmActorActor);
+        assertNotNull(incomingReferences.getByName("fk_actor_genre_actor"));
+
+        TableReference.Edge sourceEdge = fkFilmActorActor.getSourceEdge();
+        assertEquals("film_actor", sourceEdge.getTableName());
+        assertEquals(1, sourceEdge.getColumns().size());
+        assertEquals("actor_id", sourceEdge.getColumns().get(0));
+
+        TableReference.Edge targetEdge = fkFilmActorActor.getTargetEdge();
+        assertEquals("actor", targetEdge.getTableName());
+        assertEquals(1, targetEdge.getColumns().size());
+        assertEquals("actor_id", targetEdge.getColumns().get(0));
+    }
+
+    @Test
+    void tableReferenceEqual() throws SQLException {
+        TableReferenceList incomingReferences = metaDataRepository.getIncomingReferences("actor");
+        TableReferenceList outgoingReferences = metaDataRepository.getOutgoingReferences("film_actor");
+
+        assertEquals(outgoingReferences.getByName("fk_film_actor_actor"), incomingReferences.getByName("fk_film_actor_actor"));
+    }
+
+    @Test
+    void tableReferenceToString() throws SQLException {
+        TableReferenceList outgoingReferences = metaDataRepository.getOutgoingReferences("film_actor");
+
+        assertEquals("fk_film_actor_actor<film_actor([actor_id]) -> actor([actor_id])>", outgoingReferences.getByName("fk_film_actor_actor").toString());
     }
 }

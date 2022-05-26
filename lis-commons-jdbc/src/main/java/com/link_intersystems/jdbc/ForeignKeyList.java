@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
@@ -14,7 +16,7 @@ public class ForeignKeyList extends AbstractList<ForeignKey> {
     private List<ForeignKey> foreignKeyList;
 
     public ForeignKeyList(List<ForeignKey> foreignKeyList) {
-        this.foreignKeyList = foreignKeyList;
+        this.foreignKeyList = requireNonNull(foreignKeyList);
     }
 
     public ForeignKey getByName(String name) {
