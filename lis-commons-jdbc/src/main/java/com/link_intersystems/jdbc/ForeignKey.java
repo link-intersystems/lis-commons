@@ -4,6 +4,7 @@ import java.text.MessageFormat;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
@@ -34,6 +35,14 @@ public class ForeignKey extends AbstractList<ForeignKeyEntry> {
     @Override
     public ForeignKeyEntry get(int index) {
         return foreignKeyEntryList.get(index);
+    }
+
+    public List<ColumnDescription> getPKColumnDescriptions() {
+        return stream().map(ForeignKeyEntry::getPkColumnDescription).collect(Collectors.toList());
+    }
+
+    public List<ColumnDescription> getFKColumnDescriptions() {
+        return stream().map(ForeignKeyEntry::getFkColumnDescription).collect(Collectors.toList());
     }
 
     @Override

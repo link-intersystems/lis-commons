@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toList;
+
 /**
  * {@link ConnectionMetaData} provides convenient api to access the meta-data of a jdbc connection.
  *
@@ -35,6 +37,10 @@ public class ConnectionMetaData {
     private List<TableMetaData> tableMetaDataList;
     private Map<String, ColumnMetaDataList> columnMetaDataListByTableName = new HashMap<>();
     private Map<String, PrimaryKey> primaryKeysByTableName = new HashMap<>();
+    private Map<String, ForeignKeyList> exportedForeignKeysByTableName = new HashMap<>();
+    private Map<String, ForeignKeyList> importedForeignKeysByTableName = new HashMap<>();
+    private Map<String, List<TableReference>> outgoingReferences = new HashMap<>();
+    private Map<String, List<TableReference>> incommingReferences = new HashMap<>();
 
     private Connection connection;
     private String[] tableTypes;
@@ -135,6 +141,15 @@ public class ConnectionMetaData {
 
 
     public ForeignKeyList getExportedKeys(String tableName) throws SQLException {
+        if (!exportedForeignKeysByTableName.containsKey(tableName)) {
+            ForeignKeyList foreignKeys = createForeignKeys(tableName);
+            exportedForeignKeysByTableName.put(tableName, foreignKeys);
+        }
+
+        return exportedForeignKeysByTableName.get(tableName);
+    }
+
+    private ForeignKeyList createForeignKeys(String tableName) throws SQLException {
         ScopedDatabaseMetaData scopedDatabaseMetaData = getScopedDatabaseMetaData();
         ResultSet resultSet = scopedDatabaseMetaData.getExportedKeys(tableName);
         List<ForeignKeyEntry> jdbcForeignKeyEntries = mapResultSet(resultSet, ForeignKeyEntry::new);
@@ -144,15 +159,42 @@ public class ConnectionMetaData {
 
     private List<ForeignKey> mapToForeignKeys(List<ForeignKeyEntry> jdbcForeignKeyEntries) {
         Map<String, List<ForeignKeyEntry>> foreignKeys = jdbcForeignKeyEntries.stream().collect(Collectors.groupingBy(ForeignKeyEntry::getFkName));
-        return foreignKeys.values().stream().map(ForeignKey::new).collect(Collectors.toList());
+        return foreignKeys.values().stream().map(ForeignKey::new).collect(toList());
     }
 
 
     public ForeignKeyList getImportedKeys(String tableName) throws SQLException {
+        if (!importedForeignKeysByTableName.containsKey(tableName)) {
+            ForeignKeyList foreignKeys = createImportedKeys(tableName);
+            importedForeignKeysByTableName.put(tableName, foreignKeys);
+        }
+
+        return importedForeignKeysByTableName.get(tableName);
+    }
+
+    private ForeignKeyList createImportedKeys(String tableName) throws SQLException {
         ScopedDatabaseMetaData scopedDatabaseMetaData = getScopedDatabaseMetaData();
         ResultSet resultSet = scopedDatabaseMetaData.getImportedKeys(tableName);
         List<ForeignKeyEntry> jdbcForeignKeyEntries = mapResultSet(resultSet, ForeignKeyEntry::new);
         return new ForeignKeyList(mapToForeignKeys(jdbcForeignKeyEntries));
+    }
+
+    public List<TableReference> getOutgoingReferences(String tableName) throws SQLException {
+        if (!outgoingReferences.containsKey(tableName)) {
+            ForeignKeyList importedKeys = getImportedKeys(tableName);
+            List<TableReference> outgoing = importedKeys.stream().map(TableReference::new).collect(toList());
+            this.outgoingReferences.put(tableName, outgoing);
+        }
+        return outgoingReferences.get(tableName);
+    }
+
+    public List<TableReference> getIncomingReferences(String tableName) throws SQLException {
+        if (!incommingReferences.containsKey(tableName)) {
+            ForeignKeyList exportedKeys = getExportedKeys(tableName);
+            List<TableReference> incoming = exportedKeys.stream().map(TableReference::new).collect(toList());
+            this.incommingReferences.put(tableName, incoming);
+        }
+        return incommingReferences.get(tableName);
     }
 
 

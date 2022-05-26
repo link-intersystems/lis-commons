@@ -13,7 +13,6 @@ public class ForeignKeyEntry {
     private String pkTableName;
     private String pkColumnName;
 
-
     private String fkTableCategory;
     private String fkSchema;
     private String fkTableName;

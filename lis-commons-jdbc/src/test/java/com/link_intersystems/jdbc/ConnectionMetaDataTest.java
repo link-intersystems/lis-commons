@@ -109,22 +109,39 @@ class ConnectionMetaDataTest {
         assertEquals("fk_film_actor_actor", foreignKey.getName());
 
         ColumnMetaDataList actorColumns = metaDataRepository.getColumnMetaDataList("actor");
-        foreignKey = foreignKeys.getByPkColumnDescription(actorColumns.getByName("actor_id"));
+        ForeignKeyList foreignKeyList = foreignKeys.getByPkColumnDescription(actorColumns.getByName("actor_id"));
+        assertNotNull(foreignKeyList);
+        assertEquals(1, foreignKeyList.size());
+        assertNotNull( foreignKeyList.getByName("fk_film_actor_actor"));
+    }
+
+    @Test
+    void importedForeignKeys() throws SQLException {
+        ForeignKeyList foreignKeys = metaDataRepository.getImportedKeys("film_actor");
+
+        assertEquals(2, foreignKeys.size());
+
+        ColumnMetaDataList columnMetaDataList = metaDataRepository.getColumnMetaDataList("film_actor");
+        ColumnMetaData actorIdColumn = columnMetaDataList.getByName("actor_id");
+
+        ForeignKey foreignKey = foreignKeys.getByFkColumnDescription(actorIdColumn);
         assertNotNull(foreignKey);
         assertEquals("fk_film_actor_actor", foreignKey.getName());
     }
 
     @Test
-    void foreignKeys() throws SQLException {
-        ForeignKeyList foreignKeys = metaDataRepository.getImportedKeys("film_actor");
+    void exportedForeignKeys() throws SQLException {
+        ForeignKeyList foreignKeys = metaDataRepository.getExportedKeys("actor");
 
         assertEquals(2, foreignKeys.size());
 
         ColumnMetaDataList columnMetaDataList = metaDataRepository.getColumnMetaDataList("actor");
         ColumnMetaData actorIdColumn = columnMetaDataList.getByName("actor_id");
 
-        ForeignKey foreignKey = foreignKeys.getByPkColumnDescription(actorIdColumn);
-        assertNotNull(foreignKey);
-        assertEquals("fk_film_actor_actor", foreignKey.getName());
+        ForeignKeyList foreignKeyList = foreignKeys.getByPkColumnDescription(actorIdColumn);
+        assertNotNull(foreignKeyList);
+        assertEquals(2, foreignKeyList.size());
+        assertNotNull(foreignKeyList.getByName("fk_film_actor_actor"));
+        assertNotNull(foreignKeyList.getByName("fk_actor_genre_actor"));
     }
 }

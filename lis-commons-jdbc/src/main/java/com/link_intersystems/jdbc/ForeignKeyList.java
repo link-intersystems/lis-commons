@@ -17,8 +17,34 @@ public class ForeignKeyList extends AbstractList<ForeignKey> {
         this.foreignKeyList = foreignKeyList;
     }
 
-    public ForeignKey getByPkColumnDescription(ColumnDescription... columnDescriptions) {
-        return getByColumnDescription(ForeignKeyEntry::getPkColumnDescription, columnDescriptions);
+    public ForeignKey getByName(String name) {
+        return stream().filter(fk -> fk.getName().equals(name)).findFirst().orElse(null);
+    }
+
+    public ForeignKeyList getByPkColumnDescription(ColumnDescription... columnDescriptions) {
+        List<ForeignKey> result = new ArrayList<>();
+
+        foreignKeys:
+        for (ForeignKey foreignKey : this) {
+            List<ColumnDescription> descriptions = new ArrayList<>(Arrays.asList(columnDescriptions));
+
+            for (ForeignKeyEntry entry : foreignKey) {
+                ColumnDescription entryDescription = entry.getPkColumnDescription();
+                for (int i = 0; i < descriptions.size(); i++) {
+                    ColumnDescription columnDescription = descriptions.get(i);
+                    if (ColumnDescriptionEquality.equals(entryDescription, columnDescription)) {
+                        descriptions.remove(i);
+                        i--;
+                    }
+                }
+            }
+
+            if (descriptions.isEmpty()) {
+                result.add(foreignKey);
+            }
+        }
+
+        return new ForeignKeyList(result);
     }
 
     public ForeignKey getByFkColumnDescription(ColumnDescription... columnDescriptions) {
@@ -61,4 +87,6 @@ public class ForeignKeyList extends AbstractList<ForeignKey> {
     public int size() {
         return foreignKeyList.size();
     }
+
+
 }
