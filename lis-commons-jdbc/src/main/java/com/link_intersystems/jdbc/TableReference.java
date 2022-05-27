@@ -57,6 +57,34 @@ public class TableReference {
         }
     }
 
+    public static enum Direction {
+        NATURAL {
+            @Override
+            public TableReference.Edge getSourceEdge(TableReference dependency) {
+                return dependency.getSourceEdge();
+            }
+
+            @Override
+            public TableReference.Edge getTargetEdge(TableReference dependency) {
+                return dependency.getTargetEdge();
+            }
+        }, REVERSED {
+            @Override
+            public TableReference.Edge getSourceEdge(TableReference reference) {
+                return reference.getTargetEdge();
+            }
+
+            @Override
+            public TableReference.Edge getTargetEdge(TableReference reference) {
+                return reference.getSourceEdge();
+            }
+        };
+
+        public abstract TableReference.Edge getSourceEdge(TableReference dependency);
+
+        public abstract TableReference.Edge getTargetEdge(TableReference dependency);
+    }
+
     private final String name;
     private final Edge targetEdge;
     private final Edge sourceEdge;
@@ -94,6 +122,12 @@ public class TableReference {
         this.targetEdge = requireNonNull(targetEdge);
     }
 
+    /**
+     * The name of this {@link TableReference}, usually the
+     * foreign key name of the foreign key it was constructed from.
+     *
+     * @return the name of this {@link TableReference},
+     */
     public String getName() {
         return name;
     }
@@ -104,6 +138,20 @@ public class TableReference {
 
     public Edge getTargetEdge() {
         return targetEdge;
+    }
+
+    /**
+     * Creates a new {@link TableReference} that reverses this {@link TableReference}
+     * by swapping the source and target edge.
+     *
+     * @return a new {@link TableReference} that reverses this {@link TableReference}
+     * by swapping the source and target edge.
+     */
+    public TableReference reverse() {
+        Direction direction = Direction.REVERSED;
+        Edge sourceEdge = direction.getSourceEdge(this);
+        Edge targetEdge = direction.getTargetEdge(this);
+        return new TableReference(getName(), sourceEdge, targetEdge);
     }
 
     @Override
