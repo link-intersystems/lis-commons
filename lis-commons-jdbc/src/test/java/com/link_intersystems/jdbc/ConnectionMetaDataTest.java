@@ -1,6 +1,7 @@
 package com.link_intersystems.jdbc;
 
 import com.link_intersystems.test.UnitTest;
+import com.link_intersystems.test.db.sakila.SakilaEmptyTestDBExtension;
 import com.link_intersystems.test.db.sakila.SakilaSlimTestDBExtension;
 import com.link_intersystems.test.db.sakila.SakilaTestDBExtension;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-@ExtendWith(SakilaSlimTestDBExtension.class)
+@ExtendWith(SakilaEmptyTestDBExtension.class)
 @UnitTest
 class ConnectionMetaDataTest {
 
