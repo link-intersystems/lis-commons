@@ -85,12 +85,11 @@ public class TableReference {
         public abstract TableReference.Edge getTargetEdge(TableReference dependency);
     }
 
-    private final String name;
-    private final Edge targetEdge;
-    private final Edge sourceEdge;
-
-    public TableReference(ForeignKey foreignKey) {
-        this(foreignKey.getName(), getSourceEdge(foreignKey), getTargetEdge(foreignKey));
+    public static TableReference of(ForeignKey foreignKey) {
+        String name = foreignKey.getName();
+        Edge sourceEdge = getSourceEdge(foreignKey);
+        Edge targetEdge = getTargetEdge(foreignKey);
+        return new TableReference(name, sourceEdge, targetEdge);
     }
 
     private static Edge getTargetEdge(ForeignKey foreignKey) {
@@ -115,6 +114,10 @@ public class TableReference {
 
         return new Edge(tableName, columns);
     }
+
+    private final String name;
+    private final Edge targetEdge;
+    private final Edge sourceEdge;
 
     public TableReference(String name, Edge sourceEdge, Edge targetEdge) {
         this.name = requireNonNull(name);
