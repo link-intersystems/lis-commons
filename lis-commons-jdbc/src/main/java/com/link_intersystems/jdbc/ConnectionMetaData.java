@@ -32,7 +32,7 @@ import static java.util.stream.Collectors.toList;
  *
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class ConnectionMetaData {
+public class ConnectionMetaData implements TableReferenceMetaData {
 
     private List<TableMetaData> tableMetaDataList;
     private Map<String, ColumnMetaDataList> columnMetaDataListByTableName = new HashMap<>();
@@ -179,6 +179,7 @@ public class ConnectionMetaData {
         return new ForeignKeyList(mapToForeignKeys(jdbcForeignKeyEntries));
     }
 
+    @Override
     public TableReferenceList getOutgoingReferences(String tableName) throws SQLException {
         if (!outgoingReferences.containsKey(tableName)) {
             ForeignKeyList importedKeys = getImportedKeys(tableName);
@@ -188,6 +189,7 @@ public class ConnectionMetaData {
         return outgoingReferences.get(tableName);
     }
 
+    @Override
     public TableReferenceList getIncomingReferences(String tableName) throws SQLException {
         if (!incommingReferences.containsKey(tableName)) {
             ForeignKeyList exportedKeys = getExportedKeys(tableName);
