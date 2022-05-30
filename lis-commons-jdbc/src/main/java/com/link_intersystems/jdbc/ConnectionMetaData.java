@@ -182,7 +182,7 @@ public class ConnectionMetaData {
     public TableReferenceList getOutgoingReferences(String tableName) throws SQLException {
         if (!outgoingReferences.containsKey(tableName)) {
             ForeignKeyList importedKeys = getImportedKeys(tableName);
-            List<TableReference> outgoing = importedKeys.stream().map(TableReference::new).collect(toList());
+            List<TableReference> outgoing = importedKeys.stream().map(TableReference::of).collect(toList());
             this.outgoingReferences.put(tableName, new TableReferenceList(outgoing));
         }
         return outgoingReferences.get(tableName);
@@ -191,7 +191,7 @@ public class ConnectionMetaData {
     public TableReferenceList getIncomingReferences(String tableName) throws SQLException {
         if (!incommingReferences.containsKey(tableName)) {
             ForeignKeyList exportedKeys = getExportedKeys(tableName);
-            List<TableReference> incoming = exportedKeys.stream().map(TableReference::new).collect(toList());
+            List<TableReference> incoming = exportedKeys.stream().map(TableReference::of).collect(toList());
             this.incommingReferences.put(tableName, new TableReferenceList(incoming));
         }
         return incommingReferences.get(tableName);
