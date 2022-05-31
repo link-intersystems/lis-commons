@@ -42,7 +42,6 @@ public class H2Database implements AutoCloseable {
     }
 
     private H2JdbcUrl h2JdbcUrl;
-    private H2JdbcUrl connectionUrl;
     private Connection realConnection;
     private Connection connectionProxy;
 
@@ -86,28 +85,8 @@ public class H2Database implements AutoCloseable {
         }
     }
 
-    /**
-     * Resets the database to it's initial state.
-     *
-     * @throws SQLException
-     */
-    public void reset() throws SQLException {
-        Connection connection = getRealConnection();
-        try (Statement statement = connection.createStatement()) {
-            statement.execute("DROP ALL OBJECTS");
-        }
-    }
-
     public boolean isIgnoreCase() {
         return h2JdbcUrl.isIgnoreCase();
-    }
-
-    public boolean isAutoCommit() {
-        return h2JdbcUrl.isAutoCommit();
-    }
-
-    public String getInit() {
-        return h2JdbcUrl.getInit();
     }
 
     public H2JdbcUrl getJdbcUrl() {
@@ -122,7 +101,6 @@ public class H2Database implements AutoCloseable {
     private Connection getRealConnection() throws SQLException {
         if (realConnection == null) {
             H2JdbcUrl jdbcUrl = getJdbcUrl();
-            connectionUrl = jdbcUrl;
             realConnection = DriverManager.getConnection(jdbcUrl.toString());
         }
         return realConnection;

@@ -1,3 +1,6 @@
+SET IGNORECASE 1;
+SET REFERENTIAL_INTEGRITY FALSE;
+
 insert into sakila.actor (actor_id, first_name, last_name, last_update) values (1, 'PENELOPE', 'GUINESS', '2006-02-15 04:34:33');
 insert into sakila.actor (actor_id, first_name, last_name, last_update) values (2, 'NICK', 'WAHLBERG', '2006-02-15 04:34:33');
 insert into sakila.film_actor (actor_id, film_id, last_update) values (1, 1, '2006-02-15 05:05:03');
@@ -3012,3 +3015,5 @@ insert into sakila.customer (customer_id, store_id, first_name, last_name, email
 insert into sakila.customer (customer_id, store_id, first_name, last_name, email, address_id, active, create_date, last_update) values (595, 1, 'TERRENCE', 'GUNDERSON', 'TERRENCE.GUNDERSON@sakilacustomer.org', 601, 1, '2006-02-14 22:04:37', '2006-02-15 04:57:20');
 insert into sakila.customer (customer_id, store_id, first_name, last_name, email, address_id, active, create_date, last_update) values (597, 1, 'FREDDIE', 'DUGGAN', 'FREDDIE.DUGGAN@sakilacustomer.org', 603, 1, '2006-02-14 22:04:37', '2006-02-15 04:57:20');
 insert into sakila.customer (customer_id, store_id, first_name, last_name, email, address_id, active, create_date, last_update) values (598, 1, 'WADE', 'DELVALLE', 'WADE.DELVALLE@sakilacustomer.org', 604, 1, '2006-02-14 22:04:37', '2006-02-15 04:57:20');
+
+SET REFERENTIAL_INTEGRITY TRUE;

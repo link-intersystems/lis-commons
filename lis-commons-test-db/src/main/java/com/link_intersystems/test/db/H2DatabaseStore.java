@@ -46,7 +46,7 @@ public class H2DatabaseStore {
     public void clearDB(ExtensionContext extensionContext) throws SQLException, IOException {
         H2Database h2Database = getDB(extensionContext);
         if (h2Database != null) {
-            h2Database.reset();
+            h2Database.clear();
         }
     }
 

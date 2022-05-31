@@ -1,8 +1,6 @@
 package com.link_intersystems.test.jdbc;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
+import java.lang.reflect.*;
 import java.sql.Connection;
 
 /**
@@ -25,6 +23,11 @@ class ReusableConnectionProxy implements InvocationHandler {
         if (method.getName().equals("close")) {
             return null;
         }
-        return method.invoke(connection, args);
+
+        try {
+            return method.invoke(connection, args);
+        } catch (InvocationTargetException e) {
+            throw e.getTargetException();
+        }
     }
 }

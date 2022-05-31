@@ -11,7 +11,7 @@ import java.sql.SQLException;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public abstract class AbstractTestDBExtension implements ParameterResolver, AfterTestExecutionCallback, LifecycleMethodExecutionExceptionHandler {
+public abstract class AbstractTestDBExtension implements ParameterResolver, AfterTestExecutionCallback {
 
     private H2DatabaseStore h2DatabaseStore;
     private DBSetup dbSetup;
@@ -21,10 +21,6 @@ public abstract class AbstractTestDBExtension implements ParameterResolver, Afte
         this.dbSetup = dbSetup;
     }
 
-    @Override
-    public void handleAfterAllMethodExecutionException(ExtensionContext context, Throwable throwable) throws Throwable {
-        h2DatabaseStore.removeDB(context);
-    }
 
     @Override
     public void afterTestExecution(ExtensionContext extensionContext) throws Exception {
@@ -48,15 +44,15 @@ public abstract class AbstractTestDBExtension implements ParameterResolver, Afte
             }
 
             try {
-                H2Database sakilaDB = h2DatabaseStore.getDB(extensionContext);
+                H2Database h2Database = h2DatabaseStore.getDB(extensionContext);
 
                 if (type.equals(Connection.class)) {
-                    return sakilaDB.getConnection();
+                    return h2Database.getConnection();
                 } else {
-                    return sakilaDB;
+                    return h2Database;
                 }
             } catch (SQLException | IOException e) {
-                throw new ParameterResolutionException("Unable to open sakila in-memory connection", e);
+                throw new ParameterResolutionException("Unable to open database connection", e);
             }
         }
 

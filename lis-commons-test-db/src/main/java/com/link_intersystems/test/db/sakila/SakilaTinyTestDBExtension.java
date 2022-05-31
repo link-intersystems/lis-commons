@@ -15,6 +15,6 @@ import java.sql.Connection;
 public class SakilaTinyTestDBExtension extends AbstractTestDBExtension {
 
     public SakilaTinyTestDBExtension() {
-        super(new SakilaSlimDB());
+        super(new SakilaTinyDB());
     }
 }
