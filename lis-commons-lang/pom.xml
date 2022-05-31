@@ -7,7 +7,7 @@
     </parent>
 
     <artifactId>lis-commons-lang</artifactId>
-    <name>Lang</name>
+    <name>LIS Commons Lang</name>
     <description>Link Intersystems Commons Lang (lis-commons-lang) is a library that
         provides reusable software components based on Java core features under the
         java.lang package and sub-packages.

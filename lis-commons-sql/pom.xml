@@ -10,5 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>lis-commons-sql</artifactId>
+    <name>LIS Commons SQL</name>
+    <description>Link Intersystems Commons SQL (lis-commons-sql) is a small library for generating sql statements and basic dialect support.</description>
 
 </project>

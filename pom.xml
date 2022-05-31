@@ -13,10 +13,10 @@
     <version>1.5.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+    <name>Link Intersystems - Commons</name>
     <description>Link Intersystems commons (lis) is a collection of reusable software components based on pure Java.
     </description>
 
-    <name>Link Intersystems - Commons</name>
     <inceptionYear>2011</inceptionYear>
 
     <modules>

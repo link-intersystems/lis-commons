@@ -7,7 +7,7 @@
     </parent>
 
     <artifactId>lis-commons-lang-criteria</artifactId>
-    <name>Lang Criteria</name>
+    <name>LIS Commons Lang Criteria</name>
     <description>Link Intersystems Commons Lang Criteria (lis-commons-lang-criteria) is a library that
         provides a criteria api for reflection related tasks.
     </description>

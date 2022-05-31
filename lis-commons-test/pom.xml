@@ -9,6 +9,9 @@
 
     <artifactId>lis-commons-test</artifactId>
 
+    <name>LIS Commons Test</name>
+    <description>Link Intersystems Commons Test (lis-commons-test) is primarily used by other lis-commons modules to share common test utilities.</description>
+
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

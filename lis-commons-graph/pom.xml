@@ -8,7 +8,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>lis-commons-graph</artifactId>
-    <name>Graph</name>
+    <name>LIS Commons Graph</name>
     <description>Link Intersystems Commons Graph (lis-commons-graph) is a collection of reusable software components
         that provide support for graph and tree related programming tasks, such as models and search algorithms.
     </description>

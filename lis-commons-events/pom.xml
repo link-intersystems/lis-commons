@@ -8,7 +8,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>lis-commons-events</artifactId>
-    <name>Events</name>
+    <name>LIS Commons Events</name>
     <description>Link Intersystems Commons Events (lis-commons-events) is a collection of reusable software components
         that provide support for event and event listener based programming tasks.
     </description>

@@ -8,7 +8,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>lis-commons-jdbc</artifactId>
-
+    <name>LIS Commons JDBC</name>
+    <description>Link Intersystems Commons JDBC (lis-commons-jdbc) provides an easy api for jdbc meta data access.</description>
 
     <dependencies>
         <dependency>

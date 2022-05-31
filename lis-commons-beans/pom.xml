@@ -7,7 +7,7 @@
     </parent>
 
     <artifactId>lis-commons-beans</artifactId>
-    <name>Beans</name>
+    <name>LIS Commons Beans</name>
     <description>Link Intersystems Commons Beans (lis-commons-beans) is a collection of reusable software components
         that provide a simpler programming api for the Java beans api.
     </description>

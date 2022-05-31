@@ -12,6 +12,10 @@
 
     <artifactId>lis-commons-sql-hibernate</artifactId>
 
+    <name>LIS Commons SQL Hibernate</name>
+    <description>Link Intersystems Commons SQL Hibernate (lis-commons-sql-hibernate)
+    is an extension for lis-commons-sql that provides SQL statement generation using a hibernate dialect.</description>
+
     <properties>
         <hibernate-core.version>5.6.8.Final</hibernate-core.version>
         <hibernate-core.groupId>org.hibernate</hibernate-core.groupId>
