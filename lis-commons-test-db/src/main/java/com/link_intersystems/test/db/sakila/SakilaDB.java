@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -36,16 +38,26 @@ public class SakilaDB implements DBSetup {
     }
 
     @Override
-    public String getDefaultSchema() {
+    public String getSchema() {
         return "sakila";
     }
 
     public SqlScript getSchemaScript() {
-        return new SqlScript(() -> new StringReader("CREATE SCHEMA IF NOT EXISTS " + getDefaultSchema()));
+        return new SqlScript(() -> new StringReader("CREATE SCHEMA IF NOT EXISTS " + getSchema()));
+    }
+
+    @Override
+    public void setupSchema(Connection connection) throws SQLException {
+        getSchemaScript().execute(connection);
     }
 
     public SqlScript getDdlScript() {
         return new SqlScript(this::getDdlResource);
+    }
+
+    @Override
+    public void setupDdl(Connection connection) throws SQLException {
+        getDdlScript().execute(connection);
     }
 
     public SqlScript getDataScript() {
@@ -58,5 +70,10 @@ public class SakilaDB implements DBSetup {
 
     public Reader getDataResource() {
         return new InputStreamReader(SakilaDB.class.getResourceAsStream("sakila-db.sql"), StandardCharsets.UTF_8);
+    }
+
+    @Override
+    public void setupData(Connection connection) throws SQLException {
+        getDataScript().execute(connection);
     }
 }
