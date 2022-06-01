@@ -11,4 +11,11 @@
     <name>LIS Commons SQL</name>
     <description>Link Intersystems Commons SQL (lis-commons-sql) is a small library for generating sql statements and basic dialect support.</description>
 
+
+    <dependencies>
+        <dependency>
+            <groupId>com.link-intersystems.commons</groupId>
+            <artifactId>lis-commons-test</artifactId>
+        </dependency>
+    </dependencies>
 </project>

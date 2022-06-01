@@ -1,4 +1,4 @@
-package com.link_intersystems.assertion.util;
+package com.link_intersystems.test.assertion.util;
 
 import java.util.Comparator;
 

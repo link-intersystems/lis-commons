@@ -2,6 +2,7 @@ package com.link_intersystems.test.jdbc;
 
 import java.lang.reflect.*;
 import java.sql.Connection;
+import java.util.Objects;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}

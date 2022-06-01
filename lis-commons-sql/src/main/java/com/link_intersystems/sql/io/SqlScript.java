@@ -1,4 +1,4 @@
-package com.link_intersystems.test.jdbc;
+package com.link_intersystems.sql.io;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -13,9 +13,9 @@ import java.util.function.Predicate;
  */
 public class SqlScript {
 
-    public static interface ReaderSupplier {
+    public static interface ScriptResource {
 
-        public Reader get() throws IOException;
+        public Reader open() throws IOException;
     }
 
     public static interface StatementCallback {
@@ -23,12 +23,12 @@ public class SqlScript {
         public void doWithStatement(String sqlStatement) throws SQLException;
     }
 
-    private ReaderSupplier scriptReaderSupplier;
+    private ScriptResource scriptResource;
 
     private Predicate<String> statementFiler = s -> true;
 
-    public SqlScript(ReaderSupplier scriptReaderSupplier) {
-        this.scriptReaderSupplier = Objects.requireNonNull(scriptReaderSupplier);
+    public SqlScript(ScriptResource scriptResource) {
+        this.scriptResource = Objects.requireNonNull(scriptResource);
     }
 
     public void setStatementFilter(Predicate<String> statementFiler) {
@@ -36,7 +36,7 @@ public class SqlScript {
     }
 
     public void execute(StatementCallback statementCallback) throws SQLException {
-        try (StatementReader statementReader = new StatementReader(scriptReaderSupplier.get())) {
+        try (StatementReader statementReader = new StatementReader(scriptResource.open())) {
             statementReader.setStatementFilter(statementFiler);
 
             while (statementReader.hasNext()) {

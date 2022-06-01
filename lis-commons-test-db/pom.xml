@@ -25,6 +25,11 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>com.link-intersystems.commons</groupId>
+            <artifactId>lis-commons-sql</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
         </dependency>

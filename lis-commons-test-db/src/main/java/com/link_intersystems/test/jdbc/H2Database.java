@@ -34,8 +34,18 @@ public class H2Database implements AutoCloseable {
             }
     ).contains(tableName);
 
+    public static final String DEFAULT_SCHEMA = "PUBLIC";
+
+
     public static void setReferentialIntegrity(Connection connection, boolean referentialIntegrity) throws SQLException {
         String cmd = format("SET REFERENTIAL_INTEGRITY {0}", Boolean.toString(referentialIntegrity).toUpperCase());
+        try (Statement statement = connection.createStatement()) {
+            statement.execute(cmd);
+        }
+    }
+
+    public static void setConnectionSchema(Connection connection, String schema) throws SQLException {
+        String cmd = format("SET SCHEMA {0}", schema == null ? DEFAULT_SCHEMA : schema);
         try (Statement statement = connection.createStatement()) {
             statement.execute(cmd);
         }
@@ -44,6 +54,9 @@ public class H2Database implements AutoCloseable {
     private H2JdbcUrl h2JdbcUrl;
     private Connection realConnection;
     private Connection connectionProxy;
+
+    private String schema;
+    private String activeSchema;
 
     public H2Database() {
         this(new H2JdbcUrl.Builder().build());
@@ -59,6 +72,11 @@ public class H2Database implements AutoCloseable {
 
     public String getSchema() {
         return h2JdbcUrl.getSchema();
+    }
+
+    public void setSchema(String schema) throws SQLException {
+        this.schema = schema;
+        updateConnection();
     }
 
     public void close() throws SQLException {
@@ -103,7 +121,20 @@ public class H2Database implements AutoCloseable {
             H2JdbcUrl jdbcUrl = getJdbcUrl();
             realConnection = DriverManager.getConnection(jdbcUrl.toString());
         }
+
+        updateConnection();
         return realConnection;
+    }
+
+    private void updateConnection() throws SQLException {
+        if(realConnection == null){
+            return;
+        }
+
+        if (!Objects.equals(activeSchema, schema)) {
+            H2Database.setConnectionSchema(realConnection, schema);
+            activeSchema = schema;
+        }
     }
 
     public Connection getConnection() throws SQLException {

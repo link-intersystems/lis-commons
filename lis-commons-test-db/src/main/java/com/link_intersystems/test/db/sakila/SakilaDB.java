@@ -1,7 +1,7 @@
 package com.link_intersystems.test.db.sakila;
 
+import com.link_intersystems.sql.io.SqlScript;
 import com.link_intersystems.test.db.DBSetup;
-import com.link_intersystems.test.jdbc.SqlScript;
 
 import java.io.InputStreamReader;
 import java.io.Reader;

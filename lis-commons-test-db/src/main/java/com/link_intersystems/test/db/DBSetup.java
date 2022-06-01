@@ -1,6 +1,6 @@
 package com.link_intersystems.test.db;
 
-import com.link_intersystems.test.jdbc.SqlScript;
+import com.link_intersystems.sql.io.SqlScript;
 
 import java.util.List;
 

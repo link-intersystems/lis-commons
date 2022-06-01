@@ -1,10 +1,8 @@
 package com.link_intersystems.test.db;
 
+import com.link_intersystems.sql.io.SqlScript;
 import com.link_intersystems.test.jdbc.H2Database;
-import com.link_intersystems.test.jdbc.H2JdbcUrl;
-import com.link_intersystems.test.jdbc.SqlScript;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -26,12 +24,11 @@ public class H2DatabaseFactory {
         SqlScript schemaSqlScript = dbSetup.getSchemaScript();
         schemaSqlScript.execute(connection);
 
+        String defaultSchema = dbSetup.getDefaultSchema();
+        h2Database.setSchema(defaultSchema);
+
         SqlScript ddlScript = dbSetup.getDdlScript();
         ddlScript.execute(connection);
-
-        H2JdbcUrl jdbcUrl = h2Database.getJdbcUrl();
-        String defaultSchema = dbSetup.getDefaultSchema();
-        h2Database = new H2Database(new H2JdbcUrl.Builder(jdbcUrl).setSchema(defaultSchema).build());
 
         SqlScript dataScript = dbSetup.getDataScript();
 
