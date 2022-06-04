@@ -3,6 +3,7 @@ lis-commons
 
 ![Java CI with Maven](https://github.com/link-intersystems/lis-commons/workflows/Java%20CI%20with%20Maven/badge.svg) 
 [![Coverage Status](https://coveralls.io/repos/github/link-intersystems/lis-commons/badge.svg?branch=master)](https://coveralls.io/github/link-intersystems/lis-commons?branch=master)
+[![Maven Central](https://img.shields.io/maven-central/v/com.link-intersystems.commons/lis-commons)](https://search.maven.org/artifact/com.link-intersystems.commons/lis-commons)
 
 A collection of reusable Java components for library and framework developers.
 
