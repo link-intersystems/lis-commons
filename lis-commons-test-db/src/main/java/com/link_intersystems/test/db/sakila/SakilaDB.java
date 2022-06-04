@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class SakilaDB implements DBSetup {
 
-    public List<String> getTableNames() {
+    public static List<String> getTableNames() {
         return new ArrayList<>(Arrays.asList(
                 "actor",
                 "film_actor",

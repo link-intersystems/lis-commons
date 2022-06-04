@@ -24,8 +24,7 @@ import java.util.List;
  */
 public class SakilaSlimDB extends SakilaDB {
 
-    @Override
-    public List<String> getTableNames() {
+    public static List<String> getTableNames() {
         return new ArrayList<>(Arrays.asList("actor", "film_actor", "film", "language", "film_category", "category"));
     }
 
