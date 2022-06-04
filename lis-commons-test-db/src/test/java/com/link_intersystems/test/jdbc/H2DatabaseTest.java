@@ -1,33 +1,36 @@
 package com.link_intersystems.test.jdbc;
 
+import com.link_intersystems.test.db.setup.DBSetupH2DatabaseFactory;
 import com.link_intersystems.test.db.sakila.SakilaSlimDB;
-import com.link_intersystems.test.db.sakila.SakilaSlimTestDBExtension;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-@ExtendWith(SakilaSlimTestDBExtension.class)
 class H2DatabaseTest {
 
     private H2Database h2Database;
     private Connection connection;
-    private SakilaSlimDB sakilaSlimDB;
     private DBAssertions dbAssertions;
 
     @BeforeEach
-    void setUp(H2Database h2Database) throws SQLException {
-        this.h2Database = h2Database;
+    void setUp() throws SQLException {
+        DBSetupH2DatabaseFactory dbSetupH2DatabaseFactory = new DBSetupH2DatabaseFactory(new SakilaSlimDB());
+        h2Database = dbSetupH2DatabaseFactory.create();
         connection = h2Database.getConnection();
         dbAssertions = new DBAssertions(connection);
+    }
+
+    @AfterEach
+    void tearDown() throws SQLException {
+        h2Database.close();
     }
 
     @Test

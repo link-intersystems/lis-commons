@@ -9,6 +9,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * An empty version of the {@link SakilaDB} that contains no data, just the empty tables.
+ *
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
 public class SakilaEmptyDB extends SakilaDB {

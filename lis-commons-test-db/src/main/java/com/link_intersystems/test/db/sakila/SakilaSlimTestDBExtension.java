@@ -1,6 +1,6 @@
 package com.link_intersystems.test.db.sakila;
 
-import com.link_intersystems.test.db.AbstractTestDBExtension;
+import com.link_intersystems.test.db.GenericTestDBExtention;
 import org.junit.jupiter.api.extension.ParameterResolver;
 
 import java.sql.Connection;
@@ -12,9 +12,9 @@ import java.sql.Connection;
  *
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class SakilaSlimTestDBExtension extends AbstractTestDBExtension {
+public class SakilaSlimTestDBExtension extends GenericTestDBExtention {
 
     public SakilaSlimTestDBExtension() {
-        super(new SakilaSlimDB());
+        super(new SakilaH2DatabaseFactory("slim"));
     }
 }

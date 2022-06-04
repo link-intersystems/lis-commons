@@ -130,8 +130,8 @@ public class H2JdbcUrl {
         H2JdbcUrl h2JdbcUrl = (H2JdbcUrl) o;
         return ignoreCase == h2JdbcUrl.ignoreCase
                 && autoCommit == h2JdbcUrl.autoCommit
-                && databaseToLower == h2JdbcUrl.databaseToLower
                 && Objects.equals(databaseName, h2JdbcUrl.databaseName)
+                && databaseToLower == h2JdbcUrl.databaseToLower
                 && Objects.equals(schema, h2JdbcUrl.schema)
                 && Objects.equals(init, h2JdbcUrl.init);
     }
@@ -145,15 +145,21 @@ public class H2JdbcUrl {
     public String toString() {
         StringBuilder jdbcBuilder = new StringBuilder("jdbc:h2:");
 
-        if (getDatabaseFilePath() == null) {
+        String databaseFilePath = getDatabaseFilePath();
+        if (databaseFilePath == null) {
             jdbcBuilder.append("mem:");
         } else {
-            jdbcBuilder.append("file:" + getDatabaseFilePath());
+            jdbcBuilder.append("file:");
+            jdbcBuilder.append(databaseFilePath);
+            if (!databaseFilePath.endsWith("/")) {
+                jdbcBuilder.append("/");
+            }
         }
 
         if (databaseName != null) {
             jdbcBuilder.append(databaseName);
         }
+
 
         jdbcBuilder.append(";AUTOCOMMIT=");
         if (autoCommit) {

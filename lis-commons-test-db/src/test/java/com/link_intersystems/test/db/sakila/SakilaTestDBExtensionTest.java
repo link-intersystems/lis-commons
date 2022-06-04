@@ -6,6 +6,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.RegisterExtension;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -18,9 +19,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-@ExtendWith(SakilaTestDBExtension.class)
 @UnitTest
 public class SakilaTestDBExtensionTest extends AbstractDBExtensionTest {
+
+    @RegisterExtension
+    static SakilaTestDBExtension extension = new SakilaTestDBExtension();
 
 
     @Test

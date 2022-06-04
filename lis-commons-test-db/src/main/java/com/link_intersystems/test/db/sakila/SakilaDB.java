@@ -1,7 +1,7 @@
 package com.link_intersystems.test.db.sakila;
 
 import com.link_intersystems.sql.io.SqlScript;
-import com.link_intersystems.test.db.DBSetup;
+import com.link_intersystems.test.db.setup.DBSetup;
 
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -14,6 +14,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * The complete <a href="https://dev.mysql.com/doc/sakila/en/">sakila sample database</a> as provided by mysql.
+ *
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
 public class SakilaDB implements DBSetup {
@@ -37,13 +39,8 @@ public class SakilaDB implements DBSetup {
                 "country"));
     }
 
-    @Override
-    public String getSchema() {
-        return "sakila";
-    }
-
     public SqlScript getSchemaScript() {
-        return new SqlScript(() -> new StringReader("CREATE SCHEMA IF NOT EXISTS " + getSchema()));
+        return new SqlScript(() -> new StringReader("CREATE SCHEMA IF NOT EXISTS sakila"));
     }
 
     @Override

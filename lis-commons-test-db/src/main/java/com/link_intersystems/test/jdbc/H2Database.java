@@ -1,11 +1,11 @@
 package com.link_intersystems.test.jdbc;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import javax.sql.DataSource;
+import java.io.PrintWriter;
+import java.sql.*;
 import java.util.Objects;
 import java.util.function.Predicate;
+import java.util.logging.Logger;
 
 import static java.text.MessageFormat.format;
 import static java.util.Arrays.asList;
@@ -13,7 +13,7 @@ import static java.util.Arrays.asList;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class H2Database implements AutoCloseable {
+public class H2Database implements AutoCloseable, DataSource {
 
     public static final Predicate<String> SYSTEM_TABLE_PREDICATE = tableName -> asList(new String[]{
                     "constants",
@@ -97,9 +97,13 @@ public class H2Database implements AutoCloseable {
      * @throws SQLException
      */
     public void clear() throws SQLException {
+        executeStatement("DROP ALL OBJECTS");
+    }
+
+    protected void executeStatement(String sql) throws SQLException {
         Connection connection = getRealConnection();
         try (Statement statement = connection.createStatement()) {
-            statement.execute("DROP ALL OBJECTS");
+            statement.execute(sql);
         }
     }
 
@@ -127,7 +131,7 @@ public class H2Database implements AutoCloseable {
     }
 
     private void updateConnection() throws SQLException {
-        if(realConnection == null){
+        if (realConnection == null) {
             return;
         }
 
@@ -144,5 +148,46 @@ public class H2Database implements AutoCloseable {
         }
 
         return connectionProxy;
+    }
+
+    @Override
+    public Connection getConnection(String username, String password) throws SQLException {
+        return getConnection();
+    }
+
+    @Override
+    public <T> T unwrap(Class<T> iface) throws SQLException {
+        if (H2Database.class.equals(iface)) {
+            return (T) this;
+        }
+        return null;
+    }
+
+    @Override
+    public boolean isWrapperFor(Class<?> iface) throws SQLException {
+        return H2Database.class.equals(iface);
+    }
+
+    @Override
+    public PrintWriter getLogWriter() throws SQLException {
+        return null;
+    }
+
+    @Override
+    public void setLogWriter(PrintWriter out) throws SQLException {
+    }
+
+    @Override
+    public void setLoginTimeout(int seconds) throws SQLException {
+    }
+
+    @Override
+    public int getLoginTimeout() throws SQLException {
+        return 0;
+    }
+
+    @Override
+    public Logger getParentLogger() throws SQLFeatureNotSupportedException {
+        return null;
     }
 }
