@@ -2,7 +2,7 @@
 SET IGNORECASE 1;
 SET REFERENTIAL_INTEGRITY FALSE;
 
-INSERT INTO "sakila"."actor" VALUES
+INSERT INTO "actor" VALUES
 (1, 'PENELOPE', 'GUINESS', TIMESTAMP '2006-02-15 04:34:33'),
 (2, 'NICK', 'WAHLBERG', TIMESTAMP '2006-02-15 04:34:33'),
 (3, 'ED', 'CHASE', TIMESTAMP '2006-02-15 04:34:33'),
@@ -73,7 +73,7 @@ INSERT INTO "sakila"."actor" VALUES
 (68, 'RIP', 'WINSLET', TIMESTAMP '2006-02-15 04:34:33'),
 (69, 'KENNETH', 'PALTROW', TIMESTAMP '2006-02-15 04:34:33'),
 (70, 'MICHELLE', 'MCCONAUGHEY', TIMESTAMP '2006-02-15 04:34:33');             
-INSERT INTO "sakila"."actor" VALUES
+INSERT INTO "actor" VALUES
 (71, 'ADAM', 'GRANT', TIMESTAMP '2006-02-15 04:34:33'),
 (72, 'SEAN', 'WILLIAMS', TIMESTAMP '2006-02-15 04:34:33'),
 (73, 'GARY', 'PENN', TIMESTAMP '2006-02-15 04:34:33'),
@@ -143,7 +143,7 @@ INSERT INTO "sakila"."actor" VALUES
 (137, 'MORGAN', 'WILLIAMS', TIMESTAMP '2006-02-15 04:34:33'),
 (138, 'LUCILLE', 'DEE', TIMESTAMP '2006-02-15 04:34:33'),
 (139, 'EWAN', 'GOODING', TIMESTAMP '2006-02-15 04:34:33');   
-INSERT INTO "sakila"."actor" VALUES
+INSERT INTO "actor" VALUES
 (140, 'WHOOPI', 'HURT', TIMESTAMP '2006-02-15 04:34:33'),
 (141, 'CATE', 'HARRIS', TIMESTAMP '2006-02-15 04:34:33'),
 (142, 'JADA', 'RYDER', TIMESTAMP '2006-02-15 04:34:33'),
@@ -206,7 +206,7 @@ INSERT INTO "sakila"."actor" VALUES
 (199, 'JULIA', 'FAWCETT', TIMESTAMP '2006-02-15 04:34:33'),
 (200, 'THORA', 'TEMPLE', TIMESTAMP '2006-02-15 04:34:33');  
 
-INSERT INTO "sakila"."category" VALUES
+INSERT INTO "category" VALUES
 (1, 'Action', TIMESTAMP '2006-02-15 04:46:27'),
 (2, 'Animation', TIMESTAMP '2006-02-15 04:46:27'),
 (3, 'Children', TIMESTAMP '2006-02-15 04:46:27'),
@@ -224,7 +224,7 @@ INSERT INTO "sakila"."category" VALUES
 (15, 'Sports', TIMESTAMP '2006-02-15 04:46:27'),
 (16, 'Travel', TIMESTAMP '2006-02-15 04:46:27');          
 
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (1, 'ACADEMY DINOSAUR', 'A Epic Drama of a Feminist And a Mad Scientist who must Battle a Teacher in The Canadian Rockies', DATE '2006-01-01', 1, NULL, 6, 0.99, 86, 20.99, 'PG', 'Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (2, 'ACE GOLDFINGER', 'A Astounding Epistle of a Database Administrator And a Explorer who must Find a Car in Ancient China', DATE '2006-01-01', 1, NULL, 3, 4.99, 48, 12.99, 'G', 'Trailers,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (3, 'ADAPTATION HOLES', 'A Astounding Reflection of a Lumberjack And a Car who must Sink a Lumberjack in A Baloon Factory', DATE '2006-01-01', 1, NULL, 7, 2.99, 50, 18.99, 'NC-17', 'Trailers,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -242,7 +242,7 @@ INSERT INTO "sakila"."film" VALUES
 (15, 'ALIEN CENTER', 'A Brilliant Drama of a Cat And a Mad Scientist who must Battle a Feminist in A MySQL Convention', DATE '2006-01-01', 1, NULL, 5, 2.99, 46, 10.99, 'NC-17', 'Trailers,Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (16, 'ALLEY EVOLUTION', 'A Fast-Paced Drama of a Robot And a Composer who must Battle a Astronaut in New Orleans', DATE '2006-01-01', 1, NULL, 6, 2.99, 180, 23.99, 'NC-17', 'Trailers,Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
 (17, 'ALONE TRIP', 'A Fast-Paced Character Study of a Composer And a Dog who must Outgun a Boat in An Abandoned Fun House', DATE '2006-01-01', 1, NULL, 3, 0.99, 82, 14.99, 'R', 'Trailers,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42');
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (18, 'ALTER VICTORY', 'A Thoughtful Drama of a Composer And a Feminist who must Meet a Secret Agent in The Canadian Rockies', DATE '2006-01-01', 1, NULL, 6, 0.99, 57, 27.99, 'PG-13', 'Trailers,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (19, 'AMADEUS HOLY', 'A Emotional Display of a Pioneer And a Technical Writer who must Battle a Man in A Baloon', DATE '2006-01-01', 1, NULL, 6, 0.99, 113, 20.99, 'PG', 'Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (20, 'AMELIE HELLFIGHTERS', 'A Boring Drama of a Woman And a Squirrel who must Conquer a Student in A Baloon', DATE '2006-01-01', 1, NULL, 4, 4.99, 79, 23.99, 'R', 'Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -260,7 +260,7 @@ INSERT INTO "sakila"."film" VALUES
 (32, 'APOCALYPSE FLAMINGOS', 'A Astounding Story of a Dog And a Squirrel who must Defeat a Woman in An Abandoned Amusement Park', DATE '2006-01-01', 1, NULL, 6, 4.99, 119, 11.99, 'R', 'Trailers,Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
 (33, 'APOLLO TEEN', 'A Action-Packed Reflection of a Crocodile And a Explorer who must Find a Sumo Wrestler in An Abandoned Mine Shaft', DATE '2006-01-01', 1, NULL, 5, 2.99, 153, 15.99, 'PG-13', 'Trailers,Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (34, 'ARABIA DOGMA', 'A Touching Epistle of a Madman And a Mad Cow who must Defeat a Student in Nigeria', DATE '2006-01-01', 1, NULL, 6, 0.99, 62, 29.99, 'NC-17', 'Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'); 
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (35, 'ARACHNOPHOBIA ROLLERCOASTER', 'A Action-Packed Reflection of a Pastry Chef And a Composer who must Discover a Mad Scientist in The First Manned Space Station', DATE '2006-01-01', 1, NULL, 4, 2.99, 147, 24.99, 'PG-13', 'Trailers,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (36, 'ARGONAUTS TOWN', 'A Emotional Epistle of a Forensic Psychologist And a Butler who must Challenge a Waitress in An Abandoned Mine Shaft', DATE '2006-01-01', 1, NULL, 7, 0.99, 127, 12.99, 'PG-13', 'Trailers,Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
 (37, 'ARIZONA BANG', 'A Brilliant Panorama of a Mad Scientist And a Mad Cow who must Meet a Pioneer in A Monastery', DATE '2006-01-01', 1, NULL, 3, 2.99, 121, 28.99, 'PG', 'Trailers,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -278,7 +278,7 @@ INSERT INTO "sakila"."film" VALUES
 (49, 'BADMAN DAWN', 'A Emotional Panorama of a Pioneer And a Composer who must Escape a Mad Scientist in A Jet Boat', DATE '2006-01-01', 1, NULL, 6, 2.99, 162, 22.99, 'R', 'Trailers,Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (50, 'BAKED CLEOPATRA', 'A Stunning Drama of a Forensic Psychologist And a Husband who must Overcome a Waitress in A Monastery', DATE '2006-01-01', 1, NULL, 3, 2.99, 182, 20.99, 'G', 'Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (51, 'BALLOON HOMEWARD', 'A Insightful Panorama of a Forensic Psychologist And a Mad Cow who must Build a Mad Scientist in The First Manned Space Station', DATE '2006-01-01', 1, NULL, 5, 2.99, 75, 10.99, 'NC-17', 'Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42');   
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (52, 'BALLROOM MOCKINGBIRD', 'A Thrilling Documentary of a Composer And a Monkey who must Find a Feminist in California', DATE '2006-01-01', 1, NULL, 6, 0.99, 173, 29.99, 'G', 'Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (53, 'BANG KWAI', 'A Epic Drama of a Madman And a Cat who must Face a A Shark in An Abandoned Amusement Park', DATE '2006-01-01', 1, NULL, 5, 2.99, 87, 25.99, 'NC-17', 'Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (54, 'BANGER PINOCCHIO', 'A Awe-Inspiring Drama of a Car And a Pastry Chef who must Chase a Crocodile in The First Manned Space Station', DATE '2006-01-01', 1, NULL, 5, 0.99, 113, 15.99, 'R', 'Trailers,Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -296,7 +296,7 @@ INSERT INTO "sakila"."film" VALUES
 (66, 'BENEATH RUSH', 'A Astounding Panorama of a Man And a Monkey who must Discover a Man in The First Manned Space Station', DATE '2006-01-01', 1, NULL, 6, 0.99, 53, 27.99, 'NC-17', 'Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (67, 'BERETS AGENT', 'A Taut Saga of a Crocodile And a Boy who must Overcome a Technical Writer in Ancient China', DATE '2006-01-01', 1, NULL, 5, 2.99, 77, 24.99, 'PG-13', 'Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (68, 'BETRAYED REAR', 'A Emotional Character Study of a Boat And a Pioneer who must Find a Explorer in A Shark Tank', DATE '2006-01-01', 1, NULL, 5, 4.99, 122, 26.99, 'NC-17', 'Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42');   
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (69, 'BEVERLY OUTLAW', 'A Fanciful Documentary of a Womanizer And a Boat who must Defeat a Madman in The First Manned Space Station', DATE '2006-01-01', 1, NULL, 3, 2.99, 85, 21.99, 'R', 'Trailers', TIMESTAMP '2006-02-15 05:03:42'),
 (70, 'BIKINI BORROWERS', 'A Astounding Drama of a Astronaut And a Cat who must Discover a Woman in The First Manned Space Station', DATE '2006-01-01', 1, NULL, 7, 4.99, 142, 26.99, 'NC-17', 'Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (71, 'BILKO ANONYMOUS', 'A Emotional Reflection of a Teacher And a Man who must Meet a Cat in The First Manned Space Station', DATE '2006-01-01', 1, NULL, 3, 4.99, 100, 25.99, 'PG-13', 'Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -314,7 +314,7 @@ INSERT INTO "sakila"."film" VALUES
 (83, 'BLUES INSTINCT', 'A Insightful Documentary of a Boat And a Composer who must Meet a Forensic Psychologist in An Abandoned Fun House', DATE '2006-01-01', 1, NULL, 5, 2.99, 50, 18.99, 'G', 'Trailers,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (84, 'BOILED DARES', 'A Awe-Inspiring Story of a Waitress And a Dog who must Discover a Dentist in Ancient Japan', DATE '2006-01-01', 1, NULL, 7, 4.99, 102, 13.99, 'PG', 'Trailers,Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
 (85, 'BONNIE HOLOCAUST', 'A Fast-Paced Story of a Crocodile And a Robot who must Find a Moose in Ancient Japan', DATE '2006-01-01', 1, NULL, 4, 0.99, 63, 29.99, 'G', 'Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42');             
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (86, 'BOOGIE AMELIE', 'A Lacklusture Character Study of a Husband And a Sumo Wrestler who must Succumb a Technical Writer in The Gulf of Mexico', DATE '2006-01-01', 1, NULL, 6, 4.99, 121, 11.99, 'R', 'Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (87, 'BOONDOCK BALLROOM', 'A Fateful Panorama of a Crocodile And a Boy who must Defeat a Monkey in The Gulf of Mexico', DATE '2006-01-01', 1, NULL, 7, 0.99, 76, 14.99, 'NC-17', 'Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (88, 'BORN SPINAL', 'A Touching Epistle of a Frisbee And a Husband who must Pursue a Student in Nigeria', DATE '2006-01-01', 1, NULL, 7, 4.99, 179, 17.99, 'PG', 'Trailers,Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -333,7 +333,7 @@ INSERT INTO "sakila"."film" VALUES
 (101, 'BROTHERHOOD BLANKET', 'A Fateful Character Study of a Butler And a Technical Writer who must Sink a Astronaut in Ancient Japan', DATE '2006-01-01', 1, NULL, 3, 0.99, 73, 26.99, 'R', 'Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (102, 'BUBBLE GROSSE', 'A Awe-Inspiring Panorama of a Crocodile And a Moose who must Confront a Girl in A Baloon', DATE '2006-01-01', 1, NULL, 4, 4.99, 60, 20.99, 'R', 'Trailers,Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (103, 'BUCKET BROTHERHOOD', 'A Amazing Display of a Girl And a Womanizer who must Succumb a Lumberjack in A Baloon Factory', DATE '2006-01-01', 1, NULL, 7, 4.99, 133, 27.99, 'PG', 'Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42');              
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (104, 'BUGSY SONG', 'A Awe-Inspiring Character Study of a Secret Agent And a Boat who must Find a Squirrel in The First Manned Space Station', DATE '2006-01-01', 1, NULL, 4, 2.99, 119, 17.99, 'G', 'Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
 (105, 'BULL SHAWSHANK', 'A Fanciful Drama of a Moose And a Squirrel who must Conquer a Pioneer in The Canadian Rockies', DATE '2006-01-01', 1, NULL, 6, 0.99, 125, 21.99, 'NC-17', 'Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (106, 'BULWORTH COMMANDMENTS', 'A Amazing Display of a Mad Cow And a Pioneer who must Redeem a Sumo Wrestler in The Outback', DATE '2006-01-01', 1, NULL, 4, 2.99, 61, 14.99, 'G', 'Trailers', TIMESTAMP '2006-02-15 05:03:42'),
@@ -351,7 +351,7 @@ INSERT INTO "sakila"."film" VALUES
 (118, 'CANYON STOCK', 'A Thoughtful Reflection of a Waitress And a Feminist who must Escape a Squirrel in A Manhattan Penthouse', DATE '2006-01-01', 1, NULL, 7, 0.99, 85, 26.99, 'R', 'Trailers,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (119, 'CAPER MOTIONS', 'A Fateful Saga of a Moose And a Car who must Pursue a Woman in A MySQL Convention', DATE '2006-01-01', 1, NULL, 6, 0.99, 176, 22.99, 'G', 'Trailers,Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (120, 'CARIBBEAN LIBERTY', 'A Fanciful Tale of a Pioneer And a Technical Writer who must Outgun a Pioneer in A Shark Tank', DATE '2006-01-01', 1, NULL, 3, 4.99, 92, 16.99, 'NC-17', 'Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42');           
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (121, 'CAROL TEXAS', 'A Astounding Character Study of a Composer And a Student who must Overcome a Composer in A Monastery', DATE '2006-01-01', 1, NULL, 4, 2.99, 151, 15.99, 'PG', 'Trailers,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (122, 'CARRIE BUNCH', 'A Amazing Epistle of a Student And a Astronaut who must Discover a Frisbee in The Canadian Rockies', DATE '2006-01-01', 1, NULL, 7, 0.99, 114, 11.99, 'PG', 'Trailers,Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (123, 'CASABLANCA SUPER', 'A Amazing Panorama of a Crocodile And a Forensic Psychologist who must Pursue a Secret Agent in The First Manned Space Station', DATE '2006-01-01', 1, NULL, 6, 4.99, 85, 22.99, 'G', 'Trailers,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -369,7 +369,7 @@ INSERT INTO "sakila"."film" VALUES
 (135, 'CHANCE RESURRECTION', 'A Astounding Story of a Forensic Psychologist And a Forensic Psychologist who must Overcome a Moose in Ancient China', DATE '2006-01-01', 1, NULL, 3, 2.99, 70, 22.99, 'R', 'Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (136, 'CHAPLIN LICENSE', 'A Boring Drama of a Dog And a Forensic Psychologist who must Outrace a Explorer in Ancient India', DATE '2006-01-01', 1, NULL, 7, 2.99, 146, 26.99, 'NC-17', 'Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (137, 'CHARADE DUFFEL', 'A Action-Packed Display of a Man And a Waitress who must Build a Dog in A MySQL Convention', DATE '2006-01-01', 1, NULL, 3, 2.99, 66, 21.99, 'PG', 'Trailers,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42');               
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (138, 'CHARIOTS CONSPIRACY', 'A Unbelieveable Epistle of a Robot And a Husband who must Chase a Robot in The First Manned Space Station', DATE '2006-01-01', 1, NULL, 5, 2.99, 71, 29.99, 'R', 'Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (139, 'CHASING FIGHT', 'A Astounding Saga of a Technical Writer And a Butler who must Battle a Butler in A Shark Tank', DATE '2006-01-01', 1, NULL, 7, 4.99, 114, 21.99, 'PG', 'Trailers,Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
 (140, 'CHEAPER CLYDE', 'A Emotional Character Study of a Pioneer And a Girl who must Discover a Dog in Ancient Japan', DATE '2006-01-01', 1, NULL, 6, 0.99, 87, 23.99, 'G', 'Trailers,Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -387,7 +387,7 @@ INSERT INTO "sakila"."film" VALUES
 (152, 'CIRCUS YOUTH', 'A Thoughtful Drama of a Pastry Chef And a Dentist who must Pursue a Girl in A Baloon', DATE '2006-01-01', 1, NULL, 5, 2.99, 90, 13.99, 'PG-13', 'Trailers,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (153, 'CITIZEN SHREK', 'A Fanciful Character Study of a Technical Writer And a Husband who must Redeem a Robot in The Outback', DATE '2006-01-01', 1, NULL, 7, 0.99, 165, 18.99, 'G', 'Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (154, 'CLASH FREDDY', 'A Amazing Yarn of a Composer And a Squirrel who must Escape a Astronaut in Australia', DATE '2006-01-01', 1, NULL, 6, 2.99, 81, 12.99, 'G', 'Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42');           
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (155, 'CLEOPATRA DEVIL', 'A Fanciful Documentary of a Crocodile And a Technical Writer who must Fight a A Shark in A Baloon', DATE '2006-01-01', 1, NULL, 6, 0.99, 150, 26.99, 'PG-13', 'Trailers,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (156, 'CLERKS ANGELS', 'A Thrilling Display of a Sumo Wrestler And a Girl who must Confront a Man in A Baloon', DATE '2006-01-01', 1, NULL, 3, 4.99, 164, 15.99, 'G', 'Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
 (157, 'CLOCKWORK PARADISE', 'A Insightful Documentary of a Technical Writer And a Feminist who must Challenge a Cat in A Baloon', DATE '2006-01-01', 1, NULL, 7, 0.99, 143, 29.99, 'PG-13', 'Trailers,Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -405,7 +405,7 @@ INSERT INTO "sakila"."film" VALUES
 (169, 'COMFORTS RUSH', 'A Unbelieveable Panorama of a Pioneer And a Husband who must Meet a Mad Cow in An Abandoned Mine Shaft', DATE '2006-01-01', 1, NULL, 3, 2.99, 76, 19.99, 'NC-17', 'Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (170, 'COMMAND DARLING', 'A Awe-Inspiring Tale of a Forensic Psychologist And a Woman who must Challenge a Database Administrator in Ancient Japan', DATE '2006-01-01', 1, NULL, 5, 4.99, 120, 28.99, 'PG-13', 'Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (171, 'COMMANDMENTS EXPRESS', 'A Fanciful Saga of a Student And a Mad Scientist who must Battle a Hunter in An Abandoned Mine Shaft', DATE '2006-01-01', 1, NULL, 6, 4.99, 59, 13.99, 'R', 'Trailers,Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42');   
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (172, 'CONEHEADS SMOOCHY', 'A Touching Story of a Womanizer And a Composer who must Pursue a Husband in Nigeria', DATE '2006-01-01', 1, NULL, 7, 4.99, 112, 12.99, 'NC-17', 'Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (173, 'CONFESSIONS MAGUIRE', 'A Insightful Story of a Car And a Boy who must Battle a Technical Writer in A Baloon', DATE '2006-01-01', 1, NULL, 7, 4.99, 65, 25.99, 'PG-13', 'Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (174, 'CONFIDENTIAL INTERVIEW', 'A Stunning Reflection of a Cat And a Woman who must Find a Astronaut in Ancient Japan', DATE '2006-01-01', 1, NULL, 6, 4.99, 180, 13.99, 'NC-17', 'Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
@@ -423,7 +423,7 @@ INSERT INTO "sakila"."film" VALUES
 (186, 'CRAFT OUTFIELD', 'A Lacklusture Display of a Explorer And a Hunter who must Succumb a Database Administrator in A Baloon Factory', DATE '2006-01-01', 1, NULL, 6, 0.99, 64, 17.99, 'NC-17', 'Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (187, 'CRANES RESERVOIR', 'A Fanciful Documentary of a Teacher And a Dog who must Outgun a Forensic Psychologist in A Baloon Factory', DATE '2006-01-01', 1, NULL, 5, 2.99, 57, 12.99, 'NC-17', 'Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
 (188, 'CRAZY HOME', 'A Fanciful Panorama of a Boy And a Woman who must Vanquish a Database Administrator in The Outback', DATE '2006-01-01', 1, NULL, 7, 2.99, 136, 24.99, 'PG', 'Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42');      
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (189, 'CREATURES SHAKESPEARE', 'A Emotional Drama of a Womanizer And a Squirrel who must Vanquish a Crocodile in Ancient India', DATE '2006-01-01', 1, NULL, 3, 0.99, 139, 23.99, 'NC-17', 'Trailers,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (190, 'CREEPERS KANE', 'A Awe-Inspiring Reflection of a Squirrel And a Boat who must Outrace a Car in A Jet Boat', DATE '2006-01-01', 1, NULL, 5, 4.99, 172, 23.99, 'NC-17', 'Trailers,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (191, 'CROOKED FROGMEN', 'A Unbelieveable Drama of a Hunter And a Database Administrator who must Battle a Crocodile in An Abandoned Amusement Park', DATE '2006-01-01', 1, NULL, 6, 0.99, 143, 27.99, 'PG-13', 'Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -441,7 +441,7 @@ INSERT INTO "sakila"."film" VALUES
 (203, 'DAISY MENAGERIE', 'A Fast-Paced Saga of a Pastry Chef And a Monkey who must Sink a Composer in Ancient India', DATE '2006-01-01', 1, NULL, 5, 4.99, 84, 9.99, 'G', 'Trailers,Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (204, 'DALMATIONS SWEDEN', 'A Emotional Epistle of a Moose And a Hunter who must Overcome a Robot in A Manhattan Penthouse', DATE '2006-01-01', 1, NULL, 4, 0.99, 106, 25.99, 'PG', 'Trailers,Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (205, 'DANCES NONE', 'A Insightful Reflection of a A Shark And a Dog who must Kill a Butler in An Abandoned Amusement Park', DATE '2006-01-01', 1, NULL, 3, 0.99, 58, 22.99, 'NC-17', 'Trailers,Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42');          
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (206, 'DANCING FEVER', 'A Stunning Story of a Explorer And a Forensic Psychologist who must Face a Crocodile in A Shark Tank', DATE '2006-01-01', 1, NULL, 6, 0.99, 144, 25.99, 'G', 'Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (207, 'DANGEROUS UPTOWN', 'A Unbelieveable Story of a Mad Scientist And a Woman who must Overcome a Dog in California', DATE '2006-01-01', 1, NULL, 7, 4.99, 121, 26.99, 'PG', 'Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
 (208, 'DARES PLUTO', 'A Fateful Story of a Robot And a Dentist who must Defeat a Astronaut in New Orleans', DATE '2006-01-01', 1, NULL, 7, 2.99, 89, 16.99, 'PG-13', 'Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -459,7 +459,7 @@ INSERT INTO "sakila"."film" VALUES
 (220, 'DEER VIRGINIAN', 'A Thoughtful Story of a Mad Cow And a Womanizer who must Overcome a Mad Scientist in Soviet Georgia', DATE '2006-01-01', 1, NULL, 7, 2.99, 106, 13.99, 'NC-17', 'Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (221, 'DELIVERANCE MULHOLLAND', 'A Astounding Saga of a Monkey And a Moose who must Conquer a Butler in A Shark Tank', DATE '2006-01-01', 1, NULL, 4, 0.99, 100, 9.99, 'R', 'Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (222, 'DESERT POSEIDON', 'A Brilliant Documentary of a Butler And a Frisbee who must Build a Astronaut in New Orleans', DATE '2006-01-01', 1, NULL, 4, 4.99, 64, 27.99, 'R', 'Trailers,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42');         
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (223, 'DESIRE ALIEN', 'A Fast-Paced Tale of a Dog And a Forensic Psychologist who must Meet a Astronaut in The First Manned Space Station', DATE '2006-01-01', 1, NULL, 7, 2.99, 76, 24.99, 'NC-17', 'Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (224, 'DESPERATE TRAINSPOTTING', 'A Epic Yarn of a Forensic Psychologist And a Teacher who must Face a Lumberjack in California', DATE '2006-01-01', 1, NULL, 7, 4.99, 81, 29.99, 'G', 'Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (225, 'DESTINATION JERK', 'A Beautiful Yarn of a Teacher And a Cat who must Build a Car in A U-Boat', DATE '2006-01-01', 1, NULL, 3, 0.99, 76, 19.99, 'PG-13', 'Trailers,Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -477,7 +477,7 @@ INSERT INTO "sakila"."film" VALUES
 (237, 'DIVORCE SHINING', 'A Unbelieveable Saga of a Crocodile And a Student who must Discover a Cat in Ancient India', DATE '2006-01-01', 1, NULL, 3, 2.99, 47, 21.99, 'G', 'Trailers,Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (238, 'DOCTOR GRAIL', 'A Insightful Drama of a Womanizer And a Waitress who must Reach a Forensic Psychologist in The Outback', DATE '2006-01-01', 1, NULL, 4, 2.99, 57, 29.99, 'G', 'Trailers,Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (239, 'DOGMA FAMILY', 'A Brilliant Character Study of a Database Administrator And a Monkey who must Succumb a Astronaut in New Orleans', DATE '2006-01-01', 1, NULL, 5, 4.99, 122, 16.99, 'G', 'Commentaries', TIMESTAMP '2006-02-15 05:03:42');            
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (240, 'DOLLS RAGE', 'A Thrilling Display of a Pioneer And a Frisbee who must Escape a Teacher in The Outback', DATE '2006-01-01', 1, NULL, 7, 2.99, 120, 10.99, 'PG-13', 'Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (241, 'DONNIE ALLEY', 'A Awe-Inspiring Tale of a Butler And a Frisbee who must Vanquish a Teacher in Ancient Japan', DATE '2006-01-01', 1, NULL, 4, 0.99, 125, 20.99, 'NC-17', 'Trailers,Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (242, 'DOOM DANCING', 'A Astounding Panorama of a Car And a Mad Scientist who must Battle a Lumberjack in A MySQL Convention', DATE '2006-01-01', 1, NULL, 4, 0.99, 68, 13.99, 'R', 'Trailers,Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
@@ -495,7 +495,7 @@ INSERT INTO "sakila"."film" VALUES
 (254, 'DRIVER ANNIE', 'A Lacklusture Character Study of a Butler And a Car who must Redeem a Boat in An Abandoned Fun House', DATE '2006-01-01', 1, NULL, 4, 2.99, 159, 11.99, 'PG-13', 'Trailers,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (255, 'DRIVING POLISH', 'A Action-Packed Yarn of a Feminist And a Technical Writer who must Sink a Boat in An Abandoned Mine Shaft', DATE '2006-01-01', 1, NULL, 6, 4.99, 175, 21.99, 'NC-17', 'Trailers,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (256, 'DROP WATERFRONT', 'A Fanciful Documentary of a Husband And a Explorer who must Reach a Madman in Ancient China', DATE '2006-01-01', 1, NULL, 6, 4.99, 178, 20.99, 'R', 'Trailers,Commentaries', TIMESTAMP '2006-02-15 05:03:42');
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (257, 'DRUMLINE CYCLONE', 'A Insightful Panorama of a Monkey And a Sumo Wrestler who must Outrace a Mad Scientist in The Canadian Rockies', DATE '2006-01-01', 1, NULL, 3, 0.99, 110, 14.99, 'G', 'Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (258, 'DRUMS DYNAMITE', 'A Epic Display of a Crocodile And a Crocodile who must Confront a Dog in An Abandoned Amusement Park', DATE '2006-01-01', 1, NULL, 6, 0.99, 96, 11.99, 'PG', 'Trailers', TIMESTAMP '2006-02-15 05:03:42'),
 (259, 'DUCK RACER', 'A Lacklusture Yarn of a Teacher And a Squirrel who must Overcome a Dog in A Shark Tank', DATE '2006-01-01', 1, NULL, 4, 2.99, 116, 15.99, 'NC-17', 'Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -514,7 +514,7 @@ INSERT INTO "sakila"."film" VALUES
 (272, 'EDGE KISSING', 'A Beautiful Yarn of a Composer And a Mad Cow who must Redeem a Mad Scientist in A Jet Boat', DATE '2006-01-01', 1, NULL, 5, 4.99, 153, 9.99, 'NC-17', 'Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (273, 'EFFECT GLADIATOR', 'A Beautiful Display of a Pastry Chef And a Pastry Chef who must Outgun a Forensic Psychologist in A Manhattan Penthouse', DATE '2006-01-01', 1, NULL, 6, 0.99, 107, 14.99, 'PG', 'Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
 (274, 'EGG IGBY', 'A Beautiful Documentary of a Boat And a Sumo Wrestler who must Succumb a Database Administrator in The First Manned Space Station', DATE '2006-01-01', 1, NULL, 4, 2.99, 67, 20.99, 'PG', 'Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42');         
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (275, 'EGYPT TENENBAUMS', 'A Intrepid Story of a Madman And a Secret Agent who must Outrace a Astronaut in An Abandoned Amusement Park', DATE '2006-01-01', 1, NULL, 3, 0.99, 85, 11.99, 'PG', 'Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (276, 'ELEMENT FREDDY', 'A Awe-Inspiring Reflection of a Waitress And a Squirrel who must Kill a Mad Cow in A Jet Boat', DATE '2006-01-01', 1, NULL, 6, 4.99, 115, 28.99, 'NC-17', 'Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (277, 'ELEPHANT TROJAN', 'A Beautiful Panorama of a Lumberjack And a Forensic Psychologist who must Overcome a Frisbee in A Baloon', DATE '2006-01-01', 1, NULL, 4, 4.99, 126, 24.99, 'PG-13', 'Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -532,7 +532,7 @@ INSERT INTO "sakila"."film" VALUES
 (289, 'EVE RESURRECTION', 'A Awe-Inspiring Yarn of a Pastry Chef And a Database Administrator who must Challenge a Teacher in A Baloon', DATE '2006-01-01', 1, NULL, 5, 4.99, 66, 25.99, 'G', 'Trailers,Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (290, 'EVERYONE CRAFT', 'A Fateful Display of a Waitress And a Dentist who must Reach a Butler in Nigeria', DATE '2006-01-01', 1, NULL, 4, 0.99, 163, 29.99, 'PG', 'Trailers,Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
 (291, 'EVOLUTION ALTER', 'A Fanciful Character Study of a Feminist And a Madman who must Find a Explorer in A Baloon Factory', DATE '2006-01-01', 1, NULL, 5, 0.99, 174, 10.99, 'PG-13', 'Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42');
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (292, 'EXCITEMENT EVE', 'A Brilliant Documentary of a Monkey And a Car who must Conquer a Crocodile in A Shark Tank', DATE '2006-01-01', 1, NULL, 3, 0.99, 51, 20.99, 'G', 'Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
 (293, 'EXORCIST STING', 'A Touching Drama of a Dog And a Sumo Wrestler who must Conquer a Mad Scientist in Berlin', DATE '2006-01-01', 1, NULL, 6, 2.99, 167, 17.99, 'G', 'Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (294, 'EXPECATIONS NATURAL', 'A Amazing Drama of a Butler And a Husband who must Reach a A Shark in A U-Boat', DATE '2006-01-01', 1, NULL, 5, 4.99, 138, 26.99, 'PG-13', 'Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -551,7 +551,7 @@ INSERT INTO "sakila"."film" VALUES
 (307, 'FELLOWSHIP AUTUMN', 'A Lacklusture Reflection of a Dentist And a Hunter who must Meet a Teacher in A Baloon', DATE '2006-01-01', 1, NULL, 6, 4.99, 77, 9.99, 'NC-17', 'Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (308, 'FERRIS MOTHER', 'A Touching Display of a Frisbee And a Frisbee who must Kill a Girl in The Gulf of Mexico', DATE '2006-01-01', 1, NULL, 3, 2.99, 142, 13.99, 'PG', 'Trailers,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (309, 'FEUD FROGMEN', 'A Brilliant Reflection of a Database Administrator And a Mad Cow who must Chase a Woman in The Canadian Rockies', DATE '2006-01-01', 1, NULL, 6, 0.99, 98, 29.99, 'R', 'Trailers,Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42');    
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (310, 'FEVER EMPIRE', 'A Insightful Panorama of a Cat And a Boat who must Defeat a Boat in The Gulf of Mexico', DATE '2006-01-01', 1, NULL, 5, 4.99, 158, 20.99, 'R', 'Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (311, 'FICTION CHRISTMAS', 'A Emotional Yarn of a A Shark And a Student who must Battle a Robot in An Abandoned Mine Shaft', DATE '2006-01-01', 1, NULL, 4, 0.99, 72, 14.99, 'PG', 'Trailers,Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (312, 'FIDDLER LOST', 'A Boring Tale of a Squirrel And a Dog who must Challenge a Madman in The Gulf of Mexico', DATE '2006-01-01', 1, NULL, 4, 4.99, 75, 20.99, 'R', 'Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -569,7 +569,7 @@ INSERT INTO "sakila"."film" VALUES
 (324, 'FLINTSTONES HAPPINESS', 'A Fateful Story of a Husband And a Moose who must Vanquish a Boy in California', DATE '2006-01-01', 1, NULL, 3, 4.99, 148, 11.99, 'PG-13', 'Trailers,Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (325, 'FLOATS GARDEN', 'A Action-Packed Epistle of a Robot And a Car who must Chase a Boat in Ancient Japan', DATE '2006-01-01', 1, NULL, 6, 2.99, 145, 29.99, 'PG-13', 'Trailers,Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (326, 'FLYING HOOK', 'A Thrilling Display of a Mad Cow And a Dog who must Challenge a Frisbee in Nigeria', DATE '2006-01-01', 1, NULL, 6, 2.99, 69, 18.99, 'NC-17', 'Trailers,Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42');          
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (327, 'FOOL MOCKINGBIRD', 'A Lacklusture Tale of a Crocodile And a Composer who must Defeat a Madman in A U-Boat', DATE '2006-01-01', 1, NULL, 3, 4.99, 158, 24.99, 'PG', 'Trailers,Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
 (328, 'FOREVER CANDIDATE', 'A Unbelieveable Panorama of a Technical Writer And a Man who must Pursue a Frisbee in A U-Boat', DATE '2006-01-01', 1, NULL, 7, 2.99, 131, 28.99, 'NC-17', 'Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (329, 'FORREST SONS', 'A Thrilling Documentary of a Forensic Psychologist And a Butler who must Defeat a Explorer in A Jet Boat', DATE '2006-01-01', 1, NULL, 4, 2.99, 63, 15.99, 'R', 'Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
@@ -587,7 +587,7 @@ INSERT INTO "sakila"."film" VALUES
 (341, 'FROST HEAD', 'A Amazing Reflection of a Lumberjack And a Cat who must Discover a Husband in A MySQL Convention', DATE '2006-01-01', 1, NULL, 5, 0.99, 82, 13.99, 'PG', 'Trailers,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (342, 'FUGITIVE MAGUIRE', 'A Taut Epistle of a Feminist And a Sumo Wrestler who must Battle a Crocodile in Australia', DATE '2006-01-01', 1, NULL, 7, 4.99, 83, 28.99, 'R', 'Trailers,Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (343, 'FULL FLATLINERS', 'A Beautiful Documentary of a Astronaut And a Moose who must Pursue a Monkey in A Shark Tank', DATE '2006-01-01', 1, NULL, 6, 2.99, 94, 14.99, 'PG', 'Trailers,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42');
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (344, 'FURY MURDER', 'A Lacklusture Reflection of a Boat And a Forensic Psychologist who must Fight a Waitress in A Monastery', DATE '2006-01-01', 1, NULL, 3, 0.99, 178, 28.99, 'PG-13', 'Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (345, 'GABLES METROPOLIS', 'A Fateful Display of a Cat And a Pioneer who must Challenge a Pastry Chef in A Baloon Factory', DATE '2006-01-01', 1, NULL, 3, 0.99, 161, 17.99, 'PG', 'Trailers,Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
 (346, 'GALAXY SWEETHEARTS', 'A Emotional Reflection of a Womanizer And a Pioneer who must Face a Squirrel in Berlin', DATE '2006-01-01', 1, NULL, 4, 4.99, 128, 13.99, 'R', 'Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -606,7 +606,7 @@ INSERT INTO "sakila"."film" VALUES
 (359, 'GLADIATOR WESTWARD', 'A Astounding Reflection of a Squirrel And a Sumo Wrestler who must Sink a Dentist in Ancient Japan', DATE '2006-01-01', 1, NULL, 6, 4.99, 173, 20.99, 'PG', 'Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (360, 'GLASS DYING', 'A Astounding Drama of a Frisbee And a Astronaut who must Fight a Dog in Ancient Japan', DATE '2006-01-01', 1, NULL, 4, 0.99, 103, 24.99, 'G', 'Trailers', TIMESTAMP '2006-02-15 05:03:42'),
 (361, 'GLEAMING JAWBREAKER', 'A Amazing Display of a Composer And a Forensic Psychologist who must Discover a Car in The Canadian Rockies', DATE '2006-01-01', 1, NULL, 5, 2.99, 89, 25.99, 'NC-17', 'Trailers,Commentaries', TIMESTAMP '2006-02-15 05:03:42');            
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (362, 'GLORY TRACY', 'A Amazing Saga of a Woman And a Womanizer who must Discover a Cat in The First Manned Space Station', DATE '2006-01-01', 1, NULL, 7, 2.99, 115, 13.99, 'PG-13', 'Trailers,Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (363, 'GO PURPLE', 'A Fast-Paced Display of a Car And a Database Administrator who must Battle a Woman in A Baloon', DATE '2006-01-01', 1, NULL, 3, 0.99, 54, 12.99, 'R', 'Trailers', TIMESTAMP '2006-02-15 05:03:42'),
 (364, 'GODFATHER DIARY', 'A Stunning Saga of a Lumberjack And a Squirrel who must Chase a Car in The Outback', DATE '2006-01-01', 1, NULL, 3, 2.99, 73, 14.99, 'NC-17', 'Trailers', TIMESTAMP '2006-02-15 05:03:42'),
@@ -624,7 +624,7 @@ INSERT INTO "sakila"."film" VALUES
 (376, 'GRAPES FURY', 'A Boring Yarn of a Mad Cow And a Sumo Wrestler who must Meet a Robot in Australia', DATE '2006-01-01', 1, NULL, 4, 0.99, 155, 20.99, 'G', 'Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (377, 'GREASE YOUTH', 'A Emotional Panorama of a Secret Agent And a Waitress who must Escape a Composer in Soviet Georgia', DATE '2006-01-01', 1, NULL, 7, 0.99, 135, 20.99, 'G', 'Trailers,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (378, 'GREATEST NORTH', 'A Astounding Character Study of a Secret Agent And a Robot who must Build a A Shark in Berlin', DATE '2006-01-01', 1, NULL, 5, 2.99, 93, 24.99, 'NC-17', 'Trailers,Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42');      
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (379, 'GREEDY ROOTS', 'A Amazing Reflection of a A Shark And a Butler who must Chase a Hunter in The Canadian Rockies', DATE '2006-01-01', 1, NULL, 7, 0.99, 166, 14.99, 'R', 'Trailers,Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (380, 'GREEK EVERYONE', 'A Stunning Display of a Butler And a Teacher who must Confront a A Shark in The First Manned Space Station', DATE '2006-01-01', 1, NULL, 7, 2.99, 176, 11.99, 'PG', 'Trailers,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (381, 'GRINCH MASSAGE', 'A Intrepid Display of a Madman And a Feminist who must Pursue a Pioneer in The First Manned Space Station', DATE '2006-01-01', 1, NULL, 7, 4.99, 150, 25.99, 'R', 'Trailers', TIMESTAMP '2006-02-15 05:03:42'),
@@ -642,7 +642,7 @@ INSERT INTO "sakila"."film" VALUES
 (393, 'HALLOWEEN NUTS', 'A Amazing Panorama of a Forensic Psychologist And a Technical Writer who must Fight a Dentist in A U-Boat', DATE '2006-01-01', 1, NULL, 6, 2.99, 47, 19.99, 'PG-13', 'Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (394, 'HAMLET WISDOM', 'A Touching Reflection of a Man And a Man who must Sink a Robot in The Outback', DATE '2006-01-01', 1, NULL, 7, 2.99, 146, 21.99, 'R', 'Trailers,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (395, 'HANDICAP BOONDOCK', 'A Beautiful Display of a Pioneer And a Squirrel who must Vanquish a Sumo Wrestler in Soviet Georgia', DATE '2006-01-01', 1, NULL, 4, 0.99, 108, 28.99, 'R', 'Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42');             
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (396, 'HANGING DEEP', 'A Action-Packed Yarn of a Boat And a Crocodile who must Build a Monkey in Berlin', DATE '2006-01-01', 1, NULL, 5, 4.99, 62, 18.99, 'G', 'Trailers,Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (397, 'HANKY OCTOBER', 'A Boring Epistle of a Database Administrator And a Explorer who must Pursue a Madman in Soviet Georgia', DATE '2006-01-01', 1, NULL, 5, 2.99, 107, 26.99, 'NC-17', 'Trailers,Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (398, 'HANOVER GALAXY', 'A Stunning Reflection of a Girl And a Secret Agent who must Succumb a Boy in A MySQL Convention', DATE '2006-01-01', 1, NULL, 5, 4.99, 47, 21.99, 'NC-17', 'Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -660,7 +660,7 @@ INSERT INTO "sakila"."film" VALUES
 (410, 'HEAVEN FREEDOM', 'A Intrepid Story of a Butler And a Car who must Vanquish a Man in New Orleans', DATE '2006-01-01', 1, NULL, 7, 2.99, 48, 19.99, 'PG', 'Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
 (411, 'HEAVENLY GUN', 'A Beautiful Yarn of a Forensic Psychologist And a Frisbee who must Battle a Moose in A Jet Boat', DATE '2006-01-01', 1, NULL, 5, 4.99, 49, 13.99, 'NC-17', 'Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (412, 'HEAVYWEIGHTS BEAST', 'A Unbelieveable Story of a Composer And a Dog who must Overcome a Womanizer in An Abandoned Amusement Park', DATE '2006-01-01', 1, NULL, 6, 4.99, 102, 25.99, 'G', 'Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42');             
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (413, 'HEDWIG ALTER', 'A Action-Packed Yarn of a Womanizer And a Lumberjack who must Chase a Sumo Wrestler in A Monastery', DATE '2006-01-01', 1, NULL, 7, 2.99, 169, 16.99, 'NC-17', 'Trailers,Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (414, 'HELLFIGHTERS SIERRA', 'A Taut Reflection of a A Shark And a Dentist who must Battle a Boat in Soviet Georgia', DATE '2006-01-01', 1, NULL, 3, 2.99, 75, 23.99, 'PG', 'Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (415, 'HIGH ENCINO', 'A Fateful Saga of a Waitress And a Hunter who must Outrace a Sumo Wrestler in Australia', DATE '2006-01-01', 1, NULL, 3, 2.99, 84, 23.99, 'R', 'Trailers,Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -678,7 +678,7 @@ INSERT INTO "sakila"."film" VALUES
 (427, 'HOMEWARD CIDER', 'A Taut Reflection of a Astronaut And a Squirrel who must Fight a Squirrel in A Manhattan Penthouse', DATE '2006-01-01', 1, NULL, 5, 0.99, 103, 19.99, 'R', 'Trailers', TIMESTAMP '2006-02-15 05:03:42'),
 (428, 'HOMICIDE PEACH', 'A Astounding Documentary of a Hunter And a Boy who must Confront a Boy in A MySQL Convention', DATE '2006-01-01', 1, NULL, 6, 2.99, 141, 21.99, 'PG-13', 'Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
 (429, 'HONEY TIES', 'A Taut Story of a Waitress And a Crocodile who must Outrace a Lumberjack in A Shark Tank', DATE '2006-01-01', 1, NULL, 3, 0.99, 84, 29.99, 'R', 'Trailers,Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'); 
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (430, 'HOOK CHARIOTS', 'A Insightful Story of a Boy And a Dog who must Redeem a Boy in Australia', DATE '2006-01-01', 1, NULL, 7, 0.99, 49, 23.99, 'G', 'Trailers,Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (431, 'HOOSIERS BIRDCAGE', 'A Astounding Display of a Explorer And a Boat who must Vanquish a Car in The First Manned Space Station', DATE '2006-01-01', 1, NULL, 3, 2.99, 176, 12.99, 'G', 'Trailers,Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (432, 'HOPE TOOTSIE', 'A Amazing Documentary of a Student And a Sumo Wrestler who must Outgun a A Shark in A Shark Tank', DATE '2006-01-01', 1, NULL, 4, 2.99, 139, 22.99, 'NC-17', 'Trailers,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -696,7 +696,7 @@ INSERT INTO "sakila"."film" VALUES
 (444, 'HUSTLER PARTY', 'A Emotional Reflection of a Sumo Wrestler And a Monkey who must Conquer a Robot in The Sahara Desert', DATE '2006-01-01', 1, NULL, 3, 4.99, 83, 22.99, 'NC-17', 'Trailers,Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (445, 'HYDE DOCTOR', 'A Fanciful Documentary of a Boy And a Woman who must Redeem a Womanizer in A Jet Boat', DATE '2006-01-01', 1, NULL, 5, 2.99, 100, 11.99, 'G', 'Trailers,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (446, 'HYSTERICAL GRAIL', 'A Amazing Saga of a Madman And a Dentist who must Build a Car in A Manhattan Penthouse', DATE '2006-01-01', 1, NULL, 5, 4.99, 150, 19.99, 'PG', 'Trailers,Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'); 
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (447, 'ICE CROSSING', 'A Fast-Paced Tale of a Butler And a Moose who must Overcome a Pioneer in A Manhattan Penthouse', DATE '2006-01-01', 1, NULL, 5, 2.99, 131, 28.99, 'R', 'Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (448, 'IDAHO LOVE', 'A Fast-Paced Drama of a Student And a Crocodile who must Meet a Database Administrator in The Outback', DATE '2006-01-01', 1, NULL, 3, 2.99, 172, 25.99, 'PG-13', 'Trailers,Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (449, 'IDENTITY LOVER', 'A Boring Tale of a Composer And a Mad Cow who must Defeat a Car in The Outback', DATE '2006-01-01', 1, NULL, 4, 2.99, 119, 12.99, 'PG-13', 'Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -714,7 +714,7 @@ INSERT INTO "sakila"."film" VALUES
 (461, 'INSECTS STONE', 'A Epic Display of a Butler And a Dog who must Vanquish a Crocodile in A Manhattan Penthouse', DATE '2006-01-01', 1, NULL, 3, 0.99, 123, 14.99, 'NC-17', 'Trailers,Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (462, 'INSIDER ARIZONA', 'A Astounding Saga of a Mad Scientist And a Hunter who must Pursue a Robot in A Baloon Factory', DATE '2006-01-01', 1, NULL, 5, 2.99, 78, 17.99, 'NC-17', 'Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
 (463, 'INSTINCT AIRPORT', 'A Touching Documentary of a Mad Cow And a Explorer who must Confront a Butler in A Manhattan Penthouse', DATE '2006-01-01', 1, NULL, 4, 2.99, 116, 21.99, 'PG', 'Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42');    
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (464, 'INTENTIONS EMPIRE', 'A Astounding Epistle of a Cat And a Cat who must Conquer a Mad Cow in A U-Boat', DATE '2006-01-01', 1, NULL, 3, 2.99, 107, 13.99, 'PG-13', 'Trailers,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (465, 'INTERVIEW LIAISONS', 'A Action-Packed Reflection of a Student And a Butler who must Discover a Database Administrator in A Manhattan Penthouse', DATE '2006-01-01', 1, NULL, 4, 4.99, 59, 17.99, 'R', 'Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (466, 'INTOLERABLE INTENTIONS', 'A Awe-Inspiring Story of a Monkey And a Pastry Chef who must Succumb a Womanizer in A MySQL Convention', DATE '2006-01-01', 1, NULL, 6, 4.99, 63, 20.99, 'PG-13', 'Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -732,7 +732,7 @@ INSERT INTO "sakila"."film" VALUES
 (478, 'JAWS HARRY', 'A Thrilling Display of a Database Administrator And a Monkey who must Overcome a Dog in An Abandoned Fun House', DATE '2006-01-01', 1, NULL, 4, 2.99, 112, 10.99, 'G', 'Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (479, 'JEDI BENEATH', 'A Astounding Reflection of a Explorer And a Dentist who must Pursue a Student in Nigeria', DATE '2006-01-01', 1, NULL, 7, 0.99, 128, 12.99, 'PG', 'Trailers,Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (480, 'JEEPERS WEDDING', 'A Astounding Display of a Composer And a Dog who must Kill a Pastry Chef in Soviet Georgia', DATE '2006-01-01', 1, NULL, 3, 2.99, 84, 29.99, 'R', 'Trailers,Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42');         
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (481, 'JEKYLL FROGMEN', 'A Fanciful Epistle of a Student And a Astronaut who must Kill a Waitress in A Shark Tank', DATE '2006-01-01', 1, NULL, 4, 2.99, 58, 22.99, 'PG', 'Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (482, 'JEOPARDY ENCINO', 'A Boring Panorama of a Man And a Mad Cow who must Face a Explorer in Ancient India', DATE '2006-01-01', 1, NULL, 3, 0.99, 102, 12.99, 'R', 'Trailers,Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
 (483, 'JERICHO MULAN', 'A Amazing Yarn of a Hunter And a Butler who must Defeat a Boy in A Jet Boat', DATE '2006-01-01', 1, NULL, 3, 2.99, 171, 29.99, 'NC-17', 'Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
@@ -750,7 +750,7 @@ INSERT INTO "sakila"."film" VALUES
 (495, 'KENTUCKIAN GIANT', 'A Stunning Yarn of a Woman And a Frisbee who must Escape a Waitress in A U-Boat', DATE '2006-01-01', 1, NULL, 5, 2.99, 169, 10.99, 'PG', 'Trailers,Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (496, 'KICK SAVANNAH', 'A Emotional Drama of a Monkey And a Robot who must Defeat a Monkey in New Orleans', DATE '2006-01-01', 1, NULL, 3, 0.99, 179, 10.99, 'PG-13', 'Trailers,Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (497, 'KILL BROTHERHOOD', 'A Touching Display of a Hunter And a Secret Agent who must Redeem a Husband in The Outback', DATE '2006-01-01', 1, NULL, 4, 0.99, 54, 15.99, 'G', 'Trailers,Commentaries', TIMESTAMP '2006-02-15 05:03:42');           
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (498, 'KILLER INNOCENT', 'A Fanciful Character Study of a Student And a Explorer who must Succumb a Composer in An Abandoned Mine Shaft', DATE '2006-01-01', 1, NULL, 7, 2.99, 161, 11.99, 'R', 'Trailers,Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (499, 'KING EVOLUTION', 'A Action-Packed Tale of a Boy And a Lumberjack who must Chase a Madman in A Baloon', DATE '2006-01-01', 1, NULL, 3, 4.99, 184, 24.99, 'NC-17', 'Trailers,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (500, 'KISS GLORY', 'A Lacklusture Reflection of a Girl And a Husband who must Find a Robot in The Canadian Rockies', DATE '2006-01-01', 1, NULL, 5, 4.99, 163, 11.99, 'PG-13', 'Trailers,Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -768,7 +768,7 @@ INSERT INTO "sakila"."film" VALUES
 (512, 'LEAGUE HELLFIGHTERS', 'A Thoughtful Saga of a A Shark And a Monkey who must Outgun a Student in Ancient China', DATE '2006-01-01', 1, NULL, 5, 4.99, 110, 25.99, 'PG-13', 'Trailers', TIMESTAMP '2006-02-15 05:03:42'),
 (513, 'LEATHERNECKS DWARFS', 'A Fateful Reflection of a Dog And a Mad Cow who must Outrace a Teacher in An Abandoned Mine Shaft', DATE '2006-01-01', 1, NULL, 6, 2.99, 153, 21.99, 'PG-13', 'Trailers,Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (514, 'LEBOWSKI SOLDIERS', 'A Beautiful Epistle of a Secret Agent And a Pioneer who must Chase a Astronaut in Ancient China', DATE '2006-01-01', 1, NULL, 6, 2.99, 69, 17.99, 'PG-13', 'Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42');            
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (515, 'LEGALLY SECRETARY', 'A Astounding Tale of a A Shark And a Moose who must Meet a Womanizer in The Sahara Desert', DATE '2006-01-01', 1, NULL, 7, 4.99, 113, 14.99, 'PG', 'Trailers,Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (516, 'LEGEND JEDI', 'A Awe-Inspiring Epistle of a Pioneer And a Student who must Outgun a Crocodile in The Outback', DATE '2006-01-01', 1, NULL, 7, 0.99, 59, 18.99, 'PG', 'Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (517, 'LESSON CLEOPATRA', 'A Emotional Display of a Man And a Explorer who must Build a Boy in A Manhattan Penthouse', DATE '2006-01-01', 1, NULL, 3, 0.99, 167, 28.99, 'NC-17', 'Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -786,7 +786,7 @@ INSERT INTO "sakila"."film" VALUES
 (529, 'LONELY ELEPHANT', 'A Intrepid Story of a Student And a Dog who must Challenge a Explorer in Soviet Georgia', DATE '2006-01-01', 1, NULL, 3, 2.99, 67, 12.99, 'G', 'Trailers,Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (530, 'LORD ARIZONA', 'A Action-Packed Display of a Frisbee And a Pastry Chef who must Pursue a Crocodile in A Jet Boat', DATE '2006-01-01', 1, NULL, 5, 2.99, 108, 27.99, 'PG-13', 'Trailers', TIMESTAMP '2006-02-15 05:03:42'),
 (531, 'LOSE INCH', 'A Stunning Reflection of a Student And a Technical Writer who must Battle a Butler in The First Manned Space Station', DATE '2006-01-01', 1, NULL, 3, 0.99, 137, 18.99, 'R', 'Trailers,Commentaries', TIMESTAMP '2006-02-15 05:03:42');   
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (532, 'LOSER HUSTLER', 'A Stunning Drama of a Robot And a Feminist who must Outgun a Butler in Nigeria', DATE '2006-01-01', 1, NULL, 5, 4.99, 80, 28.99, 'PG', 'Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (533, 'LOST BIRD', 'A Emotional Character Study of a Robot And a A Shark who must Defeat a Technical Writer in A Manhattan Penthouse', DATE '2006-01-01', 1, NULL, 4, 2.99, 98, 21.99, 'PG-13', 'Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (534, 'LOUISIANA HARRY', 'A Lacklusture Drama of a Girl And a Technical Writer who must Redeem a Monkey in A Shark Tank', DATE '2006-01-01', 1, NULL, 5, 0.99, 70, 18.99, 'PG-13', 'Trailers', TIMESTAMP '2006-02-15 05:03:42'),
@@ -804,7 +804,7 @@ INSERT INTO "sakila"."film" VALUES
 (546, 'MADRE GABLES', 'A Intrepid Panorama of a Sumo Wrestler And a Forensic Psychologist who must Discover a Moose in The First Manned Space Station', DATE '2006-01-01', 1, NULL, 7, 2.99, 98, 27.99, 'PG-13', 'Trailers,Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (547, 'MAGIC MALLRATS', 'A Touching Documentary of a Pastry Chef And a Pastry Chef who must Build a Mad Scientist in California', DATE '2006-01-01', 1, NULL, 3, 0.99, 117, 19.99, 'PG', 'Trailers,Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
 (548, 'MAGNIFICENT CHITTY', 'A Insightful Story of a Teacher And a Hunter who must Face a Mad Cow in California', DATE '2006-01-01', 1, NULL, 3, 2.99, 53, 27.99, 'R', 'Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'); 
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (549, 'MAGNOLIA FORRESTER', 'A Thoughtful Documentary of a Composer And a Explorer who must Conquer a Dentist in New Orleans', DATE '2006-01-01', 1, NULL, 4, 0.99, 171, 28.99, 'PG-13', 'Trailers,Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (550, 'MAGUIRE APACHE', 'A Fast-Paced Reflection of a Waitress And a Hunter who must Defeat a Forensic Psychologist in A Baloon', DATE '2006-01-01', 1, NULL, 6, 2.99, 74, 22.99, 'NC-17', 'Trailers,Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
 (551, 'MAIDEN HOME', 'A Lacklusture Saga of a Moose And a Teacher who must Kill a Forensic Psychologist in A MySQL Convention', DATE '2006-01-01', 1, NULL, 3, 4.99, 138, 9.99, 'PG', 'Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -822,7 +822,7 @@ INSERT INTO "sakila"."film" VALUES
 (563, 'MASSACRE USUAL', 'A Fateful Reflection of a Waitress And a Crocodile who must Challenge a Forensic Psychologist in California', DATE '2006-01-01', 1, NULL, 6, 4.99, 165, 16.99, 'R', 'Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
 (564, 'MASSAGE IMAGE', 'A Fateful Drama of a Frisbee And a Crocodile who must Vanquish a Dog in The First Manned Space Station', DATE '2006-01-01', 1, NULL, 4, 2.99, 161, 11.99, 'PG', 'Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (565, 'MATRIX SNOWMAN', 'A Action-Packed Saga of a Womanizer And a Woman who must Overcome a Student in California', DATE '2006-01-01', 1, NULL, 6, 4.99, 56, 9.99, 'PG-13', 'Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42');          
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (566, 'MAUDE MOD', 'A Beautiful Documentary of a Forensic Psychologist And a Cat who must Reach a Astronaut in Nigeria', DATE '2006-01-01', 1, NULL, 6, 0.99, 72, 20.99, 'R', 'Trailers,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (567, 'MEET CHOCOLATE', 'A Boring Documentary of a Dentist And a Butler who must Confront a Monkey in A MySQL Convention', DATE '2006-01-01', 1, NULL, 3, 2.99, 80, 26.99, 'G', 'Trailers', TIMESTAMP '2006-02-15 05:03:42'),
 (568, 'MEMENTO ZOOLANDER', 'A Touching Epistle of a Squirrel And a Explorer who must Redeem a Pastry Chef in The Sahara Desert', DATE '2006-01-01', 1, NULL, 4, 4.99, 77, 11.99, 'NC-17', 'Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -840,7 +840,7 @@ INSERT INTO "sakila"."film" VALUES
 (580, 'MINE TITANS', 'A Amazing Yarn of a Robot And a Womanizer who must Discover a Forensic Psychologist in Berlin', DATE '2006-01-01', 1, NULL, 3, 4.99, 166, 12.99, 'PG-13', 'Trailers,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (581, 'MINORITY KISS', 'A Insightful Display of a Lumberjack And a Sumo Wrestler who must Meet a Man in The Outback', DATE '2006-01-01', 1, NULL, 4, 0.99, 59, 16.99, 'G', 'Trailers', TIMESTAMP '2006-02-15 05:03:42'),
 (582, 'MIRACLE VIRTUAL', 'A Touching Epistle of a Butler And a Boy who must Find a Mad Scientist in The Sahara Desert', DATE '2006-01-01', 1, NULL, 3, 2.99, 162, 19.99, 'PG-13', 'Trailers,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42');              
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (583, 'MISSION ZOOLANDER', 'A Intrepid Story of a Sumo Wrestler And a Teacher who must Meet a A Shark in An Abandoned Fun House', DATE '2006-01-01', 1, NULL, 3, 4.99, 164, 26.99, 'PG-13', 'Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (584, 'MIXED DOORS', 'A Taut Drama of a Womanizer And a Lumberjack who must Succumb a Pioneer in Ancient India', DATE '2006-01-01', 1, NULL, 6, 2.99, 180, 26.99, 'PG-13', 'Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (585, 'MOB DUFFEL', 'A Unbelieveable Documentary of a Frisbee And a Boat who must Meet a Boy in The Canadian Rockies', DATE '2006-01-01', 1, NULL, 4, 0.99, 105, 25.99, 'G', 'Trailers', TIMESTAMP '2006-02-15 05:03:42'),
@@ -859,7 +859,7 @@ INSERT INTO "sakila"."film" VALUES
 (598, 'MOSQUITO ARMAGEDDON', 'A Thoughtful Character Study of a Waitress And a Feminist who must Build a Teacher in Ancient Japan', DATE '2006-01-01', 1, NULL, 6, 0.99, 57, 22.99, 'G', 'Trailers', TIMESTAMP '2006-02-15 05:03:42'),
 (599, 'MOTHER OLEANDER', 'A Boring Tale of a Husband And a Boy who must Fight a Squirrel in Ancient China', DATE '2006-01-01', 1, NULL, 3, 0.99, 103, 20.99, 'R', 'Trailers,Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
 (600, 'MOTIONS DETAILS', 'A Awe-Inspiring Reflection of a Dog And a Student who must Kill a Car in An Abandoned Fun House', DATE '2006-01-01', 1, NULL, 5, 0.99, 166, 16.99, 'PG', 'Trailers,Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42');   
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (601, 'MOULIN WAKE', 'A Astounding Story of a Forensic Psychologist And a Cat who must Battle a Teacher in An Abandoned Mine Shaft', DATE '2006-01-01', 1, NULL, 4, 0.99, 79, 20.99, 'PG-13', 'Trailers', TIMESTAMP '2006-02-15 05:03:42'),
 (602, 'MOURNING PURPLE', 'A Lacklusture Display of a Waitress And a Lumberjack who must Chase a Pioneer in New Orleans', DATE '2006-01-01', 1, NULL, 5, 0.99, 146, 14.99, 'PG', 'Trailers,Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (603, 'MOVIE SHAKESPEARE', 'A Insightful Display of a Database Administrator And a Student who must Build a Hunter in Berlin', DATE '2006-01-01', 1, NULL, 6, 4.99, 53, 27.99, 'PG', 'Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -877,7 +877,7 @@ INSERT INTO "sakila"."film" VALUES
 (615, 'NASH CHOCOLAT', 'A Epic Reflection of a Monkey And a Mad Cow who must Kill a Forensic Psychologist in An Abandoned Mine Shaft', DATE '2006-01-01', 1, NULL, 6, 2.99, 180, 21.99, 'PG-13', 'Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (616, 'NATIONAL STORY', 'A Taut Epistle of a Mad Scientist And a Girl who must Escape a Monkey in California', DATE '2006-01-01', 1, NULL, 4, 2.99, 92, 19.99, 'NC-17', 'Trailers', TIMESTAMP '2006-02-15 05:03:42'),
 (617, 'NATURAL STOCK', 'A Fast-Paced Story of a Sumo Wrestler And a Girl who must Defeat a Car in A Baloon Factory', DATE '2006-01-01', 1, NULL, 4, 0.99, 50, 24.99, 'PG-13', 'Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42');              
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (618, 'NECKLACE OUTBREAK', 'A Astounding Epistle of a Database Administrator And a Mad Scientist who must Pursue a Cat in California', DATE '2006-01-01', 1, NULL, 3, 0.99, 132, 21.99, 'PG', 'Trailers,Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (619, 'NEIGHBORS CHARADE', 'A Fanciful Reflection of a Crocodile And a Astronaut who must Outrace a Feminist in An Abandoned Amusement Park', DATE '2006-01-01', 1, NULL, 3, 0.99, 161, 20.99, 'R', 'Trailers,Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (620, 'NEMO CAMPUS', 'A Lacklusture Reflection of a Monkey And a Squirrel who must Outrace a Womanizer in A Manhattan Penthouse', DATE '2006-01-01', 1, NULL, 5, 2.99, 131, 23.99, 'NC-17', 'Trailers', TIMESTAMP '2006-02-15 05:03:42'),
@@ -895,7 +895,7 @@ INSERT INTO "sakila"."film" VALUES
 (632, 'NUTS TIES', 'A Thoughtful Drama of a Explorer And a Womanizer who must Meet a Teacher in California', DATE '2006-01-01', 1, NULL, 5, 4.99, 145, 10.99, 'NC-17', 'Trailers,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (633, 'OCTOBER SUBMARINE', 'A Taut Epistle of a Monkey And a Boy who must Confront a Husband in A Jet Boat', DATE '2006-01-01', 1, NULL, 6, 4.99, 54, 10.99, 'PG-13', 'Trailers,Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (634, 'ODDS BOOGIE', 'A Thrilling Yarn of a Feminist And a Madman who must Battle a Hunter in Berlin', DATE '2006-01-01', 1, NULL, 6, 0.99, 48, 14.99, 'NC-17', 'Trailers,Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42');    
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (635, 'OKLAHOMA JUMANJI', 'A Thoughtful Drama of a Dentist And a Womanizer who must Meet a Husband in The Sahara Desert', DATE '2006-01-01', 1, NULL, 7, 0.99, 58, 15.99, 'PG', 'Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (636, 'OLEANDER CLUE', 'A Boring Story of a Teacher And a Monkey who must Succumb a Forensic Psychologist in A Jet Boat', DATE '2006-01-01', 1, NULL, 5, 0.99, 161, 12.99, 'PG', 'Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (637, 'OPEN AFRICAN', 'A Lacklusture Drama of a Secret Agent And a Explorer who must Discover a Car in A U-Boat', DATE '2006-01-01', 1, NULL, 7, 4.99, 131, 16.99, 'PG', 'Trailers,Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
@@ -913,7 +913,7 @@ INSERT INTO "sakila"."film" VALUES
 (649, 'OZ LIAISONS', 'A Epic Yarn of a Mad Scientist And a Cat who must Confront a Womanizer in A Baloon Factory', DATE '2006-01-01', 1, NULL, 4, 2.99, 85, 14.99, 'R', 'Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (650, 'PACIFIC AMISTAD', 'A Thrilling Yarn of a Dog And a Moose who must Kill a Pastry Chef in A Manhattan Penthouse', DATE '2006-01-01', 1, NULL, 3, 0.99, 144, 27.99, 'G', 'Trailers,Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (651, 'PACKER MADIGAN', 'A Epic Display of a Sumo Wrestler And a Forensic Psychologist who must Build a Woman in An Abandoned Amusement Park', DATE '2006-01-01', 1, NULL, 3, 0.99, 84, 20.99, 'PG-13', 'Trailers', TIMESTAMP '2006-02-15 05:03:42');           
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (652, 'PAJAMA JAWBREAKER', 'A Emotional Drama of a Boy And a Technical Writer who must Redeem a Sumo Wrestler in California', DATE '2006-01-01', 1, NULL, 3, 0.99, 126, 14.99, 'R', 'Trailers,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (653, 'PANIC CLUB', 'A Fanciful Display of a Teacher And a Crocodile who must Succumb a Girl in A Baloon', DATE '2006-01-01', 1, NULL, 3, 4.99, 102, 15.99, 'G', 'Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (654, 'PANKY SUBMARINE', 'A Touching Documentary of a Dentist And a Sumo Wrestler who must Overcome a Boy in The Gulf of Mexico', DATE '2006-01-01', 1, NULL, 4, 4.99, 93, 19.99, 'G', 'Trailers,Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -931,7 +931,7 @@ INSERT INTO "sakila"."film" VALUES
 (666, 'PAYCHECK WAIT', 'A Awe-Inspiring Reflection of a Boy And a Man who must Discover a Moose in The Sahara Desert', DATE '2006-01-01', 1, NULL, 4, 4.99, 145, 27.99, 'PG-13', 'Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (667, 'PEACH INNOCENT', 'A Action-Packed Drama of a Monkey And a Dentist who must Chase a Butler in Berlin', DATE '2006-01-01', 1, NULL, 3, 2.99, 160, 20.99, 'PG-13', 'Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (668, 'PEAK FOREVER', 'A Insightful Reflection of a Boat And a Secret Agent who must Vanquish a Astronaut in An Abandoned Mine Shaft', DATE '2006-01-01', 1, NULL, 7, 4.99, 80, 25.99, 'PG', 'Trailers,Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42');           
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (669, 'PEARL DESTINY', 'A Lacklusture Yarn of a Astronaut And a Pastry Chef who must Sink a Dog in A U-Boat', DATE '2006-01-01', 1, NULL, 3, 2.99, 74, 10.99, 'NC-17', 'Trailers', TIMESTAMP '2006-02-15 05:03:42'),
 (670, 'PELICAN COMFORTS', 'A Epic Documentary of a Boy And a Monkey who must Pursue a Astronaut in Berlin', DATE '2006-01-01', 1, NULL, 4, 4.99, 48, 17.99, 'PG', 'Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (671, 'PERDITION FARGO', 'A Fast-Paced Story of a Car And a Cat who must Outgun a Hunter in Berlin', DATE '2006-01-01', 1, NULL, 7, 4.99, 99, 27.99, 'NC-17', 'Trailers,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -949,7 +949,7 @@ INSERT INTO "sakila"."film" VALUES
 (683, 'PITY BOUND', 'A Boring Panorama of a Feminist And a Moose who must Defeat a Database Administrator in Nigeria', DATE '2006-01-01', 1, NULL, 5, 4.99, 60, 19.99, 'NC-17', 'Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
 (684, 'PIZZA JUMANJI', 'A Epic Saga of a Cat And a Squirrel who must Outgun a Robot in A U-Boat', DATE '2006-01-01', 1, NULL, 4, 2.99, 173, 11.99, 'NC-17', 'Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
 (685, 'PLATOON INSTINCT', 'A Thrilling Panorama of a Man And a Woman who must Reach a Woman in Australia', DATE '2006-01-01', 1, NULL, 6, 4.99, 132, 10.99, 'PG-13', 'Trailers,Commentaries', TIMESTAMP '2006-02-15 05:03:42');         
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (686, 'PLUTO OLEANDER', 'A Action-Packed Reflection of a Car And a Moose who must Outgun a Car in A Shark Tank', DATE '2006-01-01', 1, NULL, 5, 4.99, 84, 9.99, 'R', 'Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (687, 'POCUS PULP', 'A Intrepid Yarn of a Frisbee And a Dog who must Build a Astronaut in A Baloon Factory', DATE '2006-01-01', 1, NULL, 6, 0.99, 138, 15.99, 'NC-17', 'Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (688, 'POLISH BROOKLYN', 'A Boring Character Study of a Database Administrator And a Lumberjack who must Reach a Madman in The Outback', DATE '2006-01-01', 1, NULL, 6, 0.99, 61, 12.99, 'PG', 'Trailers,Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -968,7 +968,7 @@ INSERT INTO "sakila"."film" VALUES
 (701, 'PSYCHO SHRUNK', 'A Amazing Panorama of a Crocodile And a Explorer who must Fight a Husband in Nigeria', DATE '2006-01-01', 1, NULL, 5, 2.99, 155, 11.99, 'PG-13', 'Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (702, 'PULP BEVERLY', 'A Unbelieveable Display of a Dog And a Crocodile who must Outrace a Man in Nigeria', DATE '2006-01-01', 1, NULL, 4, 2.99, 89, 12.99, 'G', 'Trailers,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (703, 'PUNK DIVORCE', 'A Fast-Paced Tale of a Pastry Chef And a Boat who must Face a Frisbee in The Canadian Rockies', DATE '2006-01-01', 1, NULL, 6, 4.99, 100, 18.99, 'PG', 'Trailers,Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42');             
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (704, 'PURE RUNNER', 'A Thoughtful Documentary of a Student And a Madman who must Challenge a Squirrel in A Manhattan Penthouse', DATE '2006-01-01', 1, NULL, 3, 2.99, 121, 25.99, 'NC-17', 'Trailers,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (705, 'PURPLE MOVIE', 'A Boring Display of a Pastry Chef And a Sumo Wrestler who must Discover a Frisbee in An Abandoned Amusement Park', DATE '2006-01-01', 1, NULL, 4, 2.99, 88, 9.99, 'R', 'Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (706, 'QUEEN LUKE', 'A Astounding Story of a Girl And a Boy who must Challenge a Composer in New Orleans', DATE '2006-01-01', 1, NULL, 5, 4.99, 163, 22.99, 'PG', 'Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -986,7 +986,7 @@ INSERT INTO "sakila"."film" VALUES
 (718, 'REBEL AIRPORT', 'A Intrepid Yarn of a Database Administrator And a Boat who must Outrace a Husband in Ancient India', DATE '2006-01-01', 1, NULL, 7, 0.99, 73, 24.99, 'G', 'Trailers,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (719, 'RECORDS ZORRO', 'A Amazing Drama of a Mad Scientist And a Composer who must Build a Husband in The Outback', DATE '2006-01-01', 1, NULL, 7, 4.99, 182, 11.99, 'PG', 'Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (720, 'REDEMPTION COMFORTS', 'A Emotional Documentary of a Dentist And a Woman who must Battle a Mad Scientist in Ancient China', DATE '2006-01-01', 1, NULL, 3, 2.99, 179, 20.99, 'NC-17', 'Trailers,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42');      
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (721, 'REDS POCUS', 'A Lacklusture Yarn of a Sumo Wrestler And a Squirrel who must Redeem a Monkey in Soviet Georgia', DATE '2006-01-01', 1, NULL, 7, 4.99, 182, 23.99, 'PG-13', 'Trailers,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (722, 'REEF SALUTE', 'A Action-Packed Saga of a Teacher And a Lumberjack who must Battle a Dentist in A Baloon', DATE '2006-01-01', 1, NULL, 5, 0.99, 123, 26.99, 'NC-17', 'Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (723, 'REIGN GENTLEMEN', 'A Emotional Yarn of a Composer And a Man who must Escape a Butler in The Gulf of Mexico', DATE '2006-01-01', 1, NULL, 3, 2.99, 82, 29.99, 'PG-13', 'Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -1004,7 +1004,7 @@ INSERT INTO "sakila"."film" VALUES
 (735, 'ROBBERS JOON', 'A Thoughtful Story of a Mad Scientist And a Waitress who must Confront a Forensic Psychologist in Soviet Georgia', DATE '2006-01-01', 1, NULL, 7, 2.99, 102, 26.99, 'PG-13', 'Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
 (736, 'ROBBERY BRIGHT', 'A Taut Reflection of a Robot And a Squirrel who must Fight a Boat in Ancient Japan', DATE '2006-01-01', 1, NULL, 4, 0.99, 134, 21.99, 'R', 'Trailers', TIMESTAMP '2006-02-15 05:03:42'),
 (737, 'ROCK INSTINCT', 'A Astounding Character Study of a Robot And a Moose who must Overcome a Astronaut in Ancient India', DATE '2006-01-01', 1, NULL, 4, 0.99, 102, 28.99, 'G', 'Trailers,Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'); 
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (738, 'ROCKETEER MOTHER', 'A Awe-Inspiring Character Study of a Robot And a Sumo Wrestler who must Discover a Womanizer in A Shark Tank', DATE '2006-01-01', 1, NULL, 3, 0.99, 178, 27.99, 'PG-13', 'Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (739, 'ROCKY WAR', 'A Fast-Paced Display of a Squirrel And a Explorer who must Outgun a Mad Scientist in Nigeria', DATE '2006-01-01', 1, NULL, 4, 4.99, 145, 17.99, 'PG-13', 'Trailers,Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (740, 'ROLLERCOASTER BRINGING', 'A Beautiful Drama of a Robot And a Lumberjack who must Discover a Technical Writer in A Shark Tank', DATE '2006-01-01', 1, NULL, 5, 2.99, 153, 13.99, 'PG-13', 'Trailers,Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -1022,7 +1022,7 @@ INSERT INTO "sakila"."film" VALUES
 (752, 'RUNNER MADIGAN', 'A Thoughtful Documentary of a Crocodile And a Robot who must Outrace a Womanizer in The Outback', DATE '2006-01-01', 1, NULL, 6, 0.99, 101, 27.99, 'NC-17', 'Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (753, 'RUSH GOODFELLAS', 'A Emotional Display of a Man And a Dentist who must Challenge a Squirrel in Australia', DATE '2006-01-01', 1, NULL, 3, 0.99, 48, 20.99, 'PG', 'Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (754, 'RUSHMORE MERMAID', 'A Boring Story of a Woman And a Moose who must Reach a Husband in A Shark Tank', DATE '2006-01-01', 1, NULL, 6, 2.99, 150, 17.99, 'PG-13', 'Trailers,Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42');           
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (755, 'SABRINA MIDNIGHT', 'A Emotional Story of a Squirrel And a Crocodile who must Succumb a Husband in The Sahara Desert', DATE '2006-01-01', 1, NULL, 5, 4.99, 99, 11.99, 'PG', 'Trailers,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (756, 'SADDLE ANTITRUST', 'A Stunning Epistle of a Feminist And a A Shark who must Battle a Woman in An Abandoned Fun House', DATE '2006-01-01', 1, NULL, 7, 2.99, 80, 10.99, 'PG-13', 'Trailers,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (757, 'SAGEBRUSH CLUELESS', 'A Insightful Story of a Lumberjack And a Hunter who must Kill a Boy in Ancient Japan', DATE '2006-01-01', 1, NULL, 4, 2.99, 106, 28.99, 'G', 'Trailers', TIMESTAMP '2006-02-15 05:03:42'),
@@ -1040,7 +1040,7 @@ INSERT INTO "sakila"."film" VALUES
 (769, 'SCHOOL JACKET', 'A Intrepid Yarn of a Monkey And a Boy who must Fight a Composer in A Manhattan Penthouse', DATE '2006-01-01', 1, NULL, 5, 4.99, 151, 21.99, 'PG-13', 'Trailers', TIMESTAMP '2006-02-15 05:03:42'),
 (770, 'SCISSORHANDS SLUMS', 'A Awe-Inspiring Drama of a Girl And a Technical Writer who must Meet a Feminist in The Canadian Rockies', DATE '2006-01-01', 1, NULL, 5, 2.99, 147, 13.99, 'G', 'Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (771, 'SCORPION APOLLO', 'A Awe-Inspiring Documentary of a Technical Writer And a Husband who must Meet a Monkey in An Abandoned Fun House', DATE '2006-01-01', 1, NULL, 3, 4.99, 137, 23.99, 'NC-17', 'Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42');             
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (772, 'SEA VIRGIN', 'A Fast-Paced Documentary of a Technical Writer And a Pastry Chef who must Escape a Moose in A U-Boat', DATE '2006-01-01', 1, NULL, 4, 2.99, 80, 24.99, 'PG', 'Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (773, 'SEABISCUIT PUNK', 'A Insightful Saga of a Man And a Forensic Psychologist who must Discover a Mad Cow in A MySQL Convention', DATE '2006-01-01', 1, NULL, 6, 2.99, 112, 28.99, 'NC-17', 'Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (774, 'SEARCHERS WAIT', 'A Fast-Paced Tale of a Car And a Mad Scientist who must Kill a Womanizer in Ancient Japan', DATE '2006-01-01', 1, NULL, 3, 2.99, 182, 22.99, 'NC-17', 'Trailers,Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -1058,7 +1058,7 @@ INSERT INTO "sakila"."film" VALUES
 (786, 'SHEPHERD MIDSUMMER', 'A Thoughtful Drama of a Robot And a Womanizer who must Kill a Lumberjack in A Baloon', DATE '2006-01-01', 1, NULL, 7, 0.99, 113, 14.99, 'R', 'Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (787, 'SHINING ROSES', 'A Awe-Inspiring Character Study of a Astronaut And a Forensic Psychologist who must Challenge a Madman in Ancient India', DATE '2006-01-01', 1, NULL, 4, 0.99, 125, 12.99, 'G', 'Trailers,Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (788, 'SHIP WONDERLAND', 'A Thrilling Saga of a Monkey And a Frisbee who must Escape a Explorer in The Outback', DATE '2006-01-01', 1, NULL, 5, 2.99, 104, 15.99, 'R', 'Commentaries', TIMESTAMP '2006-02-15 05:03:42');         
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (789, 'SHOCK CABIN', 'A Fateful Tale of a Mad Cow And a Crocodile who must Meet a Husband in New Orleans', DATE '2006-01-01', 1, NULL, 7, 2.99, 79, 15.99, 'PG-13', 'Trailers,Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (790, 'SHOOTIST SUPERFLY', 'A Fast-Paced Story of a Crocodile And a A Shark who must Sink a Pioneer in Berlin', DATE '2006-01-01', 1, NULL, 6, 0.99, 67, 22.99, 'PG-13', 'Trailers', TIMESTAMP '2006-02-15 05:03:42'),
 (791, 'SHOW LORD', 'A Fanciful Saga of a Student And a Girl who must Find a Butler in Ancient Japan', DATE '2006-01-01', 1, NULL, 3, 4.99, 167, 24.99, 'PG-13', 'Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -1076,7 +1076,7 @@ INSERT INTO "sakila"."film" VALUES
 (803, 'SLACKER LIAISONS', 'A Fast-Paced Tale of a A Shark And a Student who must Meet a Crocodile in Ancient China', DATE '2006-01-01', 1, NULL, 7, 4.99, 179, 29.99, 'R', 'Trailers,Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (804, 'SLEEPING SUSPECTS', 'A Stunning Reflection of a Sumo Wrestler And a Explorer who must Sink a Frisbee in A MySQL Convention', DATE '2006-01-01', 1, NULL, 7, 4.99, 129, 13.99, 'PG-13', 'Trailers,Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
 (805, 'SLEEPLESS MONSOON', 'A Amazing Saga of a Moose And a Pastry Chef who must Escape a Butler in Australia', DATE '2006-01-01', 1, NULL, 5, 4.99, 64, 12.99, 'G', 'Trailers,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42');  
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (806, 'SLEEPY JAPANESE', 'A Emotional Epistle of a Moose And a Composer who must Fight a Technical Writer in The Outback', DATE '2006-01-01', 1, NULL, 4, 2.99, 137, 25.99, 'PG', 'Trailers,Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (807, 'SLEUTH ORIENT', 'A Fateful Character Study of a Husband And a Dog who must Find a Feminist in Ancient India', DATE '2006-01-01', 1, NULL, 4, 0.99, 87, 25.99, 'NC-17', 'Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (808, 'SLING LUKE', 'A Intrepid Character Study of a Robot And a Monkey who must Reach a Secret Agent in An Abandoned Amusement Park', DATE '2006-01-01', 1, NULL, 5, 0.99, 84, 10.99, 'R', 'Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -1094,7 +1094,7 @@ INSERT INTO "sakila"."film" VALUES
 (820, 'SONS INTERVIEW', 'A Taut Character Study of a Explorer And a Mad Cow who must Battle a Hunter in Ancient China', DATE '2006-01-01', 1, NULL, 3, 2.99, 184, 11.99, 'NC-17', 'Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (821, 'SORORITY QUEEN', 'A Fast-Paced Display of a Squirrel And a Composer who must Fight a Forensic Psychologist in A Jet Boat', DATE '2006-01-01', 1, NULL, 6, 0.99, 184, 17.99, 'NC-17', 'Trailers,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (822, 'SOUP WISDOM', 'A Fast-Paced Display of a Robot And a Butler who must Defeat a Butler in A MySQL Convention', DATE '2006-01-01', 1, NULL, 6, 0.99, 169, 12.99, 'R', 'Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42');               
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (823, 'SOUTH WAIT', 'A Amazing Documentary of a Car And a Robot who must Escape a Lumberjack in An Abandoned Amusement Park', DATE '2006-01-01', 1, NULL, 4, 2.99, 143, 21.99, 'R', 'Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (824, 'SPARTACUS CHEAPER', 'A Thrilling Panorama of a Pastry Chef And a Secret Agent who must Overcome a Student in A Manhattan Penthouse', DATE '2006-01-01', 1, NULL, 4, 4.99, 52, 19.99, 'NC-17', 'Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (825, 'SPEAKEASY DATE', 'A Lacklusture Drama of a Forensic Psychologist And a Car who must Redeem a Man in A Manhattan Penthouse', DATE '2006-01-01', 1, NULL, 6, 2.99, 165, 22.99, 'PG-13', 'Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -1112,7 +1112,7 @@ INSERT INTO "sakila"."film" VALUES
 (837, 'STAGE WORLD', 'A Lacklusture Panorama of a Woman And a Frisbee who must Chase a Crocodile in A Jet Boat', DATE '2006-01-01', 1, NULL, 4, 2.99, 85, 19.99, 'PG', 'Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (838, 'STAGECOACH ARMAGEDDON', 'A Touching Display of a Pioneer And a Butler who must Chase a Car in California', DATE '2006-01-01', 1, NULL, 5, 4.99, 112, 25.99, 'R', 'Trailers,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (839, 'STALLION SUNDANCE', 'A Fast-Paced Tale of a Car And a Dog who must Outgun a A Shark in Australia', DATE '2006-01-01', 1, NULL, 5, 0.99, 130, 23.99, 'PG-13', 'Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42');            
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (840, 'STAMPEDE DISTURBING', 'A Unbelieveable Tale of a Woman And a Lumberjack who must Fight a Frisbee in A U-Boat', DATE '2006-01-01', 1, NULL, 5, 0.99, 75, 26.99, 'R', 'Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (841, 'STAR OPERATION', 'A Insightful Character Study of a Girl And a Car who must Pursue a Mad Cow in A Shark Tank', DATE '2006-01-01', 1, NULL, 5, 2.99, 181, 9.99, 'PG', 'Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
 (842, 'STATE WASTELAND', 'A Beautiful Display of a Cat And a Pastry Chef who must Outrace a Mad Cow in A Jet Boat', DATE '2006-01-01', 1, NULL, 4, 2.99, 113, 13.99, 'NC-17', 'Trailers,Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -1130,7 +1130,7 @@ INSERT INTO "sakila"."film" VALUES
 (854, 'STRANGERS GRAFFITI', 'A Brilliant Character Study of a Secret Agent And a Man who must Find a Cat in The Gulf of Mexico', DATE '2006-01-01', 1, NULL, 4, 4.99, 119, 22.99, 'R', 'Trailers,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (855, 'STREAK RIDGEMONT', 'A Astounding Character Study of a Hunter And a Waitress who must Sink a Man in New Orleans', DATE '2006-01-01', 1, NULL, 7, 0.99, 132, 28.99, 'PG-13', 'Trailers,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (856, 'STREETCAR INTENTIONS', 'A Insightful Character Study of a Waitress And a Crocodile who must Sink a Waitress in The Gulf of Mexico', DATE '2006-01-01', 1, NULL, 5, 4.99, 73, 11.99, 'R', 'Commentaries', TIMESTAMP '2006-02-15 05:03:42');  
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (857, 'STRICTLY SCARFACE', 'A Touching Reflection of a Crocodile And a Dog who must Chase a Hunter in An Abandoned Fun House', DATE '2006-01-01', 1, NULL, 3, 2.99, 144, 24.99, 'PG-13', 'Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (858, 'SUBMARINE BED', 'A Amazing Display of a Car And a Monkey who must Fight a Teacher in Soviet Georgia', DATE '2006-01-01', 1, NULL, 5, 4.99, 127, 21.99, 'R', 'Trailers', TIMESTAMP '2006-02-15 05:03:42'),
 (859, 'SUGAR WONKA', 'A Touching Story of a Dentist And a Database Administrator who must Conquer a Astronaut in An Abandoned Amusement Park', DATE '2006-01-01', 1, NULL, 3, 4.99, 114, 20.99, 'PG', 'Trailers,Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -1148,7 +1148,7 @@ INSERT INTO "sakila"."film" VALUES
 (871, 'SWEDEN SHINING', 'A Taut Documentary of a Car And a Robot who must Conquer a Boy in The Canadian Rockies', DATE '2006-01-01', 1, NULL, 6, 4.99, 176, 19.99, 'PG', 'Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (872, 'SWEET BROTHERHOOD', 'A Unbelieveable Epistle of a Sumo Wrestler And a Hunter who must Chase a Forensic Psychologist in A Baloon', DATE '2006-01-01', 1, NULL, 3, 2.99, 185, 27.99, 'R', 'Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (873, 'SWEETHEARTS SUSPECTS', 'A Brilliant Character Study of a Frisbee And a Sumo Wrestler who must Confront a Woman in The Gulf of Mexico', DATE '2006-01-01', 1, NULL, 3, 0.99, 108, 13.99, 'G', 'Trailers,Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'); 
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (874, 'TADPOLE PARK', 'A Beautiful Tale of a Frisbee And a Moose who must Vanquish a Dog in An Abandoned Amusement Park', DATE '2006-01-01', 1, NULL, 6, 2.99, 155, 13.99, 'PG', 'Trailers,Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
 (875, 'TALENTED HOMICIDE', 'A Lacklusture Panorama of a Dentist And a Forensic Psychologist who must Outrace a Pioneer in A U-Boat', DATE '2006-01-01', 1, NULL, 6, 0.99, 173, 9.99, 'PG', 'Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (876, 'TARZAN VIDEOTAPE', 'A Fast-Paced Display of a Lumberjack And a Mad Scientist who must Succumb a Sumo Wrestler in The Sahara Desert', DATE '2006-01-01', 1, NULL, 3, 2.99, 91, 11.99, 'PG-13', 'Trailers', TIMESTAMP '2006-02-15 05:03:42'),
@@ -1166,7 +1166,7 @@ INSERT INTO "sakila"."film" VALUES
 (888, 'THIN SAGEBRUSH', 'A Emotional Drama of a Husband And a Lumberjack who must Build a Cat in Ancient India', DATE '2006-01-01', 1, NULL, 5, 4.99, 53, 9.99, 'PG-13', 'Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (889, 'TIES HUNGER', 'A Insightful Saga of a Astronaut And a Explorer who must Pursue a Mad Scientist in A U-Boat', DATE '2006-01-01', 1, NULL, 3, 4.99, 111, 28.99, 'R', 'Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (890, 'TIGHTS DAWN', 'A Thrilling Epistle of a Boat And a Secret Agent who must Face a Boy in A Baloon', DATE '2006-01-01', 1, NULL, 5, 0.99, 172, 14.99, 'R', 'Trailers,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42');        
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (891, 'TIMBERLAND SKY', 'A Boring Display of a Man And a Dog who must Redeem a Girl in A U-Boat', DATE '2006-01-01', 1, NULL, 3, 0.99, 69, 13.99, 'G', 'Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
 (892, 'TITANIC BOONDOCK', 'A Brilliant Reflection of a Feminist And a Dog who must Fight a Boy in A Baloon Factory', DATE '2006-01-01', 1, NULL, 3, 4.99, 104, 18.99, 'R', 'Trailers,Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (893, 'TITANS JERK', 'A Unbelieveable Panorama of a Feminist And a Sumo Wrestler who must Challenge a Technical Writer in Ancient China', DATE '2006-01-01', 1, NULL, 4, 4.99, 91, 11.99, 'PG', 'Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -1185,7 +1185,7 @@ INSERT INTO "sakila"."film" VALUES
 (906, 'TRAMP OTHERS', 'A Brilliant Display of a Composer And a Cat who must Succumb a A Shark in Ancient India', DATE '2006-01-01', 1, NULL, 4, 0.99, 171, 27.99, 'PG', 'Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (907, 'TRANSLATION SUMMER', 'A Touching Reflection of a Man And a Monkey who must Pursue a Womanizer in A MySQL Convention', DATE '2006-01-01', 1, NULL, 4, 0.99, 168, 10.99, 'PG-13', 'Trailers', TIMESTAMP '2006-02-15 05:03:42'),
 (908, 'TRAP GUYS', 'A Unbelieveable Story of a Boy And a Mad Cow who must Challenge a Database Administrator in The Sahara Desert', DATE '2006-01-01', 1, NULL, 3, 4.99, 110, 11.99, 'G', 'Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42');  
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (909, 'TREASURE COMMAND', 'A Emotional Saga of a Car And a Madman who must Discover a Pioneer in California', DATE '2006-01-01', 1, NULL, 3, 0.99, 102, 28.99, 'PG-13', 'Trailers,Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (910, 'TREATMENT JEKYLL', 'A Boring Story of a Teacher And a Student who must Outgun a Cat in An Abandoned Mine Shaft', DATE '2006-01-01', 1, NULL, 3, 0.99, 87, 19.99, 'PG', 'Trailers,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (911, 'TRIP NEWTON', 'A Fanciful Character Study of a Lumberjack And a Car who must Discover a Cat in An Abandoned Amusement Park', DATE '2006-01-01', 1, NULL, 7, 4.99, 64, 14.99, 'PG-13', 'Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -1203,7 +1203,7 @@ INSERT INTO "sakila"."film" VALUES
 (923, 'UNFAITHFUL KILL', 'A Taut Documentary of a Waitress And a Mad Scientist who must Battle a Technical Writer in New Orleans', DATE '2006-01-01', 1, NULL, 7, 2.99, 78, 12.99, 'R', 'Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (924, 'UNFORGIVEN ZOOLANDER', 'A Taut Epistle of a Monkey And a Sumo Wrestler who must Vanquish a A Shark in A Baloon Factory', DATE '2006-01-01', 1, NULL, 7, 0.99, 129, 15.99, 'PG', 'Trailers,Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (925, 'UNITED PILOT', 'A Fast-Paced Reflection of a Cat And a Mad Cow who must Fight a Car in The Sahara Desert', DATE '2006-01-01', 1, NULL, 3, 0.99, 164, 27.99, 'R', 'Trailers,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42');           
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (926, 'UNTOUCHABLES SUNRISE', 'A Amazing Documentary of a Woman And a Astronaut who must Outrace a Teacher in An Abandoned Fun House', DATE '2006-01-01', 1, NULL, 5, 2.99, 120, 11.99, 'NC-17', 'Trailers,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (927, 'UPRISING UPTOWN', 'A Fanciful Reflection of a Boy And a Butler who must Pursue a Woman in Berlin', DATE '2006-01-01', 1, NULL, 6, 2.99, 174, 16.99, 'NC-17', 'Trailers,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (928, 'UPTOWN YOUNG', 'A Fateful Documentary of a Dog And a Hunter who must Pursue a Teacher in An Abandoned Amusement Park', DATE '2006-01-01', 1, NULL, 5, 2.99, 84, 16.99, 'PG', 'Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
@@ -1221,7 +1221,7 @@ INSERT INTO "sakila"."film" VALUES
 (940, 'VICTORY ACADEMY', 'A Insightful Epistle of a Mad Scientist And a Explorer who must Challenge a Cat in The Sahara Desert', DATE '2006-01-01', 1, NULL, 6, 0.99, 64, 19.99, 'PG-13', 'Trailers,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (941, 'VIDEOTAPE ARSENIC', 'A Lacklusture Display of a Girl And a Astronaut who must Succumb a Student in Australia', DATE '2006-01-01', 1, NULL, 4, 4.99, 145, 10.99, 'NC-17', 'Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (942, 'VIETNAM SMOOCHY', 'A Lacklusture Display of a Butler And a Man who must Sink a Explorer in Soviet Georgia', DATE '2006-01-01', 1, NULL, 7, 0.99, 174, 27.99, 'PG-13', 'Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42');             
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (943, 'VILLAIN DESPERATE', 'A Boring Yarn of a Pioneer And a Feminist who must Redeem a Cat in An Abandoned Amusement Park', DATE '2006-01-01', 1, NULL, 4, 4.99, 76, 27.99, 'PG-13', 'Trailers,Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
 (944, 'VIRGIN DAISY', 'A Awe-Inspiring Documentary of a Robot And a Mad Scientist who must Reach a Database Administrator in A Shark Tank', DATE '2006-01-01', 1, NULL, 6, 4.99, 179, 29.99, 'PG-13', 'Trailers,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (945, 'VIRGINIAN PLUTO', 'A Emotional Panorama of a Dentist And a Crocodile who must Meet a Boy in Berlin', DATE '2006-01-01', 1, NULL, 5, 0.99, 164, 22.99, 'R', 'Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -1239,7 +1239,7 @@ INSERT INTO "sakila"."film" VALUES
 (957, 'WAR NOTTING', 'A Boring Drama of a Teacher And a Sumo Wrestler who must Challenge a Secret Agent in The Canadian Rockies', DATE '2006-01-01', 1, NULL, 7, 4.99, 80, 26.99, 'G', 'Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (958, 'WARDROBE PHANTOM', 'A Action-Packed Display of a Mad Cow And a Astronaut who must Kill a Car in Ancient India', DATE '2006-01-01', 1, NULL, 6, 2.99, 178, 19.99, 'G', 'Trailers,Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
 (959, 'WARLOCK WEREWOLF', 'A Astounding Yarn of a Pioneer And a Crocodile who must Defeat a A Shark in The Outback', DATE '2006-01-01', 1, NULL, 6, 2.99, 83, 10.99, 'G', 'Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42');      
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (960, 'WARS PLUTO', 'A Taut Reflection of a Teacher And a Database Administrator who must Chase a Madman in The Sahara Desert', DATE '2006-01-01', 1, NULL, 5, 2.99, 128, 15.99, 'G', 'Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (961, 'WASH HEAVENLY', 'A Awe-Inspiring Reflection of a Cat And a Pioneer who must Escape a Hunter in Ancient China', DATE '2006-01-01', 1, NULL, 7, 4.99, 161, 22.99, 'R', 'Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
 (962, 'WASTELAND DIVINE', 'A Fanciful Story of a Database Administrator And a Womanizer who must Fight a Database Administrator in Ancient China', DATE '2006-01-01', 1, NULL, 7, 2.99, 85, 18.99, 'PG', 'Trailers,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -1257,7 +1257,7 @@ INSERT INTO "sakila"."film" VALUES
 (974, 'WILD APOLLO', 'A Beautiful Story of a Monkey And a Sumo Wrestler who must Conquer a A Shark in A MySQL Convention', DATE '2006-01-01', 1, NULL, 4, 0.99, 181, 24.99, 'R', 'Trailers,Commentaries,Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (975, 'WILLOW TRACY', 'A Brilliant Panorama of a Boat And a Astronaut who must Challenge a Teacher in A Manhattan Penthouse', DATE '2006-01-01', 1, NULL, 6, 2.99, 137, 22.99, 'R', 'Trailers,Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (976, 'WIND PHANTOM', 'A Touching Saga of a Madman And a Forensic Psychologist who must Build a Sumo Wrestler in An Abandoned Mine Shaft', DATE '2006-01-01', 1, NULL, 6, 0.99, 111, 12.99, 'R', 'Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42');
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (977, 'WINDOW SIDE', 'A Astounding Character Study of a Womanizer And a Hunter who must Escape a Robot in A Monastery', DATE '2006-01-01', 1, NULL, 3, 2.99, 85, 25.99, 'R', 'Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (978, 'WISDOM WORKER', 'A Unbelieveable Saga of a Forensic Psychologist And a Student who must Face a Squirrel in The First Manned Space Station', DATE '2006-01-01', 1, NULL, 3, 0.99, 98, 12.99, 'R', 'Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (979, 'WITCHES PANIC', 'A Awe-Inspiring Drama of a Secret Agent And a Hunter who must Fight a Moose in Nigeria', DATE '2006-01-01', 1, NULL, 6, 4.99, 100, 10.99, 'NC-17', 'Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -1275,7 +1275,7 @@ INSERT INTO "sakila"."film" VALUES
 (991, 'WORST BANGER', 'A Thrilling Drama of a Madman And a Dentist who must Conquer a Boy in The Outback', DATE '2006-01-01', 1, NULL, 4, 2.99, 185, 26.99, 'PG', 'Deleted Scenes,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (992, 'WRATH MILE', 'A Intrepid Reflection of a Technical Writer And a Hunter who must Defeat a Sumo Wrestler in A Monastery', DATE '2006-01-01', 1, NULL, 5, 0.99, 176, 17.99, 'NC-17', 'Trailers,Commentaries', TIMESTAMP '2006-02-15 05:03:42'),
 (993, 'WRONG BEHAVIOR', 'A Emotional Saga of a Crocodile And a Sumo Wrestler who must Discover a Mad Cow in New Orleans', DATE '2006-01-01', 1, NULL, 6, 2.99, 178, 10.99, 'PG-13', 'Trailers,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42');               
-INSERT INTO "sakila"."film" VALUES
+INSERT INTO "film" VALUES
 (994, 'WYOMING STORM', 'A Awe-Inspiring Panorama of a Robot And a Boat who must Overcome a Feminist in A U-Boat', DATE '2006-01-01', 1, NULL, 6, 4.99, 100, 29.99, 'PG-13', 'Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (995, 'YENTL IDAHO', 'A Amazing Display of a Robot And a Astronaut who must Fight a Womanizer in Berlin', DATE '2006-01-01', 1, NULL, 5, 4.99, 86, 11.99, 'R', 'Trailers,Commentaries,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (996, 'YOUNG LANGUAGE', 'A Unbelieveable Yarn of a Boat And a Database Administrator who must Meet a Boy in The First Manned Space Station', DATE '2006-01-01', 1, NULL, 6, 0.99, 183, 9.99, 'G', 'Trailers,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42'),
@@ -1284,7 +1284,7 @@ INSERT INTO "sakila"."film" VALUES
 (999, 'ZOOLANDER FICTION', 'A Fateful Reflection of a Waitress And a Boat who must Discover a Sumo Wrestler in Ancient China', DATE '2006-01-01', 1, NULL, 5, 2.99, 101, 28.99, 'R', 'Trailers,Deleted Scenes', TIMESTAMP '2006-02-15 05:03:42'),
 (1000, 'ZORRO ARK', 'A Intrepid Panorama of a Mad Scientist And a Boy who must Redeem a Boy in A Monastery', DATE '2006-01-01', 1, NULL, 3, 4.99, 50, 18.99, 'NC-17', 'Trailers,Commentaries,Behind the Scenes', TIMESTAMP '2006-02-15 05:03:42');
 
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (1, 1, TIMESTAMP '2006-02-15 05:05:03'),
 (1, 23, TIMESTAMP '2006-02-15 05:05:03'),
 (1, 25, TIMESTAMP '2006-02-15 05:05:03'),
@@ -1380,7 +1380,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (5, 171, TIMESTAMP '2006-02-15 05:05:03'),
 (5, 172, TIMESTAMP '2006-02-15 05:05:03'),
 (5, 202, TIMESTAMP '2006-02-15 05:05:03');       
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (5, 203, TIMESTAMP '2006-02-15 05:05:03'),
 (5, 286, TIMESTAMP '2006-02-15 05:05:03'),
 (5, 288, TIMESTAMP '2006-02-15 05:05:03'),
@@ -1476,7 +1476,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (9, 30, TIMESTAMP '2006-02-15 05:05:03'),
 (9, 74, TIMESTAMP '2006-02-15 05:05:03'),
 (9, 147, TIMESTAMP '2006-02-15 05:05:03');              
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (9, 148, TIMESTAMP '2006-02-15 05:05:03'),
 (9, 191, TIMESTAMP '2006-02-15 05:05:03'),
 (9, 200, TIMESTAMP '2006-02-15 05:05:03'),
@@ -1570,7 +1570,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (12, 631, TIMESTAMP '2006-02-15 05:05:03'),
 (12, 635, TIMESTAMP '2006-02-15 05:05:03'),
 (12, 672, TIMESTAMP '2006-02-15 05:05:03');             
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (12, 716, TIMESTAMP '2006-02-15 05:05:03'),
 (12, 728, TIMESTAMP '2006-02-15 05:05:03'),
 (12, 812, TIMESTAMP '2006-02-15 05:05:03'),
@@ -1664,7 +1664,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (15, 635, TIMESTAMP '2006-02-15 05:05:03'),
 (15, 745, TIMESTAMP '2006-02-15 05:05:03'),
 (15, 783, TIMESTAMP '2006-02-15 05:05:03');    
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (15, 795, TIMESTAMP '2006-02-15 05:05:03'),
 (15, 817, TIMESTAMP '2006-02-15 05:05:03'),
 (15, 886, TIMESTAMP '2006-02-15 05:05:03'),
@@ -1758,7 +1758,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (19, 144, TIMESTAMP '2006-02-15 05:05:03'),
 (19, 152, TIMESTAMP '2006-02-15 05:05:03'),
 (19, 182, TIMESTAMP '2006-02-15 05:05:03');      
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (19, 208, TIMESTAMP '2006-02-15 05:05:03'),
 (19, 212, TIMESTAMP '2006-02-15 05:05:03'),
 (19, 217, TIMESTAMP '2006-02-15 05:05:03'),
@@ -1852,7 +1852,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (22, 491, TIMESTAMP '2006-02-15 05:05:03'),
 (22, 495, TIMESTAMP '2006-02-15 05:05:03'),
 (22, 536, TIMESTAMP '2006-02-15 05:05:03');          
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (22, 600, TIMESTAMP '2006-02-15 05:05:03'),
 (22, 634, TIMESTAMP '2006-02-15 05:05:03'),
 (22, 648, TIMESTAMP '2006-02-15 05:05:03'),
@@ -1946,7 +1946,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (25, 871, TIMESTAMP '2006-02-15 05:05:03'),
 (25, 914, TIMESTAMP '2006-02-15 05:05:03'),
 (26, 9, TIMESTAMP '2006-02-15 05:05:03');        
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (26, 21, TIMESTAMP '2006-02-15 05:05:03'),
 (26, 34, TIMESTAMP '2006-02-15 05:05:03'),
 (26, 90, TIMESTAMP '2006-02-15 05:05:03'),
@@ -2040,7 +2040,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (28, 835, TIMESTAMP '2006-02-15 05:05:03'),
 (28, 879, TIMESTAMP '2006-02-15 05:05:03'),
 (28, 908, TIMESTAMP '2006-02-15 05:05:03');         
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (28, 953, TIMESTAMP '2006-02-15 05:05:03'),
 (28, 973, TIMESTAMP '2006-02-15 05:05:03'),
 (28, 994, TIMESTAMP '2006-02-15 05:05:03'),
@@ -2134,7 +2134,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (32, 928, TIMESTAMP '2006-02-15 05:05:03'),
 (32, 980, TIMESTAMP '2006-02-15 05:05:03'),
 (33, 56, TIMESTAMP '2006-02-15 05:05:03');          
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (33, 112, TIMESTAMP '2006-02-15 05:05:03'),
 (33, 135, TIMESTAMP '2006-02-15 05:05:03'),
 (33, 154, TIMESTAMP '2006-02-15 05:05:03'),
@@ -2228,7 +2228,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (36, 931, TIMESTAMP '2006-02-15 05:05:03'),
 (36, 956, TIMESTAMP '2006-02-15 05:05:03'),
 (37, 10, TIMESTAMP '2006-02-15 05:05:03');     
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (37, 12, TIMESTAMP '2006-02-15 05:05:03'),
 (37, 19, TIMESTAMP '2006-02-15 05:05:03'),
 (37, 118, TIMESTAMP '2006-02-15 05:05:03'),
@@ -2322,7 +2322,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (40, 107, TIMESTAMP '2006-02-15 05:05:03'),
 (40, 128, TIMESTAMP '2006-02-15 05:05:03'),
 (40, 163, TIMESTAMP '2006-02-15 05:05:03');      
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (40, 177, TIMESTAMP '2006-02-15 05:05:03'),
 (40, 223, TIMESTAMP '2006-02-15 05:05:03'),
 (40, 233, TIMESTAMP '2006-02-15 05:05:03'),
@@ -2416,7 +2416,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (43, 344, TIMESTAMP '2006-02-15 05:05:03'),
 (43, 359, TIMESTAMP '2006-02-15 05:05:03'),
 (43, 377, TIMESTAMP '2006-02-15 05:05:03');       
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (43, 410, TIMESTAMP '2006-02-15 05:05:03'),
 (43, 462, TIMESTAMP '2006-02-15 05:05:03'),
 (43, 533, TIMESTAMP '2006-02-15 05:05:03'),
@@ -2510,7 +2510,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (46, 768, TIMESTAMP '2006-02-15 05:05:03'),
 (46, 820, TIMESTAMP '2006-02-15 05:05:03'),
 (46, 829, TIMESTAMP '2006-02-15 05:05:03');      
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (46, 830, TIMESTAMP '2006-02-15 05:05:03'),
 (46, 836, TIMESTAMP '2006-02-15 05:05:03'),
 (46, 889, TIMESTAMP '2006-02-15 05:05:03'),
@@ -2604,7 +2604,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (50, 327, TIMESTAMP '2006-02-15 05:05:03'),
 (50, 372, TIMESTAMP '2006-02-15 05:05:03'),
 (50, 401, TIMESTAMP '2006-02-15 05:05:03');   
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (50, 417, TIMESTAMP '2006-02-15 05:05:03'),
 (50, 420, TIMESTAMP '2006-02-15 05:05:03'),
 (50, 437, TIMESTAMP '2006-02-15 05:05:03'),
@@ -2698,7 +2698,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (53, 508, TIMESTAMP '2006-02-15 05:05:03'),
 (53, 518, TIMESTAMP '2006-02-15 05:05:03'),
 (53, 573, TIMESTAMP '2006-02-15 05:05:03');         
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (53, 576, TIMESTAMP '2006-02-15 05:05:03'),
 (53, 577, TIMESTAMP '2006-02-15 05:05:03'),
 (53, 697, TIMESTAMP '2006-02-15 05:05:03'),
@@ -2792,7 +2792,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (57, 192, TIMESTAMP '2006-02-15 05:05:03'),
 (57, 213, TIMESTAMP '2006-02-15 05:05:03'),
 (57, 258, TIMESTAMP '2006-02-15 05:05:03');      
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (57, 267, TIMESTAMP '2006-02-15 05:05:03'),
 (57, 317, TIMESTAMP '2006-02-15 05:05:03'),
 (57, 340, TIMESTAMP '2006-02-15 05:05:03'),
@@ -2886,7 +2886,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (60, 297, TIMESTAMP '2006-02-15 05:05:03'),
 (60, 299, TIMESTAMP '2006-02-15 05:05:03'),
 (60, 334, TIMESTAMP '2006-02-15 05:05:03');       
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (60, 376, TIMESTAMP '2006-02-15 05:05:03'),
 (60, 423, TIMESTAMP '2006-02-15 05:05:03'),
 (60, 436, TIMESTAMP '2006-02-15 05:05:03'),
@@ -2980,7 +2980,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (63, 944, TIMESTAMP '2006-02-15 05:05:03'),
 (63, 945, TIMESTAMP '2006-02-15 05:05:03'),
 (63, 981, TIMESTAMP '2006-02-15 05:05:03');  
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (64, 3, TIMESTAMP '2006-02-15 05:05:03'),
 (64, 10, TIMESTAMP '2006-02-15 05:05:03'),
 (64, 37, TIMESTAMP '2006-02-15 05:05:03'),
@@ -3074,7 +3074,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (66, 928, TIMESTAMP '2006-02-15 05:05:03'),
 (66, 951, TIMESTAMP '2006-02-15 05:05:03'),
 (66, 957, TIMESTAMP '2006-02-15 05:05:03');       
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (66, 960, TIMESTAMP '2006-02-15 05:05:03'),
 (66, 999, TIMESTAMP '2006-02-15 05:05:03'),
 (67, 24, TIMESTAMP '2006-02-15 05:05:03'),
@@ -3168,7 +3168,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (70, 628, TIMESTAMP '2006-02-15 05:05:03'),
 (70, 654, TIMESTAMP '2006-02-15 05:05:03'),
 (70, 725, TIMESTAMP '2006-02-15 05:05:03');        
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (70, 823, TIMESTAMP '2006-02-15 05:05:03'),
 (70, 834, TIMESTAMP '2006-02-15 05:05:03'),
 (70, 856, TIMESTAMP '2006-02-15 05:05:03'),
@@ -3262,7 +3262,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (74, 626, TIMESTAMP '2006-02-15 05:05:03'),
 (74, 637, TIMESTAMP '2006-02-15 05:05:03'),
 (74, 663, TIMESTAMP '2006-02-15 05:05:03');      
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (74, 704, TIMESTAMP '2006-02-15 05:05:03'),
 (74, 720, TIMESTAMP '2006-02-15 05:05:03'),
 (74, 747, TIMESTAMP '2006-02-15 05:05:03'),
@@ -3356,7 +3356,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (78, 86, TIMESTAMP '2006-02-15 05:05:03'),
 (78, 239, TIMESTAMP '2006-02-15 05:05:03'),
 (78, 260, TIMESTAMP '2006-02-15 05:05:03');         
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (78, 261, TIMESTAMP '2006-02-15 05:05:03'),
 (78, 265, TIMESTAMP '2006-02-15 05:05:03'),
 (78, 301, TIMESTAMP '2006-02-15 05:05:03'),
@@ -3450,7 +3450,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (81, 267, TIMESTAMP '2006-02-15 05:05:03'),
 (81, 268, TIMESTAMP '2006-02-15 05:05:03'),
 (81, 304, TIMESTAMP '2006-02-15 05:05:03');      
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (81, 332, TIMESTAMP '2006-02-15 05:05:03'),
 (81, 389, TIMESTAMP '2006-02-15 05:05:03'),
 (81, 398, TIMESTAMP '2006-02-15 05:05:03'),
@@ -3544,7 +3544,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (84, 238, TIMESTAMP '2006-02-15 05:05:03'),
 (84, 281, TIMESTAMP '2006-02-15 05:05:03'),
 (84, 290, TIMESTAMP '2006-02-15 05:05:03');     
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (84, 312, TIMESTAMP '2006-02-15 05:05:03'),
 (84, 317, TIMESTAMP '2006-02-15 05:05:03'),
 (84, 413, TIMESTAMP '2006-02-15 05:05:03'),
@@ -3638,7 +3638,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (87, 421, TIMESTAMP '2006-02-15 05:05:03'),
 (87, 570, TIMESTAMP '2006-02-15 05:05:03'),
 (87, 599, TIMESTAMP '2006-02-15 05:05:03');    
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (87, 606, TIMESTAMP '2006-02-15 05:05:03'),
 (87, 654, TIMESTAMP '2006-02-15 05:05:03'),
 (87, 679, TIMESTAMP '2006-02-15 05:05:03'),
@@ -3732,7 +3732,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (91, 176, TIMESTAMP '2006-02-15 05:05:03'),
 (91, 181, TIMESTAMP '2006-02-15 05:05:03'),
 (91, 190, TIMESTAMP '2006-02-15 05:05:03');        
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (91, 335, TIMESTAMP '2006-02-15 05:05:03'),
 (91, 416, TIMESTAMP '2006-02-15 05:05:03'),
 (91, 447, TIMESTAMP '2006-02-15 05:05:03'),
@@ -3826,7 +3826,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (94, 473, TIMESTAMP '2006-02-15 05:05:03'),
 (94, 475, TIMESTAMP '2006-02-15 05:05:03'),
 (94, 512, TIMESTAMP '2006-02-15 05:05:03');   
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (94, 517, TIMESTAMP '2006-02-15 05:05:03'),
 (94, 521, TIMESTAMP '2006-02-15 05:05:03'),
 (94, 533, TIMESTAMP '2006-02-15 05:05:03'),
@@ -3920,7 +3920,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (97, 930, TIMESTAMP '2006-02-15 05:05:03'),
 (97, 933, TIMESTAMP '2006-02-15 05:05:03'),
 (97, 947, TIMESTAMP '2006-02-15 05:05:03');          
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (97, 951, TIMESTAMP '2006-02-15 05:05:03'),
 (98, 66, TIMESTAMP '2006-02-15 05:05:03'),
 (98, 72, TIMESTAMP '2006-02-15 05:05:03'),
@@ -4013,7 +4013,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (101, 494, TIMESTAMP '2006-02-15 05:05:03'),
 (101, 511, TIMESTAMP '2006-02-15 05:05:03'),
 (101, 568, TIMESTAMP '2006-02-15 05:05:03');
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (101, 608, TIMESTAMP '2006-02-15 05:05:03'),
 (101, 617, TIMESTAMP '2006-02-15 05:05:03'),
 (101, 655, TIMESTAMP '2006-02-15 05:05:03'),
@@ -4105,7 +4105,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (103, 942, TIMESTAMP '2006-02-15 05:05:03'),
 (103, 956, TIMESTAMP '2006-02-15 05:05:03'),
 (104, 19, TIMESTAMP '2006-02-15 05:05:03');  
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (104, 39, TIMESTAMP '2006-02-15 05:05:03'),
 (104, 40, TIMESTAMP '2006-02-15 05:05:03'),
 (104, 59, TIMESTAMP '2006-02-15 05:05:03'),
@@ -4197,7 +4197,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (106, 659, TIMESTAMP '2006-02-15 05:05:03'),
 (106, 675, TIMESTAMP '2006-02-15 05:05:03'),
 (106, 687, TIMESTAMP '2006-02-15 05:05:03');       
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (106, 752, TIMESTAMP '2006-02-15 05:05:03'),
 (106, 763, TIMESTAMP '2006-02-15 05:05:03'),
 (106, 780, TIMESTAMP '2006-02-15 05:05:03'),
@@ -4289,7 +4289,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (109, 174, TIMESTAMP '2006-02-15 05:05:03'),
 (109, 190, TIMESTAMP '2006-02-15 05:05:03'),
 (109, 243, TIMESTAMP '2006-02-15 05:05:03');      
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (109, 281, TIMESTAMP '2006-02-15 05:05:03'),
 (109, 393, TIMESTAMP '2006-02-15 05:05:03'),
 (109, 463, TIMESTAMP '2006-02-15 05:05:03'),
@@ -4381,7 +4381,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (112, 817, TIMESTAMP '2006-02-15 05:05:03'),
 (112, 829, TIMESTAMP '2006-02-15 05:05:03'),
 (112, 856, TIMESTAMP '2006-02-15 05:05:03');     
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (112, 865, TIMESTAMP '2006-02-15 05:05:03'),
 (112, 869, TIMESTAMP '2006-02-15 05:05:03'),
 (112, 988, TIMESTAMP '2006-02-15 05:05:03'),
@@ -4473,7 +4473,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (116, 128, TIMESTAMP '2006-02-15 05:05:03'),
 (116, 336, TIMESTAMP '2006-02-15 05:05:03'),
 (116, 338, TIMESTAMP '2006-02-15 05:05:03');       
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (116, 384, TIMESTAMP '2006-02-15 05:05:03'),
 (116, 412, TIMESTAMP '2006-02-15 05:05:03'),
 (116, 420, TIMESTAMP '2006-02-15 05:05:03'),
@@ -4565,7 +4565,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (119, 521, TIMESTAMP '2006-02-15 05:05:03'),
 (119, 567, TIMESTAMP '2006-02-15 05:05:03'),
 (119, 570, TIMESTAMP '2006-02-15 05:05:03');        
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (119, 592, TIMESTAMP '2006-02-15 05:05:03'),
 (119, 614, TIMESTAMP '2006-02-15 05:05:03'),
 (119, 636, TIMESTAMP '2006-02-15 05:05:03'),
@@ -4657,7 +4657,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (122, 795, TIMESTAMP '2006-02-15 05:05:03'),
 (122, 957, TIMESTAMP '2006-02-15 05:05:03'),
 (122, 961, TIMESTAMP '2006-02-15 05:05:03');  
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (122, 998, TIMESTAMP '2006-02-15 05:05:03'),
 (123, 3, TIMESTAMP '2006-02-15 05:05:03'),
 (123, 43, TIMESTAMP '2006-02-15 05:05:03'),
@@ -4749,7 +4749,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (125, 949, TIMESTAMP '2006-02-15 05:05:03'),
 (125, 965, TIMESTAMP '2006-02-15 05:05:03'),
 (126, 21, TIMESTAMP '2006-02-15 05:05:03');     
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (126, 34, TIMESTAMP '2006-02-15 05:05:03'),
 (126, 43, TIMESTAMP '2006-02-15 05:05:03'),
 (126, 58, TIMESTAMP '2006-02-15 05:05:03'),
@@ -4841,7 +4841,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (129, 166, TIMESTAMP '2006-02-15 05:05:03'),
 (129, 202, TIMESTAMP '2006-02-15 05:05:03'),
 (129, 230, TIMESTAMP '2006-02-15 05:05:03');         
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (129, 247, TIMESTAMP '2006-02-15 05:05:03'),
 (129, 249, TIMESTAMP '2006-02-15 05:05:03'),
 (129, 348, TIMESTAMP '2006-02-15 05:05:03'),
@@ -4933,7 +4933,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (132, 626, TIMESTAMP '2006-02-15 05:05:03'),
 (132, 637, TIMESTAMP '2006-02-15 05:05:03'),
 (132, 698, TIMESTAMP '2006-02-15 05:05:03');        
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (132, 756, TIMESTAMP '2006-02-15 05:05:03'),
 (132, 806, TIMESTAMP '2006-02-15 05:05:03'),
 (132, 897, TIMESTAMP '2006-02-15 05:05:03'),
@@ -5025,7 +5025,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (136, 256, TIMESTAMP '2006-02-15 05:05:03'),
 (136, 262, TIMESTAMP '2006-02-15 05:05:03'),
 (136, 271, TIMESTAMP '2006-02-15 05:05:03');        
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (136, 288, TIMESTAMP '2006-02-15 05:05:03'),
 (136, 300, TIMESTAMP '2006-02-15 05:05:03'),
 (136, 364, TIMESTAMP '2006-02-15 05:05:03'),
@@ -5117,7 +5117,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (139, 373, TIMESTAMP '2006-02-15 05:05:03'),
 (139, 447, TIMESTAMP '2006-02-15 05:05:03'),
 (139, 489, TIMESTAMP '2006-02-15 05:05:03');          
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (139, 529, TIMESTAMP '2006-02-15 05:05:03'),
 (139, 540, TIMESTAMP '2006-02-15 05:05:03'),
 (139, 570, TIMESTAMP '2006-02-15 05:05:03'),
@@ -5209,7 +5209,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (142, 540, TIMESTAMP '2006-02-15 05:05:03'),
 (142, 554, TIMESTAMP '2006-02-15 05:05:03'),
 (142, 575, TIMESTAMP '2006-02-15 05:05:03');  
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (142, 608, TIMESTAMP '2006-02-15 05:05:03'),
 (142, 710, TIMESTAMP '2006-02-15 05:05:03'),
 (142, 712, TIMESTAMP '2006-02-15 05:05:03'),
@@ -5301,7 +5301,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (145, 457, TIMESTAMP '2006-02-15 05:05:03'),
 (145, 475, TIMESTAMP '2006-02-15 05:05:03'),
 (145, 487, TIMESTAMP '2006-02-15 05:05:03');    
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (145, 494, TIMESTAMP '2006-02-15 05:05:03'),
 (145, 527, TIMESTAMP '2006-02-15 05:05:03'),
 (145, 592, TIMESTAMP '2006-02-15 05:05:03'),
@@ -5393,7 +5393,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (148, 468, TIMESTAMP '2006-02-15 05:05:03'),
 (148, 633, TIMESTAMP '2006-02-15 05:05:03'),
 (148, 718, TIMESTAMP '2006-02-15 05:05:03');    
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (148, 768, TIMESTAMP '2006-02-15 05:05:03'),
 (148, 772, TIMESTAMP '2006-02-15 05:05:03'),
 (148, 792, TIMESTAMP '2006-02-15 05:05:03'),
@@ -5485,7 +5485,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (151, 665, TIMESTAMP '2006-02-15 05:05:03'),
 (151, 703, TIMESTAMP '2006-02-15 05:05:03'),
 (151, 880, TIMESTAMP '2006-02-15 05:05:03');   
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (151, 892, TIMESTAMP '2006-02-15 05:05:03'),
 (151, 895, TIMESTAMP '2006-02-15 05:05:03'),
 (151, 989, TIMESTAMP '2006-02-15 05:05:03'),
@@ -5577,7 +5577,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (155, 459, TIMESTAMP '2006-02-15 05:05:03'),
 (155, 513, TIMESTAMP '2006-02-15 05:05:03'),
 (155, 584, TIMESTAMP '2006-02-15 05:05:03');  
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (155, 590, TIMESTAMP '2006-02-15 05:05:03'),
 (155, 630, TIMESTAMP '2006-02-15 05:05:03'),
 (155, 688, TIMESTAMP '2006-02-15 05:05:03'),
@@ -5669,7 +5669,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (158, 626, TIMESTAMP '2006-02-15 05:05:03'),
 (158, 637, TIMESTAMP '2006-02-15 05:05:03'),
 (158, 799, TIMESTAMP '2006-02-15 05:05:03');   
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (158, 812, TIMESTAMP '2006-02-15 05:05:03'),
 (158, 824, TIMESTAMP '2006-02-15 05:05:03'),
 (158, 830, TIMESTAMP '2006-02-15 05:05:03'),
@@ -5761,7 +5761,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (161, 924, TIMESTAMP '2006-02-15 05:05:03'),
 (161, 927, TIMESTAMP '2006-02-15 05:05:03'),
 (162, 1, TIMESTAMP '2006-02-15 05:05:03');        
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (162, 4, TIMESTAMP '2006-02-15 05:05:03'),
 (162, 7, TIMESTAMP '2006-02-15 05:05:03'),
 (162, 18, TIMESTAMP '2006-02-15 05:05:03'),
@@ -5853,7 +5853,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (165, 779, TIMESTAMP '2006-02-15 05:05:03'),
 (165, 798, TIMESTAMP '2006-02-15 05:05:03'),
 (165, 807, TIMESTAMP '2006-02-15 05:05:03');            
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (165, 809, TIMESTAMP '2006-02-15 05:05:03'),
 (165, 832, TIMESTAMP '2006-02-15 05:05:03'),
 (165, 833, TIMESTAMP '2006-02-15 05:05:03'),
@@ -5945,7 +5945,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (169, 246, TIMESTAMP '2006-02-15 05:05:03'),
 (169, 248, TIMESTAMP '2006-02-15 05:05:03'),
 (169, 289, TIMESTAMP '2006-02-15 05:05:03');            
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (169, 301, TIMESTAMP '2006-02-15 05:05:03'),
 (169, 326, TIMESTAMP '2006-02-15 05:05:03'),
 (169, 349, TIMESTAMP '2006-02-15 05:05:03'),
@@ -6037,7 +6037,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (172, 567, TIMESTAMP '2006-02-15 05:05:03'),
 (172, 609, TIMESTAMP '2006-02-15 05:05:03'),
 (172, 639, TIMESTAMP '2006-02-15 05:05:03');   
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (172, 649, TIMESTAMP '2006-02-15 05:05:03'),
 (172, 661, TIMESTAMP '2006-02-15 05:05:03'),
 (172, 667, TIMESTAMP '2006-02-15 05:05:03'),
@@ -6129,7 +6129,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (176, 73, TIMESTAMP '2006-02-15 05:05:03'),
 (176, 89, TIMESTAMP '2006-02-15 05:05:03'),
 (176, 150, TIMESTAMP '2006-02-15 05:05:03');         
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (176, 162, TIMESTAMP '2006-02-15 05:05:03'),
 (176, 238, TIMESTAMP '2006-02-15 05:05:03'),
 (176, 252, TIMESTAMP '2006-02-15 05:05:03'),
@@ -6221,7 +6221,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (179, 468, TIMESTAMP '2006-02-15 05:05:03'),
 (179, 489, TIMESTAMP '2006-02-15 05:05:03'),
 (179, 566, TIMESTAMP '2006-02-15 05:05:03');      
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (179, 588, TIMESTAMP '2006-02-15 05:05:03'),
 (179, 650, TIMESTAMP '2006-02-15 05:05:03'),
 (179, 698, TIMESTAMP '2006-02-15 05:05:03'),
@@ -6313,7 +6313,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (182, 639, TIMESTAMP '2006-02-15 05:05:03'),
 (182, 668, TIMESTAMP '2006-02-15 05:05:03'),
 (182, 677, TIMESTAMP '2006-02-15 05:05:03');     
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (182, 679, TIMESTAMP '2006-02-15 05:05:03'),
 (182, 695, TIMESTAMP '2006-02-15 05:05:03'),
 (182, 714, TIMESTAMP '2006-02-15 05:05:03'),
@@ -6405,7 +6405,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (186, 95, TIMESTAMP '2006-02-15 05:05:03'),
 (186, 187, TIMESTAMP '2006-02-15 05:05:03'),
 (186, 208, TIMESTAMP '2006-02-15 05:05:03');     
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (186, 228, TIMESTAMP '2006-02-15 05:05:03'),
 (186, 237, TIMESTAMP '2006-02-15 05:05:03'),
 (186, 422, TIMESTAMP '2006-02-15 05:05:03'),
@@ -6497,7 +6497,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (189, 548, TIMESTAMP '2006-02-15 05:05:03'),
 (189, 560, TIMESTAMP '2006-02-15 05:05:03'),
 (189, 628, TIMESTAMP '2006-02-15 05:05:03');          
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (189, 734, TIMESTAMP '2006-02-15 05:05:03'),
 (189, 748, TIMESTAMP '2006-02-15 05:05:03'),
 (189, 788, TIMESTAMP '2006-02-15 05:05:03'),
@@ -6589,7 +6589,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (192, 680, TIMESTAMP '2006-02-15 05:05:03'),
 (192, 682, TIMESTAMP '2006-02-15 05:05:03'),
 (192, 708, TIMESTAMP '2006-02-15 05:05:03');     
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (192, 711, TIMESTAMP '2006-02-15 05:05:03'),
 (192, 747, TIMESTAMP '2006-02-15 05:05:03'),
 (192, 763, TIMESTAMP '2006-02-15 05:05:03'),
@@ -6681,7 +6681,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (196, 524, TIMESTAMP '2006-02-15 05:05:03'),
 (196, 541, TIMESTAMP '2006-02-15 05:05:03'),
 (196, 560, TIMESTAMP '2006-02-15 05:05:03');      
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (196, 575, TIMESTAMP '2006-02-15 05:05:03'),
 (196, 576, TIMESTAMP '2006-02-15 05:05:03'),
 (196, 587, TIMESTAMP '2006-02-15 05:05:03'),
@@ -6773,7 +6773,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (199, 67, TIMESTAMP '2006-02-15 05:05:03'),
 (199, 84, TIMESTAMP '2006-02-15 05:05:03'),
 (199, 145, TIMESTAMP '2006-02-15 05:05:03');    
-INSERT INTO "sakila"."film_actor" VALUES
+INSERT INTO "film_actor" VALUES
 (199, 159, TIMESTAMP '2006-02-15 05:05:03'),
 (199, 216, TIMESTAMP '2006-02-15 05:05:03'),
 (199, 432, TIMESTAMP '2006-02-15 05:05:03'),
@@ -6807,7 +6807,7 @@ INSERT INTO "sakila"."film_actor" VALUES
 (200, 958, TIMESTAMP '2006-02-15 05:05:03'),
 (200, 993, TIMESTAMP '2006-02-15 05:05:03');          
 
-INSERT INTO "sakila"."film_category" VALUES
+INSERT INTO "film_category" VALUES
 (1, 6, TIMESTAMP '2006-02-15 05:07:09'),
 (2, 11, TIMESTAMP '2006-02-15 05:07:09'),
 (3, 6, TIMESTAMP '2006-02-15 05:07:09'),
@@ -6904,7 +6904,7 @@ INSERT INTO "sakila"."film_category" VALUES
 (94, 8, TIMESTAMP '2006-02-15 05:07:09'),
 (95, 13, TIMESTAMP '2006-02-15 05:07:09'),
 (96, 13, TIMESTAMP '2006-02-15 05:07:09');              
-INSERT INTO "sakila"."film_category" VALUES
+INSERT INTO "film_category" VALUES
 (97, 1, TIMESTAMP '2006-02-15 05:07:09'),
 (98, 7, TIMESTAMP '2006-02-15 05:07:09'),
 (99, 5, TIMESTAMP '2006-02-15 05:07:09'),
@@ -6999,7 +6999,7 @@ INSERT INTO "sakila"."film_category" VALUES
 (188, 5, TIMESTAMP '2006-02-15 05:07:09'),
 (189, 10, TIMESTAMP '2006-02-15 05:07:09'),
 (190, 4, TIMESTAMP '2006-02-15 05:07:09');         
-INSERT INTO "sakila"."film_category" VALUES
+INSERT INTO "film_category" VALUES
 (191, 3, TIMESTAMP '2006-02-15 05:07:09'),
 (192, 9, TIMESTAMP '2006-02-15 05:07:09'),
 (193, 2, TIMESTAMP '2006-02-15 05:07:09'),
@@ -7094,7 +7094,7 @@ INSERT INTO "sakila"."film_category" VALUES
 (282, 7, TIMESTAMP '2006-02-15 05:07:09'),
 (283, 13, TIMESTAMP '2006-02-15 05:07:09'),
 (284, 12, TIMESTAMP '2006-02-15 05:07:09');    
-INSERT INTO "sakila"."film_category" VALUES
+INSERT INTO "film_category" VALUES
 (285, 14, TIMESTAMP '2006-02-15 05:07:09'),
 (286, 16, TIMESTAMP '2006-02-15 05:07:09'),
 (287, 1, TIMESTAMP '2006-02-15 05:07:09'),
@@ -7189,7 +7189,7 @@ INSERT INTO "sakila"."film_category" VALUES
 (376, 9, TIMESTAMP '2006-02-15 05:07:09'),
 (377, 8, TIMESTAMP '2006-02-15 05:07:09'),
 (378, 12, TIMESTAMP '2006-02-15 05:07:09');               
-INSERT INTO "sakila"."film_category" VALUES
+INSERT INTO "film_category" VALUES
 (379, 7, TIMESTAMP '2006-02-15 05:07:09'),
 (380, 9, TIMESTAMP '2006-02-15 05:07:09'),
 (381, 10, TIMESTAMP '2006-02-15 05:07:09'),
@@ -7284,7 +7284,7 @@ INSERT INTO "sakila"."film_category" VALUES
 (470, 2, TIMESTAMP '2006-02-15 05:07:09'),
 (471, 4, TIMESTAMP '2006-02-15 05:07:09'),
 (472, 16, TIMESTAMP '2006-02-15 05:07:09');         
-INSERT INTO "sakila"."film_category" VALUES
+INSERT INTO "film_category" VALUES
 (473, 7, TIMESTAMP '2006-02-15 05:07:09'),
 (474, 15, TIMESTAMP '2006-02-15 05:07:09'),
 (475, 11, TIMESTAMP '2006-02-15 05:07:09'),
@@ -7379,7 +7379,7 @@ INSERT INTO "sakila"."film_category" VALUES
 (564, 2, TIMESTAMP '2006-02-15 05:07:09'),
 (565, 9, TIMESTAMP '2006-02-15 05:07:09'),
 (566, 9, TIMESTAMP '2006-02-15 05:07:09');      
-INSERT INTO "sakila"."film_category" VALUES
+INSERT INTO "film_category" VALUES
 (567, 9, TIMESTAMP '2006-02-15 05:07:09'),
 (568, 5, TIMESTAMP '2006-02-15 05:07:09'),
 (569, 2, TIMESTAMP '2006-02-15 05:07:09'),
@@ -7474,7 +7474,7 @@ INSERT INTO "sakila"."film_category" VALUES
 (658, 11, TIMESTAMP '2006-02-15 05:07:09'),
 (659, 1, TIMESTAMP '2006-02-15 05:07:09'),
 (660, 5, TIMESTAMP '2006-02-15 05:07:09');   
-INSERT INTO "sakila"."film_category" VALUES
+INSERT INTO "film_category" VALUES
 (661, 9, TIMESTAMP '2006-02-15 05:07:09'),
 (662, 7, TIMESTAMP '2006-02-15 05:07:09'),
 (663, 4, TIMESTAMP '2006-02-15 05:07:09'),
@@ -7569,7 +7569,7 @@ INSERT INTO "sakila"."film_category" VALUES
 (752, 12, TIMESTAMP '2006-02-15 05:07:09'),
 (753, 8, TIMESTAMP '2006-02-15 05:07:09'),
 (754, 5, TIMESTAMP '2006-02-15 05:07:09');   
-INSERT INTO "sakila"."film_category" VALUES
+INSERT INTO "film_category" VALUES
 (755, 3, TIMESTAMP '2006-02-15 05:07:09'),
 (756, 5, TIMESTAMP '2006-02-15 05:07:09'),
 (757, 6, TIMESTAMP '2006-02-15 05:07:09'),
@@ -7664,7 +7664,7 @@ INSERT INTO "sakila"."film_category" VALUES
 (846, 13, TIMESTAMP '2006-02-15 05:07:09'),
 (847, 13, TIMESTAMP '2006-02-15 05:07:09'),
 (848, 16, TIMESTAMP '2006-02-15 05:07:09');  
-INSERT INTO "sakila"."film_category" VALUES
+INSERT INTO "film_category" VALUES
 (849, 2, TIMESTAMP '2006-02-15 05:07:09'),
 (850, 1, TIMESTAMP '2006-02-15 05:07:09'),
 (851, 15, TIMESTAMP '2006-02-15 05:07:09'),
@@ -7759,7 +7759,7 @@ INSERT INTO "sakila"."film_category" VALUES
 (940, 15, TIMESTAMP '2006-02-15 05:07:09'),
 (941, 10, TIMESTAMP '2006-02-15 05:07:09'),
 (942, 7, TIMESTAMP '2006-02-15 05:07:09');
-INSERT INTO "sakila"."film_category" VALUES
+INSERT INTO "film_category" VALUES
 (943, 6, TIMESTAMP '2006-02-15 05:07:09'),
 (944, 7, TIMESTAMP '2006-02-15 05:07:09'),
 (945, 6, TIMESTAMP '2006-02-15 05:07:09'),
@@ -7819,7 +7819,7 @@ INSERT INTO "sakila"."film_category" VALUES
 (999, 3, TIMESTAMP '2006-02-15 05:07:09'),
 (1000, 5, TIMESTAMP '2006-02-15 05:07:09');    
 
-INSERT INTO "sakila"."language" VALUES
+INSERT INTO "language" VALUES
 (1, 'English', TIMESTAMP '2006-02-15 05:02:19'),
 (2, 'Italian', TIMESTAMP '2006-02-15 05:02:19'),
 (3, 'Japanese', TIMESTAMP '2006-02-15 05:02:19'),

@@ -22,7 +22,7 @@ class H2DatabaseTest {
 
     @BeforeEach
     void setUp() throws SQLException {
-        DBSetupH2DatabaseFactory dbSetupH2DatabaseFactory = new DBSetupH2DatabaseFactory(new SakilaSlimDB());
+        DBSetupH2DatabaseFactory dbSetupH2DatabaseFactory = new DBSetupH2DatabaseFactory(new SakilaSlimDB(), "sakila");
         h2Database = dbSetupH2DatabaseFactory.create();
         connection = h2Database.getConnection();
         dbAssertions = new DBAssertions(connection);
