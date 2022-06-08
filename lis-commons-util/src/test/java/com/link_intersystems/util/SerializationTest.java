@@ -17,4 +17,5 @@ class SerializationTest {
         assertNotSame(clone, "ABC");
         assertEquals(clone, "ABC");
     }
+
 }
