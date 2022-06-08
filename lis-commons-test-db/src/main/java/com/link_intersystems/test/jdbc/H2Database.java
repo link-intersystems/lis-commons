@@ -3,6 +3,9 @@ package com.link_intersystems.test.jdbc;
 import javax.sql.DataSource;
 import java.io.PrintWriter;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
@@ -13,7 +16,7 @@ import static java.util.Arrays.asList;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class H2Database implements AutoCloseable, DataSource {
+public class H2Database extends AbstractDataSource implements AutoCloseable {
 
     public static final Predicate<String> SYSTEM_TABLE_PREDICATE = tableName -> asList(new String[]{
                     "constants",
@@ -36,7 +39,6 @@ public class H2Database implements AutoCloseable, DataSource {
 
     public static final String DEFAULT_SCHEMA = "PUBLIC";
 
-
     public static void setReferentialIntegrity(Connection connection, boolean referentialIntegrity) throws SQLException {
         String cmd = format("SET REFERENTIAL_INTEGRITY {0}", Boolean.toString(referentialIntegrity).toUpperCase());
         try (Statement statement = connection.createStatement()) {
@@ -51,12 +53,16 @@ public class H2Database implements AutoCloseable, DataSource {
         }
     }
 
+    private Collection<Connection> activeConnections = new ArrayList<>();
+
     private H2JdbcUrl h2JdbcUrl;
     private Connection realConnection;
     private Connection connectionProxy;
 
     private String schema;
     private String activeSchema;
+    private String username;
+    private String password;
 
     public H2Database() {
         this(new H2JdbcUrl.Builder().build());
@@ -80,15 +86,31 @@ public class H2Database implements AutoCloseable, DataSource {
     }
 
     public void close() throws SQLException {
-        if (realConnection != null) {
-            try {
-                realConnection.close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+
+
+        if (!activeConnections.isEmpty()) {
+            SQLException sqlException = null;
+
+            for (Connection activeConnection : activeConnections) {
+                try {
+                    activeConnection.close();
+                } catch (SQLException e) {
+                    sqlException = sqlException == null ? e : chain(e, sqlException);
+                }
             }
+
+            if (sqlException != null) {
+                throw sqlException;
+            }
+
             realConnection = null;
             connectionProxy = null;
         }
+    }
+
+    private SQLException chain(SQLException e, SQLException next) {
+        e.setNextException(next);
+        return e;
     }
 
     /**
@@ -107,8 +129,12 @@ public class H2Database implements AutoCloseable, DataSource {
         }
     }
 
-    public boolean isIgnoreCase() {
-        return h2JdbcUrl.isIgnoreCase();
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public H2JdbcUrl getJdbcUrl() {
@@ -123,7 +149,8 @@ public class H2Database implements AutoCloseable, DataSource {
     private Connection getRealConnection() throws SQLException {
         if (realConnection == null) {
             H2JdbcUrl jdbcUrl = getJdbcUrl();
-            realConnection = DriverManager.getConnection(jdbcUrl.toString());
+            realConnection = DriverManager.getConnection(jdbcUrl.toString(), username, password);
+            activeConnections.add(realConnection);
         }
 
         updateConnection();
@@ -152,42 +179,11 @@ public class H2Database implements AutoCloseable, DataSource {
 
     @Override
     public Connection getConnection(String username, String password) throws SQLException {
-        return getConnection();
+        H2JdbcUrl jdbcUrl = getJdbcUrl();
+        Connection connection = DriverManager.getConnection(jdbcUrl.toString(), username, password);
+        Connection connectionProxy = ReusableConnectionProxy.createProxy(connection);
+        activeConnections.add(connection);
+        return connectionProxy;
     }
 
-    @Override
-    public <T> T unwrap(Class<T> iface) throws SQLException {
-        if (H2Database.class.equals(iface)) {
-            return (T) this;
-        }
-        return null;
-    }
-
-    @Override
-    public boolean isWrapperFor(Class<?> iface) throws SQLException {
-        return H2Database.class.equals(iface);
-    }
-
-    @Override
-    public PrintWriter getLogWriter() throws SQLException {
-        return null;
-    }
-
-    @Override
-    public void setLogWriter(PrintWriter out) throws SQLException {
-    }
-
-    @Override
-    public void setLoginTimeout(int seconds) throws SQLException {
-    }
-
-    @Override
-    public int getLoginTimeout() throws SQLException {
-        return 0;
-    }
-
-    @Override
-    public Logger getParentLogger() throws SQLFeatureNotSupportedException {
-        return null;
-    }
 }
