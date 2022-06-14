@@ -21,6 +21,8 @@ Here is an overview of the module dependencies:
 
     lis-commons-sql-hibernate (1 deps)
 
+    lis-commons-net (0 deps)
+
     lis-commons-events (0 deps)
 
     lis-commons-graph (0 deps)
@@ -186,6 +188,27 @@ For details take a look at [lis-commons-test-db](lis-commons-test-db/README.md)
             }
         }
     }
+
+# lis-commons-net
+
+Networking tools based on pure Java.
+
+    JavaHttpRequestFactory requestFactory = new JavaHttpRequestFactory();
+    requestFactory.setConnectTimeout(Duration.of(5, ChronoUnit.SECONDS));
+    requestFactory.setReadTimeout(Duration.of(10, ChronoUnit.SECONDS));
+
+    // GET google.com
+    HttpRequest httpRequest = requestFactory.get(new URL("https://www.google.com"));
+    httpRequest.addHeader("Accept", "text/html");
+    HttpResponse httpResponse = httpRequest.prepare().close();
+    System.out.println(httpResponse.getContentAsString(StandardCharsets.UTF_8));
+
+    HttpRequest httpRequest = requestFactory.post(new URL("http://localhost:8080));
+    PreparedRequest preparedRequest = httpRequest.prepare();
+    OutputStream postOut = preparedRequest.getOutputStream()
+    postOut.write("Hello World".getBytes(StandardCharsets.UTF_8));
+    HttpResponse httpResponse = preparedRequest.close();
+    System.out.println(httpResponse.getResponseCode());
 
 # lis-commons-util
 
