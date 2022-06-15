@@ -10,14 +10,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-class BeanMapTest {
+class BeanInfoBeanMapTest {
 
-    private BeanMap beanMap;
+    private BeanInfoBeanMap beanMap;
 
     @BeforeEach
     void setUp() throws IntrospectionException {
         Person person = new Person("Penelope", "Guiness");
-        beanMap = new BeanMap(person);
+        beanMap = new BeanInfoBeanMap(person);
     }
 
     @Test

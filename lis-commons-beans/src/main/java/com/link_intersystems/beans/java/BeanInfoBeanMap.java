@@ -15,17 +15,17 @@ import static java.util.Objects.requireNonNull;
  *
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class BeanMap extends AbstractMap<String, Object> {
+public class BeanInfoBeanMap extends AbstractMap<String, Object> {
 
     private final BeanInfo beanInfo;
     private final Object bean;
     private Map<String, Object> beanProperties;
 
-    public BeanMap(Object bean) throws IntrospectionException {
+    public BeanInfoBeanMap(Object bean) throws IntrospectionException {
         this(bean, Object.class);
     }
 
-    public BeanMap(Object bean, Class<?> stopClass) throws IntrospectionException {
+    public BeanInfoBeanMap(Object bean, Class<?> stopClass) throws IntrospectionException {
         this(getBeanInfo(bean, stopClass), bean);
     }
 
@@ -56,7 +56,7 @@ public class BeanMap extends AbstractMap<String, Object> {
      * @param bean     the bean.
      * @see InterfaceBeanInfo
      */
-    public BeanMap(BeanInfo beanInfo, Object bean) {
+    public BeanInfoBeanMap(BeanInfo beanInfo, Object bean) {
         this.beanInfo = requireNonNull(beanInfo);
         this.bean = requireNonNull(bean);
 
