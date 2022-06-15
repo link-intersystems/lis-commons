@@ -209,7 +209,7 @@ public class HttpMockServer implements Closeable, Runnable {
             ds = new DatagramSocket(port);
             ds.setReuseAddress(true);
             return true;
-        } 
+        }
         catch (IOException e) {
         } finally {
             if (ds != null) {
