@@ -22,6 +22,7 @@ class MergedAdditionalBeanInfoTest {
         personBeanInfo = Introspector.getBeanInfo(Person.class, Object.class);
         InterfaceBeanInfo interfaceBeanInfo = new InterfaceBeanInfo(Person.class);
         additionalBeanInfo = new MergedAdditionalBeanInfo(interfaceBeanInfo);
+        additionalBeanInfo.setIncludeMainBeanInfo(false);
     }
 
 

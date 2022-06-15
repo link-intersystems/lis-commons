@@ -15,10 +15,19 @@ import static java.util.Objects.requireNonNull;
  */
 public class MergedAdditionalBeanInfo extends SimpleBeanInfo {
 
-    private BeanInfo beanInfo;
+    private BeanInfo mainBeanInfo;
+    private boolean includeMainBeanInfo = true;
 
-    public MergedAdditionalBeanInfo(BeanInfo beanInfo) {
-        this.beanInfo = requireNonNull(beanInfo);
+    public MergedAdditionalBeanInfo(BeanInfo mainBeanInfo) {
+        this.mainBeanInfo = requireNonNull(mainBeanInfo);
+    }
+
+    public void setIncludeMainBeanInfo(boolean includeMainBeanInfo) {
+        this.includeMainBeanInfo = includeMainBeanInfo;
+    }
+
+    public boolean isIncludeMainBeanInfo() {
+        return includeMainBeanInfo;
     }
 
     @Override
@@ -39,15 +48,19 @@ public class MergedAdditionalBeanInfo extends SimpleBeanInfo {
 
     @SuppressWarnings("unchecked")
     private <T> T[] getDescriptors(Function<BeanInfo, T[]> descriptorGetter, Class<T> descriptorType) {
-        return getAdditionalBeanInfos().stream()
+        return getBeanInfos().stream()
                 .map(descriptorGetter)
                 .map(Arrays::asList)
                 .flatMap(List::stream)
                 .toArray(length -> (T[]) Array.newInstance(descriptorType, length));
     }
 
-    private List<BeanInfo> getAdditionalBeanInfos() {
+    private List<BeanInfo> getBeanInfos() {
         List<BeanInfo> allBeanInfos = new ArrayList<>();
+
+        if (includeMainBeanInfo) {
+            allBeanInfos.add(mainBeanInfo);
+        }
 
         BeanInfo[] additionalBeanInfo = getAdditionalBeanInfo();
         if (additionalBeanInfo != null) {
@@ -59,26 +72,26 @@ public class MergedAdditionalBeanInfo extends SimpleBeanInfo {
 
     @Override
     public BeanDescriptor getBeanDescriptor() {
-        return beanInfo.getBeanDescriptor();
+        return mainBeanInfo.getBeanDescriptor();
     }
 
     @Override
     public int getDefaultEventIndex() {
-        return beanInfo.getDefaultEventIndex();
+        return mainBeanInfo.getDefaultEventIndex();
     }
 
     @Override
     public int getDefaultPropertyIndex() {
-        return beanInfo.getDefaultPropertyIndex();
+        return mainBeanInfo.getDefaultPropertyIndex();
     }
 
     @Override
     public BeanInfo[] getAdditionalBeanInfo() {
-        return beanInfo.getAdditionalBeanInfo();
+        return mainBeanInfo.getAdditionalBeanInfo();
     }
 
     @Override
     public Image getIcon(int iconKind) {
-        return beanInfo.getIcon(iconKind);
+        return mainBeanInfo.getIcon(iconKind);
     }
 }
