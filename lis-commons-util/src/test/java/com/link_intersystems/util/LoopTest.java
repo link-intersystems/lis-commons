@@ -21,7 +21,18 @@ class LoopTest {
         int lagDurationMs = 5;
         long avgSleepTime = measureAvgSleepTime(lagDurationMs);
 
-        Loop loop = new Loop();
+        class SleepCountLoop extends Loop {
+
+            private int sleepCount;
+
+            @Override
+            protected void sleep(long millis) throws InterruptedException {
+                super.sleep(millis);
+                sleepCount++;
+            }
+        }
+
+        SleepCountLoop loop = new SleepCountLoop();
         int maxIterations = 5;
         loop.setMaxIterations(maxIterations);
         loop.setLagDurationMs(lagDurationMs);
@@ -32,10 +43,12 @@ class LoopTest {
         loop.execute(timeMeasureRunnable);
         long end = currentTimeMillis();
 
+        assertEquals(4, loop.sleepCount);
+
         assertEquals(5, timeMeasureRunnable.getTimesCounted());
         timeMeasureRunnable.assertTimesBetween(start, end);
 
-        long atMostTotalDuration = (lagDurationMs + maxIterations) + (avgSleepTime * maxIterations);
+        long atMostTotalDuration = (lagDurationMs + maxIterations - 1) + (avgSleepTime * maxIterations);
         assertTimePeriodAtMost(ofMillis(end - start), ofMillis(atMostTotalDuration));
     }
 

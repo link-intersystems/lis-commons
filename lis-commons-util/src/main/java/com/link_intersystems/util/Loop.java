@@ -21,7 +21,7 @@ public class Loop {
         for (int i = 0; i < maxIterations; i += inc) {
             runnable.run();
 
-            if (i < maxIterations) {
+            if (i < (maxIterations - 1)) {
                 sleep(lagDurationMs);
             }
         }
@@ -40,11 +40,12 @@ public class Loop {
             throw new IllegalArgumentException("max must be 0 or greater");
         }
         this.maxIterations = maxIterations;
-        setInfinite(false);
+        this.inc = 1;
     }
 
     public void setInfinite(boolean infinite) {
-        inc = infinite ? 0 : 1;
+        this.inc = infinite ? 0 : 1;
+        this.maxIterations = Integer.MAX_VALUE;
     }
 
     public void setLagDurationMs(long lagDurationMs) {
