@@ -18,10 +18,10 @@ public class Loop {
     }
 
     public void execute(Runnable runnable) throws InterruptedException {
-        for (int i = 0; i < maxIterations; i += inc) {
+        for (int i = 1; i <= maxIterations; i += inc) {
             runnable.run();
 
-            if (i < (maxIterations - 1)) {
+            if (i < maxIterations) {
                 sleep(lagDurationMs);
             }
         }
