@@ -8,6 +8,35 @@ package com.link_intersystems.util;
  */
 public class Loop {
 
+    private static interface LoopImplementor {
+
+        public boolean hasNext();
+
+        default public void next() {
+        }
+
+    }
+
+    private static class BoundedLoopImplementor implements LoopImplementor {
+
+        private int i;
+        private int max;
+
+        public BoundedLoopImplementor(int max) {
+            this.max = max;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return i < max;
+        }
+
+        @Override
+        public void next() {
+            i++;
+        }
+    }
+
     private int maxIterations;
     private int inc;
     private long lagDurationMs;
@@ -18,12 +47,23 @@ public class Loop {
     }
 
     public void execute(Runnable runnable) throws InterruptedException {
-        for (int i = 1; i <= maxIterations; i += inc) {
-            runnable.run();
+        LoopImplementor loopImplementor = getLoopImplementor();
 
-            if (i < maxIterations) {
+        while (loopImplementor.hasNext()) {
+            runnable.run();
+            loopImplementor.next();
+
+            if (loopImplementor.hasNext()) {
                 sleep(lagDurationMs);
             }
+        }
+    }
+
+    protected LoopImplementor getLoopImplementor() {
+        if(inc == 0){
+            return () -> true;
+        } else {
+            return new BoundedLoopImplementor(maxIterations);
         }
     }
 
@@ -45,7 +85,6 @@ public class Loop {
 
     public void setInfinite(boolean infinite) {
         this.inc = infinite ? 0 : 1;
-        this.maxIterations = Integer.MAX_VALUE;
     }
 
     public void setLagDurationMs(long lagDurationMs) {
