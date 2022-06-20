@@ -27,12 +27,12 @@ public class HttpClient {
         return this.get(url, emptyMap());
     }
 
-    public HttpResponse get(String url, Map<String, String> headers) throws IOException {
-        return get(new URL(url), headers);
-    }
-
     public HttpResponse get(URL url) throws IOException {
         return get(url, emptyMap());
+    }
+
+    public HttpResponse get(String url, Map<String, String> headers) throws IOException {
+        return get(new URL(url), headers);
     }
 
     public HttpResponse get(URL url, Map<String, String> headers) throws IOException {
@@ -47,6 +47,10 @@ public class HttpClient {
 
     // POST
 
+    public HttpResponse post(String url) throws IOException {
+        return post(new URL(url), emptyMap(), null);
+    }
+
     public HttpResponse post(URL url) throws IOException {
         return post(url, emptyMap(), null);
     }
@@ -55,8 +59,20 @@ public class HttpClient {
         return post(new URL(url), emptyMap(), contentWriter);
     }
 
+    public HttpResponse post(URL url, ContentWriter contentWriter) throws IOException {
+        return post(url, emptyMap(), contentWriter);
+    }
+
     public HttpResponse post(String url, Map<String, String> headers) throws IOException {
         return post(new URL(url), headers, null);
+    }
+
+    public HttpResponse post(URL url, Map<String, String> headers) throws IOException {
+        return post(url, headers, null);
+    }
+
+    public HttpResponse post(String url, Map<String, String> headers, ContentWriter contentWriter) throws IOException {
+        return post(new URL(url), headers, contentWriter);
     }
 
     public HttpResponse post(URL url, Map<String, String> headers, ContentWriter contentWriter) throws IOException {
@@ -76,6 +92,10 @@ public class HttpClient {
 
     //PUT
 
+    public HttpResponse put(String url) throws IOException {
+        return put(new URL(url), emptyMap(), null);
+    }
+
     public HttpResponse put(URL url) throws IOException {
         return put(url, emptyMap(), null);
     }
@@ -84,8 +104,20 @@ public class HttpClient {
         return put(new URL(url), emptyMap(), contentWriter);
     }
 
+    public HttpResponse put(URL url, ContentWriter contentWriter) throws IOException {
+        return put(url, emptyMap(), contentWriter);
+    }
+
     public HttpResponse put(String url, Map<String, String> headers) throws IOException {
         return put(new URL(url), headers, null);
+    }
+
+    public HttpResponse put(URL url, Map<String, String> headers) throws IOException {
+        return put(url, headers, null);
+    }
+
+    public HttpResponse put(String url, Map<String, String> headers, ContentWriter contentWriter) throws IOException {
+        return put(new URL(url), headers, contentWriter);
     }
 
     public HttpResponse put(URL url, Map<String, String> headers, ContentWriter contentWriter) throws IOException {
@@ -105,6 +137,10 @@ public class HttpClient {
 
     // DELETE
 
+    public HttpResponse delete(String url) throws IOException {
+        return delete(new URL(url), emptyMap(), null);
+    }
+
     public HttpResponse delete(URL url) throws IOException {
         return delete(url, emptyMap(), null);
     }
@@ -113,8 +149,20 @@ public class HttpClient {
         return delete(new URL(url), emptyMap(), contentWriter);
     }
 
+    public HttpResponse delete(URL url, ContentWriter contentWriter) throws IOException {
+        return delete(url, emptyMap(), contentWriter);
+    }
+
     public HttpResponse delete(String url, Map<String, String> headers) throws IOException {
         return delete(new URL(url), headers, null);
+    }
+
+    public HttpResponse delete(URL url, Map<String, String> headers) throws IOException {
+        return delete(url, headers, null);
+    }
+
+    public HttpResponse delete(String url, Map<String, String> headers, ContentWriter contentWriter) throws IOException {
+        return delete(new URL(url), headers, contentWriter);
     }
 
     public HttpResponse delete(URL url, Map<String, String> headers, ContentWriter contentWriter) throws IOException {
