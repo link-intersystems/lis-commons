@@ -12,9 +12,9 @@ import static java.util.Objects.requireNonNull;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class JavaHttpRequestFactory extends HttpRequestFactory {
+public class DefaultHttpRequestFactory extends HttpRequestFactory {
 
-    private Set<String> outputSupportedMethods = new HashSet<>(Arrays.asList("POST", "PUT"));
+    private Set<String> outputSupportedMethods = new HashSet<>(Arrays.asList("POST", "PUT", "DELETE", "PATCH"));
 
     public void setOutputSupportedMethods(Set<String> outputSupportedMethods) {
         this.outputSupportedMethods = requireNonNull(outputSupportedMethods);

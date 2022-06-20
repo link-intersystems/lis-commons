@@ -10,5 +10,5 @@ public interface PreparedRequest {
 
     OutputStream getOutputStream() throws IOException;
 
-    HttpResponse close() throws IOException;
+    HttpResponse execute() throws IOException;
 }

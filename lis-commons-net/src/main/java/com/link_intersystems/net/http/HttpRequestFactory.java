@@ -46,10 +46,18 @@ public abstract class HttpRequestFactory {
         return httpRequest;
     }
 
+    public HttpRequest delete(URL url) {
+        HttpRequest httpRequest = createRequest("DELETE", url);
+        httpRequest.setWithOutput(true);
+        return httpRequest;
+    }
+
     protected HttpRequest createRequest(String method, URL url) {
         HttpRequestImplementor implementor = createImplementor(method, this);
         return new HttpRequest(url, implementor);
     }
 
     protected abstract HttpRequestImplementor createImplementor(String method, HttpRequestFactory httpRequestFactory);
+
+
 }

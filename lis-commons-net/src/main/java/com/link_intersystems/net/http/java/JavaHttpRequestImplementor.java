@@ -74,7 +74,7 @@ public class JavaHttpRequestImplementor implements HttpRequestImplementor {
             }
 
             @Override
-            public HttpResponse close() throws IOException {
+            public HttpResponse execute() throws IOException {
                 if (openOutputStream != null) {
                     openOutputStream.close();
                 }

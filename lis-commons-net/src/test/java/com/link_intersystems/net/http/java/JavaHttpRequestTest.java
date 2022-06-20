@@ -28,7 +28,7 @@ public class JavaHttpRequestTest {
     @BeforeEach
     void setUp() throws IOException {
         httpMockServer = new HttpMockServer();
-        requestFactory = new JavaHttpRequestFactory();
+        requestFactory = new DefaultHttpRequestFactory();
         requestFactory.setReadTimeout(Duration.of(1, ChronoUnit.SECONDS));
     }
 
@@ -40,7 +40,7 @@ public class JavaHttpRequestTest {
 
         HttpRequest httpRequest = requestFactory.get(requestUrl);
         httpRequest.addHeader("Accept", "application/json");
-        HttpResponse httpResponse = httpRequest.prepare().close();
+        HttpResponse httpResponse = httpRequest.prepare().execute();
 
         assertEquals(200, httpResponse.getResponseCode());
 
@@ -60,7 +60,7 @@ public class JavaHttpRequestTest {
         httpRequest.addHeader("Accept", "application/json");
         PreparedRequest preparedRequest = httpRequest.prepare();
         preparedRequest.getOutputStream().write("Hello World".getBytes(StandardCharsets.UTF_8));
-        HttpResponse httpResponse = preparedRequest.close();
+        HttpResponse httpResponse = preparedRequest.execute();
 
         assertEquals(200, httpResponse.getResponseCode());
 
@@ -86,7 +86,33 @@ public class JavaHttpRequestTest {
         httpRequest.addHeader("Accept", "application/json");
         PreparedRequest preparedRequest = httpRequest.prepare();
         preparedRequest.getOutputStream().write("Hello World".getBytes(StandardCharsets.UTF_8));
-        HttpResponse httpResponse = preparedRequest.close();
+        HttpResponse httpResponse = preparedRequest.execute();
+
+        assertEquals(200, httpResponse.getResponseCode());
+
+        HttpMockServer.ReceivedRequest latestRequest = httpMockServer.getLatestRequest();
+        Map<String, String> headers = latestRequest.getHeaders();
+
+        assertEquals("application/json", headers.get("Accept"));
+        byte[] content = latestRequest.getBody();
+
+        assertArrayEquals("Hello World".getBytes(StandardCharsets.UTF_8), content);
+
+        String contentAsString = httpResponse.getContentAsString(StandardCharsets.UTF_8);
+        assertEquals("Response to Hello World", contentAsString);
+    }
+
+    @Test
+    void delete() throws IOException, URISyntaxException {
+        URL baseURL = httpMockServer.getBaseUrl();
+        URL requestUrl = baseURL.toURI().resolve(new URI("/somePath")).toURL();
+        httpMockServer.whenRequestPath(requestUrl.getPath()).respond(200, "Response to Hello World".getBytes(StandardCharsets.UTF_8));
+
+        HttpRequest httpRequest = requestFactory.delete(requestUrl);
+        httpRequest.addHeader("Accept", "application/json");
+        PreparedRequest preparedRequest = httpRequest.prepare();
+        preparedRequest.getOutputStream().write("Hello World".getBytes(StandardCharsets.UTF_8));
+        HttpResponse httpResponse = preparedRequest.execute();
 
         assertEquals(200, httpResponse.getResponseCode());
 
