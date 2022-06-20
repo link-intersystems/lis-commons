@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.Map;
-import java.util.function.Consumer;
 
 import static java.util.Collections.emptyMap;
 import static java.util.Objects.requireNonNull;
@@ -21,6 +20,8 @@ public class HttpClient {
     public HttpClient(HttpRequestFactory requestFactory) {
         this.requestFactory = requireNonNull(requestFactory);
     }
+
+    // GET
 
     public HttpResponse get(String url) throws IOException {
         return this.get(url, emptyMap());
@@ -44,11 +45,13 @@ public class HttpClient {
         return preparedRequest.execute();
     }
 
+    // POST
+
     public HttpResponse post(URL url) throws IOException {
         return post(url, emptyMap(), null);
     }
 
-    public HttpResponse post(String url, Consumer<OutputStream> contentWriter) throws IOException {
+    public HttpResponse post(String url, ContentWriter contentWriter) throws IOException {
         return post(new URL(url), emptyMap(), contentWriter);
     }
 
@@ -56,7 +59,7 @@ public class HttpClient {
         return post(new URL(url), headers, null);
     }
 
-    public HttpResponse post(URL url, Map<String, String> headers, Consumer<OutputStream> contentWriter) throws IOException {
+    public HttpResponse post(URL url, Map<String, String> headers, ContentWriter contentWriter) throws IOException {
         HttpRequest httpRequest = requestFactory.post(url);
 
         headers.forEach(httpRequest::addHeader);
@@ -65,18 +68,19 @@ public class HttpClient {
 
         if (contentWriter != null) {
             OutputStream outputStream = preparedRequest.getOutputStream();
-            contentWriter.accept(outputStream);
+            contentWriter.write(outputStream);
         }
 
         return preparedRequest.execute();
     }
 
+    //PUT
 
     public HttpResponse put(URL url) throws IOException {
         return put(url, emptyMap(), null);
     }
 
-    public HttpResponse put(String url, Consumer<OutputStream> contentWriter) throws IOException {
+    public HttpResponse put(String url, ContentWriter contentWriter) throws IOException {
         return put(new URL(url), emptyMap(), contentWriter);
     }
 
@@ -84,7 +88,7 @@ public class HttpClient {
         return put(new URL(url), headers, null);
     }
 
-    public HttpResponse put(URL url, Map<String, String> headers, Consumer<OutputStream> contentWriter) throws IOException {
+    public HttpResponse put(URL url, Map<String, String> headers, ContentWriter contentWriter) throws IOException {
         HttpRequest httpRequest = requestFactory.put(url);
 
         headers.forEach(httpRequest::addHeader);
@@ -93,7 +97,36 @@ public class HttpClient {
 
         if (contentWriter != null) {
             OutputStream outputStream = preparedRequest.getOutputStream();
-            contentWriter.accept(outputStream);
+            contentWriter.write(outputStream);
+        }
+
+        return preparedRequest.execute();
+    }
+
+    // DELETE
+
+    public HttpResponse delete(URL url) throws IOException {
+        return delete(url, emptyMap(), null);
+    }
+
+    public HttpResponse delete(String url, ContentWriter contentWriter) throws IOException {
+        return delete(new URL(url), emptyMap(), contentWriter);
+    }
+
+    public HttpResponse delete(String url, Map<String, String> headers) throws IOException {
+        return delete(new URL(url), headers, null);
+    }
+
+    public HttpResponse delete(URL url, Map<String, String> headers, ContentWriter contentWriter) throws IOException {
+        HttpRequest httpRequest = requestFactory.delete(url);
+
+        headers.forEach(httpRequest::addHeader);
+
+        PreparedRequest preparedRequest = httpRequest.prepare();
+
+        if (contentWriter != null) {
+            OutputStream outputStream = preparedRequest.getOutputStream();
+            contentWriter.write(outputStream);
         }
 
         return preparedRequest.execute();
