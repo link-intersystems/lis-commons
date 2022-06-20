@@ -1,9 +1,6 @@
-package com.link_intersystems.net.http.java;
+package com.link_intersystems.net.http;
 
-import com.link_intersystems.net.http.HttpRequestFactory;
-import com.link_intersystems.net.http.HttpRequestImplementor;
-import com.link_intersystems.net.http.HttpResponse;
-import com.link_intersystems.net.http.PreparedRequest;
+import com.link_intersystems.net.http.*;
 
 import java.io.IOException;
 import java.io.OutputStream;

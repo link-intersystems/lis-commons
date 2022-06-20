@@ -1,6 +1,5 @@
-package com.link_intersystems.net.http.java;
+package com.link_intersystems.net.http;
 
-import com.link_intersystems.net.http.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class JavaHttpRequestTest {
+public class DefaultHttpRequestTest {
 
     private HttpMockServer httpMockServer;
     private HttpRequestFactory requestFactory;

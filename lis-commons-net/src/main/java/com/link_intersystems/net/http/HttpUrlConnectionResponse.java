@@ -1,4 +1,4 @@
-package com.link_intersystems.net.http.java;
+package com.link_intersystems.net.http;
 
 import com.link_intersystems.net.http.HttpResponse;
 

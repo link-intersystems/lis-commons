@@ -1,7 +1,4 @@
-package com.link_intersystems.net.http.java;
-
-import com.link_intersystems.net.http.HttpRequestFactory;
-import com.link_intersystems.net.http.HttpRequestImplementor;
+package com.link_intersystems.net.http;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -14,7 +11,7 @@ import static java.util.Objects.requireNonNull;
  */
 public class DefaultHttpRequestFactory extends HttpRequestFactory {
 
-    private Set<String> outputSupportedMethods = new HashSet<>(Arrays.asList("POST", "PUT", "DELETE", "PATCH"));
+    private Set<String> outputSupportedMethods = new HashSet<>(Arrays.asList("POST", "PUT", "DELETE"));
 
     public void setOutputSupportedMethods(Set<String> outputSupportedMethods) {
         this.outputSupportedMethods = requireNonNull(outputSupportedMethods);
