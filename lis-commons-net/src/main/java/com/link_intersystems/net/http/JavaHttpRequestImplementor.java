@@ -70,6 +70,7 @@ public class JavaHttpRequestImplementor implements HttpRequestImplementor {
             @Override
             public HttpResponse execute() throws IOException {
                 if (openOutputStream != null) {
+                    openOutputStream.flush();
                     openOutputStream.close();
                 }
                 return new HttpUrlConnectionResponse(conn);
