@@ -101,7 +101,32 @@ public class DefaultHttpRequestTest {
         assertEquals("Response to Hello World", contentAsString);
     }
 
+    @Test
+    void delete() throws IOException, URISyntaxException {
+        URL baseURL = httpMockServer.getBaseUrl();
+        URL requestUrl = baseURL.toURI().resolve(new URI("/somePath")).toURL();
+        httpMockServer.whenRequestPath(requestUrl.getPath()).respond(200, "Response to Hello World".getBytes(StandardCharsets.UTF_8));
 
+        HttpRequest httpRequest = requestFactory.delete(requestUrl);
+        httpRequest.addHeader("Accept", "application/json");
+        httpRequest.addHeader("Content-Length", "11");
+        PreparedRequest preparedRequest = httpRequest.prepare();
+        preparedRequest.getOutputStream().write("Hello World".getBytes(StandardCharsets.UTF_8));
+        HttpResponse httpResponse = preparedRequest.execute();
+
+        assertEquals(200, httpResponse.getResponseCode());
+
+        HttpMockServer.ReceivedRequest latestRequest = httpMockServer.getLatestRequest();
+        Map<String, String> headers = latestRequest.getHeaders();
+
+        assertEquals("application/json", headers.get("Accept"));
+        byte[] content = latestRequest.getBody();
+
+        assertArrayEquals("Hello World".getBytes(StandardCharsets.UTF_8), content);
+
+        String contentAsString = httpResponse.getDecodedContent();
+        assertEquals("Response to Hello World", contentAsString);
+    }
 
     @AfterEach
     void tearDown() throws IOException {
