@@ -5,9 +5,6 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.Duration;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import static java.util.Objects.requireNonNull;
 
@@ -81,9 +78,9 @@ public class JavaHttpRequestImplementor implements HttpRequestImplementor {
     }
 
     private void setHeader(HttpURLConnection conn, HttpHeaders requestHeaders) {
-        for (Map.Entry<String, List<String>> requestHeaderEntry : requestHeaders.entrySet()) {
-            String headerName = requestHeaderEntry.getKey();
-            String headerValue = String.join(", ", requestHeaderEntry.getValue());
+        for (HttpHeader requestHeaderEntry : requestHeaders) {
+            String headerName = requestHeaderEntry.getName();
+            String headerValue = String.join(", ", requestHeaderEntry.getValues());
             conn.setRequestProperty(headerName, headerValue);
         }
     }

@@ -3,9 +3,6 @@ package com.link_intersystems.net.http;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
-import java.util.List;
-
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,62 +12,64 @@ import static org.junit.jupiter.api.Assertions.*;
 class HttpHeadersTest {
 
     private HttpHeaders httpHeaders;
+    private HttpHeader acceptPlainAndHtml;
 
     @BeforeEach
     void setUp() {
         httpHeaders = new HttpHeaders();
+
+        httpHeaders.add("Accept", "text/plain");
+        httpHeaders.add("Accept", "text/html");
+
+        acceptPlainAndHtml = new HttpHeader("Accept", asList("text/plain", "text/html"));
+
     }
 
     @Test
     void createFromOtherHeaders() {
-        httpHeaders.put("Accept", "text/plain,text/html");
+        httpHeaders.add("Accept", "text/plain,text/html");
 
         assertEquals(httpHeaders, new HttpHeaders(httpHeaders));
     }
 
     @Test
-    void putNullHeaderName() {
-        assertThrows(IllegalArgumentException.class, () -> httpHeaders.put(null, asList("text/plain", "text/html")));
+    void addNullHeaderValue() {
+        assertThrows(IllegalArgumentException.class, () -> httpHeaders.add("Accept", (String) null));
+    }
+
+
+    @Test
+    void setHeader() {
+        httpHeaders.add("Accept", "text/plain,text/html");
+        httpHeaders.add("Expires", "Wed, 21 Oct 2015 07:28:00 GMT");
+        HttpHeader expiresHeader = httpHeaders.get(1);
+
+        HttpHeader httpHeader = new HttpHeader("Cache-Control", "no-cache");
+        HttpHeader previousHeader = httpHeaders.set(1, httpHeader);
+
+        assertEquals(httpHeader, httpHeaders.get(1));
+        assertEquals(expiresHeader, previousHeader);
     }
 
     @Test
-    void putNullHeaderValue() {
-        assertThrows(IllegalArgumentException.class, () -> httpHeaders.put("Accept", (String) null));
+    void setHeaderAlreadyExists() {
+        httpHeaders.add("Accept", "text/plain,text/html");
+        httpHeaders.add("Expires", "Wed, 21 Oct 2015 07:28:00 GMT");
+
+        assertThrows(IllegalStateException.class, () -> httpHeaders.set(0, new HttpHeader("Expires", "Wed, 21 Oct 2015 07:28:00 GMT")));
     }
 
     @Test
-    void putNullHeaderValues() {
-        assertThrows(IllegalArgumentException.class, () -> httpHeaders.put("Accept", (List<String>) null));
-    }
+    void removeHeader() {
 
-    @Test
-    void putEmptyHeaderValues() {
-        assertThrows(IllegalArgumentException.class, () -> httpHeaders.put("Accept", Collections.emptyList()));
-    }
+        httpHeaders.add("Expires", "Wed, 21 Oct 2015 07:28:00 GMT");
 
-    @Test
-    void multiValueHeaderAsString() {
-        httpHeaders.put("Accept", "text/plain,text/html");
+        httpHeaders.remove(1);
 
         assertEquals(1, httpHeaders.size());
-        assertEquals(asList("text/plain", "text/html"), httpHeaders.get("Accept"));
+        assertEquals(acceptPlainAndHtml, httpHeaders.get(0));
     }
 
-    @Test
-    void multiValueHeaderAsStringTrimmed() {
-        httpHeaders.put("Accept", "  text/plain  ,   text/html   ");
-
-        assertEquals(1, httpHeaders.size());
-        assertEquals(asList("text/plain", "text/html"), httpHeaders.get("Accept"));
-    }
-
-    @Test
-    void putMultiValueHeaderListTrimmed() {
-        httpHeaders.put("Accept", asList("  text/plain", "text/html   "));
-
-        assertEquals(1, httpHeaders.size());
-        assertEquals(asList("text/plain", "text/html"), httpHeaders.get("Accept"));
-    }
 
 
     /**
@@ -83,40 +82,19 @@ class HttpHeadersTest {
      */
     @Test
     void getCaseInsensitive() {
-        httpHeaders.put("Accept", asList("  text/plain"));
-        httpHeaders.put("ACCEPT", asList("text/html   "));
+        httpHeaders.clear();
+        httpHeaders.add("Accept", asList("  text/plain"));
+        httpHeaders.add("ACCEPT", asList("text/html   "));
 
-        assertEquals(asList("text/plain", "text/html"), httpHeaders.get("ACCEPT"));
-    }
-
-    @Test
-    void getNonStringKey() {
-        httpHeaders.put("Accept", asList("  text/plain", "text/html   "));
-
-        assertNull(httpHeaders.get(1L));
+        assertEquals(acceptPlainAndHtml, httpHeaders.get("ACCEPT"));
     }
 
     @Test
     void getOnEmptyHeaders() {
+        httpHeaders.clear();
         assertNull(httpHeaders.get("Accept"));
     }
 
-    /**
-     * From the RFC-2616:
-     * <pre>
-     *     It MUST be possible to combine the multiple header fields into one
-     *    "field-name: field-value" pair, without changing the semantics of the
-     *    message, by appending each subsequent field-value to the first, each
-     *    separated by a comma.
-     * </pre>
-     */
-    @Test
-    void joinHeaders() {
-        httpHeaders.put("Accept", asList("text/plain"));
-        httpHeaders.put("Accept", "text/html");
-
-        assertEquals(asList("text/plain", "text/html"), httpHeaders.get("ACCEPT"));
-    }
 
     /**
      * RFC 2616
@@ -128,9 +106,10 @@ class HttpHeadersTest {
      */
     @Test
     void joinHeadersCaseInsensitive() {
-        httpHeaders.put("accept", asList("text/plain"));
-        httpHeaders.put("ACCEPT", "text/html");
+        httpHeaders.clear();
+        httpHeaders.add("accept", asList("text/plain"));
+        httpHeaders.add("ACCEPT", "text/html");
 
-        assertEquals(asList("text/plain", "text/html"), httpHeaders.get("ACCEPT"));
+        assertEquals(acceptPlainAndHtml, httpHeaders.get("ACCEPT"));
     }
 }

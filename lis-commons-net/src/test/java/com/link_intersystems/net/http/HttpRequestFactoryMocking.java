@@ -40,7 +40,7 @@ public class HttpRequestFactoryMocking extends HttpRequestFactory {
     void assertRequest(String expectedMethod, String expectedUrl, Map<String, String> expectedHeaders) throws IOException {
         Assertions.assertEquals(expectedMethod, this.method, "HTTP method");
         HttpHeaders httpHeaders = new HttpHeaders();
-        expectedHeaders.forEach(httpHeaders::put);
+        expectedHeaders.forEach(httpHeaders::add);
         verify(requestImplementor).prepare(new URL(expectedUrl), httpHeaders);
         verify(preparedRequest).execute();
     }

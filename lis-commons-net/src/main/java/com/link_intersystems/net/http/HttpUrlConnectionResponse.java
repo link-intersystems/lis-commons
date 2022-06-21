@@ -1,7 +1,5 @@
 package com.link_intersystems.net.http;
 
-import com.link_intersystems.net.http.HttpResponse;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -27,7 +25,9 @@ public class HttpUrlConnectionResponse implements HttpResponse {
     @Override
     public HttpHeaders getHeaders() {
         Map<String, List<String>> headerFields = conn.getHeaderFields();
-        return new HttpHeaders(headerFields);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        headerFields.forEach(httpHeaders::add);
+        return httpHeaders;
     }
 
     @Override

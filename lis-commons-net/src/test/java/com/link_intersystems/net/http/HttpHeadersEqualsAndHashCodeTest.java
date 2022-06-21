@@ -19,13 +19,13 @@ class HttpHeadersEqualsAndHashCodeTest {
     void setUp() {
 
         httpHeaders = new HttpHeaders();
-        httpHeaders.put("ACCEPT", "text/plain,text/html");
+        httpHeaders.add("ACCEPT", "text/plain,text/html");
 
         equalHeaders = new HttpHeaders();
-        equalHeaders.put("accept", "text/plain,text/html");
+        equalHeaders.add("accept", "text/plain,text/html");
 
         notEqualHeaders = new HttpHeaders();
-        notEqualHeaders.put("accept", "TEXT/PLAIN,TEXT/HTML");
+        notEqualHeaders.add("accept", "TEXT/PLAIN,TEXT/HTML");
     }
 
     /**
@@ -41,12 +41,6 @@ class HttpHeadersEqualsAndHashCodeTest {
     void equalIgnoreCase() {
         assertEquals(httpHeaders, equalHeaders);
         assertEquals(httpHeaders.hashCode(), equalHeaders.hashCode());
-    }
-
-    @Test
-    void equalEntrySetIgnoreCase() {
-        assertEquals(httpHeaders.entrySet(), equalHeaders.entrySet());
-        assertEquals(httpHeaders.entrySet().hashCode(), equalHeaders.entrySet().hashCode());
     }
 
     @Test

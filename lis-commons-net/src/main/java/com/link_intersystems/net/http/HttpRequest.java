@@ -36,7 +36,7 @@ public class HttpRequest {
     }
 
     public void addHeader(String name, String value) {
-        requestHeaders.put(name, value);
+        requestHeaders.add(name, value);
     }
 
     public PreparedRequest prepare() throws IOException {
