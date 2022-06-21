@@ -1,13 +1,13 @@
 package com.link_intersystems.net.http;
 
-import com.link_intersystems.net.http.*;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.Duration;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.requireNonNull;
 
@@ -53,7 +53,7 @@ public class JavaHttpRequestImplementor implements HttpRequestImplementor {
     }
 
     @Override
-    public PreparedRequest prepare(URL url, Map<String, String> requestHeaders) throws IOException {
+    public PreparedRequest prepare(URL url, HttpHeaders requestHeaders) throws IOException {
         HttpURLConnection conn = createConnection(url);
 
         setHeader(conn, requestHeaders);
@@ -80,10 +80,10 @@ public class JavaHttpRequestImplementor implements HttpRequestImplementor {
         };
     }
 
-    private void setHeader(HttpURLConnection conn, Map<String, String> requestHeaders) {
-        for (Map.Entry<String, String> requestHeaderEntry : requestHeaders.entrySet()) {
+    private void setHeader(HttpURLConnection conn, HttpHeaders requestHeaders) {
+        for (Map.Entry<String, List<String>> requestHeaderEntry : requestHeaders.entrySet()) {
             String headerName = requestHeaderEntry.getKey();
-            String headerValue = requestHeaderEntry.getValue();
+            String headerValue = String.join(", ", requestHeaderEntry.getValue());
             conn.setRequestProperty(headerName, headerValue);
         }
     }

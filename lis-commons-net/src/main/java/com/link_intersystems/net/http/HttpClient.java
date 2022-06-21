@@ -17,8 +17,16 @@ public class HttpClient {
 
     private HttpRequestFactory requestFactory;
 
+    public HttpClient() {
+        this(new DefaultHttpRequestFactory());
+    }
+
     public HttpClient(HttpRequestFactory requestFactory) {
         this.requestFactory = requireNonNull(requestFactory);
+    }
+
+    public HttpRequestFactory getRequestFactory() {
+        return requestFactory;
     }
 
     // GET

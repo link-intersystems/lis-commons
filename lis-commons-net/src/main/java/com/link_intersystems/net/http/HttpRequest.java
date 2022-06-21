@@ -12,7 +12,7 @@ import static java.util.Objects.requireNonNull;
  */
 public class HttpRequest {
 
-    private Map<String, String> requestHeaders = new LinkedHashMap<>();
+    private HttpHeaders requestHeaders = new HttpHeaders();
     private boolean withOutput = false;
 
     private final URL url;

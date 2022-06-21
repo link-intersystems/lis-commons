@@ -27,7 +27,7 @@ public class HttpRequestFactoryMocking extends HttpRequestFactory {
         preparedRequest = mock(PreparedRequest.class);
         outputStream = new ByteArrayOutputStream();
 
-        when(requestImplementor.prepare(any(URL.class), any(Map.class))).thenReturn(preparedRequest);
+        when(requestImplementor.prepare(any(URL.class), any(HttpHeaders.class))).thenReturn(preparedRequest);
         when(preparedRequest.getOutputStream()).thenReturn(outputStream);
     }
 
@@ -39,7 +39,9 @@ public class HttpRequestFactoryMocking extends HttpRequestFactory {
 
     void assertRequest(String expectedMethod, String expectedUrl, Map<String, String> expectedHeaders) throws IOException {
         Assertions.assertEquals(expectedMethod, this.method, "HTTP method");
-        verify(requestImplementor).prepare(new URL(expectedUrl), expectedHeaders);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        expectedHeaders.forEach(httpHeaders::put);
+        verify(requestImplementor).prepare(new URL(expectedUrl), httpHeaders);
         verify(preparedRequest).execute();
     }
 

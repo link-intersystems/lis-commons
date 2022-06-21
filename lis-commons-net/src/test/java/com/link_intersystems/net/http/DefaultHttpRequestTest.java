@@ -71,7 +71,7 @@ public class DefaultHttpRequestTest {
 
         assertArrayEquals("Hello World".getBytes(StandardCharsets.UTF_8), content);
 
-        String contentAsString = httpResponse.getContentAsString(StandardCharsets.UTF_8);
+        String contentAsString = httpResponse.getDecodedContent();
         assertEquals("Response to Hello World", contentAsString);
     }
 
@@ -97,7 +97,7 @@ public class DefaultHttpRequestTest {
 
         assertArrayEquals("Hello World".getBytes(StandardCharsets.UTF_8), content);
 
-        String contentAsString = httpResponse.getContentAsString(StandardCharsets.UTF_8);
+        String contentAsString = httpResponse.getDecodedContent();
         assertEquals("Response to Hello World", contentAsString);
     }
 
@@ -123,7 +123,7 @@ public class DefaultHttpRequestTest {
 
         assertArrayEquals("Hello World".getBytes(StandardCharsets.UTF_8), content);
 
-        String contentAsString = httpResponse.getContentAsString(StandardCharsets.UTF_8);
+        String contentAsString = httpResponse.getDecodedContent();
         assertEquals("Response to Hello World", contentAsString);
     }
 
