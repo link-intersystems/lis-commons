@@ -111,7 +111,6 @@ public class DefaultHttpRequestTest {
         httpRequest.addHeader("Accept", "application/json");
         httpRequest.addHeader("Content-Length", "11");
         PreparedRequest preparedRequest = httpRequest.prepare();
-        preparedRequest.getOutputStream().write("Hello World".getBytes(StandardCharsets.UTF_8));
         HttpResponse httpResponse = preparedRequest.execute();
 
         assertEquals(200, httpResponse.getResponseCode());
@@ -120,9 +119,6 @@ public class DefaultHttpRequestTest {
         Map<String, String> headers = latestRequest.getHeaders();
 
         assertEquals("application/json", headers.get("Accept"));
-        byte[] content = latestRequest.getBody();
-
-        assertArrayEquals("Hello World".getBytes(StandardCharsets.UTF_8), content);
 
         String contentAsString = httpResponse.getDecodedContent();
         assertEquals("Response to Hello World", contentAsString);
