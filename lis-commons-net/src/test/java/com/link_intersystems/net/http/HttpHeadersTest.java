@@ -33,12 +33,6 @@ class HttpHeadersTest {
     }
 
     @Test
-    void addNullHeaderValue() {
-        assertThrows(IllegalArgumentException.class, () -> httpHeaders.add("Accept", (String) null));
-    }
-
-
-    @Test
     void setHeader() {
         httpHeaders.add("Accept", "text/plain,text/html");
         httpHeaders.add("Expires", "Wed, 21 Oct 2015 07:28:00 GMT");

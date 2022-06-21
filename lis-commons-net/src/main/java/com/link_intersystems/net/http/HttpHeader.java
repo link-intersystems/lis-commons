@@ -1,6 +1,6 @@
 package com.link_intersystems.net.http;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,8 +14,8 @@ public class HttpHeader {
     private final String name;
     private final List<String> values;
 
-    public HttpHeader(String name, String value) {
-        this(name, Collections.singletonList(value));
+    public HttpHeader(String name, String... values) {
+        this(name, Arrays.asList(values));
     }
 
     public HttpHeader(String name, List<String> values) {

@@ -42,11 +42,8 @@ public class HttpHeaders extends AbstractList<HttpHeader> {
         return headers.add(httpHeaderEntry);
     }
 
-    public boolean add(String name, String value) {
-        if (value == null) {
-            throw new IllegalArgumentException("header value must not be null");
-        }
-        return addInternal(name, singletonList(value));
+    public boolean add(String name, String... values) {
+        return addInternal(name, Arrays.asList(values));
     }
 
     public boolean add(String headerName, List<String> values) {
