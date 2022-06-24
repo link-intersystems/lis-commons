@@ -10,7 +10,7 @@
 
     <groupId>com.link-intersystems.commons</groupId>
     <artifactId>lis-commons</artifactId>
-    <version>1.5.2-SNAPSHOT</version>
+    <version>1.6.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Link Intersystems - Commons</name>
@@ -29,7 +29,7 @@
         <module>lis-commons-graph</module>
         <module>lis-commons-events</module>
         <module>lis-commons-jdbc</module>
-        <module>lis-commons-test-db</module>
+        <module>lis-commons-jdbc-test</module>
         <module>lis-commons-sql</module>
         <module>lis-commons-sql-hibernate</module>
         <module>lis-commons-net</module>
@@ -63,45 +63,45 @@
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-lang</artifactId>
-                <version>1.5.2-SNAPSHOT</version>
+                <version>1.6.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-lang</artifactId>
-                <version>1.5.2-SNAPSHOT</version>
+                <version>1.6.0-SNAPSHOT</version>
                 <type>test-jar</type>
             </dependency>
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-math</artifactId>
-                <version>1.5.2-SNAPSHOT</version>
+                <version>1.6.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-graph</artifactId>
-                <version>1.5.2-SNAPSHOT</version>
+                <version>1.6.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-util</artifactId>
-                <version>1.5.2-SNAPSHOT</version>
+                <version>1.6.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-test</artifactId>
-                <version>1.5.2-SNAPSHOT</version>
+                <version>1.6.0-SNAPSHOT</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
-                <artifactId>lis-commons-test-db</artifactId>
-                <version>1.5.2-SNAPSHOT</version>
+                <artifactId>lis-commons-jdbc-test</artifactId>
+                <version>1.6.0-SNAPSHOT</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-sql</artifactId>
-                <version>1.5.2-SNAPSHOT</version>
+                <version>1.6.0-SNAPSHOT</version>
             </dependency>
 
             <dependency>

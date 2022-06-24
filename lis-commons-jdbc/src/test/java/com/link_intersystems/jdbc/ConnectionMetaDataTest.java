@@ -1,9 +1,7 @@
 package com.link_intersystems.jdbc;
 
 import com.link_intersystems.test.UnitTest;
-import com.link_intersystems.test.db.sakila.SakilaEmptyTestDBExtension;
-import com.link_intersystems.test.db.sakila.SakilaSlimTestDBExtension;
-import com.link_intersystems.test.db.sakila.SakilaTestDBExtension;
+import com.link_intersystems.jdbc.test.db.sakila.SakilaEmptyTestDBExtension;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,7 +10,6 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 import java.sql.Types;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
