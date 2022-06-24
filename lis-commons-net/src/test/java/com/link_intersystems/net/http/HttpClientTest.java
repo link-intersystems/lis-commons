@@ -9,9 +9,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.stream.Stream;
 
 import static com.link_intersystems.net.http.HttpMethod.*;
@@ -27,18 +24,19 @@ class HttpClientTest {
 
     private HttpClient httpClient;
     private HttpRequestFactoryMocking requestMocking;
-    private Map<String, String> headers;
+    private HttpHeaders headers;
     private ContentWriter contentWriter;
 
     @BeforeEach
     void setUp() throws IOException {
         requestMocking = new HttpRequestFactoryMocking();
         httpClient = new HttpClient(requestMocking);
+        httpClient.setRequestCustomizer(requestMocking);
 
-        headers = new LinkedHashMap<>();
+        headers = new HttpHeaders();
 
-        headers.put("Accept", "application/json");
-        headers.put("Content-Length", "1042");
+        headers.add("Accept", "application/json");
+        headers.add("Content-Length", "1042");
 
         contentWriter = outputStream -> outputStream.write("Hello World".getBytes(StandardCharsets.UTF_8));
     }
@@ -63,7 +61,7 @@ class HttpClientTest {
 
         httpClientMethod.invoke(httpClient, TEST_URL);
 
-        requestMocking.assertRequestWithContent(httpMethod, TEST_URL, Collections.emptyMap(), EMPTY_CONTENT);
+        requestMocking.assertRequestWithContent(httpMethod, TEST_URL, new HttpHeaders(), EMPTY_CONTENT);
     }
 
     @ParameterizedTest
@@ -73,13 +71,13 @@ class HttpClientTest {
 
         httpClientMethod.invoke(httpClient, TEST_URL, contentWriter);
 
-        requestMocking.assertRequestWithContent(httpMethod, TEST_URL, Collections.emptyMap(), TEST_CONTENT);
+        requestMocking.assertRequestWithContent(httpMethod, TEST_URL, new HttpHeaders(), TEST_CONTENT);
     }
 
     @ParameterizedTest
     @MethodSource("contentSupportedHttpMethods")
     void requestUrlStringWithHeadersAndContent(HttpMethod httpMethod) throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method httpClientMethod = getHttpClientMethod(httpMethod, String.class, Map.class, ContentWriter.class);
+        Method httpClientMethod = getHttpClientMethod(httpMethod, String.class, HttpHeaders.class, ContentWriter.class);
 
         httpClientMethod.invoke(httpClient, TEST_URL, headers, contentWriter);
 
@@ -89,7 +87,7 @@ class HttpClientTest {
     @ParameterizedTest
     @MethodSource("allHttpMethods")
     void requestUrlStringWithHeaders(HttpMethod httpMethod) throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method httpClientMethod = getHttpClientMethod(httpMethod, String.class, Map.class);
+        Method httpClientMethod = getHttpClientMethod(httpMethod, String.class, HttpHeaders.class);
 
         httpClientMethod.invoke(httpClient, TEST_URL, headers);
 
@@ -103,7 +101,7 @@ class HttpClientTest {
 
         httpClientMethod.invoke(httpClient, new URL(TEST_URL));
 
-        requestMocking.assertRequestWithContent(httpMethod, TEST_URL, Collections.emptyMap(), EMPTY_CONTENT);
+        requestMocking.assertRequestWithContent(httpMethod, TEST_URL, new HttpHeaders(), EMPTY_CONTENT);
     }
 
     @ParameterizedTest
@@ -113,13 +111,13 @@ class HttpClientTest {
 
         httpClientMethod.invoke(httpClient, new URL(TEST_URL), contentWriter);
 
-        requestMocking.assertRequestWithContent(httpMethod, TEST_URL, Collections.emptyMap(), TEST_CONTENT);
+        requestMocking.assertRequestWithContent(httpMethod, TEST_URL, new HttpHeaders(), TEST_CONTENT);
     }
 
     @ParameterizedTest
     @MethodSource("contentSupportedHttpMethods")
     void requestURLWithHeadersAndContent(HttpMethod httpMethod) throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method httpClientMethod = getHttpClientMethod(httpMethod, URL.class, Map.class, ContentWriter.class);
+        Method httpClientMethod = getHttpClientMethod(httpMethod, URL.class, HttpHeaders.class, ContentWriter.class);
 
         httpClientMethod.invoke(httpClient, new URL(TEST_URL), headers, contentWriter);
 
@@ -129,7 +127,7 @@ class HttpClientTest {
     @ParameterizedTest
     @MethodSource("allHttpMethods")
     void requestURLWithHeaders(HttpMethod httpMethod) throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method httpClientMethod = getHttpClientMethod(httpMethod, URL.class, Map.class);
+        Method httpClientMethod = getHttpClientMethod(httpMethod, URL.class, HttpHeaders.class);
 
         httpClientMethod.invoke(httpClient, new URL(TEST_URL), headers);
 

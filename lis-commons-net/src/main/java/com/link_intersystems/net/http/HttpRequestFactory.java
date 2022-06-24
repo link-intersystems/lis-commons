@@ -55,7 +55,7 @@ public abstract class HttpRequestFactory {
 
     protected HttpRequest createRequest(HttpMethod method, URL url) {
         HttpRequestImplementor implementor = createImplementor(method, this);
-        return new HttpRequest(url, implementor);
+        return new HttpRequest(method, url, implementor);
     }
 
     protected abstract HttpRequestImplementor createImplementor(HttpMethod method, HttpRequestFactory httpRequestFactory);

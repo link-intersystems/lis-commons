@@ -2,8 +2,6 @@ package com.link_intersystems.net.http;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 import static java.util.Objects.requireNonNull;
 
@@ -12,19 +10,29 @@ import static java.util.Objects.requireNonNull;
  */
 public class HttpRequest {
 
-    private HttpHeaders requestHeaders = new HttpHeaders();
+    private HttpHeaders headers = new HttpHeaders();
     private boolean withOutput = false;
 
     private final URL url;
     private HttpRequestImplementor implementor;
+    private HttpMethod httpMethod;
 
-    public HttpRequest(URL url, HttpRequestImplementor implementor) {
+    public HttpRequest(HttpMethod httpMethod, URL url, HttpRequestImplementor implementor) {
+        this.httpMethod = requireNonNull(httpMethod);
         this.url = requireNonNull(url);
         this.implementor = requireNonNull(implementor);
         String protocol = url.getProtocol();
         if (!protocol.equals("http") && !protocol.equals("https")) {
             throw new IllegalArgumentException("url must be a http url.");
         }
+    }
+
+    public HttpMethod getMethod() {
+        return httpMethod;
+    }
+
+    public URL getURL() {
+        return url;
     }
 
     public void setWithOutput(boolean withOutput) {
@@ -35,11 +43,15 @@ public class HttpRequest {
         return withOutput;
     }
 
-    public void addHeader(String name, String value) {
-        requestHeaders.add(name, value);
+    public HttpHeaders getHeaders() {
+        return headers;
+    }
+
+    public void setHeaders(HttpHeaders headers) {
+        this.headers = requireNonNull(headers);
     }
 
     public PreparedRequest prepare() throws IOException {
-        return implementor.prepare(url, requestHeaders);
+        return implementor.prepare(this);
     }
 }

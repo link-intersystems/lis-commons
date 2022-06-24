@@ -15,6 +15,11 @@ public class HttpHeaders extends AbstractList<HttpHeader> {
     public HttpHeaders() {
     }
 
+    public HttpHeaders(Map<String, String> headers) {
+        headers.forEach(this::add);
+    }
+
+
     public HttpHeaders(Collection<HttpHeader> headerEntries) {
         this.addAll(headerEntries);
     }

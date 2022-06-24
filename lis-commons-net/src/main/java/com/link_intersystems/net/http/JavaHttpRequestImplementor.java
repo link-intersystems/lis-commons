@@ -15,7 +15,6 @@ public class JavaHttpRequestImplementor implements HttpRequestImplementor {
 
     private HttpMethod method;
     private HttpRequestFactory httpRequestFactory;
-    private boolean doOutput;
 
     public JavaHttpRequestImplementor(HttpMethod method, HttpRequestFactory httpRequestFactory) {
         this.method = requireNonNull(method);
@@ -23,11 +22,7 @@ public class JavaHttpRequestImplementor implements HttpRequestImplementor {
         this.httpRequestFactory = requireNonNull(httpRequestFactory);
     }
 
-    public void setDoOutput(boolean doOutput) {
-        this.doOutput = doOutput;
-    }
-
-    protected HttpURLConnection createConnection(URL url) throws IOException {
+    protected HttpURLConnection createConnection(URL url, boolean withOutput) throws IOException {
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
         Duration connectTimeout = httpRequestFactory.getConnectTimeout();
@@ -41,14 +36,16 @@ public class JavaHttpRequestImplementor implements HttpRequestImplementor {
         }
 
         conn.setRequestMethod(method.name());
-        conn.setDoOutput(doOutput);
+        conn.setDoOutput(withOutput);
         return conn;
     }
 
     @Override
-    public PreparedRequest prepare(URL url, HttpHeaders requestHeaders) throws IOException {
-        HttpURLConnection conn = createConnection(url);
+    public PreparedRequest prepare(HttpRequest httpRequest) throws IOException {
+        URL url = httpRequest.getURL();
+        HttpURLConnection conn = createConnection(url, httpRequest.isWithOutput());
 
+        HttpHeaders requestHeaders = httpRequest.getHeaders();
         setHeader(conn, requestHeaders);
 
         return new PreparedRequest() {

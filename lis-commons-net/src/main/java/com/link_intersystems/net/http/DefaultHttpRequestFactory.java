@@ -12,21 +12,8 @@ import static java.util.Objects.requireNonNull;
  */
 public class DefaultHttpRequestFactory extends HttpRequestFactory {
 
-    private Set<HttpMethod> outputSupportedMethods = new HashSet<>(Arrays.asList(POST, PUT, DELETE));
-
-    public void setOutputSupportedMethods(Set<HttpMethod> outputSupportedMethods) {
-        this.outputSupportedMethods = requireNonNull(outputSupportedMethods);
-    }
-
     @Override
     protected HttpRequestImplementor createImplementor(HttpMethod method, HttpRequestFactory httpRequestFactory) {
-        JavaHttpRequestImplementor javaHttpRequestImplementor = new JavaHttpRequestImplementor(method, httpRequestFactory);
-        boolean outputSupported = isOutputSupported(method);
-        javaHttpRequestImplementor.setDoOutput(outputSupported);
-        return javaHttpRequestImplementor;
-    }
-
-    protected boolean isOutputSupported(HttpMethod method) {
-        return outputSupportedMethods.contains(method);
+        return new JavaHttpRequestImplementor(method, httpRequestFactory);
     }
 }

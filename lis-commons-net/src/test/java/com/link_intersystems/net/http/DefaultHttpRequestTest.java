@@ -38,7 +38,8 @@ public class DefaultHttpRequestTest {
         httpMockServer.whenRequestPath(requestUrl.getPath()).respond(200);
 
         HttpRequest httpRequest = requestFactory.get(requestUrl);
-        httpRequest.addHeader("Accept", "application/json");
+        HttpHeaders requestHeaders = httpRequest.getHeaders();
+        requestHeaders.add("Accept", "application/json");
         HttpResponse httpResponse = httpRequest.prepare().execute();
 
         assertEquals(200, httpResponse.getResponseCode());
@@ -56,7 +57,8 @@ public class DefaultHttpRequestTest {
         httpMockServer.whenRequestPath(requestUrl.getPath()).respond(200, "Response to Hello World".getBytes(StandardCharsets.UTF_8));
 
         HttpRequest httpRequest = requestFactory.post(requestUrl);
-        httpRequest.addHeader("Accept", "application/json");
+        HttpHeaders requestHeaders = httpRequest.getHeaders();
+        requestHeaders.add("Accept", "application/json");
         PreparedRequest preparedRequest = httpRequest.prepare();
         preparedRequest.getOutputStream().write("Hello World".getBytes(StandardCharsets.UTF_8));
         HttpResponse httpResponse = preparedRequest.execute();
@@ -82,7 +84,8 @@ public class DefaultHttpRequestTest {
         httpMockServer.whenRequestPath(requestUrl.getPath()).respond(200, "Response to Hello World".getBytes(StandardCharsets.UTF_8));
 
         HttpRequest httpRequest = requestFactory.put(requestUrl);
-        httpRequest.addHeader("Accept", "application/json");
+        HttpHeaders requestHeaders = httpRequest.getHeaders();
+        requestHeaders.add("Accept", "application/json");
         PreparedRequest preparedRequest = httpRequest.prepare();
         preparedRequest.getOutputStream().write("Hello World".getBytes(StandardCharsets.UTF_8));
         HttpResponse httpResponse = preparedRequest.execute();
@@ -108,8 +111,9 @@ public class DefaultHttpRequestTest {
         httpMockServer.whenRequestPath(requestUrl.getPath()).respond(200, "Response to Hello World".getBytes(StandardCharsets.UTF_8));
 
         HttpRequest httpRequest = requestFactory.delete(requestUrl);
-        httpRequest.addHeader("Accept", "application/json");
-        httpRequest.addHeader("Content-Length", "11");
+        HttpHeaders requestHeaders = httpRequest.getHeaders();
+        requestHeaders.add("Accept", "application/json");
+        requestHeaders.add("Content-Length", "11");
         PreparedRequest preparedRequest = httpRequest.prepare();
         HttpResponse httpResponse = preparedRequest.execute();
 
