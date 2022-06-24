@@ -5,7 +5,10 @@ import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 import java.util.stream.IntStream;
+
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
@@ -63,14 +66,28 @@ public class HttpMockServer implements Closeable, Runnable {
         }
     }
 
-    private final ServerSocket serverSocket;
-    private final Thread socketHandlerThread;
+    private ServerSocket serverSocket;
+    private Thread socketHandlerThread;
+    private CountDownLatch countDownLatch = new CountDownLatch(1);
 
-    public HttpMockServer() throws IOException {
+
+    public void start() throws IOException {
         serverSocket = new ServerSocket(findAvailablePort());
 
         socketHandlerThread = new Thread(this);
         socketHandlerThread.start();
+    }
+
+    public void stop() {
+        if (socketHandlerThread != null) {
+            socketHandlerThread.interrupt();
+            Thread.yield();
+            try {
+                countDownLatch.await(250, MILLISECONDS);
+            } catch (InterruptedException e) {
+                socketHandlerThread.stop();
+            }
+        }
     }
 
     @Override
@@ -87,6 +104,8 @@ public class HttpMockServer implements Closeable, Runnable {
             in.close();
         } catch (IOException e) {
             throw new IllegalStateException(e);
+        } finally {
+            countDownLatch.countDown();
         }
     }
 
@@ -209,8 +228,7 @@ public class HttpMockServer implements Closeable, Runnable {
             ds = new DatagramSocket(port);
             ds.setReuseAddress(true);
             return true;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
         } finally {
             if (ds != null) {
                 ds.close();

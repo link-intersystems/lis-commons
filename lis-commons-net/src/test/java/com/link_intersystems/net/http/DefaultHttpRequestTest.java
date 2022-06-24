@@ -1,9 +1,11 @@
 package com.link_intersystems.net.http;
 
 import com.link_intersystems.net.http.test.HttpMockServer;
+import com.link_intersystems.net.http.test.junit.HttpMockServerExtension;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.io.IOException;
 import java.net.URI;
@@ -20,14 +22,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
+@ExtendWith(HttpMockServerExtension.class)
 public class DefaultHttpRequestTest {
 
     private HttpMockServer httpMockServer;
     private HttpRequestFactory requestFactory;
 
     @BeforeEach
-    void setUp() throws IOException {
-        httpMockServer = new HttpMockServer();
+    void setUp(HttpMockServer httpMockServer) {
+        this.httpMockServer = httpMockServer;
         requestFactory = new DefaultHttpRequestFactory();
         requestFactory.setReadTimeout(Duration.of(1, ChronoUnit.SECONDS));
     }
