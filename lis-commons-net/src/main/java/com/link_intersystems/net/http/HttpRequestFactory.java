@@ -3,6 +3,7 @@ package com.link_intersystems.net.http;
 import java.net.URL;
 import java.time.Duration;
 
+import static com.link_intersystems.net.http.HttpMethod.*;
 import static java.time.temporal.ChronoUnit.MINUTES;
 import static java.time.temporal.ChronoUnit.SECONDS;
 
@@ -31,33 +32,33 @@ public abstract class HttpRequestFactory {
     }
 
     public HttpRequest get(URL url) {
-        return createRequest("GET", url);
+        return createRequest(GET, url);
     }
 
     public HttpRequest post(URL url) {
-        HttpRequest httpRequest = createRequest("POST", url);
+        HttpRequest httpRequest = createRequest(POST, url);
         httpRequest.setWithOutput(true);
         return httpRequest;
     }
 
     public HttpRequest put(URL url) {
-        HttpRequest httpRequest = createRequest("PUT", url);
+        HttpRequest httpRequest = createRequest(PUT, url);
         httpRequest.setWithOutput(true);
         return httpRequest;
     }
 
     public HttpRequest delete(URL url) {
-        HttpRequest httpRequest = createRequest("DELETE", url);
+        HttpRequest httpRequest = createRequest(DELETE, url);
         httpRequest.setWithOutput(true);
         return httpRequest;
     }
 
-    protected HttpRequest createRequest(String method, URL url) {
+    protected HttpRequest createRequest(HttpMethod method, URL url) {
         HttpRequestImplementor implementor = createImplementor(method, this);
         return new HttpRequest(url, implementor);
     }
 
-    protected abstract HttpRequestImplementor createImplementor(String method, HttpRequestFactory httpRequestFactory);
+    protected abstract HttpRequestImplementor createImplementor(HttpMethod method, HttpRequestFactory httpRequestFactory);
 
 
 }

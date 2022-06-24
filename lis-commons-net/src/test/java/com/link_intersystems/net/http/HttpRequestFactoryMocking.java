@@ -19,9 +19,8 @@ public class HttpRequestFactoryMocking extends HttpRequestFactory {
     private final ByteArrayOutputStream outputStream;
     private HttpRequestImplementor requestImplementor;
     private PreparedRequest preparedRequest;
-    private String method;
+    private HttpMethod method;
 
-    @SuppressWarnings("unchecked")
     HttpRequestFactoryMocking() throws IOException {
         requestImplementor = mock(HttpRequestImplementor.class);
         preparedRequest = mock(PreparedRequest.class);
@@ -32,12 +31,12 @@ public class HttpRequestFactoryMocking extends HttpRequestFactory {
     }
 
     @Override
-    protected HttpRequestImplementor createImplementor(String method, HttpRequestFactory httpRequestFactory) {
+    protected HttpRequestImplementor createImplementor(HttpMethod method, HttpRequestFactory httpRequestFactory) {
         this.method = method;
         return requestImplementor;
     }
 
-    void assertRequest(String expectedMethod, String expectedUrl, Map<String, String> expectedHeaders) throws IOException {
+    void assertRequest(HttpMethod expectedMethod, String expectedUrl, Map<String, String> expectedHeaders) throws IOException {
         Assertions.assertEquals(expectedMethod, this.method, "HTTP method");
         HttpHeaders httpHeaders = new HttpHeaders();
         expectedHeaders.forEach(httpHeaders::add);
@@ -45,7 +44,7 @@ public class HttpRequestFactoryMocking extends HttpRequestFactory {
         verify(preparedRequest).execute();
     }
 
-    public void assertRequestWithContent(String expectedMethod, String expectedUrl, Map<String, String> expectedHeaders, byte[] expectedContent) throws IOException {
+    public void assertRequestWithContent(HttpMethod expectedMethod, String expectedUrl, Map<String, String> expectedHeaders, byte[] expectedContent) throws IOException {
         assertRequest(expectedMethod, expectedUrl, expectedHeaders);
 
         byte[] content = outputStream.toByteArray();

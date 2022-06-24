@@ -13,16 +13,12 @@ import static java.util.Objects.requireNonNull;
  */
 public class JavaHttpRequestImplementor implements HttpRequestImplementor {
 
-    private String method;
+    private HttpMethod method;
     private HttpRequestFactory httpRequestFactory;
     private boolean doOutput;
 
-    public JavaHttpRequestImplementor(String method, HttpRequestFactory httpRequestFactory) {
-        this.method = requireNonNull(method).trim();
-
-        if (this.method.isEmpty()) {
-            throw new IllegalArgumentException("method must not be empty");
-        }
+    public JavaHttpRequestImplementor(HttpMethod method, HttpRequestFactory httpRequestFactory) {
+        this.method = requireNonNull(method);
 
         this.httpRequestFactory = requireNonNull(httpRequestFactory);
     }
@@ -44,7 +40,7 @@ public class JavaHttpRequestImplementor implements HttpRequestImplementor {
             conn.setReadTimeout((int) readTimeout.toMillis());
         }
 
-        conn.setRequestMethod(method);
+        conn.setRequestMethod(method.name());
         conn.setDoOutput(doOutput);
         return conn;
     }

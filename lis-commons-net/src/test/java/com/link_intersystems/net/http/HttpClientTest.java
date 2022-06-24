@@ -1,7 +1,6 @@
 package com.link_intersystems.net.http;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -10,11 +9,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Stream;
+
+import static com.link_intersystems.net.http.HttpMethod.*;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
@@ -43,18 +43,23 @@ class HttpClientTest {
         contentWriter = outputStream -> outputStream.write("Hello World".getBytes(StandardCharsets.UTF_8));
     }
 
-    static Stream<String> allHttpMethods() {
-        return Stream.of("POST", "PUT", "DELETE", "GET");
+    static Stream<HttpMethod> allHttpMethods() {
+        return Stream.of(GET, POST, PUT, DELETE);
     }
 
-    static Stream<String> contentSupportedHttpMethods() {
-        return Stream.of("POST", "PUT", "DELETE");
+    static Stream<HttpMethod> contentSupportedHttpMethods() {
+        return Stream.of(POST, PUT, DELETE);
+    }
+
+    private Method getHttpClientMethod(HttpMethod httpMethod, Class<?>... params) throws NoSuchMethodException {
+        return HttpClient.class.getDeclaredMethod(httpMethod.name().toLowerCase(), params);
     }
 
     @ParameterizedTest
     @MethodSource("allHttpMethods")
-    void requestUrlString(String httpMethod) throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method httpClientMethod = HttpClient.class.getDeclaredMethod(httpMethod.toLowerCase(), String.class);
+    void requestUrlString(HttpMethod httpMethod) throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+
+        Method httpClientMethod = getHttpClientMethod(httpMethod, String.class);
 
         httpClientMethod.invoke(httpClient, TEST_URL);
 
@@ -63,8 +68,8 @@ class HttpClientTest {
 
     @ParameterizedTest
     @MethodSource("contentSupportedHttpMethods")
-    void requestUrlStringWithContent(String httpMethod) throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method httpClientMethod = HttpClient.class.getDeclaredMethod(httpMethod.toLowerCase(), String.class, ContentWriter.class);
+    void requestUrlStringWithContent(HttpMethod httpMethod) throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Method httpClientMethod = getHttpClientMethod(httpMethod, String.class, ContentWriter.class);
 
         httpClientMethod.invoke(httpClient, TEST_URL, contentWriter);
 
@@ -73,8 +78,8 @@ class HttpClientTest {
 
     @ParameterizedTest
     @MethodSource("contentSupportedHttpMethods")
-    void requestUrlStringWithHeadersAndContent(String httpMethod) throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method httpClientMethod = HttpClient.class.getDeclaredMethod(httpMethod.toLowerCase(), String.class, Map.class, ContentWriter.class);
+    void requestUrlStringWithHeadersAndContent(HttpMethod httpMethod) throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Method httpClientMethod = getHttpClientMethod(httpMethod, String.class, Map.class, ContentWriter.class);
 
         httpClientMethod.invoke(httpClient, TEST_URL, headers, contentWriter);
 
@@ -83,8 +88,8 @@ class HttpClientTest {
 
     @ParameterizedTest
     @MethodSource("allHttpMethods")
-    void requestUrlStringWithHeaders(String httpMethod) throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method httpClientMethod = HttpClient.class.getDeclaredMethod(httpMethod.toLowerCase(), String.class, Map.class);
+    void requestUrlStringWithHeaders(HttpMethod httpMethod) throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Method httpClientMethod = getHttpClientMethod(httpMethod, String.class, Map.class);
 
         httpClientMethod.invoke(httpClient, TEST_URL, headers);
 
@@ -93,8 +98,8 @@ class HttpClientTest {
 
     @ParameterizedTest
     @MethodSource("allHttpMethods")
-    void requestURL(String httpMethod) throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method httpClientMethod = HttpClient.class.getDeclaredMethod(httpMethod.toLowerCase(), URL.class);
+    void requestURL(HttpMethod httpMethod) throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Method httpClientMethod = getHttpClientMethod(httpMethod, URL.class);
 
         httpClientMethod.invoke(httpClient, new URL(TEST_URL));
 
@@ -103,8 +108,8 @@ class HttpClientTest {
 
     @ParameterizedTest
     @MethodSource("contentSupportedHttpMethods")
-    void requestURLWithContent(String httpMethod) throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method httpClientMethod = HttpClient.class.getDeclaredMethod(httpMethod.toLowerCase(), URL.class, ContentWriter.class);
+    void requestURLWithContent(HttpMethod httpMethod) throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Method httpClientMethod = getHttpClientMethod(httpMethod, URL.class, ContentWriter.class);
 
         httpClientMethod.invoke(httpClient, new URL(TEST_URL), contentWriter);
 
@@ -113,8 +118,8 @@ class HttpClientTest {
 
     @ParameterizedTest
     @MethodSource("contentSupportedHttpMethods")
-    void requestURLWithHeadersAndContent(String httpMethod) throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method httpClientMethod = HttpClient.class.getDeclaredMethod(httpMethod.toLowerCase(), URL.class, Map.class, ContentWriter.class);
+    void requestURLWithHeadersAndContent(HttpMethod httpMethod) throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Method httpClientMethod = getHttpClientMethod(httpMethod, URL.class, Map.class, ContentWriter.class);
 
         httpClientMethod.invoke(httpClient, new URL(TEST_URL), headers, contentWriter);
 
@@ -123,8 +128,8 @@ class HttpClientTest {
 
     @ParameterizedTest
     @MethodSource("allHttpMethods")
-    void requestURLWithHeaders(String httpMethod) throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method httpClientMethod = HttpClient.class.getDeclaredMethod(httpMethod.toLowerCase(), URL.class, Map.class);
+    void requestURLWithHeaders(HttpMethod httpMethod) throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Method httpClientMethod = getHttpClientMethod(httpMethod, URL.class, Map.class);
 
         httpClientMethod.invoke(httpClient, new URL(TEST_URL), headers);
 

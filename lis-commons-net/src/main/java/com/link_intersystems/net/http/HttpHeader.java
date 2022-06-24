@@ -1,5 +1,6 @@
 package com.link_intersystems.net.http;
 
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -26,10 +27,17 @@ public class HttpHeader {
         this.name = normalizedName(name);
 
         if (values == null) {
-            throw new IllegalArgumentException("header values must not be null");
+            String msg = MessageFormat.format("header ''{0}'' values must not be null", name);
+            throw new IllegalArgumentException(msg);
         }
         if (values.isEmpty()) {
-            throw new IllegalArgumentException("header values must not be empty");
+            String msg = MessageFormat.format("header ''{0}'' values must not be empty", name);
+            throw new IllegalArgumentException(msg);
+        }
+
+        if (values.contains(null)) {
+            String msg = MessageFormat.format("header ''{0}'' values must not contain ''null'' values", name);
+            throw new IllegalArgumentException(msg);
         }
 
         this.values = normalizeValues(values);
