@@ -1,5 +1,6 @@
 package com.link_intersystems.net.http;
 
+import com.link_intersystems.net.http.test.HttpMockServer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

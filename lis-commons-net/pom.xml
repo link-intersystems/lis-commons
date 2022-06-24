@@ -13,4 +13,11 @@
     <name>LIS Commons Net</name>
     <description>Pure Java based networking tools.</description>
 
+
+    <dependencies>
+        <dependency>
+            <groupId>com.link-intersystems.commons</groupId>
+            <artifactId>lis-commons-net-test</artifactId>
+        </dependency>
+    </dependencies>
 </project>

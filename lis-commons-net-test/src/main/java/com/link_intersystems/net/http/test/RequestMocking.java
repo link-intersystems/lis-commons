@@ -1,4 +1,4 @@
-package com.link_intersystems.net.http;
+package com.link_intersystems.net.http.test;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}

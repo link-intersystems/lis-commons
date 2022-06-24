@@ -33,6 +33,7 @@
         <module>lis-commons-sql</module>
         <module>lis-commons-sql-hibernate</module>
         <module>lis-commons-net</module>
+        <module>lis-commons-net-test</module>
     </modules>
 
     <properties>
@@ -102,6 +103,17 @@
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-sql</artifactId>
                 <version>1.6.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.link-intersystems.commons</groupId>
+                <artifactId>lis-commons-net</artifactId>
+                <version>1.6.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.link-intersystems.commons</groupId>
+                <artifactId>lis-commons-net-test</artifactId>
+                <version>1.6.0-SNAPSHOT</version>
+                <scope>test</scope>
             </dependency>
 
             <dependency>

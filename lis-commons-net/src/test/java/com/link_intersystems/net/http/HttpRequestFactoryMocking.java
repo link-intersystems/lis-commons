@@ -1,8 +1,7 @@
 package com.link_intersystems.net.http;
 
-import org.junit.jupiter.api.Assertions;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
+import org.mockito.ArgumentMatchers;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -10,7 +9,6 @@ import java.net.URL;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 /**
@@ -30,7 +28,7 @@ public class HttpRequestFactoryMocking extends HttpRequestFactory implements Htt
         outputStream = new ByteArrayOutputStream();
         requestCustomizer = mock(HttpRequestCustomizer.class);
 
-        when(requestImplementor.prepare(any(HttpRequest.class))).thenReturn(preparedRequest);
+        when(requestImplementor.prepare(ArgumentMatchers.any(HttpRequest.class))).thenReturn(preparedRequest);
         when(preparedRequest.getOutputStream()).thenReturn(outputStream);
     }
 
@@ -46,7 +44,7 @@ public class HttpRequestFactoryMocking extends HttpRequestFactory implements Htt
     }
 
     void assertRequest(HttpMethod expectedMethod, String expectedUrl, HttpHeaders expectedHeaders) throws IOException {
-        Assertions.assertEquals(expectedMethod, this.method, "HTTP method");
+        assertEquals(expectedMethod, this.method, "HTTP method");
         ArgumentCaptor<HttpRequest> requestCaptor = ArgumentCaptor.forClass(HttpRequest.class);
         verify(requestImplementor).prepare(requestCaptor.capture());
 
