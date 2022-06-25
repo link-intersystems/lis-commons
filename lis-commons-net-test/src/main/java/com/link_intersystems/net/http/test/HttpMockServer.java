@@ -78,6 +78,13 @@ public class HttpMockServer implements Closeable, Runnable {
         socketHandlerThread.start();
     }
 
+    public int getPort() {
+        if (serverSocket == null) {
+            throw new IllegalStateException("HttpMockServer not started yet");
+        }
+        return serverSocket.getLocalPort();
+    }
+
     public void stop() {
         if (socketHandlerThread != null) {
             socketHandlerThread.interrupt();
