@@ -278,4 +278,34 @@ class TextTableTest {
                         "+------------+-----------------+-------+", table);
 
     }
+
+    @Test
+    void customPresentation() throws IOException {
+        DefaultTableModel tableModel = new DefaultTableModel(new String[]{"A", "B", "C"}, 0);
+        TextTable textTable = new TextTable(tableModel);
+
+        textTable.setColumnWidth(10);
+
+        TextTablePresentation presentation = TextTablePresentation.unicodeBox();
+        textTable.setPresentation(presentation);
+
+        textTable.setTitle("Title");
+        tableModel.addRow(new Object[]{"A1", "B1", "C1"});
+        tableModel.addRow(new Object[]{"A2", "B2", "C2"});
+
+        String table = renderTable(textTable);
+
+        assertEquals(
+                "" +
+                        "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n" +
+                        "┃ Title                                         ┃\n" +
+                        "┣━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┫\n" +
+                        "┃   A           ┃   B           ┃   C           ┃\n" +
+                        "┣━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━┫\n" +
+                        "┃   A1          ┃   B1          ┃   C1          ┃\n" +
+                        "┣━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━┫\n" +
+                        "┃   A2          ┃   B2          ┃   C2          ┃\n" +
+                        "┗━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━┛", table);
+
+    }
 }

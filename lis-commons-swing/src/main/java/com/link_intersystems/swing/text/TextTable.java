@@ -28,6 +28,7 @@ import java.util.Objects;
  */
 public class TextTable {
 
+    private TextTablePresentation presentation = new TextTablePresentation();
     private int[] columnWidths = null;
     private String title;
     private boolean headerEnabled = true;
@@ -41,6 +42,7 @@ public class TextTable {
     };
 
     private TableModel tableModel = new DefaultTableModel();
+    private boolean firstRow = true;
 
     public TextTable() {
     }
@@ -91,7 +93,7 @@ public class TextTable {
     private int getWidth() {
         int columnCount = tableModel.getColumnCount();
         int sumColumnWidths = getSumColumnWidths();
-        return sumColumnWidths + (3 * columnCount) + 1;
+        return sumColumnWidths + ((presentation.cellLeftPad + presentation.cellRightPad + 1) * columnCount) + 1;
     }
 
     public void setColumnWidth(int columnWidthForEachColumn) {
@@ -144,20 +146,21 @@ public class TextTable {
         }
 
         printRows(writer);
+        firstRow = true;
     }
 
 
     private void printTitle(Writer writer) throws IOException {
         char[] line = new char[getWidth()];
-        Arrays.fill(line, '-');
-        line[0] = '+';
-        line[line.length - 1] = '+';
+        Arrays.fill(line, presentation.horizontalLine);
+        line[0] = presentation.topLeftCorner;
+        line[line.length - 1] = presentation.topRightCorner;
         writer.write(line);
         newLine(writer);
 
-        Arrays.fill(line, ' ');
-        line[0] = '|';
-        line[line.length - 1] = '|';
+        Arrays.fill(line, presentation.padChar);
+        line[0] = presentation.verticalLine;
+        line[line.length - 1] = presentation.verticalLine;
         int titleWidth = getWidth() - 4;
         String abbreviated = abbreviate(title, titleWidth);
         System.arraycopy(abbreviated.toCharArray(), 0, line, 2, abbreviated.length());
@@ -217,47 +220,71 @@ public class TextTable {
         newLine(writer);
 
         line = rowLine();
-        fillRowSeparator(line);
+        if (rowIndex < tableModel.getRowCount() - 1) {
+            fillRowSeparator(line);
+        } else {
+            fillRowSeparatorBottom(line);
+        }
         writer.write(line);
     }
 
 
     private char[] rowLine() {
         char[] line = new char[getWidth()];
-        Arrays.fill(line, ' ');
-        line[0] = '|';
-        line[line.length - 1] = '|';
-        fillSeparator(line, '|');
+        Arrays.fill(line, presentation.padChar);
+        line[0] = presentation.verticalLine;
+        line[line.length - 1] = presentation.verticalLine;
+        fillSeparator(line, presentation.verticalLine);
         return line;
     }
 
     private void fillColumns(char[] line, String[] columns) {
-        int headerTextIndex = 2;
+        int headerTextIndex = 1 + presentation.cellLeftPad;
         int[] columnWidths = getColumnWidthInternal();
         for (int i = 0; i < columns.length; i++) {
             String header = columns[i];
             String abbreviated = abbreviate(header, columnWidths[i]);
             System.arraycopy(abbreviated.toCharArray(), 0, line, headerTextIndex, abbreviated.length());
-            headerTextIndex += columnWidths[i] + 3;
+            headerTextIndex += columnWidths[i] + presentation.cellLeftPad + presentation.cellRightPad + 1;
         }
     }
 
+    private void fillRowSeparatorTop(char[] line) {
+        Arrays.fill(line, presentation.horizontalLine);
+        line[0] = presentation.crossLinesLeft;
+        line[line.length - 1] = presentation.crossLinesRight;
+        fillSeparator(line, presentation.crossLinesTop);
+    }
+
+    private void fillRowSeparatorBottom(char[] line) {
+        Arrays.fill(line, presentation.horizontalLine);
+        line[0] = presentation.bottomLeftCorner;
+        line[line.length - 1] = presentation.bottomRightCorner;
+        fillSeparator(line, presentation.crossLinesBottom);
+    }
+
     private void fillRowSeparator(char[] line) {
-        Arrays.fill(line, '-');
-        line[0] = '+';
-        line[line.length - 1] = '+';
-        fillSeparator(line, '+');
+        if (firstRow) {
+            fillRowSeparatorTop(line);
+            firstRow = false;
+        } else {
+            Arrays.fill(line, presentation.horizontalLine);
+            line[0] = presentation.crossLinesLeft;
+            line[line.length - 1] = presentation.crossLinesRight;
+            fillSeparator(line, presentation.crossLines);
+        }
     }
 
     private void fillSeparator(char[] line, char separator) {
         int[] columnWidths = getColumnWidthInternal();
         if (columnWidths.length > 0) {
-            int separatorIndex = 3;
+            int separatorIndex = presentation.cellLeftPad + presentation.cellRightPad + 1;
 
-            for (int columnWidth : columnWidths) {
+            for (int i = 0; i < columnWidths.length - 1; i++) {
+                int columnWidth = columnWidths[i];
                 separatorIndex += columnWidth;
                 line[separatorIndex] = separator;
-                separatorIndex += 3;
+                separatorIndex += presentation.cellLeftPad + presentation.cellRightPad + 1;
             }
         }
     }
@@ -280,4 +307,11 @@ public class TextTable {
     }
 
 
+    public void setPresentation(TextTablePresentation presentation) {
+        this.presentation = Objects.requireNonNull(presentation);
+    }
+
+    public TextTablePresentation getPresentation() {
+        return presentation;
+    }
 }
