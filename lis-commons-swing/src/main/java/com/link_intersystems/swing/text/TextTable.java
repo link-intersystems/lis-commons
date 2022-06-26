@@ -1,5 +1,6 @@
 package com.link_intersystems.swing.text;
 
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableStringConverter;
@@ -28,9 +29,10 @@ import java.util.Objects;
  */
 public class TextTable {
 
-    private TextTablePresentation presentation = new TextTablePresentation();
+    private TextTablePresentation presentation = TextTablePresentation.DEFAULT;
     private int[] columnWidths = null;
     private String title;
+    private TextAlignment titleAlignment = StandardTextAlignments.LEFT;
     private boolean headerEnabled = true;
 
     private TableStringConverter tableStringConverter = new TableStringConverter() {
@@ -121,7 +123,12 @@ public class TextTable {
     }
 
     public void setTitle(String title) {
+        setTitle(title, StandardTextAlignments.LEFT);
+    }
+
+    public void setTitle(String title, TextAlignment alignment) {
         this.title = title;
+        this.titleAlignment = Objects.requireNonNull(alignment);
     }
 
     public void print(Writer writer) throws IOException {
@@ -161,9 +168,11 @@ public class TextTable {
         Arrays.fill(line, presentation.padChar);
         line[0] = presentation.verticalLine;
         line[line.length - 1] = presentation.verticalLine;
-        int titleWidth = getWidth() - 4;
+        int titleWidth = getWidth() - (presentation.titleLeftPad + presentation.titleRightPad) - 2;
         String abbreviated = abbreviate(title, titleWidth);
-        System.arraycopy(abbreviated.toCharArray(), 0, line, 2, abbreviated.length());
+
+        String alignedTitle = titleAlignment.align(abbreviated, titleWidth, presentation.padChar);
+        System.arraycopy(alignedTitle.toCharArray(), 0, line, presentation.titleLeftPad + 1, alignedTitle.length());
         writer.write(line);
         newLine(writer);
 
@@ -238,7 +247,7 @@ public class TextTable {
         return line;
     }
 
-    private void fillColumns(char[] line, String[] columns) {
+    private void fillColumns(char[] line, String... columns) {
         int headerTextIndex = 1 + presentation.cellLeftPad;
         int[] columnWidths = getColumnWidthInternal();
         for (int i = 0; i < columns.length; i++) {
@@ -290,7 +299,7 @@ public class TextTable {
     }
 
     private String abbreviate(String text, int width) {
-        if (text.length() < width) {
+        if (text.length() <= width) {
             return text;
         }
         char[] name = text.toCharArray();

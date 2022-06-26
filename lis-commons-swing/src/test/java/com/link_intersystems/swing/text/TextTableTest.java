@@ -105,6 +105,40 @@ class TextTableTest {
     }
 
     @Test
+    void titleAlignmentCenter() throws IOException {
+        DefaultTableModel defaultTableModel = new DefaultTableModel(0, 1);
+        TextTable textTable = new TextTable(defaultTableModel);
+        textTable.setHeaderEnabled(false);
+        textTable.setTitle("Title", StandardTextAlignments.CENTER);
+
+        String table = renderTable(textTable);
+
+        assertEquals(
+                "" +
+                        "+--------------------------------+\n" +
+                        "|              Title             |\n" +
+                        "+--------------------------------+", table);
+
+    }
+
+    @Test
+    void titleAlignmentRight() throws IOException {
+        DefaultTableModel defaultTableModel = new DefaultTableModel(0, 1);
+        TextTable textTable = new TextTable(defaultTableModel);
+        textTable.setHeaderEnabled(false);
+        textTable.setTitle("Title", StandardTextAlignments.RIGHT);
+
+        String table = renderTable(textTable);
+
+        assertEquals(
+                "" +
+                        "+--------------------------------+\n" +
+                        "|                          Title |\n" +
+                        "+--------------------------------+", table);
+
+    }
+
+    @Test
     void onlyRows() throws IOException {
         DefaultTableModel defaultTableModel = new DefaultTableModel(0, 1);
         TextTable textTable = new TextTable(defaultTableModel);
@@ -286,7 +320,10 @@ class TextTableTest {
 
         textTable.setColumnWidth(10);
 
-        TextTablePresentation presentation = TextTablePresentation.unicodeBox();
+        TextTablePresentation presentation = TextTablePresentation
+                .unicodeBoxBuilder()
+                .setCellLeftPad(3)
+                .build();
         textTable.setPresentation(presentation);
 
         textTable.setTitle("Title");
@@ -297,15 +334,15 @@ class TextTableTest {
 
         assertEquals(
                 "" +
-                        "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n" +
-                        "┃ Title                                         ┃\n" +
-                        "┣━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┫\n" +
-                        "┃   A           ┃   B           ┃   C           ┃\n" +
-                        "┣━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━┫\n" +
-                        "┃   A1          ┃   B1          ┃   C1          ┃\n" +
-                        "┣━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━┫\n" +
-                        "┃   A2          ┃   B2          ┃   C2          ┃\n" +
-                        "┗━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━┛", table);
+                        "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n" +
+                        "┃ Title                                      ┃\n" +
+                        "┣━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┫\n" +
+                        "┃   A          ┃   B          ┃   C          ┃\n" +
+                        "┣━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━┫\n" +
+                        "┃   A1         ┃   B1         ┃   C1         ┃\n" +
+                        "┣━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━┫\n" +
+                        "┃   A2         ┃   B2         ┃   C2         ┃\n" +
+                        "┗━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━┛", table);
 
     }
 }
