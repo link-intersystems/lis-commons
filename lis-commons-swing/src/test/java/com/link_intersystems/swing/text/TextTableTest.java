@@ -14,7 +14,7 @@ class TextTableTest {
     @Test
     void defaultTextTable() throws IOException {
         TextTable textTable = new TextTable();
-        assertThrows(IllegalArgumentException.class, () -> textTable.setColumnWidth(2));
+        assertThrows(IllegalArgumentException.class, () -> textTable.setAllColumnWidth(2));
 
         String table = renderTable(textTable);
 
@@ -36,8 +36,8 @@ class TextTableTest {
     void setColumnWidth() {
         DefaultTableModel defaultTableModel = new DefaultTableModel(0, 1);
         TextTable textTable = new TextTable(defaultTableModel);
-        textTable.setColumnWidth(4);
-        assertThrows(IllegalArgumentException.class, () -> textTable.setColumnWidth(3));
+        textTable.setAllColumnWidth(4);
+        assertThrows(IllegalArgumentException.class, () -> textTable.setAllColumnWidth(3));
 
     }
 
@@ -212,7 +212,7 @@ class TextTableTest {
     void tableWith3ColumnsWithoutHeaderAndColumnWidth10() throws IOException {
         DefaultTableModel tableModel = new DefaultTableModel(0, 3);
         TextTable textTable = new TextTable(tableModel);
-        textTable.setColumnWidth(10);
+        textTable.setAllColumnWidth(10);
         textTable.setTitle("Title");
 
         String table = renderTable(textTable);
@@ -231,7 +231,7 @@ class TextTableTest {
     void tableWith3Columns() throws IOException {
         DefaultTableModel tableModel = new DefaultTableModel(new String[]{"Col1", "Col2", "Col3"}, 0);
         TextTable textTable = new TextTable(tableModel);
-        textTable.setColumnWidth(10);
+        textTable.setAllColumnWidth(10);
         textTable.setTitle("Title");
 
         String table = renderTable(textTable);
@@ -251,7 +251,7 @@ class TextTableTest {
     void tableWith3ColumnsAnd2Rows() throws IOException {
         DefaultTableModel tableModel = new DefaultTableModel(new String[]{"A", "B", "C"}, 0);
         TextTable textTable = new TextTable(tableModel);
-        textTable.setColumnWidth(10);
+        textTable.setAllColumnWidth(10);
         textTable.setTitle("Title");
         textTable.setTableModel(tableModel);
         tableModel.addRow(new Object[]{"A1", "B1", "C1"});
@@ -318,7 +318,7 @@ class TextTableTest {
         DefaultTableModel tableModel = new DefaultTableModel(new String[]{"A", "B", "C"}, 0);
         TextTable textTable = new TextTable(tableModel);
 
-        textTable.setColumnWidth(10);
+        textTable.setAllColumnWidth(10);
 
         TextTablePresentation presentation = TextTablePresentation
                 .unicodeBoxBuilder()

@@ -1,13 +1,14 @@
 package com.link_intersystems.swing.text;
 
-import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableStringConverter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Arrays;
-import java.util.Objects;
+
+import static java.util.Arrays.stream;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Prints a table based on a {@link javax.swing.table.TableModel}. In addition to a {@link javax.swing.table.TableModel}
@@ -29,6 +30,7 @@ import java.util.Objects;
  */
 public class TextTable {
 
+    public static final int MIN_COLUMN_WIDTH = 4;
     private TextTablePresentation presentation = TextTablePresentation.DEFAULT;
     private int[] columnWidths = null;
     private String title;
@@ -66,7 +68,7 @@ public class TextTable {
         columnWidths = null;
     }
 
-    private int[] getColumnWidthInternal() {
+    private int[] getColumnWidthsInternal() {
         if (columnWidths == null) {
             int columnCount = getTableModel().getColumnCount();
             columnWidths = new int[columnCount];
@@ -75,13 +77,13 @@ public class TextTable {
         return columnWidths;
     }
 
-    private int getSumColumnWidths() {
-        int[] columnWidths = getColumnWidthInternal();
-        return Arrays.stream(columnWidths).reduce(0, Integer::sum);
+    private int getTotalColumnWidth() {
+        int[] columnWidths = getColumnWidthsInternal();
+        return stream(columnWidths).reduce(0, Integer::sum);
     }
 
     public void setTableStringConverter(TableStringConverter tableStringConverter) {
-        this.tableStringConverter = Objects.requireNonNull(tableStringConverter);
+        this.tableStringConverter = requireNonNull(tableStringConverter);
     }
 
     public void setHeaderEnabled(boolean headerEnabled) {
@@ -94,16 +96,16 @@ public class TextTable {
 
     private int getWidth() {
         int columnCount = tableModel.getColumnCount();
-        int sumColumnWidths = getSumColumnWidths();
-        return sumColumnWidths + ((presentation.cellLeftPad + presentation.cellRightPad + 1) * columnCount) + 1;
+        int totalColumnWidth = getTotalColumnWidth();
+        int cellPadWidth = presentation.cellLeftPad + presentation.cellRightPad;
+        int cellEdgeWidth = 1;
+        return totalColumnWidth + ((cellPadWidth + cellEdgeWidth) * columnCount) + cellEdgeWidth;
     }
 
-    public void setColumnWidth(int columnWidthForEachColumn) {
-        if (columnWidthForEachColumn < 4) {
-            throw new IllegalArgumentException("A column width must be at least 4, but was " + columnWidthForEachColumn);
-        }
-        int[] columnWidths = getColumnWidthInternal();
-        Arrays.fill(columnWidths, columnWidthForEachColumn);
+    public void setAllColumnWidth(int columnWidth) {
+        checkColumnWidth(columnWidth);
+        int[] columnWidths = getColumnWidthsInternal();
+        Arrays.fill(columnWidths, columnWidth);
     }
 
     public int[] getColumnWidths() {
@@ -115,11 +117,17 @@ public class TextTable {
     }
 
     public void setColumnWidth(int column, int width) {
-        if (width < 4) {
-            throw new IllegalArgumentException("A column width must be at least 4, but was " + width);
-        }
-        int[] columnWidths = getColumnWidthInternal();
+        checkColumnWidth(width);
+        int[] columnWidths = getColumnWidthsInternal();
         columnWidths[column] = width;
+    }
+
+    private void checkColumnWidth(int width) {
+        if (width < MIN_COLUMN_WIDTH) {
+            throw new IllegalArgumentException("A column width must be at least " +
+                    MIN_COLUMN_WIDTH +
+                    ", but was " + width);
+        }
     }
 
     public void setTitle(String title) {
@@ -128,7 +136,7 @@ public class TextTable {
 
     public void setTitle(String title, TextAlignment alignment) {
         this.title = title;
-        this.titleAlignment = Objects.requireNonNull(alignment);
+        this.titleAlignment = requireNonNull(alignment);
     }
 
     public void print(Writer writer) throws IOException {
@@ -160,15 +168,16 @@ public class TextTable {
     private void printTitle(Writer writer) throws IOException {
         char[] line = new char[getWidth()];
         Arrays.fill(line, presentation.horizontalLine);
-        line[0] = presentation.topLeftCorner;
-        line[line.length - 1] = presentation.topRightCorner;
+        setEdges(line, presentation.topLeftCorner, presentation.topRightCorner);
         writer.write(line);
         newLine(writer);
 
         Arrays.fill(line, presentation.padChar);
-        line[0] = presentation.verticalLine;
-        line[line.length - 1] = presentation.verticalLine;
-        int titleWidth = getWidth() - (presentation.titleLeftPad + presentation.titleRightPad) - 2;
+        setEdges(line, presentation.verticalLine, presentation.verticalLine);
+
+        int titlePadWidth = presentation.titleLeftPad + presentation.titleRightPad;
+        int edgeWidth = 2;
+        int titleWidth = getWidth() - titlePadWidth - edgeWidth;
         String abbreviated = abbreviate(title, titleWidth);
 
         String alignedTitle = titleAlignment.align(abbreviated, titleWidth, presentation.padChar);
@@ -179,6 +188,11 @@ public class TextTable {
         fillRowSeparator(line);
 
         writer.write(line);
+    }
+
+    private void setEdges(char[] line, char leftEdge, char rightEdge) {
+        line[0] = leftEdge;
+        line[line.length - 1] = rightEdge;
     }
 
     private void printHeader(Writer writer) throws IOException {
@@ -215,7 +229,7 @@ public class TextTable {
     private void printRow(Writer writer, int rowIndex) throws IOException {
         newLine(writer);
 
-        int[] columnWidths = getColumnWidthInternal();
+        int[] columnWidths = getColumnWidthsInternal();
 
         char[] line = rowLine();
         String[] values = new String[tableModel.getColumnCount()];
@@ -241,15 +255,14 @@ public class TextTable {
     private char[] rowLine() {
         char[] line = new char[getWidth()];
         Arrays.fill(line, presentation.padChar);
-        line[0] = presentation.verticalLine;
-        line[line.length - 1] = presentation.verticalLine;
+        setEdges(line, presentation.verticalLine, presentation.verticalLine);
         fillSeparator(line, presentation.verticalLine);
         return line;
     }
 
     private void fillColumns(char[] line, String... columns) {
         int headerTextIndex = 1 + presentation.cellLeftPad;
-        int[] columnWidths = getColumnWidthInternal();
+        int[] columnWidths = getColumnWidthsInternal();
         for (int i = 0; i < columns.length; i++) {
             String header = columns[i];
             String abbreviated = abbreviate(header, columnWidths[i]);
@@ -260,15 +273,13 @@ public class TextTable {
 
     private void fillRowSeparatorTop(char[] line) {
         Arrays.fill(line, presentation.horizontalLine);
-        line[0] = presentation.crossLinesLeft;
-        line[line.length - 1] = presentation.crossLinesRight;
+        setEdges(line, presentation.crossLinesLeft, presentation.crossLinesRight);
         fillSeparator(line, presentation.crossLinesTop);
     }
 
     private void fillRowSeparatorBottom(char[] line) {
         Arrays.fill(line, presentation.horizontalLine);
-        line[0] = presentation.bottomLeftCorner;
-        line[line.length - 1] = presentation.bottomRightCorner;
+        setEdges(line, presentation.bottomLeftCorner, presentation.bottomRightCorner);
         fillSeparator(line, presentation.crossLinesBottom);
     }
 
@@ -278,14 +289,13 @@ public class TextTable {
             firstRow = false;
         } else {
             Arrays.fill(line, presentation.horizontalLine);
-            line[0] = presentation.crossLinesLeft;
-            line[line.length - 1] = presentation.crossLinesRight;
+            setEdges(line, presentation.crossLinesLeft, presentation.crossLinesRight);
             fillSeparator(line, presentation.crossLines);
         }
     }
 
     private void fillSeparator(char[] line, char separator) {
-        int[] columnWidths = getColumnWidthInternal();
+        int[] columnWidths = getColumnWidthsInternal();
         if (columnWidths.length > 0) {
             int separatorIndex = presentation.cellLeftPad + presentation.cellRightPad + 1;
 
@@ -317,7 +327,7 @@ public class TextTable {
 
 
     public void setPresentation(TextTablePresentation presentation) {
-        this.presentation = Objects.requireNonNull(presentation);
+        this.presentation = requireNonNull(presentation);
     }
 
     public TextTablePresentation getPresentation() {
