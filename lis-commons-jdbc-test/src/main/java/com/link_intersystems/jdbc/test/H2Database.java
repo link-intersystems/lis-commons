@@ -1,6 +1,11 @@
 package com.link_intersystems.jdbc.test;
 
-import java.sql.*;
+import org.h2.engine.Mode;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
@@ -35,6 +40,14 @@ public class H2Database extends AbstractDataSource implements AutoCloseable {
 
     public static final String DEFAULT_SCHEMA = "PUBLIC";
 
+    public static void setMode(Connection connection, Mode.ModeEnum mode) throws SQLException {
+        String cmd = "SET MODE " + mode.name();
+        try (Statement statement = connection.createStatement()) {
+            statement.execute(cmd);
+        }
+    }
+
+
     public static void setReferentialIntegrity(Connection connection, boolean referentialIntegrity) throws SQLException {
         String cmd = format("SET REFERENTIAL_INTEGRITY {0}", Boolean.toString(referentialIntegrity).toUpperCase());
         try (Statement statement = connection.createStatement()) {
@@ -54,6 +67,9 @@ public class H2Database extends AbstractDataSource implements AutoCloseable {
     private H2JdbcUrl h2JdbcUrl;
     private Connection realConnection;
     private Connection connectionProxy;
+
+    private Boolean referentialIntegrity;
+    private Mode.ModeEnum mode;
 
     private String schema;
     private String activeSchema;
@@ -138,8 +154,18 @@ public class H2Database extends AbstractDataSource implements AutoCloseable {
     }
 
     public void setReferentialIntegrity(boolean referentialIntegrity) throws SQLException {
+        this.referentialIntegrity = referentialIntegrity;
         Connection connection = getRealConnection();
         setReferentialIntegrity(connection, referentialIntegrity);
+    }
+
+    public void setMode(Mode.ModeEnum mode) throws SQLException {
+        this.mode = mode;
+        if (mode != null) {
+            setMode(getRealConnection(), mode);
+        } else {
+            setMode(getRealConnection(), Mode.ModeEnum.REGULAR);
+        }
     }
 
     private Connection getRealConnection() throws SQLException {
@@ -177,6 +203,12 @@ public class H2Database extends AbstractDataSource implements AutoCloseable {
     public Connection getConnection(String username, String password) throws SQLException {
         H2JdbcUrl jdbcUrl = getJdbcUrl();
         Connection connection = DriverManager.getConnection(jdbcUrl.toString(), username, password);
+        if (referentialIntegrity != null) {
+            setReferentialIntegrity(connection, referentialIntegrity);
+        }
+        if (mode != null) {
+            setMode(connection, mode);
+        }
         Connection connectionProxy = ReusableConnectionProxy.createProxy(connection);
         activeConnections.add(connection);
         return connectionProxy;
