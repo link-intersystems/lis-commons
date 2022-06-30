@@ -6,7 +6,7 @@ import org.junit.jupiter.api.extension.ParameterResolver;
 import java.sql.Connection;
 
 /**
- * A {@link ParameterResolver} that provides a {@link Connection} to a H2 in memory database initialized with the sakila
+ * A {@link ParameterResolver} that provides a {@link Connection} to a H2 database initialized with the sakila
  * sample database provided by mysql
  * that only contains the film related tables: "actor", "film_actor", "film", "language", "film_category", "category".
  *

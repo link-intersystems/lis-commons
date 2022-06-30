@@ -1,18 +1,16 @@
 package com.link_intersystems.jdbc.test.db.sakila;
 
-import com.link_intersystems.jdbc.test.db.H2DatabaseFactory;
 import com.link_intersystems.jdbc.test.H2Database;
-import com.link_intersystems.jdbc.test.H2JdbcUrl;
+import com.link_intersystems.jdbc.test.db.FileH2DatabaseFactory;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.BufferedInputStream;
+import java.io.InputStream;
 import java.sql.SQLException;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class SakilaH2DatabaseFactory implements H2DatabaseFactory {
+public class SakilaH2DatabaseFactory extends FileH2DatabaseFactory {
 
     private String classifier;
 
@@ -24,70 +22,22 @@ public class SakilaH2DatabaseFactory implements H2DatabaseFactory {
     }
 
     @Override
-    public H2Database create(String databaseName) throws SQLException {
-        H2JdbcUrl.Builder builder = new H2JdbcUrl.Builder();
-        builder.setDatabaseName(databaseName);
-        try {
-            File databaseFile = createDatabaseFile(databaseName);
-            Path absoluteDbPath = databaseFile.toPath().toAbsolutePath();
-            String databaseFilePath = absoluteDbPath.toString();
-            builder.setDatabaseFilePath(databaseFilePath);
-
-            builder.setAutoCommit(false);
-            H2Database h2Database = new H2Database(builder.build()) {
-                @Override
-                public void clear() throws SQLException {
-                    executeStatement("ROLLBACK");
-                }
-
-                @Override
-                public void close() throws SQLException {
-                    super.close();
-                    deleteDirectory(databaseFile);
-                }
-
-                private boolean deleteDirectory(File directoryToBeDeleted) {
-                    File[] allContents = directoryToBeDeleted.listFiles();
-                    if (allContents != null) {
-                        for (File file : allContents) {
-                            deleteDirectory(file);
-                        }
-                    }
-                    return directoryToBeDeleted.delete();
-                }
-            };
-            h2Database.setSchema("sakila");
-            return h2Database;
-        } catch (IOException e) {
-            throw new SQLException(e);
-        }
-
+    protected void customizeDatabase(H2Database h2Database) throws SQLException {
+        h2Database.setSchema("sakila");
     }
 
-    private File createDatabaseFile(String databaseName) throws IOException {
-        Path tempDirectory = Files.createTempDirectory(databaseName);
+    @Override
+    protected InputStream getDatabaseFileTemplateResource() {
+        InputStream resourceAsStream = getResourceAsStream(classifier);
+        return new BufferedInputStream(resourceAsStream);
+    }
 
-        File dbFile = new File(tempDirectory.toFile(), databaseName + ".mv.db");
+    protected InputStream getResourceAsStream(String classifier) {
         String resourceName = "sakila";
         if (classifier != null) {
             resourceName += "-" + classifier;
         }
         resourceName += ".mv.db";
-        copyResource(dbFile, resourceName);
-
-        return tempDirectory.toFile();
-    }
-
-    private void copyResource(File outFile, String resName) throws IOException {
-        try (InputStream inputStream = new BufferedInputStream(SakilaH2DatabaseFactory.class.getResourceAsStream(resName))) {
-            byte[] buff = new byte[8192];
-            try (OutputStream out = new BufferedOutputStream(new FileOutputStream(outFile))) {
-                int read;
-                while ((read = inputStream.read(buff)) > 0) {
-                    out.write(buff, 0, read);
-                }
-            }
-
-        }
+        return SakilaH2DatabaseFactory.class.getResourceAsStream(resourceName);
     }
 }

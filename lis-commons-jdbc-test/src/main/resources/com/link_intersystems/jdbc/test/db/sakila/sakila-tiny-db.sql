@@ -1,4 +1,4 @@
-ET IGNORECASE 1;
+SET IGNORECASE 1;
 SET REFERENTIAL_INTEGRITY FALSE;
 
 insert into actor (actor_id, first_name, last_name, last_update) values (1, 'PENELOPE', 'GUINESS', '2006-02-15 04:34:33');
