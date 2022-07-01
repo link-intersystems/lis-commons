@@ -20,11 +20,7 @@ class H2DatabaseTest {
 
     @BeforeEach
     void setUp() {
-        H2JdbcUrl h2JdbcUrl = new H2JdbcUrl.Builder()
-                .setDatabaseName("testdb")
-                .setUsername("test")
-                .setPassword("pass1")
-                .build();
+        H2JdbcUrl h2JdbcUrl = new H2JdbcUrl.Builder().setDatabaseName("testdb").setUsername("test").setPassword("pass1").build();
         h2Database = new H2Database(h2JdbcUrl);
     }
 
@@ -38,6 +34,13 @@ class H2DatabaseTest {
         h2Database.setMode(Mode.ModeEnum.DB2);
 
         assertEquals(Mode.ModeEnum.DB2, h2Database.getMode());
+
+        String result = h2Database.executeStatementWithResult(s -> {
+            s.execute(" SELECT SETTING_VALUE FROM INFORMATION_SCHEMA.SETTINGS WHERE SETTING_NAME = 'MODE'");
+            s.getResultSet().next();
+            return s.getResultSet().getString(1);
+        });
+        assertEquals("DB2", result);
     }
 
     @Test
