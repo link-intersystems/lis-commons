@@ -1,4 +1,4 @@
-package com.link_intersystems.test.jdbc;
+package com.link_intersystems.jdbc.test;
 
 import com.link_intersystems.jdbc.test.AbstractDataSource;
 import org.junit.jupiter.api.BeforeEach;

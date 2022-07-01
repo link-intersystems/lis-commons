@@ -1,4 +1,4 @@
-package com.link_intersystems.test.jdbc;
+package com.link_intersystems.jdbc.test;
 
 import com.link_intersystems.jdbc.test.DBAssertions;
 import com.link_intersystems.jdbc.test.H2Database;
@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-class H2DatabaseTest {
+class H2DatabaseSakilaTest {
 
     private H2Database h2Database;
     private Connection connection;

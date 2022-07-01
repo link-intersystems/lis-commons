@@ -19,6 +19,14 @@ import static java.util.Arrays.asList;
  */
 public class H2Database extends AbstractDataSource implements AutoCloseable {
 
+    public static interface StatementCallback {
+        public void doWithStatement(Statement statement) throws SQLException;
+    }
+
+    public static interface StatementWithResultCallback<T> {
+        public T doWithStatement(Statement statement) throws SQLException;
+    }
+
     public static final Predicate<String> SYSTEM_TABLE_PREDICATE = tableName -> asList(new String[]{
                     "constants",
                     "enum_values",
@@ -89,7 +97,10 @@ public class H2Database extends AbstractDataSource implements AutoCloseable {
     }
 
     public String getSchema() {
-        return h2JdbcUrl.getSchema();
+        if (schema == null) {
+            h2JdbcUrl.getSchema();
+        }
+        return schema;
     }
 
     public void setSchema(String schema) throws SQLException {
@@ -134,19 +145,48 @@ public class H2Database extends AbstractDataSource implements AutoCloseable {
         executeStatement("DROP ALL OBJECTS");
     }
 
-    protected void executeStatement(String sql) throws SQLException {
+    public void executeStatement(String sql) throws SQLException {
+        executeStatement(s -> s.execute(sql));
+    }
+
+    public void executeStatement(StatementCallback statementCallback) throws SQLException {
         Connection connection = getRealConnection();
         try (Statement statement = connection.createStatement()) {
-            statement.execute(sql);
+            statementCallback.doWithStatement(statement);
         }
+    }
+
+    public <T> T executeStatementWithResult(StatementWithResultCallback<T> statementCallback) throws SQLException {
+        Connection connection = getRealConnection();
+        try (Statement statement = connection.createStatement()) {
+            return statementCallback.doWithStatement(statement);
+        }
+    }
+
+    public void createSchema(String schema) throws SQLException {
+        executeStatement("CREATE SCHEMA IF NOT EXISTS " + schema);
     }
 
     public void setUsername(String username) {
         this.username = username;
     }
 
+    public String getUsername() {
+        if (username != null) {
+            return username;
+        }
+        return h2JdbcUrl.getUsername();
+    }
+
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPassword() {
+        if (password != null) {
+            return password;
+        }
+        return h2JdbcUrl.getPassword();
     }
 
     public H2JdbcUrl getJdbcUrl() {
@@ -161,17 +201,26 @@ public class H2Database extends AbstractDataSource implements AutoCloseable {
 
     public void setMode(Mode.ModeEnum mode) throws SQLException {
         this.mode = mode;
-        if (mode != null) {
-            setMode(getRealConnection(), mode);
-        } else {
-            setMode(getRealConnection(), Mode.ModeEnum.REGULAR);
+
+
+        Mode.ModeEnum currentMode = getMode();
+        if (currentMode == null) {
+            currentMode = Mode.ModeEnum.REGULAR;
         }
+        setMode(getRealConnection(), currentMode);
+    }
+
+    public Mode.ModeEnum getMode() {
+        if (mode == null) {
+            return h2JdbcUrl.getMode();
+        }
+        return mode;
     }
 
     private Connection getRealConnection() throws SQLException {
         if (realConnection == null) {
             H2JdbcUrl jdbcUrl = getJdbcUrl();
-            realConnection = DriverManager.getConnection(jdbcUrl.toString(), username, password);
+            realConnection = DriverManager.getConnection(jdbcUrl.toString(), getUsername(), getPassword());
             activeConnections.add(realConnection);
         }
 
@@ -185,7 +234,11 @@ public class H2Database extends AbstractDataSource implements AutoCloseable {
         }
 
         if (!Objects.equals(activeSchema, schema)) {
-            H2Database.setConnectionSchema(realConnection, schema);
+            String effectiveSchema = schema;
+            if (effectiveSchema == null) {
+                effectiveSchema = h2JdbcUrl.getSchema();
+            }
+            H2Database.setConnectionSchema(realConnection, effectiveSchema);
             activeSchema = schema;
         }
     }
@@ -213,5 +266,6 @@ public class H2Database extends AbstractDataSource implements AutoCloseable {
         activeConnections.add(connection);
         return connectionProxy;
     }
+
 
 }

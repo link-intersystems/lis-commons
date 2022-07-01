@@ -1,6 +1,5 @@
-package com.link_intersystems.test.db.sakila;
+package com.link_intersystems.jdbc.test.db.sakila;
 
-import com.link_intersystems.jdbc.test.db.sakila.SakilaTinyTestDBExtension;
 import com.link_intersystems.test.UnitTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

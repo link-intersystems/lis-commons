@@ -1,11 +1,14 @@
 package com.link_intersystems.jdbc.test;
 
+import org.h2.engine.Mode;
+
 import java.util.Objects;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
 public class H2JdbcUrl {
+
 
     public static class Builder {
         private String databaseName = "test";
@@ -15,6 +18,9 @@ public class H2JdbcUrl {
         private String init;
         private boolean databaseToLower = true;
         private String databaseFilePath;
+        private String username;
+        private String password;
+        private Mode.ModeEnum mode;
 
         public Builder() {
 
@@ -58,6 +64,22 @@ public class H2JdbcUrl {
             return this;
         }
 
+        public Builder setUsername(String username) {
+            this.username = username;
+            return this;
+        }
+
+
+        public Builder setPassword(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public Builder setMode(Mode.ModeEnum mode) {
+            this.mode = mode;
+            return this;
+        }
+
         public H2JdbcUrl build() {
             return new H2JdbcUrl(
                     databaseFilePath,
@@ -66,8 +88,11 @@ public class H2JdbcUrl {
                     ignoreCase,
                     autoCommit,
                     databaseToLower,
-                    init);
+                    init,
+                    username,
+                    password, mode);
         }
+
     }
 
     private String databaseName;
@@ -75,8 +100,12 @@ public class H2JdbcUrl {
     private boolean ignoreCase;
     private boolean autoCommit;
     private String init;
+    private String username;
+    private String password;
     private boolean databaseToLower;
     private String databaseFilePath;
+    private Mode.ModeEnum mode;
+
 
     private H2JdbcUrl(
             String databaseFilePath,
@@ -85,7 +114,9 @@ public class H2JdbcUrl {
             boolean ignoreCase,
             boolean autoCommit,
             boolean databaseToLower,
-            String init) {
+            String init,
+            String username,
+            String password, Mode.ModeEnum mode) {
         this.databaseFilePath = databaseFilePath;
         this.databaseName = databaseName;
         this.schema = schema;
@@ -93,6 +124,13 @@ public class H2JdbcUrl {
         this.autoCommit = autoCommit;
         this.databaseToLower = databaseToLower;
         this.init = init;
+        this.username = username;
+        this.password = password;
+        this.mode = mode;
+    }
+
+    public Mode.ModeEnum getMode() {
+        return mode;
     }
 
     public String getDatabaseName() {
@@ -121,6 +159,14 @@ public class H2JdbcUrl {
 
     public String getDatabaseFilePath() {
         return databaseFilePath;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     @Override
@@ -162,7 +208,7 @@ public class H2JdbcUrl {
 
 
         jdbcBuilder.append(";AUTOCOMMIT=");
-        if (autoCommit) {
+        if (isAutoCommit()) {
             jdbcBuilder.append("ON");
         } else {
             jdbcBuilder.append("OFF");
@@ -179,6 +225,22 @@ public class H2JdbcUrl {
         if (getSchema() != null) {
             jdbcBuilder.append(";SCHEMA=");
             jdbcBuilder.append(getSchema());
+        }
+
+        Mode.ModeEnum mode = getMode();
+        if (mode != null) {
+            jdbcBuilder.append(";MODE=");
+            jdbcBuilder.append(mode.name().toUpperCase());
+        }
+
+        if (getUsername() != null) {
+            jdbcBuilder.append(";USER=");
+            jdbcBuilder.append(getUsername());
+        }
+
+        if (getPassword() != null) {
+            jdbcBuilder.append(";PASSWORD=");
+            jdbcBuilder.append(getPassword());
         }
 
         if (getInit() != null) {

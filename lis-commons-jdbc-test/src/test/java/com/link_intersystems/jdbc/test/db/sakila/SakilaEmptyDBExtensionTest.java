@@ -1,7 +1,5 @@
-package com.link_intersystems.test.db.sakila;
+package com.link_intersystems.jdbc.test.db.sakila;
 
-import com.link_intersystems.jdbc.test.db.sakila.SakilaEmptyDB;
-import com.link_intersystems.jdbc.test.db.sakila.SakilaEmptyTestDBExtension;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
