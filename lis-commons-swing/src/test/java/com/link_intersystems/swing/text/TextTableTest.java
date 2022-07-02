@@ -35,7 +35,7 @@ class TextTableTest {
     @Test
     void setColumnWidth() {
         DefaultTableModel defaultTableModel = new DefaultTableModel(0, 1);
-        TextTable textTable = new TextTable(defaultTableModel);
+        TextTable textTable = new TextTable(defaultTableModel, "\n");
         textTable.setAllColumnWidth(4);
         assertThrows(IllegalArgumentException.class, () -> textTable.setAllColumnWidth(3));
 
@@ -44,7 +44,7 @@ class TextTableTest {
     @Test
     void emptyTable() throws IOException {
         DefaultTableModel defaultTableModel = new DefaultTableModel(0, 1);
-        TextTable textTable = new TextTable(defaultTableModel);
+        TextTable textTable = new TextTable(defaultTableModel, "\n");
         textTable.setHeaderEnabled(false);
 
         String table = renderTable(textTable);
@@ -57,7 +57,7 @@ class TextTableTest {
     @Test
     void tableWithTitle() throws IOException {
         DefaultTableModel defaultTableModel = new DefaultTableModel(0, 1);
-        TextTable textTable = new TextTable(defaultTableModel);
+        TextTable textTable = new TextTable(defaultTableModel, "\n");
         textTable.setTitle("Title");
 
         String table = renderTable(textTable);
@@ -75,7 +75,7 @@ class TextTableTest {
     @Test
     void tableWithHeaderWithoutTitle() throws IOException {
         DefaultTableModel defaultTableModel = new DefaultTableModel(0, 1);
-        TextTable textTable = new TextTable(defaultTableModel);
+        TextTable textTable = new TextTable(defaultTableModel, "\n");
 
         String table = renderTable(textTable);
 
@@ -90,7 +90,7 @@ class TextTableTest {
     @Test
     void tableWithTitleWithoutHeader() throws IOException {
         DefaultTableModel defaultTableModel = new DefaultTableModel(0, 1);
-        TextTable textTable = new TextTable(defaultTableModel);
+        TextTable textTable = new TextTable(defaultTableModel, "\n");
         textTable.setHeaderEnabled(false);
         textTable.setTitle("Title");
 
@@ -107,7 +107,7 @@ class TextTableTest {
     @Test
     void titleAlignmentCenter() throws IOException {
         DefaultTableModel defaultTableModel = new DefaultTableModel(0, 1);
-        TextTable textTable = new TextTable(defaultTableModel);
+        TextTable textTable = new TextTable(defaultTableModel, "\n");
         textTable.setHeaderEnabled(false);
         textTable.setTitle("Title", StandardTextAlignments.CENTER);
 
@@ -124,7 +124,7 @@ class TextTableTest {
     @Test
     void titleAlignmentRight() throws IOException {
         DefaultTableModel defaultTableModel = new DefaultTableModel(0, 1);
-        TextTable textTable = new TextTable(defaultTableModel);
+        TextTable textTable = new TextTable(defaultTableModel, "\n");
         textTable.setHeaderEnabled(false);
         textTable.setTitle("Title", StandardTextAlignments.RIGHT);
 
@@ -141,7 +141,7 @@ class TextTableTest {
     @Test
     void onlyRows() throws IOException {
         DefaultTableModel defaultTableModel = new DefaultTableModel(0, 1);
-        TextTable textTable = new TextTable(defaultTableModel);
+        TextTable textTable = new TextTable(defaultTableModel, "\n");
         textTable.setHeaderEnabled(false);
         defaultTableModel.addRow(new Object[]{"A1"});
         defaultTableModel.addRow(new Object[]{"A2"});
@@ -161,7 +161,7 @@ class TextTableTest {
     @Test
     void abbreviateColumnName() throws IOException {
         DefaultTableModel defaultTableModel = new DefaultTableModel(new Object[]{"A very long column name that should be abbreviated"}, 0);
-        TextTable textTable = new TextTable(defaultTableModel);
+        TextTable textTable = new TextTable(defaultTableModel, "\n");
 
         String table = renderTable(textTable);
 
@@ -176,7 +176,7 @@ class TextTableTest {
     @Test
     void abbreviateRowValue() throws IOException {
         DefaultTableModel defaultTableModel = new DefaultTableModel(0, 1);
-        TextTable textTable = new TextTable(defaultTableModel);
+        TextTable textTable = new TextTable(defaultTableModel, "\n");
         textTable.setHeaderEnabled(false);
         defaultTableModel.addRow(new Object[]{"A very long row value that should be abbreviated"});
 
@@ -193,7 +193,7 @@ class TextTableTest {
     @Test
     void tableWith3ColumnsDefaultColumnWidth() throws IOException {
         DefaultTableModel tableModel = new DefaultTableModel(0, 3);
-        TextTable textTable = new TextTable(tableModel);
+        TextTable textTable = new TextTable(tableModel, "\n");
         textTable.setTitle("Title");
 
         String table = renderTable(textTable);
@@ -211,7 +211,7 @@ class TextTableTest {
     @Test
     void tableWith3ColumnsWithoutHeaderAndColumnWidth10() throws IOException {
         DefaultTableModel tableModel = new DefaultTableModel(0, 3);
-        TextTable textTable = new TextTable(tableModel);
+        TextTable textTable = new TextTable(tableModel, "\n");
         textTable.setAllColumnWidth(10);
         textTable.setTitle("Title");
 
@@ -230,7 +230,7 @@ class TextTableTest {
     @Test
     void tableWith3Columns() throws IOException {
         DefaultTableModel tableModel = new DefaultTableModel(new String[]{"Col1", "Col2", "Col3"}, 0);
-        TextTable textTable = new TextTable(tableModel);
+        TextTable textTable = new TextTable(tableModel, "\n");
         textTable.setAllColumnWidth(10);
         textTable.setTitle("Title");
 
@@ -250,7 +250,7 @@ class TextTableTest {
     @Test
     void tableWith3ColumnsAnd2Rows() throws IOException {
         DefaultTableModel tableModel = new DefaultTableModel(new String[]{"A", "B", "C"}, 0);
-        TextTable textTable = new TextTable(tableModel);
+        TextTable textTable = new TextTable(tableModel, "\n");
         textTable.setAllColumnWidth(10);
         textTable.setTitle("Title");
         textTable.setTableModel(tableModel);
@@ -282,7 +282,7 @@ class TextTableTest {
     @Test
     void tableWith3ColumnsDifferentWidthAnd2Rows() throws IOException {
         DefaultTableModel tableModel = new DefaultTableModel(new String[]{"A", "B", "C"}, 0);
-        TextTable textTable = new TextTable(tableModel);
+        TextTable textTable = new TextTable(tableModel, "\n");
         textTable.setColumnWidth(0, 10);
         textTable.setColumnWidth(1, 15);
         textTable.setColumnWidth(2, 5);
@@ -316,7 +316,7 @@ class TextTableTest {
     @Test
     void customPresentation() throws IOException {
         DefaultTableModel tableModel = new DefaultTableModel(new String[]{"A", "B", "C"}, 0);
-        TextTable textTable = new TextTable(tableModel);
+        TextTable textTable = new TextTable(tableModel, "\n");
 
         textTable.setAllColumnWidth(10);
 

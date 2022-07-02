@@ -45,14 +45,26 @@ public class TextTable {
         }
     };
 
-    private TableModel tableModel = new DefaultTableModel();
     private boolean firstRow = true;
 
+    private TableModel tableModel;
+    private String lineSeparator;
+
     public TextTable() {
+        this(new DefaultTableModel());
     }
 
     public TextTable(TableModel tableModel) {
-        this.tableModel = tableModel;
+        this(tableModel, System.lineSeparator());
+    }
+
+    public TextTable(TableModel tableModel, String lineSeparator) {
+        this.tableModel = requireNonNull(tableModel);
+        setLineSeparator(lineSeparator);
+    }
+
+    public void setLineSeparator(String lineSeparator) {
+        this.lineSeparator = requireNonNull(lineSeparator);
     }
 
     public TableModel getTableModel() {
@@ -322,7 +334,7 @@ public class TextTable {
     }
 
     private void newLine(Writer writer) throws IOException {
-        writer.write('\n');
+        writer.write(lineSeparator);
     }
 
 
