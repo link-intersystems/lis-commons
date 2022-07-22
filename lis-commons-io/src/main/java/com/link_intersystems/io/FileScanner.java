@@ -15,11 +15,49 @@ import static java.util.Objects.requireNonNull;
  */
 public class FileScanner {
 
+    private static class FileMatcher {
+
+        private Path basepath;
+        private List<PathMatcher> fileMatchers = new ArrayList<>();
+        private List<PathMatcher> dirMatchers = new ArrayList<>();
+
+        public FileMatcher(Path basepath, List<PathMatcher> fileMatchers, List<PathMatcher> dirMatchers) {
+            this.basepath = basepath;
+            this.fileMatchers.addAll(fileMatchers);
+            this.dirMatchers.addAll(dirMatchers);
+        }
+
+        public Path getMatch(File file) {
+            List<PathMatcher> pathMatchers;
+
+            if (file.isDirectory()) {
+                pathMatchers = dirMatchers;
+            } else {
+                pathMatchers = fileMatchers;
+            }
+
+
+            Path filepath = file.toPath();
+            Path baseRelativePath = relativize(filepath, basepath);
+
+            if (pathMatchers.stream().anyMatch(pm -> pm.matches(baseRelativePath))) {
+                return baseRelativePath;
+            }
+            return null;
+        }
+
+        private Path relativize(Path filePath, Path basepath) {
+            URI relativizedUri = basepath.toUri().relativize(filePath.toUri());
+            return Paths.get(relativizedUri.getPath());
+        }
+    }
+
     private FileSystem fs = FileSystems.getDefault();
 
-    private List<String> globPatterns = new ArrayList<>();
-
+    private List<String> filePatterns = new ArrayList<>();
+    private List<String> dirPatterns = new ArrayList<>();
     private Path basepath;
+
 
     public FileScanner(File basedir) {
         this(getBasepath(basedir));
@@ -40,51 +78,55 @@ public class FileScanner {
         this.fs = requireNonNull(fs);
     }
 
-    public void addGlobPattern(String... globPatterns) {
-        this.globPatterns.addAll(asList(globPatterns));
+    public void addFilePattern(String... globPatterns) {
+        this.filePatterns.addAll(asList(globPatterns));
     }
 
+    public void addDirectoryPatterns(String... globPatterns) {
+        this.dirPatterns.addAll(asList(globPatterns));
+    }
+
+
     public List<Path> scan() {
-        List<PathMatcher> pathMatchers = getPathMatchers();
+        FileMatcher fileMatcher = getFileMather();
 
         File basefile = basepath.toFile();
-        List<Path> matchedPaths = scanDir(pathMatchers, basefile);
+        List<Path> matchedPaths = scanDir(fileMatcher, basefile);
 
         return matchedPaths;
     }
 
-    private List<Path> scanDir(List<PathMatcher> pathMatchers, File dir) {
+
+    private List<Path> scanDir(FileMatcher fileMatcher, File dir) {
         List<Path> matchedPaths = new ArrayList<>();
 
         File[] files = dir.listFiles();
         for (File file : files) {
-            if (file.isDirectory()) {
-                List<Path> subDirPaths = scanDir(pathMatchers, file);
-                matchedPaths.addAll(subDirPaths);
-            } else {
-                Path filePath = file.toPath();
-                Path baseRelativePath = relativize(filePath, basepath);
+            Path match = fileMatcher.getMatch(file);
+            if (match != null) {
+                matchedPaths.add(match);
+            }
 
-                if (pathMatchers.stream().anyMatch(pm -> pm.matches(baseRelativePath))) {
-                    matchedPaths.add(baseRelativePath);
-                }
+            if (file.isDirectory()) {
+                List<Path> subDirPaths = scanDir(fileMatcher, file);
+                matchedPaths.addAll(subDirPaths);
             }
         }
 
         return matchedPaths;
     }
 
-    private Path relativize(Path filePath, Path basepath) {
-        URI relativizedUri = basepath.toUri().relativize(filePath.toUri());
-        return Paths.get(relativizedUri.getPath());
+
+    private FileMatcher getFileMather() {
+        List<PathMatcher> filePathMatchers = toPathMatchers(filePatterns);
+        List<PathMatcher> dirPathMatchers = toPathMatchers(dirPatterns);
+        return new FileMatcher(basepath, filePathMatchers, dirPathMatchers);
     }
 
-    private List<PathMatcher> getPathMatchers() {
-        return
-                globPatterns.stream()
-                        .map(gp -> gp.startsWith("glob:") ? gp : "glob:" + gp)
-                        .map(fs::getPathMatcher)
-                        .collect(Collectors.toList());
+    private List<PathMatcher> toPathMatchers(List<String> pattersn) {
+        return pattersn.stream()
+                .map(gp -> gp.startsWith("glob:") ? gp : "glob:" + gp)
+                .map(fs::getPathMatcher)
+                .collect(Collectors.toList());
     }
-
 }

@@ -42,7 +42,7 @@ class FileScannerTest {
     @Test
     void baseDirFiles() {
         FileScanner fileScanner = new FileScanner(tmpDir);
-        fileScanner.addGlobPattern("pom.xml");
+        fileScanner.addFilePattern("pom.xml");
 
         List<Path> paths = fileScanner.scan();
 
@@ -52,13 +52,27 @@ class FileScannerTest {
     @Test
     void subDirFiles() {
         FileScanner fileScanner = new FileScanner(tmpDir);
-        fileScanner.addGlobPattern("**/main/java/**/*List.java");
+        fileScanner.addFilePattern("**/main/java/**/*List.java");
 
         List<Path> paths = fileScanner.scan();
 
         assertTrue(paths.contains(Paths.get("src/main/java/com/link_intersystems/jdbc/ColumnMetaDataList.java")));
         assertTrue(paths.contains(Paths.get("src/main/java/com/link_intersystems/jdbc/ForeignKeyList.java")));
         assertTrue(paths.contains(Paths.get("src/main/java/com/link_intersystems/jdbc/TableReferenceList.java")));
+
+        assertFalse(paths.contains(Paths.get("src/main/java/com/link_intersystems/jdbc/ColumnDescription.java")));
+    }
+
+    @Test
+    void dirs() {
+        FileScanner fileScanner = new FileScanner(tmpDir);
+        fileScanner.addDirectoryPatterns("**");
+
+        List<Path> paths = fileScanner.scan();
+
+        assertTrue(paths.contains(Paths.get("src/main/java")));
+        assertTrue(paths.contains(Paths.get("src/main")));
+        assertTrue(paths.contains(Paths.get("src/")));
 
         assertFalse(paths.contains(Paths.get("src/main/java/com/link_intersystems/jdbc/ColumnDescription.java")));
     }
