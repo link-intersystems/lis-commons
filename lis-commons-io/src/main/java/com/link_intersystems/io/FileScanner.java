@@ -57,7 +57,7 @@ public class FileScanner {
     private List<String> filePatterns = new ArrayList<>();
     private List<String> dirPatterns = new ArrayList<>();
     private Path basepath;
-
+    private boolean absolutePaths;
 
     public FileScanner(File basedir) {
         this(getBasepath(basedir));
@@ -70,8 +70,16 @@ public class FileScanner {
         return basedir.toPath();
     }
 
+    public Path getBasepath() {
+        return basepath;
+    }
+
     public FileScanner(Path basepath) {
         this.basepath = requireNonNull(basepath);
+    }
+
+    public void setAbsolutePaths(boolean absolutePaths) {
+        this.absolutePaths = absolutePaths;
     }
 
     public void setFileSystem(FileSystem fs) {
@@ -87,33 +95,37 @@ public class FileScanner {
     }
 
 
-    public List<Path> scan() {
+    public PathMatches scan() {
         FileMatcher fileMatcher = getFileMather();
 
         File basefile = basepath.toFile();
-        List<Path> matchedPaths = scanDir(fileMatcher, basefile);
+        PathMatches pathMatches = scanDir(fileMatcher, basefile);
 
-        return matchedPaths;
+        return pathMatches;
     }
 
 
-    private List<Path> scanDir(FileMatcher fileMatcher, File dir) {
-        List<Path> matchedPaths = new ArrayList<>();
+    private PathMatches scanDir(FileMatcher fileMatcher, File dir) {
+        List<PathMatch> pathMatches = new ArrayList<>();
 
         File[] files = dir.listFiles();
         for (File file : files) {
             Path match = fileMatcher.getMatch(file);
             if (match != null) {
-                matchedPaths.add(match);
+                if (absolutePaths) {
+                    Path absoluteMatchPath = basepath.resolve(match);
+                    match = absoluteMatchPath;
+                }
+                pathMatches.add(new PathMatch(basepath, match));
             }
 
             if (file.isDirectory()) {
-                List<Path> subDirPaths = scanDir(fileMatcher, file);
-                matchedPaths.addAll(subDirPaths);
+                List<PathMatch> subDirPaths = scanDir(fileMatcher, file);
+                pathMatches.addAll(subDirPaths);
             }
         }
 
-        return matchedPaths;
+        return new PathMatches(pathMatches);
     }
 
 

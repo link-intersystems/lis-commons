@@ -44,9 +44,9 @@ class FileScannerTest {
         FileScanner fileScanner = new FileScanner(tmpDir);
         fileScanner.addFilePattern("pom.xml");
 
-        List<Path> paths = fileScanner.scan();
+        PathMatches paths = fileScanner.scan();
 
-        assertTrue(paths.contains(Paths.get("pom.xml")));
+        assertTrue(paths.containsMatch(Paths.get("pom.xml")));
     }
 
     @Test
@@ -54,13 +54,13 @@ class FileScannerTest {
         FileScanner fileScanner = new FileScanner(tmpDir);
         fileScanner.addFilePattern("**/main/java/**/*List.java");
 
-        List<Path> paths = fileScanner.scan();
+        PathMatches paths = fileScanner.scan();
 
-        assertTrue(paths.contains(Paths.get("src/main/java/com/link_intersystems/jdbc/ColumnMetaDataList.java")));
-        assertTrue(paths.contains(Paths.get("src/main/java/com/link_intersystems/jdbc/ForeignKeyList.java")));
-        assertTrue(paths.contains(Paths.get("src/main/java/com/link_intersystems/jdbc/TableReferenceList.java")));
+        assertTrue(paths.containsMatch(Paths.get("src/main/java/com/link_intersystems/jdbc/ColumnMetaDataList.java")));
+        assertTrue(paths.containsMatch(Paths.get("src/main/java/com/link_intersystems/jdbc/ForeignKeyList.java")));
+        assertTrue(paths.containsMatch(Paths.get("src/main/java/com/link_intersystems/jdbc/TableReferenceList.java")));
 
-        assertFalse(paths.contains(Paths.get("src/main/java/com/link_intersystems/jdbc/ColumnDescription.java")));
+        assertFalse(paths.containsMatch(Paths.get("src/main/java/com/link_intersystems/jdbc/ColumnDescription.java")));
     }
 
     @Test
@@ -68,12 +68,24 @@ class FileScannerTest {
         FileScanner fileScanner = new FileScanner(tmpDir);
         fileScanner.addDirectoryPatterns("**");
 
-        List<Path> paths = fileScanner.scan();
+        PathMatches paths = fileScanner.scan();
 
-        assertTrue(paths.contains(Paths.get("src/main/java")));
-        assertTrue(paths.contains(Paths.get("src/main")));
-        assertTrue(paths.contains(Paths.get("src/")));
+        assertTrue(paths.containsMatch(Paths.get("src/main/java")));
+        assertTrue(paths.containsMatch(Paths.get("src/main")));
+        assertTrue(paths.containsMatch(Paths.get("src/")));
 
-        assertFalse(paths.contains(Paths.get("src/main/java/com/link_intersystems/jdbc/ColumnDescription.java")));
+        assertFalse(paths.containsMatch(Paths.get("src/main/java/com/link_intersystems/jdbc/ColumnDescription.java")));
+    }
+
+    @Test
+    void absolutePaths() {
+        FileScanner fileScanner = new FileScanner(tmpDir);
+        fileScanner.setAbsolutePaths(true);
+        fileScanner.addDirectoryPatterns("**/main/java/**/*List.java");
+
+        PathMatches paths = fileScanner.scan();
+
+        Path absolutePath = Paths.get(tmpDir.toAbsolutePath().toString(), "/src/main/java/com/link_intersystems/jdbc/ColumnDescription.java");
+        assertFalse(paths.containsMatch(absolutePath));
     }
 }
