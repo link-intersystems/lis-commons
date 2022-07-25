@@ -11,9 +11,7 @@
 
     <artifactId>lis-commons-io</artifactId>
 
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
+    <name>LIS Commons IO</name>
+    <description>Link Intersystems Commons IO (lis-commons-io) provides utilities for java.io.</description>
 
 </project>

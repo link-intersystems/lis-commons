@@ -9,4 +9,7 @@
 
     <artifactId>lis-commons-swing</artifactId>
 
+    <name>LIS Commons Swing</name>
+    <description>Link Intersystems Commons Swing (lis-commons-swing) provides support for Java swing related tasks.</description>
+
 </project>
