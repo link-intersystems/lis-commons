@@ -57,7 +57,6 @@ public class FileScanner {
     private List<String> filePatterns = new ArrayList<>();
     private List<String> dirPatterns = new ArrayList<>();
     private Path basepath;
-    private boolean absolutePaths;
 
     public FileScanner(File basedir) {
         this(getBasepath(basedir));
@@ -76,10 +75,6 @@ public class FileScanner {
 
     public FileScanner(Path basepath) {
         this.basepath = requireNonNull(basepath);
-    }
-
-    public void setAbsolutePaths(boolean absolutePaths) {
-        this.absolutePaths = absolutePaths;
     }
 
     public void setFileSystem(FileSystem fs) {
@@ -112,10 +107,6 @@ public class FileScanner {
         for (File file : files) {
             Path match = fileMatcher.getMatch(file);
             if (match != null) {
-                if (absolutePaths) {
-                    Path absoluteMatchPath = basepath.resolve(match);
-                    match = absoluteMatchPath;
-                }
                 pathMatches.add(new PathMatch(basepath, match));
             }
 
