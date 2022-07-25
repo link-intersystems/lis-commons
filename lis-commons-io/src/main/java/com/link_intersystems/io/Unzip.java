@@ -30,24 +30,15 @@ public class Unzip {
 
             while (zipEntry != null) {
 
-                boolean isDirectory = false;
-                if (zipEntry.getName().endsWith(File.separator)) {
-                    isDirectory = true;
-                }
-
                 Path newPath = zipSlipProtect(zipEntry, target);
 
-                if (isDirectory) {
-                    Files.createDirectories(newPath);
-                } else {
-                    if (newPath.getParent() != null) {
-                        if (Files.notExists(newPath.getParent())) {
-                            Files.createDirectories(newPath.getParent());
-                        }
+                if (newPath.getParent() != null) {
+                    if (Files.notExists(newPath.getParent())) {
+                        Files.createDirectories(newPath.getParent());
                     }
-
-                    Files.copy(zis, newPath, StandardCopyOption.REPLACE_EXISTING);
                 }
+
+                Files.copy(zis, newPath, StandardCopyOption.REPLACE_EXISTING);
 
                 zipEntry = zis.getNextEntry();
 
