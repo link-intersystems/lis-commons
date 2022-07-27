@@ -1,6 +1,7 @@
 package com.link_intersystems.io;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
@@ -41,5 +42,13 @@ public class FilePath {
     @Override
     public int hashCode() {
         return Objects.hash(basepath, path);
+    }
+
+    public FilePath rebase(String newBasepath){
+        return rebase(Paths.get(newBasepath));
+    }
+
+    public FilePath rebase(Path newBasepath) {
+        return new FilePath(newBasepath, path);
     }
 }
