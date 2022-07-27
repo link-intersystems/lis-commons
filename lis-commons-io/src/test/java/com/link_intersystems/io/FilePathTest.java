@@ -19,7 +19,7 @@ class FilePathTest {
 
     @BeforeEach
     void setUp(){
-        basepath = Paths.get("C:\\users\\rene.link\\");
+        basepath = Paths.get("C:/users/rene.link/");
         somePath = Paths.get("documents/clean-code.pdf");
 
         filePath = new FilePath(basepath, somePath);
@@ -37,12 +37,12 @@ class FilePathTest {
 
     @Test
     void rebase(){
-        FilePath rebasedFilePath = filePath.rebase("D:\\books");
-        assertEquals(Paths.get("D:\\books\\documents\\clean-code.pdf"), rebasedFilePath.toAbsolutePath());
+        FilePath rebasedFilePath = filePath.rebase("D:/books");
+        assertEquals(Paths.get("D:/books/documents/clean-code.pdf"), rebasedFilePath.toAbsolutePath());
     }
 
     @Test
     void getAbsolutePath() {
-        assertEquals(Paths.get("C:\\users\\rene.link\\documents\\clean-code.pdf"), filePath.toAbsolutePath());
+        assertEquals(Paths.get("C:/users/rene.link/documents/clean-code.pdf"), filePath.toAbsolutePath());
     }
 }
