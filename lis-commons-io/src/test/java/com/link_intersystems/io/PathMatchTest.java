@@ -1,6 +1,5 @@
 package com.link_intersystems.io;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,14 +15,14 @@ class PathMatchTest {
 
     private Path basepath;
     private Path somePath;
-    private PathMatch pathMatch;
+    private FilePath pathMatch;
 
     @BeforeEach
     void setUp(){
         basepath = Paths.get("C:\\users\\rene.link\\");
         somePath = Paths.get("documents/clean-code.pdf");
 
-        pathMatch = new PathMatch(basepath, somePath);
+        pathMatch = new FilePath(basepath, somePath);
     }
 
     @Test

@@ -10,6 +10,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -33,34 +34,34 @@ class FileScannerTest {
     void baseDirFiles() {
         fileScanner.addFilePattern("pom.xml");
 
-        PathMatches paths = fileScanner.scan();
+        List<FilePath> paths = fileScanner.scan();
 
-        assertTrue(paths.containsMatch(Paths.get("pom.xml")));
+        assertTrue(new PathMatches(paths).containsMatch(Paths.get("pom.xml")));
     }
 
     @Test
     void subDirFiles() {
         fileScanner.addFilePattern("**/main/java/**/*List.java");
 
-        PathMatches paths = fileScanner.scan();
+        List<FilePath> paths = fileScanner.scan();
+        PathMatches filePaths = new PathMatches(paths);
+        assertTrue(filePaths.containsMatch(Paths.get("src/main/java/com/link_intersystems/jdbc/ColumnMetaDataList.java")));
+        assertTrue(filePaths.containsMatch(Paths.get("src/main/java/com/link_intersystems/jdbc/ForeignKeyList.java")));
+        assertTrue(filePaths.containsMatch(Paths.get("src/main/java/com/link_intersystems/jdbc/TableReferenceList.java")));
 
-        assertTrue(paths.containsMatch(Paths.get("src/main/java/com/link_intersystems/jdbc/ColumnMetaDataList.java")));
-        assertTrue(paths.containsMatch(Paths.get("src/main/java/com/link_intersystems/jdbc/ForeignKeyList.java")));
-        assertTrue(paths.containsMatch(Paths.get("src/main/java/com/link_intersystems/jdbc/TableReferenceList.java")));
-
-        assertFalse(paths.containsMatch(Paths.get("src/main/java/com/link_intersystems/jdbc/ColumnDescription.java")));
+        assertFalse(filePaths.containsMatch(Paths.get("src/main/java/com/link_intersystems/jdbc/ColumnDescription.java")));
     }
 
     @Test
     void dirs() {
         fileScanner.addDirectoryPatterns("**");
 
-        PathMatches paths = fileScanner.scan();
+        List<FilePath> paths = fileScanner.scan();
+        PathMatches filePaths = new PathMatches(paths);
+        assertTrue(filePaths.containsMatch(Paths.get("src/main/java")));
+        assertTrue(filePaths.containsMatch(Paths.get("src/main")));
+        assertTrue(filePaths.containsMatch(Paths.get("src/")));
 
-        assertTrue(paths.containsMatch(Paths.get("src/main/java")));
-        assertTrue(paths.containsMatch(Paths.get("src/main")));
-        assertTrue(paths.containsMatch(Paths.get("src/")));
-
-        assertFalse(paths.containsMatch(Paths.get("src/main/java/com/link_intersystems/jdbc/ColumnDescription.java")));
+        assertFalse(filePaths.containsMatch(Paths.get("src/main/java/com/link_intersystems/jdbc/ColumnDescription.java")));
     }
 }

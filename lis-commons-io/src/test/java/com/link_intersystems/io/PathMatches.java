@@ -8,16 +8,16 @@ import java.util.List;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class PathMatches extends AbstractList<PathMatch> {
+public class PathMatches extends AbstractList<FilePath> {
 
-    List<PathMatch> pathMatches = new ArrayList<>();
+    List<FilePath> pathMatches = new ArrayList<>();
 
-    public PathMatches(List<PathMatch> pathMatches) {
+    public PathMatches(List<FilePath> pathMatches) {
         this.pathMatches.addAll(pathMatches);
     }
 
     @Override
-    public PathMatch get(int index) {
+    public FilePath get(int index) {
         return pathMatches.get(index);
     }
 

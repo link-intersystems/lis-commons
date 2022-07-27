@@ -90,33 +90,33 @@ public class FileScanner {
     }
 
 
-    public PathMatches scan() {
+    public List<FilePath> scan() {
         FileMatcher fileMatcher = getFileMather();
 
         File basefile = basepath.toFile();
-        PathMatches pathMatches = scanDir(fileMatcher, basefile);
+        List<FilePath> filePaths = scanDir(fileMatcher, basefile);
 
-        return pathMatches;
+        return filePaths;
     }
 
 
-    private PathMatches scanDir(FileMatcher fileMatcher, File dir) {
-        List<PathMatch> pathMatches = new ArrayList<>();
+    private List<FilePath> scanDir(FileMatcher fileMatcher, File dir) {
+        List<FilePath> pathMatches = new ArrayList<>();
 
         File[] files = dir.listFiles();
         for (File file : files) {
             Path match = fileMatcher.getMatch(file);
             if (match != null) {
-                pathMatches.add(new PathMatch(basepath, match));
+                pathMatches.add(new FilePath(basepath, match));
             }
 
             if (file.isDirectory()) {
-                List<PathMatch> subDirPaths = scanDir(fileMatcher, file);
+                List<FilePath> subDirPaths = scanDir(fileMatcher, file);
                 pathMatches.addAll(subDirPaths);
             }
         }
 
-        return new PathMatches(pathMatches);
+        return pathMatches;
     }
 
 
