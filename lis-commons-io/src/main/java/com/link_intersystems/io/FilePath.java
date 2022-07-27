@@ -1,5 +1,6 @@
 package com.link_intersystems.io;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
@@ -27,8 +28,12 @@ public class FilePath {
         return basepath;
     }
 
-    public Path getAbsolutePath() {
+    public Path toAbsolutePath() {
         return basepath.resolve(path);
+    }
+
+    public File toAbsoluteFile(){
+        return toAbsolutePath().toFile();
     }
 
     @Override
@@ -44,11 +49,16 @@ public class FilePath {
         return Objects.hash(basepath, path);
     }
 
-    public FilePath rebase(String newBasepath){
+    public FilePath rebase(String newBasepath) {
         return rebase(Paths.get(newBasepath));
     }
 
     public FilePath rebase(Path newBasepath) {
         return new FilePath(newBasepath, path);
+    }
+
+    @Override
+    public String toString() {
+        return toAbsolutePath().toString();
     }
 }

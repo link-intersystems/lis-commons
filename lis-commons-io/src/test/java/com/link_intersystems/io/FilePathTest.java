@@ -38,11 +38,11 @@ class FilePathTest {
     @Test
     void rebase(){
         FilePath rebasedFilePath = filePath.rebase("D:\\books");
-        assertEquals(Paths.get("D:\\books\\documents\\clean-code.pdf"), rebasedFilePath.getAbsolutePath());
+        assertEquals(Paths.get("D:\\books\\documents\\clean-code.pdf"), rebasedFilePath.toAbsolutePath());
     }
 
     @Test
     void getAbsolutePath() {
-        assertEquals(Paths.get("C:\\users\\rene.link\\documents\\clean-code.pdf"), filePath.getAbsolutePath());
+        assertEquals(Paths.get("C:\\users\\rene.link\\documents\\clean-code.pdf"), filePath.toAbsolutePath());
     }
 }
