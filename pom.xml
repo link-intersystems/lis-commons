@@ -36,6 +36,7 @@
         <module>lis-commons-net-test</module>
         <module>lis-commons-swing</module>
         <module>lis-commons-io</module>
+        <module>lis-commons-security</module>
     </modules>
 
     <properties>
