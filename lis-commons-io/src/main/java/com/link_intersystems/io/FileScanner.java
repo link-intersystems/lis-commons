@@ -1,9 +1,10 @@
 package com.link_intersystems.io;
 
 import java.io.File;
-import java.net.URI;
 import java.nio.file.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,47 +16,12 @@ import static java.util.Objects.requireNonNull;
  */
 public class FileScanner {
 
-    private static class FileMatcher {
-
-        private Path basepath;
-        private List<PathMatcher> fileMatchers = new ArrayList<>();
-        private List<PathMatcher> dirMatchers = new ArrayList<>();
-
-        public FileMatcher(Path basepath, List<PathMatcher> fileMatchers, List<PathMatcher> dirMatchers) {
-            this.basepath = basepath;
-            this.fileMatchers.addAll(fileMatchers);
-            this.dirMatchers.addAll(dirMatchers);
-        }
-
-        public Path getMatch(File file) {
-            List<PathMatcher> pathMatchers;
-
-            if (file.isDirectory()) {
-                pathMatchers = dirMatchers;
-            } else {
-                pathMatchers = fileMatchers;
-            }
-
-
-            Path filepath = file.toPath();
-            Path baseRelativePath = relativize(filepath, basepath);
-
-            if (pathMatchers.stream().anyMatch(pm -> pm.matches(baseRelativePath))) {
-                return baseRelativePath;
-            }
-            return null;
-        }
-
-        private Path relativize(Path filePath, Path basepath) {
-            URI relativizedUri = basepath.toUri().relativize(filePath.toUri());
-            return Paths.get(relativizedUri.getPath());
-        }
-    }
-
     private FileSystem fs = FileSystems.getDefault();
 
-    private List<String> filePatterns = new ArrayList<>();
-    private List<String> dirPatterns = new ArrayList<>();
+    private List<String> includeFilePatterns = new ArrayList<>();
+    private List<String> excludeFilePatterns = new ArrayList<>();
+    private List<String> includeDirPatterns = new ArrayList<>();
+    private List<String> excludeDirPatterns = new ArrayList<>();
     private Path basepath;
 
     public FileScanner(File basedir) {
@@ -82,13 +48,20 @@ public class FileScanner {
     }
 
     public void addFilePattern(String... globPatterns) {
-        this.filePatterns.addAll(asList(globPatterns));
+        this.includeFilePatterns.addAll(asList(globPatterns));
+    }
+
+    public void addExcludeFilePatterns(String... excludeGlobPatterns) {
+        this.excludeFilePatterns.addAll(Arrays.asList(excludeGlobPatterns));
     }
 
     public void addDirectoryPatterns(String... globPatterns) {
-        this.dirPatterns.addAll(asList(globPatterns));
+        this.includeDirPatterns.addAll(asList(globPatterns));
     }
 
+    public void addExcludeDirectoryPatterns(String... excludeGlobPatterns) {
+        this.excludeDirPatterns.addAll(Arrays.asList(excludeGlobPatterns));
+    }
 
     public List<FilePath> scan() {
         FileMatcher fileMatcher = getFileMather();
@@ -111,8 +84,10 @@ public class FileScanner {
             }
 
             if (file.isDirectory()) {
-                List<FilePath> subDirPaths = scanDir(fileMatcher, file);
-                pathMatches.addAll(subDirPaths);
+                if(fileMatcher.processDirectory(file)){
+                    List<FilePath> subDirPaths = scanDir(fileMatcher, file);
+                    pathMatches.addAll(subDirPaths);
+                }
             }
         }
 
@@ -121,9 +96,17 @@ public class FileScanner {
 
 
     private FileMatcher getFileMather() {
-        List<PathMatcher> filePathMatchers = toPathMatchers(filePatterns);
-        List<PathMatcher> dirPathMatchers = toPathMatchers(dirPatterns);
-        return new FileMatcher(basepath, filePathMatchers, dirPathMatchers);
+        PathMatchers pathMatchers = getPathMatchers();
+        return new FileMatcher(basepath, pathMatchers);
+    }
+
+    private PathMatchers getPathMatchers(){
+        List<PathMatcher> includeFilePathMatchers = toPathMatchers(includeFilePatterns);
+        List<PathMatcher> excludeFilePathMatchers = toPathMatchers(excludeFilePatterns);
+        List<PathMatcher> includeDirPathMatchers = toPathMatchers(includeDirPatterns);
+        List<PathMatcher> excludeDirPathMatchers = toPathMatchers(excludeDirPatterns);
+
+        return new PathMatchers(includeFilePathMatchers, excludeFilePathMatchers, includeDirPathMatchers, excludeDirPathMatchers);
     }
 
     private List<PathMatcher> toPathMatchers(List<String> pattersn) {

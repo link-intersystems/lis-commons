@@ -5,14 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import java.io.IOException;
-import java.net.URI;
-import java.nio.file.FileSystems;
 import java.nio.file.Path;
-import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
@@ -36,20 +31,7 @@ class FileScannerTest {
 
         List<FilePath> paths = fileScanner.scan();
 
-        assertTrue(new PathMatches(paths).containsMatch(Paths.get("pom.xml")));
-    }
-
-    @Test
-    void subDirFiles() {
-        fileScanner.addFilePattern("**/main/java/**/*List.java");
-
-        List<FilePath> paths = fileScanner.scan();
-        PathMatches filePaths = new PathMatches(paths);
-        assertTrue(filePaths.containsMatch(Paths.get("src/main/java/com/link_intersystems/jdbc/ColumnMetaDataList.java")));
-        assertTrue(filePaths.containsMatch(Paths.get("src/main/java/com/link_intersystems/jdbc/ForeignKeyList.java")));
-        assertTrue(filePaths.containsMatch(Paths.get("src/main/java/com/link_intersystems/jdbc/TableReferenceList.java")));
-
-        assertFalse(filePaths.containsMatch(Paths.get("src/main/java/com/link_intersystems/jdbc/ColumnDescription.java")));
+        new FilePathAssertions(paths).assertContains("pom.xml");
     }
 
     @Test
@@ -57,11 +39,53 @@ class FileScannerTest {
         fileScanner.addDirectoryPatterns("**");
 
         List<FilePath> paths = fileScanner.scan();
-        PathMatches filePaths = new PathMatches(paths);
-        assertTrue(filePaths.containsMatch(Paths.get("src/main/java")));
-        assertTrue(filePaths.containsMatch(Paths.get("src/main")));
-        assertTrue(filePaths.containsMatch(Paths.get("src/")));
+        FilePathAssertions filePaths = new FilePathAssertions(paths);
+        filePaths.assertContains("src/main/java");
+        filePaths.assertContains("src/main");
+        filePaths.assertContains("src/");
 
-        assertFalse(filePaths.containsMatch(Paths.get("src/main/java/com/link_intersystems/jdbc/ColumnDescription.java")));
+        filePaths.assertNotContains("src/main/java/com/link_intersystems/jdbc/ColumnDescription.java");
+    }
+
+
+    @Test
+    void subDirFiles() {
+        fileScanner.addFilePattern("**/main/java/**/*List.java");
+
+        List<FilePath> paths = fileScanner.scan();
+        FilePathAssertions filePaths = new FilePathAssertions(paths);
+        filePaths.assertContains("src/main/java/com/link_intersystems/jdbc/ColumnMetaDataList.java");
+        filePaths.assertContains("src/main/java/com/link_intersystems/jdbc/ForeignKeyList.java");
+        filePaths.assertContains("src/main/java/com/link_intersystems/jdbc/TableReferenceList.java");
+
+        filePaths.assertNotContains("src/main/java/com/link_intersystems/jdbc/ColumnDescription.java");
+    }
+
+
+    @Test
+    void excludeFiles() {
+        subDirFiles();
+        fileScanner.addExcludeFilePatterns("**/ForeignKeyList.java");
+
+        List<FilePath> paths = fileScanner.scan();
+        FilePathAssertions filePaths = new FilePathAssertions(paths);
+        filePaths.assertContains("src/main/java/com/link_intersystems/jdbc/ColumnMetaDataList.java");
+        filePaths.assertContains("src/main/java/com/link_intersystems/jdbc/ColumnMetaDataList.java");
+        filePaths.assertNotContains("src/main/java/com/link_intersystems/jdbc/ForeignKeyList.java");
+        filePaths.assertContains("src/main/java/com/link_intersystems/jdbc/TableReferenceList.java");
+
+        filePaths.assertNotContains("src/main/java/com/link_intersystems/jdbc/ColumnDescription.java");
+    }
+
+    @Test
+    void excludeDirs() {
+        subDirFiles();
+        fileScanner.addExcludeDirectoryPatterns("**/jdbc");
+
+        List<FilePath> paths = fileScanner.scan();
+        FilePathAssertions filePaths = new FilePathAssertions(paths);
+        filePaths.assertNotContains("src/main/java/com/link_intersystems/jdbc/ColumnMetaDataList.java");
+        filePaths.assertNotContains("src/main/java/com/link_intersystems/jdbc/ForeignKeyList.java");
+        filePaths.assertNotContains("src/main/java/com/link_intersystems/jdbc/TableReferenceList.java");
     }
 }
