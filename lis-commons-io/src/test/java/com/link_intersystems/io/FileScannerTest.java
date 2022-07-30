@@ -6,7 +6,6 @@ import org.junit.jupiter.api.io.TempDir;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 /**
@@ -27,7 +26,7 @@ class FileScannerTest {
 
     @Test
     void baseDirFiles() {
-        fileScanner.addFilePattern("pom.xml");
+        fileScanner.addIncludeFilePattern("pom.xml");
 
         List<FilePath> paths = fileScanner.scan();
 
@@ -36,7 +35,7 @@ class FileScannerTest {
 
     @Test
     void dirs() {
-        fileScanner.addDirectoryPatterns("**");
+        fileScanner.addIncludeDirectoryPatterns("**");
 
         List<FilePath> paths = fileScanner.scan();
         FilePathAssertions filePaths = new FilePathAssertions(paths);
@@ -50,7 +49,7 @@ class FileScannerTest {
 
     @Test
     void subDirFiles() {
-        fileScanner.addFilePattern("**/main/java/**/*List.java");
+        fileScanner.addIncludeFilePattern("**/main/java/**/*List.java");
 
         List<FilePath> paths = fileScanner.scan();
         FilePathAssertions filePaths = new FilePathAssertions(paths);
@@ -87,5 +86,17 @@ class FileScannerTest {
         filePaths.assertNotContains("src/main/java/com/link_intersystems/jdbc/ColumnMetaDataList.java");
         filePaths.assertNotContains("src/main/java/com/link_intersystems/jdbc/ForeignKeyList.java");
         filePaths.assertNotContains("src/main/java/com/link_intersystems/jdbc/TableReferenceList.java");
+    }
+
+    @Test
+    void rebasedFileScanner() {
+        fileScanner = fileScanner.rebase(tmpDir.resolve("src/test"));
+        fileScanner.addIncludeFilePattern("java/**/*.java");
+
+        List<FilePath> paths = fileScanner.scan();
+        FilePathAssertions filePaths = new FilePathAssertions(paths);
+        filePaths.assertContains("java/com/link_intersystems/jdbc/ColumnDescriptionEqualityTest.java");
+        filePaths.assertContains("java/com/link_intersystems/jdbc/ConnectionMetaDataTest.java");
+        filePaths.assertContains("java/com/link_intersystems/jdbc/MapRowMapperTest.java");
     }
 }

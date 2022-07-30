@@ -1,64 +1,47 @@
 package com.link_intersystems.io;
 
-import java.io.File;
-import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
-import static java.util.Objects.requireNonNull;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
 class FileMatcher {
 
-    private Path basepath;
-    private PathMatchers pathMatchers;
+    private List<PathMatcher> includeFileMatchers;
+    private List<PathMatcher> excludeFileMatchers;
 
-    public FileMatcher(Path basepath, PathMatchers pathMatchers) {
-        this.basepath = requireNonNull(basepath);
-        this.pathMatchers =  requireNonNull(pathMatchers);
+    private List<PathMatcher> includeDirMatchers;
+    private List<PathMatcher> excludeDirMatchers;
+
+    public FileMatcher(List<PathMatcher> includeFileMatchers,
+                       List<PathMatcher> excludeFileMatchers,
+                       List<PathMatcher> includeDirMatchers,
+                       List<PathMatcher> excludeDirMatchers) {
+        this.includeFileMatchers = includeFileMatchers;
+        this.excludeFileMatchers = excludeFileMatchers;
+        this.includeDirMatchers = includeDirMatchers;
+        this.excludeDirMatchers = excludeDirMatchers;
     }
 
-    public Path getMatch(File file) {
+    public boolean isFileMatch(Path path) {
+        return includeFileMatchers.stream().anyMatch(pm -> pm.matches(path)) &&
+                !excludeFileMatchers.stream().anyMatch(pm -> pm.matches(path));
+    }
 
-        Path filepath = file.toPath();
-        Path baseRelativePath = relativize(filepath, basepath);
+    public boolean isDirMatch(Path path) {
+        return includeDirMatchers.stream().anyMatch(pm -> pm.matches(path)) &&
+                !excludeDirMatchers.stream().anyMatch(pm -> pm.matches(path));
+    }
 
 
-        if(file.isDirectory()){
-            if(pathMatchers.isDirMatch(baseRelativePath)){
-                return baseRelativePath;
-            }
-        } else if(file.isFile()){
-            if(pathMatchers.isFileMatch(baseRelativePath)){
-                return baseRelativePath;
+    public boolean processDirectory(Path path) {
+        if (includeDirMatchers.isEmpty()) {
+            if (excludeDirMatchers.isEmpty()) {
+                return true;
             }
         }
-
-        return null;
-    }
-
-
-    public boolean processDirectory(File dir) {
-
-        Path filepath = dir.toPath();
-        Path baseRelativePath = relativize(filepath, basepath);
-
-
-        if(dir.isDirectory()){
-            return pathMatchers.isProcessDir(baseRelativePath);
-        }
-
-        return false;
-    }
-
-    private Path relativize(Path filePath, Path basepath) {
-        URI relativizedUri = basepath.toUri().relativize(filePath.toUri());
-        return Paths.get(relativizedUri.getPath());
+        return !excludeDirMatchers.stream().anyMatch(pm -> pm.matches(path));
     }
 }
