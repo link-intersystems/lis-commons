@@ -4,46 +4,77 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
 class FileScannerTest {
 
-    private Path tmpDir;
+    private Path tmpPath;
     private FileScanner fileScanner;
 
     @BeforeEach
     void setUp(@TempDir Path tmpDir) throws IOException {
-        this.tmpDir = tmpDir;
+        this.tmpPath = tmpDir;
         Unzip.unzip(FileScannerTest.class.getResourceAsStream("/lis-commons-jdbc.zip"), tmpDir);
 
-        fileScanner = new FileScanner(tmpDir.toFile());
+        fileScanner = new FileScanner();
+    }
+
+    @Test
+    void scanNoDir() {
+        File nonExistentDir = getNonExistentDir();
+
+        assertThrows(IllegalArgumentException.class, () ->  fileScanner.scan(nonExistentDir));
+    }
+
+    private File getNonExistentDir() {
+        File tmpDir = tmpPath.toFile().getAbsoluteFile();
+        File nonExistentDir = new File(tmpDir, UUID.randomUUID().toString());
+        while(nonExistentDir.exists()){
+            nonExistentDir = new File(tmpDir, UUID.randomUUID().toString());
+        }
+        return nonExistentDir;
     }
 
     @Test
     void baseDirFiles() {
         fileScanner.addIncludeFilePattern("pom.xml");
 
-        List<FilePath> paths = fileScanner.scan();
+        List<File> files = fileScanner.scan(tmpPath);
 
-        new FilePathAssertions(paths).assertContains("pom.xml");
+        new FileAssertions(files).assertOneEndsWith("pom.xml");
+    }
+
+    @Test
+    void copyConstructor() {
+        fileScanner.addIncludeFilePattern("pom.xml");
+
+        FileScanner copyFileScanner = new FileScanner(this.fileScanner);
+
+        List<File> files = copyFileScanner.scan(tmpPath);
+
+        new FileAssertions(files).assertOneEndsWith("pom.xml");
     }
 
     @Test
     void dirs() {
         fileScanner.addIncludeDirectoryPatterns("**");
 
-        List<FilePath> paths = fileScanner.scan();
-        FilePathAssertions filePaths = new FilePathAssertions(paths);
-        filePaths.assertContains("src/main/java");
-        filePaths.assertContains("src/main");
-        filePaths.assertContains("src/");
+        List<File> paths = fileScanner.scan(tmpPath);
+        FileAssertions fileAssertions = new FileAssertions(paths);
+        fileAssertions.assertOneEndsWith("src/main/java");
+        fileAssertions.assertOneEndsWith("src/main");
+        fileAssertions.assertOneEndsWith("src/");
 
-        filePaths.assertNotContains("src/main/java/com/link_intersystems/jdbc/ColumnDescription.java");
+        fileAssertions.assertNoneEndsWith("src/main/java/com/link_intersystems/jdbc/ColumnDescription.java");
     }
 
 
@@ -51,13 +82,13 @@ class FileScannerTest {
     void subDirFiles() {
         fileScanner.addIncludeFilePattern("**/main/java/**/*List.java");
 
-        List<FilePath> paths = fileScanner.scan();
-        FilePathAssertions filePaths = new FilePathAssertions(paths);
-        filePaths.assertContains("src/main/java/com/link_intersystems/jdbc/ColumnMetaDataList.java");
-        filePaths.assertContains("src/main/java/com/link_intersystems/jdbc/ForeignKeyList.java");
-        filePaths.assertContains("src/main/java/com/link_intersystems/jdbc/TableReferenceList.java");
+        List<File> paths = fileScanner.scan(tmpPath);
+        FileAssertions fileAssertions = new FileAssertions(paths);
+        fileAssertions.assertOneEndsWith("src/main/java/com/link_intersystems/jdbc/ColumnMetaDataList.java");
+        fileAssertions.assertOneEndsWith("src/main/java/com/link_intersystems/jdbc/ForeignKeyList.java");
+        fileAssertions.assertOneEndsWith("src/main/java/com/link_intersystems/jdbc/TableReferenceList.java");
 
-        filePaths.assertNotContains("src/main/java/com/link_intersystems/jdbc/ColumnDescription.java");
+        fileAssertions.assertNoneEndsWith("src/main/java/com/link_intersystems/jdbc/ColumnDescription.java");
     }
 
 
@@ -66,14 +97,14 @@ class FileScannerTest {
         subDirFiles();
         fileScanner.addExcludeFilePatterns("**/ForeignKeyList.java");
 
-        List<FilePath> paths = fileScanner.scan();
-        FilePathAssertions filePaths = new FilePathAssertions(paths);
-        filePaths.assertContains("src/main/java/com/link_intersystems/jdbc/ColumnMetaDataList.java");
-        filePaths.assertContains("src/main/java/com/link_intersystems/jdbc/ColumnMetaDataList.java");
-        filePaths.assertNotContains("src/main/java/com/link_intersystems/jdbc/ForeignKeyList.java");
-        filePaths.assertContains("src/main/java/com/link_intersystems/jdbc/TableReferenceList.java");
+        List<File> paths = fileScanner.scan(tmpPath);
+        FileAssertions fileAssertions = new FileAssertions(paths);
+        fileAssertions.assertOneEndsWith("src/main/java/com/link_intersystems/jdbc/ColumnMetaDataList.java");
+        fileAssertions.assertOneEndsWith("src/main/java/com/link_intersystems/jdbc/ColumnMetaDataList.java");
+        fileAssertions.assertNoneEndsWith("src/main/java/com/link_intersystems/jdbc/ForeignKeyList.java");
+        fileAssertions.assertOneEndsWith("src/main/java/com/link_intersystems/jdbc/TableReferenceList.java");
 
-        filePaths.assertNotContains("src/main/java/com/link_intersystems/jdbc/ColumnDescription.java");
+        fileAssertions.assertNoneEndsWith("src/main/java/com/link_intersystems/jdbc/ColumnDescription.java");
     }
 
     @Test
@@ -81,22 +112,12 @@ class FileScannerTest {
         subDirFiles();
         fileScanner.addExcludeDirectoryPatterns("**/jdbc");
 
-        List<FilePath> paths = fileScanner.scan();
-        FilePathAssertions filePaths = new FilePathAssertions(paths);
-        filePaths.assertNotContains("src/main/java/com/link_intersystems/jdbc/ColumnMetaDataList.java");
-        filePaths.assertNotContains("src/main/java/com/link_intersystems/jdbc/ForeignKeyList.java");
-        filePaths.assertNotContains("src/main/java/com/link_intersystems/jdbc/TableReferenceList.java");
+        List<File> paths = fileScanner.scan(tmpPath);
+        FileAssertions fileAssertions = new FileAssertions(paths);
+        fileAssertions.assertNoneEndsWith("src/main/java/com/link_intersystems/jdbc/ColumnMetaDataList.java");
+        fileAssertions.assertNoneEndsWith("src/main/java/com/link_intersystems/jdbc/ForeignKeyList.java");
+        fileAssertions.assertNoneEndsWith("src/main/java/com/link_intersystems/jdbc/TableReferenceList.java");
     }
 
-    @Test
-    void rebasedFileScanner() {
-        fileScanner = fileScanner.rebase(tmpDir.resolve("src/test"));
-        fileScanner.addIncludeFilePattern("java/**/*.java");
 
-        List<FilePath> paths = fileScanner.scan();
-        FilePathAssertions filePaths = new FilePathAssertions(paths);
-        filePaths.assertContains("java/com/link_intersystems/jdbc/ColumnDescriptionEqualityTest.java");
-        filePaths.assertContains("java/com/link_intersystems/jdbc/ConnectionMetaDataTest.java");
-        filePaths.assertContains("java/com/link_intersystems/jdbc/MapRowMapperTest.java");
-    }
 }

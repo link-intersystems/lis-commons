@@ -1,7 +1,10 @@
 package com.link_intersystems.io;
 
+import java.io.File;
+import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
+import java.nio.file.Paths;
 import java.util.List;
 
 /**
@@ -9,39 +12,50 @@ import java.util.List;
  */
 class FileMatcher {
 
+    private Path basepath;
     private List<PathMatcher> includeFileMatchers;
     private List<PathMatcher> excludeFileMatchers;
 
     private List<PathMatcher> includeDirMatchers;
     private List<PathMatcher> excludeDirMatchers;
 
-    public FileMatcher(List<PathMatcher> includeFileMatchers,
+    public FileMatcher(Path basepath, List<PathMatcher> includeFileMatchers,
                        List<PathMatcher> excludeFileMatchers,
                        List<PathMatcher> includeDirMatchers,
                        List<PathMatcher> excludeDirMatchers) {
+        this.basepath = basepath;
         this.includeFileMatchers = includeFileMatchers;
         this.excludeFileMatchers = excludeFileMatchers;
         this.includeDirMatchers = includeDirMatchers;
         this.excludeDirMatchers = excludeDirMatchers;
     }
 
-    public boolean isFileMatch(Path path) {
-        return includeFileMatchers.stream().anyMatch(pm -> pm.matches(path)) &&
-                !excludeFileMatchers.stream().anyMatch(pm -> pm.matches(path));
+    protected Path relativize(File file) {
+        URI relativizedUri = basepath.toUri().relativize(file.toPath().toUri());
+        return Paths.get(relativizedUri.getPath());
     }
 
-    public boolean isDirMatch(Path path) {
-        return includeDirMatchers.stream().anyMatch(pm -> pm.matches(path)) &&
-                !excludeDirMatchers.stream().anyMatch(pm -> pm.matches(path));
+    public boolean isFileMatch(File file) {
+        
+        Path basepathRelativePath = relativize(file);
+        return includeFileMatchers.stream().anyMatch(pm -> pm.matches(basepathRelativePath)) &&
+                excludeFileMatchers.stream().noneMatch(pm -> pm.matches(basepathRelativePath));
+    }
+
+    public boolean isDirMatch(File file) {
+        Path basepathRelativePath = relativize(file);
+        return includeDirMatchers.stream().anyMatch(pm -> pm.matches(basepathRelativePath)) &&
+                excludeDirMatchers.stream().noneMatch(pm -> pm.matches(basepathRelativePath));
     }
 
 
-    public boolean processDirectory(Path path) {
+    public boolean processDirectory(File file) {
+        Path basepathRelativePath = relativize(file);
         if (includeDirMatchers.isEmpty()) {
             if (excludeDirMatchers.isEmpty()) {
                 return true;
             }
         }
-        return !excludeDirMatchers.stream().anyMatch(pm -> pm.matches(path));
+        return excludeDirMatchers.stream().noneMatch(pm -> pm.matches(basepathRelativePath));
     }
 }
