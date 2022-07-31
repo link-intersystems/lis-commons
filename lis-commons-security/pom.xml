@@ -11,4 +11,9 @@
 
     <artifactId>lis-commons-security</artifactId>
 
+    <name>LIS Commons Security</name>
+    <description>Link Intersystems Commons Security (lis-commons-security) provides security related tools and
+        utilities.
+    </description>
+
 </project>
