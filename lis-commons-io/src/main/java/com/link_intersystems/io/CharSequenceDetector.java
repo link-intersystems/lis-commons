@@ -3,13 +3,26 @@ package com.link_intersystems.io;
 import java.io.IOException;
 import java.io.PushbackReader;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
 public class CharSequenceDetector {
 
+    private CharSequenceArrayFactory charSequenceArrayFactory;
+
+    public CharSequenceDetector() {
+        this(DefaultCharSequenceArrayFactory.INSTANCE);
+    }
+
+    public CharSequenceDetector(CharSequenceArrayFactory charSequenceArrayFactory) {
+        this.charSequenceArrayFactory = requireNonNull(charSequenceArrayFactory);
+    }
+
     /**
-     * @param pushbackReader the pushbackReader to use to detect the char sequence.
+     * @param pushbackReader the pushbackReader to use to detect the char sequence. The {@link PushbackReader} must
+     *                       have at least a pushback buffer size of 1.
      * @return true if the char sequence was detected or false otherwise. If the char sequence was detected all
      * chars that have been read during detection are gone and the {@link PushbackReader} is at the end position,
      * so that it will return the next char after the detected char sequence on the next read call.
@@ -17,39 +30,33 @@ public class CharSequenceDetector {
     public boolean detect(PushbackReader pushbackReader, CharSequence sequence) throws IOException {
 
         if (sequence.length() == 0) {
-            return hasMoreChars(pushbackReader);
+            return !hasMoreChars(pushbackReader);
         }
 
-        int longestMatchCharCount = findLongestMatch(pushbackReader, sequence);
+        int longestMatchCharCount = findLongestMatchCount(pushbackReader, sequence);
 
         boolean completeMatch = sequence.length() == longestMatchCharCount;
         if (!completeMatch) {
-            char[] sequenceAsArray = toArray(sequence, longestMatchCharCount);
+            char[] sequenceAsArray = charSequenceArrayFactory.toArray(sequence, 0, longestMatchCharCount);
             pushbackReader.unread(sequenceAsArray);
         }
         return completeMatch;
     }
 
-    protected char[] toArray(CharSequence sequence, int endIndex) {
-        char[] chars = new char[endIndex];
-
-        for (int i = 0; i < endIndex; i++) {
-            chars[i] = sequence.charAt(i);
-        }
-
-        return chars;
-    }
-
-    protected int findLongestMatch(PushbackReader pushbackReader, CharSequence sequence) throws IOException {
+    protected int findLongestMatchCount(PushbackReader pushbackReader, CharSequence sequence) throws IOException {
         int matchPosition = 0;
 
-        while (matchPosition < sequence.length()) {
-            int read = pushbackReader.read();
+        int read;
+        while (matchPosition < sequence.length() &&
+                (read = pushbackReader.read()) != -1) {
+
             char charAt = sequence.charAt(matchPosition);
+
             if (charAt != read) {
                 pushbackReader.unread(read);
                 break;
             }
+
             matchPosition++;
         }
 
@@ -58,11 +65,11 @@ public class CharSequenceDetector {
 
     protected boolean hasMoreChars(PushbackReader pushbackReader) throws IOException {
         int read = pushbackReader.read();
-        try {
-            return read == -1;
-        } finally {
-            pushbackReader.unread(read);
+        if (read == -1) {
+            return false;
         }
+        pushbackReader.unread(read);
+        return true;
     }
 
 }

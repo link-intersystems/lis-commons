@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-class DefaultCharSequenceDetectorTest {
+class CharSequenceDetectorTest {
 
     private CharSequenceDetector streamSequenceDetector;
 
@@ -23,7 +23,7 @@ class DefaultCharSequenceDetectorTest {
 
     @Test
     void detectEmptyCharSequence() throws IOException {
-        PushbackReader reader = new PushbackReader(new StringReader("hello"), 14);
+        PushbackReader reader = new PushbackReader(new StringReader("hello"));
         String sequence = "";
 
         assertFalse(streamSequenceDetector.detect(reader, sequence));
@@ -31,16 +31,32 @@ class DefaultCharSequenceDetectorTest {
 
     @Test
     void detectEmptyCharSequenceOnEmptyInput() throws IOException {
-        PushbackReader reader = new PushbackReader(new StringReader(""), 14);
+        PushbackReader reader = new PushbackReader(new StringReader(""));
         String sequence = "";
 
         assertTrue(streamSequenceDetector.detect(reader, sequence));
     }
 
+    @Test
+    void simpleDetect() throws IOException {
+        PushbackReader reader = new PushbackReader(new StringReader("#a#"));
+        String sequence = "a";
+
+        assertFalse(streamSequenceDetector.detect(reader, sequence));
+        assertEquals("#", readNextChars(reader, 1));
+
+        assertTrue(streamSequenceDetector.detect(reader, sequence));
+
+        assertEquals("#", readNextChars(reader, 1));
+        assertFalse(streamSequenceDetector.detect(reader, sequence));
+
+        assertEquals(-1, reader.read());
+    }
+
 
     @Test
     void detect() throws IOException {
-        PushbackReader reader = new PushbackReader(new StringReader("<artifactId>${artifactId}</artifactId>"), 14);
+        PushbackReader reader = new PushbackReader(new StringReader("<artifactId>${artifactId}</artifactId>"));
         String sequence = "${artifactId}";
 
         assertFalse(streamSequenceDetector.detect(reader, sequence));
@@ -51,6 +67,8 @@ class DefaultCharSequenceDetectorTest {
 
         assertEquals("</artifactId>", readNextChars(reader, 13));
         assertFalse(streamSequenceDetector.detect(reader, sequence));
+
+        assertEquals(-1, reader.read());
     }
 
     private String readNextChars(Reader reader, int chars) throws IOException {
@@ -63,7 +81,7 @@ class DefaultCharSequenceDetectorTest {
     @Test
     void detectSingleChar() throws IOException {
         String sequence = "}";
-        PushbackReader reader = new PushbackReader(new StringReader("<artifactId>${artifactId}</artifactId>"), 14);
+        PushbackReader reader = new PushbackReader(new StringReader("<artifactId>${artifactId}</artifactId>"));
         assertFalse(streamSequenceDetector.detect(reader, sequence));
 
         assertEquals("<artifactId>", readNextChars(reader, 12));
@@ -74,6 +92,8 @@ class DefaultCharSequenceDetectorTest {
 
         assertEquals("</artifactId>", readNextChars(reader, 13));
         assertFalse(streamSequenceDetector.detect(reader, sequence));
+
+        assertEquals(-1, reader.read());
     }
 
     @Test
@@ -105,7 +125,7 @@ class DefaultCharSequenceDetectorTest {
 
     private BufferedReader readClasspathResource(String resource) {
         return new BufferedReader(new InputStreamReader(
-                DefaultCharSequenceDetectorTest.class.getResourceAsStream(resource),
+                CharSequenceDetectorTest.class.getResourceAsStream(resource),
                 StandardCharsets.UTF_8));
     }
 }
