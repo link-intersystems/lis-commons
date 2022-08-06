@@ -33,17 +33,21 @@ public class CharSequenceDetector {
             return !hasMoreChars(pushbackReader);
         }
 
-        int longestMatchCharCount = findLongestMatchCount(pushbackReader, sequence);
+        int matchLength = getSequenceMatchLength(pushbackReader, sequence);
 
-        boolean completeMatch = sequence.length() == longestMatchCharCount;
+        boolean completeMatch = sequence.length() == matchLength;
         if (!completeMatch) {
-            char[] sequenceAsArray = charSequenceArrayFactory.toArray(sequence, 0, longestMatchCharCount);
-            pushbackReader.unread(sequenceAsArray);
+            char[] matchedSequence = getMatchedSequence(sequence, matchLength);
+            pushbackReader.unread(matchedSequence);
         }
         return completeMatch;
     }
 
-    protected int findLongestMatchCount(PushbackReader pushbackReader, CharSequence sequence) throws IOException {
+    protected char[] getMatchedSequence(CharSequence sequence, int matchLength) {
+        return charSequenceArrayFactory.toArray(sequence, 0, matchLength);
+    }
+
+    protected int getSequenceMatchLength(PushbackReader pushbackReader, CharSequence sequence) throws IOException {
         int matchPosition = 0;
 
         int read;
