@@ -1,5 +1,6 @@
 package com.link_intersystems.io;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -101,26 +102,20 @@ class CharSequenceDetectorTest {
         int pushbackSize = 100;
         Reader resourceReader = readClasspathResource("DefaultCharSequenceDetector.txt");
 
-        int pos = 0;
         CharSequenceDetector sequenceDetector = new CharSequenceDetector();
 
+        read:
         try (PushbackReader reader = new PushbackReader(resourceReader, pushbackSize)) {
+            String sequence = "49cb-a14e";
             while (reader.ready()) {
-                if (sequenceDetector.detect(reader, "49cb-a14e")) {
-                    break;
+                if (sequenceDetector.detect(reader, sequence)) {
+                    break read;
                 }
                 reader.read();
-                pos++;
             }
+
+            Assertions.fail(sequence + " was not detected");
         }
-
-        int line = 800;
-        int uuidLength = 36;
-        int newLinesLength = line - 1;
-        int posOfSequenceWithLine = 14;
-        int expectedPos = (line - 1) * uuidLength + newLinesLength + posOfSequenceWithLine;
-
-        assertEquals(expectedPos, pos);
     }
 
     private BufferedReader readClasspathResource(String resource) {
