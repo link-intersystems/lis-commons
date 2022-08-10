@@ -20,11 +20,6 @@
         </dependency>
         <dependency>
             <groupId>com.link-intersystems.commons</groupId>
-            <artifactId>lis-commons-lang</artifactId>
-            <type>test-jar</type>
-        </dependency>
-        <dependency>
-            <groupId>com.link-intersystems.commons</groupId>
             <artifactId>lis-commons-test</artifactId>
             <scope>test</scope>
         </dependency>

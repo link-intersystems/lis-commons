@@ -17,10 +17,9 @@ package com.link_intersystems.lang.ref;
 
 import java.io.Serializable;
 
+import com.link_intersystems.test.EqualsAndHashCodeTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import com.link_intersystems.EqualsAndHashCodeTest;
 
 class AbstractSerializableReferenceEqualsAndHashCodeTest  extends
 		EqualsAndHashCodeTest {

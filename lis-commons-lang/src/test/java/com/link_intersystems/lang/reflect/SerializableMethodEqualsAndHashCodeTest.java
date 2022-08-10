@@ -18,9 +18,8 @@ package com.link_intersystems.lang.reflect;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+import com.link_intersystems.test.EqualsAndHashCodeTest;
 import org.junit.jupiter.api.BeforeEach;
-
-import com.link_intersystems.EqualsAndHashCodeTest;
 
 class SerializableMethodEqualsAndHashCodeTest  extends
 		EqualsAndHashCodeTest {

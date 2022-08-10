@@ -15,8 +15,8 @@
  */
 package com.link_intersystems.beans.java;
 
-import com.link_intersystems.EqualsAndHashCodeTest;
 import com.link_intersystems.beans.BeanClassException;
+import com.link_intersystems.test.EqualsAndHashCodeTest;
 
 class ArrayIndexedPropertyEqualsAndHashCodeTest extends EqualsAndHashCodeTest {
 

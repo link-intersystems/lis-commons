@@ -15,9 +15,9 @@
  */
 package com.link_intersystems.lang.reflect;
 
-import java.lang.reflect.Method;
-
 import com.link_intersystems.lang.Primitives;
+
+import java.lang.reflect.Method;
 
 /**
  * An {@link NullInvocationArgumentsResolver} returns argument arrays that

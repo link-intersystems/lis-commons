@@ -21,7 +21,6 @@ import java.lang.reflect.Member;
 import java.lang.reflect.Modifier;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
 

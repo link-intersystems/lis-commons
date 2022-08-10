@@ -1,18 +1,17 @@
 package com.link_intersystems.lang.ref;
 
-import static java.util.Objects.requireNonNull;
+import com.link_intersystems.lang.Primitives;
+import com.link_intersystems.lang.reflect.AbstractInvocationHandler;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import com.link_intersystems.lang.Primitives;
-import com.link_intersystems.lang.reflect.AbstractInvocationHandler;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Creates a proxy that delegates all invocations to a delegate as long as it is

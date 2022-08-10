@@ -15,10 +15,10 @@
  */
 package com.link_intersystems.lang.reflect;
 
+import com.link_intersystems.lang.Signature;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Type;
-
-import com.link_intersystems.lang.Signature;
 
 /**
  * A {@link Constructor2} is an extension of the standard java

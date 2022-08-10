@@ -15,8 +15,6 @@
  */
 package com.link_intersystems.lang.reflect;
 
-import com.link_intersystems.lang.Assert;
-
 import java.io.Serializable;
 import java.lang.reflect.Member;
 import java.util.function.Predicate;

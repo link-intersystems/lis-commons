@@ -15,8 +15,8 @@
  */
 package com.link_intersystems.lang.reflect;
 
-import com.link_intersystems.EqualsAndHashCodeTest;
 import com.link_intersystems.lang.Signature;
+import com.link_intersystems.test.EqualsAndHashCodeTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

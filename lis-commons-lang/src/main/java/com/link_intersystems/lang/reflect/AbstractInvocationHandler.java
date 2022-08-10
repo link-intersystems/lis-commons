@@ -1,12 +1,12 @@
 package com.link_intersystems.lang.reflect;
 
-import static java.util.Objects.requireNonNull;
-
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static java.util.Objects.requireNonNull;
 
 public abstract class AbstractInvocationHandler<T> implements InvocationHandler {
 
