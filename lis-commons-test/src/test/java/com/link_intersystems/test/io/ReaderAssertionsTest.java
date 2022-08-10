@@ -71,4 +71,10 @@ class ReaderAssertionsTest {
         ReaderAssertions readerAssertions = new ReaderAssertions(new StringReader(""));
         assertThrows(AssertionError.class, () -> readerAssertions.assertLineContains(" log4j-[a-z]{4}"));
     }
+
+    @Test
+    void assertLineWithPredicate() {
+        ReaderAssertions readerAssertions = new ReaderAssertions(new StringReader("Hello World"));
+        readerAssertions.assertLine(s -> s.endsWith("World"));
+    }
 }

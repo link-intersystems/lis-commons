@@ -3,6 +3,8 @@ package com.link_intersystems.test.io;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.Objects;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,7 +35,7 @@ public class ReaderAssertions {
     }
 
     public void assertNoLine() {
-        assertLine(null);
+        assertLine(Objects::isNull);
     }
 
     public void assertLine(String expectedLine) {
@@ -56,5 +58,10 @@ public class ReaderAssertions {
         assertNotNull(line, () -> "No line available to match '" + regexp + "'");
         Matcher matcher = pattern.matcher(line);
         assertTrue(matcher.find(), () -> "'" + line + "' should contain '" + regexp + "'");
+    }
+
+    public void assertLine(Predicate<String> linePredicate) {
+        String line = readLine();
+        assertTrue(linePredicate.test(line), () -> "'" + line + "' did not match the predicate '" + linePredicate + "'");
     }
 }
