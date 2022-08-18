@@ -8,6 +8,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.link_intersystems.jdbc.ResultSetMappers.*;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -61,9 +62,9 @@ public class ConnectionMetaData implements TableReferenceMetaData {
     }
 
     public ConnectionMetaData(Connection connection, JdbcContext context, String... tableTypes) {
-        this.connection = connection;
+        this.connection = requireNonNull(connection);
         this.context = context;
-        this.tableTypes = tableTypes;
+        this.tableTypes = requireNonNull(tableTypes);
     }
 
     /**
@@ -85,7 +86,7 @@ public class ConnectionMetaData implements TableReferenceMetaData {
         return tableMetaDataList;
     }
 
-    private ScopedDatabaseMetaData getScopedDatabaseMetaData() throws SQLException {
+    protected ScopedDatabaseMetaData getScopedDatabaseMetaData() throws SQLException {
         DatabaseMetaData metaData = connection.getMetaData();
         JdbcContext context = getContext();
         return new ScopedDatabaseMetaData(metaData, context.getCatalog(), context.getSchema());

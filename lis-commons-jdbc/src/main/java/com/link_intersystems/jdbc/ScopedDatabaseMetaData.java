@@ -4,6 +4,8 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
@@ -14,7 +16,7 @@ public class ScopedDatabaseMetaData {
     private final String schemaPattern;
 
     public ScopedDatabaseMetaData(DatabaseMetaData databaseMetaData, String catalog, String schemaPattern) {
-        this.databaseMetaData = databaseMetaData;
+        this.databaseMetaData = requireNonNull(databaseMetaData);
         this.catalog = catalog;
         this.schemaPattern = schemaPattern;
     }
