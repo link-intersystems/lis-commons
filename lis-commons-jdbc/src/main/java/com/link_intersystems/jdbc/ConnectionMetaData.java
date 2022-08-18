@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.link_intersystems.jdbc.ResultSetMappers.*;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -34,7 +35,7 @@ import static java.util.stream.Collectors.toList;
  */
 public class ConnectionMetaData implements TableReferenceMetaData {
 
-    private List<TableMetaData> tableMetaDataList;
+    private TableMetaDataList tableMetaDataList;
     private Map<String, ColumnMetaDataList> columnMetaDataListByTableName = new HashMap<>();
     private Map<String, PrimaryKey> primaryKeysByTableName = new HashMap<>();
     private Map<String, ForeignKeyList> exportedForeignKeysByTableName = new HashMap<>();
@@ -65,11 +66,21 @@ public class ConnectionMetaData implements TableReferenceMetaData {
         this.tableTypes = tableTypes;
     }
 
-    public List<TableMetaData> getTableMetaDataList() throws SQLException {
+    /**
+     * Convenience method for {@link #getTableMetaDataList()}.getByName(tableName).
+     *
+     * @param tableName
+     * @return
+     */
+    public TableMetaData getTableMetaData(String tableName) throws SQLException {
+        return getTableMetaDataList().getByName(tableName);
+    }
+
+    public TableMetaDataList getTableMetaDataList() throws SQLException {
         if (tableMetaDataList == null) {
             ScopedDatabaseMetaData metaData = getScopedDatabaseMetaData();
             ResultSet tablesResultSet = metaData.getTables("%", tableTypes);
-            tableMetaDataList = mapResultSet(tablesResultSet, TableMetaData::new);
+            tableMetaDataList = new TableMetaDataList(tablesResultSet);
         }
         return tableMetaDataList;
     }
@@ -83,44 +94,54 @@ public class ConnectionMetaData implements TableReferenceMetaData {
     private JdbcContext getContext() throws SQLException {
         if (context == null) {
             JdbcContext.Builder builder = new JdbcContext.Builder();
+
             builder.setCatalog(connection.getCatalog());
             builder.setSchema(connection.getSchema());
+
             context = builder.build();
         }
         return context;
-    }
-
-    public TableMetaData getTableMetaData(String tableName) throws SQLException {
-        return getTableMetaDataList().stream().filter(jtmd -> jtmd.getTableName().equals(tableName)).findFirst().orElse(null);
-    }
-
-    public List<ColumnMetaData> getColumnMetaDataList(TableMetaData jdbcTableMetaData) throws SQLException {
-        return getColumnMetaDataList(jdbcTableMetaData.getTableName());
     }
 
     public PrimaryKey getPrimaryKey(String tableName) throws SQLException {
         if (!primaryKeysByTableName.containsKey(tableName)) {
             ColumnMetaDataList columnMetaDataList = getColumnMetaDataList(tableName);
             ScopedDatabaseMetaData metaData = getScopedDatabaseMetaData();
-            ResultSet resultSet = metaData.getPrimaryKeys(tableName);
-            List<PrimaryKeyColumn> primaryKeyColumns = mapResultSet(resultSet, PrimaryKeyColumn::new);
-            PrimaryKey primaryKey = null;
 
-            if (primaryKeyColumns.size() > 0) {
-                Collections.sort(primaryKeyColumns);
-                List<ColumnMetaData> pkColumnMetaData = new ArrayList<>();
-                for (PrimaryKeyColumn primaryKeyColumn : primaryKeyColumns) {
-                    ColumnMetaData pkColumn = columnMetaDataList.getByName(primaryKeyColumn.getColumnName());
-                    pkColumnMetaData.add(pkColumn);
-                }
-                PrimaryKeyColumn primaryKeyColumn = primaryKeyColumns.get(0);
-                String primaryKeyName = primaryKeyColumn.getPrimaryKeyName();
-                primaryKey = new PrimaryKey(primaryKeyName, new ColumnMetaDataList(pkColumnMetaData));
-            }
+            ResultSet resultSet = metaData.getPrimaryKeys(tableName);
+            List<PrimaryKeyColumn> primaryKeyColumns = PRIMARY_KEY_MAPPER.map(resultSet);
+
+            PrimaryKey primaryKey = createPrimaryKey(columnMetaDataList, primaryKeyColumns);
 
             primaryKeysByTableName.put(tableName, primaryKey);
         }
         return primaryKeysByTableName.get(tableName);
+    }
+
+    protected PrimaryKey createPrimaryKey(ColumnMetaDataList columnMetaDataList, List<PrimaryKeyColumn> primaryKeyColumns) {
+        PrimaryKey primaryKey = null;
+
+        if (primaryKeyColumns.size() > 0) {
+            Collections.sort(primaryKeyColumns);
+
+            List<ColumnMetaData> pkColumnMetaData = new ArrayList<>();
+
+            for (PrimaryKeyColumn primaryKeyColumn : primaryKeyColumns) {
+                ColumnMetaData pkColumn = columnMetaDataList.getByName(primaryKeyColumn.getColumnName());
+                pkColumnMetaData.add(pkColumn);
+            }
+
+            PrimaryKeyColumn primaryKeyColumn = primaryKeyColumns.get(0);
+            String primaryKeyName = primaryKeyColumn.getPrimaryKeyName();
+
+            primaryKey = new PrimaryKey(primaryKeyName, new ColumnMetaDataList(pkColumnMetaData));
+        }
+
+        return primaryKey;
+    }
+
+    public List<ColumnMetaData> getColumnMetaDataList(TableMetaData jdbcTableMetaData) throws SQLException {
+        return getColumnMetaDataList(jdbcTableMetaData.getTableName());
     }
 
     public ColumnMetaDataList getColumnMetaDataList(String tableName) throws SQLException {
@@ -136,7 +157,7 @@ public class ConnectionMetaData implements TableReferenceMetaData {
         ScopedDatabaseMetaData scopedDatabaseMetaData = getScopedDatabaseMetaData();
         ResultSet columnsMetaDataResultSet = scopedDatabaseMetaData.getColumns(tableName);
 
-        return mapResultSet(columnsMetaDataResultSet, ColumnMetaData::new);
+        return COLUMN_META_DATA_MAPPER.map(columnsMetaDataResultSet);
     }
 
 
@@ -152,7 +173,7 @@ public class ConnectionMetaData implements TableReferenceMetaData {
     private ForeignKeyList createForeignKeys(String tableName) throws SQLException {
         ScopedDatabaseMetaData scopedDatabaseMetaData = getScopedDatabaseMetaData();
         ResultSet resultSet = scopedDatabaseMetaData.getExportedKeys(tableName);
-        List<ForeignKeyEntry> jdbcForeignKeyEntries = mapResultSet(resultSet, ForeignKeyEntry::new);
+        List<ForeignKeyEntry> jdbcForeignKeyEntries = FOREIGN_KEY_MAPPER.map(resultSet);
 
         return new ForeignKeyList(mapToForeignKeys(jdbcForeignKeyEntries));
     }
@@ -175,7 +196,7 @@ public class ConnectionMetaData implements TableReferenceMetaData {
     private ForeignKeyList createImportedKeys(String tableName) throws SQLException {
         ScopedDatabaseMetaData scopedDatabaseMetaData = getScopedDatabaseMetaData();
         ResultSet resultSet = scopedDatabaseMetaData.getImportedKeys(tableName);
-        List<ForeignKeyEntry> jdbcForeignKeyEntries = mapResultSet(resultSet, ForeignKeyEntry::new);
+        List<ForeignKeyEntry> jdbcForeignKeyEntries = FOREIGN_KEY_MAPPER.map(resultSet);
         return new ForeignKeyList(mapToForeignKeys(jdbcForeignKeyEntries));
     }
 
@@ -200,20 +221,4 @@ public class ConnectionMetaData implements TableReferenceMetaData {
     }
 
 
-    @FunctionalInterface
-    private static interface ElementFactory<T> {
-
-        public T apply(ResultSet resultSet) throws SQLException;
-    }
-
-    private <T> List<T> mapResultSet(ResultSet resultSet, ElementFactory<T> elementFactory) throws SQLException {
-        List<T> mappedResultSet = new ArrayList<>();
-
-        while (resultSet.next()) {
-            T element = elementFactory.apply(resultSet);
-            mappedResultSet.add(element);
-        }
-
-        return mappedResultSet;
-    }
 }

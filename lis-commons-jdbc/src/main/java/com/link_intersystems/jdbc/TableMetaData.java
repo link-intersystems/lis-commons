@@ -74,4 +74,23 @@ public class TableMetaData {
     public String getRefGeneration() {
         return refGeneration;
     }
+
+    public boolean matches(QualifiedTableName qualifiedTableName) {
+        String matchTableName = qualifiedTableName.getTableName();
+        if (!getTableName().equals(matchTableName)) {
+            return false;
+        }
+
+        String matchSchema = qualifiedTableName.getSchema();
+        if (matchSchema != null && !getSchemaName().equals(matchSchema)) {
+            return false;
+        }
+
+        String matchCatalog = qualifiedTableName.getCatalog();
+        if (matchCatalog != null && !getCatalogName().equals(matchCatalog)) {
+            return false;
+        }
+
+        return true;
+    }
 }
