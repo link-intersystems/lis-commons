@@ -1,6 +1,6 @@
 package com.link_intersystems.jdbc;
 
-import com.link_intersystems.jdbc.test.db.GenericDBSetupExtension;
+import com.link_intersystems.jdbc.test.db.setup.DBSetup;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -9,7 +9,11 @@ import java.sql.Statement;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class ResultSetMapTestDBExtension extends GenericDBSetupExtension {
+public class ResultSetMapDBSetup implements DBSetup {
+
+    @Override
+    public void setupSchema(Connection connection) throws SQLException {
+    }
 
     @Override
     public void setupDdl(Connection connection) throws SQLException {

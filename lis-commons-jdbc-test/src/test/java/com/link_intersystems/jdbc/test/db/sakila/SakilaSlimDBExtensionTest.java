@@ -1,5 +1,7 @@
 package com.link_intersystems.jdbc.test.db.sakila;
 
+import com.link_intersystems.jdbc.test.db.H2DatabaseConfig;
+import com.link_intersystems.jdbc.test.db.H2TestDBExtension;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -9,13 +11,11 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-@ExtendWith(SakilaSlimTestDBExtension.class)
+@ExtendWith(H2TestDBExtension.class)
+@H2DatabaseConfig(databaseFactory = SakilaSlimDatabaseFactory.class)
 public class SakilaSlimDBExtensionTest extends AbstractDBExtensionTest {
 
     @Test

@@ -1,5 +1,7 @@
 package com.link_intersystems.jdbc;
 
+import com.link_intersystems.jdbc.test.db.H2DatabaseConfig;
+import com.link_intersystems.jdbc.test.db.H2TestDBExtension;
 import com.link_intersystems.test.UnitTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +21,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-@ExtendWith(ResultSetMapTestDBExtension.class)
+@ExtendWith(H2TestDBExtension.class)
+@H2DatabaseConfig(databaseSetup = ResultSetMapDBSetup.class)
 @UnitTest
 class ResultSetMapTest {
     private Statement statement;
@@ -72,6 +75,7 @@ class ResultSetMapTest {
     void bigDecimal() {
         assertEquals(new BigDecimal("12345.123"), resultSetMap.get("bigdecimalvalue"));
     }
+
     @Test
     void booleanValue() {
         assertEquals(true, resultSetMap.get("booleanvalue"));
@@ -129,8 +133,6 @@ class ResultSetMapTest {
     void clobValue() {
         assertEquals("clobvalue", resultSetMap.get("clobvalue"));
     }
-
-
 
 
 }

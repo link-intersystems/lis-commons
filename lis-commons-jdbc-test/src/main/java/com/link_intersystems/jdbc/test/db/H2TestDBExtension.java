@@ -7,50 +7,26 @@ import java.io.IOException;
 import java.lang.reflect.Parameter;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Optional;
 
 /**
- * A {@link GenericTestDBExtention} can be used to configure custom test databases on the fly.
- *
- * <pre>
- * {@literal @}RegisterExtension
- * static GenericTestDBExtension dbExtensions = new GenericTestDBExtention(new MyH2DatabaseFactory());
- * </pre>
- * <p>
- * or create factory methods
- *
- * <pre>
- * {@literal @}RegisterExtension
- * static GenericTestDBExtension dbExtensions = MyDatabaseExtensions.createMySpecialDatabase();
- * </pre>
- *
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public abstract class GenericTestDBExtention implements ParameterResolver, AfterTestExecutionCallback {
+public class H2TestDBExtension implements ParameterResolver, AfterTestExecutionCallback {
 
-    private H2DatabaseFactory h2DatabaseFactory;
     private H2DatabaseCache h2DatabaseStore;
 
-    protected H2DatabaseFactory getH2DatabaseFactory() {
-        if (h2DatabaseFactory == null) {
-            h2DatabaseFactory = createH2DatabaseFactory();
-        }
-        return h2DatabaseFactory;
-    }
-
-    protected abstract H2DatabaseFactory createH2DatabaseFactory();
-
-
-    private H2DatabaseCache getH2DatabaseStore() {
+    private H2DatabaseCache getH2DatabaseCache(ExtensionContext context) {
         if (h2DatabaseStore == null) {
-            H2DatabaseFactory h2DatabaseFactory = getH2DatabaseFactory();
-            h2DatabaseStore = new H2DatabaseCache(h2DatabaseFactory);
+            Optional<Class<?>> testClass = context.getTestClass();
+            h2DatabaseStore = testClass.map(H2DatabaseCache::new).orElseThrow(() -> new IllegalStateException("No test class available"));
         }
         return h2DatabaseStore;
     }
 
     @Override
     public void afterTestExecution(ExtensionContext extensionContext) throws Exception {
-        getH2DatabaseStore().removeDB(extensionContext);
+        getH2DatabaseCache(extensionContext).removeDB(extensionContext);
     }
 
     @Override
@@ -67,14 +43,15 @@ public abstract class GenericTestDBExtention implements ParameterResolver, After
             Class<?> type = parameter.getType();
 
             try {
-                H2Database h2Database = getH2DatabaseStore().getDB(extensionContext);
+                H2DatabaseCache h2DatabaseCache = getH2DatabaseCache(extensionContext);
+                H2Database h2Database = h2DatabaseCache.getDB(extensionContext);
 
                 if (type.equals(Connection.class)) {
                     return h2Database.getConnection();
                 } else {
                     return h2Database;
                 }
-            } catch (SQLException | IOException e) {
+            } catch (Exception e) {
                 throw new ParameterResolutionException("Unable to open database connection", e);
             }
         }
