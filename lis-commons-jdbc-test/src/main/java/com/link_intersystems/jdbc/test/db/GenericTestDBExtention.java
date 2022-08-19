@@ -15,7 +15,7 @@ import java.sql.SQLException;
  * {@literal @}RegisterExtension
  * static GenericTestDBExtension dbExtensions = new GenericTestDBExtention(new MyH2DatabaseFactory());
  * </pre>
- *
+ * <p>
  * or create factory methods
  *
  * <pre>
@@ -25,18 +25,20 @@ import java.sql.SQLException;
  *
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class GenericTestDBExtention implements ParameterResolver, AfterTestExecutionCallback {
+public abstract class GenericTestDBExtention implements ParameterResolver, AfterTestExecutionCallback {
 
     private H2DatabaseFactory h2DatabaseFactory;
     private H2DatabaseCache h2DatabaseStore;
 
-    public GenericTestDBExtention(H2DatabaseFactory h2DatabaseFactory) {
-        this.h2DatabaseFactory = h2DatabaseFactory;
-    }
-
     protected H2DatabaseFactory getH2DatabaseFactory() {
+        if (h2DatabaseFactory == null) {
+            h2DatabaseFactory = createH2DatabaseFactory();
+        }
         return h2DatabaseFactory;
     }
+
+    protected abstract H2DatabaseFactory createH2DatabaseFactory();
+
 
     private H2DatabaseCache getH2DatabaseStore() {
         if (h2DatabaseStore == null) {
