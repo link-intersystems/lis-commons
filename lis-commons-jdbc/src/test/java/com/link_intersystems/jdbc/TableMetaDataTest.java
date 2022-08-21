@@ -1,7 +1,7 @@
 package com.link_intersystems.jdbc;
 
-import com.link_intersystems.jdbc.test.db.H2DatabaseConfig;
-import com.link_intersystems.jdbc.test.db.H2TestDBExtension;
+import com.link_intersystems.jdbc.test.db.H2Config;
+import com.link_intersystems.jdbc.test.db.H2Extension;
 import com.link_intersystems.jdbc.test.db.sakila.SakilaEmptyDatabaseFactory;
 import com.link_intersystems.test.UnitTest;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,8 +16,8 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-@ExtendWith(H2TestDBExtension.class)
-@H2DatabaseConfig(databaseFactory = SakilaEmptyDatabaseFactory.class)
+@ExtendWith(H2Extension.class)
+@H2Config(databaseFactory = SakilaEmptyDatabaseFactory.class)
 @UnitTest
 class TableMetaDataTest {
     private ConnectionMetaData metaDataRepository;

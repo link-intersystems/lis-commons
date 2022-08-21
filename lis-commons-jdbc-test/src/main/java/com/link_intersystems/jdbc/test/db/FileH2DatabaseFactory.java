@@ -11,7 +11,7 @@ import java.sql.SQLException;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public abstract class FileH2DatabaseFactory implements H2DatabaseFactory {
+public abstract class FileH2DatabaseFactory implements H2Factory {
 
     public static final String FILE_EXTENSION = ".mv.db";
 

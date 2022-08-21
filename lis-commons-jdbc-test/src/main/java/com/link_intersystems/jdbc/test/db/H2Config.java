@@ -12,8 +12,9 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface H2DatabaseConfig {
+public @interface H2Config {
 
-    Class<? extends H2DatabaseFactory> databaseFactory() default DefaultH2DatabaseFactory.class;
+    Class<? extends H2Factory> databaseFactory() default DefaultH2Factory.class;
+
     Class<? extends DBSetup> databaseSetup() default NoDBSetup.class;
 }

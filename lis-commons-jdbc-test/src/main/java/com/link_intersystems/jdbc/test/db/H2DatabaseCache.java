@@ -14,7 +14,7 @@ class H2DatabaseCache {
 
     private Class<?> testClass;
 
-    @H2DatabaseConfig()
+    @H2Config()
     private static class DefaultH2DatabaseConfig {
     }
 
@@ -29,7 +29,7 @@ class H2DatabaseCache {
         H2Database h2Database = (H2Database) store.get(testClass);
 
         if (h2Database == null) {
-            H2DatabaseConfig config = findH2DatabaseConfig(testClass);
+            H2Config config = findH2DatabaseConfig(testClass);
             h2Database = createH2Database(config);
             store.put(testClass, h2Database);
         }
@@ -37,9 +37,9 @@ class H2DatabaseCache {
         return h2Database;
     }
 
-    protected H2Database createH2Database(H2DatabaseConfig config) throws InstantiationException, IllegalAccessException, SQLException {
-        Class<? extends H2DatabaseFactory> databaseFactory = config.databaseFactory();
-        H2DatabaseFactory h2DatabaseFactory = databaseFactory.newInstance();
+    protected H2Database createH2Database(H2Config config) throws InstantiationException, IllegalAccessException, SQLException {
+        Class<? extends H2Factory> databaseFactory = config.databaseFactory();
+        H2Factory h2DatabaseFactory = databaseFactory.newInstance();
         H2Database h2Database = h2DatabaseFactory.create();
 
         Class<? extends DBSetup> databaseSetupClass = config.databaseSetup();
@@ -53,12 +53,12 @@ class H2DatabaseCache {
         return h2Database;
     }
 
-    private H2DatabaseConfig findH2DatabaseConfig(Class<?> declaringClass) {
+    private H2Config findH2DatabaseConfig(Class<?> declaringClass) {
         if (declaringClass == null) {
             return findH2DatabaseConfig(DefaultH2DatabaseConfig.class);
         }
 
-        H2DatabaseConfig config = declaringClass.getAnnotation(H2DatabaseConfig.class);
+        H2Config config = declaringClass.getAnnotation(H2Config.class);
         if (config != null) {
             return config;
         }

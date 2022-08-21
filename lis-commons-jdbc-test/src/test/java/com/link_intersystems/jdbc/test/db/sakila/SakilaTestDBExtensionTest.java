@@ -1,7 +1,7 @@
 package com.link_intersystems.jdbc.test.db.sakila;
 
-import com.link_intersystems.jdbc.test.db.H2DatabaseConfig;
-import com.link_intersystems.jdbc.test.db.H2TestDBExtension;
+import com.link_intersystems.jdbc.test.db.H2Config;
+import com.link_intersystems.jdbc.test.db.H2Extension;
 import com.link_intersystems.test.UnitTest;
 import com.link_intersystems.jdbc.test.RowAssertions;
 import org.junit.jupiter.api.Test;
@@ -16,11 +16,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
 @UnitTest
-@H2DatabaseConfig(databaseFactory = SakilaSlimDatabaseFactory.class)
+@H2Config(databaseFactory = SakilaSlimDatabaseFactory.class)
 public class SakilaTestDBExtensionTest extends AbstractDBExtensionTest {
 
     @RegisterExtension
-    static H2TestDBExtension extension = new H2TestDBExtension();
+    static H2Extension extension = new H2Extension();
 
     @Test
     void languageCount() throws SQLException {

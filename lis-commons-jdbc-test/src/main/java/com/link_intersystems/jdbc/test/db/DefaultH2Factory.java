@@ -8,7 +8,7 @@ import java.sql.SQLException;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class DefaultH2DatabaseFactory implements H2DatabaseFactory {
+public class DefaultH2Factory implements H2Factory {
 
     @Override
     public H2Database create(String databaseName) throws SQLException {

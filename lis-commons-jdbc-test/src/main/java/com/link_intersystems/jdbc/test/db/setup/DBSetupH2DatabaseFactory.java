@@ -1,6 +1,6 @@
 package com.link_intersystems.jdbc.test.db.setup;
 
-import com.link_intersystems.jdbc.test.db.H2DatabaseFactory;
+import com.link_intersystems.jdbc.test.db.H2Factory;
 import com.link_intersystems.jdbc.test.H2Database;
 import com.link_intersystems.jdbc.test.H2JdbcUrl;
 
@@ -11,7 +11,7 @@ import java.util.Objects;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class DBSetupH2DatabaseFactory implements H2DatabaseFactory {
+public class DBSetupH2DatabaseFactory implements H2Factory {
 
     private DBSetup dbSetup;
     private String schema;

@@ -3,16 +3,16 @@ package com.link_intersystems.jdbc.test.db;
 import com.link_intersystems.jdbc.test.H2Database;
 import org.junit.jupiter.api.extension.*;
 
-import java.io.IOException;
 import java.lang.reflect.Parameter;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Optional;
 
 /**
+ * A JUnit 5 extensions that provides a {@link H2Database} or a {@link Connection} to it as test method arguments.
+ *
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class H2TestDBExtension implements ParameterResolver, AfterTestExecutionCallback {
+public class H2Extension implements ParameterResolver, AfterTestExecutionCallback {
 
     private H2DatabaseCache h2DatabaseStore;
 
