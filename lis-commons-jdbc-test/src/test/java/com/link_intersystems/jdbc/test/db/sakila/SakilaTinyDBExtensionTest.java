@@ -1,18 +1,14 @@
 package com.link_intersystems.jdbc.test.db.sakila;
 
-import com.link_intersystems.jdbc.test.db.h2.H2Config;
-import com.link_intersystems.jdbc.test.db.h2.H2Extension;
 import com.link_intersystems.test.UnitTest;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.sql.SQLException;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-@ExtendWith(H2Extension.class)
-@H2Config(databaseFactory = SakilaTinyDatabaseFactory.class)
+@SakilaTinyExtension
 @UnitTest
 public class SakilaTinyDBExtensionTest extends AbstractDBExtensionTest {
 
