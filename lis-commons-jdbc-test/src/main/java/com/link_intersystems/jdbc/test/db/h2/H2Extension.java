@@ -18,14 +18,15 @@ public class H2Extension implements ParameterResolver, AfterTestExecutionCallbac
     private H2DatabaseCache getH2DatabaseCache(ExtensionContext context) {
         if (h2DatabaseStore == null) {
             Optional<Class<?>> testClass = context.getTestClass();
-            h2DatabaseStore = testClass.map(H2DatabaseCache::new).orElseThrow(() -> new IllegalStateException("No test class available"));
+            h2DatabaseStore = testClass.map(c -> new H2DatabaseCache(new AnnotationH2ConfigPropertiesSource(c))).orElseThrow(() -> new IllegalStateException("No test class available"));
         }
         return h2DatabaseStore;
     }
 
     @Override
     public void afterTestExecution(ExtensionContext extensionContext) throws Exception {
-        getH2DatabaseCache(extensionContext).removeDB(extensionContext);
+        JUnitExtensionH2DatabaseStore databaseStore = new JUnitExtensionH2DatabaseStore(extensionContext);
+        getH2DatabaseCache(extensionContext).removeDB(databaseStore);
     }
 
     @Override
@@ -43,7 +44,8 @@ public class H2Extension implements ParameterResolver, AfterTestExecutionCallbac
 
             try {
                 H2DatabaseCache h2DatabaseCache = getH2DatabaseCache(extensionContext);
-                H2Database h2Database = h2DatabaseCache.getDB(extensionContext);
+                JUnitExtensionH2DatabaseStore databaseStore = new JUnitExtensionH2DatabaseStore(extensionContext);
+                H2Database h2Database = h2DatabaseCache.getDB(databaseStore);
 
                 if (type.equals(Connection.class)) {
                     return h2Database.getConnection();
