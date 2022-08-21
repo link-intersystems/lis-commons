@@ -1,4 +1,4 @@
-package com.link_intersystems.jdbc.test;
+package com.link_intersystems.jdbc.test.db.h2;
 
 import org.h2.engine.Mode;
 

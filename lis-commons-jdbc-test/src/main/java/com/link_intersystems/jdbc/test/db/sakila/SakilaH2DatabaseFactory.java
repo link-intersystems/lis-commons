@@ -1,7 +1,7 @@
 package com.link_intersystems.jdbc.test.db.sakila;
 
-import com.link_intersystems.jdbc.test.H2Database;
-import com.link_intersystems.jdbc.test.db.FileH2DatabaseFactory;
+import com.link_intersystems.jdbc.test.db.h2.H2Database;
+import com.link_intersystems.jdbc.test.db.h2.FileH2DatabaseFactory;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;

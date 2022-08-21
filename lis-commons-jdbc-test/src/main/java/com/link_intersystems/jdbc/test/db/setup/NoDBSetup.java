@@ -1,4 +1,4 @@
-package com.link_intersystems.jdbc.test.db;
+package com.link_intersystems.jdbc.test.db.setup;
 
 import com.link_intersystems.jdbc.test.db.setup.DBSetup;
 

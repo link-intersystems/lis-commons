@@ -1,6 +1,9 @@
-package com.link_intersystems.jdbc.test.db;
+package com.link_intersystems.jdbc.test.db.h2;
 
+import com.link_intersystems.jdbc.test.db.h2.DefaultH2Factory;
+import com.link_intersystems.jdbc.test.db.h2.H2Factory;
 import com.link_intersystems.jdbc.test.db.setup.DBSetup;
+import com.link_intersystems.jdbc.test.db.setup.NoDBSetup;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -17,4 +20,6 @@ public @interface H2Config {
     Class<? extends H2Factory> databaseFactory() default DefaultH2Factory.class;
 
     Class<? extends DBSetup> databaseSetup() default NoDBSetup.class;
+
+    String databaseName() default "test";
 }

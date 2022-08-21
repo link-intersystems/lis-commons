@@ -1,4 +1,4 @@
-package com.link_intersystems.jdbc.test;
+package com.link_intersystems.jdbc.test.db;
 
 import javax.sql.DataSource;
 import java.io.PrintWriter;

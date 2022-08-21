@@ -1,8 +1,8 @@
 package com.link_intersystems.jdbc.test.db.setup;
 
-import com.link_intersystems.jdbc.test.db.H2Factory;
-import com.link_intersystems.jdbc.test.H2Database;
-import com.link_intersystems.jdbc.test.H2JdbcUrl;
+import com.link_intersystems.jdbc.test.db.h2.H2Database;
+import com.link_intersystems.jdbc.test.db.h2.H2JdbcUrl;
+import com.link_intersystems.jdbc.test.db.h2.H2Factory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -23,11 +23,6 @@ public class DBSetupH2DatabaseFactory implements H2Factory {
     public DBSetupH2DatabaseFactory(DBSetup dbSetup, String schema) {
         this.dbSetup = Objects.requireNonNull(dbSetup);
         this.schema = schema;
-    }
-
-    @Override
-    public H2Database create() throws SQLException {
-        return create("test");
     }
 
     @Override

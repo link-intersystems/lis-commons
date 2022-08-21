@@ -1,7 +1,4 @@
-package com.link_intersystems.jdbc.test.db;
-
-import com.link_intersystems.jdbc.test.H2Database;
-import com.link_intersystems.jdbc.test.H2JdbcUrl;
+package com.link_intersystems.jdbc.test.db.h2;
 
 import java.sql.SQLException;
 

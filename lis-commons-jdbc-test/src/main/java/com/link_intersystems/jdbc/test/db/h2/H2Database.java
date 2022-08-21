@@ -1,5 +1,6 @@
-package com.link_intersystems.jdbc.test;
+package com.link_intersystems.jdbc.test.db.h2;
 
+import com.link_intersystems.jdbc.test.db.AbstractDataSource;
 import org.h2.engine.Mode;
 
 import java.sql.Connection;

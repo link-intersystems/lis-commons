@@ -1,6 +1,5 @@
-package com.link_intersystems.jdbc.test.db;
+package com.link_intersystems.jdbc.test.db.h2;
 
-import com.link_intersystems.jdbc.test.H2Database;
 import org.junit.jupiter.api.extension.*;
 
 import java.lang.reflect.Parameter;

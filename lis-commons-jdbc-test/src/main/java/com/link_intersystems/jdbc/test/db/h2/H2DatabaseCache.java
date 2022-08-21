@@ -1,6 +1,5 @@
-package com.link_intersystems.jdbc.test.db;
+package com.link_intersystems.jdbc.test.db.h2;
 
-import com.link_intersystems.jdbc.test.H2Database;
 import com.link_intersystems.jdbc.test.db.setup.DBSetup;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
@@ -29,21 +28,29 @@ class H2DatabaseCache {
         H2Database h2Database = (H2Database) store.get(testClass);
 
         if (h2Database == null) {
-            H2Config config = findH2DatabaseConfig(testClass);
-            h2Database = createH2Database(config);
+            H2ConfigProperties configProperties = getConfigProperties();
+            h2Database = createH2Database(configProperties);
             store.put(testClass, h2Database);
         }
 
         return h2Database;
     }
 
-    protected H2Database createH2Database(H2Config config) throws InstantiationException, IllegalAccessException, SQLException {
-        Class<? extends H2Factory> databaseFactory = config.databaseFactory();
-        H2Factory h2DatabaseFactory = databaseFactory.newInstance();
-        H2Database h2Database = h2DatabaseFactory.create();
+    protected H2ConfigProperties getConfigProperties() throws Exception {
+        H2Config h2DatabaseConfig = findH2DatabaseConfig(testClass);
+        if (h2DatabaseConfig == null) {
+            return new DefaultH2ConfigProperties();
+        }
 
-        Class<? extends DBSetup> databaseSetupClass = config.databaseSetup();
-        DBSetup dbSetup = databaseSetupClass.newInstance();
+        return new AnnotationH2ConfigProperties(h2DatabaseConfig);
+    }
+
+    protected H2Database createH2Database(H2ConfigProperties configProperties) throws SQLException {
+        H2Factory h2DatabaseFactory = configProperties.getH2Factory();
+        String databaseName = configProperties.getDatabaseName();
+        H2Database h2Database = h2DatabaseFactory.create(databaseName);
+
+        DBSetup dbSetup = configProperties.getDBSetup();
         try (Connection connection = h2Database.getConnection()) {
             dbSetup.setupSchema(connection);
             dbSetup.setupDdl(connection);

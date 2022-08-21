@@ -1,5 +1,7 @@
 package com.link_intersystems.jdbc.test;
 
+import com.link_intersystems.jdbc.test.db.h2.H2Database;
+import com.link_intersystems.jdbc.test.db.h2.H2JdbcUrl;
 import org.h2.engine.Mode;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

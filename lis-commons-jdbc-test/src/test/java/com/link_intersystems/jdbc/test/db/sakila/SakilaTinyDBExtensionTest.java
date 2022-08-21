@@ -1,7 +1,7 @@
 package com.link_intersystems.jdbc.test.db.sakila;
 
-import com.link_intersystems.jdbc.test.db.H2Config;
-import com.link_intersystems.jdbc.test.db.H2Extension;
+import com.link_intersystems.jdbc.test.db.h2.H2Config;
+import com.link_intersystems.jdbc.test.db.h2.H2Extension;
 import com.link_intersystems.test.UnitTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
