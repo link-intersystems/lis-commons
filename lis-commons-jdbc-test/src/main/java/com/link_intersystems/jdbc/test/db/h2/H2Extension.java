@@ -26,7 +26,7 @@ public class H2Extension implements ParameterResolver, AfterTestExecutionCallbac
     @Override
     public void afterTestExecution(ExtensionContext extensionContext) throws Exception {
         JUnitExtensionH2DatabaseStore databaseStore = new JUnitExtensionH2DatabaseStore(extensionContext);
-        getH2DatabaseCache(extensionContext).removeDB(databaseStore);
+        getH2DatabaseCache(extensionContext).removeDatabase(databaseStore);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class H2Extension implements ParameterResolver, AfterTestExecutionCallbac
             try {
                 H2DatabaseCache h2DatabaseCache = getH2DatabaseCache(extensionContext);
                 JUnitExtensionH2DatabaseStore databaseStore = new JUnitExtensionH2DatabaseStore(extensionContext);
-                H2Database h2Database = h2DatabaseCache.getDB(databaseStore);
+                H2Database h2Database = h2DatabaseCache.getDatabase(databaseStore);
 
                 if (type.equals(Connection.class)) {
                     return h2Database.getConnection();
