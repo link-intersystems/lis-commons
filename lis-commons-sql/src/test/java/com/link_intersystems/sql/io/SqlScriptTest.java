@@ -19,10 +19,10 @@ class SqlScriptTest {
         ResetableReader resetableReader = new ResetableReader();
         resetableReader.setCharSequence("-- some comment\n    select * \n\t from actor where actor_id = 1;-- other comment\n");
 
-        SqlScript.ScriptResource scriptResource = () -> resetableReader;
+        ScriptResource scriptResource = () -> resetableReader;
         SqlScript sqlScript = new SqlScript(scriptResource);
 
-        SqlScript.StatementCallback statementCallback = mock(SqlScript.StatementCallback.class);
+        StatementCallback statementCallback = mock(StatementCallback.class);
         sqlScript.execute(statementCallback);
 
         verify(statementCallback, times(1))
@@ -34,7 +34,7 @@ class SqlScriptTest {
         ResetableReader resetableReader = new ResetableReader();
         resetableReader.setCharSequence("-- some comment\n    select * \n\t from actor where actor_id = 1;-- other comment\n");
 
-        SqlScript.ScriptResource scriptResource = () -> resetableReader;
+        ScriptResource scriptResource = () -> resetableReader;
         SqlScript sqlScript = new SqlScript(scriptResource);
 
         Connection connection = mock(Connection.class);
@@ -53,12 +53,12 @@ class SqlScriptTest {
                 "\tselect count(*) from film\n join language on \t\r\nfilm.original_language_id = language.language.id\n" +
                 "where film.film_id = 12");
 
-        SqlScript.ScriptResource scriptResource = () -> resetableReader;
+        ScriptResource scriptResource = () -> resetableReader;
 
         SqlScript sqlScript = new SqlScript(scriptResource);
         sqlScript.setStatementFilter(s -> s.contains("film"));
 
-        SqlScript.StatementCallback statementCallback = mock(SqlScript.StatementCallback.class);
+        StatementCallback statementCallback = mock(StatementCallback.class);
         sqlScript.execute(statementCallback);
 
         verify(statementCallback, times(1))

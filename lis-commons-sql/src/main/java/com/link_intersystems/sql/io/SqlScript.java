@@ -1,7 +1,7 @@
 package com.link_intersystems.sql.io;
 
 import java.io.IOException;
-import java.io.Reader;
+import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,14 +13,8 @@ import java.util.function.Predicate;
  */
 public class SqlScript {
 
-    public static interface ScriptResource {
-
-        public Reader open() throws IOException;
-    }
-
-    public static interface StatementCallback {
-
-        public void doWithStatement(String sqlStatement) throws SQLException;
+    public static SqlScript emptyScript() {
+        return new SqlScript(() -> new StringReader(""));
     }
 
     private ScriptResource scriptResource;
