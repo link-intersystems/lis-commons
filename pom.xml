@@ -109,6 +109,11 @@
             </dependency>
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
+                <artifactId>lis-commons-sql-hibernate</artifactId>
+                <version>1.8.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-net</artifactId>
                 <version>1.8.1-SNAPSHOT</version>
             </dependency>

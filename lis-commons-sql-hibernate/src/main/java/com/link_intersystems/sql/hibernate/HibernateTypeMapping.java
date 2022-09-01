@@ -19,7 +19,8 @@ public class HibernateTypeMapping extends AbstractMap<Integer, String> {
 
         hibernateTypeByJavaType.put(Types.INTEGER, "integer");
         hibernateTypeByJavaType.put(Types.BIGINT, "long");
-        hibernateTypeByJavaType.put(Types.TINYINT, "short");
+        hibernateTypeByJavaType.put(Types.TINYINT, "byte");
+        hibernateTypeByJavaType.put(Types.SMALLINT, "short");
         hibernateTypeByJavaType.put(Types.FLOAT, "float");
         hibernateTypeByJavaType.put(Types.DOUBLE, "double");
 
