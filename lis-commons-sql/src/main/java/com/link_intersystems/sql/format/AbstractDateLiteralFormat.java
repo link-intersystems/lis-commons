@@ -14,7 +14,7 @@ import java.util.function.Supplier;
  */
 public abstract class AbstractDateLiteralFormat extends AbstractLiteralFormat {
 
-    private VarcharLiteralFormat stringLiteralFormat = new VarcharLiteralFormat();
+    private QuotedStringLiteralFormat stringLiteralFormat = new QuotedStringLiteralFormat();
 
     private DateTimeFormatter dateTimeFormatter;
     private Supplier<ZoneId> zoneIdSupplier;

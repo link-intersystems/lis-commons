@@ -1,4 +1,6 @@
-package com.link_intersystems.sql.format;
+package com.link_intersystems.sql.format.jdbc;
+
+import com.link_intersystems.sql.format.*;
 
 import java.sql.Types;
 import java.util.AbstractMap;
@@ -9,22 +11,24 @@ import java.util.Set;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class DefaultLiteralFormatRegistry extends AbstractMap<Integer, LiteralFormat> {
+public class JdbcLiteralFormatRegistry extends AbstractMap<Integer, LiteralFormat> implements LiteralFormatRegistry<Integer> {
 
     private Map<Integer, LiteralFormat> literalFormatBySqlType = new HashMap<>();
 
-    public DefaultLiteralFormatRegistry() {
-        VarcharLiteralFormat literalFormat = new VarcharLiteralFormat();
+    public JdbcLiteralFormatRegistry() {
+        QuotedStringLiteralFormat literalFormat = new QuotedStringLiteralFormat();
         put(literalFormat, Types.VARCHAR, Types.CHAR, Types.CLOB);
 
         put(new TimestampLiteralFormat(), Types.TIMESTAMP);
         put(new DateLiteralFormat(), Types.DATE);
 
-        SimpleLiteralFormat toStringFormat = new SimpleLiteralFormat();
-        put(toStringFormat, Types.INTEGER, Types.TINYINT, Types.SMALLINT, Types.BIGINT);
-
         DecimalLiteralFormat decimalFormat = new DecimalLiteralFormat();
         put(decimalFormat, Types.NUMERIC, Types.DECIMAL, Types.FLOAT, Types.DOUBLE);
+    }
+
+    @Override
+    public LiteralFormat getLiteralFormat(Integer typeDescriptor) {
+        return get(typeDescriptor);
     }
 
     @Override
