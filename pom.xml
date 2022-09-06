@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.link-intersystems</groupId>
         <artifactId>lis-central-jar</artifactId>
-        <version>8.4</version>
+        <version>8.5</version>
     </parent>
 
     <groupId>com.link-intersystems.commons</groupId>
@@ -167,4 +167,5 @@
         <url>https://github.com/link-intersystems/lis-commons/issues</url>
     </issueManagement>
 
+    <url>dbunit-migration-maven-plugin</url>
 </project>
