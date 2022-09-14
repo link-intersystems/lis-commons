@@ -169,6 +169,11 @@
                 <version>1.8.2-SNAPSHOT</version>
             </dependency>
             <dependency>
+                <groupId>com.link-intersystems.commons</groupId>
+                <artifactId>lis-commons-swing</artifactId>
+                <version>1.8.2-SNAPSHOT</version>
+            </dependency>
+            <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j.version}</version>
