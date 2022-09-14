@@ -201,6 +201,13 @@
         <tag>lis-commons-1.8.0</tag>
     </scm>
 
+    <distributionManagement>
+        <site>
+            <id>gh-pages</id>
+            <url>scm:git:https://github.com/link-intersystems/lis-commons.git</url>
+        </site>
+    </distributionManagement>
+
     <issueManagement>
         <system>github</system>
         <url>https://github.com/link-intersystems/lis-commons/issues</url>
