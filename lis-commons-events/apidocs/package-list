@@ -1,0 +1,7 @@
+com.link_intersystems.events
+com.link_intersystems.events.awt
+com.link_intersystems.events.beans
+com.link_intersystems.events.naming
+com.link_intersystems.events.prefs
+com.link_intersystems.events.sql
+com.link_intersystems.events.swing

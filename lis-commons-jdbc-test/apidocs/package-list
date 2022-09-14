@@ -1,0 +1,5 @@
+com.link_intersystems.jdbc.test
+com.link_intersystems.jdbc.test.db
+com.link_intersystems.jdbc.test.db.h2
+com.link_intersystems.jdbc.test.db.sakila
+com.link_intersystems.jdbc.test.db.setup
