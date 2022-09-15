@@ -14,6 +14,7 @@ import java.util.Set;
 public class JdbcLiteralFormatRegistry extends AbstractMap<Integer, LiteralFormat> implements LiteralFormatRegistry<Integer> {
 
     private Map<Integer, LiteralFormat> literalFormatBySqlType = new HashMap<>();
+    private LiteralFormat defaultLiteralFormat = new SimpleLiteralFormat();
 
     public JdbcLiteralFormatRegistry() {
         QuotedStringLiteralFormat literalFormat = new QuotedStringLiteralFormat();
@@ -28,11 +29,12 @@ public class JdbcLiteralFormatRegistry extends AbstractMap<Integer, LiteralForma
 
     @Override
     public LiteralFormat getLiteralFormat(Integer typeDescriptor) {
-        return get(typeDescriptor);
+        return getOrDefault(typeDescriptor, defaultLiteralFormat);
     }
 
     @Override
     public LiteralFormat put(Integer key, LiteralFormat value) {
+
         return literalFormatBySqlType.put(key, value);
     }
 

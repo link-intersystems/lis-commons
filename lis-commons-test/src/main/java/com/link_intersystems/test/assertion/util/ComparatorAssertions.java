@@ -9,25 +9,25 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class ComparatorAssertions {
+public class ComparatorAssertions<T> {
 
-    private Comparator comparator;
+    private Comparator<T> comparator;
 
-    public ComparatorAssertions(Comparator comparator) {
+    public ComparatorAssertions(Comparator<T> comparator) {
         this.comparator = comparator;
     }
 
-    public void assertGreater(Object o1, Object o2) {
+    public void assertGreater(T o1, T o2) {
         int compare = comparator.compare(o1, o2);
         assertTrue(compare > 0, () -> o1 + " should be greater than " + o2);
     }
 
-    public void assertLower(Object o1, Object o2) {
+    public void assertLower(T o1, T o2) {
         int compare = comparator.compare(o1, o2);
         assertTrue(compare < 0, () -> o1 + " should be lower than " + o2);
     }
 
-    public void assertEqual(Object o1, Object o2) {
+    public void assertEqual(T o1, T o2) {
         int compare = comparator.compare(o1, o2);
         assertEquals(0, compare, () -> o1 + " should be equal to " + o2);
     }

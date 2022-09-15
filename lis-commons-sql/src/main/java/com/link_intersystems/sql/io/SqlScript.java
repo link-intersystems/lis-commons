@@ -14,12 +14,20 @@ import java.util.function.Predicate;
 public class SqlScript {
 
     public static SqlScript emptyScript() {
-        return new SqlScript(() -> new StringReader(""));
+        return new SqlScript("") {
+            @Override
+            public void execute(Connection connection) throws SQLException {
+            }
+        };
     }
 
     private ScriptResource scriptResource;
 
     private Predicate<String> statementFiler = s -> true;
+
+    public SqlScript(String script) {
+        this(() -> new StringReader(script));
+    }
 
     public SqlScript(ScriptResource scriptResource) {
         this.scriptResource = Objects.requireNonNull(scriptResource);
