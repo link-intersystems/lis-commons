@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-class SimpleLiteralFormatTest {
+class ToStringLiteralFormatTest {
 
     @Test
     void formatNull() throws Exception {

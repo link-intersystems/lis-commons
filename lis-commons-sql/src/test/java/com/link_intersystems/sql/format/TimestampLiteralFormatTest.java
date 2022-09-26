@@ -30,6 +30,15 @@ class TimestampLiteralFormatTest {
     }
 
     @Test
+    void formatSqlDate() throws Exception {
+        Date date = new java.sql.Date(122, 4, 21);
+
+        String formatted = literalFormat.format(date);
+
+        assertEquals("'2022-05-21 00:00:00'", formatted);
+    }
+
+    @Test
     void formatTimestamp() throws Exception {
         Timestamp date = new Timestamp(122, 4, 21, 12, 11, 34, 332);
 

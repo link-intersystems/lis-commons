@@ -2,6 +2,7 @@ package com.link_intersystems.sql.io;
 
 import com.link_intersystems.test.io.ResetableReader;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -64,5 +65,18 @@ class SqlScriptTest {
         verify(statementCallback, times(1))
                 .doWithStatement("select count(*) from film join language " +
                         "on film.original_language_id = language.language.id where film.film_id = 12");
+    }
+
+    @Test
+    void emptyScript() throws SQLException {
+        SqlScript sqlScript = SqlScript.emptyScript();
+
+        StatementCallback statementCallback = mock(StatementCallback.class);
+        sqlScript.execute(statementCallback);
+        verify(statementCallback, times(0)).doWithStatement(Mockito.anyString());
+
+        Connection connection = mock(Connection.class);
+        sqlScript.execute(connection);
+        verifyNoInteractions(connection);
     }
 }

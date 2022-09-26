@@ -9,6 +9,7 @@ import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
@@ -32,7 +33,7 @@ class DecimalLiteralFormatTest {
     }
 
     @Test
-    void doFormat() throws Exception {
+    void formatBigDecimal() throws Exception {
         BigDecimal bigDecimal = parse("10,692,467,440,017.1201234230");
 
         String formatted = literalFormat.doFormat(bigDecimal);
@@ -42,5 +43,26 @@ class DecimalLiteralFormatTest {
 
     private BigDecimal parse(String text) throws ParseException {
         return (BigDecimal) decimalFormat.parse(text);
+    }
+
+    @Test
+    void formatDouble() throws Exception {
+        String formatted = literalFormat.doFormat(23.456);
+
+        assertEquals("23.456", formatted);
+    }
+
+    @Test
+    void formatFloat() throws Exception {
+        String formatted = literalFormat.doFormat(23.456f);
+
+        assertEquals("23.456", formatted);
+    }
+
+    @Test
+    void formatUnknown() throws Exception {
+        String formatted = literalFormat.doFormat("");
+
+        assertNull(formatted);
     }
 }

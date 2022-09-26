@@ -24,17 +24,17 @@ public class URLScriptResource implements ScriptResource {
     private URL url;
 
     private Charset charset = StandardCharsets.UTF_8;
-    private int streamBufferSize = 8192;
+    private int bufferSize = 8192;
 
     public URLScriptResource(URL url) {
         this.url = requireNonNull(url);
     }
 
-    public void setStreamBufferSize(int streamBufferSize) {
-        if (streamBufferSize < 1) {
-            throw new IllegalArgumentException("streamBufferSize must be 1 or greater");
+    public void setBufferSize(int bufferSize) {
+        if (bufferSize < 1) {
+            throw new IllegalArgumentException("bufferSize must be 1 or greater");
         }
-        this.streamBufferSize = streamBufferSize;
+        this.bufferSize = bufferSize;
     }
 
     public void setCharset(Charset charset) {
@@ -43,6 +43,6 @@ public class URLScriptResource implements ScriptResource {
 
     @Override
     public Reader open() throws IOException {
-        return new InputStreamReader(new BufferedInputStream(url.openStream(), streamBufferSize), charset);
+        return new InputStreamReader(new BufferedInputStream(url.openStream(), bufferSize), charset);
     }
 }

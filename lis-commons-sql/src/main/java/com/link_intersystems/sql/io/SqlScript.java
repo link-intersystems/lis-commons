@@ -16,6 +16,10 @@ public class SqlScript {
     public static SqlScript emptyScript() {
         return new SqlScript("") {
             @Override
+            public void execute(StatementCallback statementCallback) throws SQLException {
+            }
+
+            @Override
             public void execute(Connection connection) throws SQLException {
             }
         };
