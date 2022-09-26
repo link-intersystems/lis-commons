@@ -9,22 +9,39 @@ import org.hibernate.type.BasicType;
 import org.hibernate.type.BasicTypeRegistry;
 import org.hibernate.type.LiteralType;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import static java.util.Objects.requireNonNull;
+
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
 public class HibernateTableLiteralFormat implements TableLiteralFormat {
 
     private BasicTypeRegistry basicTypeRegistry = new BasicTypeRegistry();
+    private Map<Class<?>, LiteralFormat> literalFormatOverrides = new HashMap<>();
+    private LiteralFormat defaultLiteralFormat = SimpleLiteralFormat.INSTANCE;
+
     private Dialect dialect;
 
     public HibernateTableLiteralFormat(Dialect dialect) {
         this.dialect = dialect;
     }
 
+    public void setDefaultLiteralFormat(LiteralFormat defaultLiteralFormat) {
+        this.defaultLiteralFormat = requireNonNull(defaultLiteralFormat);
+    }
+
+    public void setLiteralFormatOverride(Class<?> type, LiteralFormat literalFormat) {
+        literalFormatOverrides.put(requireNonNull(type), requireNonNull(literalFormat));
+    }
+
     public Dialect getDialect() {
         return dialect;
     }
 
+    @SuppressWarnings("rawtypes")
     public String format(ColumnValue columnValue) throws Exception {
         Object value = columnValue.getColumnValue();
 
@@ -34,14 +51,21 @@ public class HibernateTableLiteralFormat implements TableLiteralFormat {
 
         Class<?> valueType = value.getClass();
 
-        BasicType registeredType = basicTypeRegistry.getRegisteredType(valueType.getName());
+        LiteralFormat literalFormat = literalFormatOverrides.get(valueType);
+        if (literalFormat == null) {
+            BasicType registeredType = basicTypeRegistry.getRegisteredType(valueType.getName());
 
-        if (registeredType instanceof LiteralType) {
-            LiteralType literalType = (LiteralType) registeredType;
-            HibernateLiteralFormat literalFormat = new HibernateLiteralFormat(literalType, getDialect());
-            return literalFormat.format(value);
+            if (registeredType instanceof LiteralType) {
+                LiteralType literalType = (LiteralType) registeredType;
+                literalFormat = new HibernateLiteralFormat(literalType, getDialect());
+            }
         }
 
-        return SimpleLiteralFormat.INSTANCE.format(value);
+        if (literalFormat == null) {
+
+            literalFormat = defaultLiteralFormat;
+        }
+
+        return literalFormat.format(value);
     }
 }
