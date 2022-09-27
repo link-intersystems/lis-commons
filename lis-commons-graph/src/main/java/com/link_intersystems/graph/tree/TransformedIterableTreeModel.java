@@ -13,10 +13,6 @@ public class TransformedIterableTreeModel<T> extends IterableTreeModel<T> {
 
     private Function<T, T> transformer;
 
-    public TransformedIterableTreeModel() {
-        this(t -> t);
-    }
-
     public TransformedIterableTreeModel(Function<T, T> transformer) {
         this.transformer = transformer;
     }

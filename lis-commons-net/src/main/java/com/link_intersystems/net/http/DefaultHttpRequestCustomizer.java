@@ -14,6 +14,10 @@ public class DefaultHttpRequestCustomizer implements HttpRequestCustomizer {
 
     private Set<HttpMethod> methodsWithOutput = new HashSet<>(Arrays.asList(POST, PUT, DELETE));
 
+    public void setMethodsWithOutput(HttpMethod... methodsWithOutput) {
+        this.setMethodsWithOutput(new HashSet<>(Arrays.asList(methodsWithOutput)));
+    }
+
     public void setMethodsWithOutput(Set<HttpMethod> methodsWithOutput) {
         this.methodsWithOutput = requireNonNull(methodsWithOutput);
     }
