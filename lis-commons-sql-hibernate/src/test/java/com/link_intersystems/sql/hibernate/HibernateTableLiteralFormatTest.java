@@ -50,7 +50,7 @@ class HibernateTableLiteralFormatTest {
 
         String formatted = literalFormat.format(new ColumnValue("amount", new BigDecimal("1234.45")));
 
-        assertEquals("\"1234.45\"", formatted);
+        assertEquals("1234.45", formatted);
     }
 
     @Test
@@ -60,6 +60,15 @@ class HibernateTableLiteralFormatTest {
         String formatted = literalFormat.format(new ColumnValue("amount", 1));
 
         assertEquals("\"1\"", formatted);
+    }
+
+    @Test
+    void formatBlob() throws Exception {
+        byte[] byteArray = {'a', 'b', 'c'};
+
+        String formatted = literalFormat.format(new ColumnValue("value", byteArray));
+
+        assertEquals("e1e2e3", formatted);
     }
 
     private static class DoubleQuotedLiteralFormat extends AbstractLiteralFormat {

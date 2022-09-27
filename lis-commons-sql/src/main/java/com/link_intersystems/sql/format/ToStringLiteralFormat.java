@@ -6,8 +6,8 @@ package com.link_intersystems.sql.format;
  *
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class SimpleLiteralFormat extends AbstractLiteralFormat {
-    public static final SimpleLiteralFormat INSTANCE = new SimpleLiteralFormat();
+public class ToStringLiteralFormat extends AbstractLiteralFormat {
+    public static final ToStringLiteralFormat INSTANCE = new ToStringLiteralFormat();
 
     @Override
     public String doFormat(Object value) {

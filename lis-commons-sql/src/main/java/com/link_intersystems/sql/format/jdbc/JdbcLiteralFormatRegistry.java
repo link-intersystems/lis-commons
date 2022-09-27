@@ -14,7 +14,7 @@ import java.util.Set;
 public class JdbcLiteralFormatRegistry extends AbstractMap<Integer, LiteralFormat> implements LiteralFormatRegistry<Integer> {
 
     private Map<Integer, LiteralFormat> literalFormatBySqlType = new HashMap<>();
-    private LiteralFormat defaultLiteralFormat = new SimpleLiteralFormat();
+    private LiteralFormat defaultLiteralFormat = ToStringLiteralFormat.INSTANCE;
 
     public JdbcLiteralFormatRegistry() {
         QuotedStringLiteralFormat literalFormat = new QuotedStringLiteralFormat();

@@ -11,7 +11,7 @@ class ToStringLiteralFormatTest {
 
     @Test
     void formatNull() throws Exception {
-        SimpleLiteralFormat simpleLiteralFormat = new SimpleLiteralFormat();
+        ToStringLiteralFormat simpleLiteralFormat = new ToStringLiteralFormat();
         String formatted = simpleLiteralFormat.format(null);
 
         assertEquals(LiteralFormat.NULL_LITERAL, formatted);
@@ -19,7 +19,7 @@ class ToStringLiteralFormatTest {
 
     @Test
     void formatValue() throws Exception {
-        SimpleLiteralFormat simpleLiteralFormat = new SimpleLiteralFormat();
+        ToStringLiteralFormat simpleLiteralFormat = new ToStringLiteralFormat();
         String formatted = simpleLiteralFormat.format(34.12);
 
         assertEquals("34.12", formatted);

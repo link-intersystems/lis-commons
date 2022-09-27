@@ -2,7 +2,7 @@ package com.link_intersystems.sql.format.jdbc;
 
 import com.link_intersystems.sql.format.LiteralFormat;
 import com.link_intersystems.sql.format.LiteralFormatRegistry;
-import com.link_intersystems.sql.format.SimpleLiteralFormat;
+import com.link_intersystems.sql.format.ToStringLiteralFormat;
 import com.link_intersystems.sql.statement.ColumnValue;
 import com.link_intersystems.sql.statement.TableLiteralFormat;
 
@@ -19,7 +19,7 @@ public class ResultSetMetaDataTableLiteralFormat implements TableLiteralFormat {
     private ResultSetMetaData resultSetMetaData;
 
     private LiteralFormatRegistry<Integer> literalFormatRegistry = new JdbcLiteralFormatRegistry();
-    private LiteralFormat defaultLiteralFormat = new SimpleLiteralFormat();
+    private LiteralFormat defaultLiteralFormat = ToStringLiteralFormat.INSTANCE;
 
     public ResultSetMetaDataTableLiteralFormat(ResultSetMetaData resultSetMetaData) {
         this.resultSetMetaData = requireNonNull(resultSetMetaData);

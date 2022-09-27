@@ -30,9 +30,10 @@ public class HibernateTypeMapping extends AbstractMap<Integer, String> {
         hibernateTypeByJavaType.put(Types.TIMESTAMP_WITH_TIMEZONE, "calendar");
 
         hibernateTypeByJavaType.put(Types.DECIMAL, "big_decimal");
-        hibernateTypeByJavaType.put(Types.NUMERIC, "big_integer");
+        hibernateTypeByJavaType.put(Types.NUMERIC, "big_decimal");
 
         hibernateTypeByJavaType.put(Types.BLOB, "blob");
+        hibernateTypeByJavaType.put(Types.VARBINARY, "blob");
         hibernateTypeByJavaType.put(Types.LONGVARBINARY, "blob");
         hibernateTypeByJavaType.put(Types.CLOB, "clob");
         hibernateTypeByJavaType.put(Types.LONGNVARCHAR, "clob");

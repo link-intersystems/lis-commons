@@ -13,7 +13,7 @@ import static java.util.Objects.requireNonNull;
  */
 public class DefaultTableLiteralFormat implements TableLiteralFormat {
 
-    private LiteralFormat defaultLiteralFormat = new SimpleLiteralFormat();
+    private LiteralFormat defaultLiteralFormat = ToStringLiteralFormat.INSTANCE;
 
     private Map<String, LiteralFormat> columnLiteralFormats = new HashMap<>();
 

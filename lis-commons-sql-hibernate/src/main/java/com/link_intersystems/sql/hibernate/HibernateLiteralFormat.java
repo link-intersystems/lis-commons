@@ -2,14 +2,10 @@ package com.link_intersystems.sql.hibernate;
 
 import com.link_intersystems.sql.format.LiteralFormat;
 import org.hibernate.dialect.Dialect;
-import org.hibernate.engine.jdbc.LobCreator;
 import org.hibernate.type.AbstractStandardBasicType;
 import org.hibernate.type.LiteralType;
 import org.hibernate.type.descriptor.WrapperOptions;
 import org.hibernate.type.descriptor.java.JavaTypeDescriptor;
-import org.hibernate.type.descriptor.sql.SqlTypeDescriptor;
-
-import java.util.TimeZone;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
@@ -18,10 +14,12 @@ public class HibernateLiteralFormat implements LiteralFormat {
 
     private LiteralType literalType;
     private final Dialect dialect;
+    private WrapperOptions wrapperOptions;
 
-    public HibernateLiteralFormat(LiteralType literalType, Dialect dialect) {
+    public HibernateLiteralFormat(LiteralType literalType, Dialect dialect, WrapperOptions wrapperOptions) {
         this.literalType = literalType;
         this.dialect = dialect;
+        this.wrapperOptions = wrapperOptions;
     }
 
     @Override
@@ -29,34 +27,11 @@ public class HibernateLiteralFormat implements LiteralFormat {
         if (literalType instanceof AbstractStandardBasicType) {
             AbstractStandardBasicType abstractStandardBasicType = (AbstractStandardBasicType) literalType;
             JavaTypeDescriptor javaTypeDescriptor = abstractStandardBasicType.getJavaTypeDescriptor();
-            value = javaTypeDescriptor.wrap(value, NullWrapperOptions.INSTANCE);
+            value = javaTypeDescriptor.wrap(value, wrapperOptions);
         }
 
         return literalType.objectToSQLString(value, dialect);
     }
 
-    private static class NullWrapperOptions implements WrapperOptions {
 
-        public static final WrapperOptions INSTANCE = new NullWrapperOptions();
-
-        @Override
-        public boolean useStreamForLobBinding() {
-            return false;
-        }
-
-        @Override
-        public LobCreator getLobCreator() {
-            return null;
-        }
-
-        @Override
-        public SqlTypeDescriptor remapSqlTypeDescriptor(SqlTypeDescriptor sqlTypeDescriptor) {
-            return null;
-        }
-
-        @Override
-        public TimeZone getJdbcTimeZone() {
-            return null;
-        }
-    }
 }
