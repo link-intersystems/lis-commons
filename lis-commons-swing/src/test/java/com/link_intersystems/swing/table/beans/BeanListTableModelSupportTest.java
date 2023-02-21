@@ -94,7 +94,7 @@ class BeanListTableModelSupportTest {
 
     @Test
     void exceptionOnPropertyRead() {
-        listTableCellSupport = new BeanListTableModelSupport<>() {
+        listTableCellSupport = new BeanListTableModelSupport<PersonBean>() {
             @Override
             protected Method getReadMethod(int column) {
                 try {
@@ -110,7 +110,7 @@ class BeanListTableModelSupportTest {
 
     @Test
     void omitReadMethodException() {
-        listTableCellSupport = new BeanListTableModelSupport<>() {
+        listTableCellSupport = new BeanListTableModelSupport<PersonBean>() {
             @Override
             protected Method getReadMethod(int column) {
                 try {

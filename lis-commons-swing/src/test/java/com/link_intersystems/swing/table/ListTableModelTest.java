@@ -61,9 +61,9 @@ class ListTableModelTest {
         TableModelListener tableModelListener = mock(TableModelListener.class);
         listTableModel.addTableModelListener(tableModelListener);
 
-        listModel.addAll(Arrays.asList("four", "five"));
+        listModel.addElement("four");
 
-        verify(tableModelListener).tableChanged(refEq(new TableModelEvent(listTableModel, 3, 4, TableModelEvent.ALL_COLUMNS, TableModelEvent.INSERT)));
+        verify(tableModelListener).tableChanged(refEq(new TableModelEvent(listTableModel, 3, 3, TableModelEvent.ALL_COLUMNS, TableModelEvent.INSERT)));
     }
 
     @Test
