@@ -5,7 +5,7 @@
     <parent>
         <artifactId>lis-commons</artifactId>
         <groupId>com.link-intersystems.commons</groupId>
-        <version>1.8.3-SNAPSHOT</version>
+        <version>1.8.3</version>
     </parent>
 
     <artifactId>lis-commons-net</artifactId>
