@@ -7,6 +7,9 @@ public interface AsycWorkLifecycle<T, V> {
 
     static <T, V> AsycWorkLifecycle<T, V> nullInstance() {
         return new AsycWorkLifecycle<T, V>() {
+            @Override
+            public void done(T result) {
+            }
         };
     }
 
@@ -16,11 +19,16 @@ public interface AsycWorkLifecycle<T, V> {
     default void intermediateResults(List<V> chunks) {
     }
 
-    default void done(T result) {
-    }
+    void done(T result);
 
     default void failed(ExecutionException e) {
-        throw new RuntimeException(e);
+        Throwable cause = e.getCause();
+        if (cause instanceof RuntimeException) {
+            RuntimeException re = (RuntimeException) cause;
+            throw re;
+        }
+
+        throw new RuntimeException(cause);
     }
 
     default void interrupted(InterruptedException e) {
