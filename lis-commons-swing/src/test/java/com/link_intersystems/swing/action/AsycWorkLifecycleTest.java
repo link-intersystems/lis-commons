@@ -30,6 +30,6 @@ class AsycWorkLifecycleTest {
 
         InterruptedException interruptedException = new InterruptedException();
         RuntimeException thrownInterruptedException = assertThrows(RuntimeException.class, () -> nullInstance.interrupted(interruptedException));
-        assertEquals(checkedException, thrownInterruptedException.getCause());
+        assertEquals(interruptedException, thrownInterruptedException.getCause());
     }
 }
