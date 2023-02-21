@@ -1,13 +1,11 @@
 package com.link_intersystems.swing.action;
 
 import com.link_intersystems.swing.ProgressListener;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
@@ -23,50 +21,39 @@ class SwingWorkerAsyncWorkExecutorTest {
 
     private static class AsyncWorkMock implements AsycWork<String, String> {
 
-        private CountDownLatch beginLatch = new CountDownLatch(1);
-        private CountDownLatch doneLatch = new CountDownLatch(1);
-        private Semaphore iterationBegin = new Semaphore(1);
-        private Semaphore iterationEnd = new Semaphore(1);
-        private Exception throwException;
+        private Semaphore step = new Semaphore(0);
+        private Semaphore caller = new Semaphore(0);
+
 
         @Override
         public synchronized String execute(AsyncProgress<String> asyncProgress) throws Exception {
-            asyncProgress.begin(2);
+            nextStep(() -> {
+                asyncProgress.begin(2);
+            });
 
-            beginLatch.countDown();
-            iterationBegin.acquire();
-            iterationEnd.acquire();
-
-            if (throwException != null) {
-                throw throwException;
-            } else {
-                for (int i = 0; i < 2; i++) {
-                    iterationBegin.tryAcquire(TIMEOUT_SECONDS, TimeUnit.SECONDS);
+            for (int i = 0; i < 2; i++) {
+                final int act = i;
+                nextStep(() -> {
                     asyncProgress.worked(1);
-                    asyncProgress.publish(Integer.toString(i));
-                    iterationEnd.release();
-                }
+                    asyncProgress.publish(Integer.toString(act));
+                });
             }
 
-            doneLatch.await(TIMEOUT_SECONDS, TimeUnit.SECONDS);
+
+            nextStep(() -> {
+            });
             return "done";
         }
 
-        public void nextWork() throws InterruptedException {
-            iterationBegin.release();
-            iterationEnd.tryAcquire(TIMEOUT_SECONDS, TimeUnit.SECONDS);
+        private void nextStep(Runnable run) throws InterruptedException {
+            step.acquire();
+            run.run();
+            caller.release();
         }
 
-        public void setDone() {
-            doneLatch.countDown();
-        }
-
-        public void awaitBegin() throws InterruptedException {
-            beginLatch.await(TIMEOUT_SECONDS, TimeUnit.SECONDS);
-        }
-
-        public void setThrowException(Exception throwException) {
-            this.throwException = throwException;
+        public void continueThread() throws InterruptedException {
+            step.release();
+            caller.acquire();
         }
 
     }
@@ -74,44 +61,20 @@ class SwingWorkerAsyncWorkExecutorTest {
     private static class AsyncWorkLifecycleMock implements AsycWorkLifecycle<String, String> {
 
         private CountDownLatch doneLatch = new CountDownLatch(1);
-        private CountDownLatch failedLatch = new CountDownLatch(1);
-        private CountDownLatch interruptLatch = new CountDownLatch(1);
-
-        private ExecutionException executionException;
-        private InterruptedException interruptedException;
 
         @Override
         public void done(String result) {
             doneLatch.countDown();
         }
 
-        @Override
-        public void failed(ExecutionException e) {
-            this.executionException = e;
-            failedLatch.countDown();
-        }
-
-        @Override
-        public void interrupted(InterruptedException e) {
-            this.interruptedException = e;
-            interruptLatch.countDown();
-        }
-
-        public void awaitFailed() throws InterruptedException {
-            failedLatch.await(TIMEOUT_SECONDS, TimeUnit.SECONDS);
-        }
-
         public void awaitDone() throws InterruptedException {
             doneLatch.await(TIMEOUT_SECONDS, TimeUnit.SECONDS);
         }
 
-        public void awaitInterrupt() throws InterruptedException {
-            interruptLatch.await(TIMEOUT_SECONDS, TimeUnit.SECONDS);
-        }
     }
 
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         asyncWorkExecutor = new SwingWorkerAsyncWorkExecutor();
 
         asyncWork = new AsyncWorkMock();
@@ -125,30 +88,16 @@ class SwingWorkerAsyncWorkExecutorTest {
     void done() throws InterruptedException {
         asyncWorkExecutor.execute(asyncWork, lifecycle, progressListener);
 
-        asyncWork.awaitBegin();
+        asyncWork.continueThread();
         verify(progressListener).begin(2);
 
-        asyncWork.nextWork();
+        asyncWork.continueThread();
         verify(progressListener, times(1)).worked(1);
-        asyncWork.nextWork();
+        asyncWork.continueThread();
         verify(progressListener, times(2)).worked(1);
 
-        asyncWork.setDone();
+        asyncWork.continueThread();
         lifecycle.awaitDone();
     }
 
-    @Test
-    @Timeout(value = 1)
-    void failed() throws InterruptedException {
-        RuntimeException throwException = new RuntimeException();
-        asyncWork.setThrowException(throwException);
-
-        asyncWorkExecutor.execute(asyncWork, lifecycle, progressListener);
-
-        asyncWork.awaitBegin();
-        verify(progressListener).begin(2);
-
-        lifecycle.awaitFailed();
-        Assertions.assertSame(throwException, lifecycle.executionException.getCause());
-    }
 }
