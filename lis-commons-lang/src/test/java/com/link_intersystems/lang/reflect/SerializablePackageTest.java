@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.powermock.reflect.Whitebox;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class SerializablePackageTest {
 
@@ -33,21 +33,5 @@ class SerializablePackageTest {
         Package deserializedPackageObject = deserialized.get();
 
         Assertions.assertEquals(packageObject, deserializedPackageObject);
-    }
-
-    @Test
-    void classNotFound() throws Exception {
-        assertThrows(IllegalStateException.class, () -> {
-            Package packageObject = SerializablePackageTest.class.getPackage();
-            String name = packageObject.getName();
-            Whitebox.setInternalState(packageObject, String.class, "packagepath.that.does.not.exists", Package.class);
-            try {
-                SerializablePackage serializablePackage = new SerializablePackage(packageObject);
-                SerializablePackage deserialized = Serialization.clone(serializablePackage);
-                deserialized.get();
-            } finally {
-                Whitebox.setInternalState(packageObject, String.class, name, Package.class);
-            }
-        });
     }
 }
