@@ -12,4 +12,10 @@
     <name>LIS Commons Swing</name>
     <description>Link Intersystems Commons Swing (lis-commons-swing) provides support for Java swing related tasks.</description>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.link-intersystems.commons</groupId>
+            <artifactId>lis-commons-util</artifactId>
+        </dependency>
+    </dependencies>
 </project>
