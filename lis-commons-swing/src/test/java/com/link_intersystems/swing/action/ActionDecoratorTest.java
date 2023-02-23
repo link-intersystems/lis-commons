@@ -1,8 +1,8 @@
 package com.link_intersystems.swing.action;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -12,22 +12,29 @@ import java.util.Map;
 
 import static javax.swing.Action.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 class ActionDecoratorTest {
 
     private AbstractAction decoratedAction;
     private ActionDecorator actionDecorator;
 
+    private ActionEvent decoratedActionActionEvent;
+
     @BeforeEach
     void setUp() {
         decoratedAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                decoratedActionActionEvent = e;
             }
         };
 
         actionDecorator = new ActionDecorator(decoratedAction);
+    }
+
+    @AfterEach
+    void tearDown() {
+        decoratedActionActionEvent = null;
     }
 
     @Test
@@ -118,6 +125,38 @@ class ActionDecoratorTest {
 
         decoratedAction.setEnabled(true);
         assertTrue(actionDecorator.isEnabled());
+    }
+
+    @Test
+    void decoratedActionNotPerformedWhenDisabled() {
+        decoratedAction.setEnabled(false);
+
+        actionDecorator.actionPerformed(new ActionEvent(this, 1, ""));
+
+        assertNull(decoratedActionActionEvent);
+    }
+
+    @Test
+    void decoratedActionPerformed() {
+        decoratedAction.setEnabled(true);
+
+        actionDecorator.actionPerformed(new ActionEvent(this, 1, ""));
+
+        assertNotNull(decoratedActionActionEvent);
+    }
+
+    @Test
+    void setDecoratedActionToNull() {
+        actionDecorator.setDecoratedAction(null);
+
+        ActionEvent e = new ActionEvent(this, 1, "");
+        actionDecorator.actionPerformed(e);
+    }
+
+    @Test
+    void actionDecoratorWithoutDecoratedActionJustWorksFine() {
+        ActionEvent e = new ActionEvent(this, 1, "");
+        new ActionDecorator().actionPerformed(e);
     }
 
     private static class TestAction implements Action {

@@ -4,7 +4,7 @@ public interface ProgressListener {
     static ProgressListener nullInstance() {
         return new ProgressListener() {
             @Override
-            public void begin(int totalWork) {
+            public void begin(String name, int totalWork) {
             }
 
             @Override
@@ -13,7 +13,7 @@ public interface ProgressListener {
         };
     }
 
-    void begin(int totalWork);
+    void begin(String name, int totalWork);
 
     void worked(int worked);
 

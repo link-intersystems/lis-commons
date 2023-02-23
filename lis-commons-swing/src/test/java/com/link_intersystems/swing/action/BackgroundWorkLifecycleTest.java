@@ -6,16 +6,14 @@ import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
-class AsycWorkLifecycleTest {
+class BackgroundWorkLifecycleTest {
 
     @Test
     void nullInstance() {
-        AsycWorkLifecycle<Object, Object> nullInstance = AsycWorkLifecycle.nullInstance();
+        BackgroundWorkResultHandler<Object, Object> nullInstance = BackgroundWorkResultHandler.nullInstance();
 
-        nullInstance.prepareForExecution();
-        nullInstance.intermediateResults(Arrays.asList());
+        nullInstance.publishIntermediateResults(Arrays.asList());
         nullInstance.done("");
 
         RuntimeException runtimeException = new RuntimeException();

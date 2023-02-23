@@ -96,7 +96,7 @@ public class ActionDecorator extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (decoratedAction != null) {
+        if (isEnabled() && decoratedAction != null) {
             decoratedAction.actionPerformed(e);
         }
     }

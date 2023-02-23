@@ -6,32 +6,32 @@ import javax.swing.*;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class SwingWorkerAsyncWorkExecutor implements AsyncWorkExecutor {
+public class SwingWorkerBackgroundWorkExecutor implements BackgroundWorkExecutor {
 
     @Override
-    public <T, V> void execute(AsycWork<T, V> asycWork, AsycWorkLifecycle<T, V> lifecycle, ProgressListener progressListener) {
-        SwingWorker<T, V> swingWorker = new SwingWorkerAdapter<>(asycWork, lifecycle, progressListener);
+    public <T, V> void execute(BackgroundWork<T, V> backgroundWork, BackgroundWorkResultHandler<T, V> lifecycle, ProgressListener progressListener) {
+        SwingWorker<T, V> swingWorker = new SwingWorkerAdapter<>(backgroundWork, lifecycle, progressListener);
         swingWorker.execute();
     }
 
     private class SwingWorkerAdapter<T, V> extends SwingWorker<T, V> {
-        private final AsycWork<T, V> asycWork;
-        private final AsycWorkLifecycle<T, V> lifecycle;
+        private final BackgroundWork<T, V> backgroundWork;
+        private final BackgroundWorkResultHandler<T, V> resultHandler;
         private ProgressListener progressListener;
 
-        public SwingWorkerAdapter(AsycWork<T, V> asycWork, AsycWorkLifecycle<T, V> lifecycle, ProgressListener progressListener) {
-            this.asycWork = asycWork;
-            this.lifecycle = lifecycle;
+        public SwingWorkerAdapter(BackgroundWork<T, V> backgroundWork, BackgroundWorkResultHandler<T, V> resultHandler, ProgressListener progressListener) {
+            this.backgroundWork = backgroundWork;
+            this.resultHandler = resultHandler;
             this.progressListener = progressListener;
         }
 
         @Override
         protected T doInBackground() throws Exception {
-            return asycWork.execute(new AsyncProgress<V>() {
+            return backgroundWork.execute(new BackgroundProgress<V>() {
 
                 @Override
-                public void begin(int totalWork) {
-                    progressListener.begin(totalWork);
+                public void begin(String name, int totalWork) {
+                    progressListener.begin(name, totalWork);
                 }
 
                 @Override
@@ -52,18 +52,18 @@ public class SwingWorkerAsyncWorkExecutor implements AsyncWorkExecutor {
 
         @Override
         protected void process(List<V> chunks) {
-            lifecycle.intermediateResults(chunks);
+            resultHandler.publishIntermediateResults(chunks);
         }
 
         @Override
         protected void done() {
             try {
                 T result = get();
-                lifecycle.done(result);
+                resultHandler.done(result);
             } catch (InterruptedException ex) {
-                lifecycle.interrupted(ex);
+                resultHandler.interrupted(ex);
             } catch (ExecutionException ex) {
-                lifecycle.failed(ex);
+                resultHandler.failed(ex);
             }
         }
     }

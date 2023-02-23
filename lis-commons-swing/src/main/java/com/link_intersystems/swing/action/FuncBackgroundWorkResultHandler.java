@@ -5,18 +5,12 @@ import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
-public class FuncAsyncWorkLifecycle<T, V> implements AsycWorkLifecycle<T, V> {
+public class FuncBackgroundWorkResultHandler<T, V> implements BackgroundWorkResultHandler<T, V> {
     public static class Builder<T, V> {
-        private Optional<Runnable> prepareForExecution = Optional.empty();
         private Optional<Consumer<T>> doneConsumer = Optional.empty();
         private Optional<Consumer<List<V>>> intermediateResultsConsumer = Optional.empty();
         private Optional<Consumer<ExecutionException>> failedConsumer = Optional.empty();
         private Optional<Consumer<InterruptedException>> interruptedConsumer = Optional.empty();
-
-        public Builder<T, V> setPrepareForExecution(Runnable prepareForExecution) {
-            this.prepareForExecution = Optional.ofNullable(prepareForExecution);
-            return this;
-        }
 
         public Builder<T, V> setIntermediateResultsConsumer(Consumer<List<V>> intermediateResultsConsumer) {
             this.intermediateResultsConsumer = Optional.ofNullable(intermediateResultsConsumer);
@@ -38,19 +32,17 @@ public class FuncAsyncWorkLifecycle<T, V> implements AsycWorkLifecycle<T, V> {
             return this;
         }
 
-        public FuncAsyncWorkLifecycle build() {
-            return new FuncAsyncWorkLifecycle(prepareForExecution, doneConsumer, intermediateResultsConsumer, failedConsumer, interruptedConsumer);
+        public FuncBackgroundWorkResultHandler build() {
+            return new FuncBackgroundWorkResultHandler(doneConsumer, intermediateResultsConsumer, failedConsumer, interruptedConsumer);
         }
     }
 
-    private Optional<Runnable> prepareForExecution;
     private Optional<Consumer<T>> doneConsumer;
     private Optional<Consumer<List<V>>> intermediateResultsConsumer;
     private Optional<Consumer<ExecutionException>> failedConsumer;
     private Optional<Consumer<InterruptedException>> interruptedConsumer;
 
-    private FuncAsyncWorkLifecycle(Optional<Runnable> prepareForExecution, Optional<Consumer<T>> doneConsumer, Optional<Consumer<List<V>>> intermediateResultsConsumer, Optional<Consumer<ExecutionException>> failedConsumer, Optional<Consumer<InterruptedException>> interruptedConsumer) {
-        this.prepareForExecution = prepareForExecution;
+    private FuncBackgroundWorkResultHandler(Optional<Consumer<T>> doneConsumer, Optional<Consumer<List<V>>> intermediateResultsConsumer, Optional<Consumer<ExecutionException>> failedConsumer, Optional<Consumer<InterruptedException>> interruptedConsumer) {
         this.doneConsumer = doneConsumer;
         this.intermediateResultsConsumer = intermediateResultsConsumer;
         this.failedConsumer = failedConsumer;
@@ -58,12 +50,7 @@ public class FuncAsyncWorkLifecycle<T, V> implements AsycWorkLifecycle<T, V> {
     }
 
     @Override
-    public void prepareForExecution() {
-        prepareForExecution.ifPresent(Runnable::run);
-    }
-
-    @Override
-    public void intermediateResults(List<V> chunks) {
+    public void publishIntermediateResults(List<V> chunks) {
         intermediateResultsConsumer.ifPresent(c -> c.accept(chunks));
     }
 

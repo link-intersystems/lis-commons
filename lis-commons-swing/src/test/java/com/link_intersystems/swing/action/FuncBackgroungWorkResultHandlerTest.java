@@ -9,28 +9,16 @@ import java.util.function.Consumer;
 
 import static org.mockito.Mockito.*;
 
-class FuncAsyncWorkLifecycleTest {
-
-    @Test
-    void prepareForExecution() {
-        Runnable runnable = mock(Runnable.class);
-
-        FuncAsyncWorkLifecycle funcAsyncWorkLifecycle = new FuncAsyncWorkLifecycle.Builder<>()
-                .setPrepareForExecution(runnable).build();
-
-
-        funcAsyncWorkLifecycle.prepareForExecution();
-        verify(runnable).run();
-    }
+class FuncBackgroungWorkResultHandlerTest {
 
     @Test
     void intermediateResults() {
         Consumer<List<String>> consumer = mock(Consumer.class);
 
-        FuncAsyncWorkLifecycle<String, String> funcAsyncWorkLifecycle = new FuncAsyncWorkLifecycle.Builder<String, String>()
+        FuncBackgroundWorkResultHandler<String, String> funcAsyncWorkLifecycle = new FuncBackgroundWorkResultHandler.Builder<String, String>()
                 .setIntermediateResultsConsumer(consumer).build();
 
-        funcAsyncWorkLifecycle.intermediateResults(Arrays.asList("A", "B"));
+        funcAsyncWorkLifecycle.publishIntermediateResults(Arrays.asList("A", "B"));
         verify(consumer).accept(Arrays.asList("A", "B"));
     }
 
@@ -38,7 +26,7 @@ class FuncAsyncWorkLifecycleTest {
     void done() {
         Consumer<String> consumer = mock(Consumer.class);
 
-        FuncAsyncWorkLifecycle<String, String> funcAsyncWorkLifecycle = new FuncAsyncWorkLifecycle.Builder<String, String>()
+        FuncBackgroundWorkResultHandler<String, String> funcAsyncWorkLifecycle = new FuncBackgroundWorkResultHandler.Builder<String, String>()
                 .setDoneConsumer(consumer).build();
 
         funcAsyncWorkLifecycle.done("A");
@@ -49,7 +37,7 @@ class FuncAsyncWorkLifecycleTest {
     void failed() {
         Consumer<ExecutionException> consumer = mock(Consumer.class);
 
-        FuncAsyncWorkLifecycle<String, String> funcAsyncWorkLifecycle = new FuncAsyncWorkLifecycle.Builder<String, String>()
+        FuncBackgroundWorkResultHandler<String, String> funcAsyncWorkLifecycle = new FuncBackgroundWorkResultHandler.Builder<String, String>()
                 .setFailedConsumer(consumer).build();
 
         ExecutionException executionException = new ExecutionException(new RuntimeException());
@@ -61,7 +49,7 @@ class FuncAsyncWorkLifecycleTest {
     void interrupted() {
         Consumer<InterruptedException> consumer = mock(Consumer.class);
 
-        FuncAsyncWorkLifecycle<String, String> funcAsyncWorkLifecycle = new FuncAsyncWorkLifecycle.Builder<String, String>()
+        FuncBackgroundWorkResultHandler<String, String> funcAsyncWorkLifecycle = new FuncBackgroundWorkResultHandler.Builder<String, String>()
                 .setInterruptedConsumer(consumer).build();
 
         InterruptedException interruptedException = new InterruptedException();

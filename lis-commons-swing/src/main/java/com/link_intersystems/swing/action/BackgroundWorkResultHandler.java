@@ -3,20 +3,17 @@ package com.link_intersystems.swing.action;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public interface AsycWorkLifecycle<T, V> {
+public interface BackgroundWorkResultHandler<T, V> {
 
-    static <T, V> AsycWorkLifecycle<T, V> nullInstance() {
-        return new AsycWorkLifecycle<T, V>() {
+    static <T, V> BackgroundWorkResultHandler<T, V> nullInstance() {
+        return new BackgroundWorkResultHandler<T, V>() {
             @Override
             public void done(T result) {
             }
         };
     }
 
-    default void prepareForExecution() {
-    }
-
-    default void intermediateResults(List<V> chunks) {
+    default void publishIntermediateResults(List<V> chunks) {
     }
 
     void done(T result);

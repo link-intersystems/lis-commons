@@ -8,16 +8,15 @@ import org.junit.jupiter.api.Timeout;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.TimeUnit;
 
 import static org.mockito.Mockito.*;
 
-class SwingWorkerAsyncWorkExecutorTest {
+class SwingWorkerBackgroundWorkExecutorTest {
 
 
-    private SwingWorkerAsyncWorkExecutor asyncWorkExecutor;
+    private SwingWorkerBackgroundWorkExecutor asyncWorkExecutor;
     private AsyncWorkMock asyncWork;
-    private AsyncWorkLifecycleMock lifecycle;
+    private AsyncWorkResultHandlerMock lifecycle;
     private ProgressListener progressListener;
 
     public static interface RunnableWithException {
@@ -25,7 +24,7 @@ class SwingWorkerAsyncWorkExecutorTest {
         public void run() throws Exception;
     }
 
-    private static class AsyncWorkMock implements AsycWork<String, String> {
+    private static class AsyncWorkMock implements BackgroundWork<String, String> {
 
         private Semaphore step = new Semaphore(0);
         private Semaphore caller = new Semaphore(0);
@@ -33,9 +32,9 @@ class SwingWorkerAsyncWorkExecutorTest {
 
 
         @Override
-        public synchronized String execute(AsyncProgress<String> asyncProgress) throws Exception {
+        public synchronized String execute(BackgroundProgress<String> backgroundProgress) throws Exception {
             nextStep(() -> {
-                asyncProgress.begin(2);
+                backgroundProgress.begin("", 2);
             });
 
             if (exception != null) {
@@ -47,8 +46,8 @@ class SwingWorkerAsyncWorkExecutorTest {
             for (int i = 0; i < 2; i++) {
                 final int act = i;
                 nextStep(() -> {
-                    asyncProgress.worked(1);
-                    asyncProgress.publish(Integer.toString(act));
+                    backgroundProgress.worked(1);
+                    backgroundProgress.publish(Integer.toString(act));
                 });
             }
 
@@ -63,7 +62,7 @@ class SwingWorkerAsyncWorkExecutorTest {
             try {
                 run.run();
                 caller.release();
-            } catch (Exception e){
+            } catch (Exception e) {
                 caller.release();
                 throw e;
             }
@@ -79,7 +78,7 @@ class SwingWorkerAsyncWorkExecutorTest {
         }
     }
 
-    private static class AsyncWorkLifecycleMock implements AsycWorkLifecycle<String, String> {
+    private static class AsyncWorkResultHandlerMock implements BackgroundWorkResultHandler<String, String> {
 
         private CountDownLatch doneLatch = new CountDownLatch(1);
         private CountDownLatch failedLatch = new CountDownLatch(1);
@@ -108,10 +107,10 @@ class SwingWorkerAsyncWorkExecutorTest {
 
     @BeforeEach
     void setUp() {
-        asyncWorkExecutor = new SwingWorkerAsyncWorkExecutor();
+        asyncWorkExecutor = new SwingWorkerBackgroundWorkExecutor();
 
         asyncWork = new AsyncWorkMock();
-        lifecycle = new AsyncWorkLifecycleMock();
+        lifecycle = new AsyncWorkResultHandlerMock();
         progressListener = mock(ProgressListener.class);
 
     }
@@ -123,7 +122,7 @@ class SwingWorkerAsyncWorkExecutorTest {
         asyncWorkExecutor.execute(asyncWork, lifecycle, progressListener);
 
         asyncWork.continueThread();
-        verify(progressListener).begin(2);
+        verify(progressListener).begin("", 2);
 
         asyncWork.continueThread();
         lifecycle.awaitFailed();
@@ -135,7 +134,7 @@ class SwingWorkerAsyncWorkExecutorTest {
         asyncWorkExecutor.execute(asyncWork, lifecycle, progressListener);
 
         asyncWork.continueThread();
-        verify(progressListener).begin(2);
+        verify(progressListener).begin("", 2);
 
         asyncWork.continueThread();
         verify(progressListener, times(1)).worked(1);
