@@ -16,8 +16,11 @@ public class EventQueueExecutor implements Executor {
             } else {
                 EventQueue.invokeAndWait(r);
             }
-        } catch (InterruptedException | InvocationTargetException e) {
+        } catch (InterruptedException e) {
             throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            Throwable targetException = e.getTargetException();
+            throw (RuntimeException) targetException;
         }
     }
 }
