@@ -114,6 +114,14 @@ public class ListModelSelection<E> extends AbstractSelection implements Structur
         fireChanged();
     }
 
+    public ListModel<E> getListModel() {
+        return listModel;
+    }
+
+    public ListSelectionModel getListSelectionModel() {
+        return listSelectionModelExt.getListSelectionModel();
+    }
+
     public void setSelectionModel(ListSelectionModel listSelectionModel) {
         if (Objects.equals(listSelectionModelExt.getListSelectionModel(), requireNonNull(listSelectionModel))) {
             return;

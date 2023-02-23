@@ -17,5 +17,9 @@
             <groupId>com.link-intersystems.commons</groupId>
             <artifactId>lis-commons-util</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.link-intersystems.commons</groupId>
+            <artifactId>lis-commons-events</artifactId>
+        </dependency>
     </dependencies>
 </project>
