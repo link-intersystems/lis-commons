@@ -11,7 +11,11 @@ public class EventQueueExecutor implements Executor {
     @Override
     public void execute(Runnable r) {
         try {
-            EventQueue.invokeAndWait(r);
+            if (EventQueue.isDispatchThread()) {
+                r.run();
+            } else {
+                EventQueue.invokeAndWait(r);
+            }
         } catch (InterruptedException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
