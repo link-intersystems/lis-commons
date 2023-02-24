@@ -1,6 +1,7 @@
 package com.link_intersystems.swing.action;
 
 import com.link_intersystems.swing.ProgressListener;
+import com.link_intersystems.swing.ProgressListenerFactory;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -12,7 +13,7 @@ import static java.util.Objects.*;
 public abstract class AbstractWorkerAction<T, V> extends AbstractAction {
 
     protected BackgroundWorkExecutor backgroundWorkExecutor = new SwingWorkerBackgroundWorkExecutor();
-    private ProgressListener progressListener = ProgressListener.nullInstance();
+    private ProgressListenerFactory progressListenerFactory = () -> ProgressListener.nullInstance();
 
     public AbstractWorkerAction() {
     }
@@ -29,24 +30,26 @@ public abstract class AbstractWorkerAction<T, V> extends AbstractAction {
         this.backgroundWorkExecutor = requireNonNull(backgroundWorkExecutor);
     }
 
-    public void setProgressListener(ProgressListener progressListener) {
-        this.progressListener = progressListener == null ? ProgressListener.nullInstance() : progressListener;
+    public void setProgressListenerFactory(ProgressListenerFactory progressListenerFactory) {
+        this.progressListenerFactory = progressListenerFactory == null ? () -> ProgressListener.nullInstance() : progressListenerFactory;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         setEnabled(false);
 
+        BackgroundWorkResultHandler<T, V> resultHandler = getBackgroundWorkResultHandler();
         try {
-            tryActionPerformed(e);
-        } catch (RuntimeException re) {
+            tryActionPerformed(resultHandler);
+        } catch (Exception ex) {
+            resultHandler.failed(new ExecutionException(ex));
+        } finally {
             setEnabled(true);
-            throw re;
         }
     }
 
-    private void tryActionPerformed(ActionEvent e) {
-        BackgroundWorkResultHandler<T, V> resultHandler = getBackgroundWorkResultHandler();
+    private void tryActionPerformed(BackgroundWorkResultHandler<T, V> resultHandler) throws Exception {
+        ProgressListener progressListener = progressListenerFactory.createProgressListener();
         backgroundWorkExecutor.execute(this::doInBackground, resultHandler, progressListener);
     }
 

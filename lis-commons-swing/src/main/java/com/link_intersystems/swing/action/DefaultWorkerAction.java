@@ -43,10 +43,6 @@ public class DefaultWorkerAction<T, V> extends AbstractWorkerAction<T, V> {
         this.backgroundWorkResultHandler = requireNonNull(backgroundWorkResultHandler);
     }
 
-    public void setAsyncWorkExecutor(BackgroundWorkExecutor backgroundWorkExecutor) {
-        this.backgroundWorkExecutor = requireNonNull(backgroundWorkExecutor);
-    }
-
     @Override
     protected T doInBackground(BackgroundProgress<V> backgroundProgress) throws Exception {
         return backgroundWork.execute(backgroundProgress);

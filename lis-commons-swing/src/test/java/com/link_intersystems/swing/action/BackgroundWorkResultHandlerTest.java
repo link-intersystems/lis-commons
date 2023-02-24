@@ -7,7 +7,7 @@ import java.util.concurrent.ExecutionException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class BackgroundWorkLifecycleTest {
+class BackgroundWorkResultHandlerTest {
 
     @Test
     void nullInstance() {

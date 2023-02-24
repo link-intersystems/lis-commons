@@ -68,7 +68,7 @@ import static java.util.Objects.requireNonNull;
 	}
  * </pre>
  *
- * <b>note:</b> The {@link Runnable} interface was choosen, because it is always
+ * <b>note:</b> The {@link Runnable} interface was chosen, because it is always
  * visible by the {@link ClassLoader} the proxy is created with.
  *
  * @author René Link

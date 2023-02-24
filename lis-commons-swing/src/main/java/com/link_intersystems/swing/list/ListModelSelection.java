@@ -1,19 +1,10 @@
 package com.link_intersystems.swing.list;
 
-import com.link_intersystems.swing.function.EventQueueExecutor;
-import com.link_intersystems.swing.selection.AbstractSelection;
-import com.link_intersystems.swing.selection.StructuredSelection;
-import com.link_intersystems.util.concurrent.DebouncedExecutor;
+import com.link_intersystems.swing.selection.Selection;
 
 import javax.swing.*;
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 import static java.util.Objects.*;
 
@@ -27,54 +18,12 @@ import static java.util.Objects.*;
  * <a href="mailto:rene.link@link-intersystems.com">[rene.link@link-
  * intersystems.com]</a>
  */
-public class ListModelSelection<E> extends AbstractSelection implements StructuredSelection<E> {
+public class ListModelSelection<E> implements Selection<E> {
 
 
-    private class ListSelectionAdapter implements ListSelectionListener {
-
-        @Override
-        public void valueChanged(ListSelectionEvent e) {
-            if (e.getValueIsAdjusting()) {
-                return;
-            }
-
-            fireChanged();
-        }
-    }
-
-    private class ListModelAdapter implements ListDataListener {
-
-        @Override
-        public void intervalAdded(ListDataEvent e) {
-            fireChanged();
-        }
-
-        @Override
-        public void intervalRemoved(ListDataEvent e) {
-            fireChanged();
-        }
-
-        @Override
-        public void contentsChanged(ListDataEvent e) {
-            fireChanged();
-        }
-
-    }
-
-    @Override
-    protected void fireChanged() {
-        Runnable r = () -> super.fireChanged();
-        debouncedExecutor.execute(r);
-    }
-
-    private DebouncedExecutor debouncedExecutor = new DebouncedExecutor(EventQueueExecutor.INSTANCE);
-
-    private ListModel<E> listModel = new DefaultListModel<>();
+    private ListModel<E> listModel;
 
     private ListSelectionModelExt listSelectionModelExt = new ListSelectionModelExt(new DefaultListSelectionModel());
-
-    private ListSelectionAdapter listSelectionAdapter = new ListSelectionAdapter();
-    private ListModelAdapter listModelAdapter = new ListModelAdapter();
 
     public ListModelSelection() {
         this(new DefaultListModel<>());
@@ -85,33 +34,12 @@ public class ListModelSelection<E> extends AbstractSelection implements Structur
     }
 
     public ListModelSelection(ListModel<E> listModel, ListSelectionModel listSelectionModel) {
-        setDebounceDelay(0, TimeUnit.MILLISECONDS);
-
         setListModel(listModel);
         setSelectionModel(listSelectionModel);
     }
 
-    /**
-     * The debounce delay time to wait before propagating change events that are triggered by {@link ListModel} changes.
-     * Setting the delay to 0 will cause {@link ListModel} changes to be immediately reflected by change events of this {@link ListModelSelection}, which is the default.
-     *
-     * @param time
-     * @param timeUnit
-     */
-    public void setDebounceDelay(long time, TimeUnit timeUnit) {
-        debouncedExecutor.setDelay(time, timeUnit);
-    }
-
     public void setListModel(ListModel<E> listModel) {
-        if (Objects.equals(this.listModel, requireNonNull(listModel))) {
-            return;
-        }
-
-        this.listModel.removeListDataListener(listModelAdapter);
-        this.listModel = listModel;
-        this.listModel.addListDataListener(listModelAdapter);
-
-        fireChanged();
+        this.listModel = requireNonNull(listModel);
     }
 
     public ListModel<E> getListModel() {
@@ -123,15 +51,7 @@ public class ListModelSelection<E> extends AbstractSelection implements Structur
     }
 
     public void setSelectionModel(ListSelectionModel listSelectionModel) {
-        if (Objects.equals(listSelectionModelExt.getListSelectionModel(), requireNonNull(listSelectionModel))) {
-            return;
-        }
-
-        listSelectionModelExt.getListSelectionModel().removeListSelectionListener(listSelectionAdapter);
-
-        listSelectionModelExt = new ListSelectionModelExt(listSelectionModel);
-
-        listSelectionModelExt.getListSelectionModel().addListSelectionListener(listSelectionAdapter);
+        listSelectionModelExt = new ListSelectionModelExt(requireNonNull(listSelectionModel));
     }
 
     @Override

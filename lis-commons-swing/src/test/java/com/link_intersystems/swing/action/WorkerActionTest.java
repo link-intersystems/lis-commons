@@ -22,7 +22,7 @@ class WorkerActionTest {
         defaultAsyncAction = createAsyncAction();
 
         workExecutor = mock(BackgroundWorkExecutor.class);
-        defaultAsyncAction.setAsyncWorkExecutor(workExecutor);
+        defaultAsyncAction.setBackgroundWorkExecutor(workExecutor);
 
         lifecycle = mock(BackgroundWorkResultHandler.class);
         defaultAsyncAction.setBackgroundWorkResultHandler(lifecycle);

@@ -2,17 +2,11 @@ package com.link_intersystems.swing.list;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.util.Arrays;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 class ListModelSelectionTest {
 
@@ -30,6 +24,25 @@ class ListModelSelectionTest {
         listModel.addElement("two");
         listModel.addElement("three");
         listModel.addElement("four");
+    }
+
+
+    @Test
+    void defaultModels() {
+        ListModelSelection<Object> modelSelection = new ListModelSelection<>();
+        assertNotNull(modelSelection.getListModel());
+        assertNotNull(modelSelection.getListSelectionModel());
+    }
+
+
+    @Test
+    void getListModel() {
+        assertEquals(listModel, listModelSelection.getListModel());
+    }
+
+    @Test
+    void getListSelectionModel() {
+        assertEquals(listSelectionModel, listModelSelection.getListSelectionModel());
     }
 
     @Test
@@ -62,39 +75,4 @@ class ListModelSelectionTest {
         assertFalse(listModelSelection.isEmpty());
     }
 
-    @Test
-    void changeListenerOnSelectionModelChange() {
-        ChangeListener changeListener = mock(ChangeListener.class);
-        listModelSelection.addChangeListener(changeListener);
-
-        listSelectionModel.setSelectionInterval(1, 3);
-
-        verify(changeListener).stateChanged(refEq(new ChangeEvent(listModelSelection)));
-    }
-
-    @Test
-    void changeListenerOnListModelChange() throws InterruptedException {
-        listModelSelection.setDebounceDelay(20, TimeUnit.MILLISECONDS);
-
-        CountDownLatch countDownLatch = new CountDownLatch(1);
-
-        ChangeListener changeListener = new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                countDownLatch.countDown();
-                System.out.println("stateChanged");
-            }
-        };
-
-        listModelSelection.addChangeListener(changeListener);
-
-
-        listModel.addElement("Test");
-        listModel.removeElement("Test");
-        listModel.clear();
-
-        countDownLatch.await(100, TimeUnit.MILLISECONDS);
-
-        assertEquals(0, countDownLatch.getCount(), "countDownLatch");
-    }
 }

@@ -6,6 +6,8 @@ import javax.swing.*;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import static java.util.Objects.*;
+
 public class SwingWorkerBackgroundWorkExecutor implements BackgroundWorkExecutor {
 
     @Override
@@ -20,9 +22,9 @@ public class SwingWorkerBackgroundWorkExecutor implements BackgroundWorkExecutor
         private ProgressListener progressListener;
 
         public SwingWorkerAdapter(BackgroundWork<T, V> backgroundWork, BackgroundWorkResultHandler<T, V> resultHandler, ProgressListener progressListener) {
-            this.backgroundWork = backgroundWork;
-            this.resultHandler = resultHandler;
-            this.progressListener = progressListener;
+            this.backgroundWork = requireNonNull(backgroundWork);
+            this.resultHandler = requireNonNull(resultHandler);
+            this.progressListener = requireNonNull(progressListener);
         }
 
         @Override
