@@ -5,6 +5,7 @@ import com.link_intersystems.swing.selection.Selection;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static java.util.Objects.*;
 
@@ -82,4 +83,17 @@ public class ListModelSelection<E> implements Selection<E> {
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ListModelSelection<?> that = (ListModelSelection<?>) o;
+
+        return Objects.equals(listModel, that.listModel) && Objects.equals(listSelectionModelExt, that.listSelectionModelExt);
+    }
+
+    @Override
+    public int hashCode() {
+        return hash(listModel, listSelectionModelExt);
+    }
 }

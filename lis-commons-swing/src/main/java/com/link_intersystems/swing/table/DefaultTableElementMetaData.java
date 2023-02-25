@@ -1,6 +1,6 @@
 package com.link_intersystems.swing.table;
 
-public class DefaultListTableModelSupport<E> implements ListTableModelSupport<E> {
+public class DefaultTableElementMetaData<E> implements TableElementMetaData {
 
     @Override
     public int getColumnCount() {
@@ -12,8 +12,4 @@ public class DefaultListTableModelSupport<E> implements ListTableModelSupport<E>
         return "A";
     }
 
-    @Override
-    public Object getValue(E element, int column) {
-        return element;
-    }
 }

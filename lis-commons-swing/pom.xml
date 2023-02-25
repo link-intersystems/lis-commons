@@ -21,5 +21,10 @@
             <groupId>com.link-intersystems.commons</groupId>
             <artifactId>lis-commons-events</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.link-intersystems.commons</groupId>
+            <artifactId>lis-commons-test</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>

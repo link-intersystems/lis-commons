@@ -10,14 +10,14 @@ import java.util.Comparator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class BeanListTableModelSupportTest {
+class BeanTableElementSupportTest {
 
-    private BeanListTableModelSupport<PersonBean> listTableCellSupport;
+    private BeanTableElementSupport<PersonBean> listTableCellSupport;
     private PersonBean personBean;
 
     @BeforeEach
     void setUp() {
-        listTableCellSupport = BeanListTableModelSupport.of(PersonBean.class);
+        listTableCellSupport = BeanTableElementSupport.of(PersonBean.class);
         personBean = new PersonBean();
         personBean.setFirstname("Nick");
         personBean.setLastname("Wahlberg");
@@ -94,11 +94,11 @@ class BeanListTableModelSupportTest {
 
     @Test
     void exceptionOnPropertyRead() {
-        listTableCellSupport = new BeanListTableModelSupport<PersonBean>() {
+        listTableCellSupport = new BeanTableElementSupport<PersonBean>() {
             @Override
             protected Method getReadMethod(int column) {
                 try {
-                    return BeanListTableModelSupportTest.class.getDeclaredMethod("exceptionOnPropertyRead");
+                    return BeanTableElementSupportTest.class.getDeclaredMethod("exceptionOnPropertyRead");
                 } catch (NoSuchMethodException e) {
                     throw new RuntimeException(e);
                 }
@@ -110,11 +110,11 @@ class BeanListTableModelSupportTest {
 
     @Test
     void omitReadMethodException() {
-        listTableCellSupport = new BeanListTableModelSupport<PersonBean>() {
+        listTableCellSupport = new BeanTableElementSupport<PersonBean>() {
             @Override
             protected Method getReadMethod(int column) {
                 try {
-                    return BeanListTableModelSupportTest.class.getDeclaredMethod("exceptionOnPropertyRead");
+                    return BeanTableElementSupportTest.class.getDeclaredMethod("exceptionOnPropertyRead");
                 } catch (NoSuchMethodException e) {
                     throw new RuntimeException(e);
                 }

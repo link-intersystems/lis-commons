@@ -1,14 +1,11 @@
 package com.link_intersystems.swing.table;
 
-import com.link_intersystems.swing.table.ListTableModel;
-import com.link_intersystems.swing.table.ListTableModelSupport;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -16,7 +13,7 @@ import static org.mockito.Mockito.*;
 class ListTableModelTest {
 
     private DefaultListModel<String> listModel;
-    private ListTableModel<String> listTableModel;
+    private DefaultListTableModel<String> listTableModel;
 
     @BeforeEach
     void setUp() {
@@ -25,7 +22,7 @@ class ListTableModelTest {
         listModel.addElement("two");
         listModel.addElement("three");
 
-        listTableModel = new ListTableModel<>();
+        listTableModel = new DefaultListTableModel<>();
         listTableModel.setListModel(listModel);
     }
 
@@ -88,8 +85,8 @@ class ListTableModelTest {
 
 
     @Test
-    void setListTableModelSupport() {
-        listTableModel.setListTableModelSupport(new ListTableModelSupport<String>() {
+    void tableElementMetaDataAndCell() {
+        listTableModel.setTableElementMetaData(new TableElementMetaData() {
             @Override
             public int getColumnCount() {
                 return 2;
@@ -100,7 +97,10 @@ class ListTableModelTest {
                 return column == 0 ? "first Letter" : "value";
             }
 
-            @Override
+        });
+
+        listTableModel.setTableElementCell(new TableElementCell<String>() {
+
             public Object getValue(String element, int column) {
                 return column == 0 ? Character.toString(element.charAt(0)) : element;
             }

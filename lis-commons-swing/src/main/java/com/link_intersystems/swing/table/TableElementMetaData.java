@@ -1,6 +1,6 @@
 package com.link_intersystems.swing.table;
 
-public interface ListTableModelSupport<E> {
+public interface TableElementMetaData {
 
     public int getColumnCount();
 
@@ -10,5 +10,4 @@ public interface ListTableModelSupport<E> {
 
     public String getColumnName(int column);
 
-    public Object getValue(E element, int column);
 }

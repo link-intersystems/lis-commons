@@ -1,6 +1,7 @@
 package com.link_intersystems.swing.list;
 
 import javax.swing.*;
+import java.util.Arrays;
 
 import static java.util.Objects.*;
 
@@ -54,5 +55,19 @@ public class ListSelectionModelExt {
         }
 
         return result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ListSelectionModelExt that = (ListSelectionModelExt) o;
+
+        return Arrays.equals(getSelectedIndexes(), that.getSelectedIndexes());
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(getSelectedIndexes());
     }
 }

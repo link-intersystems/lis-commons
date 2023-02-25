@@ -74,5 +74,4 @@ class ListModelSelectionTest {
 
         assertFalse(listModelSelection.isEmpty());
     }
-
 }
