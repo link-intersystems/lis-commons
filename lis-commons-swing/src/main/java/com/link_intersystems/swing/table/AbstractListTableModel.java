@@ -34,6 +34,8 @@ public abstract class AbstractListTableModel<E> extends AbstractTableModel {
         this.listModel.removeListDataListener(listDataListener);
         this.listModel = listModel;
         this.listModel.addListDataListener(listDataListener);
+
+        fireTableStructureChanged();
     }
 
     public ListModel<E> getListModel() {

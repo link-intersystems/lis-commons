@@ -9,10 +9,13 @@ public class DefaultListTableModel<E> extends AbstractListTableModel<E> {
 
     public void setTableElementMetaData(TableElementMetaData tableElementMetaData) {
         this.tableElementMetaData = requireNonNull(tableElementMetaData);
+        fireTableStructureChanged();
+        fireTableDataChanged();
     }
 
     public void setTableElementCell(TableElementCell tableElementCell) {
         this.tableElementCell = requireNonNull(tableElementCell);
+        fireTableDataChanged();
     }
 
     @Override
