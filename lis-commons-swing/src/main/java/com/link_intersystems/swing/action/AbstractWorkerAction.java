@@ -41,10 +41,10 @@ public abstract class AbstractWorkerAction<T, V> extends AbstractAction {
         BackgroundWorkResultHandler<T, V> resultHandler = getBackgroundWorkResultHandler();
         try {
             tryActionPerformed(resultHandler);
-        } catch (Exception ex) {
-            resultHandler.failed(new ExecutionException(ex));
-        } finally {
             setEnabled(true);
+        } catch (Exception ex) {
+            setEnabled(true);
+            resultHandler.failed(new ExecutionException(ex));
         }
     }
 
@@ -63,29 +63,20 @@ public abstract class AbstractWorkerAction<T, V> extends AbstractAction {
 
             @Override
             public void done(T result) {
-                try {
-                    AbstractWorkerAction.this.done(result);
-                } finally {
-                    setEnabled(true);
-                }
+                setEnabled(true);
+                AbstractWorkerAction.this.done(result);
             }
 
             @Override
             public void failed(ExecutionException e) {
-                try {
-                    AbstractWorkerAction.this.failed(e);
-                } finally {
-                    setEnabled(true);
-                }
+                setEnabled(true);
+                AbstractWorkerAction.this.failed(e);
             }
 
             @Override
             public void interrupted(InterruptedException e) {
-                try {
-                    AbstractWorkerAction.this.interrupted(e);
-                } finally {
-                    setEnabled(true);
-                }
+                setEnabled(true);
+                AbstractWorkerAction.this.interrupted(e);
             }
         };
     }
