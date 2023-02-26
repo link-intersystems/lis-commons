@@ -30,27 +30,35 @@ public class SelectionProviderSupport<E> implements SelectionProvider<E> {
         return selection;
     }
 
-    public void setSelection(Selection<E> selection) {
-        Selection oldSelection = this.selection;
+    public void setSelection(Selection<E> newSelection) {
+        newSelection = newSelection == null ? Selection.empty() : newSelection;
 
-        this.selection = selection == null ? Selection.empty() : selection;
+        Selection oldSelection = selection;
 
-        if (!Objects.equals(oldSelection, this.selection)) {
-            fireSelectionChanged();
+        selection = newSelection;
+
+        if (!isEqual(oldSelection, newSelection)) {
+            selectionChanged(oldSelection, newSelection);
         }
     }
 
-    public void setSubtypeSelection(Selection<? extends E> selection) {
-        setSelection(selection == null ? Selection.empty() : Selection.adapted(selection));
+    private boolean isEqual(Selection<E> oldSelection, Selection<E> currentSelection) {
+        return Objects.equals(oldSelection, currentSelection);
     }
 
-    protected void fireSelectionChanged() {
-        SelectionListener[] selectionListeners = listenerList.getListeners(SelectionListener.class);
+    private void selectionChanged(Selection<E> oldSelection, Selection<E> newSelection) {
+        SelectionListener<E>[] selectionListeners = listenerList.getListeners(SelectionListener.class);
+
         if (selectionListeners.length != 0) {
-            SelectionChangeEvent<E> selectionChangeEvent = new SelectionChangeEvent<>(changeEventSource, getSelection());
-            for (int i = 0; i < selectionListeners.length; i++) {
-                selectionListeners[i].selectionChanged(selectionChangeEvent);
-            }
+            SelectionChangeEvent<E> selectionChangeEvent = new SelectionChangeEvent<>(changeEventSource, oldSelection, newSelection);
+            fireSelectionChanged(selectionListeners, selectionChangeEvent);
+        }
+
+    }
+
+    private void fireSelectionChanged(SelectionListener<E>[] selectionListeners, SelectionChangeEvent<E> selectionChangeEvent) {
+        for (int i = 0; i < selectionListeners.length; i++) {
+            selectionListeners[i].selectionChanged(selectionChangeEvent);
         }
     }
 }

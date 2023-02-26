@@ -10,14 +10,14 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SelectionTest {
+class AbstractSelectionTest {
 
     private List<String> stringSelection = new ArrayList<>();
     private Selection<String> selection;
 
     @BeforeEach
     void setUp() {
-        selection = new Selection<String>() {
+        selection = new AbstractSelection<String>() {
             @Override
             public int size() {
                 return stringSelection.size();
@@ -57,15 +57,6 @@ class SelectionTest {
         assertEquals("A", iterator.next());
         assertEquals("B", iterator.next());
         assertFalse(iterator.hasNext());
-    }
-
-    @Test
-    void of() {
-        stringSelection.addAll(Arrays.asList("A", "B"));
-
-        Selection<CharSequence> charSequenceSelection = Selection.adapted(selection);
-
-        assertEquals(2, charSequenceSelection.size());
     }
 
     @Test

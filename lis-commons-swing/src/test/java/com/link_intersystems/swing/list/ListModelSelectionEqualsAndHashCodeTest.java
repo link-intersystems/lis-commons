@@ -6,22 +6,30 @@ import javax.swing.*;
 
 class ListModelSelectionEqualsAndHashCodeTest extends EqualsAndHashCodeTest {
 
-    private ListModel<String> instance;
-
+    private DefaultListModel<String> instance;
 
     @Override
-    protected Object createInstance() throws Exception {
+    protected Object createInstance() {
         ListSelectionModel selectionModel = new DefaultListSelectionModel();
+        selectionModel.setSelectionInterval(1, 2);
+        return new ListModelSelection<>(getListModel(), selectionModel);
+    }
+
+    private ListModel<String> getListModel() {
         if (instance == null) {
             instance = new DefaultListModel<>();
+            instance.addElement("A");
+            instance.addElement("B");
+            instance.addElement("C");
+            instance.addElement("D");
         }
-        return new ListModelSelection<>(instance, selectionModel);
+        return instance;
     }
 
     @Override
-    protected Object createNotEqualInstance() throws Exception {
+    protected Object createNotEqualInstance() {
         ListSelectionModel selectionModel = new DefaultListSelectionModel();
-        ListModel<String> listModel = new DefaultListModel<>();
-        return new ListModelSelection<>(listModel, selectionModel);
+        selectionModel.setSelectionInterval(2, 3);
+        return new ListModelSelection<>(getListModel(), selectionModel);
     }
 }

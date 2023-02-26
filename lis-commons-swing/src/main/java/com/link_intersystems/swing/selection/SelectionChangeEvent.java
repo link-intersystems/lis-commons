@@ -6,20 +6,20 @@ import static java.util.Objects.*;
 
 public class SelectionChangeEvent<E> extends ChangeEvent {
 
-    private Selection<E> selection;
+    private Selection<E> oldSelection;
+    private Selection<E> newSelection;
 
-    /**
-     * Constructs a ChangeEvent object.
-     *
-     * @param source the Object that is the source of the event
-     *               (typically <code>this</code>)
-     */
-    public SelectionChangeEvent(Object source, Selection<E> selection) {
+    public SelectionChangeEvent(Object source, Selection<E> oldSelection, Selection<E> newSelection) {
         super(source);
-        this.selection = requireNonNull(selection);
+        this.oldSelection = requireNonNull(oldSelection);
+        this.newSelection = requireNonNull(newSelection);
     }
 
-    public Selection<E> getSelection() {
-        return selection;
+    public Selection<E> getOldSelection() {
+        return oldSelection;
+    }
+
+    public Selection<E> getNewSelection() {
+        return newSelection;
     }
 }
