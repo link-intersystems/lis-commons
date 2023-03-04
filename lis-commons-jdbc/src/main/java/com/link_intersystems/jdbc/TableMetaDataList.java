@@ -4,33 +4,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-import static com.link_intersystems.jdbc.ResultSetMappers.TABLE_META_DATA_MAPPER;
+import static com.link_intersystems.jdbc.ResultSetMappers.*;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
 public class TableMetaDataList extends AbstractList<TableMetaData> {
-
-    private static class QualifiedTableNameMatch {
-        private QualifiedTableName qualifiedTableName;
-
-        public QualifiedTableNameMatch(QualifiedTableName qualifiedTableName) {
-            this.qualifiedTableName = qualifiedTableName;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            QualifiedTableNameMatch that = (QualifiedTableNameMatch) o;
-            return Objects.equals(qualifiedTableName, that.qualifiedTableName);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(qualifiedTableName.getTableName());
-        }
-    }
 
     private List<TableMetaData> tableMetaDataList;
 
