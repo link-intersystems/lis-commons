@@ -8,7 +8,7 @@ public class DefaultListTableModel<E> extends AbstractListTableModel<E> {
 
     private ChangeListener tableDescriptorChangeListener = e -> fireTableStructureChanged();
 
-    private ListTableDescriptorModel<E> listTableDescriptorModel;
+    private ListTableDescriptorModel<E> listTableDescriptorModel = new DefaultListTableDescriptorModel<>();
 
     private ColumnDescriptor<E> getColumnDescriptor(int column) {
         return listTableDescriptorModel.getColumnDescriptor(column);
