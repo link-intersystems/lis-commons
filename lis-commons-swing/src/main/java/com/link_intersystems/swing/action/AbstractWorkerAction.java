@@ -89,6 +89,13 @@ public abstract class AbstractWorkerAction<T, V> extends AbstractAction {
     protected abstract void done(T result);
 
     protected void failed(ExecutionException e) {
+        Throwable cause = e.getCause();
+
+        if (cause instanceof RuntimeException) {
+            throw (RuntimeException) cause;
+        }
+
+        throw new RuntimeException(e);
     }
 
     protected void interrupted(InterruptedException e) {

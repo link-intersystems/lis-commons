@@ -112,7 +112,6 @@ class AbstractWorkerActionTest {
 
             @Override
             protected void failed(ExecutionException e) {
-                super.failed(e);
                 consumer.accept(e);
             }
         };

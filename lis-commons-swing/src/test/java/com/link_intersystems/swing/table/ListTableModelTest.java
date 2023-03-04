@@ -14,15 +14,21 @@ class ListTableModelTest {
 
     private DefaultListModel<String> listModel;
     private DefaultListTableModel<String> listTableModel;
+    private DefaultListTableDescriptorModel<String> listTableDescriptorModel;
 
     @BeforeEach
     void setUp() {
         listModel = new DefaultListModel<>();
+        listTableModel = new DefaultListTableModel<>();
+
+        listTableDescriptorModel = new DefaultListTableDescriptorModel<>();
+        listTableDescriptorModel.addColumnDescriptor("A");
+        listTableModel.setListTableDescriptorModel(listTableDescriptorModel);
+
         listModel.addElement("one");
         listModel.addElement("two");
         listModel.addElement("three");
 
-        listTableModel = new DefaultListTableModel<>();
         listTableModel.setListModel(listModel);
     }
 
@@ -86,25 +92,9 @@ class ListTableModelTest {
 
     @Test
     void tableElementMetaDataAndCell() {
-        listTableModel.setTableElementMetaData(new TableElementMetaData() {
-            @Override
-            public int getColumnCount() {
-                return 2;
-            }
-
-            @Override
-            public String getColumnName(int column) {
-                return column == 0 ? "first Letter" : "value";
-            }
-
-        });
-
-        listTableModel.setTableElementCell(new TableElementCell<String>() {
-
-            public Object getValue(String element, int column) {
-                return column == 0 ? Character.toString(element.charAt(0)) : element;
-            }
-        });
+        listTableDescriptorModel.removeColumnDescriptor("A");
+        listTableDescriptorModel.addColumnDescriptor("first Letter", s -> Character.toString(s.charAt(0)));
+        listTableDescriptorModel.addColumnDescriptor("value");
 
         assertEquals("o", listTableModel.getValueAt(0, 0));
         assertEquals("t", listTableModel.getValueAt(1, 0));

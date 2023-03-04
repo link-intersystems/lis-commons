@@ -48,11 +48,24 @@ public abstract class AbstractListTableModel<E> extends AbstractTableModel {
     }
 
     @Override
-    public Object getValueAt(int rowIndex, int columnIndex) {
-        E elementAt = getListModel().getElementAt(rowIndex);
-        return getValue(elementAt, columnIndex);
+    public Object getValueAt(int row, int column) {
+        E elementAt = getElementAt(row);
+        return getValue(elementAt, column);
     }
 
-    protected abstract Object getValue(E element, int columnIndex);
+    @Override
+    public void setValueAt(Object value, int rowIndex, int column) {
+        E elementAt = getElementAt(rowIndex);
+        setValue(elementAt, column, value);
+    }
+
+    protected E getElementAt(int row) {
+        return getListModel().getElementAt(row);
+    }
+
+    protected abstract Object getValue(E element, int column);
+
+    protected void setValue(E element, int column, Object value) {
+    }
 
 }
