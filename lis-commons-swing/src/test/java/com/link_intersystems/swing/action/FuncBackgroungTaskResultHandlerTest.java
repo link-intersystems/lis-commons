@@ -9,13 +9,13 @@ import java.util.function.Consumer;
 
 import static org.mockito.Mockito.*;
 
-class FuncBackgroungWorkResultHandlerTest {
+class FuncBackgroungTaskResultHandlerTest {
 
     @Test
     void intermediateResults() {
         Consumer<List<String>> consumer = mock(Consumer.class);
 
-        FuncBackgroundWorkResultHandler<String, String> funcAsyncWorkLifecycle = new FuncBackgroundWorkResultHandler.Builder<String, String>()
+        FuncTaskResultHandler<String, String> funcAsyncWorkLifecycle = new FuncTaskResultHandler.Builder<String, String>()
                 .setIntermediateResultsConsumer(consumer).build();
 
         funcAsyncWorkLifecycle.publishIntermediateResults(Arrays.asList("A", "B"));
@@ -26,7 +26,7 @@ class FuncBackgroungWorkResultHandlerTest {
     void done() {
         Consumer<String> consumer = mock(Consumer.class);
 
-        FuncBackgroundWorkResultHandler<String, String> funcAsyncWorkLifecycle = new FuncBackgroundWorkResultHandler.Builder<String, String>()
+        FuncTaskResultHandler<String, String> funcAsyncWorkLifecycle = new FuncTaskResultHandler.Builder<String, String>()
                 .setDoneConsumer(consumer).build();
 
         funcAsyncWorkLifecycle.done("A");
@@ -37,7 +37,7 @@ class FuncBackgroungWorkResultHandlerTest {
     void failed() {
         Consumer<ExecutionException> consumer = mock(Consumer.class);
 
-        FuncBackgroundWorkResultHandler<String, String> funcAsyncWorkLifecycle = new FuncBackgroundWorkResultHandler.Builder<String, String>()
+        FuncTaskResultHandler<String, String> funcAsyncWorkLifecycle = new FuncTaskResultHandler.Builder<String, String>()
                 .setFailedConsumer(consumer).build();
 
         ExecutionException executionException = new ExecutionException(new RuntimeException());
@@ -49,7 +49,7 @@ class FuncBackgroungWorkResultHandlerTest {
     void interrupted() {
         Consumer<InterruptedException> consumer = mock(Consumer.class);
 
-        FuncBackgroundWorkResultHandler<String, String> funcAsyncWorkLifecycle = new FuncBackgroundWorkResultHandler.Builder<String, String>()
+        FuncTaskResultHandler<String, String> funcAsyncWorkLifecycle = new FuncTaskResultHandler.Builder<String, String>()
                 .setInterruptedConsumer(consumer).build();
 
         InterruptedException interruptedException = new InterruptedException();

@@ -18,10 +18,10 @@ import static org.mockito.Mockito.*;
 
 class DefaultWorkerActionTest {
 
-    private DefaultWorkerAction<Object, Object> defaultWorkerAction;
+    private DefaultTaskAction<Object, Object> defaultWorkerAction;
     private ActionEvent actionEvent;
-    private BackgroundWork<Object, Object> backgroundWork;
-    private BackgroundWorkResultHandler<Object, Object> resultHandler;
+    private Task<Object, Object> task;
+    private TaskResultHandler<Object, Object> resultHandler;
     private Object backgroundWorkResult;
     private Object intermedateResult;
     private Semaphore resultSemaphore;
@@ -32,13 +32,13 @@ class DefaultWorkerActionTest {
         backgroundWorkResult = null;
         intermedateResult = null;
 
-        defaultWorkerAction = new DefaultWorkerAction<>();
+        defaultWorkerAction = new DefaultTaskAction<>();
 
         actionEvent = new ActionEvent(this, 1, "");
 
-        backgroundWork = mock(BackgroundWork.class);
-        defaultWorkerAction.setBackgroundWork(backgroundWork);
-        resultHandler = mock(BackgroundWorkResultHandler.class);
+        task = mock(Task.class);
+        defaultWorkerAction.setBackgroundWork(task);
+        resultHandler = mock(TaskResultHandler.class);
         defaultWorkerAction.setBackgroundWorkResultHandler(resultHandler);
 
         resultSemaphore = new Semaphore(0);
@@ -47,15 +47,15 @@ class DefaultWorkerActionTest {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
                 if (intermedateResult != null) {
-                    BackgroundProgress backgroundProgress = invocation.getArgument(0, BackgroundProgress.class);
-                    backgroundProgress.publish(intermedateResult);
+                    TaskProgress taskProgress = invocation.getArgument(0, TaskProgress.class);
+                    taskProgress.publish(intermedateResult);
                 }
                 if (backgroundWorkResult instanceof Exception) {
                     throw (Exception) backgroundWorkResult;
                 }
                 return backgroundWorkResult;
             }
-        }).when(backgroundWork).execute(any(BackgroundProgress.class));
+        }).when(task).execute(any(TaskProgress.class));
         Answer resultSemaphoreRelease = new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
@@ -114,7 +114,7 @@ class DefaultWorkerActionTest {
     @Test
     void actionWithNameAndIcon() {
         Icon icon = mock(Icon.class);
-        DefaultWorkerAction<Object, Object> workerAction = new DefaultWorkerAction<>("name", icon);
+        DefaultTaskAction<Object, Object> workerAction = new DefaultTaskAction<>("name", icon);
 
         assertEquals("name", workerAction.getValue(Action.NAME));
         assertEquals(icon, workerAction.getValue(Action.SMALL_ICON));
@@ -123,7 +123,7 @@ class DefaultWorkerActionTest {
     @Test
     void actionWithName() {
         Icon icon = mock(Icon.class);
-        DefaultWorkerAction<Object, Object> workerAction = new DefaultWorkerAction<>("name");
+        DefaultTaskAction<Object, Object> workerAction = new DefaultTaskAction<>("name");
 
         assertEquals("name", workerAction.getValue(Action.NAME));
     }

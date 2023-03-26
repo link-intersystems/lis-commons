@@ -3,6 +3,8 @@ package com.link_intersystems.swing.selection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
 
 public interface Selection<E> extends Iterable<E> {
 
@@ -42,4 +44,13 @@ public interface Selection<E> extends Iterable<E> {
     public E getFirstElement();
 
     public List<E> toList();
+
+    default <R> Optional<R> mapFirstElement(Function<E, R> mapper) {
+        if (isEmpty()) {
+            return Optional.empty();
+        }
+
+        E firstElement = getFirstElement();
+        return Optional.of(firstElement).map(mapper);
+    }
 }

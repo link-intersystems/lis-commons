@@ -13,15 +13,15 @@ import java.util.function.Consumer;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class AbstractWorkerActionTest {
+class AbstractTaskActionTest {
 
     @Test
     void publishIntermediateResults() {
         Consumer<List<Object>> consumer = mock(Consumer.class);
 
-        AbstractWorkerAction abstractWorkerAction = new AbstractWorkerAction<Object, Object>() {
+        AbstractTaskAction abstractTaskAction = new AbstractTaskAction<Object, Object>() {
             @Override
-            protected Object doInBackground(BackgroundProgress backgroundProgress) throws Exception {
+            protected Object doInBackground(TaskProgress backgroundProgress) throws Exception {
                 backgroundProgress.publish("A");
                 return null;
             }
@@ -37,9 +37,9 @@ class AbstractWorkerActionTest {
             }
         };
 
-        abstractWorkerAction.setBackgroundWorkExecutor(new DirectBackgroundWorkExecutor());
+        abstractTaskAction.setTaskExecutor(new DirectTaskExecutor());
 
-        abstractWorkerAction.actionPerformed(new ActionEvent(this, 1, ""));
+        abstractTaskAction.actionPerformed(new ActionEvent(this, 1, ""));
 
         ArgumentCaptor<List> listArgumentCaptor = ArgumentCaptor.forClass(List.class);
         verify(consumer).accept(listArgumentCaptor.capture());
@@ -49,9 +49,9 @@ class AbstractWorkerActionTest {
 
     @Test
     void nullProgressListener() {
-        AbstractWorkerAction abstractWorkerAction = new AbstractWorkerAction<Object, Object>() {
+        AbstractTaskAction abstractTaskAction = new AbstractTaskAction<Object, Object>() {
             @Override
-            protected Object doInBackground(BackgroundProgress backgroundProgress) throws Exception {
+            protected Object doInBackground(TaskProgress backgroundProgress) throws Exception {
                 backgroundProgress.begin("A", 2);
                 backgroundProgress.worked(2);
                 return null;
@@ -62,9 +62,9 @@ class AbstractWorkerActionTest {
             }
 
         };
-        abstractWorkerAction.setBackgroundWorkExecutor(new DirectBackgroundWorkExecutor());
+        abstractTaskAction.setTaskExecutor(new DirectTaskExecutor());
 
-        abstractWorkerAction.actionPerformed(new ActionEvent(this, 1, ""));
+        abstractTaskAction.actionPerformed(new ActionEvent(this, 1, ""));
     }
 
 
@@ -72,9 +72,9 @@ class AbstractWorkerActionTest {
     void progressListener() {
         ProgressListener progressListener = mock(ProgressListener.class);
 
-        AbstractWorkerAction abstractWorkerAction = new AbstractWorkerAction<Object, Object>() {
+        AbstractTaskAction abstractTaskAction = new AbstractTaskAction<Object, Object>() {
             @Override
-            protected Object doInBackground(BackgroundProgress backgroundProgress) throws Exception {
+            protected Object doInBackground(TaskProgress backgroundProgress) throws Exception {
                 backgroundProgress.begin("A", 2);
                 backgroundProgress.worked(2);
                 return null;
@@ -85,10 +85,10 @@ class AbstractWorkerActionTest {
             }
 
         };
-        abstractWorkerAction.setProgressListenerFactory(() -> progressListener);
-        abstractWorkerAction.setBackgroundWorkExecutor(new DirectBackgroundWorkExecutor());
+        abstractTaskAction.setProgressListenerFactory(() -> progressListener);
+        abstractTaskAction.setTaskExecutor(new DirectTaskExecutor());
 
-        abstractWorkerAction.actionPerformed(new ActionEvent(this, 1, ""));
+        abstractTaskAction.actionPerformed(new ActionEvent(this, 1, ""));
 
         verify(progressListener).begin("A", 2);
         verify(progressListener).worked(2);
@@ -100,9 +100,9 @@ class AbstractWorkerActionTest {
         Consumer<ExecutionException> consumer = mock(Consumer.class);
         ProgressListener progressListener = mock(ProgressListener.class);
 
-        AbstractWorkerAction abstractWorkerAction = new AbstractWorkerAction<Object, Object>() {
+        AbstractTaskAction abstractTaskAction = new AbstractTaskAction<Object, Object>() {
             @Override
-            protected Object doInBackground(BackgroundProgress backgroundProgress) throws Exception {
+            protected Object doInBackground(TaskProgress backgroundProgress) throws Exception {
                 return null;
             }
 
@@ -116,22 +116,22 @@ class AbstractWorkerActionTest {
             }
         };
 
-        assertTrue(abstractWorkerAction.isEnabled());
+        assertTrue(abstractTaskAction.isEnabled());
 
         RuntimeException runtimeException = new RuntimeException();
 
-        abstractWorkerAction.setProgressListenerFactory(() -> progressListener);
-        abstractWorkerAction.setBackgroundWorkExecutor(new BackgroundWorkExecutor() {
+        abstractTaskAction.setProgressListenerFactory(() -> progressListener);
+        abstractTaskAction.setTaskExecutor(new TaskExecutor() {
             @Override
-            public <T, V> void execute(BackgroundWork<T, V> backgroundWork, BackgroundWorkResultHandler<T, V> resultHandler, ProgressListener progressListener) {
-                assertFalse(abstractWorkerAction.isEnabled());
+            public <T, V> void execute(Task<T, V> task, TaskResultHandler<T, V> resultHandler, ProgressListener progressListener) {
+                assertFalse(abstractTaskAction.isEnabled());
                 throw runtimeException;
             }
         });
 
-        abstractWorkerAction.actionPerformed(new ActionEvent(this, 1, ""));
+        abstractTaskAction.actionPerformed(new ActionEvent(this, 1, ""));
 
-        assertTrue(abstractWorkerAction.isEnabled());
+        assertTrue(abstractTaskAction.isEnabled());
 
         ArgumentCaptor<ExecutionException> exceptionArgumentCaptor = ArgumentCaptor.forClass(ExecutionException.class);
         verify(consumer).accept(exceptionArgumentCaptor.capture());

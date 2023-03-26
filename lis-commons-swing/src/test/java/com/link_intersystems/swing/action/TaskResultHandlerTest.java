@@ -7,11 +7,11 @@ import java.util.concurrent.ExecutionException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class BackgroundWorkResultHandlerTest {
+class TaskResultHandlerTest {
 
     @Test
     void nullInstance() {
-        BackgroundWorkResultHandler<Object, Object> nullInstance = BackgroundWorkResultHandler.nullInstance();
+        TaskResultHandler<Object, Object> nullInstance = TaskResultHandler.nullInstance();
 
         nullInstance.publishIntermediateResults(Arrays.asList());
         nullInstance.done("");

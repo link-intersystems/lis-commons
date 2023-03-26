@@ -8,28 +8,28 @@ import java.util.concurrent.ExecutionException;
 
 import static java.util.Objects.*;
 
-public class SwingWorkerBackgroundWorkExecutor implements BackgroundWorkExecutor {
+public class SwingWorkerTaskExecutor implements TaskExecutor {
 
     @Override
-    public <T, V> void execute(BackgroundWork<T, V> backgroundWork, BackgroundWorkResultHandler<T, V> lifecycle, ProgressListener progressListener) {
-        SwingWorker<T, V> swingWorker = new SwingWorkerAdapter<>(backgroundWork, lifecycle, progressListener);
+    public <T, V> void execute(Task<T, V> task, TaskResultHandler<T, V> lifecycle, ProgressListener progressListener) {
+        SwingWorker<T, V> swingWorker = new SwingWorkerAdapter<>(task, lifecycle, progressListener);
         swingWorker.execute();
     }
 
     private class SwingWorkerAdapter<T, V> extends SwingWorker<T, V> {
-        private final BackgroundWork<T, V> backgroundWork;
-        private final BackgroundWorkResultHandler<T, V> resultHandler;
+        private final Task<T, V> task;
+        private final TaskResultHandler<T, V> resultHandler;
         private ProgressListener progressListener;
 
-        public SwingWorkerAdapter(BackgroundWork<T, V> backgroundWork, BackgroundWorkResultHandler<T, V> resultHandler, ProgressListener progressListener) {
-            this.backgroundWork = requireNonNull(backgroundWork);
+        public SwingWorkerAdapter(Task<T, V> task, TaskResultHandler<T, V> resultHandler, ProgressListener progressListener) {
+            this.task = requireNonNull(task);
             this.resultHandler = requireNonNull(resultHandler);
             this.progressListener = requireNonNull(progressListener);
         }
 
         @Override
         protected T doInBackground() throws Exception {
-            return backgroundWork.execute(new BackgroundProgress<V>() {
+            return task.execute(new TaskProgress<V>() {
 
                 @Override
                 public void begin(String name, int totalWork) {

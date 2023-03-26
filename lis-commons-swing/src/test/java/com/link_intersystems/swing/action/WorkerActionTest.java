@@ -13,24 +13,24 @@ import static org.mockito.Mockito.*;
 
 class WorkerActionTest {
 
-    protected DefaultWorkerAction<String, String> defaultAsyncAction;
-    protected BackgroundWorkExecutor workExecutor;
-    protected BackgroundWorkResultHandler<String, String> lifecycle;
+    protected DefaultTaskAction<String, String> defaultAsyncAction;
+    protected TaskExecutor taskExecutor;
+    protected TaskResultHandler<String, String> lifecycle;
 
     @BeforeEach
     void setUp() {
         defaultAsyncAction = createAsyncAction();
 
-        workExecutor = mock(BackgroundWorkExecutor.class);
-        defaultAsyncAction.setBackgroundWorkExecutor(workExecutor);
+        taskExecutor = mock(TaskExecutor.class);
+        defaultAsyncAction.setTaskExecutor(taskExecutor);
 
-        lifecycle = mock(BackgroundWorkResultHandler.class);
+        lifecycle = mock(TaskResultHandler.class);
         defaultAsyncAction.setBackgroundWorkResultHandler(lifecycle);
     }
 
-    protected DefaultWorkerAction<String, String> createAsyncAction() {
+    protected DefaultTaskAction<String, String> createAsyncAction() {
         Runnable asycWork = mock(Runnable.class);
-        DefaultWorkerAction<String, String> workerAction = new DefaultWorkerAction<>();
+        DefaultTaskAction<String, String> workerAction = new DefaultTaskAction<>();
         workerAction.setBackgroundWork(asycWork);
         return workerAction;
     }
@@ -41,11 +41,11 @@ class WorkerActionTest {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
                 assertFalse(defaultAsyncAction.isEnabled());
-                BackgroundWorkResultHandler backgroundWorkResultHandler = invocation.getArgument(1, BackgroundWorkResultHandler.class);
-                backgroundWorkResultHandler.done("");
+                TaskResultHandler taskResultHandler = invocation.getArgument(1, TaskResultHandler.class);
+                taskResultHandler.done("");
                 return null;
             }
-        }).when(workExecutor).execute(any(BackgroundWork.class), any(BackgroundWorkResultHandler.class), any(ProgressListener.class));
+        }).when(taskExecutor).execute(any(Task.class), any(TaskResultHandler.class), any(ProgressListener.class));
 
         defaultAsyncAction.actionPerformed(new ActionEvent(this, 1, "do"));
         assertTrue(defaultAsyncAction.isEnabled());
@@ -57,11 +57,11 @@ class WorkerActionTest {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
                 assertFalse(defaultAsyncAction.isEnabled());
-                BackgroundWorkResultHandler backgroundWorkResultHandler = invocation.getArgument(1, BackgroundWorkResultHandler.class);
-                backgroundWorkResultHandler.failed(null);
+                TaskResultHandler taskResultHandler = invocation.getArgument(1, TaskResultHandler.class);
+                taskResultHandler.failed(null);
                 return null;
             }
-        }).when(workExecutor).execute(any(BackgroundWork.class), any(BackgroundWorkResultHandler.class), any(ProgressListener.class));
+        }).when(taskExecutor).execute(any(Task.class), any(TaskResultHandler.class), any(ProgressListener.class));
 
         defaultAsyncAction.actionPerformed(new ActionEvent(this, 1, "do"));
         assertTrue(defaultAsyncAction.isEnabled());
@@ -73,11 +73,11 @@ class WorkerActionTest {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
                 assertFalse(defaultAsyncAction.isEnabled());
-                BackgroundWorkResultHandler backgroundWorkResultHandler = invocation.getArgument(1, BackgroundWorkResultHandler.class);
-                backgroundWorkResultHandler.interrupted(null);
+                TaskResultHandler taskResultHandler = invocation.getArgument(1, TaskResultHandler.class);
+                taskResultHandler.interrupted(null);
                 return null;
             }
-        }).when(workExecutor).execute(any(BackgroundWork.class), any(BackgroundWorkResultHandler.class), any(ProgressListener.class));
+        }).when(taskExecutor).execute(any(Task.class), any(TaskResultHandler.class), any(ProgressListener.class));
 
         defaultAsyncAction.actionPerformed(new ActionEvent(this, 1, "do"));
         assertTrue(defaultAsyncAction.isEnabled());

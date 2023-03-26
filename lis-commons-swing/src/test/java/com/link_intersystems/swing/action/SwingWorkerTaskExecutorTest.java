@@ -11,12 +11,12 @@ import java.util.concurrent.Semaphore;
 
 import static org.mockito.Mockito.*;
 
-class SwingWorkerBackgroundWorkExecutorTest {
+class SwingWorkerTaskExecutorTest {
 
 
-    private SwingWorkerBackgroundWorkExecutor asyncWorkExecutor;
-    private AsyncWorkMock asyncWork;
-    private AsyncWorkResultHandlerMock lifecycle;
+    private SwingWorkerTaskExecutor asyncWorkExecutor;
+    private AsyncTaskMock asyncWork;
+    private AsyncTaskResultHandlerMock lifecycle;
     private ProgressListener progressListener;
 
     public static interface RunnableWithException {
@@ -24,7 +24,7 @@ class SwingWorkerBackgroundWorkExecutorTest {
         public void run() throws Exception;
     }
 
-    private static class AsyncWorkMock implements BackgroundWork<String, String> {
+    private static class AsyncTaskMock implements Task<String, String> {
 
         private Semaphore step = new Semaphore(0);
         private Semaphore caller = new Semaphore(0);
@@ -32,9 +32,9 @@ class SwingWorkerBackgroundWorkExecutorTest {
 
 
         @Override
-        public synchronized String execute(BackgroundProgress<String> backgroundProgress) throws Exception {
+        public synchronized String execute(TaskProgress<String> taskProgress) throws Exception {
             nextStep(() -> {
-                backgroundProgress.begin("", 2);
+                taskProgress.begin("", 2);
             });
 
             if (exception != null) {
@@ -46,8 +46,8 @@ class SwingWorkerBackgroundWorkExecutorTest {
             for (int i = 0; i < 2; i++) {
                 final int act = i;
                 nextStep(() -> {
-                    backgroundProgress.worked(1);
-                    backgroundProgress.publish(Integer.toString(act));
+                    taskProgress.worked(1);
+                    taskProgress.publish(Integer.toString(act));
                 });
             }
 
@@ -78,7 +78,7 @@ class SwingWorkerBackgroundWorkExecutorTest {
         }
     }
 
-    private static class AsyncWorkResultHandlerMock implements BackgroundWorkResultHandler<String, String> {
+    private static class AsyncTaskResultHandlerMock implements TaskResultHandler<String, String> {
 
         private CountDownLatch doneLatch = new CountDownLatch(1);
         private CountDownLatch failedLatch = new CountDownLatch(1);
@@ -107,10 +107,10 @@ class SwingWorkerBackgroundWorkExecutorTest {
 
     @BeforeEach
     void setUp() {
-        asyncWorkExecutor = new SwingWorkerBackgroundWorkExecutor();
+        asyncWorkExecutor = new SwingWorkerTaskExecutor();
 
-        asyncWork = new AsyncWorkMock();
-        lifecycle = new AsyncWorkResultHandlerMock();
+        asyncWork = new AsyncTaskMock();
+        lifecycle = new AsyncTaskResultHandlerMock();
         progressListener = mock(ProgressListener.class);
 
     }

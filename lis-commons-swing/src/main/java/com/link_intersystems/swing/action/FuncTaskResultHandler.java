@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
-public class FuncBackgroundWorkResultHandler<T, V> implements BackgroundWorkResultHandler<T, V> {
+public class FuncTaskResultHandler<T, V> implements TaskResultHandler<T, V> {
     public static class Builder<T, V> {
         private Optional<Consumer<T>> doneConsumer = Optional.empty();
         private Optional<Consumer<List<V>>> intermediateResultsConsumer = Optional.empty();
@@ -32,8 +32,8 @@ public class FuncBackgroundWorkResultHandler<T, V> implements BackgroundWorkResu
             return this;
         }
 
-        public FuncBackgroundWorkResultHandler build() {
-            return new FuncBackgroundWorkResultHandler(doneConsumer, intermediateResultsConsumer, failedConsumer, interruptedConsumer);
+        public FuncTaskResultHandler build() {
+            return new FuncTaskResultHandler(doneConsumer, intermediateResultsConsumer, failedConsumer, interruptedConsumer);
         }
     }
 
@@ -42,7 +42,7 @@ public class FuncBackgroundWorkResultHandler<T, V> implements BackgroundWorkResu
     private Optional<Consumer<ExecutionException>> failedConsumer;
     private Optional<Consumer<InterruptedException>> interruptedConsumer;
 
-    private FuncBackgroundWorkResultHandler(Optional<Consumer<T>> doneConsumer, Optional<Consumer<List<V>>> intermediateResultsConsumer, Optional<Consumer<ExecutionException>> failedConsumer, Optional<Consumer<InterruptedException>> interruptedConsumer) {
+    private FuncTaskResultHandler(Optional<Consumer<T>> doneConsumer, Optional<Consumer<List<V>>> intermediateResultsConsumer, Optional<Consumer<ExecutionException>> failedConsumer, Optional<Consumer<InterruptedException>> interruptedConsumer) {
         this.doneConsumer = doneConsumer;
         this.intermediateResultsConsumer = intermediateResultsConsumer;
         this.failedConsumer = failedConsumer;

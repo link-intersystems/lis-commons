@@ -5,11 +5,11 @@ import com.link_intersystems.swing.ProgressListener;
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
-public class DirectBackgroundWorkExecutor implements BackgroundWorkExecutor {
+public class DirectTaskExecutor implements TaskExecutor {
     @Override
-    public <T, V> void execute(BackgroundWork<T, V> backgroundWork, BackgroundWorkResultHandler<T, V> resultHandler, ProgressListener progressListener) {
+    public <T, V> void execute(Task<T, V> task, TaskResultHandler<T, V> resultHandler, ProgressListener progressListener) {
         try {
-            T result = backgroundWork.execute(new BackgroundProgress<V>() {
+            T result = task.execute(new TaskProgress<V>() {
                 @Override
                 public void publish(V... intermediateResults) {
                     resultHandler.publishIntermediateResults(Arrays.asList(intermediateResults));

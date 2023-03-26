@@ -8,7 +8,7 @@ lis-commons
 A collection of reusable Java components for library and framework developers.
 
 In order to make them as reusable as possible I try to minimize the dependencies the
-modules have down to zero. I work hard to ensure that the libraries only depend on pure Java 
+modules have down to zero. I task hard to ensure that the libraries only depend on pure Java 
 and also minimize the dependencies between the modules themselves.
 
 Here is an overview of the module dependencies:
@@ -104,7 +104,7 @@ Provides a convenient api to access the meta-data of a jdbc connection
 
 Provides support for sql related tasks like statement creation. This module provides
 a simple support for creating sql statements. At the moment it only supports insert statements.
-It is primarily made for the H2 dialect, but might also work for some other dialects. You
+It is primarily made for the H2 dialect, but might also task for some other dialects. You
 can extend the DefaultSqlDialect to adapt the module to your needs. If you do so please make
 a pull request to let me integrate the dialect into this library.
 
