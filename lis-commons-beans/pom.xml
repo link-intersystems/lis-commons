@@ -3,7 +3,7 @@
     <parent>
         <groupId>com.link-intersystems.commons</groupId>
         <artifactId>lis-commons</artifactId>
-        <version>1.8.8-SNAPSHOT</version>
+        <version>1.9.0</version>
     </parent>
 
     <artifactId>lis-commons-beans</artifactId>
