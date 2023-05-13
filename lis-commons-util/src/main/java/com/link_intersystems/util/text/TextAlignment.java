@@ -1,4 +1,4 @@
-package com.link_intersystems.swing.text;
+package com.link_intersystems.util.text;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}

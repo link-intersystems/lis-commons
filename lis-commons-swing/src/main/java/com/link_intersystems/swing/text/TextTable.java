@@ -1,5 +1,8 @@
 package com.link_intersystems.swing.text;
 
+import com.link_intersystems.util.text.StandardTextAlignments;
+import com.link_intersystems.util.text.TextAlignment;
+
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableStringConverter;

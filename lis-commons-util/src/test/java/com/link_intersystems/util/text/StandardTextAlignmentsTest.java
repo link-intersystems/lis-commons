@@ -1,14 +1,14 @@
-package com.link_intersystems.swing.text;
+package com.link_intersystems.util.text;
 
 import org.junit.jupiter.api.Test;
 
-import static com.link_intersystems.swing.text.StandardTextAlignments.*;
+import static com.link_intersystems.util.text.StandardTextAlignments.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-class HorizontalAlignmentTest {
+class StandardTextAlignmentsTest {
 
     @Test
     void left() {

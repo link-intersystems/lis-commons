@@ -1,5 +1,6 @@
 package com.link_intersystems.swing.text;
 
+import com.link_intersystems.util.text.StandardTextAlignments;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.table.DefaultTableModel;
