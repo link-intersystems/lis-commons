@@ -1,6 +1,6 @@
 package com.link_intersystems.swing.action;
 
-import com.link_intersystems.swing.ProgressListener;
+import com.link_intersystems.swing.progress.ProgressListener;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -71,6 +71,7 @@ class AbstractTaskActionTest {
         taskAction.setBackgroundConsumer(p -> {
             p.begin("A", 2);
             p.worked(2);
+            p.done();
         });
 
         actionTrigger.performAction(taskAction);
@@ -82,12 +83,14 @@ class AbstractTaskActionTest {
         taskAction.setBackgroundConsumer(p -> {
             p.begin("A", 2);
             p.worked(2);
+            p.done();
         });
 
         actionTrigger.performAction(taskAction);
 
         verify(progressListener).begin("A", 2);
         verify(progressListener).worked(2);
+        verify(progressListener).done();
     }
 
 

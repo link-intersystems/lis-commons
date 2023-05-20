@@ -1,4 +1,4 @@
-package com.link_intersystems.swing;
+package com.link_intersystems.swing.progress;
 
 public interface ProgressListenerFactory {
 

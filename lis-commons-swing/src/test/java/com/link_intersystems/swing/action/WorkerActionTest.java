@@ -1,6 +1,6 @@
 package com.link_intersystems.swing.action;
 
-import com.link_intersystems.swing.ProgressListener;
+import com.link_intersystems.swing.progress.ProgressListener;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.invocation.InvocationOnMock;

@@ -1,6 +1,6 @@
 package com.link_intersystems.swing.action;
 
-import com.link_intersystems.swing.ProgressListener;
+import com.link_intersystems.swing.progress.ProgressListener;
 
 import javax.swing.*;
 import java.util.List;
@@ -48,6 +48,11 @@ public class SwingWorkerTaskExecutor implements TaskExecutor {
                 @Override
                 public void worked(int worked) {
                     progressListener.worked(worked);
+                }
+
+                @Override
+                public void done() {
+                    progressListener.done();
                 }
             });
         }

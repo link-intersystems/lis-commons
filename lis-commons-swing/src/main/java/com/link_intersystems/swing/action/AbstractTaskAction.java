@@ -1,7 +1,7 @@
 package com.link_intersystems.swing.action;
 
-import com.link_intersystems.swing.ProgressListener;
-import com.link_intersystems.swing.ProgressListenerFactory;
+import com.link_intersystems.swing.progress.ProgressListener;
+import com.link_intersystems.swing.progress.ProgressListenerFactory;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
