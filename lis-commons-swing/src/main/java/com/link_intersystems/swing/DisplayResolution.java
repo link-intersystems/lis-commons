@@ -52,6 +52,62 @@ public class DisplayResolution {
     public static final DisplayResolution _16K = new DisplayResolution(15360, 8640);
     public static final DisplayResolution _16K_FULL_FORMAT = new DisplayResolution(16384, 8640);
 
+    public static final int DEFAULT_MONITOR = 0;
+
+    /**
+     * The {@link DisplayResolution} of the monitor where the mouse is currently located.
+     *
+     * @return
+     */
+    public static DisplayResolution getCurrentDisplayResolution() {
+        PointerInfo pointerInfo = MouseInfo.getPointerInfo();
+        GraphicsDevice monitor = pointerInfo.getDevice();
+        return getDisplayResolution(monitor);
+    }
+
+    /**
+     * The {@link DisplayResolution} of the {@link #DEFAULT_MONITOR}.
+     *
+     * @return
+     */
+    public static DisplayResolution getDisplayResolution() {
+        return getDisplayResolution(DEFAULT_MONITOR);
+    }
+
+    public static DisplayResolution getDisplayResolution(int monitorNumber) {
+        GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice[] monitors = graphicsEnvironment.getScreenDevices();
+        if (monitorNumber >= monitors.length) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("No monitor[");
+            sb.append(monitorNumber);
+            sb.append("] available. Available monitors are:");
+            sb.append("\n");
+
+            for (int i = 0; i < monitors.length; i++) {
+                GraphicsDevice monitor = monitors[i];
+                sb.append("\t[");
+                sb.append(i);
+                sb.append("] ");
+                DisplayMode displayMode = monitor.getDisplayMode();
+                DisplayResolution displayResolution = createDisplayResolution(displayMode);
+                sb.append(displayResolution);
+                sb.append("\n");
+            }
+            throw new IllegalArgumentException(sb.toString());
+        }
+        return getDisplayResolution(monitors[monitorNumber]);
+    }
+
+    private static DisplayResolution getDisplayResolution(GraphicsDevice monitor) {
+        DisplayMode displayMode = monitor.getDisplayMode();
+        return createDisplayResolution(displayMode);
+    }
+
+    private static DisplayResolution createDisplayResolution(DisplayMode displayMode) {
+        return new DisplayResolution(displayMode.getWidth(), displayMode.getHeight());
+    }
+
     public static Stream<DisplayResolution> stream() {
         Field[] declaredFields = DisplayResolution.class.getDeclaredFields();
 
@@ -69,7 +125,7 @@ public class DisplayResolution {
         return Modifier.isPublic(modifiers) && Modifier.isStatic(modifiers) && Modifier.isFinal(modifiers);
     }
 
-    public final Dimension dimension;
+    private final Dimension dimension;
 
     public DisplayResolution(int width, int height) {
         if (width < 1) {
@@ -106,5 +162,10 @@ public class DisplayResolution {
     @Override
     public int hashCode() {
         return Objects.hash(getDimension());
+    }
+
+    @Override
+    public String toString() {
+        return dimension.width + " x " + dimension.height;
     }
 }
