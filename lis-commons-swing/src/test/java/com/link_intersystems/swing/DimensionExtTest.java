@@ -16,7 +16,6 @@ class DimensionExtTest {
         assertEquals(new Point(640, 540), centeredLocation);
     }
 
-
     @Test
     void centerOn() {
         DimensionExt dimensionExt = new DimensionExt(new Dimension(800, 600));
@@ -38,5 +37,4 @@ class DimensionExtTest {
 
         assertEquals(new Point(), dimensionExt.getCenterLocation());
     }
-
 }

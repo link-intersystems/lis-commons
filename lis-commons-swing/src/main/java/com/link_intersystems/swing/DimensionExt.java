@@ -33,7 +33,6 @@ public class DimensionExt extends Dimension {
         return new Point(centeredX, centeredY);
     }
 
-
     public Point getCenterLocation() {
         int centeredX = (int) ((getWidth()) / 2);
         int centeredY = (int) ((getHeight()) / 2);
