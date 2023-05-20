@@ -5,6 +5,7 @@ import com.link_intersystems.swing.ProgressListenerFactory;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -27,6 +28,12 @@ public abstract class AbstractTaskAction<T, V> extends AbstractAction {
         super(name, icon);
     }
 
+    /**
+     * Set a {@link TaskExecutor} that is responsible for running {@link #doInBackground(TaskProgress)} tasks.
+     * The default {@link SwingWorkerTaskExecutor}  uses a {@link SwingWorker} to run the task.
+     *
+     * @param taskExecutor
+     */
     public void setTaskExecutor(TaskExecutor taskExecutor) {
         this.taskExecutor = requireNonNull(taskExecutor);
     }
@@ -45,6 +52,17 @@ public abstract class AbstractTaskAction<T, V> extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        try {
+            SwingUtilities.invokeAndWait(() -> executeActionPerformed(e));
+        } catch (InterruptedException ex) {
+            throw new RuntimeException(ex);
+        } catch (InvocationTargetException ex) {
+            Throwable targetException = ex.getTargetException();
+            failed(new ExecutionException(targetException));
+        }
+    }
+
+    private void executeActionPerformed(ActionEvent e) {
         ActionInterceptor actionInterceptor = getActionInterceptor();
 
         class DefaultActionJoinPoint implements ActionJoinPoint {
@@ -78,6 +96,7 @@ public abstract class AbstractTaskAction<T, V> extends AbstractAction {
 
     protected void performAction(ActionEvent e, TaskResultHandler<T, V> resultHandler) {
         try {
+            prepareExecution();
             tryActionPerformed(resultHandler);
         } catch (Exception ex) {
             resultHandler.failed(new ExecutionException(ex));
@@ -101,22 +120,36 @@ public abstract class AbstractTaskAction<T, V> extends AbstractAction {
             public void done(T result) {
                 setEnabled(true);
                 AbstractTaskAction.this.done(result);
+                doFinally();
             }
 
             @Override
             public void failed(ExecutionException e) {
                 setEnabled(true);
                 AbstractTaskAction.this.failed(e);
+                doFinally();
             }
 
             @Override
             public void interrupted(InterruptedException e) {
                 setEnabled(true);
                 AbstractTaskAction.this.interrupted(e);
+                doFinally();
             }
         };
     }
 
+    /**
+     * Prepare the {@link #doInBackground(TaskProgress)} execution in
+     * the same thread the {@link #actionPerformed(ActionEvent)} method has been called with.
+     * Usually the event dispatch thread.
+     */
+    protected void prepareExecution() throws Exception {
+    }
+
+    /**
+     * Runs in the thread that the {@link TaskExecutor} defines. The
+     */
     protected abstract T doInBackground(TaskProgress<V> taskProgress) throws Exception;
 
     protected void publishIntermediateResults(List<V> chunks) {
@@ -131,5 +164,7 @@ public abstract class AbstractTaskAction<T, V> extends AbstractAction {
     protected void interrupted(InterruptedException e) {
     }
 
+    protected void doFinally() {
+    }
 
 }
