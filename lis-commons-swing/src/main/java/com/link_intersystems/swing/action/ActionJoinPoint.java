@@ -16,7 +16,7 @@ public interface ActionJoinPoint {
     /**
      * Proceed with the caller's action event.
      */
-    public void proceed(Runnable runnable);
+    public void proceed(Runnable finallyRunnable);
 
     /**
      * Proceed with the given action event.

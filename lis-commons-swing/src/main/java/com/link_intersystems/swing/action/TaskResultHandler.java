@@ -6,19 +6,18 @@ import java.util.concurrent.ExecutionException;
 public interface TaskResultHandler<T, V> {
 
     static <T, V> TaskResultHandler<T, V> nullInstance() {
-        return new TaskResultHandler<T, V>() {
-            @Override
-            public void done(T result) {
-            }
+        return result -> {
         };
     }
 
-    static void defaultFailed(ExecutionException e) {
-        Throwable cause = e.getCause();
+    static void defaultFailed(Throwable e) {
+        Throwable cause = e;
+        if (e instanceof ExecutionException) {
+            cause = e.getCause();
+        }
 
         if (cause instanceof RuntimeException) {
-            RuntimeException re = (RuntimeException) cause;
-            throw re;
+            throw (RuntimeException) cause;
         }
 
         throw new RuntimeException(cause);
@@ -35,5 +34,8 @@ public interface TaskResultHandler<T, V> {
 
     default void interrupted(InterruptedException e) {
         throw new RuntimeException(e);
+    }
+
+    default void aborted(Exception e) {
     }
 }

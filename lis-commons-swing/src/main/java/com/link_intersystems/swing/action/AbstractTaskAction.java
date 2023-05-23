@@ -4,7 +4,9 @@ import com.link_intersystems.swing.progress.ProgressListener;
 import com.link_intersystems.swing.progress.ProgressListenerFactory;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -52,14 +54,25 @@ public abstract class AbstractTaskAction<T, V> extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        try {
-            SwingUtilities.invokeAndWait(() -> executeActionPerformed(e));
-        } catch (InterruptedException ex) {
-            throw new RuntimeException(ex);
-        } catch (InvocationTargetException ex) {
-            Throwable targetException = ex.getTargetException();
-            failed(new ExecutionException(targetException));
+        ActionListener performStrategy = getPerformStrategy();
+        performStrategy.actionPerformed(e);
+    }
+
+    protected ActionListener getPerformStrategy() {
+        if (EventQueue.isDispatchThread()) {
+            return this::executeActionPerformed;
         }
+
+        return actionEvent -> {
+            try {
+                SwingUtilities.invokeAndWait(() -> executeActionPerformed(actionEvent));
+            } catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
+            } catch (InvocationTargetException ex) {
+                Throwable targetException = ex.getTargetException();
+                failed(new ExecutionException(targetException));
+            }
+        };
     }
 
     private void executeActionPerformed(ActionEvent e) {
@@ -75,14 +88,16 @@ public abstract class AbstractTaskAction<T, V> extends AbstractAction {
             };
 
             @Override
-            public void proceed(Runnable runnable) {
-                proceed(e, runnable);
+            public void proceed(Runnable finallyRunnable) {
+                proceed(e, finallyRunnable);
             }
 
             @Override
             public void proceed(ActionEvent actionEvent, Runnable finallyRunnable) {
                 TaskResultHandler<T, V> resultHandler = getTaskResultHandler();
-                performAction(actionEvent, new FinallyTaskResultHandlerDecorator<>(resultHandler, finallyRunnable));
+                Runnable[] doFinallyRunnables = {AbstractTaskAction.this::doFinally, finallyRunnable};
+                FinallyTaskResultHandlerDecorator<T, V> doFinallyDecorator = new FinallyTaskResultHandlerDecorator<>(resultHandler, doFinallyRunnables);
+                performAction(actionEvent, doFinallyDecorator);
             }
 
             @Override
@@ -96,7 +111,6 @@ public abstract class AbstractTaskAction<T, V> extends AbstractAction {
 
     protected void performAction(ActionEvent e, TaskResultHandler<T, V> resultHandler) {
         try {
-            prepareExecution();
             tryActionPerformed(resultHandler);
         } catch (Exception ex) {
             resultHandler.failed(new ExecutionException(ex));
@@ -104,39 +118,53 @@ public abstract class AbstractTaskAction<T, V> extends AbstractAction {
     }
 
     private void tryActionPerformed(TaskResultHandler<T, V> resultHandler) throws Exception {
+        try {
+            prepareExecution();
+        } catch (Exception e) {
+            resultHandler.aborted(e);
+            return;
+        }
+
         ProgressListener progressListener = progressListenerFactory.createProgressListener();
         taskExecutor.execute(this::doInBackground, resultHandler, progressListener);
     }
 
     private TaskResultHandler<T, V> getTaskResultHandler() {
-        return new TaskResultHandler<T, V>() {
+        class AbstractTaskActionResultHandlerAdapter implements TaskResultHandler<T, V> {
+
+            private AbstractTaskAction<T, V> taskAction;
+
+            public AbstractTaskActionResultHandlerAdapter(AbstractTaskAction<T, V> taskAction) {
+                this.taskAction = taskAction;
+            }
 
             @Override
             public void publishIntermediateResults(List<V> chunks) {
-                AbstractTaskAction.this.publishIntermediateResults(chunks);
+                taskAction.publishIntermediateResults(chunks);
             }
 
             @Override
             public void done(T result) {
-                setEnabled(true);
-                AbstractTaskAction.this.done(result);
-                doFinally();
+                taskAction.done(result);
             }
 
             @Override
             public void failed(ExecutionException e) {
-                setEnabled(true);
-                AbstractTaskAction.this.failed(e);
-                doFinally();
+                taskAction.failed(e);
             }
 
             @Override
             public void interrupted(InterruptedException e) {
-                setEnabled(true);
-                AbstractTaskAction.this.interrupted(e);
-                doFinally();
+                taskAction.interrupted(e);
             }
-        };
+
+            @Override
+            public void aborted(Exception e) {
+                taskAction.aborted(e);
+            }
+        }
+
+        return new AbstractTaskActionResultHandlerAdapter(this);
     }
 
     /**
@@ -157,11 +185,24 @@ public abstract class AbstractTaskAction<T, V> extends AbstractAction {
 
     protected abstract void done(T result);
 
+    /**
+     * Invoked when the {@link #doInBackground(TaskProgress)} raises an exception.
+     *
+     * @param e
+     */
     protected void failed(ExecutionException e) {
         TaskResultHandler.defaultFailed(e);
     }
 
     protected void interrupted(InterruptedException e) {
+    }
+
+    /**
+     * Invoked when the {@link #prepareExecution()} raises an exception.
+     *
+     * @param e
+     */
+    protected void aborted(Exception e) {
     }
 
     protected void doFinally() {

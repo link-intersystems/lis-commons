@@ -11,6 +11,7 @@ public class TestTaskAction<T, V> extends AbstractTaskAction<T, V> {
     private Optional<Function<TaskProgress<V>, T>> backgroundFunc = Optional.empty();
     private Optional<Consumer<List<V>>> intermediateResultsConsumer = Optional.empty();
     private Consumer<ExecutionException> failedConsumer;
+    private Consumer<Exception> abortConsumer;
     private PrepareExecution prepareExecution;
     private Optional<Consumer<T>> doneConsumer = Optional.empty();
 
@@ -20,6 +21,10 @@ public class TestTaskAction<T, V> extends AbstractTaskAction<T, V> {
 
     public void setFailedConsumer(Consumer<ExecutionException> failedConsumer) {
         this.failedConsumer = failedConsumer;
+    }
+
+    public void setAbortConsumer(Consumer<Exception> abortConsumer) {
+        this.abortConsumer = abortConsumer;
     }
 
     public void setBackgroundConsumer(Consumer<TaskProgress<V>> backgroundFunc) {
@@ -58,6 +63,15 @@ public class TestTaskAction<T, V> extends AbstractTaskAction<T, V> {
             failedConsumer.accept(e);
         } else {
             super.failed(e);
+        }
+    }
+
+    @Override
+    protected void aborted(Exception e) {
+        if (abortConsumer != null) {
+            abortConsumer.accept(e);
+        } else {
+            super.aborted(e);
         }
     }
 

@@ -4,10 +4,13 @@ import com.link_intersystems.swing.progress.ProgressListener;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
 
+import javax.swing.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Semaphore;
 import java.util.function.Consumer;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,6 +24,7 @@ class AbstractTaskActionTest {
     private Consumer<List<Object>> intermediateResultsConsumer;
     private ProgressListener progressListener;
     private Consumer<ExecutionException> failedConsumer;
+    private Consumer<Exception> abortConsumer;
 
     @BeforeEach
     void setUp() {
@@ -38,12 +42,20 @@ class AbstractTaskActionTest {
 
         failedConsumer = mock(Consumer.class);
         taskAction.setFailedConsumer(failedConsumer);
+        abortConsumer = mock(Consumer.class);
+        taskAction.setAbortConsumer(abortConsumer);
     }
 
     private ExecutionException getExecutionException() {
         ArgumentCaptor<ExecutionException> executionExceptionArgumentCaptor = ArgumentCaptor.forClass(ExecutionException.class);
         verify(failedConsumer).accept(executionExceptionArgumentCaptor.capture());
         return executionExceptionArgumentCaptor.getValue();
+    }
+
+    private Exception getAbortException() {
+        ArgumentCaptor<Exception> exceptionArgumentCaptor = ArgumentCaptor.forClass(Exception.class);
+        verify(abortConsumer).accept(exceptionArgumentCaptor.capture());
+        return exceptionArgumentCaptor.getValue();
     }
 
     @Test
@@ -124,18 +136,43 @@ class AbstractTaskActionTest {
     }
 
     @Test
-    void prepareExecutionException() {
+    void prepareAbortsExecution() throws Exception {
         RuntimeException runtimeException = new RuntimeException();
         taskAction.setPrepareExecution(() -> {
             throw runtimeException;
         });
+        Consumer consumer = mock(Consumer.class);
+        taskAction.setBackgroundConsumer(consumer);
 
         actionTrigger.performAction(taskAction);
 
-        ExecutionException executionException = getExecutionException();
-        assertNotNull(executionException);
-        assertEquals(runtimeException, executionException.getCause());
+        Exception abortException = getAbortException();
+        assertEquals(runtimeException, abortException);
     }
 
+    @Test
+    void invokeAndWait() throws Exception {
+        PrepareExecution prepareExecution = mock(PrepareExecution.class);
+        taskAction.setPrepareExecution(prepareExecution);
+
+        SwingUtilities.invokeAndWait(() -> actionTrigger.performAction(taskAction));
+
+        verify(prepareExecution).run();
+    }
+
+    @Test
+    void invokeLater() throws Exception {
+        PrepareExecution prepareExecution = mock(PrepareExecution.class);
+        Semaphore semaphore = new Semaphore(0);
+        doAnswer(invocation -> {
+            semaphore.release();
+            return null;
+        }).when(prepareExecution).run();
+        taskAction.setPrepareExecution(prepareExecution);
+
+        SwingUtilities.invokeLater(() -> actionTrigger.performAction(taskAction));
+        semaphore.acquire();
+        verify(prepareExecution).run();
+    }
 
 }

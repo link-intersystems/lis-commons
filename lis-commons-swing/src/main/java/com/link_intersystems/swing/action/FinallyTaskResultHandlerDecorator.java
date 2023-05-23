@@ -8,12 +8,11 @@ import static java.util.Objects.*;
 public class FinallyTaskResultHandlerDecorator<T, V> implements TaskResultHandler<T, V> {
 
     private TaskResultHandler<T, V> target;
-    private Runnable finallyRunnable;
+    private Runnable[] finallyRunnables;
 
-    public FinallyTaskResultHandlerDecorator(TaskResultHandler<T, V> target, Runnable finallyRunnable) {
+    public FinallyTaskResultHandlerDecorator(TaskResultHandler<T, V> target, Runnable... finallyRunnables) {
         this.target = requireNonNull(target);
-        this.finallyRunnable = finallyRunnable == null ? () -> {
-        } : finallyRunnable;
+        this.finallyRunnables = finallyRunnables;
     }
 
     @Override
@@ -26,7 +25,7 @@ public class FinallyTaskResultHandlerDecorator<T, V> implements TaskResultHandle
         try {
             target.done(result);
         } finally {
-            finallyRunnable.run();
+            runFinallyRunnables();
         }
     }
 
@@ -35,7 +34,7 @@ public class FinallyTaskResultHandlerDecorator<T, V> implements TaskResultHandle
         try {
             target.failed(e);
         } finally {
-            finallyRunnable.run();
+            runFinallyRunnables();
         }
     }
 
@@ -44,6 +43,21 @@ public class FinallyTaskResultHandlerDecorator<T, V> implements TaskResultHandle
         try {
             target.interrupted(e);
         } finally {
+            runFinallyRunnables();
+        }
+    }
+
+    @Override
+    public void aborted(Exception e) {
+        try {
+            target.aborted(e);
+        } finally {
+            runFinallyRunnables();
+        }
+    }
+
+    private void runFinallyRunnables(){
+        for (Runnable finallyRunnable : finallyRunnables) {
             finallyRunnable.run();
         }
     }
