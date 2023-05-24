@@ -51,10 +51,4 @@ class DisplayResolutionTest {
     void hashCodeTest() {
         assertEquals(new DisplayResolution(1920, 1080).hashCode(), FHD.hashCode());
     }
-
-    @Test
-    void ygetDispla() {
-        DisplayResolution displayResolution = getDisplayResolution(3);
-        System.out.println(DisplayResolution.getCurrentDisplayResolution());
-    }
 }
