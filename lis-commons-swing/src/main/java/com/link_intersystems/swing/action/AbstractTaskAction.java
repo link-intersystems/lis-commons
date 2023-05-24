@@ -4,12 +4,10 @@ import com.link_intersystems.swing.progress.ProgressListener;
 import com.link_intersystems.swing.progress.ProgressListenerFactory;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
 
 import static java.util.Objects.*;
 
@@ -18,6 +16,7 @@ public abstract class AbstractTaskAction<T, V> extends AbstractAction {
     protected TaskExecutor taskExecutor = new SwingWorkerTaskExecutor();
     private ProgressListenerFactory progressListenerFactory = () -> ProgressListener.nullInstance();
     private ActionInterceptor actionInterceptor = new EnablementActionInterceptor();
+    private Executor actionPerformExecutor = new EventDispatchThreadExecutor();
 
     public AbstractTaskAction() {
     }
@@ -44,6 +43,16 @@ public abstract class AbstractTaskAction<T, V> extends AbstractAction {
         this.progressListenerFactory = progressListenerFactory == null ? () -> ProgressListener.nullInstance() : progressListenerFactory;
     }
 
+    /**
+     * The {@link Executor} to use to perform the action. The default is the {@link EventDispatchThreadExecutor} that ensures
+     * that the {@link #actionPerformed(ActionEvent)} executes on the event-dispatch-thread.
+     *
+     * @param actionPerformExecutor
+     */
+    public void setActionPerformExecutor(Executor actionPerformExecutor) {
+        this.actionPerformExecutor = requireNonNull(actionPerformExecutor);
+    }
+
     public void setActionInterceptor(ActionInterceptor actionInterceptor) {
         this.actionInterceptor = requireNonNull(actionInterceptor);
     }
@@ -54,25 +63,8 @@ public abstract class AbstractTaskAction<T, V> extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        ActionListener performStrategy = getPerformStrategy();
-        performStrategy.actionPerformed(e);
-    }
-
-    protected ActionListener getPerformStrategy() {
-        if (EventQueue.isDispatchThread()) {
-            return this::executeActionPerformed;
-        }
-
-        return actionEvent -> {
-            try {
-                SwingUtilities.invokeAndWait(() -> executeActionPerformed(actionEvent));
-            } catch (InterruptedException ex) {
-                throw new RuntimeException(ex);
-            } catch (InvocationTargetException ex) {
-                Throwable targetException = ex.getTargetException();
-                failed(new ExecutionException(targetException));
-            }
-        };
+        Runnable runnable = () -> executeActionPerformed(e);
+        actionPerformExecutor.execute(runnable);
     }
 
     private void executeActionPerformed(ActionEvent e) {
