@@ -1,6 +1,5 @@
 package com.link_intersystems.swing.action;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +15,7 @@ class ActionTriggerTest implements ActionListener {
     private ActionTrigger actionTrigger;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         actionEvent = null;
         actionTrigger = new ActionTrigger(this);
     }
@@ -32,11 +31,24 @@ class ActionTriggerTest implements ActionListener {
 
     @Test
     void performActionWithCommand() {
-        actionTrigger.performAction(this, "performActionWithCommand");
+        actionTrigger = new ActionTrigger(this, "performActionWithCommand");
+
+        actionTrigger.performAction(this);
 
         assertEquals(this, actionEvent.getSource());
         assertEquals(ACTION_PERFORMED, actionEvent.getID());
         assertEquals("performActionWithCommand", actionEvent.getActionCommand());
+    }
+
+    @Test
+    void asRunnable() {
+        actionTrigger = new ActionTrigger(this);
+        Runnable runnable = actionTrigger.asRunnable(this);
+
+        runnable.run();
+
+        assertEquals(this, actionEvent.getSource());
+        assertEquals(ACTION_PERFORMED, actionEvent.getID());
     }
 
     @Test
@@ -50,7 +62,7 @@ class ActionTriggerTest implements ActionListener {
 
     @Test
     void staticPerformActionWithCommand() {
-        ActionTrigger.performAction(this,this, "performActionWithCommand");
+        ActionTrigger.performAction(this, this, "performActionWithCommand");
 
         assertEquals(this, actionEvent.getSource());
         assertEquals(ACTION_PERFORMED, actionEvent.getID());
