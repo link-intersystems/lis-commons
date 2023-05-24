@@ -8,10 +8,18 @@ import static java.util.Objects.*;
 
 public class ActionTrigger {
 
-    private Object triggerObject;
+    public static void performAction(Object actionEventSource, ActionListener actionListener) {
+        performAction(actionEventSource, actionListener, "");
+    }
 
-    public ActionTrigger(Object triggerObject) {
-        this.triggerObject = requireNonNull(triggerObject);
+    public static void performAction(Object actionEventSource, ActionListener actionListener, String command) {
+        actionListener.actionPerformed(new ActionEvent(actionEventSource, ACTION_PERFORMED, command));
+    }
+
+    private Object actionEventSource;
+
+    public ActionTrigger(Object actionEventSource) {
+        this.actionEventSource = requireNonNull(actionEventSource);
     }
 
     public void performAction(ActionListener actionListener) {
@@ -19,6 +27,6 @@ public class ActionTrigger {
     }
 
     public void performAction(ActionListener actionListener, String command) {
-        actionListener.actionPerformed(new ActionEvent(triggerObject, ACTION_PERFORMED, command));
+        performAction(actionEventSource, actionListener, command);
     }
 }

@@ -39,6 +39,24 @@ class ActionTriggerTest implements ActionListener {
         assertEquals("performActionWithCommand", actionEvent.getActionCommand());
     }
 
+    @Test
+    void staticPerformAction() {
+        ActionTrigger.performAction(this, this);
+
+        assertEquals(this, actionEvent.getSource());
+        assertEquals(ACTION_PERFORMED, actionEvent.getID());
+        assertEquals("", actionEvent.getActionCommand());
+    }
+
+    @Test
+    void staticPerformActionWithCommand() {
+        ActionTrigger.performAction(this,this, "performActionWithCommand");
+
+        assertEquals(this, actionEvent.getSource());
+        assertEquals(ACTION_PERFORMED, actionEvent.getID());
+        assertEquals("performActionWithCommand", actionEvent.getActionCommand());
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         this.actionEvent = e;
