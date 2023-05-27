@@ -7,8 +7,7 @@ import org.junit.jupiter.api.Test;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeListener;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static javax.swing.Action.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -104,20 +103,20 @@ class ActionDecoratorTest {
 
         ActionDecorator actionDecorator = new ActionDecorator(decoratedAction);
 
+        List<Object> keys = new ArrayList<>(Arrays.asList(actionDecorator.getKeys()));
+        assertTrue(keys.remove(ACCELERATOR_KEY), "ACCELERATOR_KEY");
+        assertTrue(keys.remove(ACTION_COMMAND_KEY), "ACTION_COMMAND_KEY");
+        assertTrue(keys.remove(DEFAULT), "DEFAULT");
+        assertTrue(keys.remove(DISPLAYED_MNEMONIC_INDEX_KEY), "DISPLAYED_MNEMONIC_INDEX_KEY");
+        assertTrue(keys.remove(LARGE_ICON_KEY), "LARGE_ICON_KEY");
+        assertTrue(keys.remove(LONG_DESCRIPTION), "LONG_DESCRIPTION");
+        assertTrue(keys.remove(MNEMONIC_KEY), "MNEMONIC_KEY");
+        assertTrue(keys.remove(NAME), "NAME");
+        assertTrue(keys.remove(SELECTED_KEY), "SELECTED_KEY");
+        assertTrue(keys.remove(SHORT_DESCRIPTION), "SHORT_DESCRIPTION");
+        assertTrue(keys.remove(SMALL_ICON), "SMALL_ICON");
 
-        assertArrayEquals(new Object[]{
-                ACCELERATOR_KEY,
-                ACTION_COMMAND_KEY,
-                DEFAULT,
-                DISPLAYED_MNEMONIC_INDEX_KEY,
-                LARGE_ICON_KEY,
-                LONG_DESCRIPTION,
-                MNEMONIC_KEY,
-                NAME,
-                SELECTED_KEY,
-                SHORT_DESCRIPTION,
-                SMALL_ICON,
-        }, actionDecorator.getKeys());
+        assertEquals(0, keys.size(), () -> "Unexpected keys in decorated action: " + keys);
     }
 
     @Test
@@ -176,43 +175,9 @@ class ActionDecoratorTest {
         new ActionDecorator().actionPerformed(e);
     }
 
-    private static class TestAction implements Action {
-
-        private Map<String, Object> values = new HashMap<>();
-
-        @Override
-        public Object getValue(String key) {
-            return values.get(key);
-        }
-
-        @Override
-        public void putValue(String key, Object value) {
-            values.put(key, value);
-        }
-
-        @Override
-        public void setEnabled(boolean b) {
-
-        }
-
-        @Override
-        public boolean isEnabled() {
-            return false;
-        }
-
-        @Override
-        public void addPropertyChangeListener(PropertyChangeListener listener) {
-
-        }
-
-        @Override
-        public void removePropertyChangeListener(PropertyChangeListener listener) {
-
-        }
-
+    private static class TestAction extends AbstractAction {
         @Override
         public void actionPerformed(ActionEvent e) {
-
         }
     }
 }
