@@ -1,20 +1,19 @@
 package com.link_intersystems.swing.action;
 
-import com.link_intersystems.events.beans.PropertyChangeMethod;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.*;
+
+import static java.util.Objects.*;
 
 public class ActionDecorator extends AbstractAction {
 
-    private PropertyChangeListener propertyChangeListener = PropertyChangeMethod.CHANGE.listener(this::onDecoratedActionChange);
+    public enum EnablementStrategy {
+        DECORATOR, DECORATED;
+    }
 
-    private Map<String, Object> decoratedActionPropertyValues = new HashMap<>();
-
-    private Action decoratedAction;
+    private Optional<Action> decoratedAction = Optional.empty();
+    private EnablementStrategy enablementStrategy = EnablementStrategy.DECORATOR;
 
     public ActionDecorator() {
     }
@@ -24,31 +23,35 @@ public class ActionDecorator extends AbstractAction {
     }
 
     public void setDecoratedAction(Action decoratedAction) {
-        if (this.decoratedAction != null) {
-            this.decoratedAction.removePropertyChangeListener(propertyChangeListener);
-        }
+        this.decoratedAction = Optional.ofNullable(decoratedAction);
+    }
 
-        this.decoratedAction = decoratedAction;
+    public void setEnablementStrategy(EnablementStrategy enablementStrategy) {
+        this.enablementStrategy = requireNonNull(enablementStrategy);
+    }
 
-        if (this.decoratedAction != null) {
-            this.decoratedAction.addPropertyChangeListener(propertyChangeListener);
+    @Override
+    public void setEnabled(boolean newValue) {
+        switch (enablementStrategy) {
+            case DECORATOR:
+                super.setEnabled(newValue);
+                break;
+            case DECORATED:
+                decoratedAction.ifPresent(a -> a.setEnabled(newValue));
+                break;
         }
     }
 
-    private void onDecoratedActionChange(PropertyChangeEvent ce) {
-        String propertyName = ce.getPropertyName();
-
-        Object thisOldValue = getValue(propertyName);
-
-        Object newValue = ce.getNewValue();
-        if ("enabled".equals(propertyName)) {
-            setEnabled((Boolean) newValue);
-        } else {
-            decoratedActionPropertyValues.put(propertyName, newValue);
+    @Override
+    public boolean isEnabled() {
+        switch (enablementStrategy) {
+            case DECORATOR:
+                return super.isEnabled();
+            case DECORATED:
+                return decoratedAction.map(a -> a.isEnabled()).orElse(false);
         }
 
-        Object thisNewValue = getValue(propertyName);
-        firePropertyChange(propertyName, thisOldValue, thisNewValue);
+        return false;
     }
 
     @Override
@@ -57,25 +60,24 @@ public class ActionDecorator extends AbstractAction {
         if (keys != null && Arrays.asList(keys).contains(key)) {
             return super.getValue(key);
         } else {
-            return decoratedActionPropertyValues.get(key);
+            return decoratedAction.map(a -> a.getValue(key)).orElse(null);
         }
     }
 
     @Override
     public Object[] getKeys() {
         Object[] thisKeys = super.getKeys();
-        Object[] decoratedActionKeys = null;
-        if (decoratedAction != null) {
+        Object[] decoratedActionKeys = decoratedAction.map(a -> {
             ActionKeys actionKeys;
-            if (decoratedAction instanceof AbstractAction) {
-                AbstractAction abstractDecoratedAction = (AbstractAction) decoratedAction;
+            if (a instanceof AbstractAction) {
+                AbstractAction abstractDecoratedAction = (AbstractAction) a;
                 actionKeys = new AbstractActionActionKeys(abstractDecoratedAction);
             } else {
-                actionKeys = new GeneralActionActionKeys(decoratedAction);
+                actionKeys = new GeneralActionActionKeys(a);
             }
+            return actionKeys.getKeys();
+        }).orElse(null);
 
-            decoratedActionKeys = actionKeys.getKeys();
-        }
 
         if (thisKeys == null) {
             return decoratedActionKeys;
@@ -97,7 +99,7 @@ public class ActionDecorator extends AbstractAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (isEnabled() && decoratedAction != null) {
-            decoratedAction.actionPerformed(e);
+            decoratedAction.ifPresent(a -> a.actionPerformed(e));
         }
     }
 

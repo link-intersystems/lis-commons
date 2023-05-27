@@ -38,6 +38,21 @@ class ActionDecoratorTest {
     }
 
     @Test
+    void decoratedActionPropertySetBeforeDecoratorConstruction() {
+        decoratedAction.putValue(NAME, "ORIG");
+        actionDecorator = new ActionDecorator(decoratedAction);
+
+        assertEquals("ORIG", actionDecorator.getValue(NAME));
+    }
+
+    @Test
+    void decoratedActionPropertySetAfterDecoratorConstruction() {
+        decoratedAction.putValue(NAME, "ORIG");
+
+        assertEquals("ORIG", actionDecorator.getValue(NAME));
+    }
+
+    @Test
     void decoratorOverridesDecoratedActionProperty() {
         actionDecorator.putValue(NAME, "DECORATED");
         decoratedAction.putValue(NAME, "ORIG");
@@ -121,6 +136,7 @@ class ActionDecoratorTest {
     @Test
     void enablementDecoratedAction() {
         decoratedAction.setEnabled(false);
+        actionDecorator.setEnablementStrategy(ActionDecorator.EnablementStrategy.DECORATED);
         assertFalse(actionDecorator.isEnabled());
 
         decoratedAction.setEnabled(true);
@@ -130,6 +146,7 @@ class ActionDecoratorTest {
     @Test
     void decoratedActionNotPerformedWhenDisabled() {
         decoratedAction.setEnabled(false);
+        actionDecorator.setEnablementStrategy(ActionDecorator.EnablementStrategy.DECORATED);
 
         actionDecorator.actionPerformed(new ActionEvent(this, 1, ""));
 
