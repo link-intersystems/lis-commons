@@ -7,5 +7,6 @@ public interface TaskActionListener<T, V> extends TaskListener<T, V> {
     default void aboutToRun() {
     }
 
-    void doFinally();
+    default void doFinally() {
+    }
 }
