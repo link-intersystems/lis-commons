@@ -1,4 +1,4 @@
-package com.link_intersystems.swing.action;
+package com.link_intersystems.swing.action.concurrent;
 
 import javax.swing.*;
 import java.awt.*;

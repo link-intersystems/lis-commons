@@ -1,5 +1,7 @@
 package com.link_intersystems.swing.progress;
 
+import com.link_intersystems.util.concurrent.AbstractProgressListenerDelegate;
+import com.link_intersystems.util.concurrent.ProgressListener;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

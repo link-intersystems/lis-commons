@@ -1,11 +1,11 @@
-package com.link_intersystems.swing.action;
+package com.link_intersystems.util.concurrent.task;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public interface TaskResultHandler<T, V> {
+public interface TaskListener<T, V> {
 
-    static <T, V> TaskResultHandler<T, V> nullInstance() {
+    static <T, V> TaskListener<T, V> nullInstance() {
         return result -> {
         };
     }

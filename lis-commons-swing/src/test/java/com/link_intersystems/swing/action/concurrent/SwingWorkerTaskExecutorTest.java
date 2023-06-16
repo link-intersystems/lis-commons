@@ -1,6 +1,9 @@
-package com.link_intersystems.swing.action;
+package com.link_intersystems.swing.action.concurrent;
 
-import com.link_intersystems.swing.progress.ProgressListener;
+import com.link_intersystems.util.concurrent.ProgressListener;
+import com.link_intersystems.util.concurrent.task.Task;
+import com.link_intersystems.util.concurrent.task.TaskListener;
+import com.link_intersystems.util.concurrent.task.TaskProgress;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
@@ -16,7 +19,7 @@ class SwingWorkerTaskExecutorTest {
 
     private SwingWorkerTaskExecutor asyncWorkExecutor;
     private AsyncTaskMock asyncWork;
-    private AsyncTaskResultHandlerMock lifecycle;
+    private AsyncTaskListenerMock lifecycle;
     private ProgressListener progressListener;
 
     public static interface RunnableWithException {
@@ -78,7 +81,7 @@ class SwingWorkerTaskExecutorTest {
         }
     }
 
-    private static class AsyncTaskResultHandlerMock implements TaskResultHandler<String, String> {
+    private static class AsyncTaskListenerMock implements TaskListener<String, String> {
 
         private CountDownLatch doneLatch = new CountDownLatch(1);
         private CountDownLatch failedLatch = new CountDownLatch(1);
@@ -110,7 +113,7 @@ class SwingWorkerTaskExecutorTest {
         asyncWorkExecutor = new SwingWorkerTaskExecutor();
 
         asyncWork = new AsyncTaskMock();
-        lifecycle = new AsyncTaskResultHandlerMock();
+        lifecycle = new AsyncTaskListenerMock();
         progressListener = mock(ProgressListener.class);
 
     }

@@ -3,7 +3,7 @@ package com.link_intersystems.util.concurrent;
 import java.time.Duration;
 import java.util.function.Supplier;
 
-import static java.util.Objects.requireNonNull;
+import static java.util.Objects.*;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
@@ -35,10 +35,10 @@ public class ETAProgressListener implements ProgressListener {
     }
 
     @Override
-    public void begin(int totalWork) {
+    public void begin(String name, int totalWork) {
         this.totalWork = totalWork;
         eta.begin(totalWork);
-        progressListener.begin(totalWork);
+        progressListener.begin(name, totalWork);
     }
 
     @Override

@@ -9,7 +9,7 @@ class NullProgressListenerTest {
 
     @Test
     void ensureNullProgressListenerWorks() {
-        NullProgressListener.INSTANCE.begin(1);
+        NullProgressListener.INSTANCE.begin("A", 1);
         NullProgressListener.INSTANCE.worked(1);
         NullProgressListener.INSTANCE.done();
     }

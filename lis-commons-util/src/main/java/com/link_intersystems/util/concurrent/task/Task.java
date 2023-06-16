@@ -1,4 +1,4 @@
-package com.link_intersystems.swing.action;
+package com.link_intersystems.util.concurrent.task;
 
 public interface Task<T, V> {
 

@@ -1,4 +1,7 @@
-package com.link_intersystems.swing.action;
+package com.link_intersystems.swing.action.concurrent;
+
+import com.link_intersystems.swing.action.ActionInterceptor;
+import com.link_intersystems.swing.action.ActionJoinPoint;
 
 import javax.swing.*;
 

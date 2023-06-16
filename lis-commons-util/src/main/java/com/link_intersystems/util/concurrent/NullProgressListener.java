@@ -8,7 +8,7 @@ public class NullProgressListener implements ProgressListener {
     public static final NullProgressListener INSTANCE = new NullProgressListener();
 
     @Override
-    public void begin(int totalWork) {
+    public void begin(String name, int totalWork) {
     }
 
     @Override

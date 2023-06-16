@@ -1,7 +1,13 @@
-package com.link_intersystems.swing.action;
+package com.link_intersystems.swing.action.concurrent;
 
-import com.link_intersystems.swing.progress.ProgressListener;
-import com.link_intersystems.swing.progress.ProgressListenerFactory;
+import com.link_intersystems.swing.action.ActionDelegate;
+import com.link_intersystems.swing.action.ActionInterceptor;
+import com.link_intersystems.swing.action.ActionJoinPoint;
+import com.link_intersystems.util.concurrent.ProgressListener;
+import com.link_intersystems.util.concurrent.ProgressListenerFactory;
+import com.link_intersystems.util.concurrent.task.TaskExecutor;
+import com.link_intersystems.util.concurrent.task.TaskListener;
+import com.link_intersystems.util.concurrent.task.TaskProgress;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -40,7 +46,7 @@ public abstract class AbstractTaskAction<T, V> extends AbstractAction {
     }
 
     public void setProgressListenerFactory(ProgressListenerFactory progressListenerFactory) {
-        this.progressListenerFactory = progressListenerFactory == null ? () -> ProgressListener.nullInstance() : progressListenerFactory;
+        this.progressListenerFactory = progressListenerFactory == null ? ProgressListener::nullInstance : progressListenerFactory;
     }
 
     /**
@@ -86,9 +92,9 @@ public abstract class AbstractTaskAction<T, V> extends AbstractAction {
 
             @Override
             public void proceed(ActionEvent actionEvent, Runnable finallyRunnable) {
-                TaskResultHandler<T, V> resultHandler = getTaskResultHandler();
+                TaskListener<T, V> resultHandler = getTaskResultHandler();
                 Runnable[] doFinallyRunnables = {AbstractTaskAction.this::doFinally, finallyRunnable};
-                FinallyTaskResultHandlerDecorator<T, V> doFinallyDecorator = new FinallyTaskResultHandlerDecorator<>(resultHandler, doFinallyRunnables);
+                FinallyTaskListenerDecorator<T, V> doFinallyDecorator = new FinallyTaskListenerDecorator<>(resultHandler, doFinallyRunnables);
                 performAction(actionEvent, doFinallyDecorator);
             }
 
@@ -101,7 +107,7 @@ public abstract class AbstractTaskAction<T, V> extends AbstractAction {
         actionInterceptor.execute(new DefaultActionJoinPoint());
     }
 
-    protected void performAction(ActionEvent e, TaskResultHandler<T, V> resultHandler) {
+    protected void performAction(ActionEvent e, TaskListener<T, V> resultHandler) {
         try {
             tryActionPerformed(resultHandler);
         } catch (Exception ex) {
@@ -109,7 +115,7 @@ public abstract class AbstractTaskAction<T, V> extends AbstractAction {
         }
     }
 
-    private void tryActionPerformed(TaskResultHandler<T, V> resultHandler) throws Exception {
+    private void tryActionPerformed(TaskListener<T, V> resultHandler) throws Exception {
         try {
             prepareExecution();
         } catch (Exception e) {
@@ -121,12 +127,12 @@ public abstract class AbstractTaskAction<T, V> extends AbstractAction {
         taskExecutor.execute(this::doInBackground, resultHandler, progressListener);
     }
 
-    private TaskResultHandler<T, V> getTaskResultHandler() {
-        class AbstractTaskActionResultHandlerAdapter implements TaskResultHandler<T, V> {
+    private TaskListener<T, V> getTaskResultHandler() {
+        class TaskActionListenerAdapter implements TaskListener<T, V> {
 
             private AbstractTaskAction<T, V> taskAction;
 
-            public AbstractTaskActionResultHandlerAdapter(AbstractTaskAction<T, V> taskAction) {
+            public TaskActionListenerAdapter(AbstractTaskAction<T, V> taskAction) {
                 this.taskAction = taskAction;
             }
 
@@ -156,7 +162,7 @@ public abstract class AbstractTaskAction<T, V> extends AbstractAction {
             }
         }
 
-        return new AbstractTaskActionResultHandlerAdapter(this);
+        return new TaskActionListenerAdapter(this);
     }
 
     /**
@@ -183,7 +189,7 @@ public abstract class AbstractTaskAction<T, V> extends AbstractAction {
      * @param e
      */
     protected void failed(ExecutionException e) {
-        TaskResultHandler.defaultFailed(e);
+        TaskListener.defaultFailed(e);
     }
 
     protected void interrupted(InterruptedException e) {

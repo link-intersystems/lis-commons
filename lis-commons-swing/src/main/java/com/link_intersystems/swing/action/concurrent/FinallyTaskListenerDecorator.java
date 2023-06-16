@@ -1,16 +1,18 @@
-package com.link_intersystems.swing.action;
+package com.link_intersystems.swing.action.concurrent;
+
+import com.link_intersystems.util.concurrent.task.TaskListener;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import static java.util.Objects.*;
 
-public class FinallyTaskResultHandlerDecorator<T, V> implements TaskResultHandler<T, V> {
+public class FinallyTaskListenerDecorator<T, V> implements TaskListener<T, V> {
 
-    private TaskResultHandler<T, V> target;
+    private TaskListener<T, V> target;
     private Runnable[] finallyRunnables;
 
-    public FinallyTaskResultHandlerDecorator(TaskResultHandler<T, V> target, Runnable... finallyRunnables) {
+    public FinallyTaskListenerDecorator(TaskListener<T, V> target, Runnable... finallyRunnables) {
         this.target = requireNonNull(target);
         this.finallyRunnables = finallyRunnables;
     }

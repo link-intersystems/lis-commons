@@ -1,5 +1,7 @@
-package com.link_intersystems.swing.action;
+package com.link_intersystems.swing.action.concurrent;
 
+import com.link_intersystems.util.concurrent.task.Task;
+import com.link_intersystems.util.concurrent.task.TaskProgress;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -16,30 +18,30 @@ import java.util.concurrent.Semaphore;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class DefaultWorkerActionTest {
+class GenericTaskActionTest {
 
-    private DefaultTaskAction<Object, Object> defaultWorkerAction;
+    private GenericTaskAction<Object, Object> defaultWorkerAction;
     private ActionEvent actionEvent;
-    private Task<Object, Object> task;
-    private TaskResultHandler<Object, Object> resultHandler;
+    private TaskActionListener<Object, Object> taskActionListener;
     private Object backgroundWorkResult;
     private Object intermedateResult;
     private Semaphore resultSemaphore;
     private ArgumentCaptor<Object> argCaptor;
 
     @BeforeEach
+    @SuppressWarnings("unchecked")
     void setUp() throws Exception {
         backgroundWorkResult = null;
         intermedateResult = null;
 
-        defaultWorkerAction = new DefaultTaskAction<>();
+        defaultWorkerAction = new GenericTaskAction<>();
 
         actionEvent = new ActionEvent(this, 1, "");
 
-        task = mock(Task.class);
-        defaultWorkerAction.setBackgroundWork(task);
-        resultHandler = mock(TaskResultHandler.class);
-        defaultWorkerAction.setBackgroundWorkResultHandler(resultHandler);
+        Task<Object, Object> task = mock(Task.class);
+        defaultWorkerAction.setTask(task);
+        taskActionListener = mock(TaskActionListener.class);
+        defaultWorkerAction.setTaskActionListener(taskActionListener);
 
         resultSemaphore = new Semaphore(0);
 
@@ -64,9 +66,9 @@ class DefaultWorkerActionTest {
             }
         };
 
-        doAnswer(resultSemaphoreRelease).when(resultHandler).done(any());
-        doAnswer(resultSemaphoreRelease).when(resultHandler).failed(any(ExecutionException.class));
-        doAnswer(resultSemaphoreRelease).when(resultHandler).interrupted(any(InterruptedException.class));
+        doAnswer(resultSemaphoreRelease).when(taskActionListener).done(any());
+        doAnswer(resultSemaphoreRelease).when(taskActionListener).failed(any(ExecutionException.class));
+        doAnswer(resultSemaphoreRelease).when(taskActionListener).interrupted(any(InterruptedException.class));
 
         argCaptor = ArgumentCaptor.forClass(Object.class);
     }
@@ -83,7 +85,7 @@ class DefaultWorkerActionTest {
         performActionAndWait();
 
         ArgumentCaptor<List> intermediateResultCaptor = ArgumentCaptor.forClass(List.class);
-        verify(resultHandler).publishIntermediateResults(intermediateResultCaptor.capture());
+        verify(taskActionListener).publishIntermediateResults(intermediateResultCaptor.capture());
 
         assertEquals(Arrays.asList("B"), intermediateResultCaptor.getValue());
     }
@@ -94,7 +96,7 @@ class DefaultWorkerActionTest {
 
         performActionAndWait();
 
-        verify(resultHandler).done(argCaptor.capture());
+        verify(taskActionListener).done(argCaptor.capture());
         assertEquals("A", argCaptor.getValue());
     }
 
@@ -106,7 +108,7 @@ class DefaultWorkerActionTest {
         performActionAndWait();
 
         ArgumentCaptor<ExecutionException> exceptionArgumentCaptor = ArgumentCaptor.forClass(ExecutionException.class);
-        verify(resultHandler).failed(exceptionArgumentCaptor.capture());
+        verify(taskActionListener).failed(exceptionArgumentCaptor.capture());
 
         assertEquals(re, exceptionArgumentCaptor.getValue().getCause());
     }
@@ -114,7 +116,7 @@ class DefaultWorkerActionTest {
     @Test
     void actionWithNameAndIcon() {
         Icon icon = mock(Icon.class);
-        DefaultTaskAction<Object, Object> workerAction = new DefaultTaskAction<>("name", icon);
+        GenericTaskAction<Object, Object> workerAction = new GenericTaskAction<>("name", icon);
 
         assertEquals("name", workerAction.getValue(Action.NAME));
         assertEquals(icon, workerAction.getValue(Action.SMALL_ICON));
@@ -123,7 +125,7 @@ class DefaultWorkerActionTest {
     @Test
     void actionWithName() {
         Icon icon = mock(Icon.class);
-        DefaultTaskAction<Object, Object> workerAction = new DefaultTaskAction<>("name");
+        GenericTaskAction<Object, Object> workerAction = new GenericTaskAction<>("name");
 
         assertEquals("name", workerAction.getValue(Action.NAME));
     }

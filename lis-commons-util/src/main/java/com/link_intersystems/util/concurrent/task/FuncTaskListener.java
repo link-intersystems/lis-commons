@@ -1,11 +1,11 @@
-package com.link_intersystems.swing.action;
+package com.link_intersystems.util.concurrent.task;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
-public class FuncTaskResultHandler<T, V> implements TaskResultHandler<T, V> {
+public class FuncTaskListener<T, V> implements TaskListener<T, V> {
     public static class Builder<T, V> {
         private Optional<Consumer<T>> doneConsumer = Optional.empty();
         private Optional<Consumer<List<V>>> intermediateResultsConsumer = Optional.empty();
@@ -32,8 +32,8 @@ public class FuncTaskResultHandler<T, V> implements TaskResultHandler<T, V> {
             return this;
         }
 
-        public FuncTaskResultHandler build() {
-            return new FuncTaskResultHandler(doneConsumer, intermediateResultsConsumer, failedConsumer, interruptedConsumer);
+        public FuncTaskListener build() {
+            return new FuncTaskListener(doneConsumer, intermediateResultsConsumer, failedConsumer, interruptedConsumer);
         }
     }
 
@@ -42,7 +42,7 @@ public class FuncTaskResultHandler<T, V> implements TaskResultHandler<T, V> {
     private Optional<Consumer<ExecutionException>> failedConsumer;
     private Optional<Consumer<InterruptedException>> interruptedConsumer;
 
-    private FuncTaskResultHandler(Optional<Consumer<T>> doneConsumer, Optional<Consumer<List<V>>> intermediateResultsConsumer, Optional<Consumer<ExecutionException>> failedConsumer, Optional<Consumer<InterruptedException>> interruptedConsumer) {
+    private FuncTaskListener(Optional<Consumer<T>> doneConsumer, Optional<Consumer<List<V>>> intermediateResultsConsumer, Optional<Consumer<ExecutionException>> failedConsumer, Optional<Consumer<InterruptedException>> interruptedConsumer) {
         this.doneConsumer = doneConsumer;
         this.intermediateResultsConsumer = intermediateResultsConsumer;
         this.failedConsumer = failedConsumer;

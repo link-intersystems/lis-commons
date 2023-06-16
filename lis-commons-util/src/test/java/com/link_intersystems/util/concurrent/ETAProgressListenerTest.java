@@ -36,8 +36,8 @@ class ETAProgressListenerTest {
     void progress() {
         etaTest.returnTimesMins(1, 2, 3);
 
-        etaProgressListener.begin(10);
-        verify(progressListener, times(1)).begin(10);
+        etaProgressListener.begin("A",10);
+        verify(progressListener, times(1)).begin("A",10);
 
         etaProgressListener.worked(1);
         assertDuration(SECONDS.convert(9, MINUTES));

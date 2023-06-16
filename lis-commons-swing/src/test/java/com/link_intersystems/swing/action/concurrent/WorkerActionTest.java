@@ -1,6 +1,9 @@
-package com.link_intersystems.swing.action;
+package com.link_intersystems.swing.action.concurrent;
 
-import com.link_intersystems.swing.progress.ProgressListener;
+import com.link_intersystems.util.concurrent.ProgressListener;
+import com.link_intersystems.util.concurrent.task.Task;
+import com.link_intersystems.util.concurrent.task.TaskExecutor;
+import com.link_intersystems.util.concurrent.task.TaskListener;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.invocation.InvocationOnMock;
@@ -13,9 +16,9 @@ import static org.mockito.Mockito.*;
 
 class WorkerActionTest {
 
-    protected DefaultTaskAction<String, String> defaultAsyncAction;
+    protected GenericTaskAction<String, String> defaultAsyncAction;
     protected TaskExecutor taskExecutor;
-    protected TaskResultHandler<String, String> lifecycle;
+    protected TaskActionListener<String, String> taskActionListener;
 
     @BeforeEach
     void setUp() {
@@ -24,14 +27,14 @@ class WorkerActionTest {
         taskExecutor = mock(TaskExecutor.class);
         defaultAsyncAction.setTaskExecutor(taskExecutor);
 
-        lifecycle = mock(TaskResultHandler.class);
-        defaultAsyncAction.setBackgroundWorkResultHandler(lifecycle);
+        taskActionListener = mock(TaskActionListener.class);
+        defaultAsyncAction.setTaskActionListener(taskActionListener);
     }
 
-    protected DefaultTaskAction<String, String> createAsyncAction() {
+    protected GenericTaskAction<String, String> createAsyncAction() {
         Runnable asycWork = mock(Runnable.class);
-        DefaultTaskAction<String, String> workerAction = new DefaultTaskAction<>();
-        workerAction.setBackgroundWork(asycWork);
+        GenericTaskAction<String, String> workerAction = new GenericTaskAction<>();
+        workerAction.setTask(asycWork);
         return workerAction;
     }
 
@@ -41,11 +44,11 @@ class WorkerActionTest {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
                 assertFalse(defaultAsyncAction.isEnabled());
-                TaskResultHandler taskResultHandler = invocation.getArgument(1, TaskResultHandler.class);
-                taskResultHandler.done("");
+                TaskListener taskListener = invocation.getArgument(1, TaskListener.class);
+                taskListener.done("");
                 return null;
             }
-        }).when(taskExecutor).execute(any(Task.class), any(TaskResultHandler.class), any(ProgressListener.class));
+        }).when(taskExecutor).execute(any(Task.class), any(TaskListener.class), any(ProgressListener.class));
 
         defaultAsyncAction.actionPerformed(new ActionEvent(this, 1, "do"));
         assertTrue(defaultAsyncAction.isEnabled());
@@ -57,11 +60,11 @@ class WorkerActionTest {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
                 assertFalse(defaultAsyncAction.isEnabled());
-                TaskResultHandler taskResultHandler = invocation.getArgument(1, TaskResultHandler.class);
-                taskResultHandler.failed(null);
+                TaskListener taskListener = invocation.getArgument(1, TaskListener.class);
+                taskListener.failed(null);
                 return null;
             }
-        }).when(taskExecutor).execute(any(Task.class), any(TaskResultHandler.class), any(ProgressListener.class));
+        }).when(taskExecutor).execute(any(Task.class), any(TaskListener.class), any(ProgressListener.class));
 
         defaultAsyncAction.actionPerformed(new ActionEvent(this, 1, "do"));
         assertTrue(defaultAsyncAction.isEnabled());
@@ -73,11 +76,11 @@ class WorkerActionTest {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
                 assertFalse(defaultAsyncAction.isEnabled());
-                TaskResultHandler taskResultHandler = invocation.getArgument(1, TaskResultHandler.class);
-                taskResultHandler.interrupted(null);
+                TaskListener taskListener = invocation.getArgument(1, TaskListener.class);
+                taskListener.interrupted(null);
                 return null;
             }
-        }).when(taskExecutor).execute(any(Task.class), any(TaskResultHandler.class), any(ProgressListener.class));
+        }).when(taskExecutor).execute(any(Task.class), any(TaskListener.class), any(ProgressListener.class));
 
         defaultAsyncAction.actionPerformed(new ActionEvent(this, 1, "do"));
         assertTrue(defaultAsyncAction.isEnabled());

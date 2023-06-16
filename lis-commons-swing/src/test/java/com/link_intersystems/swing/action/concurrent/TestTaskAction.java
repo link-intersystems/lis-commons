@@ -1,4 +1,6 @@
-package com.link_intersystems.swing.action;
+package com.link_intersystems.swing.action.concurrent;
+
+import com.link_intersystems.util.concurrent.task.TaskProgress;
 
 import java.util.List;
 import java.util.Optional;

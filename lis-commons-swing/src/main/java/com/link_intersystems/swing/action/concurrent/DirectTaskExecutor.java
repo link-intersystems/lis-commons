@@ -1,13 +1,17 @@
-package com.link_intersystems.swing.action;
+package com.link_intersystems.swing.action.concurrent;
 
-import com.link_intersystems.swing.progress.ProgressListener;
+import com.link_intersystems.util.concurrent.ProgressListener;
+import com.link_intersystems.util.concurrent.task.Task;
+import com.link_intersystems.util.concurrent.task.TaskExecutor;
+import com.link_intersystems.util.concurrent.task.TaskListener;
+import com.link_intersystems.util.concurrent.task.TaskProgress;
 
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
 public class DirectTaskExecutor implements TaskExecutor {
     @Override
-    public <T, V> void execute(Task<T, V> task, TaskResultHandler<T, V> resultHandler, ProgressListener progressListener) {
+    public <T, V> void execute(Task<T, V> task, TaskListener<T, V> resultHandler, ProgressListener progressListener) {
         try {
             TaskProgress<V> taskProgress = new TaskProgress<V>() {
 

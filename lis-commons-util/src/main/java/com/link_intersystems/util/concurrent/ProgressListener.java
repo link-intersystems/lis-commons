@@ -1,13 +1,26 @@
 package com.link_intersystems.util.concurrent;
 
-/**
- * @author René Link {@literal <rene.link@link-intersystems.com>}
- */
 public interface ProgressListener {
+    static ProgressListener nullInstance() {
+        return new ProgressListener() {
+            @Override
+            public void begin(String name, int totalWork) {
+            }
 
-    public void begin(int totalWork);
+            @Override
+            public void worked(int worked) {
+            }
 
-    public void worked(int work);
+            @Override
+            public void done() {
+            }
+        };
+    }
 
-    public void done();
+    void begin(String name, int totalWork);
+
+    void worked(int worked);
+
+    void done();
+
 }

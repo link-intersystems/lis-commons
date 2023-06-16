@@ -1,4 +1,4 @@
-package com.link_intersystems.swing.progress;
+package com.link_intersystems.util.concurrent;
 
 public abstract class AbstractProgressListenerDelegate implements ProgressListener {
     public abstract ProgressListener getProgressListener();

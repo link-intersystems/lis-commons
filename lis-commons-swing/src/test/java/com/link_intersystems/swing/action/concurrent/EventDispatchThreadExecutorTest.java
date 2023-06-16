@@ -1,5 +1,6 @@
-package com.link_intersystems.swing.action;
+package com.link_intersystems.swing.action.concurrent;
 
+import com.link_intersystems.swing.action.concurrent.EventDispatchThreadExecutor;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.*;

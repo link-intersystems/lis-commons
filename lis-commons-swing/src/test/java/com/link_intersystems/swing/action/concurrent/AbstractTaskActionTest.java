@@ -1,10 +1,13 @@
-package com.link_intersystems.swing.action;
+package com.link_intersystems.swing.action.concurrent;
 
-import com.link_intersystems.swing.progress.ProgressListener;
+import com.link_intersystems.swing.action.ActionTrigger;
+import com.link_intersystems.util.concurrent.ProgressListener;
+import com.link_intersystems.util.concurrent.task.Task;
+import com.link_intersystems.util.concurrent.task.TaskExecutor;
+import com.link_intersystems.util.concurrent.task.TaskListener;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
 
 import javax.swing.*;
 import java.util.Arrays;
@@ -112,7 +115,7 @@ class AbstractTaskActionTest {
         RuntimeException runtimeException = new RuntimeException();
         taskAction.setTaskExecutor(new TaskExecutor() {
             @Override
-            public <T, V> void execute(Task<T, V> task, TaskResultHandler<T, V> resultHandler, ProgressListener progressListener) {
+            public <T, V> void execute(Task<T, V> task, TaskListener<T, V> resultHandler, ProgressListener progressListener) {
                 assertFalse(taskAction.isEnabled());
                 throw runtimeException;
             }
