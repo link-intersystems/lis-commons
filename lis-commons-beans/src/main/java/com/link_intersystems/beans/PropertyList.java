@@ -45,4 +45,8 @@ public class PropertyList extends AbstractList<Property> {
     public int size() {
         return properties.size();
     }
+
+    public void forEachProperty() {
+
+    }
 }
