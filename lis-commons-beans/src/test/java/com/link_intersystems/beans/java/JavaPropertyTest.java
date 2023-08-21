@@ -1,12 +1,10 @@
 package com.link_intersystems.beans.java;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.beans.*;
 import java.util.Arrays;
-import java.util.Formatter;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -52,7 +50,7 @@ class JavaPropertyTest {
 
     @Test
     void createPropertiyEditor() {
-        PropertyEditor propertiyEditor = intValueProperty.createPropertiyEditor();
+        PropertyEditor propertiyEditor = intValueProperty.createPropertyEditor();
 
         assertNotNull(propertiyEditor);
     }

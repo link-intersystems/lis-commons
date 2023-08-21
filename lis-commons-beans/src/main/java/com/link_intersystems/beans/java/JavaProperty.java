@@ -26,7 +26,6 @@ import java.lang.reflect.Method;
 import java.text.MessageFormat;
 import java.util.*;
 
-import static java.util.FormattableFlags.ALTERNATE;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -109,7 +108,7 @@ public class JavaProperty implements Serializable, Property {
      * @return the property editor for this property.
      * @since 1.2.0;
      */
-    public PropertyEditor createPropertiyEditor() throws PropertyEditorNotAvailableException {
+    public PropertyEditor createPropertyEditor() throws PropertyEditorNotAvailableException {
         JavaBean<?> beanObj = getBean();
         Object bean = beanObj.getBeanObject();
 
@@ -138,7 +137,7 @@ public class JavaProperty implements Serializable, Property {
      */
     public String getValueAsText() throws PropertyEditorNotAvailableException {
         try {
-            PropertyEditor propertiyEditor = createPropertiyEditor();
+            PropertyEditor propertiyEditor = createPropertyEditor();
             propertiyEditor.setValue(getValue());
             return propertiyEditor.getAsText();
         } catch (PropertyEditorNotAvailableException e) {
@@ -153,7 +152,7 @@ public class JavaProperty implements Serializable, Property {
      * @since 1.2.0;
      */
     public void setValueAsText(String text) throws PropertyEditorNotAvailableException {
-        PropertyEditor propertiyEditor = createPropertiyEditor();
+        PropertyEditor propertiyEditor = createPropertyEditor();
         propertiyEditor.setAsText(text);
         Object value = propertiyEditor.getValue();
         setValue(value);
