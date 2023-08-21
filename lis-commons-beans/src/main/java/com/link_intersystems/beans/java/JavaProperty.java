@@ -24,9 +24,8 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
-import java.util.*;
-
-import static java.util.Objects.requireNonNull;
+import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * Encapsulates access to a java bean property.
@@ -63,25 +62,16 @@ import static java.util.Objects.requireNonNull;
  * the {@link JavaProperty}'s type.
  * @since 1.2.0;
  */
-public class JavaProperty implements Serializable, Property {
+public class JavaProperty extends AbstractProperty implements Serializable, Property {
 
     private static final long serialVersionUID = -6759158627808430975L;
 
-    private JavaBean<?> bean;
-    private JavaPropertyDesc propertyDescriptor;
-
     JavaProperty(JavaBean<?> bean, JavaPropertyDesc propertyDescriptor) {
-        this.bean = requireNonNull(bean);
-        this.propertyDescriptor = requireNonNull(propertyDescriptor);
+        super(bean, propertyDescriptor);
     }
 
     protected PropertyDescriptor getJavaPropertyDescriptor() {
-        return propertyDescriptor.getJavaPropertyDescriptor();
-    }
-
-    @Override
-    public PropertyDesc getPropertyDesc() {
-        return propertyDescriptor;
+        return ((JavaPropertyDesc) getPropertyDesc()).getJavaPropertyDescriptor();
     }
 
     /**
@@ -89,7 +79,7 @@ public class JavaProperty implements Serializable, Property {
      * @since 1.2.0;
      */
     protected final JavaBean<?> getBean() {
-        return bean;
+        return (JavaBean<?>) super.getBean();
     }
 
     /**
@@ -170,7 +160,7 @@ public class JavaProperty implements Serializable, Property {
     @Override
     public <T> T getValue() {
         PropertyDesc propertyDesc = getPropertyDesc();
-        return propertyDesc.getPropertyValue(bean.getBeanObject());
+        return propertyDesc.getPropertyValue(getBean().getBeanObject());
     }
 
     /**
@@ -185,7 +175,7 @@ public class JavaProperty implements Serializable, Property {
     @Override
     public void setValue(Object propertyValue) {
         PropertyDesc propertyDesc = getPropertyDesc();
-        propertyDesc.setPropertyValue(bean.getBeanObject(), propertyValue);
+        propertyDesc.setPropertyValue(getBean().getBeanObject(), propertyValue);
     }
 
     /**
@@ -221,59 +211,6 @@ public class JavaProperty implements Serializable, Property {
     @Override
     public String toString() {
         return getName();
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + propertyDescriptor.hashCode();
-        Object value = getValue();
-
-        if (value != null) {
-            Class<?> valueClass = value.getClass();
-            if (valueClass.isArray()) {
-                result = prime * result + Arrays.deepHashCode((Object[]) value);
-            } else {
-                result = prime * result + value.hashCode();
-            }
-        }
-
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        JavaProperty other = (JavaProperty) obj;
-        if (!propertyDescriptor.equals(other.propertyDescriptor))
-            return false;
-
-        Object value = getValue();
-        if (value == null) {
-            return other.getValue() == null;
-        } else {
-            Object otherValue = other.getValue();
-
-            if (otherValue == null) {
-                return false;
-            }
-
-            Class<?> valueClass = value.getClass();
-            Class<?> otherValueClass = otherValue.getClass();
-            if (valueClass.isArray() && otherValueClass.isArray()) {
-                return Objects.deepEquals(value, otherValue);
-            } else if (!valueClass.isArray() && !otherValueClass.isArray()) {
-                return value.equals(otherValue);
-            } else {
-                return false;
-            }
-        }
     }
 
     /**
