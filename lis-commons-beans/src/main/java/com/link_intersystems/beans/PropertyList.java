@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static java.util.Objects.requireNonNull;
+import static java.util.Objects.*;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
@@ -46,7 +46,4 @@ public class PropertyList extends AbstractList<Property> {
         return properties.size();
     }
 
-    public void forEachProperty() {
-
-    }
 }

@@ -16,16 +16,17 @@ class PropertyListTest {
 
     @BeforeEach
     void setUp() {
-        firstnameProperty = createProperty("firstname");
-        lastnameProperty = createProperty("lastname");
+        firstnameProperty = createProperty("firstname", "René");
+        lastnameProperty = createProperty("lastname", "Link");
 
         propertyList = new PropertyList(Arrays.asList(firstnameProperty, lastnameProperty));
     }
 
-    private Property createProperty(String name) {
+    private Property createProperty(String name, String value) {
         Property property = mock(Property.class);
         PropertyDesc propDesc = mock(PropertyDesc.class);
         when(propDesc.getName()).thenReturn(name);
+        when(property.getValue()).thenReturn(value);
         when(property.getPropertyDesc()).thenReturn(propDesc);
         return property;
     }
