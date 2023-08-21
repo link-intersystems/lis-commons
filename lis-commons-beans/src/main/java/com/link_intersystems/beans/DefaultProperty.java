@@ -6,12 +6,12 @@ import java.util.Objects;
 
 import static java.util.Objects.*;
 
-public abstract class AbstractProperty implements Property {
+public class DefaultProperty implements Property {
 
     private final Bean<?> bean;
     private final PropertyDesc propertyDescriptor;
 
-    public AbstractProperty(Bean<?> bean, PropertyDesc propertyDescriptor) {
+    public DefaultProperty(Bean<?> bean, PropertyDesc propertyDescriptor) {
         this.bean = requireNonNull(bean);
         this.propertyDescriptor = requireNonNull(propertyDescriptor);
     }
@@ -23,7 +23,7 @@ public abstract class AbstractProperty implements Property {
     }
 
     /**
-     * @return the bean object of this {@link AbstractProperty}.
+     * @return the bean object of this {@link DefaultProperty}.
      * @since 1.2.0;
      */
     protected Bean<?> getBean() {
@@ -31,7 +31,7 @@ public abstract class AbstractProperty implements Property {
     }
 
     /**
-     * Gets the value of this {@link AbstractProperty}.
+     * Gets the value of this {@link DefaultProperty}.
      *
      * @return the value of this property.
      * @throws PropertyReadException if the property could not be accessed for any reason. If the
@@ -47,10 +47,10 @@ public abstract class AbstractProperty implements Property {
     }
 
     /**
-     * Sets the value of this {@link AbstractProperty}.
+     * Sets the value of this {@link DefaultProperty}.
      *
      * @param propertyValue the value to set.
-     * @throws PropertyReadException if this {@link AbstractProperty}'s value could not be set. If the thrown
+     * @throws PropertyReadException if this {@link DefaultProperty}'s value could not be set. If the thrown
      *                               {@link PropertyWriteException} has no cause this property is not
      *                               writable (has no property setter method).
      * @since 1.2.0;
@@ -89,7 +89,7 @@ public abstract class AbstractProperty implements Property {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        AbstractProperty other = (AbstractProperty) obj;
+        DefaultProperty other = (DefaultProperty) obj;
         if (!getPropertyDesc().equals(other.getPropertyDesc()))
             return false;
 

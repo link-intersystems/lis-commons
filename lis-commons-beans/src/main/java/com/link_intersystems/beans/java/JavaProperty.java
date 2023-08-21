@@ -24,8 +24,6 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
-import java.util.Arrays;
-import java.util.Objects;
 
 /**
  * Encapsulates access to a java bean property.
@@ -62,7 +60,7 @@ import java.util.Objects;
  * the {@link JavaProperty}'s type.
  * @since 1.2.0;
  */
-public class JavaProperty extends AbstractProperty implements Serializable, Property {
+public class JavaProperty extends DefaultProperty implements Serializable, Property {
 
     private static final long serialVersionUID = -6759158627808430975L;
 
