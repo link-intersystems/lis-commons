@@ -3,16 +3,17 @@ package com.link_intersystems.beans;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 import static java.util.Objects.*;
 
 public class DefaultProperty implements Property {
 
-    private final Bean<?> bean;
+    private final Supplier<Object> beanSupplier;
     private final PropertyDesc propertyDescriptor;
 
-    public DefaultProperty(Bean<?> bean, PropertyDesc propertyDescriptor) {
-        this.bean = requireNonNull(bean);
+    public DefaultProperty(Supplier<Object> beanSupplier, PropertyDesc propertyDescriptor) {
+        this.beanSupplier = requireNonNull(beanSupplier);
         this.propertyDescriptor = requireNonNull(propertyDescriptor);
     }
 
@@ -20,14 +21,6 @@ public class DefaultProperty implements Property {
     @Override
     public PropertyDesc getPropertyDesc() {
         return propertyDescriptor;
-    }
-
-    /**
-     * @return the bean object of this {@link DefaultProperty}.
-     * @since 1.2.0;
-     */
-    protected Bean<?> getBean() {
-        return bean;
     }
 
     /**
@@ -42,7 +35,7 @@ public class DefaultProperty implements Property {
     @Override
     public <T> T getValue() {
         PropertyDesc propertyDesc = getPropertyDesc();
-        Object beanObject = bean.getBeanObject();
+        Object beanObject = beanSupplier.get();
         return propertyDesc.getPropertyValue(beanObject);
     }
 
@@ -58,7 +51,7 @@ public class DefaultProperty implements Property {
     @Override
     public void setValue(Object propertyValue) {
         PropertyDesc propertyDesc = getPropertyDesc();
-        Object beanObject = bean.getBeanObject();
+        Object beanObject = beanSupplier.get();
         propertyDesc.setPropertyValue(beanObject, propertyValue);
     }
 
