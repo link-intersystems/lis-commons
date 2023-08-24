@@ -44,6 +44,13 @@ class PropertyListTest {
     }
 
     @Test
+    void filter() {
+        PropertyList filteredList = propertyList.filter(p -> p.getPropertyDesc().getName().startsWith("first"));
+        assertEquals(1, filteredList.size());
+        assertEquals(firstnameProperty, filteredList.getByDesc(firstnameProperty.getPropertyDesc()));
+    }
+
+    @Test
     void get() {
         assertEquals(firstnameProperty, propertyList.get(0));
         assertEquals(lastnameProperty, propertyList.get(1));

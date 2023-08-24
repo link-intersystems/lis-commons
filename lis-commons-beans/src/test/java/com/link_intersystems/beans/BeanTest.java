@@ -66,10 +66,7 @@ class BeanTest {
 
     @Test
     void propertiesEqual() {
-        Property property = mock(Property.class);
-        PropertyDesc propertyDesc = mock(PropertyDesc.class);
-        when(property.getPropertyDesc()).thenReturn(propertyDesc);
-        when(propertyDesc.getName()).thenReturn("propertyName");
+        Property property = PropertyMocks.createProperty(String.class, "propertyName",null);
 
         testBean.setProperties(property);
 
@@ -78,5 +75,23 @@ class BeanTest {
 
 
         assertTrue(testBean.propertiesEqual(testBean2));
+    }
+
+
+    @Test
+    void copy() {
+        Property firstname = PropertyMocks.createProperty(String.class, "firstname","René");
+        Property lastname = PropertyMocks.createProperty(String.class, "lastname","Link");
+        testBean.setProperties(firstname, lastname);
+
+        TestBean testBean2 = new TestBean();
+        Property firstname2 = PropertyMocks.createProperty(String.class, "firstname","John");
+        Property lastname2 = PropertyMocks.createProperty(String.class, "lastname","Doe");
+        testBean2.setProperties(firstname2, lastname2);
+
+        testBean.copyProperties(testBean2);
+
+        verify(firstname2).setValue("René");
+        verify(lastname2).setValue("Link");
     }
 }

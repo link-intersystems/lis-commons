@@ -4,7 +4,7 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static java.util.Objects.requireNonNull;
+import static java.util.Objects.*;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
@@ -101,4 +101,30 @@ public abstract class Bean<T> {
         return properties.equals(otherProperties);
     }
 
+    /**
+     * Convenience method to copy all properties to the target bean. See {@link PropertyList#copy(PropertyList)} for details.
+     *
+     * @param targetBean
+     */
+    public void copyProperties(Bean targetBean) {
+        copyProperties(targetBean, PropertySelectors.BY_NAME);
+    }
+
+    /**
+     * Convenience method for {@link #getProperties()}.copy(...). See {@link PropertyList#copy(PropertyList, PropertySelector)} for details.
+     *
+     * @param targetBean
+     */
+    public void copyProperties(Bean targetBean, PropertySelector propertySelector) {
+        copyProperties(targetBean, propertySelector, PropertyCopyStrategies.EXACT);
+    }
+
+    /**
+     * Convenience method for {@link #getProperties()}.copy(...). See {@link PropertyList#copy(PropertyList, PropertySelector, PropertyCopyStrategy)} for details.
+     *
+     * @param targetBean
+     */
+    public void copyProperties(Bean targetBean, PropertySelector propertySelector, PropertyCopyStrategy propertyCopyStrategy) {
+        getProperties().copy(targetBean.getProperties(), propertySelector, propertyCopyStrategy);
+    }
 }

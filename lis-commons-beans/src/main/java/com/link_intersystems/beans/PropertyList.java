@@ -4,6 +4,8 @@ import java.util.AbstractList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.*;
 
@@ -28,6 +30,30 @@ public class PropertyList extends AbstractList<Property> {
         });
     }
 
+    public void copy(PropertyList targetProperties) {
+        copy(targetProperties, PropertySelectors.BY_NAME);
+    }
+
+    public void copy(PropertyList targetProperties, PropertySelector propertySelector) {
+        copy(targetProperties, propertySelector, PropertyCopyStrategies.EXACT);
+    }
+
+    /**
+     * Copies this {@link PropertyList}'s values to the targetProperties using the given {@link PropertyCopyStrategy} if one can be selected using the targetPropertySelector.
+     *
+     * @param targetProperties
+     * @param targetPropertySelector
+     * @see PropertyCopyStrategies
+     */
+    public void copy(PropertyList targetProperties, PropertySelector targetPropertySelector, PropertyCopyStrategy propertyCopyStrategy) {
+        forEach(sourceProperty -> {
+            Property targetProperty = targetPropertySelector.select(targetProperties, sourceProperty);
+            if (targetProperty != null) {
+                propertyCopyStrategy.copy(sourceProperty, targetProperty);
+            }
+        });
+    }
+
     public Property getByName(String propertyName) {
         return propertyMap.get(propertyName);
     }
@@ -46,4 +72,7 @@ public class PropertyList extends AbstractList<Property> {
         return properties.size();
     }
 
+    public PropertyList filter(Predicate<Property> propertyPredicate) {
+        return new PropertyList(stream().filter(propertyPredicate).collect(Collectors.toList()));
+    }
 }
