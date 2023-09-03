@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.link-intersystems</groupId>
         <artifactId>lis-central-jar</artifactId>
-        <version>11.0</version>
+        <version>11.1</version>
     </parent>
 
     <groupId>com.link-intersystems.commons</groupId>
@@ -43,6 +43,8 @@
         <junit.jupiter.version>5.8.2</junit.jupiter.version>
         <mockito.version>4.4.0</mockito.version>
         <slf4j.version>1.7.36</slf4j.version>
+        <java.xml.version>4.0.3</java.xml.version>
+        <java.xml.api.version>2.3.1</java.xml.api.version>
     </properties>
 
     <dependencies>
@@ -267,68 +269,4 @@
             </plugins>
         </pluginManagement>
     </build>
-
-    <profiles>
-        <profile>
-            <id>coveralls</id>
-            <activation>
-                <property>
-                    <name>env.COVERALLS_TOKEN</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.jacoco</groupId>
-                        <artifactId>jacoco-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>jacoco-prepare-agent</id>
-                                <goals>
-                                    <goal>prepare-agent</goal>
-                                    <goal>report</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>jacoco-report</id>
-                                <phase>test</phase>
-                                <goals>
-                                    <goal>report</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>org.eluder.coveralls</groupId>
-                            <artifactId>coveralls-maven-plugin</artifactId>
-                            <configuration>
-                                <!--suppress UnresolvedMavenProperty -->
-                                <repoToken>${env.COVERALLS_TOKEN}</repoToken>
-                            </configuration>
-                            <dependencies>
-                                <dependency>
-                                    <groupId>javax.xml.bind</groupId>
-                                    <artifactId>jaxb-api</artifactId>
-                                    <version>2.3.0</version>
-                                </dependency>
-                                <dependency>
-                                    <groupId>com.sun.xml.bind</groupId>
-                                    <artifactId>jaxb-core</artifactId>
-                                    <version>2.3.0</version>
-                                </dependency>
-                                <dependency>
-                                    <groupId>com.sun.xml.bind</groupId>
-                                    <artifactId>jaxb-impl</artifactId>
-                                    <version>2.3.0</version>
-                                </dependency>
-                            </dependencies>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
-    </profiles>
 </project>
