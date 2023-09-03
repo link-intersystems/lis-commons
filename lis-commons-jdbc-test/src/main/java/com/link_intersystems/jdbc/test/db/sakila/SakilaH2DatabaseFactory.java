@@ -4,6 +4,7 @@ import com.link_intersystems.jdbc.test.db.h2.H2Database;
 import com.link_intersystems.jdbc.test.db.h2.FileH2DatabaseFactory;
 
 import java.io.BufferedInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 
@@ -27,17 +28,13 @@ public class SakilaH2DatabaseFactory extends FileH2DatabaseFactory {
     }
 
     @Override
-    protected InputStream getDatabaseFileTemplateResource() {
+    protected InputStream getDatabaseFileTemplateResource() throws IOException {
         InputStream resourceAsStream = getResourceAsStream(classifier);
         return new BufferedInputStream(resourceAsStream);
     }
 
-    protected InputStream getResourceAsStream(String classifier) {
-        String resourceName = "sakila";
-        if (classifier != null) {
-            resourceName += "-" + classifier;
-        }
-        resourceName += ".mv.db";
-        return SakilaH2DatabaseFactory.class.getResourceAsStream(resourceName);
+    protected InputStream getResourceAsStream(String classifier) throws IOException {
+        return SakilaResources.getSakilaMvDb(classifier);
     }
+
 }
