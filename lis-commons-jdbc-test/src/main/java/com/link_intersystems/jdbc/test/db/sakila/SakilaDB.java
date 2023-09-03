@@ -3,10 +3,9 @@ package com.link_intersystems.jdbc.test.db.sakila;
 import com.link_intersystems.sql.io.SqlScript;
 import com.link_intersystems.jdbc.test.db.setup.DBSetup;
 
-import java.io.InputStreamReader;
+import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
-import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -61,12 +60,12 @@ public class SakilaDB implements DBSetup {
         return new SqlScript(this::getDataResource);
     }
 
-    public Reader getDdlResource() {
-        return new InputStreamReader(SakilaDB.class.getResourceAsStream("sakila-ddl.sql"), StandardCharsets.UTF_8);
+    public Reader getDdlResource() throws IOException {
+        return SakilaResources.getSakilaDdlSql();
     }
 
-    public Reader getDataResource() {
-        return new InputStreamReader(SakilaDB.class.getResourceAsStream("sakila-db.sql"), StandardCharsets.UTF_8);
+    public Reader getDataResource() throws IOException {
+        return SakilaResources.getSakilaDataSql();
     }
 
     @Override

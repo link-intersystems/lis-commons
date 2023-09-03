@@ -1,8 +1,7 @@
 package com.link_intersystems.jdbc.test.db.sakila;
 
-import java.io.InputStreamReader;
+import java.io.IOException;
 import java.io.Reader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +25,8 @@ public class SakilaSlimDB extends SakilaDB {
         return new ArrayList<>(Arrays.asList("actor", "film_actor", "film", "language", "film_category", "category"));
     }
 
-    public Reader getDataResource() {
-        return new InputStreamReader(SakilaSlimDB.class.getResourceAsStream("sakila-slim-db.sql"), StandardCharsets.UTF_8);
+    public Reader getDataResource() throws IOException {
+        return SakilaResources.getSlimDataSql();
     }
+
 }
