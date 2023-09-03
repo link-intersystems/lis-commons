@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="All in lis-commons-lang" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
-    <module name="lis-commons-lang" />
+  <configuration default="false" name="All in lis-commons-lang-criteria" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+    <module name="lis-commons-lang-criteria" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <option name="ALTERNATIVE_JRE_PATH" value="11" />
     <option name="PACKAGE_NAME" value="" />

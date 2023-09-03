@@ -15,6 +15,7 @@
  */
 package com.link_intersystems.lang.reflect;
 
+import com.link_intersystems.lang.ClasspathTestUtil;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.InvocationHandler;
@@ -22,10 +23,9 @@ import java.lang.reflect.Proxy;
 import java.net.URLClassLoader;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
-class AdaptableProxyTest  {
+class AdaptableProxyTest {
 
     @Test
     void create() {
@@ -80,8 +80,7 @@ class AdaptableProxyTest  {
             }
         };
 
-        URLClassLoader classLoader = (URLClassLoader) InterfaceE.class.getClassLoader();
-        URLClassLoader otherURLClassLoader = new URLClassLoader(classLoader.getURLs(), null);
+        URLClassLoader otherURLClassLoader = ClasspathTestUtil.getCurrentClasspathClassLoader();
         Class<?> loadClass = otherURLClassLoader.loadClass("com.link_intersystems.lang.reflect.AdaptableProxyTest$InterfaceE");
 
         assertThrows(IllegalArgumentException.class, () -> AdaptableProxy.create(interfaceB, InterfaceA.class, loadClass));
@@ -96,7 +95,7 @@ class AdaptableProxyTest  {
             }
         };
 
-        URLClassLoader classLoader = (URLClassLoader) InterfaceE.class.getClassLoader();
+        ClassLoader classLoader = InterfaceE.class.getClassLoader();
 
         Class<?> loadClass = classLoader.loadClass("com.link_intersystems.lang.reflect.AdaptableProxyTest$InterfaceE");
 

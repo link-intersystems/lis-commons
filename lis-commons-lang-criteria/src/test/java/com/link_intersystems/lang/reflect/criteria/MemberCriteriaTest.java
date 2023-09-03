@@ -24,6 +24,7 @@ import com.link_intersystems.lang.reflect.criteria.MemberCriteria.IterateStrateg
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 
 import java.io.Serializable;
 import java.lang.reflect.*;
@@ -295,14 +296,17 @@ class MemberCriteriaTest {
 
     @Test
     void iteratorRemove() {
+        class SomeType {
+            private String testField;
+        }
         memberCriteria.membersOfType(Field.class);
         memberCriteria.withAccess(AccessType.PRIVATE);
-        memberCriteria.withModifiers(Modifier.STATIC);
-        ClassCriteria classCriteria = new ClassCriteria();
-        Iterable<Class<?>> classIterable = classCriteria.getIterable(Class.class);
-        Iterable<Member> memberIterable = memberCriteria.getIterable(classIterable);
+
+        Iterable<Member> memberIterable = memberCriteria.getIterable(() -> Arrays.asList(SomeType.class).iterator());
         Iterator<Member> iterator = memberIterable.iterator();
         assertTrue(iterator.hasNext());
+        Member member = iterator.next();
+        assertEquals("testField", member.getName());
         assertThrows(UnsupportedOperationException.class, () -> iterator.remove());
     }
 
@@ -359,7 +363,6 @@ class MemberCriteriaTest {
         memberCriteria.named("size");
         Iterable<Class<?>> classIterable = classCriteria.getIterable(ArrayList.class);
         Iterable<? extends AnnotatedElement> annotatedElementIterable = memberCriteria.getAnnotatedElementIterable(classIterable, IterateStrategy.MEMBERS_CLASS);
-        annotatedElementIterable.forEach(System.out::println);
 
         Iterator<? extends AnnotatedElement> iterator = annotatedElementIterable.iterator();
         assertTrue(iterator.hasNext());
@@ -379,7 +382,7 @@ class MemberCriteriaTest {
     }
 
     @Test
-    void annotatedElementsPackagesOnly() throws SecurityException, NoSuchMethodException {
+    void annotatedElementsPackagesOnly() throws SecurityException {
         ClassCriteria classCriteria = new ClassCriteria();
         classCriteria.setSelection(ClassType.CLASSES);
         memberCriteria.membersOfType(Method.class);

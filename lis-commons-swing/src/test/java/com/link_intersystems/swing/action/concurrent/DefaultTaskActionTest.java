@@ -32,6 +32,7 @@ class DefaultTaskActionTest {
 
         taskActionListener = mock(TaskActionListener.class);
         defaultTaskAction.setTaskActionListener(taskActionListener);
+        when(defaultTaskAction.isEnabled()).thenReturn(true);
     }
 
     @Test

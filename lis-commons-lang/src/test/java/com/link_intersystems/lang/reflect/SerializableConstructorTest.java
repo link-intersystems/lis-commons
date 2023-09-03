@@ -42,14 +42,14 @@ class SerializableConstructorTest {
     void securityException() throws Throwable {
         Constructor<ConstructorSerializationTestClass> constructor = ConstructorSerializationTestClass.class.getDeclaredConstructor(String.class);
         final SerializableConstructor serializableConstructor = new SecurityExceptionSerializableConstructor(constructor);
-        Assertion.assertCause(IOException.class, () -> Serialization.clone(serializableConstructor));
+        Assertion.assertCause(SecurityException.class, () -> Serialization.clone(serializableConstructor));
     }
 
     @Test
     void noSuchMethodOnSerialization() throws Throwable {
         Constructor<ConstructorSerializationTestClass> constructor = ConstructorSerializationTestClass.class.getDeclaredConstructor(String.class);
         final SerializableConstructor serializableConstructor = new NoSuchMethodSerializableConstructor(constructor);
-        Assertion.assertCause(IOException.class, () -> Serialization.clone(serializableConstructor));
+        Assertion.assertCause(NoSuchMethodException.class, () -> Serialization.clone(serializableConstructor));
     }
 }
 

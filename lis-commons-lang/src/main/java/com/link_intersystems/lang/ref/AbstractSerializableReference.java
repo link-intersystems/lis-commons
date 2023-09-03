@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  * A reference to an object that is not serializable but can be restored out of
@@ -87,6 +88,7 @@ public abstract class AbstractSerializableReference<T> implements
             try {
                 restoreInfo = serialize(transientReferent);
             } catch (Exception e) {
+
                 Class<?> transientReferentClass = transientReferent.getClass();
                 throw new IOException("Unable to serialize object of " + transientReferentClass, e);
             }
