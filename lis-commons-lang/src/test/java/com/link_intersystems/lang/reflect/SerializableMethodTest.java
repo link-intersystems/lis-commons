@@ -47,14 +47,14 @@ class SerializableMethodTest {
         Method method = SerializableMethodTest.class.getDeclaredMethod("someTestMethod", int.class, int[].class, String.class);
         final SecurityExceptionSerializableMethod serializableMethod = new SecurityExceptionSerializableMethod(method);
 
-        Assertion.assertCause(IOException.class, () -> Serialization.clone(serializableMethod));
+        Assertion.assertCause(SecurityException.class, () -> Serialization.clone(serializableMethod));
     }
 
     @Test
     void noSuchMethod() throws Throwable {
         Method method = SerializableMethodTest.class.getDeclaredMethod("someTestMethod", int.class, int[].class, String.class);
         final SerializableMethod serializableMethod = new NoSuchMethodSerializableMethod(method);
-        Assertion.assertCause(IOException.class, () -> Serialization.clone(serializableMethod));
+        Assertion.assertCause(NoSuchMethodException.class, () -> Serialization.clone(serializableMethod));
     }
 }
 

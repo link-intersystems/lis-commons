@@ -20,7 +20,7 @@ import com.link_intersystems.lang.ref.SerializableReference;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.powermock.api.easymock.PowerMock;
+import org.mockito.Mockito;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -28,8 +28,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
 
 class Member2Test {
 
@@ -37,30 +36,27 @@ class Member2Test {
     private Member2<?> overridden;
 
     @BeforeEach
-    public void setup() {
-        overriding = PowerMock.createPartialMock(Member2.class, "getModifiers");
-        overridden = PowerMock.createPartialMock(Member2.class, "getModifiers");
+    public void setup() throws NoSuchMethodException {
+        overriding = Mockito.spy(new Method2(Member2Test.class.getDeclaredMethod("setup")));
+        overridden = Mockito.spy(new Method2(Member2Test.class.getDeclaredMethod("setup")));
     }
 
     @Test
     void overriddenPublic() {
-        expect(overriding.getModifiers()).andReturn(Modifier.PUBLIC);
-        expect(overridden.getModifiers()).andReturn(Modifier.PUBLIC);
-        replay(overriding, overridden);
+        when(overriding.getModifiers()).thenReturn(Modifier.PUBLIC);
+        when(overridden.getModifiers()).thenReturn(Modifier.PUBLIC);
         boolean areAccessModifierCompatible = overriding.isAccessModifierOverriddingCompatible(overridden);
         Assertions.assertTrue(areAccessModifierCompatible);
 
         reset(overriding, overridden);
-        expect(overriding.getModifiers()).andReturn(Modifier.PROTECTED);
-        expect(overridden.getModifiers()).andReturn(Modifier.PUBLIC);
-        replay(overriding, overridden);
+        when(overriding.getModifiers()).thenReturn(Modifier.PROTECTED);
+        when(overridden.getModifiers()).thenReturn(Modifier.PUBLIC);
         areAccessModifierCompatible = overriding.isAccessModifierOverriddingCompatible(overridden);
         Assertions.assertFalse(areAccessModifierCompatible);
 
         reset(overriding, overridden);
-        expect(overriding.getModifiers()).andReturn(0);
-        expect(overridden.getModifiers()).andReturn(Modifier.PUBLIC);
-        replay(overriding, overridden);
+        when(overriding.getModifiers()).thenReturn(0);
+        when(overridden.getModifiers()).thenReturn(Modifier.PUBLIC);
         areAccessModifierCompatible = overriding.isAccessModifierOverriddingCompatible(overridden);
         Assertions.assertFalse(areAccessModifierCompatible);
 
@@ -68,24 +64,21 @@ class Member2Test {
 
     @Test
     void overriddenProtected() {
-        expect(overridden.getModifiers()).andReturn(Modifier.PROTECTED);
+        when(overridden.getModifiers()).thenReturn(Modifier.PROTECTED);
 
-        expect(overriding.getModifiers()).andReturn(Modifier.PROTECTED);
-        replay(overriding, overridden);
+        when(overriding.getModifiers()).thenReturn(Modifier.PROTECTED);
         boolean areAccessModifierCompatible = overriding.isAccessModifierOverriddingCompatible(overridden);
         Assertions.assertTrue(areAccessModifierCompatible);
 
         reset(overriding, overridden);
-        expect(overridden.getModifiers()).andReturn(Modifier.PROTECTED);
-        expect(overriding.getModifiers()).andReturn(Modifier.PUBLIC);
-        replay(overriding, overridden);
+        when(overridden.getModifiers()).thenReturn(Modifier.PROTECTED);
+        when(overriding.getModifiers()).thenReturn(Modifier.PUBLIC);
         areAccessModifierCompatible = overriding.isAccessModifierOverriddingCompatible(overridden);
         Assertions.assertTrue(areAccessModifierCompatible);
 
         reset(overriding, overridden);
-        expect(overridden.getModifiers()).andReturn(Modifier.PROTECTED);
-        expect(overriding.getModifiers()).andReturn(0);
-        replay(overriding, overridden);
+        when(overridden.getModifiers()).thenReturn(Modifier.PROTECTED);
+        when(overriding.getModifiers()).thenReturn(0);
         areAccessModifierCompatible = overriding.isAccessModifierOverriddingCompatible(overridden);
         Assertions.assertFalse(areAccessModifierCompatible);
 
@@ -93,23 +86,20 @@ class Member2Test {
 
     @Test
     void overriddenDefault() {
-        expect(overridden.getModifiers()).andReturn(0);
-        expect(overriding.getModifiers()).andReturn(Modifier.PUBLIC);
-        replay(overriding, overridden);
+        when(overridden.getModifiers()).thenReturn(0);
+        when(overriding.getModifiers()).thenReturn(Modifier.PUBLIC);
         boolean areAccessModifierCompatible = overriding.isAccessModifierOverriddingCompatible(overridden);
         Assertions.assertTrue(areAccessModifierCompatible);
 
         reset(overriding, overridden);
-        expect(overridden.getModifiers()).andReturn(0);
-        expect(overriding.getModifiers()).andReturn(Modifier.PROTECTED);
-        replay(overriding, overridden);
+        when(overridden.getModifiers()).thenReturn(0);
+        when(overriding.getModifiers()).thenReturn(Modifier.PROTECTED);
         areAccessModifierCompatible = overriding.isAccessModifierOverriddingCompatible(overridden);
         Assertions.assertTrue(areAccessModifierCompatible);
 
         reset(overriding, overridden);
-        expect(overridden.getModifiers()).andReturn(0);
-        expect(overriding.getModifiers()).andReturn(0);
-        replay(overriding, overridden);
+        when(overridden.getModifiers()).thenReturn(0);
+        when(overriding.getModifiers()).thenReturn(0);
 
         areAccessModifierCompatible = overriding.isAccessModifierOverriddingCompatible(overridden);
         Assertions.assertTrue(areAccessModifierCompatible);
@@ -117,16 +107,14 @@ class Member2Test {
 
     @Test
     void privateMethods() {
-        expect(overridden.getModifiers()).andReturn(Modifier.PRIVATE);
-        expect(overriding.getModifiers()).andReturn(Modifier.PUBLIC);
-        replay(overriding, overridden);
+        when(overridden.getModifiers()).thenReturn(Modifier.PRIVATE);
+        when(overriding.getModifiers()).thenReturn(Modifier.PUBLIC);
         boolean areAccessModifierCompatible = overriding.isAccessModifierOverriddingCompatible(overridden);
         Assertions.assertFalse(areAccessModifierCompatible);
 
         reset(overriding, overridden);
-        expect(overridden.getModifiers()).andReturn(Modifier.PUBLIC);
-        expect(overriding.getModifiers()).andReturn(Modifier.PRIVATE);
-        replay(overriding, overridden);
+        when(overridden.getModifiers()).thenReturn(Modifier.PUBLIC);
+        when(overriding.getModifiers()).thenReturn(Modifier.PRIVATE);
         areAccessModifierCompatible = overriding.isAccessModifierOverriddingCompatible(overridden);
         Assertions.assertFalse(areAccessModifierCompatible);
     }

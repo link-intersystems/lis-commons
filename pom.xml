@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.link-intersystems</groupId>
         <artifactId>lis-central-jar</artifactId>
-        <version>8.7</version>
+        <version>11.1</version>
     </parent>
 
     <groupId>com.link-intersystems.commons</groupId>
@@ -43,6 +43,8 @@
         <junit.jupiter.version>5.8.2</junit.jupiter.version>
         <mockito.version>4.4.0</mockito.version>
         <slf4j.version>1.7.36</slf4j.version>
+        <java.xml.version>4.0.3</java.xml.version>
+        <java.xml.api.version>2.3.1</java.xml.api.version>
     </properties>
 
     <dependencies>
@@ -152,6 +154,12 @@
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-beans</artifactId>
                 <version>1.9.7-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.link-intersystems.commons</groupId>
+                <artifactId>lis-commons-beans</artifactId>
+                <version>1.9.7-SNAPSHOT</version>
+                <type>test-jar</type>
             </dependency>
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>

@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
+import static com.link_intersystems.mockito.beans.BeanMatchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -66,7 +67,8 @@ class ListTableModelTest {
 
         listModel.addElement("four");
 
-        verify(tableModelListener).tableChanged(refEq(new TableModelEvent(listTableModel, 3, 3, TableModelEvent.ALL_COLUMNS, TableModelEvent.INSERT)));
+        TableModelEvent expectedEvent = new TableModelEvent(listTableModel, 3, 3, TableModelEvent.ALL_COLUMNS, TableModelEvent.INSERT);
+        verify(tableModelListener).tableChanged(propertiesEqual(expectedEvent));
     }
 
     @Test
@@ -76,7 +78,8 @@ class ListTableModelTest {
 
         listModel.removeRange(0, 1);
 
-        verify(tableModelListener).tableChanged(refEq(new TableModelEvent(listTableModel, 0, 1, TableModelEvent.ALL_COLUMNS, TableModelEvent.DELETE)));
+        TableModelEvent expectedEvent = new TableModelEvent(listTableModel, 0, 1, TableModelEvent.ALL_COLUMNS, TableModelEvent.DELETE);
+        verify(tableModelListener).tableChanged(propertiesEqual(expectedEvent));
     }
 
     @Test
@@ -86,7 +89,8 @@ class ListTableModelTest {
 
         listModel.set(0, "ONE");
 
-        verify(tableModelListener).tableChanged(refEq(new TableModelEvent(listTableModel)));
+        TableModelEvent expectedEvent = new TableModelEvent(listTableModel);
+        verify(tableModelListener).tableChanged(propertiesEqual(expectedEvent));
     }
 
 

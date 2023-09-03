@@ -53,13 +53,13 @@ class ClassNode implements Node {
             ClassType classType = classTypes[i];
             remainingTypes.remove(classType);
 
-            Collection<Node> innerClassNodes = getClassNodes(classType);
-            subNodes.addAll(innerClassNodes);
+            Collection<Node> classNodes = getClassNodes(classType);
+            subNodes.addAll(classNodes);
         }
 
         for (ClassType classType : remainingTypes) {
-            Collection<Node> innerClassNodes = getClassNodes(classType);
-            subNodes.addAll(innerClassNodes);
+            Collection<Node> classNodes = getClassNodes(classType);
+            subNodes.addAll(classNodes);
         }
 
         return subNodes;

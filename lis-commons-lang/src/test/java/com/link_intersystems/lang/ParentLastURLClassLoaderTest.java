@@ -63,9 +63,7 @@ class ParentLastURLClassLoaderTest  {
 
     @Test
     void parentLastClassNotFound() {
-        URLClassLoader urlClassLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
-        URL[] urLs = urlClassLoader.getURLs();
-
+        URL[] urLs = ClasspathTestUtil.getCurrentClasspathURLs();
 
         ParentLastURLClassLoader parentLastURLClassLoader = new ParentLastURLClassLoader(urLs);
 
@@ -74,8 +72,7 @@ class ParentLastURLClassLoaderTest  {
 
     @Test
     void nullParent() {
-        URLClassLoader urlClassLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
-        URL[] urLs = urlClassLoader.getURLs();
+        URL[] urLs = ClasspathTestUtil.getCurrentClasspathURLs();
         ParentLastURLClassLoader parentLastURLClassLoader = new ParentLastURLClassLoader(urLs, null);
 
         assertThrows(ClassNotFoundException.class, () -> parentLastURLClassLoader.loadClass(ParentLastURLClassLoaderTest.class.getCanonicalName() + "2"));

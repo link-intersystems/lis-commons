@@ -25,15 +25,15 @@ import com.link_intersystems.util.TransformedPredicate;
 import com.link_intersystems.util.Transformer;
 
 import java.lang.reflect.AnnotatedElement;
+import java.util.ArrayList;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static com.link_intersystems.util.Iterators.filtered;
-import static java.util.Arrays.asList;
-import static java.util.Arrays.stream;
-import static java.util.Objects.requireNonNull;
+import static com.link_intersystems.util.Iterators.*;
+import static java.util.Arrays.*;
+import static java.util.Objects.*;
 
 /**
  * A criteria for creating iterators that iterate over class hierarchies.
@@ -332,7 +332,7 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
 
                 classesIterator = classCriteria.applyTraverseClassesUniquely(classesIterator);
 
-                classesIterator = classCriteria.applyStopAtFilter(classesIterator);
+                classesIterator = classCriteria.applyStopAtFilter(classesIterator, stopAt);
 
                 classesIterator = classCriteria.applyElementFilter(classesIterator);
 
@@ -359,9 +359,9 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
     }
 
     @SuppressWarnings("unchecked")
-    protected Iterator<Class<?>> applyStopAtFilter(Iterator<Class<?>> iterator) {
-        if (stopClass != null) {
-            Predicate stopPredicate = ReflectFacade.getIsAssignablePredicate(stopClass);
+    protected Iterator<Class<?>> applyStopAtFilter(Iterator<Class<?>> iterator, Class<?> stopAt) {
+        if (stopAt != null) {
+            Predicate stopPredicate = ReflectFacade.getIsAssignablePredicate(stopAt);
             iterator = filtered(iterator, stopPredicate);
         }
         return iterator;
@@ -385,7 +385,13 @@ public class ClassCriteria extends ElementCriteria<Class<?>> {
         }, INTERFACES() {
             @Override
             Class<?>[] getClasses(Class<?> clazz) {
-                return clazz.getInterfaces();
+
+                Class<?>[] interfaces = clazz.getInterfaces();
+                Class<?> enclosingClass = clazz.getEnclosingClass();
+                if (enclosingClass != null) {
+                    interfaces = stream(interfaces).filter(c -> !enclosingClass.equals(c)).toArray(Class[]::new);
+                }
+                return interfaces;
             }
 
             @Override

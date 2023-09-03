@@ -18,11 +18,14 @@ package com.link_intersystems.graph;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
+import java.util.function.Predicate;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
-class DepthFirstNodeIteratorTest extends AbstractNodeIteratorTest  {
+class DepthFirstNodeIteratorTest extends AbstractNodeIteratorTest {
 
     @Override
     protected Iterator<Node> createIterator(Node start) {
@@ -38,6 +41,26 @@ class DepthFirstNodeIteratorTest extends AbstractNodeIteratorTest  {
     @Test
     void nullArgumentConstructor() {
         assertThrows(NullPointerException.class, () -> new DepthFirstNodeIterator(null));
+    }
+
+
+    @Test
+    void infiniteLoops() {
+        start = new NodeImpl("A");
+        NodeImpl bNode = new NodeImpl("B");
+        start.addReference(bNode);
+        bNode.addReference(start);
+
+        Iterator<Node> iterator = new DepthFirstNodeIterator(start);
+
+        assertTrue(iterator.hasNext());
+        assertEquals("A", iterator.next().getUserObject());
+
+        assertTrue(iterator.hasNext());
+        assertEquals("B", iterator.next().getUserObject());
+
+        assertTrue(iterator.hasNext());
+        assertEquals("A", iterator.next().getUserObject());
     }
 
 }

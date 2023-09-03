@@ -17,12 +17,13 @@ package com.link_intersystems.lang.reflect;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.powermock.reflect.Whitebox;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.net.URL;
+import java.net.URLClassLoader;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class SerializableFieldTest {
 
@@ -38,29 +39,6 @@ class SerializableFieldTest {
         Field deserializedField = deserialized.get();
 
         Assertions.assertEquals(field, deserializedField);
-    }
-
-    @Test
-    void classNotFound() throws Exception {
-        assertThrows(IllegalStateException.class, () -> {
-
-            Field field = SerializableFieldTest.class.getDeclaredField("testField");
-            String name = field.getName();
-            Whitebox.setInternalState(field, "name", "noSuchField");
-            try {
-
-                SerializableField serializableField = new SerializableField(field);
-
-                SerializableField deserialized = Serialization.clone(serializableField);
-
-                deserialized.get();
-            } finally {
-                /*
-                 * Restore original state
-                 */
-                Whitebox.setInternalState(field, "name", name);
-            }
-        });
     }
 
     @Test

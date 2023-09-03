@@ -20,9 +20,8 @@ import com.link_intersystems.lang.ref.Reference;
 
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
-import java.util.Arrays;
 
-import static java.util.Objects.requireNonNull;
+import static java.util.Objects.*;
 
 /**
  * Represents a {@link Constructor} object {@link Reference} that is
@@ -77,23 +76,17 @@ class SerializableConstructor extends
     }
 
     @Override
-    protected Constructor<?> deserialize(Serializable restoreInfo) {
+    protected Constructor<?> deserialize(Serializable restoreInfo) throws Exception {
         ConstructorSerializationInfo constructorSerializationInfo = (ConstructorSerializationInfo) restoreInfo;
         Class<?> declaringClass = constructorSerializationInfo
                 .getDeclaringClass();
         Class<?>[] parameterTypes = constructorSerializationInfo
                 .getParameterTypes();
-        String methodName = constructorSerializationInfo.getMemberName();
-        try {
-            Constructor<?> constructor = getConstructor(declaringClass,
-                    parameterTypes);
-            return constructor;
-        } catch (NoSuchMethodException e) {
-            throw new IllegalStateException("Unable to restore method "
-                    + methodName + " declared at " + declaringClass
-                    + " with parameter types " + Arrays.asList(parameterTypes),
-                    e);
-        }
+
+        Constructor<?> constructor = getConstructor(declaringClass,
+                parameterTypes);
+        return constructor;
+
     }
 
     protected Constructor<?> getConstructor(Class<?> declaringClass,

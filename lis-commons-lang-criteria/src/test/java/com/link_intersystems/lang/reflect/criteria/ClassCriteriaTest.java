@@ -23,6 +23,7 @@ import com.link_intersystems.util.Iterators;
 import com.link_intersystems.util.Predicates;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 
 import java.io.Serializable;
 import java.util.*;
@@ -59,6 +60,38 @@ class ClassCriteriaTest extends ElementCriteriaTest {
     void iteratorWithStartAt() {
         Iterator<Class<?>> iterator = classCriteria.getIterable(ArrayList.class).iterator();
         assertNotNull(iterator);
+    }
+
+    interface OuterType {
+
+        interface InnerType extends OuterType {
+            public void innerMethod();
+        }
+
+        public void outerMethod();
+    }
+
+    @Test
+    void preventInfiniteLoopsOnInterfaces() {
+        ClassCriteria classCriteria = new ClassCriteria();
+        Iterable<Class<?>> classIterable = classCriteria.getIterable(OuterType.class, Object.class);
+        Iterator<Class<?>> iterator = classIterable.iterator();
+
+        assertTrue(iterator.hasNext());
+        assertEquals(OuterType.class, iterator.next());
+
+        assertTrue(iterator.hasNext());
+        assertEquals(OuterType.InnerType.class, iterator.next());
+
+        assertFalse(iterator.hasNext());
+    }
+
+
+    class OuterClass {
+
+        class InnerClass extends OuterClass {
+        }
+
     }
 
     @Test

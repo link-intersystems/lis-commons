@@ -28,7 +28,7 @@ import java.util.*;
  */
 public class DepthFirstNodeIterator implements Iterator<Node> {
 
-    private Stack<Object> stack = new Stack<Object>();
+    private Stack<Object> stack = new Stack<>();
 
     private Node next;
 
