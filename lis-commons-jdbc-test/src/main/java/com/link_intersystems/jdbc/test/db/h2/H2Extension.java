@@ -2,6 +2,7 @@ package com.link_intersystems.jdbc.test.db.h2;
 
 import org.junit.jupiter.api.extension.*;
 
+import javax.sql.DataSource;
 import java.lang.reflect.Parameter;
 import java.sql.Connection;
 import java.util.Optional;
@@ -33,7 +34,7 @@ public class H2Extension implements ParameterResolver, AfterTestExecutionCallbac
     public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
         Parameter parameter = parameterContext.getParameter();
         Class<?> type = parameter.getType();
-        return Connection.class.equals(type) || H2Database.class.equals(type);
+        return Connection.class.isAssignableFrom(type) || H2Database.class.isAssignableFrom(type) || DataSource.class.isAssignableFrom(type);
     }
 
     @Override
@@ -47,9 +48,9 @@ public class H2Extension implements ParameterResolver, AfterTestExecutionCallbac
                 JUnitExtensionH2DatabaseStore databaseStore = new JUnitExtensionH2DatabaseStore(extensionContext);
                 H2Database h2Database = h2DatabaseCache.getDatabase(databaseStore);
 
-                if (type.equals(Connection.class)) {
+                if (Connection.class.isAssignableFrom(type)) {
                     return h2Database.getConnection();
-                } else {
+                } else if (H2Database.class.equals(type) || DataSource.class.isAssignableFrom(type)) {
                     return h2Database;
                 }
             } catch (Exception e) {
