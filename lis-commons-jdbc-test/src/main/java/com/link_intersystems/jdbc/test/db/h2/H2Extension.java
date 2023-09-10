@@ -1,5 +1,6 @@
 package com.link_intersystems.jdbc.test.db.h2;
 
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.extension.*;
 
 import javax.sql.DataSource;
@@ -12,7 +13,7 @@ import java.util.Optional;
  *
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class H2Extension implements ParameterResolver, AfterTestExecutionCallback {
+public class H2Extension implements ParameterResolver, AfterEachCallback {
 
     private H2DatabaseCache h2DatabaseStore;
 
@@ -25,9 +26,9 @@ public class H2Extension implements ParameterResolver, AfterTestExecutionCallbac
     }
 
     @Override
-    public void afterTestExecution(ExtensionContext extensionContext) throws Exception {
-        JUnitExtensionH2DatabaseStore databaseStore = new JUnitExtensionH2DatabaseStore(extensionContext);
-        getH2DatabaseCache(extensionContext).removeDatabase(databaseStore);
+    public void afterEach(ExtensionContext context) throws Exception {
+        JUnitExtensionH2DatabaseStore databaseStore = new JUnitExtensionH2DatabaseStore(context);
+        getH2DatabaseCache(context).removeDatabase(databaseStore);
     }
 
     @Override
