@@ -37,6 +37,7 @@
         <module>lis-commons-swing</module>
         <module>lis-commons-io</module>
         <module>lis-commons-security</module>
+        <module>lis-commons-beans-records</module>
     </modules>
 
     <properties>
@@ -136,6 +137,11 @@
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-beans</artifactId>
+                <version>1.9.7-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.link-intersystems.commons</groupId>
+                <artifactId>lis-commons-beans-java</artifactId>
                 <version>1.9.7-SNAPSHOT</version>
             </dependency>
             <dependency>
