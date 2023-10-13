@@ -7,5 +7,15 @@ import java.lang.reflect.Parameter;
  */
 public interface ArgumentResolver {
 
-    public Object resolveArgument(Parameter parameter);
+    default Object[] resolveArguments(Parameter[] parameters) throws ArgumentResolveException {
+        Object[] args = new Object[parameters.length];
+
+        for (int i = 0; i < parameters.length; i++) {
+            args[i] = resolveArgument(parameters[i]);
+        }
+
+        return args;
+    }
+
+    public Object resolveArgument(Parameter parameter) throws ArgumentResolveException;
 }

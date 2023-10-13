@@ -15,11 +15,12 @@
  */
 package com.link_intersystems.beans.java;
 
-import com.link_intersystems.beans.*;
+import com.link_intersystems.beans.Bean;
+import com.link_intersystems.beans.PropertyList;
 
 import java.util.List;
 
-import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.*;
 
 /**
  * A {@link JavaBean} is a wrapper for any java object that fulfills the <a href=
@@ -38,9 +39,10 @@ public class JavaBean<T> extends Bean<T> {
     private PropertyList propertyList;
     private List<JavaProperty> javaProperties;
 
-    JavaBean(JavaBeanClass<T> beanClass, T bean) {
+    protected JavaBean(JavaBeanClass<T> beanClass, T bean) {
         super(beanClass, bean);
     }
+
 
     /**
      * @return the {@link JavaBeanClass} of this {@link JavaBean}.

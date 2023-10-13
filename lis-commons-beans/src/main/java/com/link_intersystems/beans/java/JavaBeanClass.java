@@ -19,13 +19,13 @@ import com.link_intersystems.beans.*;
 
 import java.beans.*;
 import java.io.Serializable;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import static java.text.MessageFormat.format;
-import static java.util.Arrays.stream;
-import static java.util.stream.Collectors.toList;
+import static java.text.MessageFormat.*;
+import static java.util.Arrays.*;
+import static java.util.Objects.*;
+import static java.util.stream.Collectors.*;
 
 /**
  * A {@link JavaBeanClass} provides features for handling common bean issues.
@@ -55,12 +55,20 @@ public class JavaBeanClass<T> extends BeanClass<T> implements Serializable {
     }
 
     JavaBeanClass(Class<T> beanType, Class<?> stopClass) throws BeanClassException {
+        this(getBeanInfo(beanType, stopClass));
+    }
+
+    private static BeanInfo getBeanInfo(Class<?> beanType, Class<?> stopClass) {
         try {
-            beanInfo = Introspector.getBeanInfo(beanType, stopClass);
+            return Introspector.getBeanInfo(beanType, stopClass);
         } catch (IntrospectionException e) {
             String msg = format("Unable to create BeanClass for ''{0}''. Stop at ''{1}''", beanType, stopClass);
             throw new BeanClassException(msg, e);
         }
+    }
+
+    protected JavaBeanClass(BeanInfo beanInfo) throws BeanClassException {
+        this.beanInfo = requireNonNull(beanInfo);
     }
 
     @Override

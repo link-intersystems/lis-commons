@@ -80,6 +80,66 @@ will output
     button model changed.
     button model armed: true
 
+# lis-commons-beans-records
+
+Beans support for Java records.
+
+    public record PersonRecord(String firstname, String lastname) {}
+
+       
+    BeansFactory beansFactory = BeansFactory.getInstance("record");
+    Bean<Person> bean = beansFactory.createBean(new PersonRecord("René", "Link"));
+    PropertyList properties = bean.getProperties();
+
+    assertEquals("René", properties.getByName("firstname").getValue());
+    assertEquals("Link", properties.getByName("lastname").getValue());
+
+You can also copy a record's values to another bean.
+
+Let's assume you hava a Java record named `PersonRecord`
+
+    public record PersonRecord(String firstname, String lastname) {}
+
+and a Java bean names `PersonBean`
+
+    public class PersonBean {
+    
+        private String firstname;
+        private String lastname;
+    
+        public String getFirstname() {
+            return firstname;
+        }
+    
+        public void setFirstname(String firstname) {
+            this.firstname = firstname;
+        }
+    
+        public String getLastname() {
+            return lastname;
+        }
+    
+        public void setLastname(String lastname) {
+            this.lastname = lastname;
+        }
+    }
+
+you can then copy the "properties" (record values) from the `PersonRecord` to the `PersonBean` by using different BeanFactory instances.
+
+    BeansFactory recordBeansFactory = BeansFactory.getInstance("record");
+    PersonRecord personRecord = new PersonRecord("René", "Link");
+    Bean<Person> recordBean = recordBeansFactory.createBean(personRecord);
+
+    BeansFactory javaBeansFactory = BeansFactory.getInstance("java");
+    PersonBean personJavaBean = new PersonBean();
+    Bean<PersonBean> javaBean = javaBeansFactory.createBean(personJavaBean);
+
+    recordBean.getProperties().copy(javaBean.getProperties());
+
+    assertEquals("René", personJavaBean.getFirstname());
+    assertEquals("Link", personJavaBean.getLastname());
+
+
 # lis-commons-jdbc
 
 Provides a convenient api to access the meta-data of a jdbc connection
