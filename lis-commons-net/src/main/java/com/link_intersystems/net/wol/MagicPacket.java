@@ -15,6 +15,10 @@ public class MagicPacket {
         this.mac = requireNonNull(mac);
     }
 
+    public MAC getMac() {
+        return mac;
+    }
+
     public byte[] toByteArray() {
         if (payload == null) {
             this.payload = createPayload();
@@ -31,7 +35,7 @@ public class MagicPacket {
         byteBuffer.put(new byte[]{ff, ff, ff, ff, ff, ff});
 
         // repeat mac 16 times
-        byte[] macBytes = mac.toByteArray();
+        byte[] macBytes = getMac().toByteArray();
         for (int i = 0; i < 16; i++) {
             byteBuffer.put(macBytes);
         }
