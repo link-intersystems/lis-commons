@@ -1,62 +1,54 @@
 package com.link_intersystems.net.wol;
 
 import com.link_intersystems.net.MAC;
-import com.link_intersystems.net.MACFormat;
 
 import java.net.*;
-import java.text.ParseException;
-import java.util.Enumeration;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
+
+import static java.util.Objects.requireNonNull;
 
 public class WOLBuilder {
 
     private MAC mac;
     private InetAddress inetAddress;
-    private int port = WOL.DEFAULT_PORT;
+    private int port;
 
-    public WOLBuilder withMac(byte[] mac) {
-        this.mac = new MAC(mac);
-        return this;
+    public WOLBuilder(MAC mac) {
+        this.mac = requireNonNull(mac);
+        withDefaultPort();
     }
 
-    public WOLBuilder withMac(String mac) throws ParseException {
-        return withMac(mac, MACFormat.IEEE_802_OCTET_DELIM);
-    }
-
-    public WOLBuilder withMac(String mac, char octetDelim) throws ParseException {
-        MACFormat macFormat = new MACFormat();
-        macFormat.setOctetDelim(octetDelim);
-        return withMac(macFormat.parse(mac));
-    }
-
-    public WOLBuilder withMac(MAC mac) {
-        this.mac = Objects.requireNonNull(mac);
-        return this;
-    }
-
-    public WOLBuilder withDefaultBroadcastAddress() throws SocketException {
+    public WOLBuilder withDefaultBroadcastAddress() {
         return withBroadcastAddress(nic -> {
-            Enumeration<InetAddress> inetAddresses = nic.getInetAddresses();
-            while (inetAddresses.hasMoreElements()) {
-                InetAddress inetAddress = inetAddresses.nextElement();
-                if (inetAddress instanceof Inet4Address) {
-                    Inet4Address inet4Address = (Inet4Address) inetAddress;
-                    if (!inet4Address.isLoopbackAddress()) {
+            try {
+                if (nic.isLoopback()) {
+                    return false;
+                }
+
+                List<InterfaceAddress> interfaceAddresses = nic.getInterfaceAddresses();
+                for (InterfaceAddress interfaceAddress : interfaceAddresses) {
+                    InetAddress inetAddress = interfaceAddress.getAddress();
+                    if (inetAddress instanceof Inet4Address) {
                         return true;
                     }
                 }
+                return false;
+            } catch (SocketException e) {
+                throw new RuntimeException(e);
             }
-            return false;
+
         });
     }
 
-    public WOLBuilder withBroadcastAddress(Predicate<NetworkInterface> networkInterfaceSelector) throws SocketException {
-        Optional<NetworkInterface> networkInterface = NetworkInterface.networkInterfaces().filter(networkInterfaceSelector).findFirst();
-
-        return networkInterface.map(this::withBroadcastAddress).orElseThrow(() -> new IllegalStateException("Unable to select a network interface"));
+    public WOLBuilder withBroadcastAddress(Predicate<NetworkInterface> networkInterfaceSelector) {
+        try {
+            Optional<NetworkInterface> networkInterface = NetworkInterface.networkInterfaces().filter(networkInterfaceSelector).findFirst();
+            return networkInterface.map(this::withBroadcastAddress).orElseThrow(() -> new IllegalStateException("Unable to select a network interface"));
+        } catch (SocketException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public WOLBuilder withBroadcastAddress(NetworkInterface networkInterface) {
@@ -89,6 +81,10 @@ public class WOLBuilder {
     }
 
     public WOL build() {
+        if (inetAddress == null) {
+            withDefaultBroadcastAddress();
+        }
+
         return new WOL(mac, new InetSocketAddress(inetAddress, port));
     }
 }
