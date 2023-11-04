@@ -1,6 +1,7 @@
 package com.link_intersystems.net.wol;
 
 import com.link_intersystems.net.MAC;
+import com.link_intersystems.net.MACFormat;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
@@ -18,10 +19,9 @@ class WOLTest {
 
     @Test
     void send() throws IOException, ParseException {
-        WOL wol = new WOLBuilder()
+        WOL wol = new WOLBuilder(new MACFormat(':').parse("00:B0:D0:63:C2:26"))
                 .withInetAddress("192.168.178.1")
                 .withDefaultPort()
-                .withMac("00:B0:D0:63:C2:26", ':')
                 .build();
 
         assertEquals(InetAddress.getByName("192.168.178.1"), wol.getTargetSocketAddress().getAddress());

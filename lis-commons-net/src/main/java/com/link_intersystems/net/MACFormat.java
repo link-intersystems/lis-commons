@@ -9,7 +9,15 @@ import java.text.ParsePosition;
 public class MACFormat extends Format {
     public static final char IEEE_802_OCTET_DELIM = '-';
 
-    private char octetDelim = IEEE_802_OCTET_DELIM;
+    private char octetDelim;
+
+    public MACFormat() {
+        this(IEEE_802_OCTET_DELIM);
+    }
+
+    public MACFormat(char octetDelim) {
+        this.octetDelim = octetDelim;
+    }
 
     public void setOctetDelim(char octetDelim) {
         this.octetDelim = octetDelim;
@@ -89,10 +97,5 @@ public class MACFormat extends Format {
         return new MAC(macBuff.array());
     }
 
-
-    @Override
-    public MAC parseObject(String source) throws ParseException {
-        return (MAC) super.parseObject(source);
-    }
 }
 
