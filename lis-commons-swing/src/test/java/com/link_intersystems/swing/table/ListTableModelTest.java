@@ -7,7 +7,7 @@ import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
-import static com.link_intersystems.mockito.beans.BeanMatchers.*;
+import static com.link_intersystems.beans.mockito.BeanMatchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 

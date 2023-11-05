@@ -3,9 +3,10 @@ package com.link_intersystems.swing.view;
 import com.link_intersystems.util.context.Context;
 import com.link_intersystems.util.context.DefaultContext;
 
+import javax.swing.*;
 import java.awt.*;
 
-public class ViewSiteMock implements ViewSite{
+public class ViewSiteMock implements ViewSite {
 
     private ViewContent viewContent = new ViewContent() {
         @Override
@@ -19,7 +20,7 @@ public class ViewSiteMock implements ViewSite{
         }
     };
 
-    private Context context = new DefaultContext();
+    private DefaultContext context = new DefaultContext();
 
     private Component content;
     private Component parent;
@@ -40,5 +41,9 @@ public class ViewSiteMock implements ViewSite{
     @Override
     public Context getViewContext() {
         return context;
+    }
+
+    public <T> void addContextObject(Class<T> type, String name, T contextObject) {
+        context.put(type, name, contextObject);
     }
 }

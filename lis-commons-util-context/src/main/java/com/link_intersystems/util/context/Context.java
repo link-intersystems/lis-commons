@@ -1,5 +1,6 @@
 package com.link_intersystems.util.context;
 
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -52,6 +53,21 @@ public interface Context {
             T object = get(objectQualifier);
             objectConsumer.accept(object);
         }
+    }
+
+    default <T> Optional<T> find(Class<T> type) throws ContextObjectException {
+        return find(type, null);
+    }
+
+    default <T> Optional<T> find(Class<T> type, String name) throws ContextObjectException {
+        return find(new ObjectQualifier<>(type, name));
+    }
+
+    default <T> Optional<T> find(ObjectQualifier<T> objectQualifier) throws ContextObjectException {
+        if (contains(objectQualifier)) {
+            return Optional.of(get(objectQualifier));
+        }
+        return Optional.empty();
     }
 
     default <T> T get(Class<T> type) throws ContextObjectException {

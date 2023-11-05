@@ -5,7 +5,7 @@ import java.awt.*;
 public interface ViewContent {
 
     public static ViewContent nullInstance() {
-        return new ViewContent(){
+        return new ViewContent() {
 
             @Override
             public void setComponent(Component component) {
