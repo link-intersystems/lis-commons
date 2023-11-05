@@ -9,8 +9,9 @@
         <version>1.9.7-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.link_intersystems.libs</groupId>
     <artifactId>lis-commons-beans-records</artifactId>
+    <name>LIS Commons Beans Records</name>
+    <description>A lis-commons-beans provider that allows you to access Java records through the bean api.</description>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
