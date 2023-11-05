@@ -25,7 +25,9 @@
         <module>lis-commons-lang</module>
         <module>lis-commons-lang-criteria</module>
         <module>lis-commons-beans</module>
+        <module>lis-commons-beans-records</module>
         <module>lis-commons-util</module>
+        <module>lis-commons-util-context</module>
         <module>lis-commons-test</module>
         <module>lis-commons-graph</module>
         <module>lis-commons-events</module>
@@ -35,10 +37,10 @@
         <module>lis-commons-sql-hibernate</module>
         <module>lis-commons-net</module>
         <module>lis-commons-net-test</module>
-        <module>lis-commons-swing</module>
         <module>lis-commons-io</module>
         <module>lis-commons-security</module>
-        <module>lis-commons-beans-records</module>
+        <module>lis-commons-swing</module>
+        <module>lis-commons-swing-view</module>
     </modules>
 
     <properties>
@@ -107,6 +109,16 @@
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-sql</artifactId>
+                <version>1.9.7-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.link-intersystems.commons</groupId>
+                <artifactId>lis-commons-util-context</artifactId>
+                <version>1.9.7-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.link-intersystems.commons</groupId>
+                <artifactId>lis-commons-swing-view</artifactId>
                 <version>1.9.7-SNAPSHOT</version>
             </dependency>
             <dependency>
