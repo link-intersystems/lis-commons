@@ -1,5 +1,6 @@
 package com.link_intersystems.beans;
 
+import java.lang.reflect.Parameter;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -33,11 +34,7 @@ public abstract class BeanClass<T> {
         return beanInstanceFactory.newBeanInstance();
     }
 
-    public BeanInstanceFactory<T> getBeanInstanceFactory() {
-        return getBeanInstanceFactory(ad -> null);
-    }
-
-    public abstract BeanInstanceFactory<T> getBeanInstanceFactory(ArgumentResolver argumentResolver);
+    public abstract BeanInstanceFactory<T> getBeanInstanceFactory();
 
     /**
      * Returns a {@link Bean} based on the given bean instance.
@@ -67,6 +64,9 @@ public abstract class BeanClass<T> {
         return indexedProperties;
     }
 
+    /**
+     * @return the {@link #getProperties()} and the {@link #getIndexedProperties()}.
+     */
     public abstract PropertyDescList getAllProperties();
 
 

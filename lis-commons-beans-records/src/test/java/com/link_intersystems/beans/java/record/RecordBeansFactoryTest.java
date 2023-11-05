@@ -1,8 +1,11 @@
-package com.link_intersystems.beans.record;
+package com.link_intersystems.beans.java.record;
 
+import com.link_intersystems.beans.BeanClassException;
 import com.link_intersystems.beans.BeansFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.beans.IntrospectionException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,5 +30,12 @@ class RecordBeansFactoryTest {
     }
 
 
+    @Test
+    void createBeanClassNoRecord() {
+        BeansFactory beansFactory = BeansFactory.getInstance("record");
 
+        BeanClassException beanClassException = assertThrows(BeanClassException.class, () -> beansFactory.createBeanClass(PersonBean.class));
+
+        assertInstanceOf(IntrospectionException.class, beanClassException.getCause());
+    }
 }

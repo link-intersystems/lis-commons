@@ -5,7 +5,11 @@ package com.link_intersystems.beans;
  */
 public interface BeanInstanceFactory<T> {
 
-    public Bean<T> newBeanInstance();
+    default public Bean<T> newBeanInstance(){
+        return newBeanInstance(ArgumentResolver.NULL_INSTANCE);
+    }
+
+    public Bean<T> newBeanInstance(ArgumentResolver argumentResolver);
 
     public Bean<T> fromExistingInstance(T beanObject);
 }

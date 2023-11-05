@@ -1,4 +1,4 @@
-package com.link_intersystems.beans.record;
+package com.link_intersystems.beans.java.record;
 
 public class PersonBean {
 

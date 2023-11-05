@@ -1,4 +1,4 @@
-package com.link_intersystems.beans.record;
+package com.link_intersystems.beans.java.record;
 
 import com.link_intersystems.beans.BeanClass;
 import com.link_intersystems.beans.PropertyDescList;
@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.beans.IntrospectionException;
+import java.lang.reflect.Constructor;
 
 import static org.junit.jupiter.api.Assertions.*;
 

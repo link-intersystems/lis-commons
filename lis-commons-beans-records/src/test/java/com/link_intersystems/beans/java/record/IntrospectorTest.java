@@ -1,6 +1,5 @@
 package com.link_intersystems.beans.java.record;
 
-import com.link_intersystems.beans.record.PersonRecord;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
