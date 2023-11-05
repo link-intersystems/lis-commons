@@ -7,6 +7,30 @@ import java.lang.reflect.Parameter;
  */
 public interface ArgumentResolver {
 
+    public static final ArgumentResolver NULL_INSTANCE = new ArgumentResolver() {
+        @Override
+        public boolean canResolveArgument(Parameter parameter) {
+            return false;
+        }
+
+        @Override
+        public Object resolveArgument(Parameter parameter) throws ArgumentResolveException {
+            return null;
+        }
+    };
+
+    default boolean canResolveArguments(Parameter[] parameters) {
+        for (int i = 0; i < parameters.length; i++) {
+            if (!canResolveArgument(parameters[i])) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    boolean canResolveArgument(Parameter parameter);
+
     default Object[] resolveArguments(Parameter[] parameters) throws ArgumentResolveException {
         Object[] args = new Object[parameters.length];
 

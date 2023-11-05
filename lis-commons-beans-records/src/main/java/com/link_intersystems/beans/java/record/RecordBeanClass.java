@@ -1,9 +1,7 @@
-package com.link_intersystems.beans.record;
+package com.link_intersystems.beans.java.record;
 
-import com.link_intersystems.beans.ArgumentResolver;
 import com.link_intersystems.beans.BeanInstanceFactory;
 import com.link_intersystems.beans.java.JavaBeanClass;
-import com.link_intersystems.beans.java.record.Introspector;
 
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
@@ -19,7 +17,7 @@ public class RecordBeanClass<T> extends JavaBeanClass<T> {
     }
 
     @Override
-    public BeanInstanceFactory<T> getBeanInstanceFactory(ArgumentResolver argumentResolver) {
-        return new RecordBeanInstanceFactory<>(this, argumentResolver);
+    public BeanInstanceFactory<T> getBeanInstanceFactory() {
+        return new RecordBeanInstanceFactory<>(this);
     }
 }

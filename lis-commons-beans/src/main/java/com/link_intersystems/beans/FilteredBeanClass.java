@@ -30,12 +30,12 @@ class FilteredBeanClass<T> extends BeanClass<T> {
 
 
     @Override
-    public BeanInstanceFactory<T> getBeanInstanceFactory(ArgumentResolver argumentResolver) {
-        BeanInstanceFactory<T> beanInstanceFactory = beanClass.getBeanInstanceFactory(argumentResolver);
+    public BeanInstanceFactory<T> getBeanInstanceFactory() {
+        BeanInstanceFactory<T> beanInstanceFactory = beanClass.getBeanInstanceFactory();
         return new BeanInstanceFactory<T>() {
             @Override
-            public Bean<T> newBeanInstance() {
-                Bean<T> bean = beanInstanceFactory.newBeanInstance();
+            public Bean<T> newBeanInstance(ArgumentResolver argumentResolver) {
+                Bean<T> bean = beanInstanceFactory.newBeanInstance(argumentResolver);
                 return new FilteredBean<>(FilteredBeanClass.this, bean, propertyFilter);
             }
 

@@ -36,6 +36,9 @@ Here is an overview of the module dependencies:
 
     lis-commons-beans (0 deps)
 
+    lis-commons-beans-record (1 deps)
+    +- lis-commons-beans
+
     lis-commons-lang-criteria (3 deps)
     +- lis-commons-lang
     +- lis-commons-util
@@ -80,7 +83,7 @@ will output
     button model changed.
     button model armed: true
 
-# lis-commons-beans-records
+# [lis-commons-beans-records](lis-commons-beans-records/README.md)
 
 Beans support for Java records.
 
@@ -94,50 +97,7 @@ Beans support for Java records.
     assertEquals("René", properties.getByName("firstname").getValue());
     assertEquals("Link", properties.getByName("lastname").getValue());
 
-You can also copy a record's values to another bean.
-
-Let's assume you hava a Java record named `PersonRecord`
-
-    public record PersonRecord(String firstname, String lastname) {}
-
-and a Java bean names `PersonBean`
-
-    public class PersonBean {
-    
-        private String firstname;
-        private String lastname;
-    
-        public String getFirstname() {
-            return firstname;
-        }
-    
-        public void setFirstname(String firstname) {
-            this.firstname = firstname;
-        }
-    
-        public String getLastname() {
-            return lastname;
-        }
-    
-        public void setLastname(String lastname) {
-            this.lastname = lastname;
-        }
-    }
-
-you can then copy the "properties" (record values) from the `PersonRecord` to the `PersonBean` by using different BeanFactory instances.
-
-    BeansFactory recordBeansFactory = BeansFactory.getInstance("record");
-    PersonRecord personRecord = new PersonRecord("René", "Link");
-    Bean<Person> recordBean = recordBeansFactory.createBean(personRecord);
-
-    BeansFactory javaBeansFactory = BeansFactory.getInstance("java");
-    PersonBean personJavaBean = new PersonBean();
-    Bean<PersonBean> javaBean = javaBeansFactory.createBean(personJavaBean);
-
-    recordBean.getProperties().copy(javaBean.getProperties());
-
-    assertEquals("René", personJavaBean.getFirstname());
-    assertEquals("Link", personJavaBean.getLastname());
+Details at [lis-commons-beans-records](lis-commons-beans-records/README.md).
 
 
 # lis-commons-jdbc

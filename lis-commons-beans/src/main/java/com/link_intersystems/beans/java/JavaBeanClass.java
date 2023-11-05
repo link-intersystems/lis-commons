@@ -22,10 +22,10 @@ import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import static java.text.MessageFormat.*;
-import static java.util.Arrays.*;
-import static java.util.Objects.*;
-import static java.util.stream.Collectors.*;
+import static java.text.MessageFormat.format;
+import static java.util.Arrays.stream;
+import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.toList;
 
 /**
  * A {@link JavaBeanClass} provides features for handling common bean issues.
@@ -126,7 +126,7 @@ public class JavaBeanClass<T> extends BeanClass<T> implements Serializable {
     }
 
     @Override
-    public BeanInstanceFactory<T> getBeanInstanceFactory(ArgumentResolver argumentResolver) {
+    public BeanInstanceFactory<T> getBeanInstanceFactory() {
         return new JavaBeanInstanceFactory<>(this);
     }
 

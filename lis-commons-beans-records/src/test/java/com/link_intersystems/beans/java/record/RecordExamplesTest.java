@@ -1,4 +1,4 @@
-package com.link_intersystems.beans.record;
+package com.link_intersystems.beans.java.record;
 
 import com.link_intersystems.beans.Bean;
 import com.link_intersystems.beans.BeansFactory;

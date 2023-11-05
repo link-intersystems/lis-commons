@@ -1,6 +1,6 @@
 package com.link_intersystems.beans.java;
 
-import com.link_intersystems.beans.Bean;
+import com.link_intersystems.beans.ArgumentResolver;
 import com.link_intersystems.beans.BeanInstanceFactory;
 import com.link_intersystems.beans.BeanInstantiationException;
 
@@ -19,7 +19,7 @@ public class JavaBeanInstanceFactory<T> implements BeanInstanceFactory<T> {
     }
 
     @Override
-    public JavaBean<T> newBeanInstance() {
+    public JavaBean<T> newBeanInstance(ArgumentResolver argumentResolver) {
         Class<T> beanType = javaBeanClass.getType();
         try {
             Constructor<T> defaultConstructor = beanType.getDeclaredConstructor();
