@@ -1,9 +1,13 @@
 package com.link_intersystems.swing.view.layout;
 
 
-        public interface ViewLayoutContribution {
+public interface ViewLayoutContribution {
 
-            void install(ViewLayout viewLayout);
+    default public String getViewLayoutId() {
+        return ViewLayout.MAIN_ID;
+    }
 
-            void uninstall(ViewLayout viewLayout);
-        }
+    void install(ViewLayout viewLayout);
+
+    void uninstall(ViewLayout viewLayout);
+}

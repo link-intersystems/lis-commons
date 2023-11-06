@@ -14,14 +14,28 @@ import static java.util.Objects.requireNonNull;
 
 public class DefaultViewLayout implements ViewLayout {
 
+    private String id;
     private Map<String, ViewSite> layout = new HashMap<>();
     private Map<String, View> installedViews = new HashMap<>();
     private Context viewContext;
     private Container viewContainer;
 
     public DefaultViewLayout(Context viewContext, Container viewContainer) {
+        this(MAIN_ID, viewContext, viewContainer);
+    }
+
+    public DefaultViewLayout(String id, Context viewContext, Container viewContainer) {
+        this.id = requireNonNull(id);
+        if (id.isBlank()) {
+            throw new IllegalArgumentException("id must not be blank");
+        }
         this.viewContext = requireNonNull(viewContext);
         this.viewContainer = requireNonNull(viewContainer);
+    }
+
+    @Override
+    public String getId() {
+        return id;
     }
 
     public void addViewSite(String name, Object layoutConstraints) {
@@ -52,5 +66,12 @@ public class DefaultViewLayout implements ViewLayout {
 
     public void dispose() {
         installedViews.keySet().forEach(this::remove);
+    }
+
+    @Override
+    public String toString() {
+        return "DefaultViewLayout{" +
+                "id='" + id + '\'' +
+                '}';
     }
 }

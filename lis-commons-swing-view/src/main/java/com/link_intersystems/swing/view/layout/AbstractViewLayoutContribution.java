@@ -2,11 +2,12 @@ package com.link_intersystems.swing.view.layout;
 
 import com.link_intersystems.swing.view.View;
 
-import java.util.IdentityHashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
+/**
+ * A {@link ViewLayoutContribution} that keeps track of all installed views and therefore
+ * doesn't need an implementor to handle {@link #uninstall(ViewLayout)}.
+ */
 public abstract class AbstractViewLayoutContribution implements ViewLayoutContribution {
 
     private static class ViewInstallation {
@@ -32,11 +33,28 @@ public abstract class AbstractViewLayoutContribution implements ViewLayoutContri
         }
     }
 
-    private Map<ViewInstallation, View> installedViews = new IdentityHashMap<>();
+    private String viewLayoutId = ViewLayout.MAIN_ID;
+
+    private Map<ViewInstallation, View> installedViews = new HashMap<>();
+
+    @Override
+    public String getViewLayoutId() {
+        return viewLayoutId;
+    }
 
     @Override
     public final void install(ViewLayout viewLayout) {
+        if (!getViewLayoutId().equals(viewLayout.getId())) {
+            throw new IllegalArgumentException("Can not install " + this + " in " + viewLayout);
+        }
+
         doInstall(new ViewLayout() {
+
+            @Override
+            public String getId() {
+                return viewLayout.getId();
+            }
+
             @Override
             public void install(String viewSiteName, View view) {
                 viewLayout.install(viewSiteName, view);
@@ -61,5 +79,10 @@ public abstract class AbstractViewLayoutContribution implements ViewLayoutContri
             ViewInstallation viewInstallation = installedViewEntry.getKey();
             viewInstallation.viewLayout.remove(viewInstallation.viewSiteName);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "AbstractViewLayoutContribution{" + "viewLayoutId='" + viewLayoutId + '\'' + '}';
     }
 }
