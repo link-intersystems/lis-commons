@@ -1,0 +1,35 @@
+package com.link_intersystems.swing.view;
+
+import com.link_intersystems.util.context.Context;
+import com.link_intersystems.util.context.DefaultContext;
+
+import static java.util.Objects.requireNonNull;
+
+public class DefaultViewSite extends AbstractViewSite {
+    private ViewContent viewContent;
+    private Context viewContext;
+
+    public DefaultViewSite(ViewContent viewContent) {
+        this(viewContent, new DefaultContext());
+    }
+
+    public DefaultViewSite(Context viewContext) {
+        this(ViewContent.nullInstance(), viewContext);
+    }
+
+    public DefaultViewSite(ViewContent viewContent, Context viewContext) {
+        this.viewContent = requireNonNull(viewContent);
+        this.viewContext = requireNonNull(viewContext);
+    }
+
+    @Override
+    public ViewContent getViewContent() {
+        return viewContent;
+    }
+
+    @Override
+    public Context getViewContext() {
+        return viewContext;
+    }
+
+}

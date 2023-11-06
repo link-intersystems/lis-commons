@@ -28,6 +28,8 @@ jobs:
     - name: Build and Deploy with Maven
       env:
         COVERALLS_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
-      run: ./mvnw -B deploy coveralls:report
+      uses: GabrielBB/xvfb-action@v1
+      with:
+        run: ./mvnw -B deploy coveralls:report
     - name: Clear Caches
       run: curl -X PURGE https://camo.githubusercontent.com/8b5dee301fc3aee86900e1db08654773df3bd0938cd1d1009be98a34deb7478b/68747470733a2f2f636f766572616c6c732e696f2f7265706f732f6769746875622f6c696e6b2d696e74657273797374656d732f6c69732d636f6d6d6f6e732f62616467652e7376673f6272616e63683d6d6173746572

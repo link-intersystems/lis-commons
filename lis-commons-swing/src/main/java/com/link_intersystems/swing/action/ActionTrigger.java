@@ -19,7 +19,8 @@ public class ActionTrigger {
     }
 
     public static void performAction(Object actionEventSource, ActionListener actionListener, String command, int actionId) {
-        actionListener.actionPerformed(new ActionEvent(actionEventSource, actionId, command));
+        ActionEvent actionEvent = new ActionEvent(actionEventSource, actionId, command);
+        actionListener.actionPerformed(actionEvent);
     }
 
     private Object actionEventSource;
