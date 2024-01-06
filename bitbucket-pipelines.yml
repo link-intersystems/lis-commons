@@ -5,7 +5,7 @@
 
 # Prerequisites: pom.xml and appropriate project structure should exist in the repository.
 
-image: maven:3.6.3-jdk-17
+image: maven:3.9.6-eclipse-temurin-17-alpine
 
 pipelines:
   default:
