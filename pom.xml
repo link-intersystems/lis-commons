@@ -10,7 +10,7 @@
 
     <groupId>com.link-intersystems.commons</groupId>
     <artifactId>lis-commons</artifactId>
-    <version>1.9.7</version>
+    <version>1.9.8-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Link Intersystems - Commons</name>
@@ -76,105 +76,105 @@
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-lang</artifactId>
-                <version>1.9.7</version>
+                <version>1.9.8-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-lang</artifactId>
-                <version>1.9.7</version>
+                <version>1.9.8-SNAPSHOT</version>
                 <type>test-jar</type>
             </dependency>
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-lang-criteria</artifactId>
-                <version>1.9.7</version>
+                <version>1.9.8-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-events</artifactId>
-                <version>1.9.7</version>
+                <version>1.9.8-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-graph</artifactId>
-                <version>1.9.7</version>
+                <version>1.9.8-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-math</artifactId>
-                <version>1.9.7</version>
+                <version>1.9.8-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-util</artifactId>
-                <version>1.9.7</version>
+                <version>1.9.8-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-sql</artifactId>
-                <version>1.9.7</version>
+                <version>1.9.8-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-sql-hibernate</artifactId>
-                <version>1.9.7</version>
+                <version>1.9.8-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-net</artifactId>
-                <version>1.9.7</version>
+                <version>1.9.8-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-net-test</artifactId>
-                <version>1.9.7</version>
+                <version>1.9.8-SNAPSHOT</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-io</artifactId>
-                <version>1.9.7</version>
+                <version>1.9.8-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-security</artifactId>
-                <version>1.9.7</version>
+                <version>1.9.8-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-beans</artifactId>
-                <version>1.9.7</version>
+                <version>1.9.8-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-beans-records</artifactId>
-                <version>1.9.7</version>
+                <version>1.9.8-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-beans</artifactId>
-                <version>1.9.7</version>
+                <version>1.9.8-SNAPSHOT</version>
                 <type>test-jar</type>
             </dependency>
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-jdbc</artifactId>
-                <version>1.9.7</version>
+                <version>1.9.8-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-jdbc-test</artifactId>
-                <version>1.9.7</version>
+                <version>1.9.8-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-test</artifactId>
-                <version>1.9.7</version>
+                <version>1.9.8-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.link-intersystems.commons</groupId>
                 <artifactId>lis-commons-swing</artifactId>
-                <version>1.9.7</version>
+                <version>1.9.8-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
