@@ -6,6 +6,7 @@ import java.io.IOException;
  * An {@link java.util.function.Consumer} like interface for I/O related stuff.
  *
  * @param <T> an I/O type that might raise an {@link IOException}.
+ * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
 @FunctionalInterface
 public interface IOConsumer<T> {

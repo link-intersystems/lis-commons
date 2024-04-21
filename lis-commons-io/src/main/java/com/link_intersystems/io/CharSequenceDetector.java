@@ -6,6 +6,9 @@ import java.io.PushbackReader;
 import static java.util.Objects.requireNonNull;
 
 /**
+ * A class for detecting a specific character sequence in a stream of characters provided by a {@link PushbackReader}.
+ * The sequence can be any {@link CharSequence}.
+ *
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
 public class CharSequenceDetector {

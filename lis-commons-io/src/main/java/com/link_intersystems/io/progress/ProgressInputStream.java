@@ -5,6 +5,11 @@ import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * A class that extends FilterInputStream to provide progress reporting functionality while reading data.
+ *
+ * @author René Link {@literal <rene.link@link-intersystems.com>}
+ */
 public class ProgressInputStream extends FilterInputStream {
     private int read = 0;
     private int size;
