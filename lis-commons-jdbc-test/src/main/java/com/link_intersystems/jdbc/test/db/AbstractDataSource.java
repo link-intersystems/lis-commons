@@ -2,6 +2,7 @@ package com.link_intersystems.jdbc.test.db;
 
 import javax.sql.DataSource;
 import java.io.PrintWriter;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
 import java.util.logging.Logger;
@@ -50,5 +51,15 @@ public abstract class AbstractDataSource implements DataSource {
     @Override
     public Logger getParentLogger() throws SQLFeatureNotSupportedException {
         return null;
+    }
+
+    /**
+     * This default implementation ignores the
+     * username and password and delegates to {@link #getConnection()} unless
+     * it is overridden.
+     */
+    @Override
+    public Connection getConnection(String username, String password) throws SQLException {
+        return getConnection();
     }
 }
