@@ -3,7 +3,7 @@
     <parent>
         <groupId>com.link-intersystems.commons</groupId>
         <artifactId>lis-commons</artifactId>
-        <version>1.9.8-SNAPSHOT</version>
+        <version>2.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>lis-commons-lang-criteria</artifactId>

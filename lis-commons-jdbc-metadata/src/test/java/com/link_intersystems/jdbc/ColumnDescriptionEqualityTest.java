@@ -1,8 +1,5 @@
 package com.link_intersystems.jdbc;
 
-import com.link_intersystems.jdbc.ColumnDescription;
-import com.link_intersystems.jdbc.ColumnDescriptionEquality;
-import com.link_intersystems.jdbc.DefaultColumnDescription;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

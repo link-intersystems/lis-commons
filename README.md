@@ -17,6 +17,9 @@ Here is an overview of the module dependencies:
 
     lis-commons-jdbc (0 deps)
 
+    lis-commons-jdbc-metadata (1 deps)
+    ++ lis-commons-jdbc
+
     lis-commons-sql (0 deps)
 
     lis-commons-sql-hibernate (1 deps)
@@ -100,7 +103,7 @@ Beans support for Java records.
 Details at [lis-commons-beans-records](lis-commons-beans-records/README.md).
 
 
-# lis-commons-jdbc
+# lis-commons-jdbc-metadata
 
 Provides a convenient api to access the meta-data of a jdbc connection
 
@@ -119,6 +122,8 @@ Provides a convenient api to access the meta-data of a jdbc connection
     foreignKey = foreignKeys.getByPkColumnDescription(actorColumns.getByName("actor_id"));
     assertNotNull(foreignKey);
     assertEquals("fk_film_actor_actor", foreignKey.getName());
+
+As of version 2.0.0 the metadata api, previously located in lis-commons-jdbc, was moved to lis-commons-jdbc-metadata.
 
 # lis-commons-sql
 
