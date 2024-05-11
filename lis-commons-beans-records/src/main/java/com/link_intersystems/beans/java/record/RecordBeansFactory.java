@@ -6,6 +6,13 @@ import com.link_intersystems.beans.BeansFactory;
 
 import java.beans.IntrospectionException;
 
+/**
+ * A {@link BeansFactory} for creating Java record based {@link BeanClass}es.
+ *
+ * <pre>
+ *     BeansFactory recordBeansFactory = BeansFactory.getInstance("record");
+ * </pre>
+ */
 public class RecordBeansFactory extends BeansFactory {
     @Override
     public String getTypeName() {
