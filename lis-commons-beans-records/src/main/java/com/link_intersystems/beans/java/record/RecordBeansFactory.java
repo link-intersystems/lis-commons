@@ -19,12 +19,16 @@ public class RecordBeansFactory extends BeansFactory {
         return "record";
     }
 
+    /**
+     * @param beanClass the Java record type.
+     * @param stopClass is ignored, because records can not create an inheritance hierarchy.
+     *                  See Java 17 JLS 8.10 https://docs.oracle.com/javase/specs/jls/se17/html/jls-8.html#jls-8.10
+     * @param <T>
+     * @return
+     * @throws BeanClassException
+     */
     @Override
     public <T> BeanClass<T> createBeanClass(Class<T> beanClass, Class<?> stopClass) throws BeanClassException {
-        /**
-         * Ignoring stopClass, because records can not create an inheritance hierarchy.
-         * See Java 17 JLS 8.10 https://docs.oracle.com/javase/specs/jls/se17/html/jls-8.html#jls-8.10
-         */
         try {
             return new RecordBeanClass<>(beanClass);
         } catch (IntrospectionException e) {
