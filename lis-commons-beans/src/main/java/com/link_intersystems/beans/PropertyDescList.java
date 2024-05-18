@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.BiFunction;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
@@ -32,6 +35,14 @@ public class PropertyDescList extends AbstractList<PropertyDesc> {
 
     public boolean containsProperty(String propertyName) {
         return getByName(propertyName) != null;
+    }
+
+
+    public PropertyDescList filter(Predicate<? super PropertyDesc> predicate) {
+        List<PropertyDesc> propertyDescs = stream()
+                .filter(predicate)
+                .collect(toList());
+        return new PropertyDescList(propertyDescs);
     }
 
     @Override

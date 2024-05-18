@@ -37,7 +37,7 @@ class FilteredBeanClassTest {
 
     @Test
     void getSingleProperties() {
-        assertEquals(1, filteredBeanClass.getSingleProperties().size());
+        assertEquals(1, filteredBeanClass.getProperties().filter(PropertyDesc.PREDICATE).size());
     }
 
     @Test

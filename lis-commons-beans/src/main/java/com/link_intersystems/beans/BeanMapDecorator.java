@@ -44,7 +44,7 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
         }
         String propertyName = key.toString();
         BeanClass<?> beanClass = bean.getBeanClass();
-        return beanClass.getSingleProperties().containsProperty(propertyName);
+        return beanClass.getProperties().filter(PropertyDesc.PREDICATE).containsProperty(propertyName);
     }
 
     public Object get(Object key) {
@@ -66,7 +66,7 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
         }
         BeanClass<?> beanClass = bean.getBeanClass();
         String propertyName = propertyDesc.getName();
-        boolean isIndexedProperty = beanClass.getIndexedProperties().containsProperty(propertyName);
+        boolean isIndexedProperty = beanClass.getProperties().filter(IndexedPropertyDesc.PREDICATE).containsProperty(propertyName);
 
         if (isIndexedProperty) {
             IndexedProperty property = (IndexedProperty) bean.getIndexedProperties().getByDesc(propertyDesc);
