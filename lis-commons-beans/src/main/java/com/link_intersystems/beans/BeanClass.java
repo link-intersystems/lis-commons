@@ -72,8 +72,4 @@ public abstract class BeanClass<T> {
     public BeanEventTypeList getBeanEventTypes() {
         return BeanEventTypeList.EMPTY;
     }
-
-    public BeanClass<T> filter(PropertyDescFilter propertyDescFilter) {
-        return new FilteredBeanClass<>(this, propertyDescFilter);
-    }
 }
