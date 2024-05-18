@@ -40,9 +40,6 @@ public abstract class BeanClass<T> {
         return beanInstanceFactory.fromExistingInstance(beanObject);
     }
 
-    /**
-     * @return the {@link #getSingleProperties()} and the {@link #getIndexedProperties()}.
-     */
     public abstract PropertyDescList getProperties();
 
 
