@@ -73,7 +73,7 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
             checkReadAccess(property);
             return new IndexedValue(property);
         } else {
-            Property property = bean.getProperties().getByDesc(propertyDesc);
+            Property property = bean.getSingleProperties().getByDesc(propertyDesc);
             checkReadAccess(property);
             return property.getValue();
         }
@@ -118,7 +118,7 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
             Object element = indexedValueSet.getElement();
             indexedProperty.setValue(indexedValueSet.getIndex(), element);
         } else {
-            Property property = bean.getProperties().getByDesc(propertyDesc);
+            Property property = bean.getSingleProperties().getByDesc(propertyDesc);
             checkWriteAccess(property);
             previousValue = getValueIfReadable(propertyDesc.getName());
             property.setValue(value);
@@ -129,7 +129,7 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
     }
 
     private Object getValueIfReadable(String propertyName) {
-        Property property = bean.getAllProperties().getByName(propertyName);
+        Property property = bean.getProperties().getByName(propertyName);
         if (property.getPropertyDesc().isReadable()) {
             return property.getValue();
         }

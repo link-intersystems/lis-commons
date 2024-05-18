@@ -36,7 +36,7 @@ class RecordBeanClassTest {
     }
 
     @Test
-    void getAllProperties() {
+    void getProperties() {
         PropertyDescList allProperties = bean.getAllProperties();
 
         assertEquals(2, allProperties.size());

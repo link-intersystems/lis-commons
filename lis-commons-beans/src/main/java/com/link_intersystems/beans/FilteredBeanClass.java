@@ -99,8 +99,8 @@ class FilteredBeanClass<T> extends BeanClass<T> {
         }
 
         @Override
-        public PropertyList getAllProperties() {
-            List<Property> properties = bean.getProperties().stream()
+        public PropertyList getProperties() {
+            List<Property> properties = bean.getSingleProperties().stream()
                     .filter(this::accept).collect(toList());
             return new PropertyList(properties);
         }

@@ -13,7 +13,7 @@ public class RecordExamplesTest {
     void accessRecordProperties() {
         BeansFactory beansFactory = BeansFactory.getInstance("record");
         Bean<PersonRecord> bean = beansFactory.createBean(new PersonRecord("René", "Link"));
-        PropertyList properties = bean.getProperties();
+        PropertyList properties = bean.getSingleProperties();
 
         assertEquals("René", properties.getByName("firstname").getValue());
         assertEquals("Link", properties.getByName("lastname").getValue());
@@ -29,7 +29,7 @@ public class RecordExamplesTest {
         PersonBean personJavaBean = new PersonBean();
         Bean<PersonBean> javaBean = javaBeansFactory.createBean(personJavaBean);
 
-        recordBean.getProperties().copy(javaBean.getProperties());
+        recordBean.getSingleProperties().copy(javaBean.getSingleProperties());
 
 
         assertEquals("René", personJavaBean.getFirstname());

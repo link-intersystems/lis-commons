@@ -32,7 +32,7 @@ class BeanTest {
         }
 
         @Override
-        public PropertyList getAllProperties() {
+        public PropertyList getProperties() {
             return new PropertyList(propertyList);
         }
 

@@ -10,10 +10,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class RecordBeanTest {
 
     @Test
-    void getAllProperties() throws IntrospectionException {
+    void getProperties() throws IntrospectionException {
         RecordBean<PersonRecord> bean = new RecordBean<>(new RecordBeanClass<>(PersonRecord.class), new PersonRecord("René", "Link"));
 
-        PropertyList allProperties = bean.getAllProperties();
+        PropertyList allProperties = bean.getProperties();
         assertEquals(2, allProperties.size());
     }
 }

@@ -27,7 +27,7 @@ public class JavaBeansUsageExample {
         buttonModel.setArmed(true);
         buttonModel.setPressed(false);
 
-        PropertyList properties = buttonModelBean.getProperties();
+        PropertyList properties = buttonModelBean.getSingleProperties();
         Property armedProperty = properties.getByName("armed");
         System.out.println("button model armed: " + armedProperty.getValue());
     }

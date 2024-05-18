@@ -30,18 +30,18 @@ public abstract class Bean<T> {
         return bean;
     }
 
-    public abstract PropertyList getAllProperties();
+    public abstract PropertyList getProperties();
 
-    public PropertyList getProperties() {
+    public PropertyList getSingleProperties() {
         if (properties == null) {
-            properties = new PropertyList(getAllProperties().stream().filter(p -> !(p instanceof IndexedProperty)).collect(Collectors.toList()));
+            properties = new PropertyList(getProperties().stream().filter(p -> !(p instanceof IndexedProperty)).collect(Collectors.toList()));
         }
         return properties;
     }
 
     public PropertyList getIndexedProperties() {
         if (indexedProperties == null) {
-            indexedProperties = new PropertyList(getAllProperties().stream().filter(p -> p instanceof IndexedProperty).collect(Collectors.toList()));
+            indexedProperties = new PropertyList(getProperties().stream().filter(p -> p instanceof IndexedProperty).collect(Collectors.toList()));
         }
         return indexedProperties;
     }
@@ -96,8 +96,8 @@ public abstract class Bean<T> {
     }
 
     public boolean propertiesEqual(Bean<T> otherBean) {
-        List<Property> properties = getProperties();
-        List<Property> otherProperties = otherBean.getProperties();
+        List<Property> properties = getSingleProperties();
+        List<Property> otherProperties = otherBean.getSingleProperties();
         return properties.equals(otherProperties);
     }
 
@@ -111,7 +111,7 @@ public abstract class Bean<T> {
     }
 
     /**
-     * Convenience method for {@link #getProperties()}.copy(...). See {@link PropertyList#copy(PropertyList, PropertySelector)} for details.
+     * Convenience method for {@link #getSingleProperties()}.copy(...). See {@link PropertyList#copy(PropertyList, PropertySelector)} for details.
      *
      * @param targetBean
      */
@@ -120,11 +120,11 @@ public abstract class Bean<T> {
     }
 
     /**
-     * Convenience method for {@link #getProperties()}.copy(...). See {@link PropertyList#copy(PropertyList, PropertySelector, PropertyCopyStrategy)} for details.
+     * Convenience method for {@link #getSingleProperties()}.copy(...). See {@link PropertyList#copy(PropertyList, PropertySelector, PropertyCopyStrategy)} for details.
      *
      * @param targetBean
      */
     public void copyProperties(Bean targetBean, PropertySelector propertySelector, PropertyCopyStrategy propertyCopyStrategy) {
-        getProperties().copy(targetBean.getProperties(), propertySelector, propertyCopyStrategy);
+        getSingleProperties().copy(targetBean.getSingleProperties(), propertySelector, propertyCopyStrategy);
     }
 }

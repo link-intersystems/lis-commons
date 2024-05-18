@@ -59,7 +59,7 @@ public class JavaBean<T> extends Bean<T> {
      * @since 1.2.0;
      */
     @Override
-    public PropertyList getAllProperties() {
+    public PropertyList getProperties() {
         if (propertyList == null) {
             propertyList = new PropertyList(getJavaProperties());
         }
