@@ -2,6 +2,7 @@ package com.link_intersystems.beans;
 
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.*;
@@ -34,14 +35,14 @@ public abstract class Bean<T> {
 
     public PropertyList getSingleProperties() {
         if (properties == null) {
-            properties = new PropertyList(getProperties().stream().filter(p -> !(p instanceof IndexedProperty)).collect(Collectors.toList()));
+            properties = new PropertyList(getProperties().stream().filter(Predicate.not(IndexedProperty.class::isInstance)).collect(Collectors.toList()));
         }
         return properties;
     }
 
     public PropertyList getIndexedProperties() {
         if (indexedProperties == null) {
-            indexedProperties = new PropertyList(getProperties().stream().filter(p -> p instanceof IndexedProperty).collect(Collectors.toList()));
+            indexedProperties = new PropertyList(getProperties().stream().filter(IndexedProperty.class::isInstance).collect(Collectors.toList()));
         }
         return indexedProperties;
     }
