@@ -102,30 +102,4 @@ public abstract class Bean<T> {
         return properties.equals(otherProperties);
     }
 
-    /**
-     * Convenience method to copy all properties to the target bean. See {@link PropertyList#copy(PropertyList)} for details.
-     *
-     * @param targetBean
-     */
-    public void copyProperties(Bean targetBean) {
-        copyProperties(targetBean, PropertySelectors.BY_NAME);
-    }
-
-    /**
-     * Convenience method for {@link #getSingleProperties()}.copy(...). See {@link PropertyList#copy(PropertyList, PropertySelector)} for details.
-     *
-     * @param targetBean
-     */
-    public void copyProperties(Bean targetBean, PropertySelector propertySelector) {
-        copyProperties(targetBean, propertySelector, PropertyCopyStrategies.EXACT);
-    }
-
-    /**
-     * Convenience method for {@link #getSingleProperties()}.copy(...). See {@link PropertyList#copy(PropertyList, PropertySelector, PropertyCopyStrategy)} for details.
-     *
-     * @param targetBean
-     */
-    public void copyProperties(Bean targetBean, PropertySelector propertySelector, PropertyCopyStrategy propertyCopyStrategy) {
-        getSingleProperties().copy(targetBean.getSingleProperties(), propertySelector, propertyCopyStrategy);
-    }
 }

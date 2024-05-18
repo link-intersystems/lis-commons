@@ -60,4 +60,20 @@ class PropertyListTest {
     void size() {
         assertEquals(2, propertyList.size());
     }
+
+    @Test
+    void copy() {
+        Property firstname = PropertyMocks.createProperty(String.class, "firstname","René");
+        Property lastname = PropertyMocks.createProperty(String.class, "lastname","Link");
+        PropertyList properties = new PropertyList(Arrays.asList(firstname, lastname));
+
+        Property firstname2 = PropertyMocks.createProperty(String.class, "firstname","John");
+        Property lastname2 = PropertyMocks.createProperty(String.class, "lastname","Doe");
+        PropertyList properties2 = new PropertyList(Arrays.asList(firstname2, lastname2));
+
+        properties.copy(properties2);
+
+        verify(firstname2).setValue("René");
+        verify(lastname2).setValue("Link");
+    }
 }
