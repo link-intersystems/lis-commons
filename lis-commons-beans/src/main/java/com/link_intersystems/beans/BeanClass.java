@@ -34,7 +34,7 @@ public abstract class BeanClass<T> {
         return beanInstanceFactory.newBeanInstance();
     }
 
-    public abstract BeanInstanceFactory<T> getBeanInstanceFactory();
+    protected abstract BeanInstanceFactory<T> getBeanInstanceFactory();
 
     /**
      * Returns a {@link Bean} based on the given bean instance.

@@ -126,7 +126,7 @@ public class JavaBeanClass<T> extends BeanClass<T> implements Serializable {
     }
 
     @Override
-    public BeanInstanceFactory<T> getBeanInstanceFactory() {
+    protected BeanInstanceFactory<T> getBeanInstanceFactory() {
         return new JavaBeanInstanceFactory<>(this);
     }
 

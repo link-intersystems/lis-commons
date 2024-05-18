@@ -30,7 +30,7 @@ class FilteredBeanClass<T> extends BeanClass<T> {
 
 
     @Override
-    public BeanInstanceFactory<T> getBeanInstanceFactory() {
+    protected BeanInstanceFactory<T> getBeanInstanceFactory() {
         BeanInstanceFactory<T> beanInstanceFactory = beanClass.getBeanInstanceFactory();
         return new BeanInstanceFactory<T>() {
             @Override

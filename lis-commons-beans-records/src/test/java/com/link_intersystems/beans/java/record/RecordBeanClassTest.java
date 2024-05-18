@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class RecordBeanClassTest {
 
-    private BeanClass<PersonRecord> bean;
+    private RecordBeanClass<PersonRecord> bean;
 
     @BeforeEach
     void setUp() throws IntrospectionException {

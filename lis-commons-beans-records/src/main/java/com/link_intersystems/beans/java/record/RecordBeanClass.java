@@ -17,7 +17,7 @@ public class RecordBeanClass<T> extends JavaBeanClass<T> {
     }
 
     @Override
-    public BeanInstanceFactory<T> getBeanInstanceFactory() {
+    protected BeanInstanceFactory<T> getBeanInstanceFactory() {
         return new RecordBeanInstanceFactory<>(this);
     }
 }
