@@ -70,27 +70,6 @@ public abstract class BeanClass<T> {
     public abstract PropertyDescList getAllProperties();
 
 
-    /**
-     * @return true if either a simple property or an indexed property with the
-     * given name exists.
-     */
-    public boolean hasAnyProperty(String propertyName) {
-        return hasProperty(propertyName) || hasIndexedProperty(propertyName);
-    }
-
-    boolean hasProperty(String propertyName) {
-        return getProperties().stream()
-                .map(PropertyDesc::getName)
-                .anyMatch(propertyName::equals);
-    }
-
-    boolean hasIndexedProperty(String propertyName) {
-        return getIndexedProperties().stream()
-                .map(PropertyDesc::getName)
-                .anyMatch(propertyName::equals);
-    }
-
-
     public BeanEventTypeList getBeanEventTypes() {
         return BeanEventTypeList.EMPTY;
     }

@@ -30,6 +30,10 @@ public class PropertyDescList extends AbstractList<PropertyDesc> {
         return stream().filter(pd -> nameEquality.apply(propertyName, pd.getName())).findFirst().orElse(null);
     }
 
+    public boolean containsProperty(String propertyName) {
+        return getByName(propertyName) != null;
+    }
+
     @Override
     public PropertyDesc get(int index) {
         return descriptors.get(index);
@@ -39,4 +43,5 @@ public class PropertyDescList extends AbstractList<PropertyDesc> {
     public int size() {
         return descriptors.size();
     }
+
 }
