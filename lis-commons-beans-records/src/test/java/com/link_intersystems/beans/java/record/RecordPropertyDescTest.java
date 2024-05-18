@@ -17,7 +17,7 @@ class RecordPropertyDescTest {
     void setUp() {
         BeansFactory beansFactory = BeansFactory.getInstance("record");
         BeanClass<PersonRecord> beanClass = beansFactory.createBeanClass(PersonRecord.class);
-        propertyDesc = beanClass.getAllProperties().getByName("firstname");
+        propertyDesc = beanClass.getProperties().getByName("firstname");
     }
 
     @Test

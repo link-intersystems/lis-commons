@@ -53,8 +53,8 @@ class FilteredBeanClass<T> extends BeanClass<T> {
     }
 
     @Override
-    public PropertyDescList getProperties() {
-        PropertyDescList properties = beanClass.getProperties();
+    public PropertyDescList getSingleProperties() {
+        PropertyDescList properties = beanClass.getSingleProperties();
         return getFilteredProperties(properties);
     }
 
@@ -65,8 +65,8 @@ class FilteredBeanClass<T> extends BeanClass<T> {
     }
 
     @Override
-    public PropertyDescList getAllProperties() {
-        PropertyDescList properties = beanClass.getAllProperties();
+    public PropertyDescList getProperties() {
+        PropertyDescList properties = beanClass.getProperties();
         return getFilteredProperties(properties);
     }
 

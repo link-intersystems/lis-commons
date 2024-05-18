@@ -157,7 +157,7 @@ public class JavaBeanClass<T> extends BeanClass<T> implements Serializable {
     }
 
     @Override
-    public PropertyDescList getAllProperties() {
+    public PropertyDescList getProperties() {
         if (this.allProperties == null) {
             this.allProperties = new PropertyDescList(getJavaPropertyDescs());
         }
@@ -175,7 +175,7 @@ public class JavaBeanClass<T> extends BeanClass<T> implements Serializable {
     }
 
     JavaPropertyDesc getPropertyDescByMethod(Method method) {
-        return getAllProperties().stream()
+        return getProperties().stream()
                 .map(JavaPropertyDesc.class::cast)
                 .filter(jpd -> jpd.hasMethod(method))
                 .findFirst()

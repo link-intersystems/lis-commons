@@ -1,6 +1,5 @@
 package com.link_intersystems.beans;
 
-import java.lang.reflect.Parameter;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -44,9 +43,9 @@ public abstract class BeanClass<T> {
         return beanInstanceFactory.fromExistingInstance(beanObject);
     }
 
-    public PropertyDescList getProperties() {
+    public PropertyDescList getSingleProperties() {
         if (this.properties == null) {
-            List<PropertyDesc> propertyDescs = getAllProperties().stream()
+            List<PropertyDesc> propertyDescs = getProperties().stream()
                     .filter(NO_INDEXED_PROPERTY_FILTER)
                     .collect(toList());
             this.properties = new PropertyDescList(propertyDescs);
@@ -56,7 +55,7 @@ public abstract class BeanClass<T> {
 
     public PropertyDescList getIndexedProperties() {
         if (this.indexedProperties == null) {
-            List<PropertyDesc> propertyDescs = getAllProperties().stream()
+            List<PropertyDesc> propertyDescs = getProperties().stream()
                     .filter(INDEXED_PROPERTY_FILTER)
                     .collect(toList());
             this.indexedProperties = new PropertyDescList(propertyDescs);
@@ -65,9 +64,9 @@ public abstract class BeanClass<T> {
     }
 
     /**
-     * @return the {@link #getProperties()} and the {@link #getIndexedProperties()}.
+     * @return the {@link #getSingleProperties()} and the {@link #getIndexedProperties()}.
      */
-    public abstract PropertyDescList getAllProperties();
+    public abstract PropertyDescList getProperties();
 
 
     public BeanEventTypeList getBeanEventTypes() {

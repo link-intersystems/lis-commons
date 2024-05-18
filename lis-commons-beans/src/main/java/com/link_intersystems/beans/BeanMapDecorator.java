@@ -23,7 +23,7 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
 
     private PropertyDescList getAllProperties() {
         BeanClass<?> beanClass = bean.getBeanClass();
-        return beanClass.getAllProperties();
+        return beanClass.getProperties();
     }
 
     public int size() {
@@ -44,7 +44,7 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
         }
         String propertyName = key.toString();
         BeanClass<?> beanClass = bean.getBeanClass();
-        return beanClass.getProperties().containsProperty(propertyName);
+        return beanClass.getSingleProperties().containsProperty(propertyName);
     }
 
     public Object get(Object key) {
@@ -89,7 +89,7 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
                     "BeanMapDecorator does not support putting 'null' keys, because a bean can never have a 'null' property.");
         }
         BeanClass<?> beanClass = bean.getBeanClass();
-        PropertyDescList properties = beanClass.getAllProperties();
+        PropertyDescList properties = beanClass.getProperties();
         PropertyDesc propertyDesc = properties.getByName(key);
 
         if (propertyDesc == null) {
@@ -209,7 +209,7 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
 
     public Set<String> keySet() {
         BeanClass<?> beanClass = bean.getBeanClass();
-        PropertyDescList allProperties = beanClass.getAllProperties();
+        PropertyDescList allProperties = beanClass.getProperties();
         return new LinkedHashSet<>(allProperties.getPropertyNames());
     }
 
@@ -220,7 +220,7 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
             public Iterator<Object> iterator() {
                 Iterator<PropertyDesc> readablePropertyDescs = bean
                         .getBeanClass()
-                        .getAllProperties().stream()
+                        .getProperties().stream()
                         .filter(PropertyDesc::isReadable)
                         .iterator();
 
@@ -248,7 +248,7 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
 
             @Override
             public int size() {
-                return bean.getBeanClass().getAllProperties().getPropertyNames().size();
+                return bean.getBeanClass().getProperties().getPropertyNames().size();
             }
         };
         return values;
@@ -259,7 +259,7 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
 
             @Override
             public Iterator<java.util.Map.Entry<String, Object>> iterator() {
-                Iterator<PropertyDesc> propertyDescIterator = bean.getBeanClass().getAllProperties().iterator();
+                Iterator<PropertyDesc> propertyDescIterator = bean.getBeanClass().getProperties().iterator();
 
                 return new Iterator<Map.Entry<String, Object>>() {
 
