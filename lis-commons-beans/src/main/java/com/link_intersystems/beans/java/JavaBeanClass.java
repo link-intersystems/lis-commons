@@ -151,12 +151,6 @@ public class JavaBeanClass<T> extends BeanClass<T> implements Serializable {
     }
 
     @Override
-    public boolean isListenerSupported(Class<?> listenerClass) {
-        BeanEventTypeList beanEvents = getBeanEventTypes();
-        return beanEvents.stream().anyMatch(be -> be.isApplicable(listenerClass));
-    }
-
-    @Override
     public PropertyDescList getProperties() {
         if (this.allProperties == null) {
             this.allProperties = new PropertyDescList(getJavaPropertyDescs());

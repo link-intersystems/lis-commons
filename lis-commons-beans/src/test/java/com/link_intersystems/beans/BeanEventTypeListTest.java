@@ -4,10 +4,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.beans.PropertyChangeListener;
+import java.beans.VetoableChangeListener;
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 /**
@@ -45,5 +48,13 @@ class BeanEventTypeListTest {
     @Test
     void size() {
         assertEquals(2, beanEventTypesList.size());
+    }
+
+    @Test
+    void isListenerSupported() {
+        when(beanEventType1.isApplicable(PropertyChangeListener.class)).thenReturn(true);
+
+        assertTrue(beanEventTypesList.isListenerSupported(PropertyChangeListener.class));
+        assertFalse(beanEventTypesList.isListenerSupported(VetoableChangeListener.class));
     }
 }

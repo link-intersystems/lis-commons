@@ -89,11 +89,6 @@ class BeanClassTest {
         assertNotNull(object);
     }
 
-    @Test
-    void isListenerSupported() {
-        assertTrue(someBeanClass.isListenerSupported(PropertyChangeListener.class));
 
-        assertFalse(someBeanClass.isListenerSupported(VetoableChangeListener.class));
-    }
 
 }

@@ -73,12 +73,6 @@ public abstract class BeanClass<T> {
         return BeanEventTypeList.EMPTY;
     }
 
-    public boolean isListenerSupported(Class<?> listenerClass) {
-        return getBeanEventTypes()
-                .stream()
-                .anyMatch(be -> be.isApplicable(listenerClass));
-    }
-
     public BeanClass<T> filter(PropertyDescFilter propertyDescFilter) {
         return new FilteredBeanClass<>(this, propertyDescFilter);
     }

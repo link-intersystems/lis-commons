@@ -26,6 +26,11 @@ public class BeanEventTypeList extends AbstractList<BeanEventType> {
         return byName.get(eventName);
     }
 
+    public boolean isListenerSupported(Class<? extends EventListener> listenerClass) {
+        return stream()
+                .anyMatch(be -> be.isApplicable(listenerClass));
+    }
+
     @Override
     public BeanEventType get(int index) {
         return beanEventTypes.get(index);
