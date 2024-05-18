@@ -1,10 +1,5 @@
 package com.link_intersystems.beans;
 
-import java.util.List;
-import java.util.function.Predicate;
-
-import static java.util.stream.Collectors.toList;
-
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
