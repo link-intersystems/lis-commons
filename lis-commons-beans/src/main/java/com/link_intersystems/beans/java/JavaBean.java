@@ -15,7 +15,7 @@
  */
 package com.link_intersystems.beans.java;
 
-import com.link_intersystems.beans.Bean;
+import com.link_intersystems.beans.AbstractBean;
 import com.link_intersystems.beans.PropertyList;
 
 import java.util.List;
@@ -34,7 +34,7 @@ import static java.util.stream.Collectors.*;
  * intersystems.com]</a>
  * @since 1.2.0;
  */
-public class JavaBean<T> extends Bean<T> {
+public class JavaBean<T> extends AbstractBean<T> {
 
     private PropertyList propertyList;
     private List<JavaProperty> javaProperties;

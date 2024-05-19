@@ -18,7 +18,7 @@ class RecordBeanInstanceFactory<T> implements BeanInstanceFactory<T> {
     }
 
     @Override
-    public Bean<T> newBeanInstance(ArgumentResolver argumentResolver) {
+    public AbstractBean<T> newBeanInstance(ArgumentResolver argumentResolver) {
 
         try {
             Callable<T> newInstanceCallable = resolveNewInstanceCallable(argumentResolver);
@@ -61,7 +61,7 @@ class RecordBeanInstanceFactory<T> implements BeanInstanceFactory<T> {
     }
 
     @Override
-    public Bean<T> fromExistingInstance(T beanObject) {
+    public AbstractBean<T> fromExistingInstance(T beanObject) {
         return new RecordBean<>(beanClass, beanObject);
     }
 }

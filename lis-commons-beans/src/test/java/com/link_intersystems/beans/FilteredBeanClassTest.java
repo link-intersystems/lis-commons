@@ -89,7 +89,7 @@ class FilteredBeanClassTest {
     void beanRemoveListener() {
         PropertyChangeListener pcl = Mockito.mock(PropertyChangeListener.class);
 
-        Bean<SomeBean> bean = filteredBeanClass.getBeanFromInstance(someBeanFixture.someBean);
+        AbstractBean<SomeBean> bean = filteredBeanClass.getBeanFromInstance(someBeanFixture.someBean);
 
         bean.addListener(pcl);
         bean.removeListener(pcl);

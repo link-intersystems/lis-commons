@@ -59,12 +59,12 @@ public abstract class BeansFactory {
 
     public abstract <T> BeanClass<T> createBeanClass(Class<T> beanClass, Class<?> stopClass) throws BeanClassException;
 
-    public <T> Bean<T> createBean(T bean) throws BeanClassException {
+    public <T> AbstractBean<T> createBean(T bean) throws BeanClassException {
         return createBean(bean, null);
     }
 
     @SuppressWarnings("unchecked")
-    public <T> Bean<T> createBean(T bean, Class<?> stopClass) throws BeanClassException {
+    public <T> AbstractBean<T> createBean(T bean, Class<?> stopClass) throws BeanClassException {
         BeanClass<T> beanClass = (BeanClass<T>) createBeanClass(bean.getClass(), stopClass);
         return beanClass.getBeanFromInstance(bean);
     }

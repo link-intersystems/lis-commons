@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.beans.IntrospectionException;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,7 +21,7 @@ class BeanMapDecoratorTest {
 
 
         BeansFactory beansFactory = BeansFactory.getDefault();
-        Bean<SomeBean> containerJavaBean = beansFactory.createBeanClass(SomeBean.class, Object.class).getBeanFromInstance(someBean);
+        AbstractBean<SomeBean> containerJavaBean = beansFactory.createBeanClass(SomeBean.class, Object.class).getBeanFromInstance(someBean);
         beanMapDecorator = new BeanMapDecorator(containerJavaBean);
     }
 

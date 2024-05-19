@@ -1,15 +1,12 @@
 package com.link_intersystems.mockito.beans;
 
-import com.link_intersystems.beans.Bean;
+import com.link_intersystems.beans.AbstractBean;
 import com.link_intersystems.beans.BeansFactory;
-import com.link_intersystems.beans.Property;
 import org.mockito.ArgumentMatcher;
-
-import java.util.List;
 
 public class PropertiesMatcher<T> implements ArgumentMatcher<T> {
 
-    private final Bean<T> expectedBean;
+    private final AbstractBean<T> expectedBean;
 
     public PropertiesMatcher(T expectedBean) {
         this(expectedBean, BeansFactory.getDefault());
@@ -22,11 +19,11 @@ public class PropertiesMatcher<T> implements ArgumentMatcher<T> {
     @Override
     public boolean matches(T argument) {
         BeansFactory factory = BeansFactory.getDefault();
-        Bean<T> argumentBean = factory.createBean(argument, Object.class);
+        AbstractBean<T> argumentBean = factory.createBean(argument, Object.class);
         return propertiesEqual(expectedBean, argumentBean);
     }
 
-    private boolean propertiesEqual(Bean<T> bean, Bean<T> otherBean) {
+    private boolean propertiesEqual(AbstractBean<T> bean, AbstractBean<T> otherBean) {
         return bean.getProperties().equals(otherBean.getProperties());
     }
 }

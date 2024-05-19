@@ -30,7 +30,7 @@ class RecordBeanInstanceFactoryTest {
 
     @Test
     void newBeanInstance() {
-        Bean<PersonRecord> personBean = beanInstanceFactory.newBeanInstance();
+        AbstractBean<PersonRecord> personBean = beanInstanceFactory.newBeanInstance();
         assertInstanceOf(RecordBean.class, personBean);
     }
 
@@ -60,7 +60,7 @@ class RecordBeanInstanceFactoryTest {
         RecordBeanInstanceFactory<RecordWithoutDefaultConstructor> instanceFactory = new RecordBeanInstanceFactory<>(beanClass);
 
 
-        Bean<RecordWithoutDefaultConstructor> bean = instanceFactory.newBeanInstance(argumentResolver);
+        AbstractBean<RecordWithoutDefaultConstructor> bean = instanceFactory.newBeanInstance(argumentResolver);
         assertInstanceOf(RecordBean.class, bean);
 
         RecordWithoutDefaultConstructor beanObject = bean.getBeanObject();
@@ -129,7 +129,7 @@ class RecordBeanInstanceFactoryTest {
     @Test
     void fromExistingInstance() {
         PersonRecord personRecord = new PersonRecord("René", "Link");
-        Bean<PersonRecord> personBean = beanInstanceFactory.fromExistingInstance(personRecord);
+        AbstractBean<PersonRecord> personBean = beanInstanceFactory.fromExistingInstance(personRecord);
         assertInstanceOf(RecordBean.class, personBean);
     }
 }

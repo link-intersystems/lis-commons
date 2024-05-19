@@ -1,15 +1,13 @@
 package com.link_intersystems.beans.java;
 
-import com.link_intersystems.beans.Bean;
+import com.link_intersystems.beans.AbstractBean;
 import com.link_intersystems.beans.BeanClassException;
 import com.link_intersystems.beans.BeanEventTypeList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import java.beans.PropertyChangeListener;
 import java.beans.PropertyDescriptor;
-import java.beans.VetoableChangeListener;
 import java.lang.reflect.Method;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -82,7 +80,7 @@ class BeanClassTest {
 
     @Test
     void newInstance() throws SecurityException {
-        Bean<SomeBean> someBeanBean = someBeanClass.newBeanInstance();
+        AbstractBean<SomeBean> someBeanBean = someBeanClass.newBeanInstance();
         assertNotNull(someBeanBean);
 
         SomeBean object = someBeanBean.getBeanObject();

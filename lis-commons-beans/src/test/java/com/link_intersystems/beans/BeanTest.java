@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
 class BeanTest {
 
 
-    private static class TestBean extends Bean {
+    private static class TestBean extends AbstractBean {
 
         private List<Property> propertyList = new ArrayList<>();
 

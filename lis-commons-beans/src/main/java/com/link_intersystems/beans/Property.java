@@ -5,9 +5,9 @@ package com.link_intersystems.beans;
  * That's why you don't need to pass a bean instance when you want to set or get a value.
  *
  * @author René Link {@literal <rene.link@link-intersystems.com>}
- * @see Bean#getProperties()
- * @see Bean#getSingleProperties()
- * @see Bean#getIndexedProperties()
+ * @see AbstractBean#getProperties()
+ * @see AbstractBean#getSingleProperties()
+ * @see AbstractBean#getIndexedProperties()
  */
 public interface Property {
 

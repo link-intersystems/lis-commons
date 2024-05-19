@@ -34,14 +34,14 @@ class FilteredBeanClass<T> extends BeanClass<T> {
         BeanInstanceFactory<T> beanInstanceFactory = beanClass.getBeanInstanceFactory();
         return new BeanInstanceFactory<T>() {
             @Override
-            public Bean<T> newBeanInstance(ArgumentResolver argumentResolver) {
-                Bean<T> bean = beanInstanceFactory.newBeanInstance(argumentResolver);
+            public AbstractBean<T> newBeanInstance(ArgumentResolver argumentResolver) {
+                AbstractBean<T> bean = beanInstanceFactory.newBeanInstance(argumentResolver);
                 return new FilteredBean<>(FilteredBeanClass.this, bean, propertyFilter);
             }
 
             @Override
-            public Bean<T> fromExistingInstance(T beanObject) {
-                Bean<T> bean = beanInstanceFactory.fromExistingInstance(beanObject);
+            public AbstractBean<T> fromExistingInstance(T beanObject) {
+                AbstractBean<T> bean = beanInstanceFactory.fromExistingInstance(beanObject);
                 return new FilteredBean<>(FilteredBeanClass.this, bean, propertyFilter);
             }
         };
@@ -73,13 +73,13 @@ class FilteredBeanClass<T> extends BeanClass<T> {
                 '}';
     }
 
-    private static class FilteredBean<T> extends Bean<T> {
+    private static class FilteredBean<T> extends AbstractBean<T> {
 
         private final BeanClass<T> beanClass;
-        private final Bean<T> bean;
+        private final AbstractBean<T> bean;
         private final PropertyDescFilter propertyFilter;
 
-        public FilteredBean(BeanClass<T> beanClass, Bean<T> bean, PropertyDescFilter propertyFilter) {
+        public FilteredBean(BeanClass<T> beanClass, AbstractBean<T> bean, PropertyDescFilter propertyFilter) {
             super(beanClass, bean.getBeanObject());
             this.beanClass = beanClass;
             this.bean = bean;

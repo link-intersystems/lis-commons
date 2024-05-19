@@ -1,6 +1,6 @@
 package com.link_intersystems.beans.java;
 
-import com.link_intersystems.beans.Bean;
+import com.link_intersystems.beans.AbstractBean;
 import com.link_intersystems.beans.BeanInstantiationException;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +15,7 @@ class JavaBeanInstanceFactoryTest {
     void newBeanInstance() {
         JavaBeanInstanceFactory<SomeBean> beanInstanceFactory = new JavaBeanInstanceFactory<>(new JavaBeanClass<>(SomeBean.class));
 
-        Bean<SomeBean> someBeanBean = beanInstanceFactory.newBeanInstance();
+        AbstractBean<SomeBean> someBeanBean = beanInstanceFactory.newBeanInstance();
 
         assertNotNull(someBeanBean);
         assertNotNull(someBeanBean.getBeanObject());
@@ -26,7 +26,7 @@ class JavaBeanInstanceFactoryTest {
         JavaBeanInstanceFactory<SomeBean> beanInstanceFactory = new JavaBeanInstanceFactory<>(new JavaBeanClass<>(SomeBean.class));
 
         SomeBean bean = new SomeBean();
-        Bean<SomeBean> someBeanBean = beanInstanceFactory.fromExistingInstance(bean);
+        AbstractBean<SomeBean> someBeanBean = beanInstanceFactory.fromExistingInstance(bean);
 
         assertNotNull(someBeanBean);
         assertEquals(bean, someBeanBean.getBeanObject());
