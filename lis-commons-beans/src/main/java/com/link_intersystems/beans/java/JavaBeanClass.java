@@ -40,6 +40,8 @@ public class JavaBeanClass<T> extends BeanClass<T> implements Serializable {
 
     private static final long serialVersionUID = -5446272789930350423L;
 
+    private BeanInstanceFactory<T> beanInstanceFactory = new JavaBeanInstanceFactory<>(this);
+
     private BeanInfo beanInfo;
 
     private transient JavaPropertyDescriptors propertyDescriptors;
@@ -126,8 +128,13 @@ public class JavaBeanClass<T> extends BeanClass<T> implements Serializable {
     }
 
     @Override
-    protected BeanInstanceFactory<T> getBeanInstanceFactory() {
-        return new JavaBeanInstanceFactory<>(this);
+    public Bean<T> newBeanInstance() throws BeanInstantiationException {
+        return beanInstanceFactory.newBeanInstance();
+    }
+
+    @Override
+    public Bean<T> getBeanFromInstance(T beanObject) {
+        return beanInstanceFactory.fromExistingInstance(beanObject);
     }
 
     @Override

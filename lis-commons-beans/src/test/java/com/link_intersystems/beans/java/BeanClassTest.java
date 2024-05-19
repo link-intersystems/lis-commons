@@ -1,6 +1,7 @@
 package com.link_intersystems.beans.java;
 
 import com.link_intersystems.beans.AbstractBean;
+import com.link_intersystems.beans.Bean;
 import com.link_intersystems.beans.BeanClassException;
 import com.link_intersystems.beans.BeanEventTypeList;
 import org.junit.jupiter.api.BeforeEach;
@@ -80,7 +81,7 @@ class BeanClassTest {
 
     @Test
     void newInstance() throws SecurityException {
-        AbstractBean<SomeBean> someBeanBean = someBeanClass.newBeanInstance();
+        Bean<SomeBean> someBeanBean = someBeanClass.newBeanInstance();
         assertNotNull(someBeanBean);
 
         SomeBean object = someBeanBean.getBeanObject();

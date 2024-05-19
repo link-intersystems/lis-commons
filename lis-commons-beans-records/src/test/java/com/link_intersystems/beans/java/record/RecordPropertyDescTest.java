@@ -1,6 +1,6 @@
 package com.link_intersystems.beans.java.record;
 
-import com.link_intersystems.beans.AbstractBeanClass;
+import com.link_intersystems.beans.BeanClass;
 import com.link_intersystems.beans.BeansFactory;
 import com.link_intersystems.beans.PropertyDesc;
 import com.link_intersystems.beans.PropertyWriteException;
@@ -16,7 +16,7 @@ class RecordPropertyDescTest {
     @BeforeEach
     void setUp() {
         BeansFactory beansFactory = BeansFactory.getInstance("record");
-        AbstractBeanClass<PersonRecord> beanClass = beansFactory.createBeanClass(PersonRecord.class);
+        BeanClass<PersonRecord> beanClass = beansFactory.createBeanClass(PersonRecord.class);
         propertyDesc = beanClass.getProperties().getByName("firstname");
     }
 

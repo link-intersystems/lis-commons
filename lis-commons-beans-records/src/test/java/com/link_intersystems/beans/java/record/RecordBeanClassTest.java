@@ -28,12 +28,6 @@ class RecordBeanClassTest {
     }
 
     @Test
-    void getBeanInstanceFactory() {
-
-        assertInstanceOf(RecordBeanInstanceFactory.class, bean.getBeanInstanceFactory());
-    }
-
-    @Test
     void getSingleProperties() {
         PropertyDescList allProperties = bean.getProperties();
 

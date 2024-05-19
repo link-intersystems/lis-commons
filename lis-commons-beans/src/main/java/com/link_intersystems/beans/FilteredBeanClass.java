@@ -28,23 +28,16 @@ class FilteredBeanClass<T> extends BeanClass<T> {
         return beanClass.getType();
     }
 
+    @Override
+    public Bean<T> newBeanInstance() throws BeanInstantiationException {
+        Bean<T> newBeanInstance = beanClass.newBeanInstance();
+        return new FilteredBean<>(FilteredBeanClass.this, newBeanInstance, propertyFilter);
+    }
 
     @Override
-    protected BeanInstanceFactory<T> getBeanInstanceFactory() {
-        BeanInstanceFactory<T> beanInstanceFactory = beanClass.getBeanInstanceFactory();
-        return new BeanInstanceFactory<T>() {
-            @Override
-            public AbstractBean<T> newBeanInstance(ArgumentResolver argumentResolver) {
-                AbstractBean<T> bean = beanInstanceFactory.newBeanInstance(argumentResolver);
-                return new FilteredBean<>(FilteredBeanClass.this, bean, propertyFilter);
-            }
-
-            @Override
-            public AbstractBean<T> fromExistingInstance(T beanObject) {
-                AbstractBean<T> bean = beanInstanceFactory.fromExistingInstance(beanObject);
-                return new FilteredBean<>(FilteredBeanClass.this, bean, propertyFilter);
-            }
-        };
+    public Bean<T> getBeanFromInstance(T beanObject) {
+        Bean<T> beanFromInstance = beanClass.getBeanFromInstance(beanObject);
+        return new FilteredBean<>(FilteredBeanClass.this, beanFromInstance, propertyFilter);
     }
 
     @Override
@@ -76,10 +69,10 @@ class FilteredBeanClass<T> extends BeanClass<T> {
     private static class FilteredBean<T> extends AbstractBean<T> {
 
         private final BeanClass<T> beanClass;
-        private final AbstractBean<T> bean;
+        private final Bean<T> bean;
         private final PropertyDescFilter propertyFilter;
 
-        public FilteredBean(BeanClass<T> beanClass, AbstractBean<T> bean, PropertyDescFilter propertyFilter) {
+        public FilteredBean(BeanClass<T> beanClass, Bean<T> bean, PropertyDescFilter propertyFilter) {
             super(beanClass, bean.getBeanObject());
             this.beanClass = beanClass;
             this.bean = bean;

@@ -20,20 +20,12 @@ public abstract class BeanClass<T> {
      * Creates a new {@link AbstractBean} of this class that has
      * a new bean instance that can be retrieved by {@link AbstractBean#getBeanObject()}.
      */
-    public AbstractBean<T> newBeanInstance() throws BeanInstantiationException {
-        BeanInstanceFactory<T> beanInstanceFactory = getBeanInstanceFactory();
-        return beanInstanceFactory.newBeanInstance();
-    }
-
-    protected abstract BeanInstanceFactory<T> getBeanInstanceFactory();
+    public abstract Bean<T> newBeanInstance() throws BeanInstantiationException ;
 
     /**
      * Returns a {@link AbstractBean} based on the given bean instance.
      */
-    public AbstractBean<T> getBeanFromInstance(T beanObject) {
-        BeanInstanceFactory<T> beanInstanceFactory = getBeanInstanceFactory();
-        return beanInstanceFactory.fromExistingInstance(beanObject);
-    }
+    public abstract Bean<T> getBeanFromInstance(T beanObject);
 
     public abstract PropertyDescList getProperties();
 

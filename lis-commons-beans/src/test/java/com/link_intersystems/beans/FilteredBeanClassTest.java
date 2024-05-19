@@ -1,6 +1,9 @@
 package com.link_intersystems.beans;
 
-import com.link_intersystems.beans.java.*;
+import com.link_intersystems.beans.java.JavaBeansExtension;
+import com.link_intersystems.beans.java.SomeBean;
+import com.link_intersystems.beans.java.SomeBeanFixture;
+import com.link_intersystems.beans.java.TestBeansFactory;
 import com.link_intersystems.test.UnitTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +15,8 @@ import java.beans.IntrospectionException;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -89,7 +93,7 @@ class FilteredBeanClassTest {
     void beanRemoveListener() {
         PropertyChangeListener pcl = Mockito.mock(PropertyChangeListener.class);
 
-        AbstractBean<SomeBean> bean = filteredBeanClass.getBeanFromInstance(someBeanFixture.someBean);
+        Bean<SomeBean> bean = filteredBeanClass.getBeanFromInstance(someBeanFixture.someBean);
 
         bean.addListener(pcl);
         bean.removeListener(pcl);

@@ -13,7 +13,7 @@ public class JavaBeansUsageExample {
 
     public static void main(String[] args) throws BeanClassException {
         BeansFactory factory = BeansFactory.getDefault();
-        AbstractBean<DefaultButtonModel> buttonModelBean = factory.createBean(new DefaultButtonModel());
+        Bean<DefaultButtonModel> buttonModelBean = factory.createBean(new DefaultButtonModel());
 
         ChangeListener changeListener = ce -> System.out.println("button model changed.");
         ActionListener actionListener = ae -> System.out.println("action performed.");

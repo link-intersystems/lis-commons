@@ -11,9 +11,9 @@ import static java.util.Objects.requireNonNull;
 public class BeanMapDecorator extends AbstractMap<String, Object> implements Serializable {
 
     private static final long serialVersionUID = -6218854323681382593L;
-    private AbstractBean<?> bean;
+    private Bean<?> bean;
 
-    public BeanMapDecorator(AbstractBean<?> bean) {
+    public BeanMapDecorator(Bean<?> bean) {
         this.bean = requireNonNull(bean);
     }
 

@@ -21,7 +21,7 @@ class BeanMapDecoratorTest {
 
 
         BeansFactory beansFactory = BeansFactory.getDefault();
-        AbstractBean<SomeBean> containerJavaBean = beansFactory.createBeanClass(SomeBean.class, Object.class).getBeanFromInstance(someBean);
+        Bean<SomeBean> containerJavaBean = beansFactory.createBeanClass(SomeBean.class, Object.class).getBeanFromInstance(someBean);
         beanMapDecorator = new BeanMapDecorator(containerJavaBean);
     }
 
