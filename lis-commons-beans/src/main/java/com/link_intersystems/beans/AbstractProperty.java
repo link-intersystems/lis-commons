@@ -7,13 +7,11 @@ import java.util.function.Supplier;
 
 import static java.util.Objects.*;
 
-public class DefaultProperty implements Property {
+public abstract class AbstractProperty implements Property {
 
-    private final Supplier<Object> beanSupplier;
     private final PropertyDesc propertyDescriptor;
 
-    public DefaultProperty(Supplier<Object> beanSupplier, PropertyDesc propertyDescriptor) {
-        this.beanSupplier = requireNonNull(beanSupplier);
+    public AbstractProperty(PropertyDesc propertyDescriptor) {
         this.propertyDescriptor = requireNonNull(propertyDescriptor);
     }
 
@@ -24,7 +22,7 @@ public class DefaultProperty implements Property {
     }
 
     /**
-     * Gets the value of this {@link DefaultProperty}.
+     * Gets the value of this {@link AbstractProperty}.
      *
      * @return the value of this property.
      * @throws PropertyReadException if the property could not be accessed for any reason. If the
@@ -35,15 +33,17 @@ public class DefaultProperty implements Property {
     @Override
     public <T> T getValue() {
         PropertyDesc propertyDesc = getPropertyDesc();
-        Object beanObject = beanSupplier.get();
+        Object beanObject = getBeanObject();
         return propertyDesc.getPropertyValue(beanObject);
     }
 
+    protected abstract Object getBeanObject();
+
     /**
-     * Sets the value of this {@link DefaultProperty}.
+     * Sets the value of this {@link AbstractProperty}.
      *
      * @param propertyValue the value to set.
-     * @throws PropertyReadException if this {@link DefaultProperty}'s value could not be set. If the thrown
+     * @throws PropertyReadException if this {@link AbstractProperty}'s value could not be set. If the thrown
      *                               {@link PropertyWriteException} has no cause this property is not
      *                               writable (has no property setter method).
      * @since 1.2.0;
@@ -51,7 +51,7 @@ public class DefaultProperty implements Property {
     @Override
     public void setValue(Object propertyValue) {
         PropertyDesc propertyDesc = getPropertyDesc();
-        Object beanObject = beanSupplier.get();
+        Object beanObject = getBeanObject();
         propertyDesc.setPropertyValue(beanObject, propertyValue);
     }
 
@@ -82,7 +82,7 @@ public class DefaultProperty implements Property {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        DefaultProperty other = (DefaultProperty) obj;
+        AbstractProperty other = (AbstractProperty) obj;
         if (!getPropertyDesc().equals(other.getPropertyDesc()))
             return false;
 

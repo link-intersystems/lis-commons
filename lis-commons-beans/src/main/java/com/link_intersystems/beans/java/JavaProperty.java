@@ -25,7 +25,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
 
-import static java.util.Objects.*;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Encapsulates access to a java bean property.
@@ -62,13 +62,13 @@ import static java.util.Objects.*;
  * the {@link JavaProperty}'s type.
  * @since 1.2.0;
  */
-public class JavaProperty extends DefaultProperty implements Serializable, Property {
+public class JavaProperty extends AbstractProperty implements Serializable, Property {
 
     private static final long serialVersionUID = -6759158627808430975L;
     private final JavaBean<?> bean;
 
     JavaProperty(JavaBean<?> bean, JavaPropertyDesc propertyDescriptor) {
-        super(bean::getBeanObject, propertyDescriptor);
+        super(propertyDescriptor);
         this.bean = requireNonNull(bean);
     }
 
@@ -82,6 +82,11 @@ public class JavaProperty extends DefaultProperty implements Serializable, Prope
      */
     protected final JavaBean<?> getBean() {
         return bean;
+    }
+
+    @Override
+    protected Object getBeanObject() {
+        return getBean().getBeanObject();
     }
 
     /**
