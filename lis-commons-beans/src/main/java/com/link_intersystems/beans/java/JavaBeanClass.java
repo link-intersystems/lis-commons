@@ -19,6 +19,7 @@ import com.link_intersystems.beans.*;
 
 import java.beans.*;
 import java.io.Serializable;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.List;
 
@@ -39,8 +40,6 @@ import static java.util.stream.Collectors.toList;
 public class JavaBeanClass<T> extends BeanClass<T> implements Serializable {
 
     private static final long serialVersionUID = -5446272789930350423L;
-
-    private BeanInstanceFactory<T> beanInstanceFactory = new JavaBeanInstanceFactory<>(this);
 
     private BeanInfo beanInfo;
 
@@ -128,14 +127,26 @@ public class JavaBeanClass<T> extends BeanClass<T> implements Serializable {
     }
 
     @Override
-    public Bean<T> newBeanInstance() throws BeanInstantiationException {
-        return beanInstanceFactory.newBeanInstance();
+    public JavaBean<T> newBeanInstance() throws BeanInstantiationException {
+        Class<T> beanType = getType();
+        try {
+            Constructor<T> defaultConstructor = beanType.getDeclaredConstructor();
+            T newBeanObj = defaultConstructor.newInstance();
+            return new JavaBean<>(this, newBeanObj);
+        } catch (Exception e) {
+            String msg = "Bean " + beanType.getCanonicalName() +
+                    " throws an exception while invoking the default constructor." +
+                    " Does it have a public default constructor?" +
+                    " See BeanClass.getStrict(Class<T>)";
+            throw new BeanInstantiationException(msg, e);
+        }
     }
 
     @Override
-    public Bean<T> getBeanFromInstance(T beanObject) {
-        return beanInstanceFactory.fromExistingInstance(beanObject);
+    public JavaBean<T> getBeanFromInstance(T beanObject) {
+        return new JavaBean<>(this, beanObject);
     }
+
 
     @Override
     public BeanEventTypeList getBeanEventTypes() {
