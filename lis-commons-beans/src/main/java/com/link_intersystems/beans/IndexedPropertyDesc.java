@@ -12,4 +12,9 @@ public interface IndexedPropertyDesc extends PropertyDesc {
     boolean isIndexedReadable();
 
     boolean isIndexedWritable();
+
+
+    public <T> T getPropertyValue(Object bean, int index) throws PropertyReadException;
+
+    public void setPropertyValue(Object bean, int index, Object value);
 }

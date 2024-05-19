@@ -18,7 +18,6 @@ package com.link_intersystems.beans.java;
 import com.link_intersystems.beans.IndexedProperty;
 import com.link_intersystems.beans.IndexedPropertyDesc;
 import com.link_intersystems.beans.PropertyReadException;
-import com.link_intersystems.beans.PropertyWriteException;
 
 import java.beans.IndexedPropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
@@ -107,22 +106,9 @@ public class JavaIndexedProperty extends JavaProperty implements IndexedProperty
     @Override
     @SuppressWarnings("unchecked")
     public <T> T getValue(int index) {
+        IndexedPropertyDesc propertyDesc = getPropertyDesc();
         JavaBean<?> bean = getBean();
-        Method indexedReadMethod = getIndexedReadMethod();
-        if (indexedReadMethod == null) {
-
-            throw new PropertyReadException(bean.getBeanClass().getType(), getPropertyDesc().getName());
-        }
-        try {
-            Object target = bean.getBeanObject();
-            Object elementValue = invoke(indexedReadMethod, target, index);
-            return (T) elementValue;
-        } catch (InvocationTargetException e) {
-            Throwable targetException = e.getTargetException();
-            throw new PropertyReadException(bean.getBeanClass().getType(), getPropertyDesc().getName(), targetException);
-        } catch (IllegalAccessException e) {
-            throw new PropertyReadException(bean.getBeanClass().getType(), getPropertyDesc().getName(), e);
-        }
+        return propertyDesc.getPropertyValue(bean.getBeanObject(), index);
     }
 
     /**
@@ -135,22 +121,9 @@ public class JavaIndexedProperty extends JavaProperty implements IndexedProperty
      */
     @Override
     public void setValue(int index, Object elementValue) {
+        IndexedPropertyDesc propertyDesc = getPropertyDesc();
         JavaBean<?> bean = getBean();
-
-        Method indexedWriteMethod = getIndexedWriteMethod();
-        if (indexedWriteMethod == null) {
-
-            throw new PropertyWriteException(bean.getBeanClass().getType(), getPropertyDesc().getName());
-        }
-        try {
-            Object target = bean.getBeanObject();
-            invoke(indexedWriteMethod, target, index, elementValue);
-        } catch (InvocationTargetException e) {
-            Throwable targetException = e.getTargetException();
-            throw new PropertyWriteException(bean.getBeanClass().getType(), getPropertyDesc().getName(), targetException);
-        } catch (IllegalAccessException e) {
-            throw new PropertyWriteException(bean.getBeanClass().getType(), getPropertyDesc().getName(), e);
-        }
+        propertyDesc.setPropertyValue(bean.getBeanObject(), index, elementValue);
     }
 
     /**

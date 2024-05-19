@@ -1,9 +1,12 @@
 package com.link_intersystems.beans.java;
 
 import com.link_intersystems.beans.IndexedPropertyDesc;
+import com.link_intersystems.beans.PropertyReadException;
+import com.link_intersystems.beans.PropertyWriteException;
 
 import java.beans.IndexedPropertyDescriptor;
 import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
@@ -75,5 +78,41 @@ public class JavaIndexedPropertyDesc extends JavaPropertyDesc implements Indexed
             }
         }
         return type;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> T getPropertyValue(Object bean, int index) throws PropertyReadException {
+        Method indexedReadMethod = getJavaPropertyDescriptor().getIndexedReadMethod();
+        if (indexedReadMethod == null) {
+
+            throw new PropertyReadException(bean.getClass(), getName());
+        }
+        try {
+            Object elementValue = invoke(indexedReadMethod, bean, index);
+            return (T) elementValue;
+        } catch (InvocationTargetException e) {
+            Throwable targetException = e.getTargetException();
+            throw new PropertyReadException(bean.getClass(), getName(), targetException);
+        } catch (IllegalAccessException e) {
+            throw new PropertyReadException(bean.getClass(), getName(), e);
+        }
+    }
+
+    @Override
+    public void setPropertyValue(Object bean, int index, Object value) {
+
+        Method indexedWriteMethod = getJavaPropertyDescriptor().getIndexedWriteMethod();
+        if (indexedWriteMethod == null) {
+            throw new PropertyWriteException(bean.getClass(), getName());
+        }
+        try {
+            invoke(indexedWriteMethod, bean, index, value);
+        } catch (InvocationTargetException e) {
+            Throwable targetException = e.getTargetException();
+            throw new PropertyWriteException(bean.getClass(), getName(), targetException);
+        } catch (IllegalAccessException e) {
+            throw new PropertyWriteException(bean.getClass(), getName(), e);
+        }
     }
 }
