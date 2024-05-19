@@ -69,11 +69,11 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
         boolean isIndexedProperty = beanClass.getProperties().filter(IndexedPropertyDesc.PREDICATE).containsProperty(propertyName);
 
         if (isIndexedProperty) {
-            IndexedProperty property = (IndexedProperty) bean.getIndexedProperties().getByDesc(propertyDesc);
+            IndexedProperty property = (IndexedProperty) bean.getProperties(IndexedProperty.PREDICATE).getByDesc(propertyDesc);
             checkReadAccess(property);
             return new IndexedValue(property);
         } else {
-            Property property = bean.getSingleProperties().getByDesc(propertyDesc);
+            Property property = bean.getProperties(Property.PREDICATE).getByDesc(propertyDesc);
             checkReadAccess(property);
             return property.getValue();
         }
@@ -113,12 +113,12 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
                                 + IndexSetter.class.getSimpleName() + " to wrap the value.");
             }
             IndexSetter indexedValueSet = IndexSetter.class.cast(value);
-            IndexedProperty indexedProperty = (IndexedProperty) bean.getIndexedProperties().getByDesc(propertyDesc);
+            IndexedProperty indexedProperty = (IndexedProperty) bean.getProperties(IndexedProperty.PREDICATE).getByDesc(propertyDesc);
             checkWriteAccess(indexedProperty);
             Object element = indexedValueSet.getElement();
             indexedProperty.setValue(indexedValueSet.getIndex(), element);
         } else {
-            Property property = bean.getSingleProperties().getByDesc(propertyDesc);
+            Property property = bean.getProperties(Property.PREDICATE).getByDesc(propertyDesc);
             checkWriteAccess(property);
             previousValue = getValueIfReadable(propertyDesc.getName());
             property.setValue(value);
@@ -233,7 +233,7 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
                     public Object next() {
                         PropertyDesc propertyDesc = readablePropertyDescs.next();
                         if (propertyDesc instanceof IndexedPropertyDesc) {
-                            IndexedProperty indexedProperty = (IndexedProperty) bean.getIndexedProperties().getByDesc(propertyDesc);
+                            IndexedProperty indexedProperty = (IndexedProperty) bean.getProperties(IndexedProperty.PREDICATE).getByDesc(propertyDesc);
                             return new IndexedValue(indexedProperty);
                         } else {
                             return propertyDesc.getPropertyValue(bean.getBeanObject());

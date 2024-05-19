@@ -52,7 +52,7 @@ class FilteredBeanClassTest {
 
     @Test
     void getBeanProperties() {
-        assertEquals(1, filteredBeanClass.getBeanFromInstance(someBeanFixture.someBean).getSingleProperties().size());
+        assertEquals(1, filteredBeanClass.getBeanFromInstance(someBeanFixture.someBean).getProperties(Property.PREDICATE).size());
     }
 
 

@@ -7,7 +7,7 @@ import java.util.function.Predicate;
  */
 public interface IndexedProperty extends Property {
 
-    public static final Predicate<? super PropertyDesc> PREDICATE = jpd -> jpd instanceof IndexedPropertyDesc;
+    public static final Predicate<? super Property> PREDICATE = jpd -> jpd instanceof IndexedProperty;
 
     IndexedPropertyDesc getPropertyDesc();
 

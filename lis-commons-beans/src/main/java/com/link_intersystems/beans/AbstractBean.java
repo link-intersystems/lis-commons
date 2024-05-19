@@ -1,10 +1,11 @@
 package com.link_intersystems.beans;
 
 import java.text.MessageFormat;
+import java.util.IdentityHashMap;
+import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
-import static java.util.Objects.*;
+import static java.util.Objects.requireNonNull;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
@@ -14,12 +15,14 @@ public abstract class AbstractBean<T> implements Bean<T> {
     private BeanClass<T> beanClass;
     private T bean;
 
-    private PropertyList properties;
-    private PropertyList indexedProperties;
+    private IdentityHashMap<Object, PropertyList> wellKnownProperties = new IdentityHashMap<>(2);
 
     protected AbstractBean(BeanClass<T> beanClass, T bean) {
         this.beanClass = requireNonNull(beanClass);
         this.bean = requireNonNull(bean);
+
+        wellKnownProperties.put(Property.PREDICATE, null);
+        wellKnownProperties.put(IndexedProperty.PREDICATE, null);
     }
 
     @Override
@@ -30,20 +33,6 @@ public abstract class AbstractBean<T> implements Bean<T> {
     @Override
     public T getBeanObject() {
         return bean;
-    }
-
-    public PropertyList getSingleProperties() {
-        if (properties == null) {
-            properties = new PropertyList(getProperties().stream().filter(Predicate.not(IndexedProperty.class::isInstance)).collect(Collectors.toList()));
-        }
-        return properties;
-    }
-
-    public PropertyList getIndexedProperties() {
-        if (indexedProperties == null) {
-            indexedProperties = new PropertyList(getProperties().stream().filter(IndexedProperty.class::isInstance).collect(Collectors.toList()));
-        }
-        return indexedProperties;
     }
 
     @Override
@@ -97,4 +86,15 @@ public abstract class AbstractBean<T> implements Bean<T> {
         return applicableBeanEvent;
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public PropertyList getProperties(Predicate<? super Property> predicate) {
+
+        if (wellKnownProperties.containsKey(predicate)) {
+            Function<Predicate<? super Property>, PropertyList> defaultMethod = Bean.super::getProperties;
+            return wellKnownProperties.computeIfAbsent(predicate, key -> defaultMethod.apply((Predicate<? super Property>) key));
+        }
+
+        return Bean.super.getProperties(predicate);
+    }
 }
