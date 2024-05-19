@@ -2,7 +2,10 @@ package com.link_intersystems.mockito.beans;
 
 import com.link_intersystems.beans.Bean;
 import com.link_intersystems.beans.BeansFactory;
+import com.link_intersystems.beans.Property;
 import org.mockito.ArgumentMatcher;
+
+import java.util.List;
 
 public class PropertiesMatcher<T> implements ArgumentMatcher<T> {
 
@@ -20,6 +23,10 @@ public class PropertiesMatcher<T> implements ArgumentMatcher<T> {
     public boolean matches(T argument) {
         BeansFactory factory = BeansFactory.getDefault();
         Bean<T> argumentBean = factory.createBean(argument, Object.class);
-        return expectedBean.propertiesEqual(argumentBean);
+        return propertiesEqual(expectedBean, argumentBean);
+    }
+
+    private boolean propertiesEqual(Bean<T> bean, Bean<T> otherBean) {
+        return bean.getProperties().equals(otherBean.getProperties());
     }
 }

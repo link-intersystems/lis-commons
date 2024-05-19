@@ -96,10 +96,4 @@ public abstract class Bean<T> {
         return applicableBeanEvent;
     }
 
-    public boolean propertiesEqual(Bean<T> otherBean) {
-        List<Property> properties = getSingleProperties();
-        List<Property> otherProperties = otherBean.getSingleProperties();
-        return properties.equals(otherProperties);
-    }
-
 }

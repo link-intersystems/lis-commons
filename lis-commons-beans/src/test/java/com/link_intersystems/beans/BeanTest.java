@@ -63,17 +63,4 @@ class BeanTest {
 
         assertThrows(UnsupportedOperationException.class, () -> testBean.addListener(listener));
     }
-
-    @Test
-    void propertiesEqual() {
-        Property property = PropertyMocks.createProperty(String.class, "propertyName",null);
-
-        testBean.setProperties(property);
-
-        TestBean testBean2 = new TestBean();
-        testBean2.setProperties(property);
-
-
-        assertTrue(testBean.propertiesEqual(testBean2));
-    }
 }
