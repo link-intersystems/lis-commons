@@ -190,8 +190,7 @@ public class JavaProperty extends AbstractProperty implements Serializable, Prop
      */
     protected Object invoke(Method method, Object target, Object... args)
             throws IllegalAccessException, InvocationTargetException {
-        Object beanValue = method.invoke(target, args);
-        return beanValue;
+        return method.invoke(target, args);
     }
 
     /**
@@ -218,15 +217,5 @@ public class JavaProperty extends AbstractProperty implements Serializable, Prop
     @Override
     public String toString() {
         return getName();
-    }
-
-    /**
-     * The declaring class of a {@link JavaProperty} is the class that first mentions
-     * the property. So it can be either the read or write method's declaring class.
-     * If the read and write methods are defined in different classes the uppermost
-     * class in the hierarchy is returned.
-     */
-    public Class<?> getDeclaringClass() {
-        return getPropertyDesc().getDeclaringClass();
     }
 }

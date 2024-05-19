@@ -41,11 +41,6 @@ class RecordPropertyDescTest {
     }
 
     @Test
-    void getDeclaringClass() {
-        assertEquals(PersonRecord.class, propertyDesc.getDeclaringClass());
-    }
-
-    @Test
     void getPropertyValue() {
         PersonRecord personRecord = new PersonRecord("René", "Link");
 

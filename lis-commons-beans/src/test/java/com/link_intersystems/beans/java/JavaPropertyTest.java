@@ -93,10 +93,4 @@ class JavaPropertyTest {
         assertTrue(intValueProperty.isWritable());
     }
 
-    @Test
-    void getDeclaringClass() {
-        Class<?> declaringClass = intValueProperty.getDeclaringClass();
-
-        assertEquals(PropertyTestBean.class, declaringClass);
-    }
 }

@@ -7,9 +7,9 @@ import com.link_intersystems.beans.PropertyWriteException;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.text.MessageFormat;
 import java.util.Objects;
 
+import static java.text.MessageFormat.format;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -97,31 +97,6 @@ public class JavaPropertyDesc implements PropertyDesc {
 
     public PropertyDescriptor getJavaPropertyDescriptor() {
         return propertyDescriptor;
-    }
-
-    public Class<?> getDeclaringClass() {
-        Method readMethod = propertyDescriptor.getReadMethod();
-        Method writeMethod = propertyDescriptor.getWriteMethod();
-
-        if (readMethod != null && writeMethod == null) {
-            return readMethod.getDeclaringClass();
-        } else if (readMethod == null && writeMethod != null) {
-            return writeMethod.getDeclaringClass();
-        } else if (readMethod != null) {
-            Class<?> readDeclaringClass = readMethod.getDeclaringClass();
-            Class<?> writeDeclaringClass = writeMethod.getDeclaringClass();
-
-            if (readDeclaringClass.equals(writeDeclaringClass)
-                    || readDeclaringClass.isAssignableFrom(writeDeclaringClass)) {
-                return readDeclaringClass;
-            } else {
-                return writeDeclaringClass;
-            }
-        } else {
-            String msg = MessageFormat.format("Can not determine declaring class of property {0}. " + //
-                    "Read and write method is null.", this);
-            throw new IllegalStateException(msg);
-        }
     }
 
     public boolean isReadMethod(Method method) {
