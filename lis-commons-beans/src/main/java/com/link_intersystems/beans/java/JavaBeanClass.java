@@ -37,7 +37,7 @@ import static java.util.stream.Collectors.toList;
  * intersystems.com]</a>
  * @since 1.2.0;
  */
-public class JavaBeanClass<T> extends BeanClass<T> implements Serializable {
+public class JavaBeanClass<T> implements BeanClass<T>, Serializable {
 
     private static final long serialVersionUID = -5446272789930350423L;
 

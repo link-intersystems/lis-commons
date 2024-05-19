@@ -129,9 +129,9 @@ public class JavaProperty extends DefaultProperty implements Serializable, Prope
      */
     public String getValueAsText() throws PropertyEditorNotAvailableException {
         try {
-            PropertyEditor propertiyEditor = createPropertyEditor();
-            propertiyEditor.setValue(getValue());
-            return propertiyEditor.getAsText();
+            PropertyEditor propertyEditor = createPropertyEditor();
+            propertyEditor.setValue(getValue());
+            return propertyEditor.getAsText();
         } catch (PropertyEditorNotAvailableException e) {
             return null;
         }

@@ -21,21 +21,13 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
         return new IndexSetter(index, value);
     }
 
-    private PropertyDescList getAllProperties() {
+    private PropertyDescList getProperties() {
         BeanClass<?> beanClass = bean.getBeanClass();
         return beanClass.getProperties();
     }
 
     public int size() {
-        return getAllProperties().size();
-    }
-
-    public boolean isEmpty() {
-        /*
-         * Since all objects extend Object they have at least one property
-         * 'class'. Thus a bean map decorator can never be empty.
-         */
-        return false;
+        return getProperties().size();
     }
 
     public boolean containsKey(Object key) {
@@ -54,7 +46,7 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
         String propertyName = key.toString();
 
 
-        PropertyDescList properties = getAllProperties();
+        PropertyDescList properties = getProperties();
         PropertyDesc propertyDesc = properties.getByName(propertyName);
 
         return get(propertyDesc);

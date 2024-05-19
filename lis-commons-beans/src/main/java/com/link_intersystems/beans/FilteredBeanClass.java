@@ -8,7 +8,7 @@ import static java.util.stream.Collectors.toList;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-class FilteredBeanClass<T> extends BeanClass<T> {
+class FilteredBeanClass<T> implements BeanClass<T> {
 
     private BeanClass<T> beanClass;
     private PropertyDescFilter propertyFilter;

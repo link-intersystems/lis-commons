@@ -3,16 +3,13 @@ package com.link_intersystems.beans;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public abstract class BeanClass<T> {
-
-    private transient PropertyDescList properties;
-    private transient PropertyDescList indexedProperties;
+public interface BeanClass<T> {
 
     public abstract String getName();
 
     public abstract Class<T> getType();
 
-    public boolean isInstance(Object bean) {
+    public default boolean isInstance(Object bean) {
         return getType().isInstance(bean);
     }
 
@@ -20,7 +17,7 @@ public abstract class BeanClass<T> {
      * Creates a new {@link AbstractBean} of this class that has
      * a new bean instance that can be retrieved by {@link AbstractBean#getBeanObject()}.
      */
-    public abstract Bean<T> newBeanInstance() throws BeanInstantiationException ;
+    public abstract Bean<T> newBeanInstance() throws BeanInstantiationException;
 
     /**
      * Returns a {@link AbstractBean} based on the given bean instance.
@@ -30,7 +27,7 @@ public abstract class BeanClass<T> {
     public abstract PropertyDescList getProperties();
 
 
-    public BeanEventTypeList getBeanEventTypes() {
+    public default BeanEventTypeList getBeanEventTypes() {
         return BeanEventTypeList.EMPTY;
     }
 }
