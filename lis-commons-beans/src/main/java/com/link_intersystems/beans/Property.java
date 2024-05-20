@@ -11,7 +11,8 @@ import java.util.function.Predicate;
  */
 public interface Property {
 
-    Predicate<? super Property> PREDICATE = Predicate.not(IndexedProperty.PREDICATE);
+    Predicate<? super Property> PREDICATE = Predicate.not(Property.INDEXED_PROPERTY_PREDICATE);
+    Predicate<? super Property> INDEXED_PROPERTY_PREDICATE = jpd -> jpd instanceof IndexedProperty;
 
     PropertyDesc getPropertyDesc();
 

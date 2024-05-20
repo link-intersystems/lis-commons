@@ -16,7 +16,7 @@
 package com.link_intersystems.beans.java;
 
 import com.link_intersystems.beans.BeanClassException;
-import com.link_intersystems.beans.IndexedProperty;
+import com.link_intersystems.beans.Property;
 import com.link_intersystems.test.EqualsAndHashCodeTest;
 
 class ArrayIndexedPropertyEqualsAndHashCodeTest extends EqualsAndHashCodeTest {
@@ -30,7 +30,7 @@ class ArrayIndexedPropertyEqualsAndHashCodeTest extends EqualsAndHashCodeTest {
                 setIndexedPropertyReadOnlyIndexOnlyAccess(new String[]{"a", "b", "c"});
             }
         };
-        return beansFactory.createBean(someBean).getProperties().filter(IndexedProperty.PREDICATE).getByName("indexedPropertyReadOnlyIndexOnlyAccess");
+        return beansFactory.createBean(someBean).getProperties().filter(Property.INDEXED_PROPERTY_PREDICATE).getByName("indexedPropertyReadOnlyIndexOnlyAccess");
     }
 
     @Override
@@ -40,7 +40,7 @@ class ArrayIndexedPropertyEqualsAndHashCodeTest extends EqualsAndHashCodeTest {
                 setIndexedPropertyReadOnlyIndexOnlyAccess(new String[]{"a", "b"});
             }
         };
-        return beansFactory.createBean(someBean).getProperties().filter(IndexedProperty.PREDICATE).getByName("indexedPropertyReadOnlyIndexOnlyAccess");
+        return beansFactory.createBean(someBean).getProperties().filter(Property.INDEXED_PROPERTY_PREDICATE).getByName("indexedPropertyReadOnlyIndexOnlyAccess");
     }
 
 }

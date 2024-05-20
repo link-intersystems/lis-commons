@@ -28,7 +28,7 @@ public class PropertyList extends AbstractList<Property> {
         });
 
         wellKnownProperties.put(Property.PREDICATE, null);
-        wellKnownProperties.put(IndexedProperty.PREDICATE, null);
+        wellKnownProperties.put(Property.INDEXED_PROPERTY_PREDICATE, null);
     }
 
     public void copy(PropertyList targetProperties) {

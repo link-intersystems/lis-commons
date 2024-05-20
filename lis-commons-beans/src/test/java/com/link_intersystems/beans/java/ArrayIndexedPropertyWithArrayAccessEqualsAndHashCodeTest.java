@@ -16,7 +16,6 @@
 package com.link_intersystems.beans.java;
 
 import com.link_intersystems.beans.BeanClassException;
-import com.link_intersystems.beans.IndexedProperty;
 import com.link_intersystems.beans.Property;
 import com.link_intersystems.test.EqualsAndHashCodeTest;
 
@@ -28,14 +27,14 @@ class ArrayIndexedPropertyWithArrayAccessEqualsAndHashCodeTest extends EqualsAnd
     protected Object createInstance() throws BeanClassException {
         SomeBean someBean = new SomeBean();
         someBean.setStringArrayProperty(new String[]{"a", "c"});
-        return beansFactory.createBean(someBean).getProperties().filter(IndexedProperty.PREDICATE).getByName("stringArrayProperty");
+        return beansFactory.createBean(someBean).getProperties().filter(Property.INDEXED_PROPERTY_PREDICATE).getByName("stringArrayProperty");
     }
 
     @Override
     protected Object createNotEqualInstance() throws BeanClassException {
         SomeBean someBean = new SomeBean();
         someBean.setStringArrayProperty(new String[]{"a", "b"});
-        return beansFactory.createBean(someBean).getProperties().filter(IndexedProperty.PREDICATE).getByName("stringArrayProperty");
+        return beansFactory.createBean(someBean).getProperties().filter(Property.INDEXED_PROPERTY_PREDICATE).getByName("stringArrayProperty");
     }
 
 }

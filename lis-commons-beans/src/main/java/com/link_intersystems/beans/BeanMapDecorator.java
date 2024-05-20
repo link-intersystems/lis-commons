@@ -62,7 +62,7 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
         boolean isIndexedProperty = beanClass.getProperties().filter(IndexedPropertyDesc.PREDICATE).containsProperty(propertyName);
 
         if (isIndexedProperty) {
-            IndexedProperty property = (IndexedProperty) filteredByDesc(IndexedProperty.PREDICATE, propertyDesc);
+            IndexedProperty property = (IndexedProperty) filteredByDesc(Property.INDEXED_PROPERTY_PREDICATE, propertyDesc);
             checkReadAccess(property);
             return new IndexedValue(property);
         } else {
@@ -109,7 +109,7 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
                                 + IndexSetter.class.getSimpleName() + " to wrap the value.");
             }
             IndexSetter indexedValueSet = IndexSetter.class.cast(value);
-            IndexedProperty indexedProperty = (IndexedProperty) filteredByDesc(IndexedProperty.PREDICATE, propertyDesc);
+            IndexedProperty indexedProperty = (IndexedProperty) filteredByDesc(Property.INDEXED_PROPERTY_PREDICATE, propertyDesc);
             checkWriteAccess(indexedProperty);
             Object element = indexedValueSet.getElement();
             indexedProperty.setValue(indexedValueSet.getIndex(), element);
@@ -229,7 +229,7 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
                     public Object next() {
                         PropertyDesc propertyDesc = readablePropertyDescs.next();
                         if (propertyDesc instanceof IndexedPropertyDesc) {
-                            IndexedProperty indexedProperty = (IndexedProperty) filteredByDesc(IndexedProperty.PREDICATE, propertyDesc);
+                            IndexedProperty indexedProperty = (IndexedProperty) filteredByDesc(Property.INDEXED_PROPERTY_PREDICATE, propertyDesc);
                             return new IndexedValue(indexedProperty);
                         } else {
                             return propertyDesc.getPropertyValue(bean.getBeanObject());
