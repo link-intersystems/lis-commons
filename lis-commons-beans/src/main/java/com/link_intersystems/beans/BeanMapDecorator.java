@@ -2,6 +2,7 @@ package com.link_intersystems.beans;
 
 import java.io.Serializable;
 import java.util.*;
+import java.util.function.Predicate;
 
 import static java.util.Objects.requireNonNull;
 
@@ -61,16 +62,19 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
         boolean isIndexedProperty = beanClass.getProperties().filter(IndexedPropertyDesc.PREDICATE).containsProperty(propertyName);
 
         if (isIndexedProperty) {
-            IndexedProperty property = (IndexedProperty) bean.getProperties(IndexedProperty.PREDICATE).getByDesc(propertyDesc);
+            IndexedProperty property = (IndexedProperty) filteredByDesc(IndexedProperty.PREDICATE, propertyDesc);
             checkReadAccess(property);
             return new IndexedValue(property);
         } else {
-            Property property = bean.getProperties(Property.PREDICATE).getByDesc(propertyDesc);
+            Property property = filteredByDesc(Property.PREDICATE, propertyDesc);
             checkReadAccess(property);
             return property.getValue();
         }
     }
 
+    private Property filteredByDesc(Predicate<? super Property> predicate, PropertyDesc propertyDesc) {
+        return bean.getProperties().filter(predicate).getByDesc(propertyDesc);
+    }
 
     /**
      * @see BeanMapDecorator#indexSetter(int, Object) to set indexed property values.
@@ -105,12 +109,12 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
                                 + IndexSetter.class.getSimpleName() + " to wrap the value.");
             }
             IndexSetter indexedValueSet = IndexSetter.class.cast(value);
-            IndexedProperty indexedProperty = (IndexedProperty) bean.getProperties(IndexedProperty.PREDICATE).getByDesc(propertyDesc);
+            IndexedProperty indexedProperty = (IndexedProperty) filteredByDesc(IndexedProperty.PREDICATE, propertyDesc);
             checkWriteAccess(indexedProperty);
             Object element = indexedValueSet.getElement();
             indexedProperty.setValue(indexedValueSet.getIndex(), element);
         } else {
-            Property property = bean.getProperties(Property.PREDICATE).getByDesc(propertyDesc);
+            Property property = filteredByDesc(Property.PREDICATE, propertyDesc);
             checkWriteAccess(property);
             previousValue = getValueIfReadable(propertyDesc.getName());
             property.setValue(value);
@@ -225,7 +229,7 @@ public class BeanMapDecorator extends AbstractMap<String, Object> implements Ser
                     public Object next() {
                         PropertyDesc propertyDesc = readablePropertyDescs.next();
                         if (propertyDesc instanceof IndexedPropertyDesc) {
-                            IndexedProperty indexedProperty = (IndexedProperty) bean.getProperties(IndexedProperty.PREDICATE).getByDesc(propertyDesc);
+                            IndexedProperty indexedProperty = (IndexedProperty) filteredByDesc(IndexedProperty.PREDICATE, propertyDesc);
                             return new IndexedValue(indexedProperty);
                         } else {
                             return propertyDesc.getPropertyValue(bean.getBeanObject());

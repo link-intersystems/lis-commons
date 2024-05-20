@@ -56,7 +56,7 @@ class FilteredBeanClassTest {
 
     @Test
     void getBeanProperties() {
-        assertEquals(1, filteredBeanClass.getBeanFromInstance(someBeanFixture.someBean).getProperties(Property.PREDICATE).size());
+        assertEquals(1, filteredBeanClass.getBeanFromInstance(someBeanFixture.someBean).getProperties().filter(Property.PREDICATE).size());
     }
 
 

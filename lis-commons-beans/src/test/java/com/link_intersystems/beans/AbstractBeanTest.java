@@ -63,42 +63,4 @@ class AbstractBeanTest {
 
         assertThrows(UnsupportedOperationException.class, () -> testBean.addListener(listener));
     }
-
-    @Test
-    void cacheWellKnownProperties() {
-        Property property = PropertyMocks.createProperty(String.class, "firstname", "René");
-        testBean.setProperties(property);
-
-        PropertyList firstCall = testBean.getProperties(Property.PREDICATE);
-        PropertyList secondCall = testBean.getProperties(Property.PREDICATE);
-
-        assertSame(firstCall, secondCall);
-    }
-
-    @Test
-    void doNotCacheUnknownProperties() {
-        Property property = PropertyMocks.createProperty(String.class, "firstname", "René");
-        testBean.setProperties(property);
-
-        Predicate<? super Property> predicate = (p) -> true;
-        PropertyList firstCall = testBean.getProperties(predicate);
-        PropertyList secondCall = testBean.getProperties(predicate);
-
-        assertEquals(firstCall, secondCall);
-        assertNotSame(firstCall, secondCall);
-    }
-
-    /**
-     * If the {@link PropertyList} would ever change its immutability we must detect it here,
-     * because the caching will no longer work as expected.
-     */
-    @Test
-    void cacheablePropertyListMustBeImmutable() {
-        Property property = PropertyMocks.createProperty(String.class, "firstname", "René");
-        testBean.setProperties(property);
-
-        PropertyList properties = testBean.getProperties(Property.PREDICATE);
-
-        assertThrows(UnsupportedOperationException.class, () -> properties.clear());
-    }
 }

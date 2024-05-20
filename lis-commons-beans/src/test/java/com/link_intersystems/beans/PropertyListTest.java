@@ -4,8 +4,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.function.Predicate;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class PropertyListTest {
@@ -83,6 +86,45 @@ class PropertyListTest {
         PropertyList properties2 = new PropertyList(propertyList);
 
         assertEquals(properties, properties2);
+    }
+
+    @Test
+    void cacheWellKnownProperties() {
+        Property property = PropertyMocks.createProperty(String.class, "firstname", "René");
+
+        PropertyList properties = new PropertyList(List.of(property));
+
+        PropertyList firstCall = properties.filter(Property.PREDICATE);
+        PropertyList secondCall = properties.filter(Property.PREDICATE);
+
+        assertSame(firstCall, secondCall);
+    }
+
+    @Test
+    void doNotCacheUnknownProperties() {
+        Property property = PropertyMocks.createProperty(String.class, "firstname", "René");
+        PropertyList properties = new PropertyList(List.of(property));
+
+        Predicate<? super Property> predicate = (p) -> true;
+        PropertyList firstCall = properties.filter(predicate);
+        PropertyList secondCall = properties.filter(predicate);
+
+        assertEquals(firstCall, secondCall);
+        assertNotSame(firstCall, secondCall);
+    }
+
+    /**
+     * If the {@link PropertyList} would ever change its immutability we must detect it here,
+     * because the caching will no longer work as expected.
+     */
+    @Test
+    void cacheablePropertyListMustBeImmutable() {
+        Property property = PropertyMocks.createProperty(String.class, "firstname", "René");
+        PropertyList properties = new PropertyList(List.of(property));
+
+        PropertyList filtered = properties.filter(Property.PREDICATE);
+
+        assertThrows(UnsupportedOperationException.class, () -> filtered.clear());
     }
 
 }

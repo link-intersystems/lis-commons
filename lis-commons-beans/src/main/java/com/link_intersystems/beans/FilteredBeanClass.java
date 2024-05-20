@@ -81,7 +81,7 @@ class FilteredBeanClass<T> implements BeanClass<T> {
 
         @Override
         public PropertyList getProperties() {
-            List<Property> properties = bean.getProperties(Property.PREDICATE).stream()
+            List<Property> properties = bean.getProperties().filter(Property.PREDICATE).stream()
                     .filter(this::accept).collect(toList());
             return new PropertyList(properties);
         }

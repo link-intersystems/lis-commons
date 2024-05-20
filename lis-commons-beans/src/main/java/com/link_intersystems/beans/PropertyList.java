@@ -1,13 +1,10 @@
 package com.link_intersystems.beans;
 
-import java.util.AbstractList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static java.util.Objects.*;
+import static java.util.Objects.requireNonNull;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
@@ -19,6 +16,7 @@ public class PropertyList extends AbstractList<Property> {
     private Map<String, Property> propertyMap = new HashMap<>();
     private Map<PropertyDesc, Property> propertyByDesc = new HashMap<>();
 
+    private IdentityHashMap<Object, PropertyList> wellKnownProperties = new IdentityHashMap<>(2);
 
     public PropertyList(List<? extends Property> properties) {
         this.properties = requireNonNull(properties);
@@ -28,6 +26,9 @@ public class PropertyList extends AbstractList<Property> {
             propertyMap.put(name, property);
             propertyByDesc.put(property.getPropertyDesc(), property);
         });
+
+        wellKnownProperties.put(Property.PREDICATE, null);
+        wellKnownProperties.put(IndexedProperty.PREDICATE, null);
     }
 
     public void copy(PropertyList targetProperties) {
@@ -72,7 +73,21 @@ public class PropertyList extends AbstractList<Property> {
         return properties.size();
     }
 
-    public PropertyList filter(Predicate<Property> propertyPredicate) {
+    public PropertyList filter(Predicate<? super Property> propertyPredicate) {
+
+        if (wellKnownProperties.containsKey(propertyPredicate)) {
+            return wellKnownProperties.computeIfAbsent(propertyPredicate, this::defaultFilter);
+        }
+
+        return defaultFilter(propertyPredicate);
+    }
+
+    @SuppressWarnings("unchecked")
+    private PropertyList defaultFilter(Object object) {
+        return defaultFilter((Predicate<? super Property>) object);
+    }
+
+    protected PropertyList defaultFilter(Predicate<? super Property> propertyPredicate) {
         return new PropertyList(stream().filter(propertyPredicate).collect(Collectors.toList()));
     }
 }
