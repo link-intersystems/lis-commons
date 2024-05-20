@@ -11,13 +11,24 @@ import java.util.function.Predicate;
  */
 public interface Property {
 
+    Predicate<? super Property> INDEXED_PROPERTY_PREDICATE = Property::isIndexedProperty;
     Predicate<? super Property> PREDICATE = Predicate.not(Property.INDEXED_PROPERTY_PREDICATE);
-    Predicate<? super Property> INDEXED_PROPERTY_PREDICATE = jpd -> jpd instanceof IndexedProperty;
 
     PropertyDesc getPropertyDesc();
 
     <T> T getValue() throws PropertyReadException;
 
     void setValue(Object propertyValue) throws PropertyWriteException;
+
+    default boolean isIndexedProperty() {
+        return getIndexedProperty() != null;
+    }
+
+    default IndexedProperty getIndexedProperty() {
+        if (this instanceof IndexedProperty) {
+            return (IndexedProperty) this;
+        }
+        return null;
+    }
 
 }
