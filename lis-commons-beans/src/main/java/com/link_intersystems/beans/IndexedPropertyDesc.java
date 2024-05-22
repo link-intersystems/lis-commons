@@ -7,7 +7,7 @@ import java.util.function.Predicate;
  */
 public interface IndexedPropertyDesc extends PropertyDesc {
 
-    public static final Predicate<? super PropertyDesc> PREDICATE = pd -> pd instanceof IndexedPropertyDesc;
+    public static final Predicate<? super PropertyDesc> INDEXED_PROPERTY = pd -> pd instanceof IndexedPropertyDesc;
 
     boolean isIndexedReadable();
 

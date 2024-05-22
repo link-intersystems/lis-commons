@@ -9,7 +9,7 @@ import java.util.function.Predicate;
  */
 public interface PropertyDesc {
 
-    public static final Predicate<? super PropertyDesc> PREDICATE = IndexedPropertyDesc.PREDICATE.negate();
+    public static final Predicate<? super PropertyDesc> PREDICATE = IndexedPropertyDesc.INDEXED_PROPERTY.negate();
 
     String getName();
 

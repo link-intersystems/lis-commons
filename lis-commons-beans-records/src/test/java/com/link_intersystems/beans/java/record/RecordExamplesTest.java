@@ -1,9 +1,12 @@
 package com.link_intersystems.beans.java.record;
 
-import com.link_intersystems.beans.*;
+import com.link_intersystems.beans.Bean;
+import com.link_intersystems.beans.BeansFactory;
+import com.link_intersystems.beans.Property;
+import com.link_intersystems.beans.PropertyList;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RecordExamplesTest {
 
@@ -11,7 +14,7 @@ public class RecordExamplesTest {
     void accessRecordProperties() {
         BeansFactory beansFactory = BeansFactory.getInstance("record");
         Bean<PersonRecord> bean = beansFactory.createBean(new PersonRecord("René", "Link"));
-        PropertyList properties = bean.getProperties(Property.PREDICATE);
+        PropertyList properties = bean.getProperties().filter(Property.PREDICATE);
 
         assertEquals("René", properties.getByName("firstname").getValue());
         assertEquals("Link", properties.getByName("lastname").getValue());
@@ -27,7 +30,7 @@ public class RecordExamplesTest {
         PersonBean personJavaBean = new PersonBean();
         Bean<PersonBean> javaBean = javaBeansFactory.createBean(personJavaBean);
 
-        recordBean.getProperties(Property.PREDICATE).copy(javaBean.getProperties(Property.PREDICATE));
+        recordBean.getProperties().filter(Property.PREDICATE).copy(javaBean.getProperties().filter(Property.PREDICATE));
 
 
         assertEquals("René", personJavaBean.getFirstname());
