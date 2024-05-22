@@ -11,20 +11,27 @@ import java.util.function.Predicate;
  */
 public interface Property {
 
-    Predicate<? super Property> INDEXED_PROPERTY_PREDICATE = Property::isIndexedProperty;
-    Predicate<? super Property> PREDICATE = Predicate.not(Property.INDEXED_PROPERTY_PREDICATE);
+    /**
+     * A predicate that checks if a property is indexed.
+     */
+    public static final Predicate<? super Property> INDEXED = Property::isIndexedProperty;
 
-    PropertyDesc getPropertyDesc();
+    /**
+     * A predicate that checks if a property is not indexed.
+     */
+    public static final Predicate<? super Property> NONE_INDEXED = Predicate.not(Property.INDEXED);
 
-    <T> T getValue() throws PropertyReadException;
+    public PropertyDesc getPropertyDesc();
 
-    void setValue(Object propertyValue) throws PropertyWriteException;
+    public <T> T getValue() throws PropertyReadException;
 
-    default boolean isIndexedProperty() {
+    public void setValue(Object propertyValue) throws PropertyWriteException;
+
+    default public boolean isIndexedProperty() {
         return getIndexedProperty() != null;
     }
 
-    default IndexedProperty getIndexedProperty() {
+    default public IndexedProperty getIndexedProperty() {
         if (this instanceof IndexedProperty) {
             return (IndexedProperty) this;
         }

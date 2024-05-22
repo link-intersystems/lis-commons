@@ -27,8 +27,8 @@ public class PropertyList extends AbstractList<Property> {
             propertyByDesc.put(property.getPropertyDesc(), property);
         });
 
-        wellKnownProperties.put(Property.PREDICATE, null);
-        wellKnownProperties.put(Property.INDEXED_PROPERTY_PREDICATE, null);
+        wellKnownProperties.put(Property.NONE_INDEXED, null);
+        wellKnownProperties.put(Property.INDEXED, null);
     }
 
     public void copy(PropertyList targetProperties) {

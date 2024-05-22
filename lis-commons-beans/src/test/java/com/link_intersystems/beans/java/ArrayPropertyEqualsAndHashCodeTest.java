@@ -19,8 +19,6 @@ import com.link_intersystems.beans.BeanClassException;
 import com.link_intersystems.beans.Property;
 import com.link_intersystems.test.EqualsAndHashCodeTest;
 
-import java.util.function.Predicate;
-
 class ArrayPropertyEqualsAndHashCodeTest extends EqualsAndHashCodeTest {
 
     private TestBeansFactory beansFactory = new TestJavaBeansFactory();
@@ -29,14 +27,14 @@ class ArrayPropertyEqualsAndHashCodeTest extends EqualsAndHashCodeTest {
     protected Object createInstance() throws BeanClassException {
         SomeBean someBean = new SomeBean();
         someBean.setArrayPropertyNoIndexAccess(new String[]{"a", "b"});
-        return beansFactory.createBean(someBean).getProperties().filter(Property.PREDICATE).getByName("arrayPropertyNoIndexAccess");
+        return beansFactory.createBean(someBean).getProperties().filter(Property.NONE_INDEXED).getByName("arrayPropertyNoIndexAccess");
     }
 
     @Override
     protected Object createNotEqualInstance() throws BeanClassException {
         SomeBean someBean = new SomeBean();
         someBean.setArrayPropertyNoIndexAccess(new String[]{"a", "b", "c"});
-        return beansFactory.createBean(someBean).getProperties().filter(Property.PREDICATE).getByName("arrayPropertyNoIndexAccess");
+        return beansFactory.createBean(someBean).getProperties().filter(Property.NONE_INDEXED).getByName("arrayPropertyNoIndexAccess");
     }
 
 }

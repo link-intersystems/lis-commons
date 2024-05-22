@@ -94,8 +94,8 @@ class PropertyListTest {
 
         PropertyList properties = new PropertyList(List.of(property));
 
-        PropertyList firstCall = properties.filter(Property.PREDICATE);
-        PropertyList secondCall = properties.filter(Property.PREDICATE);
+        PropertyList firstCall = properties.filter(Property.NONE_INDEXED);
+        PropertyList secondCall = properties.filter(Property.NONE_INDEXED);
 
         assertSame(firstCall, secondCall);
     }
@@ -122,7 +122,7 @@ class PropertyListTest {
         Property property = PropertyMocks.createProperty(String.class, "firstname", "René");
         PropertyList properties = new PropertyList(List.of(property));
 
-        PropertyList filtered = properties.filter(Property.PREDICATE);
+        PropertyList filtered = properties.filter(Property.NONE_INDEXED);
 
         assertThrows(UnsupportedOperationException.class, () -> filtered.clear());
     }

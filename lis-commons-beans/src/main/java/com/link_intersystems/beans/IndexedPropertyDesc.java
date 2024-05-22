@@ -1,18 +1,13 @@
 package com.link_intersystems.beans;
 
-import java.util.function.Predicate;
-
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
 public interface IndexedPropertyDesc extends PropertyDesc {
 
-    public static final Predicate<? super PropertyDesc> INDEXED_PROPERTY = pd -> pd instanceof IndexedPropertyDesc;
+    public boolean isIndexedReadable();
 
-    boolean isIndexedReadable();
-
-    boolean isIndexedWritable();
-
+    public boolean isIndexedWritable();
 
     public <T> T getPropertyValue(Object bean, int index) throws PropertyReadException;
 

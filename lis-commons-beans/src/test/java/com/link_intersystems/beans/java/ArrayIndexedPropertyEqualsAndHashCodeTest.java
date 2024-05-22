@@ -30,7 +30,7 @@ class ArrayIndexedPropertyEqualsAndHashCodeTest extends EqualsAndHashCodeTest {
                 setIndexedPropertyReadOnlyIndexOnlyAccess(new String[]{"a", "b", "c"});
             }
         };
-        return beansFactory.createBean(someBean).getProperties().filter(Property.INDEXED_PROPERTY_PREDICATE).getByName("indexedPropertyReadOnlyIndexOnlyAccess");
+        return beansFactory.createBean(someBean).getProperties().filter(Property.INDEXED).getByName("indexedPropertyReadOnlyIndexOnlyAccess");
     }
 
     @Override
@@ -40,7 +40,7 @@ class ArrayIndexedPropertyEqualsAndHashCodeTest extends EqualsAndHashCodeTest {
                 setIndexedPropertyReadOnlyIndexOnlyAccess(new String[]{"a", "b"});
             }
         };
-        return beansFactory.createBean(someBean).getProperties().filter(Property.INDEXED_PROPERTY_PREDICATE).getByName("indexedPropertyReadOnlyIndexOnlyAccess");
+        return beansFactory.createBean(someBean).getProperties().filter(Property.INDEXED).getByName("indexedPropertyReadOnlyIndexOnlyAccess");
     }
 
 }

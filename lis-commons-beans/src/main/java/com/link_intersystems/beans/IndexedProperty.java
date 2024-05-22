@@ -5,9 +5,9 @@ package com.link_intersystems.beans;
  */
 public interface IndexedProperty extends Property {
 
-    IndexedPropertyDesc getPropertyDesc();
+    public IndexedPropertyDesc getPropertyDesc();
 
-    <T> T getValue(int index);
+    public <T> T getValue(int index);
 
-    <T> void setValue(int index, T elementValue);
+    public <T> void setValue(int index, T elementValue);
 }
